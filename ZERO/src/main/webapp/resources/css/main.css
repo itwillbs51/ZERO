@@ -1,0 +1,197 @@
+@charset "UTF-8";
+	body{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		min-width: 360px;
+	}
+		
+
+	#main{
+		margin-left: auto;
+ 		margin-right: auto;
+ 		max-width: 1280px;
+	}
+	
+	.shortcut_collection{
+		margin-top: 28px;
+		margin-bottom: 28px;
+	}
+	
+	.shortcut_items_wrap{
+	margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+    padding-left: 16px;
+    padding-right: 16px;
+    display: grid;
+    grid-template-columns: repeat(5,minmax(0,1fr));
+    grid-row-gap: 16px;
+    row-gap: 16px;
+    grid-column-gap: 8px;
+    -webkit-column-gap: 8px;
+    -moz-column-gap: 8px;
+    column-gap: 8px;
+	}
+	
+	.shortcut_item{
+		text-align: center;
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	.shortcut_item_title{
+		font-size: 12px;
+		letter-spacing: -.15px;
+		color: #333;
+		margin-top: 8px;
+	}
+	
+	.shortcut_item .card{
+		width: auto; 
+		border: none;
+	}
+	
+	.shortcut_collection img{
+		border-radius: 10px;
+		height: auto;
+		width: auto;
+	}
+	
+	.productArea{
+		margin-top: 30px;
+		margin-bottom: 28px;
+	}
+	
+	.titleArea{
+		padding: 0 16px;
+		margin-bottom: 16px;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1280px;
+	}
+	
+	.titleArea .title{
+		font-size: 17px;
+		font-weight: 700;
+		color: #333;
+	}
+	
+	.productListArea{
+		width: 100%;
+		display: flex;
+		flex-wrap: nowrap;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		padding-left: 16px;
+		padding-right: 16px;
+		grid-gap: 8px;
+		gap: 8px;
+	}
+	
+	.btnArea{
+		padding: 0 32px;
+		text-align: center;
+	}
+	
+	.productArea .btnArea button{
+		padding: 0 30px;
+		margin-top: 20px;
+	}
+	
+	.productListArea .card{
+		overflow: hidden;
+		min-width: 210px;
+		max-width: 215px;
+	}
+/* ----------------------------------------------------------------------------------------------------------------- */
+@media only screen and (min-width: 768px) {	
+	
+	/* slid */
+	#slid{
+		overflow: hidden;
+		position: relative;
+		max-height: 480px;
+	}
+	
+	#slid #carouselExampleIndicators{
+		max-height: inherit;
+	}
+
+
+	/* main */
+	#main{
+		margin-left: auto;
+ 		margin-right: auto;
+ 		max-width: 1280px;
+	}
+	
+	.shortcut_collection{
+		margin-top: 40px;
+		margin-bottom: 56px;
+	}
+	
+	.shortcut_items_wrap{
+		padding: 0 40px;
+	}
+	
+	.shortcut_item{
+		text-align: center;
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	.shortcut_item_title{
+		font-size: 15px;
+		letter-spacing: -.15px;
+		color: #333;
+		margin-top: 8px;
+	}
+	
+	.shortcut_item .card{
+		width: auto; 
+		border: none;
+	}
+	
+	.shortcut_collection img{
+		border-radius: 10px;
+		max-height: 100px;
+		max-width: 233px;
+		height: auto;
+		width: auto;
+	}
+	
+	#main hr{
+ 		max-width: 1280px;
+ 		margin: 56px auto 40px;
+	}
+	
+	/* 상품리스트 */
+	.productArea{
+		margin-top: 30px;
+		margin-bottom: 56px;
+	}
+	
+	.titleArea{
+		padding-left: 40px;
+		padding-right: 40px;
+		margin-bottom: 16px;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1280px;
+	}
+				
+	.productListArea .card{
+		overflow: hidden;
+		min-width: 219px;
+		max-width: 294px;
+	}
+	
+}
