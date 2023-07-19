@@ -35,12 +35,12 @@
 							<a class="nav-link" href="admin_zman_report">ZMAN신고</a>
 						</nav>
 					</div>
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#usedManagement" aria-expanded="false" aria-controls="usedManagement">
+					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#secondhandManagement" aria-expanded="false" aria-controls="secondhandManagement">
 						<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
 						중고거래관리
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 					</a>
-					<div class="collapse" id="usedManagement" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+					<div class="collapse" id="secondhandManagement" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="admin_used_list">상품목록</a>
 							<a class="nav-link" href="#">금지품목</a>
