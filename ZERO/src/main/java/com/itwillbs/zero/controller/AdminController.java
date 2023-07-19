@@ -55,9 +55,9 @@ public class AdminController {
 	}
 
 	// 관리자 - 중고거래 목록 페이지로 디스패치
-	@GetMapping("admin_used_list")
-	public String adminUsedList() {
-		System.out.println("AdminController - adminUsedList");
+	@GetMapping("admin_secondhand_list")
+	public String adminSecondhandList() {
+		System.out.println("AdminController - adminSecondhandList");
 		
 		return "admin/admin_used_list";
 	}
