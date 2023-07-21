@@ -12,7 +12,7 @@
 		<div id="headerArea1">
 			<div id="headerArea1_inner">
 				<ul id="headerArea1_list">
-					<li class="headerArea1_item"><a href="#" class="headerArea1_link">고객센터</a></li>
+					<li class="headerArea1_item"><a href="cs_main" class="headerArea1_link">고객센터</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">마이페이지</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">알림</a></li>
@@ -25,7 +25,7 @@
 			<div id="headerArea2_inner">
 				<ul class="navbar-nav ml-auto mr-2 mt-2 mt-md-0">
 					<li class="nav-item">
-						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">중고거래</a>

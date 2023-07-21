@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link href="${pageContext.request.contextPath }/resources/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
 <div id="layoutSidenav">
 	<div id="layoutSidenav_nav">
 		<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 			<div class="sb-sidenav-menu">
 				<div class="nav">
 					<div class="sb-sidenav-menu-heading">관리자 홈</div>
-					<a class="nav-link" href="admin_main.jsp">
+					<a class="nav-link" href="admin_main">
 						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 						Dashboard
 					</a>
@@ -55,8 +55,6 @@
 					<div class="collapse" id="auctionManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="#">상품목록</a>
-							<a class="nav-link" href="#">금지품목</a>
-							<a class="nav-link" href="#">상품신고</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#csManagment" aria-expanded="false" aria-controls="csManagment">

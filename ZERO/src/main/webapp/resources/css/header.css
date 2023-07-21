@@ -9,6 +9,7 @@
 	
 	header>nav {
 		background-color: #fff;
+		min-width: 360px;
 	}
 	
 	#headerArea1>#headerArea1_inner{
