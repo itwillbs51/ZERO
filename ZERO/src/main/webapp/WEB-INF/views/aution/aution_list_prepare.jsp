@@ -9,8 +9,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/aution.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title> ZERO | 경매 </title>
+<style type="text/css">
+	
+	
+</style>
 </head>
 <body>
 	<!-- header -->
@@ -48,9 +53,7 @@
 					<%-- 정렬 방법(기본 : 보이지 않음, 클릭 : style 지우기) --%>
 					<ul style="display: none;">
 						<li>인기순</li>
-						<li>관심 많은 순</li>
 						<li>가격순</li>
-						<li>임박시간순</li>
 						<li>최신순</li>
 					</ul>
 			</div>
