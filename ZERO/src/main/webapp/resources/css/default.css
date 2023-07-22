@@ -6,6 +6,19 @@ body{
 	min-width: 360px;
 }
 
-article{
-	margin-top: 86px;
+/* article{ */
+/* 	margin-top: 64px; */
+/* } */
+
+/* ---------------------------------------------------------------------------------------------- */
+@media only screen and (min-width: 768px) {
+	body{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	
+	article{
+		margin-top: 86px;
+	}
 }
