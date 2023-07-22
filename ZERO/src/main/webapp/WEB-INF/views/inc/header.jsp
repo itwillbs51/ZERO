@@ -28,7 +28,7 @@
 						<a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">중고거래</a>
+						<a class="nav-link" href="secondhand_list">중고거래</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="autionList_present">경매</a>
