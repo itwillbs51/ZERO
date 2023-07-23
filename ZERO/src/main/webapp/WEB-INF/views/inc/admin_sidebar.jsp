@@ -81,12 +81,12 @@
 							<a class="nav-link" href="#">ZMAN 계좌 관리</a>
 						</nav>
 					</div>
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#accountManagment" aria-expanded="false" aria-controls="accountManagment">
+					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#zpayManagment" aria-expanded="false" aria-controls="zpayManagment">
 						<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
 						ZPAY관리
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 					</a>
-					<div class="collapse" id="accountManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+					<div class="collapse" id="zpayManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="#">ZPAY 충전환급 관리</a>
 							<a class="nav-link" href="#">ZPAY 수익지출 관리</a>
