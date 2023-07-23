@@ -52,65 +52,108 @@
 								<tbody>
 									<tr>
 										<th>이름</th>
-										<td colspan="3">${member.member_name }</td>
+										<td colspan="2">${member.member_name }</td>
 									</tr>
 									<tr>
 										<th>닉네임</th>
-										<td colspan="3">${member.member_nickname }</td>
+										<td colspan="2">${member.member_nickname }</td>
 									</tr>
 									<tr>
 										<th>아이디</th>
-										<td colspan="3">${member.member_id }</td>
+										<td colspan="2">${member.member_id }</td>
 									</tr>
 									<tr>
 										<th>이메일 인증여부</th>
-										<td colspan="3">${member.member_mail_auth }</td>
+										<td colspan="2">${member.member_mail_auth }</td>
 									</tr>
 									<tr>
 										<th>생년월일</th>
-										<td colspan="3">${member.member_birth }</td>
+										<td colspan="2">${member.member_birth }</td>
 									</tr>
 									<tr>
 										<th>전화번호</th>
-										<td colspan="3">${member.member_phone }</td>
+										<td colspan="2">${member.member_phone }</td>
 									</tr>
 									<tr>
 										<th>회원상태</th>
 										<td>${member.member_status }</td>
-										<td style="width: 120px;">
-											<select class="form-select form-select-sm" aria-label="Default select example">
-												<option selected>${member.member_status }</option>
-												<option value="활동">활동</option>
-												<option value="활동">탈퇴</option>
-											</select>
-										</td>
-										<td style="width: 70px;">
-											<button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#changeMemberStatus">변경</button>
+										<td class="text-end">
+											<span style="display: inline-block;">
+												<select class="form-select form-select-sm" aria-label="Default select example" style="width: 120px;">
+													<option selected>${member.member_status }</option>
+													<option value="활동">활동</option>
+													<option value="활동">탈퇴</option>
+												</select>
+											</span>
+											<span style="display: inline-block;">
+												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changeMemberStatus">변경</button>											
+											</span>
 										</td>
 									</tr>
 									<tr>
 										<th>탈퇴일</th>
-										<td colspan="3"></td>
+										<td colspan="2"></td>
+									</tr>
+									<tr>
+										<th>신고건수</th>
+										<td></td>
+										<td class="text-end">
+											<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+										</td>
+									</tr>
+									<tr>
+										<th>중고거래내역 상세보기</th>
+										<td colspan="2" class="text-end">
+											<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+										</td>
+									</tr>
+									<tr>
+										<th>경매내역 상세보기</th>
+										<td colspan="2" class="text-end">
+											<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+										</td>
 									</tr>
 									<tr>
 										<th>마케팅 수신 동의 여부 - 이메일</th>
-										<td colspan="3">${member.member_agreement_marketing_email }</td>
+										<td colspan="2">${member.member_agreement_marketing_email }</td>
 									</tr>
 									<tr>
 										<th>마케팅 수신 동의 여부 - sms</th>
-										<td colspan="3">${member.member_agreement_marketing_sms }</td>
+										<td colspan="2">${member.member_agreement_marketing_sms }</td>
 									</tr>
 									<tr>
 										<th>가입일</th>
-										<td colspan="3">${member.member_date }</td>
+										<td colspan="2">${member.member_date }</td>
 									</tr>
 									<tr>
-										<th>도로명 주소1</th>
-										<td colspan="3">${member.member_address1 }</td>
+										<th>도로명주소1</th>
+										<td colspan="2">${member.member_address1 }</td>
 									</tr>
 									<tr>
 										<th>상세주소1</th>
-										<td colspan="3">${member.member_address_detail1 }</td>
+										<td colspan="2">${member.member_address_detail1 }</td>
+									</tr>
+									<tr>
+										<th>계좌등록일</th>
+										<td colspan="2">
+										</td>
+									</tr>
+									<tr>
+										<th>은행명</th>
+										<td colspan="2">
+										</td>
+									</tr>
+									<tr>
+										<th>계좌번호</th>
+										<td colspan="2">
+										</td>
+									</tr>
+									<tr>
+										<th>ZPAY 잔액</th>
+										<td></td>
+										<td class="text-end">
+											<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -133,18 +176,17 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title fs-5" id="changeMemberStatusTitle">로그인 필요</h5>
+					<h5 class="modal-title fs-5" id="changeMemberStatusTitle">회원상태변경</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					로그인이 필요한 서비스입니다.<br>
-					로그인 페이지로 이동하시겠습니까?
+					정말 변경하시겠습니까?
 				</div>
 				<div class="modal-footer">
 					<form action="member_login_form" method="post">
 						<input type="hidden" name="play_num" value="" />  
 						<input type="hidden" name="url" value="" />
-						<button type="submit" class="btn btn-dark" onclick="">확인</button>
+						<button type="submit" class="btn btn-dark" onclick="location.href='#'">변경</button>
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 					</form>
 				</div>

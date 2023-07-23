@@ -12,6 +12,11 @@
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <title>ZERO</title>
+<style type="text/css">
+	body{
+		min-width: 360px;
+	}
+</style>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -27,8 +32,33 @@
 						<li class="breadcrumb-item active">ZMAN 목록</li>
 					</ol>
 					<%-- main 내용 작성 영역 --%>
-					
-					
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i>
+							ZMAN 목록
+						</div>
+						<div class="card-body">
+							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>이름</th>
+										<th>아이디</th>
+										<th>생년월일</th>
+										<th>탈퇴여부</th>
+										<th>상세보기</th>
+									</tr>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

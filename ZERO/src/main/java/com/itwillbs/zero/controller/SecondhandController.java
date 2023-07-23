@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.itwillbs.zero.controller;
 
 import org.springframework.stereotype.*;
@@ -26,3 +27,20 @@ public class SecondhandController {
 		
 		
 }
+=======
+package com.itwillbs.zero.controller;
+
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+public class SecondhandController {
+
+	
+		//네비-중고거래 선택시
+		@GetMapping("secondhand_list")
+		public String secondhand_list() {
+			return "secondhand/secondhand_list";
+		}
+}
+>>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
