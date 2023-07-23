@@ -15,9 +15,48 @@
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/defualt.css" rel="stylesheet" type="text/css">
 
+<%-- 반응형웹페이지위한 설정 --%>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 <title>ZERO</title>
 <script type="text/javascript">
+
+function myFunction() {
+	  var x = document.getElementById("myDIV");
+	  if (x.style.display === "none") {
+	    x.style.display = "block";
+	  } else {
+	    x.style.display = "none";
+	  }
+}
+function myFunction2() {
+	  var x2 = document.getElementById("myDIV2");
+	  if (x2.style.display === "none") {
+	    x2.style.display = "block";
+	  } else {
+	    x2.style.display = "none";
+	  }
+	  
+}
+
+
+
+//탭으로했을경우
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+
 </script>
 <style>
 #mainArticle {
@@ -54,6 +93,21 @@ a {
 	text-align: center;
 	margin-top: 5px;
 }
+/* collapse 영역 */
+#myDIV {
+  width: 100%;
+  padding: 50px 0;
+  text-align: center;
+  background-color: white;
+  margin-top: 20px;
+}
+
+
+/*탭으로하였을경우*/
+
+
+
+
 </style>
 </head>
 <body>
@@ -64,33 +118,100 @@ a {
 
 	<article id="mainArticle">
 		<div class="container">
-<!-- 		<div class="row"  id="listArea" align="left"> -->
-<!-- 				<div class="col-lg-3 col-mid-4"> -->
-<!-- 					<div class="card border-0 shadow-sm" style="width: 18rem;"> -->
-<%-- 						페이지이동시 상품번호넘겨줌 --%>
-<%-- 					  	<a href="secondhand_detail">?secondhand_idx=${secondhand_idx} --%>
-<%-- 					  	<img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" class="card-img-top" alt="..."> --%>
-<%-- 					  </a>해당영화의 포스터출력 --%>
-<!-- 						<div class="card-body"> -->
-<!-- 							<h6 class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;"> -->
-<!-- 								<b>상품 제목입니다</b> -->
-<!-- 							</h6> -->
-<!-- 							<p class="card-text"> -->
-<%-- 								선택한 거래방법 아이콘으로 표시 => 위치 등 다시생각해봐야할듯 --%>
-<!-- 								<button class="btn btn-outline-light">택배가능</button> -->
-<!-- 								<button class="btn btn-outline-light">Z페이가능</button> -->
-<!-- 							</p> -->
-<!-- 							<p class="d-flex justify-content-center"> -->
-<%-- 								찜하기영역 --%>
-<%-- 								<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png"></a>	 --%>
-<!-- 					    	</p> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<%-- 		</div>id listArea끝 --%>
-	
-	
-	
+		
+				<div class="barWrapper">
+					<div class="FilterBoxWrapper FilterCategory">
+						<div class="FilterBoxTopic">
+							<div class="FilterBoxName">#카테고리</div>
+						</div>
+						<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
+					</div>
+					<div class="FilterBoxWrapper FilterPrice">
+						<div class="FilterBoxTopic">
+							<div class="FilterBoxName">#가격</div>
+						</div>
+						<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
+					</div>
+				<!-- 등급 -->
+					<div class="FilterBoxWrapper FilterGrade">
+						<div class="FilterBoxTopic">
+							<div class="FilterBoxName"><label for="grade"><input type="checkbox" value="checked" id="grade">새싹 등급 이상 판매자</label></div>
+						</div>
+					</div>
+		          	 
+		        <!-- 거래완료 제외하고 보기 -->
+					<div class="FilterBoxWrapper FilterCompleted">
+						<div class="FilterBoxTopic">
+							<div class="FilterBoxName"><label for="complete"><input type="checkbox" value="checked" id="complete" checked="checked">거래 완료 물품 제외</label></div>
+						</div>
+					</div>
+			        
+			        <!-- 태그 검색 -->	
+					<div class="searchIconWrapper marketListSearch">
+						<img src="/Moneytto/resources/images/main/ico_search.png" alt="돋보기 아이콘" class="searchIcon">
+						<div class="searchSearch"><form id="searchForm"><input class="goodsName tag ui-autocomplete-input" id="searchTag" type="text" placeholder="태그를 검색해보세요!"></form></div>
+				 	</div>
+				 	<!-- 자동완성 단어 리스트 -->
+					<div class="autocomplete"></div>
+               	</div>
+		
+		
+		
+		
+		<div>&nbsp;</div><div>&nbsp;</div><div>&nbsp;</div><div>&nbsp;</div><div>&nbsp;</div>
+		<hr>
+		<hr>
+		
+		
+		<div class="category">
+			<p>
+			  <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="myFunction()" >
+			   	카테고리
+			   	<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
+			  </a>
+			  
+			 	<div id="myDIV">
+					<button class="btn btn-light">유아동/유아의류/장난감</button>
+					<button class="btn btn-light">유아동/유아의류/장난감</button>
+					<button class="btn btn-light">유아동/유아의류/장난감</button>
+					<button class="btn btn-light">유아동/유아의류/장난감</button>
+					<button class="btn btn-light">유아동/유아의류/장난감</button>
+				</div>
+			  
+			  
+			  <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="myFunction2()">
+			    가격선택
+			    <img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
+			  </button>
+			  
+			  	<div id="myDIV2">
+					
+				</div>
+				
+			</p>
+			
+			
+			
+			
+			<div class="collapse" id="collapseExample">
+			  <div class="card card-body">
+			    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+			  </div>
+			</div>
+		</div>
+		<button type="button" class="btn btn-secondary btn-sm"> 필터초기화 </button>
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<hr>
 			<div class="row col col-3">
 				<hr>
 				<div class="productArea">
@@ -110,112 +231,176 @@ a {
 								<a href="#">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
-							
-								
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
+						</div>
 						
-							</div>
-						</div>
+						
 						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
 							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
 						</div>
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
-							</div>
 						</div>
+						
 						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
 							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
 						</div>
+						</div>
+						
 						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
 							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
+						</div>
+						
+						<div class="card">
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
+							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
 						</div>
 					</div>
-	
 				</div>
 			</div><%--row끝 --%>
-			
-			
-			<div class="itemThumbnailBox item" data-cd="market0098" style="">
-				<div class="itemThumbnailBox" style="">
-					<img src="http://c3d2212t3.itwillbs.com/Moneytto/resources/upload/a53263b2.png" alt="썸네일" class="itemThumbnail" style="cursor: pointer">
-					<input type="button" value="판매중" class="status active"><img src="http://c3d2212t3.itwillbs.com/Moneytto/resources/images/main/ico_heart_off_x3.png" alt="좋아요 아이콘" class="WishWishImg wish" onclick="wish.call(this)">
-				</div>
-				<div class="itemTextBox">
-					<div class="itemCategory">가전제품/모바일/PC</div>
-					<div class="itemText subject">블루라이트 차단 안경 팔아요.</div>
-					<div class="itemText">20,000원</div>
-					<div class="itemTagBox">
-						<div class="itemSizeTag">블루라이트차단</div>
-						<div class="itemSizeTag">도수없음</div>
-						<div class="itemSizeTag">안경</div>
-					</div>
-					<div class="itemTimeTag">2023-06-14 23:58</div>
-				</div>
-			</div>
-			
-			
-			
-			
-			<div id="row col col-3">
+		
+			<div class="row col col-3">
 				<hr>
 				<div class="productArea">
-					<div class="titleArea">
-						<div class="title">중고</div>
-					</div>
+
 					<div class="productListArea">
 						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
 							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
 						</div>
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
-							</div>
 						</div>
+						
+						
 						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
 							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
 						</div>
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
-							</div>
 						</div>
+						
 						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-							<div class="card-body">
-								<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-								<p class="card-text"><a href="#">제목입니다</a></p>
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
 							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
+						</div>
+						
+						<div class="card">
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
+							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
+						</div>
+						
+						<div class="card">
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<span class="dealStatus"><button>판매중</button></span>
+							</div>
+							
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="#">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
 						</div>
 					</div>
-	
 				</div>
-			</div><%--row 끝 --%>
+			</div><%--row끝 --%>
 		</div><%--container 끝 --%>
 		
 	</article>

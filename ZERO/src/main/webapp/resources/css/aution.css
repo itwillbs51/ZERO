@@ -1,0 +1,145 @@
+@charset "UTF-8";
+
+#main{
+	padding: 100px 10px 20px 10px;
+}
+
+#main hr{
+	max-width: 1280px;
+	margin: 10px auto 18px;
+}
+
+.autionNoticeBox {
+	max-width: 1280px;
+	padding: 5px 10px;
+	background-color: #ccc;
+	margin: 1rem auto;
+}
+/* 2-1. 상품갯수, 검색창, 정렬 */
+.listInfo {
+	padding-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+}
+.listInfoCount {
+    align-items: center;
+    color: rgba(34,34,34,.8);
+}
+.listInfoBtn {
+	position: relative;
+	right: 10px;
+}
+.listSort {
+	overflow: hidden;
+    position: absolute;
+    top: 38px;
+    right: 0;
+    padding: 5px 8px;
+    width: 70px;
+    background-color: #fff;
+    border: 1px solid #ebebeb;
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,.1);
+    z-index: 1;
+}
+li, ul {
+	list-style: none;
+}
+
+
+.productListArea {
+	margin-top: 15px;
+	
+	max-width: 1280px;
+	padding-left: 16px;
+    padding-right: 16px;
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-row-gap: 16px;
+    row-gap: 16px;
+    grid-column-gap: 10px;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+}
+/* 상품카드 하나 */
+.product_card {
+	display: inline-block;
+	max-width: 270px;
+}
+
+.product_card img {
+	margin: auto;
+	border-radius: 10px;
+	max-height: 250px;
+	max-width: 260px;
+	height: auto;
+	width: auto;
+}
+
+.item_inner {
+	/* 하이퍼링크 색상 삭제 */
+	text-decoration: none;
+	color: inherit;
+} 
+.item_inner:hover {
+	text-decoration: none;
+	color: inherit;
+	font-weight: bold;
+} 
+
+.person>i, .person>span {
+	vertical-align: middle;
+}
+
+/* aution_list_present.jsp css */
+/* 경매 안내 배너 */
+.autionNoticeTable {
+	max-width: 1280px;
+	table-layout: fixed;
+}
+.autionNoticeTable td {
+	text-align: center;
+}
+
+.autionNoticeTable td:nth-of-type(1) {
+	text-align: center;
+	font-size: 3em;
+	color: red;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+@media only screen and (max-width: 768px) {	
+	
+	#main{
+		padding-top: 0;
+	}
+	
+	.productListArea{
+		padding: 0 40px;
+		margin-top: 15px;
+	
+		max-width: 768px;
+		padding-left: 16px;
+	    padding-right: 16px;
+	    display: grid;
+	    grid-template-columns: repeat(2,minmax(0,1fr));
+	    grid-row-gap: 16px;
+	    row-gap: 16px;
+	    grid-column-gap: 10px;
+	    -webkit-column-gap: 10px;
+	    -moz-column-gap: 10px;
+	    column-gap: 10px;
+	}
+	
+	/* aution_list_present.jsp css */
+	/* 경매 안내 배너 */
+	.autionNoticeBox {
+		margin: 1rem auto;
+	}
+	
+	.autionNoticeTable td:nth-of-type(2) {
+		display: none;
+	}
+	
+}
