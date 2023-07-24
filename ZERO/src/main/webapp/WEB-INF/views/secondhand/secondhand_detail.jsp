@@ -115,29 +115,37 @@ a {
   top: 0;
 }
 
+/* Clear floats after the columns */
 .row:after {
   content: "";
   display: table;
   clear: both;
 }
-
 .row {
 	display: flex;
 }
-.column2 {
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+.sumnail {
 	float:left;
 }
-.column {
-  flex: 50%;
-  padding-left: 80px;
-}
+/* .column { */
+/*   flex: 50%; */
+/*   padding-left: 80px; */
+/* } */
 
 /* Add a transparency effect for thumnbail images */
-.demo {
+.democursor {
   opacity: 0.6;
 }
 .active,
-.demo:hover {
+.democursor:hover {
   opacity: 1;
 
 
@@ -156,59 +164,116 @@ a {
 		<div class="container">
 			<br><br><br><br><br>
 			<hr>
-			
+		<%-- 큰이미지 --%>	
 		<div class="row">
 			<div class="column">
+			
 				<div class="mySlides">
-				    <div class="numbertext">1 / 4</div>
-				    <img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:400px; height:300px;">
-				  </div>
-		
-				  <div class="mySlides">
-				    <div class="numbertext">2 / 4</div>
-				    <img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:400px; height:300px;">
-				  </div>
-		
-				  <div class="mySlides">
-				    <div class="numbertext">3 / 4</div>
-				    <img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:400px; height:300px;">
-				  </div>
-		    
-				  <div class="mySlides">
-				    <div class="numbertext">4 / 4</div>
-		   			 <img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:400px; height:300px;">
-				  </div>
-		
-<%-- 				이미지전환<>버튼 --%>
-<!-- 				  <a class="prev" onclick="plusSlides(-1)">❮</a> -->
-<!-- 				  <a class="next" onclick="plusSlides(1)">❯</a> -->
-				
-		
-				<%--썸네일이미지 --%>
-				  <div class="row2">
-				    <div class="column2">
-				      <img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:150px;" onclick="currentSlide(1)" alt="The Woods">
-				    </div>
-				    <div class="column2">
-				      <img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:150px;" onclick="currentSlide(2)" alt="Cinque Terre">
-				    </div>
-				    <div class="column2">
-				      <img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:150px;" onclick="currentSlide(3)" alt="Mountains and fjords">
-				    </div>
-				    <div class="column2">
-				      <img class="demo cursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:150px;" onclick="currentSlide(4)" alt="Northern Lights">
-				    </div>
-				  </div>
-			
+				  <div class="numbertext active">1 / 4</div>
+				  <img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:400px; height:300px;">
 				</div>
+				<div class="mySlides">
+				  	<div class="numbertext">2 / 4</div>
+				 	<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:400px; height:300px;">
+				</div>
+		
+				<div class="mySlides">
+				 	 <div class="numbertext">3 / 4</div>
+					 <img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:400px; height:300px;">
+				 </div>
+		    
+				<div class="mySlides">
+				  	<div class="numbertext">4 / 4</div>
+		   			<img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:400px; height:300px;">
+				</div>
+				
+				  
+				  <%--썸네일이미지 --%>
+				  <div class="row">
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:150px;" onclick="currentSlide(1)" alt="The Woods"></span>
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:150px;" onclick="currentSlide(2)" alt="Cinque Terre"></span>
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:150px;" onclick="currentSlide(3)" alt="Mountains and fjords"></span>
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:150px;" onclick="currentSlide(4)" alt="Northern Lights"></span>
+				  </div>
+				  
+			</div><%-- 1행 1열 -- 왼쪽 column끝 --%>
+			
+		
+			
+			<%--1행 2열 -- 오른쪽 column 추가하기 --%>
 			<div class="column">
-			
-			
-			
-			</div><%--column끝 --%>
-		</div><%--row끝 --%>
+
+					<br>
+					<button class="btn btn-dark" style="align:left;">거래중</button><br><br>
+					
+					<h5>제목입니다</h5>
+					<span>조회수 125485 </span><span>등록일 2023-09-20 11:00</span>
+					<hr>
+					<p>예수는 무엇을 위하여 광야에서 방황하였으며 공자는 무엇을 위하여 천하를 철환하였는가? 밥을 위하여서 옷을 위하여서 미인을 구하기 위하여서 그리하였는가? 아니다 그들은 커다란 이상 곧 만천하의 대중을 품에 안고 그들에게 밝은 길을 찾아 주며 그들을 행복스럽고 평화스러운 곳으로 인도하겠다는 커다란 이상을 품었기 때문이다 그러므로 그들은 길지 아니한 목숨을 사는가 싶이 살았으며 그들의 그림자는 천고에 사라지지 않는 것이다 이것은 현저하게 일월과 같은 예가 되려니와 그와 같지 못하다 할지라도 창공에 반짝이는 뭇 별과 같이 산야에 피어나는 군영과 같이 이상은 실로 인간의 부패를 방지하는 소금이라 할지니 인생에 가치를 주는 원질이 되는 것이다 그들은</p>
+
+					<%-- 
+						sessionId 일치하는경우 (작성자 본인일경우 -> 수정하기, 삭제하기 버튼 보여줌
+						sessionId 일치하지 않는경우 or 없는경우 : 채팅하기 버튼 보여줌
+						=> 없는경우 채팅버튼 누를경우 : 로그인알람창 -> 로그인페이지 이동
+					--%>
 		
+						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
+						<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 수정하기 </button>
+						<button class="btn btn-primary btn-lg" style="font-size:1em;"> 삭제하기 </button><br><br>
+						
+						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
+						<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button>
 		
+			</div><%-- 오른쪽 column끝 --%>
+			
+		</div><%-- 첫번째 row끝 ----%>
+		
+		<%-- 두번째 row 시작 --%>
+		<div class="row" style="margin-top:300px;">
+			<%-- 2행 1열 (카테고리 결제방법 거래방법) --%>
+			<hr>
+			<hr>
+			<div class="column">
+					
+					<b>카테고리</b> <button class="btn btn-light" style="align:left;">유아동/유아패션/장난감/도서</button><br>
+					<b>거래방법</b> <button class="btn btn-light" > Z스테이션 </button> <button class="btn btn-light" > 직거래</button> <button class="btn btn-light" > 택배거래</button><br>
+					<b>결제방법</b> <button class="btn btn-light" > Z페이 </button><br><br>
+			</div>
+			
+			<%-- 2행 2열 (판매자정보) --%>
+			<div class="column">
+				<%-- 판매자 프로필, 닉네임, 판매상품수 --%>
+				<div class="row">
+					<div class="column">
+						<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="border-radius:50%">
+					 </div>
+					 <div class="column">
+						<b><a href="#"> 김커피입니다</a></b>
+					 	<br>판매상품 nn개
+					 </div>
+					 
+					<%-- 판매자의 판매중 다른상품정보 --%>
+					<br>
+						<div class="column">
+							<b>김커피입니다</b> 님의 판매중인 상품 ... <a href="#">더보기</a>
+						</div>
+				</div>
+				
+				 <%--썸네일이미지 --%>
+				  <div class="row">
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:150px;" onclick="currentSlide(1)" alt="The Woods"></span>
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:150px;" onclick="currentSlide(2)" alt="Cinque Terre"></span>
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:150px;" onclick="currentSlide(3)" alt="Mountains and fjords"></span>
+				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:150px;" onclick="currentSlide(4)" alt="Northern Lights"></span>
+				  </div>
+				
+			</div>
+		</div>
+		
+			
+
+		
+	
 		
 		
 		
