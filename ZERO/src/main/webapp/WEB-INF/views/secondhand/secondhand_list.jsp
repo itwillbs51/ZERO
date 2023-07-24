@@ -82,7 +82,7 @@ a {
 }
 
 /* collapse 영역 */
-#myDIV {
+#myDIV, #myDIV2 {
   width: 100%;
   padding: 50px 0;
   text-align: center;
@@ -106,19 +106,14 @@ a {
 
 	<article id="mainArticle">
 		<div class="container">
-		
-		<br><br><br><br><br>
-		<hr>
-		
-		
-		<div class="category">
-			<p>
-			<span>
+			<br><br><br><br><br>
+			<hr>
+
+			<div class="category">
 			  <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="myFunction()" >
-			   	카테고리
-			   	<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
+			   	카테고리 <img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
 			  </a>
-			  
+			  	<%-- collapse 출력 영역 --%>
 			 	<div id="myDIV">
 					<button class="btn btn-light">유아동/유아의류/장난감</button>
 					<button class="btn btn-light">유아동/유아의류/장난감</button>
@@ -126,58 +121,44 @@ a {
 					<button class="btn btn-light">유아동/유아의류/장난감</button>
 					<button class="btn btn-light">유아동/유아의류/장난감</button>
 				</div>
-			  
-			  
 			  <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="myFunction2()">
-			    가격선택
-			    <img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
+			  	가격선택 <img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
 			  </button>
-			  
+			 	 <%-- collapse 출력 영역 --%>
 			  	<div id="myDIV2">
-					<input type="text" placeholder="최저가"> ~ <input type="text"  placeholder="최저가">
+					<input type="text" placeholder="최저가"> ~ <input type="text" placeholder="최고가"><button class="btn btn-light"> 적용하기</button>
 				</div>
-				
-			</p>
-			
-			
-			
-			
-			<div class="collapse" id="collapseExample">
-			  <div class="card card-body">
-			    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-			  </div>
+				<%-- 초기화,내상품등록 --%>
+				<div class="secondhandRegist" align="right">
+					<button class="btn btn-dark"> 필터초기화 </button>
+					<button class="btn btn-dark"> 내 상품 등록하기 </button>
+				</div>
 			</div>
-		</div>
-		<button type="button" class="btn btn-secondary btn-sm"> 필터초기화 </button>
-		
+			
+			
+<!-- 			<div class="collapse" id="collapseExample"> -->
+<!-- 			  <div class="card card-body"> -->
+<!-- 			    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger. -->
+<!-- 			  </div> -->
+<!-- 			</div> -->
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 			<div class="row col col-3">
 				<hr>
-				<div class="productArea">
-					<div class="titleArea">
-						<div class="title">중고</div>
-					</div>
+
+
 					<div class="productListArea">
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<a href="secondhand_detail">
+									<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
+								</a>
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand_detail">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
@@ -188,14 +169,34 @@ a {
 						
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<a href="secondhand_detail">
+									<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
+								</a>
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand_detail">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
+						</div>
+						
+						
+						<div class="card">
+							<div class="photoDiv">
+								<a href="secondhand_detail">
+									<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
+								</a>
+								<span class="dealStatus"><button>판매중</button></span>
+							</div>
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="secondhand_detail">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
@@ -205,14 +206,15 @@ a {
 						
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<a href="secondhand_detail">
+									<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
+								</a>
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand_detail">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
@@ -220,58 +222,42 @@ a {
 						</div>
 						</div>
 						
-						<div class="card">
-							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-								<span class="dealStatus"><button>판매중</button></span>
-							</div>
-							
-						<div class="card-body">
-							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-							<p class="card-text">
-								<a href="#">제목입니다</a>
-								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
-							</p>
-							<p>14,000원</p>
-							<p>2023-08-01 11:00:00</p>
-						</div>
-						</div>
 						
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<a href="secondhand_detail">
+									<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
+								</a>
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand_detail">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
 							<p>2023-08-01 11:00:00</p>
 						</div>
 						</div>
-					</div>
-				</div>
+
+				</div><%--productArea 끝 --%>
 			</div><%--row끝 --%>
 		
 			<div class="row col col-3">
 				<hr>
 				<div class="productArea">
-
+	
 					<div class="productListArea">
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'">
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand/secondhand_detail.jsp">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
@@ -282,14 +268,30 @@ a {
 						
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'">
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand/secondhand_detail.jsp">제목입니다</a>
+								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
+							</p>
+							<p>14,000원</p>
+							<p>2023-08-01 11:00:00</p>
+						</div>
+						</div>
+						
+						
+						<div class="card">
+							<div class="photoDiv">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'">
+								<span class="dealStatus"><button>판매중</button></span>
+							</div>
+						<div class="card-body">
+							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
+							<p class="card-text">
+								<a href="secondhand/secondhand_detail.jsp">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
@@ -299,14 +301,13 @@ a {
 						
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'">
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand/secondhand_detail.jsp">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
@@ -316,31 +317,13 @@ a {
 						
 						<div class="card">
 							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
+								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'">
 								<span class="dealStatus"><button>판매중</button></span>
 							</div>
-							
 						<div class="card-body">
 							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
 							<p class="card-text">
-								<a href="#">제목입니다</a>
-								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
-							</p>
-							<p>14,000원</p>
-							<p>2023-08-01 11:00:00</p>
-						</div>
-						</div>
-						
-						<div class="card">
-							<div class="photoDiv">
-								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-								<span class="dealStatus"><button>판매중</button></span>
-							</div>
-							
-						<div class="card-body">
-							<button class="btn btn-light">패션/잡화/의류/뷰티</button>
-							<p class="card-text">
-								<a href="#">제목입니다</a>
+								<a href="secondhand/secondhand_detail.jsp">제목입니다</a>
 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a>
 							</p>
 							<p>14,000원</p>
