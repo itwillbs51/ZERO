@@ -9,7 +9,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <title>ZERO</title>
 <style type="text/css">
@@ -27,24 +27,25 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">ZMAN 관리</h1>
+					<h1 class="mt-4">고객센터관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">ZMAN 목록</li>
+						<li class="breadcrumb-item active">공지사항목록</li>
 					</ol>
+					
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
-							ZMAN 목록
+							공지사항목록
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>이름</th>
-										<th>아이디</th>
-										<th>생년월일</th>
-										<th>탈퇴여부</th>
+										<th>글번호</th>
+										<th>작성자</th>
+										<th>제목</th>
+										<th>작성일</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
@@ -58,6 +59,7 @@
 									</tr>
 								</tbody>
 							</table>
+							<a class="btn btn-sm btn-outline-dark" href="admin_cs_notice_form">글쓰기</a>
 						</div>
 					</div>
 				</div>
