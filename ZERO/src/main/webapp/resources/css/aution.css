@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+/* 자연스러운 스크롤바 이동 */
+/* html {scroll-behavior: smooth;} */
+
 #main{
 	padding: 100px 10px 20px 10px;
 }
@@ -27,54 +30,95 @@
     color: rgba(34,34,34,.8);
 }
 .listInfoBtn {
+	border: none;
+	background-color: white;
 	position: relative;
 	right: 10px;
+}
+.listInfoBtn i {
+	vertical-align: -5px;
 }
 .listSort {
 	overflow: hidden;
     position: absolute;
-    top: 38px;
+    top: 40px;
     right: 0;
     padding: 5px 8px;
-    width: 70px;
+    margin-right: 10px;
+    width: 100px;
     background-color: #fff;
     border: 1px solid #ebebeb;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,.1);
     z-index: 1;
 }
+
 li, ul {
 	list-style: none;
 }
-
+.listSort>li:hover {
+	background-color: #ccc;
+}
+.listSort li {
+	position: relative;
+}
+.listSort li>i {
+	font-size: 12px;
+	vertical-align: 1px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
 
 .productListArea {
 	margin-top: 15px;
-	
 	max-width: 1280px;
 	padding-left: 16px;
     padding-right: 16px;
     display: grid;
     grid-template-columns: repeat(4,minmax(0,1fr));
     grid-row-gap: 16px;
-    row-gap: 16px;
+    row-gap: 25px;
     grid-column-gap: 10px;
     -webkit-column-gap: 10px;
     -moz-column-gap: 10px;
     column-gap: 10px;
 }
+
+.product_card_wrap {
+	max-width: 240px;
+}
 /* 상품카드 하나 */
 .product_card {
 	display: inline-block;
-	max-width: 270px;
+	max-width: 100%;
 }
-
 .product_card img {
+	display: block;
 	margin: auto;
 	border-radius: 10px;
-	max-height: 250px;
-	max-width: 260px;
-	height: auto;
-	width: auto;
+	height: 230px;
+	width: 230px;
+	object-fit: cover;
+}
+.item_title, .autionTime {
+	margin-bottom: 8px;
+}
+.product_info_brand {
+	margin: 5px 0 5px 0;
+	font-weight: bold;
+}
+.product_info_name, .autionTime {
+	font-size: 12px;
+}
+.product_info_name {
+	line-height: 16px;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 두 줄까지는 보이게 */
+    -webkit-box-orient: vertical;
+/* 	white-space: nowrap; 영역보다 커도 줄 바꿈하지마라 */
 }
 
 .item_inner {
@@ -87,25 +131,68 @@ li, ul {
 	color: inherit;
 	font-weight: bold;
 } 
-
-.person>i, .person>span {
-	vertical-align: middle;
+.autionTime span {
+	color: red;
+	font-size: 13px;
+	font-weight: bold;
 }
+
+.price {
+	display: flex;
+	justify-content: center;
+	font-size: 12px;
+	color: gray;
+}
+.price span {
+	font-size: 16px;
+	color: black;
+}
+.price div {
+	text-align: center;
+}
+
+/* 경매중, 경매종료 */
+.applyInfo {
+	display: flex;
+	justify-content: center;
+	margin: 5px 10px;
+}
+/* 입찰 예정(버튼도 같이 정렬) */
+.applyInfos {
+	display: flex;
+	justify-content: space-between;
+	margin: 5px 10px;
+}
+
+.person span {
+	vertical-align: middle;
+	font-size: 14px;
+}
+.person>i {
+	vertical-align: middle;
+	font-size: 30px;
+	color: skyblue
+}
+
 
 /* aution_list_present.jsp css */
 /* 경매 안내 배너 */
-.autionNoticeTable {
-	max-width: 1280px;
-	table-layout: fixed;
+.autionNoticeBox {
+	background-image: url('../img/texture.jpg');
+	height: 100%;
+	background-position: center;
+	background-size: cover;
+	color: white;
+	font-family: "Courier New", Courier, monospace;
 }
-.autionNoticeTable td {
-	text-align: center;
+.countDownTime>h2 {
+	margin-top: 1rem;
+	color: #fff;
 }
-
-.autionNoticeTable td:nth-of-type(1) {
+.noticeDate{
+	margin: 1em;
+	font-size: 16px;
 	text-align: center;
-	font-size: 3em;
-	color: red;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -138,7 +225,7 @@ li, ul {
 		margin: 1rem auto;
 	}
 	
-	.autionNoticeTable td:nth-of-type(2) {
+	.noticeDate {
 		display: none;
 	}
 	
