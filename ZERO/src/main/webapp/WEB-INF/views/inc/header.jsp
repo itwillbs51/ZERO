@@ -19,6 +19,7 @@
 					<%-- 채팅 임시 --%>
 					<li class="headerArea1_item"><a href="chat" class="headerArea1_link">채팅</a></li>
 					<li class="headerArea1_item"><a href="member_login" class="headerArea1_link">로그인</a></li>
+					<li class="headerArea1_item"><a href="zman_main" class="headerArea1_link">ZMAN</a></li>
 					<li class="headerArea1_item"><a href="admin_main" class="headerArea1_link">관리자</a></li>
 				</ul>
 			</div>
