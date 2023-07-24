@@ -56,5 +56,36 @@ public class MemberController {
 		
 		return "member/member_profile";
 	}
+	
+	// 멤버 메인화면
+	@GetMapping("member_mypage_main")
+	public String memberMypageHome() {
+		return "member/member_mypage_main";
+	}
+	
+	// 멤버 중고상품 구매내역
+	@GetMapping("member_mypage_buyList")
+	public String memberMypageBuyList() {
+		return "member/member_mypage_buyList";
+	}
+	
+	// 멤버 경매 내역
+	@GetMapping("member_mypage_auctionList")
+	public String memberMypageAuctionList() {
+		return "member/member_mypage_auctionList";
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

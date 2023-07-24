@@ -21,7 +21,7 @@ public class AdminController {
 		return "admin/admin_main";
 	}
 	
-	// 관리자 - 회원목록 페이지로 디스패치
+	// 회원관리 - 회원목록 페이지로 디스패치
 	@GetMapping("admin_member_list")
 	public String adminMemberList() {
 		System.out.println("AdminController - adminMemberList");
@@ -29,45 +29,53 @@ public class AdminController {
 		return "admin/admin_member_list";
 	}
 	
-	// 관리자 - 회원목록 페이지에 회원목록 가져오기
-//	@ResponseBody
-//	@GetMapping("GetMemberList")
-//	public String getMemberList() {
-//		System.out.println("AdminController - getMemberList()");
-//		
-//		List<MemberVO> memberList = service.getMemebrList();
-//		System.out.println(memberList);
-//		
-//		JSONArray json = new JSONArray(memberList);
-//		System.out.println(json);
-//		
-//		return json.toString();
-//		
-//	}
+	// 회원관리 - 회원목록 페이지에 회원목록 가져오기
+//		@ResponseBody
+//		@GetMapping("GetMemberList")
+//		public String getMemberList() {
+//			System.out.println("AdminController - getMemberList()");
+//			
+//			List<MemberVO> memberList = service.getMemebrList();
+//			System.out.println(memberList);
+//			
+//			JSONArray json = new JSONArray(memberList);
+//			System.out.println(json);
+//			
+//			return json.toString();
+//			
+//		}
 //	
-//	// 관리자 - 회원 정보 조회
-//	@GetMapping("GetMember")
-//	public String getMemebr(String member_idx, Model model) {
-//		System.out.println("AdminController - getMemebr");
-//		
-//		int memberIdx =  Integer.parseInt(member_idx);
-//		
-//		MemberVO member = service.getMember(memberIdx);
-//		System.out.println(member);
-//		model.addAttribute("member", member);
-//		
-//		return "admin/admin_member_detail";
-//	}
+//		// 회원관리 - 회원 정보 조회
+//		@GetMapping("GetMember")
+//		public String getMemebr(String member_idx, Model model) {
+//			System.out.println("AdminController - getMemebr");
+//			
+//			int memberIdx =  Integer.parseInt(member_idx);
+//			
+//			MemberVO member = service.getMember(memberIdx);
+//			System.out.println(member);
+//			model.addAttribute("member", member);
+//			
+//			return "admin/admin_member_detail";
+//		}
 	
-	// 관리자 - 회원신고 페이지로 디스패치
+	// 회원관리 - 회원신고 페이지로 디스패치
 	@GetMapping("admin_member_report")
 	public String adminMemberReport() {
 		System.out.println("AdminController - adminMemberReport");
 		
 		return "admin/admin_member_report";
 	}
+
+	// 회원관리 - 회원리뷰 페이지로 디스패치
+	@GetMapping("admin_member_review")
+	public String adminMemberReview() {
+		System.out.println("AdminController - adminMemberReview");
+		
+		return "admin/admin_member_review";
+	}
 	
-	// 관리자 - zman 목록 페이지로 디스패치
+	// zman관리 - zman 목록 페이지로 디스패치
 	@GetMapping("admin_zman_list")
 	public String adminZmanList() {
 		System.out.println("AdminController - adminZmanList");
@@ -75,7 +83,7 @@ public class AdminController {
 		return "admin/admin_zman_list";
 	}
 	
-	// 관리자 - zman 배달 내역 페이지로 디스패치
+	// zman관리 - zman 배달 내역 페이지로 디스패치
 	@GetMapping("admin_zman_delivery_list")
 	public String adminZmanDeliveryList() {
 		System.out.println("AdminController - adminZmanDeliveryList");
@@ -83,7 +91,7 @@ public class AdminController {
 		return "admin/admin_zman_delivery_list";
 	}
 
-	// 관리자 - zman 신고 페이지로 디스패치
+	// zman관리 - zman 신고 페이지로 디스패치
 	@GetMapping("admin_zman_report")
 	public String adminZmanReport() {
 		System.out.println("AdminController - adminZmanReport");
@@ -91,7 +99,7 @@ public class AdminController {
 		return "admin/admin_zman_report";
 	}
 
-	// 관리자 - 중고거래 목록 페이지로 디스패치
+	// 중고거래관리 - 중고거래 목록 페이지로 디스패치
 	@GetMapping("admin_secondhand_list")
 	public String adminSecondhandList() {
 		System.out.println("AdminController - adminSecondhandList");
@@ -113,5 +121,21 @@ public class AdminController {
 		System.out.println("AdminController - charts_ex");
 		
 		return "admin/charts_ex";
+	}
+	
+	// 고객센터관리 - admin_cs_notice_list.jsp로 디스패치
+	@GetMapping("admin_cs_notice_list")
+	public String adminCsNoticeList() {
+		System.out.println("AdminController - adminCsNoticeList");
+		
+		return "admin/admin_cs_notice_list";
+	}
+
+	// 고객센터관리 - admin_cs_notice_form.jsp로 디스패치
+	@GetMapping("admin_cs_notice_form")
+	public String adminCsNoticeForm() {
+		System.out.println("AdminController - adminCsNoticeForm");
+		
+		return "admin/admin_cs_notice_form";
 	}
 }

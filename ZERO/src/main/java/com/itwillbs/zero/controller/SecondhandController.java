@@ -14,6 +14,13 @@ public class SecondhandController {
 			return "secondhand/secondhand_list";
 		}
 		
+		//상품 상세정보페이지
+		@GetMapping("secondhand_detail")
+		public String secondhand_detail() {
+			
+			return "secondhand/secondhand_detail";
+		}
+		
 		
 		//상품등록하기
 		

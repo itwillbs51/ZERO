@@ -12,6 +12,11 @@
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <title>ZERO</title>
+<style type="text/css">
+	body{
+		min-width: 360px;
+	}
+</style>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -27,7 +32,36 @@
 						<li class="breadcrumb-item active">중고거래 상품목록</li>
 					</ol>
 					<%-- main 내용 작성 영역 --%>
-					
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i>
+							중고거래상품목록
+						</div>
+						<div class="card-body">
+							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>아이디</th>
+										<th>상품카테고리</th>
+										<th>상품명</th>
+										<th>등록일</th>
+										<th>신고여부</th>
+										<th>상세보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 					
 				</div>
 			</main>
