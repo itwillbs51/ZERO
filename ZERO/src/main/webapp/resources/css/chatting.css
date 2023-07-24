@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+#chatList {
+	width: 400px;
+	list-style : none;
+	
+}
+
+#chatList li {
+	height: 80px;
+}
+#chatList img, #chatList span {
+	vertical-align: middle;
+}
