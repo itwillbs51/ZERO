@@ -27,7 +27,34 @@
 						<li class="breadcrumb-item active">회원신고</li>
 					</ol>
 					<%-- main 내용 작성 영역 --%>
-					
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i>
+							회원신고 목록
+						</div>
+						<div class="card-body">
+							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>작성자 이름</th>
+										<th>작성자 아이디</th>
+										<th>제목</th>
+										<th>작성일</th>
+										<th>상세보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 					
 				</div>
 			</main>
