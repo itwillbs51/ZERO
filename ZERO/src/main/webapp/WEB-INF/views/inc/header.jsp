@@ -13,7 +13,7 @@
 			<div id="headerArea1_inner">
 				<ul id="headerArea1_list">
 					<li class="headerArea1_item"><a href="cs_main" class="headerArea1_link">고객센터</a></li>
-					<li class="headerArea1_item"><a href="#" class="headerArea1_link">마이페이지</a></li>
+					<li class="headerArea1_item"><a href="member_mypage_main" class="headerArea1_link">마이페이지</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">알림</a></li>
 					<%-- 채팅 임시 --%>
