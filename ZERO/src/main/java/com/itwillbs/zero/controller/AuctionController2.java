@@ -1,0 +1,19 @@
+package com.itwillbs.zero.controller;
+
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+public class AuctionController2 {
+	
+	
+	
+	// 경매 상세 페이지로 이동
+	@GetMapping("auction_detail")
+	public String auction_detail() {
+		
+		return "aution/auction_detail";
+	}
+	
+
+}

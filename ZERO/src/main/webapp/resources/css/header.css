@@ -5,10 +5,16 @@
  		height: 64px;
 		background-color: #fff;
 		min-width: 360px;
+/* 		position: fixed; */
+/* 		top: 0; */
+/* 		right: 0; */
+/* 		left: 0; */
+/* 		z-index: 1030; */
 	}
 	
 	header>nav {
 		background-color: #fff;
+		min-width: 360px;
 	}
 	
 	#headerArea1>#headerArea1_inner{

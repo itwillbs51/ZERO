@@ -4,6 +4,7 @@
 ### Spring ###
 pom.properties
 MANIFEST.MF
+# pom, MANIFEST 무시
 
 ### Eclipse ###
 .metadata
