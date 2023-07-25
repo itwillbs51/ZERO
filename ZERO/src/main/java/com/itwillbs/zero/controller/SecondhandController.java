@@ -50,7 +50,7 @@ public class SecondhandController {
 		@GetMapping("secondhandUpdateDate")
 		public String secondhandUpdateDate() {
 			//날짜업데이트후 secondhand_list페이지로 리다이렉트(서블릿-서블릿)
-			return "redirect:/secondhand/secondhand_list";
+			return "secondhand/secondhand_list";
 		}
 		
 		
@@ -103,7 +103,7 @@ public class SecondhandController {
 		//판매자페이지
 		@GetMapping("secondhandSeller")
 		public String secondhand_seller_page() {
-			return "secondhand/secondhand_detail";
+			return "secondhand/secondhand_seller_page";
 		}
 		
 		
@@ -114,6 +114,10 @@ public class SecondhandController {
 		}
 		
 		//신고 등록작업(INSERT)
+		
+		
+		
+		//
 		
 		
 }
