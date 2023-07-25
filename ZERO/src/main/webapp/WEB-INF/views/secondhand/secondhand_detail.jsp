@@ -168,33 +168,48 @@ a {
 		<div class="row">
 			<div class="column">
 			
-				<div class="mySlides">
-				  <div class="numbertext active">1 / 4</div>
-				  <img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:400px; height:300px;">
-				</div>
-				<div class="mySlides">
-				  	<div class="numbertext">2 / 4</div>
-				 	<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:400px; height:300px;">
-				</div>
+<!-- 				<div class="mySlides"> -->
+<!-- 				  <div class="numbertext">1 / 4</div> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:400px; height:300px;"> --%>
+<!-- 				</div> -->
+<!-- 				<div class="mySlides"> -->
+<!-- 				  	<div class="numbertext">2 / 4</div> -->
+<%-- 				 	<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:400px; height:300px;"> --%>
+<!-- 				</div> -->
 		
-				<div class="mySlides">
-				 	 <div class="numbertext">3 / 4</div>
-					 <img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:400px; height:300px;">
-				 </div>
+<!-- 				<div class="mySlides"> -->
+<!-- 				 	 <div class="numbertext">3 / 4</div> -->
+<%-- 					 <img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:400px; height:300px;"> --%>
+<!-- 				 </div> -->
 		    
-				<div class="mySlides">
-				  	<div class="numbertext">4 / 4</div>
-		   			<img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:400px; height:300px;">
-				</div>
-				
+<!-- 				<div class="mySlides"> -->
+<!-- 				  	<div class="numbertext">4 / 4</div> -->
+<%-- 		   			<img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:400px; height:300px;"> --%>
+<!-- 				</div> -->
+					
+					  <%--썸네일이미지 --%>
+<!-- 				  <div class="row"> -->
+<%-- 				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)" alt="The Woods"></span> --%>
+<%-- 				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:80px;" onclick="currentSlide(2)" alt="Cinque Terre"></span> --%>
+<%-- 				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:80px;" onclick="currentSlide(3)" alt="Mountains and fjords"></span> --%>
+<%-- 				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:80px;" onclick="currentSlide(4)" alt="Northern Lights"></span> --%>
+<!-- 				  </div> -->
+					
+					
+					
+					
+					<%-- 선택된 사진 미리보기표시 (큰이미지)--%>
+					
+					<iframe src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" width="500" height="400" name="if-img"></iframe>
+					<%--썸네일 --%>
+					<div class="row">
+						<a href="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" target="if-img"><span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)" ></span></a>
+						<a href="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" target="if-img"><span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)" ></span></a>
+						<a href="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" target="if-img"><span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)"></span></a>
+						<a href="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" target="if-img"><span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)"></span></a>
+					</div>
 				  
-				  <%--썸네일이미지 --%>
-				  <div class="row">
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:150px;" onclick="currentSlide(1)" alt="The Woods"></span>
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:150px;" onclick="currentSlide(2)" alt="Cinque Terre"></span>
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:150px;" onclick="currentSlide(3)" alt="Mountains and fjords"></span>
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:150px;" onclick="currentSlide(4)" alt="Northern Lights"></span>
-				  </div>
+
 				  
 			</div><%-- 1행 1열 -- 왼쪽 column끝 --%>
 			
@@ -229,7 +244,8 @@ a {
 		</div><%-- 첫번째 row끝 ----%>
 		
 		<%-- 두번째 row 시작 --%>
-		<div class="row" style="margin-top:300px;">
+		<br><br><br><br><br><br><br><br><br><br>
+		<div class="row">
 			<%-- 2행 1열 (카테고리 결제방법 거래방법) --%>
 			<hr>
 			<hr>
@@ -270,17 +286,6 @@ a {
 			</div>
 		</div>
 		
-			
-
-		
-	
-		
-		
-		
-		
-		
-		
-			
 
 			
 
