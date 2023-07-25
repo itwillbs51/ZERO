@@ -135,7 +135,7 @@
 								</a>
 								<div class="autionTime">
 									경매시작까지
-									<span>n일 nn시간 nn분</span> 남았습니다
+									<span>n일 nn시간 nn분</span>
 									<div>
 										입찰 예정 시간 : YYYY년 MM월 dd일
 									</div>

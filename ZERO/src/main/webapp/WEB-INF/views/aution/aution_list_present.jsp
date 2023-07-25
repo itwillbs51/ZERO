@@ -18,11 +18,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title> ZERO | 경매 </title>
 <style type="text/css">
-	#demo {
-		text-align: center;
-		font-size: 60px;
-		margin-top: 0px;
-	}
+	
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -46,6 +42,9 @@
 		let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 		let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		if(minutes < 10) {
+			minutes = "0" + minutes;
+		}
 		if(seconds < 10) {
 			seconds = "0" + seconds;
 		}
@@ -183,36 +182,38 @@
 				
 					<c:forEach var="i" begin="1" end="6">
 						<%-- 상품 하나 --%>
-						<div class="product_card">
-							<%-- 클릭 시 상세페이지로 이동(사진, 상품명 클릭 시 이동) --%>
-							<a href="auction_detail" class="item_inner">
-								<div>
-<%-- 									<img alt="..." src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg"> --%>
-									<img alt="조던" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp">
+						<div class="product_card_wrap"> 
+							<div class="product_card">
+								<%-- 클릭 시 상세페이지로 이동(사진, 상품명 클릭 시 이동) --%>
+								<a href="auction_detail" class="item_inner">
+									<div>
+	<%-- 									<img alt="..." src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg"> --%>
+										<img alt="조던" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp">
+									</div>
+									<div class="item_title">
+										<p class="product_info_brand">브랜드명(ex. Jordan)</p>
+										<div class="product_info_name">상품명(ex. 조던 1 x 트래비스 스캇 x 프라그먼트 레트로 로우 OG SP 밀리터리 블루)</div>
+									</div>
+								</a>
+								<div class="price row">
+									<div class="col">
+										입찰가<br>
+										<span>10,000원</span>
+									</div>
+									<div class="col colRight">
+										즉시구매가<br>
+										<span>150,000원</span>
+									</div>
 								</div>
-								<div class="item_title">
-									<p class="product_info_brand">브랜드명(ex. Jordan)</p>
-									<div class="product_info_name">상품명(ex. 조던 1 x 트래비스 스캇 x 프라그먼트 레트로 로우 OG SP 밀리터리 블루)</div>
+								<div class="applyInfo">
+									<%-- 입찰자 수 --%>
+									<div class="person">
+										<i class="material-icons">people</i>
+										<span>참가 20명</span>
+									</div>
 								</div>
-							</a>
-							<div class="price row">
-								<div class="col">
-									입찰가<br>
-									<span>10,000원</span>
-								</div>
-								<div class="col colRight">
-									즉시구매가<br>
-									<span>150,000원</span>
-								</div>
-							</div>
-							<div class="applyInfo">
-								<%-- 입찰자 수 --%>
-								<div class="person">
-									<i class="material-icons">people</i>
-									<span>참가 20명</span>
-								</div>
-							</div>
-						</div> <%-- 상품하나 끝 --%>
+							</div> <%-- 상품하나 끝 --%>
+						</div>
 					</c:forEach>
 						
 				</div>

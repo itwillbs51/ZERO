@@ -1,0 +1,173 @@
+@charset "UTF-8";
+
+#main{
+	padding: 100px 10px 20px 10px;
+}
+
+#main hr{
+	max-width: 1280px;
+	margin: 10px auto 18px;
+}
+/* 아이콘들 위치변경 */
+.material-icons {
+	vertical-align: -4px;
+	font-size: 18px;
+}
+#chatList {
+	width: 400px;
+	list-style : none;
+}
+
+#chatList li {
+	height: 80px;
+}
+#chatList img, #chatList span {
+	vertical-align: middle;
+}
+
+.chatPage {
+	padding: 0;
+	margin: 0;
+}
+/* 채팅정보 */
+.art_firstRow {
+	position: relative;
+	margin: 0 0 10px 5px;
+}
+.art_firstRow div {
+	display: inline-block;
+}
+.art_firstRow .co01 {
+	max-width: 90px;
+	min-width: 90px;
+}
+.art_firstRow .co02 {
+	max-width: 400px;
+	min-width: 290px;
+	vertical-align: middle;
+}
+.co02-1, .co02-3 {
+	font-weight: bold;
+}
+.art_firstRow .co03 {
+	width: 110px;
+	position: absolute;
+	right: 10px;
+	top: 15px;
+}
+.co03>button {
+	border: none;
+	background-color: #ffffffff;
+}
+
+.art_secondRow {
+	margin: 5px;
+}
+.art_secondRow button {
+	border: 1px groove gray;
+	border-radius: 18px;
+	background-color: #ffffffff;
+}
+.art_secondRow span {
+	font-size: 14px;
+}
+
+.product_photo img {
+	margin: auto;
+	width: 80px;
+	height: 80px;
+	border-radius: 10px;
+	object-fit: cover;
+}
+
+/* 채팅창 */
+.chatMsgArea table, tr, td {
+	width: 95%;
+}
+table div {
+	display: inline-block;
+}
+.msgRight {
+	text-align: right;
+	margin-right: 10px;
+}
+.msgLeft{
+	text-align: left;
+	margin-left: 10px;
+}
+.msgTime {
+	vertical-align: bottom;
+	font-size: 10px;
+	color: gray;
+}
+.msg {
+	min-width: 150px;
+	max-width: 300px;
+	text-align: left;
+}
+.msgRight .msg {
+	/* 본인 채팅 */
+	background-color: #dd99ff;
+	border-radius: 10px;
+	padding: 10px;
+}
+.msgLeft .msg {
+	/* 상대방 채팅 */
+	background-color: #ccc;
+	border-radius: 10px;
+	padding: 10px 5px;
+}
+
+/* 채팅 입력 영역 */
+.inputArea {
+	margin-top: 1rem;
+}
+
+#addBtn {
+	font-size: 15px;
+	background-color: #999;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 3px 5px;
+}
+
+#inputText {
+	border: 1px gray;
+	width: 80%;
+	font-size: 15px;
+}
+.submitBtn {
+	font-size: 15px;
+	background-color: skyblue;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 3px 5px;
+	
+}
+
+/* ------------------------------------------------- */
+@media only screen and (max-width: 768px) {	
+	
+	#main{
+		padding-top: 0;
+	}
+	
+	.art_firstRow .co03 {
+		width: 110px;
+		position: absolute;
+		right: 5px;
+		top: 15px;
+	}
+	
+	/* 채팅창 */
+	.chatMsgArea {
+		width: 100%
+	}
+	.msg {
+		min-width: 120px;
+		max-width: 250px;
+	}
+	
+}

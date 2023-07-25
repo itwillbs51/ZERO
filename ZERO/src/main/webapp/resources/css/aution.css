@@ -20,7 +20,7 @@
 }
 /* 2-1. 상품갯수, 검색창, 정렬 */
 .listInfo {
-	padding-top: 10px;
+	margin-top: 25px;
 	display: flex;
 	justify-content: space-between;
 	position: relative;
@@ -51,7 +51,6 @@
     box-shadow: 0 4px 10px 0 rgba(0,0,0,.1);
     z-index: 1;
 }
-
 li, ul {
 	list-style: none;
 }
@@ -68,8 +67,10 @@ li, ul {
 	top: 5px;
 	right: 5px;
 }
-
+/* 상품목록 부분 */
 .productListArea {
+	margin-left: auto;
+    margin-right: auto;
 	margin-top: 15px;
 	max-width: 1280px;
 	padding-left: 16px;
@@ -183,12 +184,14 @@ li, ul {
 	background-position: center;
 	background-size: cover;
 	color: white;
-	font-family: "Courier New", Courier, monospace;
+/* 	font-family: "Courier New", Courier, monospace; */
 }
-.countDownTime>h2 {
-	margin-top: 1rem;
-	color: #fff;
-}
+#demo {
+		text-align: center;
+		font-size: 60px;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
 .noticeDate{
 	margin: 1em;
 	font-size: 16px;
@@ -203,9 +206,10 @@ li, ul {
 	}
 	
 	.productListArea{
+		margin-left: auto;
+    	margin-right: auto;
 		padding: 0 40px;
 		margin-top: 15px;
-	
 		max-width: 768px;
 		padding-left: 16px;
 	    padding-right: 16px;
@@ -219,10 +223,22 @@ li, ul {
 	    column-gap: 10px;
 	}
 	
+	.product_card_wrap {
+		max-width: 210px;
+	}
+	.product_card img {
+		display: block;
+		margin: auto;
+		border-radius: 10px;
+		height: 200px;
+		width: 200px;
+		object-fit: cover;
+	}
+	
 	/* aution_list_present.jsp css */
 	/* 경매 안내 배너 */
 	.autionNoticeBox {
-		margin: 1rem auto;
+/* 		margin: 1rem auto; */
 	}
 	
 	.noticeDate {
