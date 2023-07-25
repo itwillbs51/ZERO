@@ -64,7 +64,7 @@
 					</a>
 					<div class="collapse" id="csManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="#">공지사항</a>
+							<a class="nav-link" href="admin_cs_notice_list">공지사항</a>
 							<a class="nav-link" href="#">자주묻는 질문</a>
 							<a class="nav-link" href="#">1:1질문</a>
 							<a class="nav-link" href="#">건의사항</a>

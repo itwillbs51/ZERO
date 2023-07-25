@@ -1,17 +1,35 @@
 package com.itwillbs.zero.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.itwillbs.zero.service.AdminService;
+import com.itwillbs.zero.vo.CsVO;
+import com.itwillbs.zero.vo.MemberVO;
 
 @Controller
 public class AdminController {
 	
-	
+	@Autowired
+	private AdminService service;
 	
 	// 관리자 - 메인페이지로 디스패치
 	@GetMapping("admin_main")
@@ -30,34 +48,34 @@ public class AdminController {
 	}
 	
 	// 회원관리 - 회원목록 페이지에 회원목록 가져오기
-//		@ResponseBody
-//		@GetMapping("GetMemberList")
-//		public String getMemberList() {
-//			System.out.println("AdminController - getMemberList()");
-//			
-//			List<MemberVO> memberList = service.getMemebrList();
-//			System.out.println(memberList);
-//			
-//			JSONArray json = new JSONArray(memberList);
-//			System.out.println(json);
-//			
-//			return json.toString();
-//			
-//		}
-//	
-//		// 회원관리 - 회원 정보 조회
-//		@GetMapping("GetMember")
-//		public String getMemebr(String member_idx, Model model) {
-//			System.out.println("AdminController - getMemebr");
-//			
-//			int memberIdx =  Integer.parseInt(member_idx);
-//			
-//			MemberVO member = service.getMember(memberIdx);
-//			System.out.println(member);
-//			model.addAttribute("member", member);
-//			
-//			return "admin/admin_member_detail";
-//		}
+	@ResponseBody
+	@GetMapping("GetMemberList")
+	public String getMemberList() {
+		System.out.println("AdminController - getMemberList()");
+		
+		List<MemberVO> memberList = service.getMemebrList();
+		System.out.println(memberList);
+		
+		JSONArray json = new JSONArray(memberList);
+		System.out.println(json);
+		
+		return json.toString();
+		
+	}
+
+	// 회원관리 - 회원 정보 조회
+	@GetMapping("GetMember")
+	public String getMemebr(String member_idx, Model model) {
+		System.out.println("AdminController - getMemebr");
+		
+		int memberIdx =  Integer.parseInt(member_idx);
+		
+		MemberVO member = service.getMember(memberIdx);
+		System.out.println(member);
+		model.addAttribute("member", member);
+		
+		return "admin/admin_member_detail";
+	}
 	
 	// 회원관리 - 회원신고 페이지로 디스패치
 	@GetMapping("admin_member_report")
@@ -125,17 +143,104 @@ public class AdminController {
 	
 	// 고객센터관리 - admin_cs_notice_list.jsp로 디스패치
 	@GetMapping("admin_cs_notice_list")
-	public String adminCsNoticeList() {
+	public String adminCsNoticeList(Model model) {
 		System.out.println("AdminController - adminCsNoticeList");
+		
+//		List<CsVO> csList = service.getCsList();
+//		model.addAttribute("csList", csList);
 		
 		return "admin/admin_cs_notice_list";
 	}
 
 	// 고객센터관리 - admin_cs_notice_form.jsp로 디스패치
-	@GetMapping("admin_cs_notice_form")
+	@GetMapping("admin_cs_notice_write_form")
 	public String adminCsNoticeForm() {
 		System.out.println("AdminController - adminCsNoticeForm");
 		
-		return "admin/admin_cs_notice_form";
+		return "admin/admin_cs_notice_write_form";
+	}
+
+	// 고객센터관리 - 공지사항 글쓰기
+	@PostMapping("admin_cs_notice_pro")
+	public String adminCsNoticePro(CsVO cs, HttpSession session, Model model) {
+		System.out.println("AdminController - adminCsNoticePro");
+		
+//		String uploadDir = "/resources/upload"; 
+//		String saveDir = session.getServletContext().getRealPath(uploadDir);
+//		System.out.println("실제 업로드 경로 : " + saveDir);
+//		
+//		String subDir = "";	// 서브디렉토리(날자 구분)
+//		
+//		// -------------------------------------------------------------------------------------------
+//		try {
+//			Date date = new Date();
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//			subDir = sdf.format(date);
+//			saveDir += "/" + subDir;
+//			// --------------------------------------------------------------------------------------------
+//			Path path = Paths.get(saveDir);
+//			
+//			Files.createDirectories(path);
+//		
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
+//		MultipartFile mFile = cs.getFile();
+//		System.out.println("원본파일명1 : " + mFile.getOriginalFilename());
+//		
+//		String uuid = UUID.randomUUID().toString();
+//		System.out.println(uuid.substring(0, 8));
+//		
+//		cs.setCs_file("");
+//		
+//		String fileName = uuid.substring(0, 8) + "_" + mFile.getOriginalFilename();
+//		
+//		if(!mFile.getOriginalFilename().equals("")) {
+//			cs.setCs_file(subDir + "/" + fileName);			
+//		}
+//		System.out.println("실제 업로드 파일명1 : " + cs.getCs_file());
+//		
+//		// -----------------------------------------------------------------------------------------------
+//		// CsService - registNotice() 메서드를 호출하여 게시물 등록 작업 요청
+//		// => 파라미터 : CsVO 객체    리턴타입 : int(insertCount)
+//		int insertCount = service.registNotice(cs);
+////				int insertCount = service.registNotice(cs, csTypeNo);
+//		
+//		// 게시물 등록 작업 요청 결과 판별
+//		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
+//		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
+//		if(insertCount > 0 ) {	// 성공
+//			try {
+//				if(!mFile.getOriginalFilename().equals("")) {
+//					mFile.transferTo(new File(saveDir, fileName));
+//				}
+//				
+//			} catch (IllegalStateException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			// 글쓰기 작업 성공 시 글목록(BoardList)으로 리다이렉트
+//			return "redirect:/admin_cs_notice_list";
+//		}else {	// 실패
+//			model.addAttribute("msg", "글쓰기 실패");
+//			return "fail_back";
+//		}
+		
+		// DB 생성전까지 오류를 방지하기 위함(나중에 없앨 예정)
+		return "admin/admin_cs_notice_list";
+		
+	}
+	
+	
+	// 고객센터관리 - admin_cs_notice_modify_form.jsp로 디스패치
+	@GetMapping("admin_cs_notice_modify_form")
+	public String adminCsNoticeModifyForm() {
+		System.out.println("AdminController - adminCsNoticeModifyForm");
+		
+		return "admin/admin_cs_notice_modify_form";
 	}
 }

@@ -42,7 +42,6 @@
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>글번호</th>
 										<th>작성자</th>
 										<th>제목</th>
 										<th>작성일</th>
@@ -50,16 +49,21 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
-									</tr>
+									<c:forEach var="cs" items="${csList }">
+										<tr>
+											<td>${cs.member_idx }</td>
+											<td>${cs.cs_subject }</td>
+											<td>${cs.cs_date }</td>
+<%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
+											<td>
+												<a class="btn btn-sm btn-outline-dark" href="admin_cs_notice_modify_form">수정</a>
+												<a class="btn btn-sm btn-outline-dark" href="#">삭제</a>
+											</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
-							<a class="btn btn-sm btn-outline-dark" href="admin_cs_notice_form">글쓰기</a>
+							<a class="btn btn-sm btn-outline-dark" href="admin_cs_notice_write_form">글쓰기</a>
 						</div>
 					</div>
 				</div>
