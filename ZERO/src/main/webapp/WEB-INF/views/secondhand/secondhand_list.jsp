@@ -131,10 +131,14 @@ a {
 				<%-- 초기화,내상품등록 --%>
 				<div class="secondhandRegist" align="right">
 					<button class="btn btn-dark"> 필터초기화 </button>
-					<button class="btn btn-dark"> 내 상품 등록하기 </button>
+					<a href="secondhandRegistForm"><button class="btn btn-dark"> 내 상품 등록하기 </button></a>
 				</div>
 			</div>
-			
+			<%-- 거래중 상품만 보기 --%>
+			<div class="form-check form-switch">
+     			 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+      			<label class="form-check-label" for="flexSwitchCheckDefault"> 거래가능 상품만 보기 </label>
+    		</div>
 			
 <!-- 			<div class="collapse" id="collapseExample"> -->
 <!-- 			  <div class="card card-body"> -->

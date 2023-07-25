@@ -161,9 +161,9 @@ public class AdminController {
 	}
 
 	// 고객센터관리 - 공지사항 글쓰기
-	@PostMapping("admin_cs_notice_pro")
-	public String adminCsNoticePro(CsVO cs, HttpSession session, Model model) {
-		System.out.println("AdminController - adminCsNoticePro");
+	@PostMapping("admin_cs_notice_write_pro")
+	public String adminCsNoticeWritePro(CsVO cs, HttpSession session, Model model) {
+		System.out.println("AdminController - adminCsNoticeWritePro");
 		
 //		String uploadDir = "/resources/upload"; 
 //		String saveDir = session.getServletContext().getRealPath(uploadDir);
