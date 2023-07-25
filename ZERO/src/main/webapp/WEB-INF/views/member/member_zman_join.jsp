@@ -52,7 +52,8 @@
 <!-- <script data-n-head="ssr" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
 
 
-<title>중고거래 사이트</title>
+
+<title>Z-MAN 신청</title>
 <style>
 
 .login_area[data-v-2b15bea4] {
@@ -209,6 +210,17 @@ ul {
     margin-bottom: 8px;
 }
 
+<%-- 체크박스 안나와서 강제로 추가함 모양 바꿀수있으면 바꾸기? --%>
+input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  appearance: checkbox;
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+}
+
 </style>
 </head>
 <body>
@@ -221,59 +233,107 @@ ul {
 	<div class="container login" data-v-2b15bea4="" data-v-1d0b532e="">
 		<div class="content lg" data-v-2b15bea4="">
 			<div class="login_area" data-v-2b15bea4="">
-			<h2 class="login_title" data-v-2b15bea4="">
-				<span class="blind" data-v-2b15bea4="">ZERO</span>
-			</h2>
-			<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-				<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
-				<div class="input_item" data-v-4e1fd2e6="">
+				<h2 class="login_title" data-v-2b15bea4="">
+					<span class="blind" data-v-2b15bea4="">Z-MAN 신청</span>
+				</h2><br>
+				
+				<%-- 클래스 이름 바꾸기 / 이름, 이메일은 로그인한 회원정보에서 가져오기 --%>
+				<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>
+					<input type="text" placeholder="이름" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				</div><br>
+				
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
 					<input type="email" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-					<button type="button" class="btn input_delete" style="display:none;" data-v-43813796="" data-v-2b15bea4="" data-v-4e1fd2e6="">
-						<svg xmlns="http://www.w3.org/2000/svg" class="ico-delete-circle icon sprite-icons" data-v-2b15bea4="">
-							<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-delete-circle" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-delete-circle" data-v-2b15bea4=""></use>
-						</svg>
-					</button>
+				</div><br>
+				
+				<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
+					<input type="password" placeholder="영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자)" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				</div><br>
+			
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
+					<input type="text" placeholder="생년월일 8자리를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				</div><br>
+			
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">운전면허증</h3>
+					<input type="text" placeholder="운전면허증 번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				</div><br>
+			
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">휴대폰번호</h3>
+					<input type="text" placeholder="- 없이 입력" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				<button>인증번호 받기</button>
 				</div>
-				<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소를 정확히 입력해주세요.</p>
-			</div>
-			<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-			<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
-			<div class="input_item" data-v-4e1fd2e6="">
-			<input type="password" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6=""></div>
-			<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4=""> 영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자) </p></div>
-			<%-- 이메일 주소& 비밀번호 주소 미입력시 --%>
-<!-- 			<div class="login_btn_box" data-v-2b15bea4=""> -->
-<!-- 				<a disabled="disabled" href="#" class="btn full solid disabled" data-v-43813796="" data-v-2b15bea4=""> 로그인 </a> -->
-<!-- 			</div> -->
-			<div data-v-2b15bea4="" class="login_btn_box">
-				<a data-v-43813796="" data-v-2b15bea4="" href="#" class="btn full solid"> 로그인 </a>
-			</div>
-			<ul class="look_box" data-v-2b15bea4="">
-				<li class="look_list" data-v-2b15bea4="">
-					<a href="join" class="look_link" data-v-2b15bea4=""> 이메일 가입 </a>
-				</li> |
-				<li class="look_list" data-v-2b15bea4="">
-					<a href="/login/find_email" class="look_link" data-v-2b15bea4=""> 이메일 찾기 </a>
-				</li> |
-				<li class="look_list" data-v-2b15bea4="">
-					<a href="/login/find_password" class="look_link" data-v-2b15bea4=""> 비밀번호 찾기 </a>
-				</li>
-			</ul>
-			<div><a href="#" class="look_link">인증 메일이 오지 않아요</a></div>
-			<div class="social_login" data-v-2b15bea4="">
-				<button type="button" class="btn btn_login_naver full outline" data-v-43813796="" data-v-2b15bea4="">
-				<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4="">
-					<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-naver" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-naver" data-v-2b15bea4=""></use>
-				</svg> 네이버로 로그인 </button>
-				<button type="button" class="btn btn_login_apple full outline" data-v-43813796="" data-v-2b15bea4="">
-				<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4="">
-					<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" data-v-2b15bea4=""></use>
-				</svg> 카카오로 로그인 </button>
-				<button type="button" class="btn btn_login_google full outline" data-v-43813796="" data-v-2b15bea4="">
-				<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4="">
-					<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-google" data-v-2b15bea4=""></use>
-				</svg> 구글로 로그인 </button>
-			</div>
+			
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
+					<input type="text" placeholder="인증번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				<button>핸드폰 번호 인증확인</button>
+				</div>
+				<br>
+				
+				<%-- 계좌번호 인증할때 은행 선택한값 가져오기? --%>
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">계좌번호</h3>
+					<input type="text" placeholder="- 없이 입력" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				<button>계좌인증 받기</button>
+				</div>
+				<br>
+			
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
+					<input type="text" placeholder="인증번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				<button>계좌 인증확인</button>
+				</div>
+				<br>
+				
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">주소지 입력</h3>
+					<input type="text" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+					<input type="text" placeholder="상세주소를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				<button>주소지찾기</button>
+				</div>
+				<br>
+				
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">활동 지역 선택</h3>
+					<input type="text" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+				<button>지역찾기</button>
+				</div>
+				<br>	
+					
+				<div>
+					<label for="agree_all">
+					  <input type="checkbox" name="agree_all" id="agree_all">
+					  <span>모두 동의합니다</span>
+					</label><br>
+					<label for="agree">
+					  <input type="checkbox" name="agree" value="1">
+					  <span>이용약관 동의<strong>(필수)</strong></span>
+					</label>
+					<label for="agree">
+					  <input type="checkbox" name="agree" value="2">
+					  <span>개인정보 수집, 이용 동의<strong>(필수)</strong></span>
+					</label>
+					<label for="agree">
+					  <input type="checkbox" name="agree" value="3">
+					  <span>개인정보 이용 동의<strong>(필수)</strong></span>
+					</label>
+					<label for="agree">
+					  <input type="checkbox" name="agree" value="4">
+					  <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
+					</label>
+				</div>
+				
+				<div data-v-2b15bea4="" class="login_btn_box">
+					<a data-v-43813796="" data-v-2b15bea4="" href="#" class="btn full solid"> Z-MAN 신청 </a>
+				</div>
+			
+
 			</div>
 		</div>
 	</div>
@@ -297,5 +357,34 @@ ul {
 <!--   <script src="/_nuxt/31641e8.js" defer=""></script> -->
 <!--   <link href="/_nuxt/css/6ca5ffb.css" rel="stylesheet" type="text/css"> -->
 <!--   <link href="/_nuxt/css/caea5a4.css" rel="stylesheet" type="text/css"> -->
+
+	<script type="text/javascript">
+	  // 동의 모두선택/해제
+	  const agreeChkAll = document.querySelector('input[name=agree_all]');
+	  const agreeChk = document.querySelectorAll('input[name=agree]');
+
+	  agreeChkAll.addEventListener('change', (e) => {
+	    for (let i = 0; i < agreeChk.length; i++) {
+	      agreeChk[i].checked = e.target.checked;
+	    }
+	  });
+
+	  const updateAgreeAllStatus = () => {
+	    let allChecked = true;
+	    for (let i = 0; i < agreeChk.length; i++) {
+	      if (!agreeChk[i].checked) {
+	        allChecked = false;
+	        break;
+	      }
+	    }
+	    agreeChkAll.checked = allChecked;
+	  };
+
+	  for (let i = 0; i < agreeChk.length; i++) {
+	    agreeChk[i].addEventListener('change', () => {
+	      updateAgreeAllStatus();
+	    });
+	  }
+	</script>
   
 </body>
