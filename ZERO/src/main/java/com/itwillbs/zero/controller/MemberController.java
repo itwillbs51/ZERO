@@ -2,6 +2,7 @@ package com.itwillbs.zero.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MemberController {
@@ -81,6 +82,18 @@ public class MemberController {
 		return "member/member_join";
 	}
 	
+	// 회원가입 완료
+	@PostMapping("join_pro")
+	public String memberJoinPro() {
+		return "member/member_join_pro";
+	}
+	
+	
+	// Z-MAN 신청
+	@GetMapping("zman_join")
+	public String zmanJoin() {
+		return "member/member_zman_join";
+	}
 	
 }
 
