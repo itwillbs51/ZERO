@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -238,9 +239,86 @@ public class AdminController {
 	
 	// 고객센터관리 - admin_cs_notice_modify_form.jsp로 디스패치
 	@GetMapping("admin_cs_notice_modify_form")
-	public String adminCsNoticeModifyForm() {
+	public String adminCsNoticeModifyForm(@RequestParam int cs_idx, HttpSession session, Model model) {
 		System.out.println("AdminController - adminCsNoticeModifyForm");
 		
+//		CsVO cs = service.getCs(cs_idx);
+//		model.addAttribute("cs", cs);
+		
 		return "admin/admin_cs_notice_modify_form";
+	}
+	
+	// 고객센터관리 - 공지사항 글수정
+	@PostMapping("admin_cs_notice_modify_pro")
+	public String adminCsNoticeModifyPro(CsVO cs, HttpSession session, Model model) {
+		System.out.println("AdminController - adminCsNoticeModifyPro");
+//		System.out.println(cs);
+//		
+//		String uploadDir = "/resources/upload"; 
+//		String saveDir = session.getServletContext().getRealPath(uploadDir);
+//		System.out.println("실제 업로드 경로 : " + saveDir);
+//		
+//		String subDir = "";	// 서브디렉토리(날자 구분)
+//		
+//		// -------------------------------------------------------------------------------------------
+//		try {
+//			Date date = new Date();
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//			subDir = sdf.format(date);
+//			saveDir += "/" + subDir;
+//			// --------------------------------------------------------------------------------------------
+//			Path path = Paths.get(saveDir);
+//			
+//			Files.createDirectories(path);
+//		
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
+//		MultipartFile mFile = cs.getFile();
+//		System.out.println("원본파일명1 : " + mFile.getOriginalFilename());
+//		
+//		String uuid = UUID.randomUUID().toString();
+//		System.out.println(uuid.substring(0, 8));
+//		
+//		cs.setCs_file("");
+//		
+//		String fileName = uuid.substring(0, 8) + "_" + mFile.getOriginalFilename();
+//		
+//		if(!mFile.getOriginalFilename().equals("")) {
+//			cs.setCs_file(subDir + "/" + fileName);			
+//		}
+//		System.out.println("실제 업로드 파일명1 : " + cs.getCs_file());
+//		
+//		// -----------------------------------------------------------------------------------------------
+//		// CsService - updateNotice() 메서드를 호출하여 게시물 등록 작업 요청
+//		// => 파라미터 : CsVO 객체    리턴타입 : int(insertCount)
+//		int updateCount = service.updateNotice(cs);
+//		
+//		// 게시물 등록 작업 요청 결과 판별
+//		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트
+//		// => 실패 시 "글 쓰기 실패!" 메세지 출력 후 이전페이지 돌아가기 처리
+//		if(updateCount > 0 ) {	// 성공
+//			try {
+//				if(!mFile.getOriginalFilename().equals("")) {
+//					mFile.transferTo(new File(saveDir, fileName));
+//				}
+//				
+//			} catch (IllegalStateException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			// 글수정 작업 성공 시 글목록(BoardList)으로 리다이렉트
+//			return "redirect:/admin_cs_notice_list";
+//		}else {	// 실패
+//			model.addAttribute("msg", "글쓰기 실패");
+//			return "fail_back";
+//		}
+		
+		// DB 생성전까지 오류를 방지하기 위함(나중에 없앨 예정)
+		return "admin/admin_cs_notice_list";
 	}
 }

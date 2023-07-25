@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,12 +53,12 @@
 								<tbody>
 									<c:forEach var="cs" items="${csList }">
 										<tr>
-											<td>${cs.member_idx }</td>
+											<td>${cs.member_nickname }</td>
 											<td>${cs.cs_subject }</td>
 											<td>${cs.cs_date }</td>
 <%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
 											<td>
-												<a class="btn btn-sm btn-outline-dark" href="admin_cs_notice_modify_form">수정</a>
+												<a class="btn btn-sm btn-outline-dark" href="admin_cs_notice_modify_form?cs_idx=${cs.cs_idx }">수정</a>
 												<a class="btn btn-sm btn-outline-dark" href="#">삭제</a>
 											</td>
 										</tr>

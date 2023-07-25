@@ -13,10 +13,13 @@
 		WHERE member_idx = #{member_idx}
 	</select>
 	
+	
 	<!-- 고객센터관리 - 공지사항 목록 조회 -->
-	<select id="selectCsList"  resultType="com.itwillbs.zero.vo.CsVO">
-		SELECT * FROM CS
-		WHERE cs_type = '공지'
+	<select id="selectCsList"  resultType="map">
+		SELECT * 
+			FROM CS c 
+			JOIN MEMBER m ON m.member_idx = c.member_idx
+			WHERE cs_type = '공지'
 	</select>
 	
 	
@@ -51,6 +54,25 @@
 				, #{cs_file}
 <!-- 				, #{cs_type_list_idx} + 1 -->
 			)
-				
 	</insert>
+	
+	<!-- 고객센터관리 - 공지사항 글 정보 조회 -->
+	<select id="selectCs" resultType="com.itwillbs.zero.vo.CsVO">
+		SELECT * 
+			FROM CS c 
+			JOIN MEMBER m ON m.member_idx = c.member_idx
+			WHERE cs_idx = #{cs_idx}
+	</select>
+	
+	<!-- 고객센터관리 - 공지사항 글수정 -->
+	<update id="updateNotice">
+		UPDATE CS
+		SET
+			cs_subject = #{cs_subject}
+			, cs_content = #{cs_content}
+			, cs_date = now()
+			, member_idx = #{member_idx}
+			, cs_file = #{cs_file}
+		WHERE cs_idx = #{cs_idx}
+	</update>
 </mapper>

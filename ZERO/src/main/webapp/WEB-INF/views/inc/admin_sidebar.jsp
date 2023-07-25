@@ -55,6 +55,7 @@
 					<div class="collapse" id="auctionManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="#">상품목록</a>
+							<a class="nav-link" href="#">경매참가신청목록</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#csManagment" aria-expanded="false" aria-controls="csManagment">

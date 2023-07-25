@@ -16,7 +16,12 @@ public class CsVO {
 	private MultipartFile file;
 	private String cs_reply;
 	private String cs_phone;
-	private int cs_type_list_idx;
+//	private int cs_type_list_idx;
 	private int cs_info_idx;
+	
+	// 작성자를 함께 출력하기 위해 변수 추가
+	private String member_name;
+	private String member_id;
+	private String member_nickname;
 	
 }

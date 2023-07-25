@@ -15,6 +15,7 @@
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -26,8 +27,11 @@
 </style>
 <script type="text/javascript">
 	function emptyFile(){
-		
-	}
+		$("#insertImg").empty();
+		$("#insertImg").html(
+			'<input type="file" class="form-control" aria-label="cs_file" name="file" />'	
+		);
+	};
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -52,14 +56,12 @@
 							<%-- main 내용 작성 영역 --%>
 							<form action="admin_cs_notice_modify_pro" id="cs_form" method="post" enctype="multipart/form-data">
 <%-- 								<input type="hidden" name="pageNo" value="${param.pageNo }"> 페이지번호 전송용 --%>
+								<input type="hidden" name="cs_idx" value="${cs.cs_idx }" >
 								<input type="hidden" name="cs_type" value="${cs.cs_type }" ><%-- 공지사항 유형 정보 전송용 --%>
+								<input type="hidden" name="member_idx" value="${cs.member_idx }" >
 						
 								<table class="table table-striped text-center align-middle">
 									<tbody>
-<!-- 									<tr> -->
-<!-- 								      <td scope="col" class="align-middle" width="100">번호</th> -->
-<!-- 								      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_idx" name="cs_type_list_idx" id="cs_type_list_idx" readonly></td> -->
-<!-- 								    </tr> -->
 									<tr>
 										<td scope="col" class="align-middle" width="100">제목</th>
 										<td scope="col" class="align-middle">
@@ -69,7 +71,7 @@
 									<tr>
 										<td scope="col" class="align-middle" width="100">작성자</th>
 										<td scope="col" class="align-middle">
-											<input type="text" class="form-control" aria-label="cs_name" name="member_idx" value="${cs.member_idx }" readonly="readonly" required="required">
+											<input type="text" class="form-control" aria-label="member_nickname" name="member_nickname" value="${cs.member_nickname }" readonly="readonly" required="required">
 										</td>
 <%-- 										<td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly></td> --%>
 									</tr>
@@ -80,21 +82,21 @@
 										</td>
 									</tr>
 									<tr>
-									<td scope="col" class="align-middle" width="100">사진첨부</th>
-									<td scope="col" class="align-middle">
-										<%-- 파일이 존재할 경우 파일명과 삭제버튼 표시하고, 아니면 파일 등록 버튼 표시 --%>
-										<c:choose>
-											<c:when test="${empty cs.cs_file }">
-												<input type="file" name="file" /><br>
-											</c:when>
-											<c:otherwise>
-												<a href="${pageContext.request.contextPath }/resources/upload/${cs.cs_file }" download="${fn:split(cs.cs_file, '_')[1] }">
-													${cs.cs_file }
-												</a>
-												<input type="button" class="btn btn-sm btn-dark" value="삭제" onclick="emptyFile()"><br>
-											</c:otherwise>
-										</c:choose>
-									</td>
+										<td scope="col" class="align-middle" width="100">사진첨부</th>
+										<td scope="col" class="align-middle" id="insertImg">
+											<%-- 파일이 존재할 경우 파일명과 삭제버튼 표시하고, 아니면 파일 등록 버튼 표시 --%>
+											<c:choose>
+												<c:when test="${empty cs.cs_file }">
+													<input type="file" name="file" /><br>
+												</c:when>
+												<c:otherwise>
+													<a href="${pageContext.request.contextPath }/resources/upload/${cs.cs_file }" download="${fn:split(cs.cs_file, '_')[1] }">
+														${cs.cs_file }
+													</a>
+													<input type="button" class="btn btn-sm btn-dark" value="삭제" onclick="emptyFile()"><br>
+												</c:otherwise>
+											</c:choose>
+										</td>
 									</tr>
 									<tr>
 										<td scope="col" class="align-middle"></td>

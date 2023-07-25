@@ -36,4 +36,15 @@ public class AdminService {
 		return mapper.insertNotice(cs);
 	}
 	
+	// 고객센터관리 - 글 정보 조회
+	public CsVO getCs(int cs_idx) {
+		return mapper.selectCs(cs_idx);
+	}
+
+	// 고객센터관리 - 공지사항 글수정
+	public int updateNotice(CsVO cs) {
+		return mapper.updateNotice(cs);
+	}
+		
+	
 }
