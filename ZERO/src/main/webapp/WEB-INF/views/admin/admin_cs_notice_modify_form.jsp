@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +24,11 @@
 		max-width: 1000px;
 	}
 </style>
+<script type="text/javascript">
+	function emptyFile(){
+		
+	}
+</script>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -41,44 +50,59 @@
 						</div>
 						<div class="card-body">		
 							<%-- main 내용 작성 영역 --%>
-							<form action="admin_cs_notice_pro" id="cs_form" method="post" enctype="multipart/form-data">
+							<form action="admin_cs_notice_modify_pro" id="cs_form" method="post" enctype="multipart/form-data">
 <%-- 								<input type="hidden" name="pageNo" value="${param.pageNo }"> 페이지번호 전송용 --%>
-								<input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>
+								<input type="hidden" name="cs_type" value="${cs.cs_type }" ><%-- 공지사항 유형 정보 전송용 --%>
 						
 								<table class="table table-striped text-center align-middle">
-								<tbody>
+									<tbody>
 <!-- 									<tr> -->
 <!-- 								      <td scope="col" class="align-middle" width="100">번호</th> -->
 <!-- 								      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_idx" name="cs_type_list_idx" id="cs_type_list_idx" readonly></td> -->
 <!-- 								    </tr> -->
 									<tr>
-								      <td scope="col" class="align-middle" width="100">제목</th>
-								      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" id="cs_subject"></td>
-								    </tr>
+										<td scope="col" class="align-middle" width="100">제목</th>
+										<td scope="col" class="align-middle">
+											<input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" id="cs_subject" value="${cs.cs_subject }" required="required">
+										</td>
+									</tr>
 									<tr>
-								      <td scope="col" class="align-middle" width="100">작성자</th>
-								      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="member_idx"></td>
-<%-- 								      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly></td> --%>
-								    </tr>
+										<td scope="col" class="align-middle" width="100">작성자</th>
+										<td scope="col" class="align-middle">
+											<input type="text" class="form-control" aria-label="cs_name" name="member_idx" value="${cs.member_idx }" readonly="readonly" required="required">
+										</td>
+<%-- 										<td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly></td> --%>
+									</tr>
 									<tr>
-								      <td scope="col" class="align-middle" width="100">내용</th>
-								      <td scope="col" class="align-middle"><textarea class="form-control" rows="10" cols="200" name="cs_content" id="cs_content"></textarea></td>
-								    </tr>
+										<td scope="col" class="align-middle" width="100">내용</th>
+										<td scope="col" class="align-middle">
+											<textarea class="form-control" rows="10" cols="200" name="cs_content" id="cs_content">${cs.cs_content }</textarea>
+										</td>
+									</tr>
 									<tr>
-								      <td scope="col" class="align-middle" width="100">사진첨부</th>
-								      <td scope="col" class="align-middle">
-					<!-- 			      <input type="file" class="form-control" aria-label="cs_file" name="cs_multi_file"> -->
-								      <input type="file" class="form-control" aria-label="cs_file" name="file" />
-								      </td>
-								    </tr>
+									<td scope="col" class="align-middle" width="100">사진첨부</th>
+									<td scope="col" class="align-middle">
+										<%-- 파일이 존재할 경우 파일명과 삭제버튼 표시하고, 아니면 파일 등록 버튼 표시 --%>
+										<c:choose>
+											<c:when test="${empty cs.cs_file }">
+												<input type="file" name="file" /><br>
+											</c:when>
+											<c:otherwise>
+												<a href="${pageContext.request.contextPath }/resources/upload/${cs.cs_file }" download="${fn:split(cs.cs_file, '_')[1] }">
+													${cs.cs_file }
+												</a>
+												<input type="button" class="btn btn-sm btn-dark" value="삭제" onclick="emptyFile()"><br>
+											</c:otherwise>
+										</c:choose>
+									</td>
+									</tr>
 									<tr>
 										<td scope="col" class="align-middle"></td>
 										<td scope="col" class="align-middle">
-											<button class="btn btn-dark" type="submit">&nbsp;&nbsp;&nbsp;등록&nbsp;&nbsp;&nbsp;</button>
+											<button class="btn btn-dark" type="submit">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
 											<button class="btn btn-outline-dark" type="button" onclick="history.back()">돌아가기</button>
 										</td>
-								    </tr>
-					
+									</tr>
 								</table>
 							</form>
 						</div>
