@@ -73,7 +73,7 @@
 	
 	<section>
 		<div class="container-fluid">
-		<div class="col-md-6"><h2>제목</h2></div>
+		<div class="col-md-6"><h2>test</h2></div>
 			<div id="slid">
 			<div id="carouselExampleIndicators" class="carousel slide-fluid" data-ride="carousel"  data-interval="false">
 				<ol class="carousel-indicators">
