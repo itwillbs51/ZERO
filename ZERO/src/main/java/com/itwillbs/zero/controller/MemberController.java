@@ -75,6 +75,13 @@ public class MemberController {
 		return "member/member_mypage_auctionList";
 	}
 
+	// 회원가입
+	@GetMapping("join")
+	public String join() {
+		return "member/member_join";
+	}
+	
+	
 }
 
 
