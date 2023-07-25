@@ -15,5 +15,12 @@ public class AuctionController2 {
 		return "aution/auction_detail";
 	}
 	
+	// 경매 예정 상세 페이지로 이동
+	@GetMapping("auction_prepare_detail")
+	public String auction_prepare_detail() {
+		
+		return "aution/auction_prepare_detail";
+	}
+	
 
 }
