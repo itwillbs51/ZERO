@@ -143,7 +143,7 @@
 						 </div>
 						 <div class="column">
 							<b><a href=""> 판매자</a></b>
-						 	<br>판매상품 nn개
+						 	<br>판매상품 n개
 						 </div>
 					</div>
 				</div>
