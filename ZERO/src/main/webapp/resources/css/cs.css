@@ -91,6 +91,11 @@ li {
 
 .notice_view .contentArea {
 	display: block;
+	padding: 30px 30px 28px;
+	background-color: #fafafa;
+	border-bottom: 1px solid #ebebeb;
+	font-size: 14px;
+	letter-spacing: -.21px;
 }
 
 .notice_view .content {

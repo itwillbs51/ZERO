@@ -20,6 +20,7 @@
 			FROM CS c 
 			JOIN MEMBER m ON m.member_idx = c.member_idx
 			WHERE cs_type = '공지'
+			ORDER BY cs_date DESC
 	</select>
 	
 	
@@ -75,4 +76,10 @@
 			, cs_file = #{cs_file}
 		WHERE cs_idx = #{cs_idx}
 	</update>
+	
+	<!-- 고객센터관리 - 공지사항 글삭제 -->
+	<delete id="deleteNotice">
+		DELETE FROM CS
+		WHERE cs_idx = #{cs_idx}
+	</delete>
 </mapper>

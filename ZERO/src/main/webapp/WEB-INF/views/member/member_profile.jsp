@@ -23,9 +23,9 @@
 <link
 	href="${pageContext.request.contextPath }/resources/css/sidebar.css"
 	rel="stylesheet" type="text/css">
-<link
-	href="${pageContext.request.contextPath }/resources/css/button.css"
-	rel="stylesheet" type="text/css">
+<!-- <link -->
+<%-- 	href="${pageContext.request.contextPath }/resources/css/button.css" --%>
+<!-- 	rel="stylesheet" type="text/css"> -->
 
 	
 <%-- vue.js 링크 --%>
@@ -243,134 +243,166 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+	<%-- 프로필 사진 변경 --%>
+	 function updateImage(obj) {
+		 
+		    let profileForm = $('#profileForm')[0];  // 이녀석도 배열로 리턴이 된다.
+		    console.log(profileForm);
+// 		    let profileForm = obj.files;  // 이녀석도 배열로 리턴이 된다.
+		    
+		    
+		    let formData = new FormData(profileForm);  // 폼의 모든 데이터를 가지고 있다.
+		    $.ajax({
+		      type: "POST",
+		      url: "/profileUpdate",
+		      contentType: false,  // x-www 으로 파싱하지 마라 
+		      processData: false, // 쿼리스트링으로 파싱하지 마라
+		      data: formData,
+		      enctype: "multipart/form-data",
+
+		      dataType: "json"
+		    }).done((res) => {
+		      alert(res.msg);
+		      location.href = "/"
+		    }).fail((err) => {
+		      alert(err.responseJSON.msg);
+		    });
+		    
+	
+	
+// 	let reader = new FileReader();
+	
+// 	reader.onload = function (e){ 
+// 		  // 콜백함수를 등록 readAsDataURL 끝나면 다음 함수를 실행해라 !
+// 		  	   // console.log(e);
+// 		       $('.thumb_img').attr("src",e.target.result);
+// 		    }
+	
+	
+// 		const profile = obj.files;
+// 		const jsonFile = $("#jsonFile")[0].files[0];
+// 		console.log(profile);
+// 		const formData = new FormData();
+// 		formData.append("profile", profile);
+// 		formData.append("files", jsonFile);
+// 		formData.append("json", new Blob([JSON.stringify(data)], {type: "application/json"}));
+		
+// 		$.ajax({
+// 		    url: "URL",
+// 		    method: "POST",
+// 		    data: formData,
+// 		    contentType: false,
+// 		    processData: false,
+// 		    enctype: "multipart/form-data",
+// 		    success: function(result) {
+// 		        alert("등록 성공");
+// 		        location.reload();
+// 		    },
+// 		    error: function(xhr) {
+// 		        console.log(xhr);
+// 		    }
+// 		});
+	
+	}
+	
+</script>
+
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
- <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
-<%--  <header id="pageHeader"><%@ include file="assets/inc/header_zero.jsp"%></header> --%>
- 
-  <%--본문내용 --%>
-  <article id="mainArticle">
+	<header>
+		<%@ include file="../inc/header.jsp"%>
+	</header>
+	
+	<article id="mainArticle">
+		<div class="container">
+			<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
+				<jsp:include page="/WEB-INF/views/inc/member_sidebar.jsp"></jsp:include>
+			</nav>
+		
+			<div class="contentArea">
+			<%-- 메인영역 --%>
+			
 
-	<div data-v-473e7c14="" class="container my lg">
-		<div data-v-473e7c14="">
-
-		<%-- 본문 - 프로필 관리 --%>
-			<div data-v-75326462="" data-v-473e7c14="" class="content_area">
-				<div data-v-75326462="" class="my_profile">
-					<div data-v-88eb18f6="" data-v-75326462="" class="content_title border">
-						<div data-v-88eb18f6="" class="title">
-							<h3 data-v-88eb18f6="">프로필 관리</h3>
+				<div data-v-473e7c14="" class=" my lg">
+					<div data-v-473e7c14="">
+			
+					<%-- 본문 - 프로필 관리 --%>
+						<div data-v-75326462="" data-v-473e7c14="" class="content_area">
+						<form action="/user/profileUpdate" method="post" enctype="multipart/form-data" id="profileForm">
+							<div data-v-75326462="" class="my_profile">
+								<div data-v-88eb18f6="" data-v-75326462="" class="content_title border">
+									<div data-v-88eb18f6="" class="title">
+										<h3 data-v-88eb18f6="">프로필 관리</h3>
+									</div>
+								</div>
+								<div data-v-4b474860="" data-v-75326462="" class="user_profile">
+									<input type="file" accept=".jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
+									<div data-v-4b474860="" class="profile_thumb">
+										<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/member_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
+									</div>
+									<div data-v-4b474860="" class="profile_detail">
+										<strong data-v-4b474860="" class="name">김커피</strong>
+										<div data-v-4b474860="" class="profile_btn_box">
+											<label for="profile">
+												<div data-v-43813796="" data-v-4b474860="" class="btn outlinegrey small" >이미지 변경</div>
+<!-- 												<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small" >이미지 변경</button> -->
+											</label>
+											<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small"> 삭제 </button>
+										</div>
+									</div>
+								</div>
+								<div data-v-75326462="" class="profile_info">
+									<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
+										<h4 data-v-8b96a82e="" class="group_title">프로필 정보</h4>
+										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+											<h5 data-v-0c9f3f9e="" class="title">프로필 이름</h5>
+											<div data-v-0c9f3f9e="" class="unit_content">
+												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> 5datdr </p>
+												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
+											</div>
+										</div>
+										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+											<h5 data-v-0c9f3f9e="" class="title">이름</h5>
+											<div data-v-0c9f3f9e="" class="unit_content">
+												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> 아이디 </p>
+												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
+											</div>
+										</div>
+										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+											<h5 data-v-0c9f3f9e="" class="title">소개</h5>
+											<div data-v-0c9f3f9e="" class="unit_content">
+												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify placeholder" data-v-0c9f3f9e=""> 나를 소개하세요 </p>
+												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
+											</div>
+										</div>
+									</div>
+									<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
+										<h4 data-v-8b96a82e="" class="group_title">프로필 차단/해제</h4>
+										<div data-v-0c9f3f9e="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+											<div data-v-0c9f3f9e="" class="unit_content">
+												<p data-v-24a03828="" data-v-75326462="" class="desc" role="button" data-v-0c9f3f9e=""> 차단한 프로필 </p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div data-v-75326462="" class="v-portal" style="display: none;">
+							</div>
+							
+						</form>	
 						</div>
 					</div>
-					<div data-v-4b474860="" data-v-75326462="" class="user_profile">
-						<input data-v-4b474860="" type="file" accept="image/jpeg,image/png" hidden="hidden">
-						<div data-v-4b474860="" class="profile_thumb">
-							<img data-v-4b474860="" src="assets/img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
-						</div>
-						<div data-v-4b474860="" class="profile_detail">
-							<strong data-v-4b474860="" class="name">김커피</strong>
-							<div data-v-4b474860="" class="profile_btn_box">
-								<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small"> 이미지 변경 </button>
-								<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small"> 삭제 </button>
-							</div>
-						</div>
-					</div>
-					<div data-v-75326462="" class="profile_info">
-						<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
-							<h4 data-v-8b96a82e="" class="group_title">프로필 정보</h4>
-							<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-								<h5 data-v-0c9f3f9e="" class="title">프로필 이름</h5>
-								<div data-v-0c9f3f9e="" class="unit_content">
-									<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> 5datdr </p>
-									<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
-								</div>
-							</div>
-							<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-								<h5 data-v-0c9f3f9e="" class="title">이름</h5>
-								<div data-v-0c9f3f9e="" class="unit_content">
-									<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> 아이디 </p>
-									<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
-								</div>
-							</div>
-							<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-								<h5 data-v-0c9f3f9e="" class="title">소개</h5>
-								<div data-v-0c9f3f9e="" class="unit_content">
-									<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify placeholder" data-v-0c9f3f9e=""> 나를 소개하세요 </p>
-									<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
-								</div>
-							</div>
-						</div>
-						<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
-							<h4 data-v-8b96a82e="" class="group_title">프로필 차단/해제</h4>
-							<div data-v-0c9f3f9e="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-								<div data-v-0c9f3f9e="" class="unit_content">
-									<p data-v-24a03828="" data-v-75326462="" class="desc" role="button" data-v-0c9f3f9e=""> 차단한 프로필 </p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div data-v-75326462="" class="v-portal" style="display: none;">
 				</div>
 			</div>
 		</div>
-	</div>
-
   </article>
   
-  <nav id="mainNav" class="d-none d-md-block sidebar">
-  <%--왼쪽 사이드바 --%>
-  	<%@ include file="../inc/member_sidebar.jsp"%>
-  
-  		<%-- 마이페이지 사이드 --%>
-<!--   		<div data-v-473e7c14="" class="container my lg"> -->
-<!-- 			<div data-v-473e7c14="" class="snb_area"> -->
-<!-- 				<a data-v-473e7c14="" href="/my" class="nuxt-link-active"> -->
-<!-- 					<h2 data-v-473e7c14="" class="snb_main_title">마이 페이지</h2> -->
-<!-- 				</a> -->
-<!-- 				<nav data-v-7bcac446="" data-v-473e7c14="" class="snb"> -->
-<!-- 					<div data-v-7bcac446="" class="snb_list"> -->
-<!-- <!-- 						<strong data-v-7bcac446="" class="snb_title">쇼핑 정보</strong> --> -->
-<!-- 						<ul data-v-bd8504ea="" data-v-7bcac446="" class="snb_menu"> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/buying" class="menu_link"> 개인정보 수정 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/selling" class="menu_link"> 판매스토어 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/inventory" class="menu_link"> 구매내역 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/saved" class="menu_link"> 제트페이 </a> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
-<!-- 					</div> -->
-<!-- 					<div data-v-7bcac446="" class="snb_list"> -->
-<!-- <!-- 						<strong data-v-7bcac446="" class="snb_title">내 정보</strong> --> -->
-<!-- 						<ul data-v-bd8504ea="" data-v-7bcac446="" class="snb_menu"> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/profile" class="menu_link"> 로그인 정보 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item menu_on"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/profile-edit" class="menu_link nuxt-link-exact-active nuxt-link-active" aria-current="page"> 프로필 관리 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/address" class="menu_link"> 주소록 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/account" class="menu_link"> 계좌 정보 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/point" class="menu_link"> 포인트 </a> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
-<!-- 					</div> -->
-<!-- 				</nav> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-  </nav>
+
+
   
   <div id="sieAds"></div>
   <%--페이지 하단 --%>

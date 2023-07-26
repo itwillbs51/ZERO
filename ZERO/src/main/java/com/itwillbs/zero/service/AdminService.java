@@ -45,6 +45,11 @@ public class AdminService {
 	public int updateNotice(CsVO cs) {
 		return mapper.updateNotice(cs);
 	}
+	
+	// 고객센터관리 - 공지사항 글삭제
+	public int removeNotice(int cs_idx) {
+		return mapper.deleteNotice(cs_idx);
+	}
 		
 	
 }
