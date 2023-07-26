@@ -66,9 +66,10 @@
 					<div class="collapse" id="csManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="admin_cs_notice_list">공지사항</a>
-							<a class="nav-link" href="#">자주묻는 질문</a>
-							<a class="nav-link" href="#">1:1질문</a>
-							<a class="nav-link" href="#">건의사항</a>
+							<a class="nav-link" href="admin_cs_faq">자주묻는 질문</a>
+							<a class="nav-link" href="admin_cs_qna">1:1질문</a>
+								<!-- 건의사항과 1:1 질문 은 유사한 기능이므로 삭제 -->
+<!-- 							<a class="nav-link" href="#">건의사항</a> -->
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#accountManagment" aria-expanded="false" aria-controls="accountManagment">

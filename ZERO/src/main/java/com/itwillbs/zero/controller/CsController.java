@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.zero.service.AdminService;
+import com.itwillbs.zero.service.CsService;
 import com.itwillbs.zero.vo.CsVO;
 
 @Controller
@@ -18,6 +19,9 @@ public class CsController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private CsService csService;
 	
 	// CS - 메인페이지로 디스패치
 	@GetMapping("cs_main")
@@ -56,10 +60,16 @@ public class CsController {
 		
 		return "cs/cs_notice_view";
 	}
-	// cs_qna 페이지로 디스패치
+	// cs_qna_form 페이지로 디스패치
 	@GetMapping("cs_qna_form")
-	public String csQna() {
-		System.out.println("CsController - csQna");
+	public String csQnaForm() {
+		System.out.println("CsController - csQnaForm");
+		// 회원만 접근할 수 있도록 설정 - 세션
+		
+		// csService - insertQnA()
+		// 파라미터 : 아이디	리턴타입 : int(insertCount)
+//		int insertCount = csService.insertQnA(id);
+		
 		
 		return "cs/cs_qna_form";
 	}
