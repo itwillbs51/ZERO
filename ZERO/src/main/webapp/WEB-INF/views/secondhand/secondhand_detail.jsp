@@ -188,7 +188,8 @@ a {
 					sessionId 일치하지 않는경우 or 없는경우 : 채팅하기 버튼 보여줌
 					=> 없는경우 채팅버튼 누를경우 : 로그인알람창 -> 로그인페이지 이동
 				--%>
-		
+				
+				<%-- 판매자본인일경우 - 수정하기 / 삭제하기 버튼 활성화 --%>
 				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandModifyForm'"> 수정하기 </button>
 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px""onclick="location.href='secondhandDelete'"> 삭제하기 </button>
@@ -201,6 +202,7 @@ a {
 				</select>
 				<hr>
 				
+				<%-- 판매자 본인 아닐경우 --%>		
 				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" > 채팅하기 </button>
 		
