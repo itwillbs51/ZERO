@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +40,8 @@
 					<div class="card mb-4">
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
-							공지사항목록
+							공지사항목록 
+							<a href="cs_notice" class="btn btn-sm btn-outline-dark" style="float: right;">고객센터 바로가기</a>					
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
@@ -51,7 +54,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="cs" items="${csList }">
+									<c:forEach var="cs" items="${csList }" varStatus="vs">
 										<tr>
 											<td>${cs.member_nickname }</td>
 											<td>${cs.cs_subject }</td>
@@ -59,9 +62,28 @@
 <%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
 											<td>
 												<a class="btn btn-sm btn-outline-dark" href="admin_cs_notice_modify_form?cs_idx=${cs.cs_idx }">수정</a>
-												<a class="btn btn-sm btn-outline-dark" href="#">삭제</a>
+												<button type="button" class="btn btn-sm btn-outline-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteNotice${vs.index }">삭제</button>
 											</td>
 										</tr>
+										<%-- 공지사항 삭제 확인 모달창 --%>
+										<div class="modal fade" id="confirmDeleteNotice${vs.index }" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteNoticeTitle" aria-hidden="true">
+											<div class="modal-dialog modal-dialog-centered">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title fs-5" id="confirmDeleteNoticeTitle">공지사항 삭제</h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														삭제 후 복구가 불가합니다.<br>
+														정말 삭제하시겠습니까?<br>
+													</div>
+													<div class="modal-footer">
+														<button type="button" id="${cs.cs_idx }" class="btn btn-dark" onclick="location.href='admin_cs_notice_delete?cs_idx=${cs.cs_idx}'">삭제</button>
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+													</div>
+												</div>
+											</div>
+										</div>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -72,7 +94,7 @@
 			</main>
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include file="../inc/admin_footer.jsp" %>	
-			</footer>	
+			</footer>
 		</div>
 	</div>
 <!-- 이 스크립트들은 위로 올리면 작동하지 않음 -->
