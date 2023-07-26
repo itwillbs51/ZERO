@@ -43,19 +43,35 @@ public class MemberController {
 	}
 	
 	// 멤버 마이스토어
-	@GetMapping("member_myStore")
+	@GetMapping("member_mystore")
 	public String memberMyStore() {
 		System.out.println("MemberController - memberMyStore");
 		
-		return "member/member_myStore";
+		return "member/member_mystore";
 	}
 	
-	// 멤버 프로파일
+	// 멤버 프로필
 	@GetMapping("member_profile")
 	public String memberProfile() {
 		System.out.println("MemberController - memberProfile");
 		
 		return "member/member_profile";
+	}
+	
+	// 멤버 아이디 찾기
+	@GetMapping("member_find_id")
+	public String memberFindId() {
+		System.out.println("MemberController - memberFindId");
+		
+		return "member/member_find_id";
+	}
+	
+	// 멤버 패스워드 찾기
+	@GetMapping("member_find_passwd")
+	public String memberFindPasswd() {
+		System.out.println("MemberController - memberFindPasswd");
+		
+		return "member/member_find_passwd";
 	}
 	
 	// 멤버 메인화면
