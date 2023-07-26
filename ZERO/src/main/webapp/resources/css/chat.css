@@ -108,13 +108,13 @@ table div {
 .msgRight .msg {
 	/* 본인 채팅 */
 	background-color: #dd99ff;
-	border-radius: 10px;
+/* 	border-radius: 10px; */
 	padding: 10px;
 }
 .msgLeft .msg {
 	/* 상대방 채팅 */
 	background-color: #ccc;
-	border-radius: 10px;
+/* 	border-radius: 10px; */
 	padding: 10px 5px;
 }
 
@@ -123,19 +123,33 @@ table div {
 	margin-top: 1rem;
 }
 
-#addBtn {
+.listInfoBtn {
 	font-size: 15px;
 	background-color: #999;
 	color: white;
 	border: none;
 	border-radius: 5px;
 	padding: 3px 5px;
+	vertical-align: middle;
 }
 
-#inputText {
-	border: 1px gray;
-	width: 80%;
+.inputTextBox {
+	display: inline-block;
+	width: 85%;
 	font-size: 15px;
+	min-height: 30px;
+	border-radius: 10px;
+	box-shadow: 2px 5px 5px 2px gray;
+	vertical-align: middle;
+/*     -webkit-line-clamp: 2; 두 줄까지는 보이게 */
+/*     -webkit-box-orient: vertical; */
+}
+#inputText {
+	background-color: #ffffff00;
+	width: 100%;
+	padding: 3px 0 0 10px;
+	border: none;
+	outline: none;
 }
 .submitBtn {
 	font-size: 15px;
@@ -144,6 +158,7 @@ table div {
 	border: none;
 	border-radius: 5px;
 	padding: 3px 5px;
+	vertical-align: middle;
 	
 }
 

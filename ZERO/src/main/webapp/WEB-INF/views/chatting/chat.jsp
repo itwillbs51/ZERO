@@ -15,6 +15,54 @@
 <link href="${pageContext.request.contextPath }/resources/css/chat.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>채팅 | ZERO</title>
+<script type="text/javascript">
+	
+	//문서 시작 시 나올 것들
+	$(function() {
+				
+	});		// function() 끝
+	
+	
+	let isOpen = false;
+	// 버튼 클릭 시 목록보이게하 함수
+	$(function() {
+		$(".listInfoBtn").on("click", function() {
+			if(!isOpen) { // 목록이 열려있지 않으면
+				$(".listSort").css("display", "initial");
+				isOpen = true;
+			} else {	// 목록 열려있으면
+				$(".listSort").css("display", "none");
+				isOpen = false;
+			}
+			
+		});	// 버튼 클릭 시 호출되는 함수 끝
+		
+		// 정렬기준 선택 시 호출되는 함수
+// 		$(".listSort li").on("click", function() {
+// 			$(".listSort i").remove();
+// 			$(this).append(
+// 					'<i class="material-icons">check</i>'
+// 			);
+			// 클릭된 목록의 아이디를 판별해 상품 목록 다시 불러오는 ajax
+	//			$.ajax({
+	//				type: ,
+	//				dataType: ,
+	//				data: ,
+	//				success: function(result) {
+	//					alert("불러오기 성공!");
+					
+	//				},
+	//				error: function() {
+	//					alert("불러오기 실패!");
+	//				}
+	//			}); // ajax 끝
+			
+// 		});	// onclick 함수 끝
+	});	// function 끝
+
+
+	
+</script>
 </head>
 <body>
 	<!-- header -->
@@ -112,15 +160,17 @@
 			
 			<%-- 채팅 입력 영역 --%>
 			<article class="inputArea">
-				<button id="addBtn"><i class="material-icons">add</i></button>
-					<ul style="display: none;">
+				<button class="listInfoBtn"><i class="material-icons">add</i></button>
+					<ul class="listSort" style="display: none;">
 						<li><img alt="사진아이콘" src="">사진보내기</li>
 						<li><img alt="지도아이콘" src="">지도보내기</li>
 						<li><img alt="약속아이콘" src="">약속보내기</li>
 						<li><img alt="송금아이콘" src="">송금보내기</li>
 						<li><img alt="위치아이콘" src="">나의 위치</li>
 					</ul>
-				<input type="text" id="inputText" placeholder="메세지를 입력하세요">
+				<div class="inputTextBox">
+					<input type="text" id="inputText" placeholder="메세지를 입력하세요">
+				</div>
 				<button class="submitBtn">
 					<i class="material-icons">subdirectory_arrow_left</i>
 				</button>
