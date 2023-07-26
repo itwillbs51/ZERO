@@ -13,6 +13,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itwillbs.zero.controller.AdminController;
 import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
@@ -31,6 +34,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService service;
+	
+	// 로그 출력을 위한 변수 선언 => getLogger() 메서드 파라미터로 로그 처리할 현재 클래스 지정
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	// 관리자 - 메인페이지로 디스패치
 	@GetMapping("admin_main")
@@ -321,4 +327,43 @@ public class AdminController {
 		// DB 생성전까지 오류를 방지하기 위함(나중에 없앨 예정)
 		return "admin/admin_cs_notice_list";
 	}
+	
+	
+	// 고객센터관리 - 공지사항 글삭제
+	@PostMapping("admin_cs_notice_delete")
+	public String adminCsNoticeDelete(@RequestParam int cs_idx, Model model) {
+		System.out.println("AdminController - adminCsNoticeDelete()");
+		System.out.println(cs_idx);
+		
+//		int deleteCount = service.removeNotice(cs_idx);
+//		
+//		if(deleteCount > 0) {
+//			return "redirect:/admin_cs_notice_list";			
+//		} else {
+//			model.addAttribute("msg", "글쓰기 실패");
+//			return "fail_back";
+//		}
+//		
+		// DB 생성전까지 오류를 방지하기 위함(나중에 없앨 예정)
+		return "admin/admin_cs_notice_list";
+		
+		
+	}
+	
+	// 고객센터 관리 - 자주 묻는 질문 게시판으로 이동하기
+	@GetMapping("admin_cs_faq")
+	public String adminCsFaq() {
+		System.out.println("AdminController - admin_cs_faq");
+		return "admin/admin_cs_faq_list";
+	}
+	
+	
+	// 고객센터 관리 - 1:1 문의 게시판 으로 이동하기
+	@GetMapping("admin_cs_qna")
+	public String adminCsQnA() {
+		System.out.println("AdminController - admin_cs_qna");
+		return "admin/admin_cs_qna_list";
+	}
+	
+	
 }

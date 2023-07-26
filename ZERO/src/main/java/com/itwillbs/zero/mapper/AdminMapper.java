@@ -27,5 +27,8 @@ public interface AdminMapper {
 
 	// 고객센터관리 - 공지사항 글수정
 	int updateNotice(CsVO cs);
+	
+	// 고객센터관리 - 공지사항 글삭제
+	int deleteNotice(int cs_idx);
 
 }

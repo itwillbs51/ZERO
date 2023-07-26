@@ -57,7 +57,7 @@ function myFunction2() {
 </script>
 <style>
 #mainArticle {
-	margin-top: 30px;
+	margin-top: 150px;
 }
 a {
 	color:black;
@@ -89,7 +89,11 @@ a {
   background-color: white;
   margin-top: 20px;
 }
-
+/* 거래가능상품보기 라디오박스? */
+.form-check {
+	margin-bottom:10px;
+	margin-left:10px;
+}
 
 /*탭으로하였을경우*/
 
@@ -106,9 +110,7 @@ a {
 
 	<article id="mainArticle">
 		<div class="container">
-			<br><br><br><br><br>
 			<hr>
-
 			<div class="category">
 			  <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="myFunction()" >
 			   	카테고리 <img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
