@@ -1163,6 +1163,7 @@ body{
 				</tr>
 
 				<!-- 상품이미지 -->
+				<!-- 기존등록된 상품이미지 표시 된 상태 -->
 				<tr>
 					<td class="td1" align="left" ><span
 						class="pro_info">상품이미지</span> 
