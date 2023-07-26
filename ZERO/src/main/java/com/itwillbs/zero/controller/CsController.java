@@ -39,9 +39,9 @@ public class CsController {
 	public String csNotice(Model model) {
 		System.out.println("CsController - csNotice");
 		
-//		List<CsVO> csList = adminService.getCsList();
-//		System.out.println(csList);
-//		model.addAttribute("csList", csList);
+		List<CsVO> csList = adminService.getCsList();
+		System.out.println(csList);
+		model.addAttribute("csList", csList);
 		
 		return "cs/cs_notice";
 	}
@@ -51,8 +51,8 @@ public class CsController {
 	public String csNoticeView(@RequestParam int cs_idx, HttpSession session, Model model) {
 		System.out.println("CsController - csNoticeView");
 		
-//		CsVO cs = adminService.getCs(cs_idx);
-//		model.addAttribute("cs", cs);
+		CsVO cs = adminService.getCs(cs_idx);
+		model.addAttribute("cs", cs);
 		
 		return "cs/cs_notice_view";
 	}

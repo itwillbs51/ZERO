@@ -10,7 +10,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/cs.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style>
 
@@ -28,7 +29,7 @@
 /* 	list-style: none; */
 /* } */
 
-/* /* a링크 활성화 색상 변경 */ */
+/* /* a링크 활성화 색상 변경 */
 /* a:hover, a:active{ */
 /*  color:  #ff5050 !important; */
 	
@@ -57,18 +58,22 @@
 					<div class="content_main notice_view">
 						<div class="head">
 							<div class="titleArea">
-								<span class="date"></span>
-								<p class="title"></p>
-							</div>
-							<div class="contentArea">
-								<div class="content">
-								
-								</div>							
+								<span class="date">${cs.cs_date }</span>
+								<p class="title">${cs.cs_subject }</p>
 							</div>
 						</div>
-					</div>
-					<div class="btnArea">
-						 <button type="button" class="btn btn-outlin-dark" onclick="location.href='history.back()'">뒤로가기</button>
+						<div class="contentArea">
+							<div class="content">
+								<%
+									pageContext.setAttribute("crcn", "\r\n");	// Space, Enter
+									pageContext.setAttribute("br", "<br>");
+								%>
+								${fn:replace(cs.cs_content, crcn, br) }
+							</div>							
+						</div>
+						<div class="btnArea">
+							 <button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>
+						</div>
 					</div>
 				</div>
 			</div>
