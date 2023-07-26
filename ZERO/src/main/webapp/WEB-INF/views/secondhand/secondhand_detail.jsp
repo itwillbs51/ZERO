@@ -54,7 +54,7 @@ function showSlides(n) {
 </script>
 <style>
 article {
-	margin-top: 100px;
+	margin-top: 150px;
 }
 a {
 	color:black;
@@ -110,20 +110,24 @@ a {
   opacity: 1;
 }
 .icon {
-	margin-left:300px;
+	margin-left:450px;
 
 }
 /* 조회수 */
 .readcount {
-	margin-right:50px;
+	margin-right:100px;
 	color:gray;
 }
 /* 등록일 */
 .registDate{
 	color:gray;
+	
 }
-
-
+/* 거래 상태 변경 셀렉트박스 */
+.changeDealStatus {
+	margin-left:40px;
+	 
+}
 </style>
 </head>
 <body>
@@ -169,8 +173,8 @@ a {
 			
 				<button class="btn btn-dark" style="margine-bottom:10px;">거래중</button>
 				<span class="icon">
-					<a href="reportPopup"><img src="${pageContext.request.contextPath }/resources/img/report_icon.png" width="25px" height="25px"></a>
-					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="25px" height="25px"></a>
+					<a href="reportPopup"><img src="${pageContext.request.contextPath }/resources/img/report_icon.png" width="30px" height="30px"></a>
+					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
 				</span>
 					
 				<h3>제목입니다</h3>
@@ -188,7 +192,14 @@ a {
 				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandModifyForm'"> 수정하기 </button>
 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px""onclick="location.href='secondhandDelete'"> 삭제하기 </button>
-				<button class="btn btn-primary btn-lg" style="font-size:1em;"onclick="location.href='secondhandUpdateDate'"> 끌어올리기</button><br><br>
+<!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em;"onclick="location.href='secondhandUpdateDate'"> 끌어올리기</button><br><br> -->
+				<%-- 판매자본인일경우 -  셀렉트박스로 거래상태변경가능 --%>
+				<select class="changeDealStatus" aria-label="Default select example">
+				  <option selected> 거래중 </option>
+				  <option value="1"> 거래완료 </option>
+				  <option value="2"> 끌어올리기 </option>
+				</select>
+				<hr>
 				
 				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" > 채팅하기 </button>

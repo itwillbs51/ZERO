@@ -57,7 +57,7 @@ function myFunction2() {
 </script>
 <style>
 #mainArticle {
-	margin-top: 30px;
+	margin-top: 150px;
 }
 a {
 	color:black;
