@@ -29,10 +29,10 @@ public class CsController {
 		return "cs/cs_notice";
 	}
 	// cs_qna 페이지로 디스패치
-	@GetMapping("cs_qna")
+	@GetMapping("cs_qna_form")
 	public String csQna() {
 		System.out.println("CsController - csQna");
 		
-		return "cs/cs_qna";
+		return "cs/cs_qna_form";
 	}
 }
