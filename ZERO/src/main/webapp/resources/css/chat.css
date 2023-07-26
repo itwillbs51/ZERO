@@ -8,6 +8,25 @@
 	max-width: 1280px;
 	margin: 10px auto 18px;
 }
+
+/* 채팅목록, 채팅영역을 양쪽에 위치시키기 */
+#mainArea {
+	display: flex;
+	min-height: 600px;
+}
+
+/* 채팅목록 */
+#chatListArea {
+	width: 400px;
+	min-height: 600px;
+}
+
+/* 채팅창 */
+#chatArea {
+	flex: 1 0 auto;
+/* 	position: relative; */
+}
+
 /* 아이콘들 위치변경 */
 .material-icons {
 	vertical-align: -4px;
@@ -81,6 +100,16 @@
 }
 
 /* 채팅창 */
+.chatMsgInputArea {
+	display: block;
+	
+}
+
+.chatMsgArea {
+/* 	height: 100%; */
+	flex-grow: 1;
+}
+
 .chatMsgArea table, tr, td {
 	width: 95%;
 }
@@ -121,6 +150,8 @@ table div {
 /* 채팅 입력 영역 */
 .inputArea {
 	margin-top: 1rem;
+/* 	position: absolute; */
+/* 	bottom: 10px; */
 }
 
 .listInfoBtn {
@@ -169,6 +200,25 @@ table div {
 		padding-top: 0;
 	}
 	
+	#navLine {
+	    margin: 10px auto 1px;
+	}
+	
+	#mainArea {
+/* 	    padding-top: 10px; */
+		position: relative;
+/* 		border: 1px solid red; */
+		width: 100%;
+		height: 100%;
+	}
+	
+	/* 반응형이 되면 플롯? */
+	#chatArea {
+		background-color: white;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
 	.art_firstRow .co03 {
 		width: 110px;
 		position: absolute;
