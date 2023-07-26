@@ -327,70 +327,70 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 			<%-- 메인영역 --%>
 			
 
-				<div data-v-473e7c14="" class=" my lg">
-					<div data-v-473e7c14="">
+				<div  class=" my lg">
+					<div >
 			
 					<%-- 본문 - 프로필 관리 --%>
-						<div data-v-75326462="" data-v-473e7c14="" class="content_area">
+						<div   class="content_area">
 						<form action="/user/profileUpdate" method="post" enctype="multipart/form-data" id="profileForm">
-							<div data-v-75326462="" class="my_profile">
-								<div data-v-88eb18f6="" data-v-75326462="" class="content_title border">
-									<div data-v-88eb18f6="" class="title">
-										<h3 data-v-88eb18f6="">프로필 관리</h3>
+							<div  class="my_profile">
+								<div   class="content_title border">
+									<div  class="title">
+										<h3 >프로필 관리</h3>
 									</div>
 								</div>
-								<div data-v-4b474860="" data-v-75326462="" class="user_profile">
+								<div   class="user_profile">
 									<input type="file" accept=".jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
-									<div data-v-4b474860="" class="profile_thumb">
-										<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/member_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
+									<div  class="profile_thumb">
+										<img  src="${pageContext.request.contextPath }/resources/member_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
 									</div>
-									<div data-v-4b474860="" class="profile_detail">
-										<strong data-v-4b474860="" class="name">김커피</strong>
-										<div data-v-4b474860="" class="profile_btn_box">
+									<div  class="profile_detail">
+										<strong  class="name">김커피</strong>
+										<div  class="profile_btn_box">
 											<label for="profile">
-												<div data-v-43813796="" data-v-4b474860="" class="btn outlinegrey small" >이미지 변경</div>
-<!-- 												<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small" >이미지 변경</button> -->
+												<div   class="btn outlinegrey small" >이미지 변경</div>
+<!-- 												<button   type="button" class="btn outlinegrey small" >이미지 변경</button> -->
 											</label>
-											<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small"> 삭제 </button>
+											<button   type="button" class="btn outlinegrey small"> 삭제 </button>
 										</div>
 									</div>
 								</div>
-								<div data-v-75326462="" class="profile_info">
-									<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
-										<h4 data-v-8b96a82e="" class="group_title">프로필 정보</h4>
-										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<h5 data-v-0c9f3f9e="" class="title">프로필 이름</h5>
-											<div data-v-0c9f3f9e="" class="unit_content">
-												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> 5datdr </p>
-												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
+								<div  class="profile_info">
+									<div   class="profile_group">
+										<h4  class="group_title">프로필 정보</h4>
+										<div    class="unit" >
+											<h5  class="title">프로필 이름</h5>
+											<div  class="unit_content">
+												<p  class="desc desc_modify" > 5datdr </p>
+												<button   type="button" class="btn btn_modify outlinegrey small" > 변경 </button>
 											</div>
 										</div>
-										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<h5 data-v-0c9f3f9e="" class="title">이름</h5>
-											<div data-v-0c9f3f9e="" class="unit_content">
-												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> 아이디 </p>
-												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
+										<div    class="unit" >
+											<h5  class="title">이름</h5>
+											<div  class="unit_content">
+												<p  class="desc desc_modify" > 아이디 </p>
+												<button   type="button" class="btn btn_modify outlinegrey small" > 변경 </button>
 											</div>
 										</div>
-										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<h5 data-v-0c9f3f9e="" class="title">소개</h5>
-											<div data-v-0c9f3f9e="" class="unit_content">
-												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify placeholder" data-v-0c9f3f9e=""> 나를 소개하세요 </p>
-												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e=""> 변경 </button>
+										<div    class="unit" >
+											<h5  class="title">소개</h5>
+											<div  class="unit_content">
+												<p  class="desc desc_modify placeholder" > 나를 소개하세요 </p>
+												<button   type="button" class="btn btn_modify outlinegrey small" > 변경 </button>
 											</div>
 										</div>
 									</div>
-									<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
-										<h4 data-v-8b96a82e="" class="group_title">프로필 차단/해제</h4>
-										<div data-v-0c9f3f9e="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<div data-v-0c9f3f9e="" class="unit_content">
-												<p data-v-24a03828="" data-v-75326462="" class="desc" role="button" data-v-0c9f3f9e=""> 차단한 프로필 </p>
+									<div   class="profile_group">
+										<h4  class="group_title">프로필 차단/해제</h4>
+										<div   class="unit" >
+											<div  class="unit_content">
+												<p  class="desc" role="button" > 차단한 프로필 </p>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div data-v-75326462="" class="v-portal" style="display: none;">
+							<div  class="v-portal" style="display: none;">
 							</div>
 							
 						</form>	

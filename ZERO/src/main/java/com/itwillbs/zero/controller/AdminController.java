@@ -350,6 +350,20 @@ public class AdminController {
 		
 	}
 	
+	// 고객센터 관리 - 자주 묻는 질문 게시판으로 이동하기
+	@GetMapping("admin_cs_faq")
+	public String adminCsFaq() {
+		System.out.println("AdminController - admin_cs_faq");
+		return "admin/admin_cs_faq_list";
+	}
+	
+	
+	// 고객센터 관리 - 1:1 문의 게시판 으로 이동하기
+	@GetMapping("admin_cs_qna")
+	public String adminCsQnA() {
+		System.out.println("AdminController - admin_cs_qna");
+		return "admin/admin_cs_qna_list";
+	}
 	
 	
 }
