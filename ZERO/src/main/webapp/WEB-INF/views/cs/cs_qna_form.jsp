@@ -53,10 +53,11 @@ input[type=file]::file-selector-button {
   border: 1px solid rgb(77,77,77);
   border-radius: 10px;
   cursor: pointer;
-  &:hover {
-    background: rgb(77,77,77);
+}
+
+input[type=file]::file-selector-button:hover {
+	background: rgb(77,77,77);
     color: #fff;
-  }
 }
  /* 파일 업로드 관련 css 끝 */
 </style>
