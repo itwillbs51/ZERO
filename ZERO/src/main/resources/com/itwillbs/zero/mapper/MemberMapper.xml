@@ -3,4 +3,36 @@
 <mapper namespace="com.itwillbs.zero.mapper.MemberMapper">
 	<!-- 설정상 먼저 만들어둠! 파이팅! - 지영 -->
 	
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="com.itwillbs.zero.vo.MemberVO">
+		INSERT
+			INTO
+				MEMBER
+			VALUES (
+				#{member_id}
+				, #{member_idx}
+				, #{member_nickname}
+				, #{member_passwd}
+				, #{member_name}
+				, #{member_birth}
+				, now()                -- {member_date}
+				, #{member_phone}
+				, '활동'                -- {member_status}
+				, 0                    -- {member_agreement_marketing_email}
+				, 0                    -- {member_agreement_marketing_sms}
+				, '회원'                -- {member_type}
+				, 1                   -- {member_mail_auth}
+				, #{member_image} 
+				, #{member_address1}
+				, #{member_address_detail1}
+				, #{member_address2}
+				, #{member_address_detail2}
+				, #{member_address3}
+				, #{member_address_detail3}
+				, #{member_withdrawl}
+				, #{member_bank_name}
+				, 'N'
+			)
+	
+	</insert>
 </mapper>

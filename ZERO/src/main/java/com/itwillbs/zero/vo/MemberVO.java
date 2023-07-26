@@ -56,4 +56,27 @@ public class MemberVO {
 	private String member_address3;
 	private String member_address_detail3;
 	private String member_image;
+	private String member_bank_name;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

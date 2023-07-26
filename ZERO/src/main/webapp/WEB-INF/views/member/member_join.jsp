@@ -241,27 +241,32 @@ input[type=checkbox] {
 					<%-- 클래스 이름 바꾸기 --%>
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>
-						<input type="text" placeholder="이름" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+						<input type="text" placeholder="이름" id="member_name" name="member_name" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+					</div><br>
+					
+					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">닉네임</h3>
+						<input type="text" placeholder="닉네임" id="member_nickname" name="member_nickname" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 					</div><br>
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
-						<input type="email" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
+						<input type="email" placeholder="예) kream@kream.co.kr" id="member_id" name="member_id" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 					</div><br>
 					
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
-						<input type="password" placeholder="영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자)" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+						<input type="password" placeholder="영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자)" id="member_passwd" name="member_passwd" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
-						<input type="text" placeholder="생년월일 8자리를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+						<input type="text" placeholder="생년월일 8자리를 입력해 주세요" id="member_birth" name="member_birth" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">휴대폰번호</h3>
-						<input type="text" placeholder="- 없이 입력" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+						<input type="text" placeholder="- 없이 입력" id="member_phone" name="member_phone" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 					<button>인증번호 받기</button>
 					</div>
 					<br>
@@ -274,8 +279,8 @@ input[type=checkbox] {
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">주소지 입력</h3>
-						<input type="text" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-						<input type="text" placeholder="상세주소를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+						<input type="text" placeholder="" id="member_address1" name="member_address1" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+						<input type="text" placeholder="상세주소를 입력해 주세요" id="address_detail1" name="address_detail1" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 					<button>주소지찾기</button>
 					</div>
 					<br>
