@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,30 +27,24 @@
 <link
 	href="${pageContext.request.contextPath }/resources/css/button.css"
 	rel="stylesheet" type="text/css">
-
-
-
 <meta charset="UTF-8">
-<title>마이페이지</title>
-
-<style type="text/css">
-</style>
-
-
+<title>ZERO</title>
+<script type="text/javascript">
+</script>
 </head>
 <body>
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
-
-	<%-- 사이드바 --%>
-	<!-- 	<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar"> -->
-	<%-- 		<jsp:include page="/WEB-INF/views/inc/member_sidebar.jsp"></jsp:include> --%>
-	<!-- 	</nav> -->
-
-
-	<%--본문내용 --%>
-	<article id="mainArticle">
-		<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
+	
+	<article>
+		<%-- 사이드바 --%>
+		<div class="container">
+			<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
+				<jsp:include page="/WEB-INF/views/inc/member_sidebar_hyo.jsp"></jsp:include>
+			</nav>
+			<div class="contentArea">
+			<%-- 메인영역 --%>
+			<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
 			<div class="user_detail" data-v-32a5de90="">
 				<div class="user_thumb" data-v-32a5de90="">
 					<img
@@ -63,9 +57,9 @@
 						<p class="email" data-v-32a5de90="">kream@kream.co.kr</p>
 						<a href="/my/profile-edit" type="button"
 							class="btn btn outlinegrey small" data-v-43813796=""
-							data-v-32a5de90=""> 프로필 관리 </a><a href="/social/users/@jh786r"
+							data-v-32a5de90=""> 프로필 관리 </a><a href="zman_join"
 							type="button" class="btn btn btn_my_style outlinegrey small"
-							data-v-43813796="" data-v-32a5de90=""> 내 스타일 </a>
+							data-v-43813796="" data-v-32a5de90=""> Z-MAN 신청 </a>
 					</div>
 				</div>
 			</div>
@@ -74,8 +68,8 @@
 					class="info" data-v-32a5de90=""> 일반 회원 </strong>
 					<p class="title" data-v-32a5de90="">회원 등급</p></a><a href="#"
 					class="membership_item" data-v-32a5de90=""><strong class="info"
-					data-v-32a5de90=""> 0P </strong>
-					<p class="title" data-v-32a5de90="">포인트</p></a>
+					data-v-32a5de90=""> 0원 </strong>
+					<p class="title" data-v-32a5de90="">Z-PAY</p></a>
 			</div>
 		</div>
 
@@ -184,38 +178,38 @@
 		</div>
 
 		<div data-v-412d8616="" class="recent_purchase">
-			<div data-v-2cbb289b="" data-v-412d8616=""
-				class="purchase_list_tab sell">
-				<div data-v-2cbb289b="" class="tab_item total">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">전체</dt>
-							<dd data-v-2cbb289b="" class="count">0</dd>
-						</dl></a>
-				</div>
-				<div data-v-2cbb289b="" class="tab_item tab_on">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">입찰 중</dt>
-							<dd data-v-2cbb289b="" class="count">0</dd>
-						</dl></a>
-				</div>
-				<div data-v-2cbb289b="" class="tab_item">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">진행 중</dt>
-							<dd data-v-2cbb289b="" class="count">0</dd>
-							<!---->
-						</dl></a>
-				</div>
-				<div data-v-2cbb289b="" class="tab_item">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">종료</dt>
-							<dd data-v-2cbb289b="" class="count">0</dd>
-						</dl></a>
-				</div>
-			</div>
+<!-- 			<div data-v-2cbb289b="" data-v-412d8616="" -->
+<!-- 				class="purchase_list_tab sell"> -->
+<!-- 				<div data-v-2cbb289b="" class="tab_item total"> -->
+<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
+<!-- 							data-v-2cbb289b="" class="tab_box"> -->
+<!-- 							<dt data-v-2cbb289b="" class="title">전체</dt> -->
+<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
+<!-- 						</dl></a> -->
+<!-- 				</div> -->
+<!-- 				<div data-v-2cbb289b="" class="tab_item tab_on"> -->
+<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
+<!-- 							data-v-2cbb289b="" class="tab_box"> -->
+<!-- 							<dt data-v-2cbb289b="" class="title">입찰 중</dt> -->
+<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
+<!-- 						</dl></a> -->
+<!-- 				</div> -->
+<!-- 				<div data-v-2cbb289b="" class="tab_item"> -->
+<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
+<!-- 							data-v-2cbb289b="" class="tab_box"> -->
+<!-- 							<dt data-v-2cbb289b="" class="title">진행 중</dt> -->
+<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
+<!-- 							 -->
+<!-- 						</dl></a> -->
+<!-- 				</div> -->
+<!-- 				<div data-v-2cbb289b="" class="tab_item"> -->
+<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
+<!-- 							data-v-2cbb289b="" class="tab_box"> -->
+<!-- 							<dt data-v-2cbb289b="" class="title">종료</dt> -->
+<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
+<!-- 						</dl></a> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			<div data-v-412d8616="">
 				<div data-v-7a02263e="" data-v-412d8616=""
 					class="purchase_list all ask">

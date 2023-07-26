@@ -111,6 +111,12 @@ public class MemberController {
 		return "member/member_zman_join";
 	}
 	
+	// 마이페이지 작성한 후기
+	@GetMapping("member_mypage_write_review")
+	public String mypageWriteReview() {
+		return "member/member_mypage_write_review";
+	}
+	
 }
 
 

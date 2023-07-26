@@ -11,6 +11,7 @@
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -20,6 +21,29 @@
 		max-width: 1000px;
 	}
 </style>
+<script type="text/javascript">
+	$(function() {
+	    $("#cs_form").submit(function(e) {
+	        var csContent = $("#cs_subject").val().trim();
+	        
+	        if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+	            e.preventDefault(); // 등록 방지
+	            
+	            alert("제목을 입력해주세요.");
+	        }
+	    });
+	      
+	    $("#cs_form").submit(function(e) {
+	        var csContent = $("#cs_content").val().trim();
+	        
+	        if (/^\s*$/.test(csContent)) { // 스페이스바로만 이루어진 공백 감지
+	            e.preventDefault(); // 등록 방지
+	            
+	            alert("내용을 입력해주세요.");
+	        }
+	    });
+	});
+</script>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -41,24 +65,25 @@
 						</div>
 						<div class="card-body">		
 							<%-- main 내용 작성 영역 --%>
-							<form action="admin_cs_notice_write_pro" id="cs_form" method="post" enctype="multipart/form-data">
-								<input type="hidden" name="pageNo" value="${param.pageNo }"> <%-- 페이지번호 전송용 --%>
+							<form action="admin_cs_notice_pro" id="cs_form" method="post" enctype="multipart/form-data">
+<%-- 								<input type="hidden" name="pageNo" value="${param.pageNo }"> 페이지번호 전송용 --%>
 								<input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>
-								<input type="hidden" name="csTypeNo" value="1" ><%-- 공지사항 유형 정보 전송용 --%>
+								<input type="hidden" name="csTypeNo" value="1" >공지사항 유형 정보 전송용
 						
 								<table class="table table-striped text-center align-middle">
 								<tbody>
-									<tr>
-								      <td scope="col" class="align-middle" width="100">번호</th>
-								      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_num" readonly></td>
-								    </tr>
+<!-- 									<tr> -->
+<!-- 								      <td scope="col" class="align-middle" width="100">번호</th> -->
+<!-- 								      <td scope="col" class="align-middle" width="400"><input type="text" class="form-control" aria-label="cs_type_list_idx" name="cs_type_list_idx" id="cs_type_list_idx" readonly></td> -->
+<!-- 								    </tr> -->
 									<tr>
 								      <td scope="col" class="align-middle" width="100">제목</th>
 								      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_subject" name="cs_subject" id="cs_subject"></td>
 								    </tr>
 									<tr>
 								      <td scope="col" class="align-middle" width="100">작성자</th>
-								      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly></td>
+								      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="member_idx" name="member_idx"></td>
+<%-- 								      <td scope="col" class="align-middle"><input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly></td> --%>
 								    </tr>
 									<tr>
 								      <td scope="col" class="align-middle" width="100">내용</th>
@@ -68,7 +93,7 @@
 								      <td scope="col" class="align-middle" width="100">사진첨부</th>
 								      <td scope="col" class="align-middle">
 					<!-- 			      <input type="file" class="form-control" aria-label="cs_file" name="cs_multi_file"> -->
-								      <input type="file" class="form-control" aria-label="cs_file" name="file1" />
+								      <input type="file" class="form-control" aria-label="cs_file" name="file" />
 								      </td>
 								    </tr>
 									<tr>
