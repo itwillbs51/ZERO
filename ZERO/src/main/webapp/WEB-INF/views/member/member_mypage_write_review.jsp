@@ -51,25 +51,60 @@
 			<div class="contentArea">
 			<%-- 메인영역 --%>
 			<article id="mainArticle">
-		<div class="my_purchase">
-			<div class="content_title" data-v-88eb18f6="">
-				<div class="title" data-v-88eb18f6="">
-					<h3 data-v-88eb18f6="">상품구매 내역</h3>
+					<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
+			<h3 data-v-6752ceb2="" class="title">작성한 후기</h3>
+					</div>
+		
+				<div data-v-412d8616="">
+				<div data-v-7a02263e="" data-v-412d8616=""
+					class="purchase_list all bid">
 					<!---->
+					<div data-v-7a02263e="">
+						<div data-v-e5d3a8ae="" data-v-7a02263e="">
+							<div data-v-e5d3a8ae="" class="purchase_list_display_item"
+								style="background-color: rgb(255, 255, 255);">
+								<div data-v-e5d3a8ae="" class="purchase_list_product">
+									<div data-v-e5d3a8ae="" class="list_item_img_wrap">
+										<img data-v-e5d3a8ae="" alt="product_image"
+											src="https://kream-phinf.pstatic.net/MjAyMzAyMDZfMzcg/MDAxNjc1NjY0Mzk4NTQ2.6DGRP9aD9GJuR6TvwOZe2phJYik3rQqrHmlYDzBiiKgg.bc77zAa3vO710rPZVWw2n2z4LcB-HVTfEY6LfYHlnnQg.PNG/a_289cdc1ea5dc443e8daca7f3d2d8a677.png?type=m"
+											class="list_item_img"
+											style="background-color: rgb(244, 244, 244);">
+										<!---->
+									</div>
+									<div data-v-e5d3a8ae="" class="list_item_title_wrap">
+										<!---->
+										<p data-v-e5d3a8ae="" class="list_item_title">Crocs
+											Bayaband Clog White Navy</p>
+										<p data-v-e5d3a8ae="" class="list_item_description">280(US
+											10)</p>
+									</div>
+								</div>
+								<div data-v-e5d3a8ae="" class="list_item_status">
+									<div data-v-e5d3a8ae=""
+										class="list_item_column column_secondary">
+										<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+											class="secondary_title display_paragraph"
+											style="color: rgba(34, 34, 34, 0.5);">2023/03/15</p>
+									</div>
+									<div data-v-e5d3a8ae="" class="list_item_column column_last">
+										<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+											class="last_title display_paragraph"
+											style="color: rgb(34, 34, 34);">배송완료</p>
+										<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+											class="last_description display_paragraph action_named_action"
+											style="color: rgba(34, 34, 34, 0.8);">스타일 올리기</p>
+									</div>
+								</div>
+							</div>
+							<!---->
+						</div>
+					</div>
+					<!---->
+					<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
 				</div>
 				<!---->
 			</div>
-
-			<div class="purchase_list bidding bid" data-v-7a02263e="">
-				<div class="empty_area" data-v-6abf8c64="" data-v-7a02263e="">
-					<p class="desc" data-v-6abf8c64="">구매 내역이 없습니다.</p>
-					<a href="#" class="btn outlinegrey small" data-v-43813796=""
-						data-v-6abf8c64=""> SHOP 바로가기 </a>
-				</div>
-				<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
-			</div>
-			<!---->
-		</div>
+			</article>
 	</article>
 
 <script src="${pageContext.request.contextPath }/resources/mypage_js/49ee6ec.js" defer=""></script>

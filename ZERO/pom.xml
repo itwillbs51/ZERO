@@ -182,7 +182,13 @@
 		    <version>0.2.14</version>
 		</dependency>
 		
-		
+		<!-- JSON 라이브러리 => RestTemplate 에서 JSON Converter 로 사용할 라이브러리 -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10</version>
+		</dependency>
 		
 		<!-- AspectJ -->
 		<dependency>

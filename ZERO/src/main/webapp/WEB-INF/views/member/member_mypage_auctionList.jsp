@@ -31,7 +31,7 @@
 
 
 <meta charset="UTF-8">
-<title>마이페이지</title>
+<title>ZERO</title>
 
 <style type="text/css">
 </style>
@@ -41,15 +41,16 @@
 <body>
 	<%--네비게이션 바 영역 --%>
 	<header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
-
-	<%-- 사이드바 --%>
-	<!-- 	<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar"> -->
-	<%-- 		<jsp:include page="/WEB-INF/views/inc/member_sidebar.jsp"></jsp:include> --%>
-	<!-- 	</nav> -->
-
-
-	<%--본문내용 --%>
-	<article id="mainArticle">
+	
+	<article>
+		<div class="container">
+			<%-- 사이드바 --%>
+			<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
+				<jsp:include page="/WEB-INF/views/inc/member_sidebar_hyo.jsp"></jsp:include>
+			</nav>
+			<div class="contentArea">
+			<%-- 메인영역 --%>
+			<article id="mainArticle">
 		<div class="my_purchase">
 			<div class="content_title" data-v-88eb18f6="">
 				<div class="title" data-v-88eb18f6="">

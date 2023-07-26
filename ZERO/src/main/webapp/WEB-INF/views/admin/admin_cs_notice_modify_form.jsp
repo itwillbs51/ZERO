@@ -101,8 +101,31 @@
 									<tr>
 										<td scope="col" class="align-middle"></td>
 										<td scope="col" class="align-middle">
+											<button class="btn btn-dark" type="button" onclick="history.back()">돌아가기</button>
 											<button class="btn btn-dark" type="submit">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
-											<button class="btn btn-outline-dark" type="button" onclick="history.back()">돌아가기</button>
+											<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteNotice">
+												&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
+											</button>
+											
+											<%-- 공지사항 삭제 확인 모달창 --%>
+											<div class="modal fade" id="confirmDeleteNotice" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteNoticeTitle" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title fs-5" id="confirmDeleteNoticeTitle">공지사항 삭제</h5>
+															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															삭제 후 복구가 불가합니다.<br>
+															정말 삭제하시겠습니까?<br>
+														</div>
+														<div class="modal-footer">
+															<button type="button" id="${cs.cs_idx }" class="btn btn-dark" onclick="location.href='admin_cs_notice_delete?cs_idx=${cs.cs_idx}'">삭제</button>
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+														</div>
+													</div>
+												</div>
+											</div>
 										</td>
 									</tr>
 								</table>

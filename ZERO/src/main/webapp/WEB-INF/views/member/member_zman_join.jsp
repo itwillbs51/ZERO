@@ -247,11 +247,6 @@ input[type=checkbox] {
 					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
 					<input type="email" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 				</div><br>
-				
-				<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
-					<input type="password" placeholder="영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자)" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				</div><br>
 			
 				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
@@ -259,8 +254,8 @@ input[type=checkbox] {
 				</div><br>
 			
 				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">운전면허증</h3>
-					<input type="text" placeholder="운전면허증 번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">차량번호</h3>
+					<input type="text" placeholder="차량번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
 				</div><br>
 			
 				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
