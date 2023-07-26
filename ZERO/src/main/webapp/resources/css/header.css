@@ -64,6 +64,14 @@
 		outline: none;
 	}
 	
+	/* 알람 드롭다운 */
+	#headerArea1 a.dropdown-toggle {
+		display: flex;
+		align-items: center;
+		font-size: 12px;
+		letter-spacing: -.06px;
+		color: rgba(34,34,34,.8);
+	}
 	
 /* ---------------------------------------------------------------------------------------------- */
 @media only screen and (min-width: 768px) {
