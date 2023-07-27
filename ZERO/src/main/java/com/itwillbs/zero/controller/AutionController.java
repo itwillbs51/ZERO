@@ -12,6 +12,7 @@ public class AutionController {
 	@GetMapping("autionList_present")
 	public String autionList_present() {
 		
+		
 		return "aution/aution_list_present";
 	}
 	

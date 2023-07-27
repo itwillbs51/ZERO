@@ -71,6 +71,11 @@ public class AdminService {
 		return mapper.deleteNotice(cs_idx);
 	}
 
+	// 고객센터관리 - 1:1 문의 게시판 조회하기
+	public List<CsVO> getCsQnAList() {
+		return mapper.selectCsQnAList();
+	}
+
 		
 	
 }

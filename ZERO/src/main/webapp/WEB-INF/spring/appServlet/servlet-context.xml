@@ -34,12 +34,14 @@
 <!--     <beans:property name="maxInMemorySize" value="10485760"></beans:property> 최대 파일크기 10MB 설정 -->
 	</beans:bean>
 	
+	<!--  웹소켓 사용하기 위한 핸들러(Bean) 등록 -->
 	<websocket:handlers>
 		<websocket:mapping handler="chattingHandler" path="/chatting"/>
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
-	<beans:bean id="chattingHandler" class="com.itwillbs.zero.handler.ChattingHandler"/>
 	
+	<beans:bean id="chattingHandler" class="com.itwillbs.zero.handler.ChattingHandler"/>
+
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<!-- class 에 있는 경로에 NaverLoginBO를 @bean 으로 등록해서  -->
 	<!-- naverLoginBO 를 id로 사용하겠다는 의미  -->

@@ -40,5 +40,8 @@ public interface AdminMapper {
 	// 고객센터관리 - 공지사항 글삭제
 	int deleteNotice(int cs_idx);
 
+	// 고객센터관리 - 1:1 문의 게시판 조회하기
+	List<CsVO> selectCsQnAList();
+
 
 }
