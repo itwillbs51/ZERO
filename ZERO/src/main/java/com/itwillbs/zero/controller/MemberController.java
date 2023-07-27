@@ -281,6 +281,11 @@ public class MemberController {
 	// Z-MAN 신청
 	@GetMapping("zman_join")
 	public String zmanJoin() {
+		return "member/member_zman_join_identification";
+	}
+	
+	@PostMapping("zman_join_pro")
+	public String zmanJoinPro() {
 		return "member/member_zman_join";
 	}
 	
