@@ -101,4 +101,11 @@
 		DELETE FROM CS
 		WHERE cs_idx = #{cs_idx}
 	</delete>
+	
+	<!-- 고객센터관리 - 1:1 문의 글 조회 - SELECT -->
+	<select id="selectCsQnAList" resultType="com.itwillbs.zero.vo.CsVO">
+		SELECT *
+			FROM CS
+			WHERE cs_type = "1:1문의"
+	</select>
 </mapper>

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,19 +47,32 @@
 								<table id="datatablesSimple">
 									<thead>
 										<tr>
-											<th>문의유형</th>
+											<th>문의 유형</th>
 											<th>아이디</th>
 											<th>제목</th>
-											<th>상세보기</th>
+											<th>등록 날짜</th>
+											<th>답변 처리 상태</th>
+											<th>상세 보기</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
-										</tr>
+										<c:forEach var="cs" items="${csQnAList }">
+											<tr>
+												<td>${cs.cs_info_idx }</td>
+												<td>${cs.member_id }</td>
+												<td>${cs.cs_subject }</td>
+												<td>${cs.cs_date }</td>
+												<c:choose>
+													<c:when test="${empty cs.cs_reply }">
+														<td>대기중</td>
+													</c:when>
+													<c:otherwise>
+														<td>완료</td>
+													</c:otherwise>
+												</c:choose>
+												<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>

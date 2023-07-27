@@ -395,10 +395,20 @@ public class AdminController {
 	
 	// 고객센터 관리 - 1:1 문의 게시판 으로 이동하기
 	@GetMapping("admin_cs_qna")
-	public String adminCsQnA() {
+	public String adminCsQnA(CsVO cs, HttpSession session, Model model) {
 		System.out.println("AdminController - admin_cs_qna");
+		
+		List<CsVO> csQnAList = service.getCsQnAList();
+		System.out.println("csQnAList : " + csQnAList);
+		
+		model.addAttribute("csQnAList", csQnAList);
+		
 		return "admin/admin_cs_qna_list";
 	}
 	
+	// 고객센터 관리 - 1:1 문의 답변하기
+	
+	
+	// 고객센터 관리 - 1:1 문의 삭제하기
 	
 }

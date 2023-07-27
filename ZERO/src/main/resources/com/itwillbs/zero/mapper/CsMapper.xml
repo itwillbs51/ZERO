@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.zero.mapper.CsMapper">
+
+	<!-- 1:1 문의글 등록하기 (csQnaFormPro) - INSERT -->
+	<insert id="insertCsQna" parameterType="com.itwillbs.zero.vo.CsVO">
+		INSERT
+			INTO CS (
+					cs_subject    
+					, cs_content   
+					, cs_date       
+					, cs_type		
+					, cs_file		
+					, cs_info_idx	
+					, member_id		
+			)
+			VALUES (
+					#{cs_subject}
+					, #{cs_content}
+					, now()
+					, #{cs_type}
+					, #{cs_file}
+					, #{cs_info_idx}
+					, #{member_id} 
+			);
+	</insert>
+
+</mapper>
