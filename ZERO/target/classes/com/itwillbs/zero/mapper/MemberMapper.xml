@@ -35,4 +35,12 @@
 			)
 	
 	</insert>
+	
+	
+	<!-- 특정 컬럼으로 회원정보 조회 -->
+	<select id="selectMemberCheck" resultType="hashmap">
+		SELECT *
+			FROM MEMBER
+				WHERE ${column} = #{value}
+	</select>
 </mapper>

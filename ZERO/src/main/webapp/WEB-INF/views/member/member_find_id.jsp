@@ -236,7 +236,7 @@ h2 {
 					<div class="content lg">
 						<div class="help_area">
 							<div>
-								<h2 class="help_title">이메일 아이디 찾기</h2>
+								<h2 class="help_title" data-v-2b15bea4="">이메일 아이디 찾기</h2>
 								<div class="help_notice">
 									<p class="notice_txt"> 가입 시 등록한 휴대폰 번호를 입력하면<br> 
 									이메일 주소의 일부를 알려드립니다. </p>

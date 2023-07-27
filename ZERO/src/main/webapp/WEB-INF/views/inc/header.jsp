@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- 부트스트랩 사용 --%>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -38,7 +39,16 @@
 					
 					<%-- 채팅 임시 --%>
 					<li class="headerArea1_item"><a href="chat" class="headerArea1_link">채팅</a></li>
-					<li class="headerArea1_item"><a href="member_login" class="headerArea1_link">로그인</a></li>
+					<li class="headerArea1_item">
+						<c:choose>
+							<c:when test="${not empty sessionScope.member_id }">
+								<a href="member_logout" class="headerArea1_link">${sessionScope.member_id } 님</a>
+							</c:when>
+							<c:otherwise>
+								<a href="member_login" class="headerArea1_link">로그인</a>					
+							</c:otherwise>
+						</c:choose>
+					</li>
 					<li class="headerArea1_item"><a href="zman_main" class="headerArea1_link">ZMAN</a></li>
 					<li class="headerArea1_item"><a href="admin_main" class="headerArea1_link">관리자</a></li>
 				</ul>

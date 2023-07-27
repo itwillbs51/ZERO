@@ -320,7 +320,7 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 	<article id="mainArticle">
 		<div class="container">
 			<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
-				<jsp:include page="/WEB-INF/views/inc/member_sidebar.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/inc/member_sidebar_hyo.jsp"></jsp:include>
 			</nav>
 		
 			<div class="contentArea">

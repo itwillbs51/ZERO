@@ -25,10 +25,30 @@ public class AdminService {
 		return mapper.selectMember(member_idx);
 	}
 	
+	// 회원관리 - 회원 정보 삭제
+	public int removeMember(int member_idx) {
+		return mapper.deleteMemebr(member_idx);
+	}
+	
+	// 회원관리 - 회원 정보 수정
+	public int modifyMember(MemberVO member) {
+		return mapper.updateMember(member);
+	}
 
 	// 고객센터관리 - 공지사항 목록 조회
 	public List<CsVO> getCsList() {
 		return mapper.selectCsList();
+	}
+	
+	// 고객센터관리 - 공지사항 '관리자'인지 확인
+	public boolean isAdmin(String member_id) {
+		
+		if(mapper.selectAdminMember(member_id).equals("관리자")) {
+			return true;
+		} else {
+			return false;			
+		}
+		
 	}
 	
 	// 고객센터관리 - 공지사항 글쓰기
@@ -50,6 +70,7 @@ public class AdminService {
 	public int removeNotice(int cs_idx) {
 		return mapper.deleteNotice(cs_idx);
 	}
+
 		
 	
 }

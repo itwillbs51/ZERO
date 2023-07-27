@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -55,42 +56,37 @@
 <title>중고거래 사이트</title>
 <style>
 
-.login_area {
+.login_area[data-v-2b15bea4] {
     margin: 0 auto;
     padding: 60px 0 160px;
     width: 400px;
 }
 
-.logo-social {
+.logo-social[data-v-2b15bea4] {
     position: absolute;
     width: 24px;
     height: 24px;
     top: 13px;
     left: 15px;
 }
-.input_title {
+.input_title[data-v-4e1fd2e6] {
     font-size: 13px;
     letter-spacing: -.07px;
     line-height: 18px;
 }
 
-.solid.disabled, .solid:disabled {
+.solid.disabled[data-v-43813796], .solid[data-v-43813796]:disabled {
     background-color: #ebebeb;
     color: #fff;
     cursor: default;
 }
 
-.has_button .input_txt {
+.has_button .input_txt[data-v-4e1fd2e6] {
     padding-right: 30px;
     height: 38px;
 }
 
-button>img {
-	width:40px;
-	height:40px;
-}
-
-.input_txt {
+.input_txt[data-v-4e1fd2e6] {
     padding: 8px 0;
     width: 100%;
     font-size: 15px;
@@ -109,7 +105,7 @@ input, textarea {
     background-color: transparent;
 }
 
-.btn {
+.btn[data-v-43813796] {
     display: inline-flex;
     cursor: pointer;
     align-items: center;
@@ -120,7 +116,7 @@ input, textarea {
     background-color: #fff;
 }
 
-.look_link {
+.look_link[data-v-2b15bea4] {
     margin: auto;
     padding: 0 10px;
     display: inline-flex;
@@ -131,7 +127,7 @@ input, textarea {
 
 	
 <%-- 인증에러 --%>
-.input_error {
+.input_error[data-v-4e1fd2e6] {
     display: none;
 }
 
@@ -140,7 +136,7 @@ input, textarea {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-.full {
+.full[data-v-43813796] {
     width: 100%;
     font-size: 16px;
     letter-spacing: -.16px;
@@ -165,7 +161,7 @@ p {
 
 
 
-.solid {
+.solid[data-v-43813796] {
     font-weight: 700;
     color: #fff;
     background-color: #222;
@@ -187,7 +183,7 @@ body, button, input, select, table, textarea {
     font-feature-settings: "frac" 0,"numr" 0;
 }
 
-.look_box {
+.look_box[data-v-2b15bea4] {
     margin-top: 20px;
     display: flex;
     justify-content: space-evenly;
@@ -207,167 +203,173 @@ ul {
     padding-inline-start: 40px;
 }
 <%-- 로그인 버튼 --%>
-.login_btn_box {
+.login_btn_box[data-v-2b15bea4] {
     padding-top: 20px;
 }
 
-.social_login>.btn {
+.social_login>.btn[data-v-2b15bea4] {
     margin-bottom: 8px;
 }
 
-.outline {
+.outline[data-v-43813796] {
     border: 1px solid #d3d3d3;
 }
 
+.social_login img {
+	width:30px;
+}
 
+.input_check {
+	width:20px;
+	height:20px;
+}
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+	
+	$(function (){
+		
+		
+	});
+	
+	
+	function clickLogin() {
+		alert('로그인 클릭됨');
+		$("#loginForm").submit();
+	}
+</script>
+
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
  <header id="pageHeader"><%@ include file="../inc/header.jsp"%></header>
 <%--  <header id="pageHeader"><%@ include file="assets/inc/header_zero.jsp"%></header> --%>
- <svg xmlns="http://www.w3.org/2000/svg">
- <defs>
-	 <symbol id="btn_naver" viewBox="0 0 24 24">
-		 <title>btn_naver</title>
-		 <path d="${pageContext.request.contextPath }/resources/mypage_img/btn_naver.svg#i-logo-naver"/>
-	</symbol>
-		 <symbol id="btn_kakao" viewBox="0 0 24 24">
-		 <title>btn_naver</title>
-		 <path d="${pageContext.request.contextPath }/resources/mypage_img/btn_kakao.svg#i-logo-kakao"/>
-	</symbol>
-		 <symbol id="btn_google" viewBox="0 0 24 24">
-		 <title>btn_naver</title>
-		 <path d="${pageContext.request.contextPath }/resources/mypage_img/btn_google.svg#i-logo-google"/>
-	</symbol>
-		 <symbol id="btn_naver" viewBox="0 0 24 24">
-		 <title>btn_naver</title>
-		 <path d="${pageContext.request.contextPath }/resources/mypage_img/btn_naver.svg#i-logo-naver"/>
-	</symbol>
-	
- </defs>
-</svg>
+ 
   <%--본문내용 --%>
   <article id="mainArticle">
-	<div class="container login"  >
-		<div class="content lg" >
-			<div class="login_area" >
-			<h2 class="login_title" >
-				<span class="blind" >ZERO</span>
-			</h2>
-			<div class="has_button input_box"  >
-				<h3 class="input_title"  >이메일 주소</h3>
-				<div class="input_item" >
-					<input type="email" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt" >
-					<button type="button" class="btn input_delete" style="display:none;"   >
-						<svg xmlns="http://www.w3.org/2000/svg" class="ico-delete-circle icon sprite-icons" >
-							<use href="" xlink:href="" ></use>
-						</svg>
-					</button>
+  	<form action="member_login_pro" method="POST" id="loginForm">
+		<div class="container login" data-v-2b15bea4="" data-v-1d0b532e="">
+			<div class="content lg" data-v-2b15bea4="">
+				<div class="login_area" data-v-2b15bea4="">
+				<h2 class="login_title" data-v-2b15bea4="">
+					<span class="blind" data-v-2b15bea4="">ZERO</span>
+				</h2>
+				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
+					<div class="input_item" data-v-4e1fd2e6="">
+						<input type="email" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt" data-v-4e1fd2e6="" id="member_id" name="member_id" <c:if test="${not empty sessionScope.member_id}">value="${sessionScope.member_id }"</c:if>>
+						<button type="button" class="btn input_delete" style="display:none;" data-v-43813796="" data-v-2b15bea4="" data-v-4e1fd2e6="">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ico-delete-circle icon sprite-icons" data-v-2b15bea4="">
+								<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-delete-circle" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-delete-circle" data-v-2b15bea4=""></use>
+							</svg>
+						</button>
+					</div>
+					<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소를 정확히 입력해주세요.</p>
 				</div>
-				<p class="input_error"  >이메일 주소를 정확히 입력해주세요.</p>
-			</div>
-			<div class="input_box has_button"  >
-			<h3 class="input_title"  >비밀번호</h3>
-			<div class="input_item" >
-			<input type="password" placeholder="" autocomplete="off" class="input_txt" ></div>
-			<p class="input_error"  > 영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자) </p></div>
-			<%-- 이메일 주소& 비밀번호 주소 미입력시 --%>
-<!-- 			<div class="login_btn_box" > -->
-<!-- 				<a disabled="disabled" href="#" class="btn full solid disabled"  > 로그인 </a> -->
-<!-- 			</div> -->
-			<div  class="login_btn_box">
-				<a   href="#" class="btn full solid"> 로그인 </a>
-			</div>
-			<ul class="look_box" >
-				<li class="look_list" >
-					<a href="join" class="look_link" > 이메일 가입 </a>
-				</li> |
-				<li class="look_list" >
-					<a href="member_find_id" class="look_link" > 이메일 찾기 </a>
-				</li> |
-				<li class="look_list" >
-					<a href="member_find_passwd" class="look_link" > 비밀번호 찾기 </a>
-				</li>
-			</ul>
-			<div><a href="#" class="look_link">인증 메일이 오지 않아요</a></div>
-			<div class="social_login" >
-				<button type="button" class="btn btn_login_naver full outline"  >
+				<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+				<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
+				<div class="input_item" data-v-4e1fd2e6="">
+				<input type="password" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="" id="member_passwd" name="member_passwd"></div>
+				<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4=""> 영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자) </p></div>
+				<%-- 이메일 주소& 비밀번호 주소 미입력시 --%>
+	<!-- 			<div class="login_btn_box" data-v-2b15bea4=""> -->
+	<!-- 				<a disabled="disabled" href="#" class="btn full solid disabled" data-v-43813796="" data-v-2b15bea4=""> 로그인 </a> -->
+	<!-- 			</div> -->
+				<div data-v-2b15bea4="" class="login_btn_box">
+					<a data-v-43813796="" data-v-2b15bea4="" class="btn full solid" onclick="clickLogin()"> 로그인 </a>
+				</div>
+				<ul class="look_box" data-v-2b15bea4="">
+					<li class="look_list" data-v-2b15bea4="">
+						<a href="join" class="look_link" data-v-2b15bea4=""> 이메일 가입 </a>
+					</li> |
+					<li class="look_list" data-v-2b15bea4="">
+						<a href="member_find_id" class="look_link" data-v-2b15bea4=""> 이메일 찾기 </a>
+					</li> |
+					<li class="look_list" data-v-2b15bea4="">
+						<a href="member_find_passwd" class="look_link" data-v-2b15bea4=""> 비밀번호 찾기 </a>
+					</li>
+				</ul>
+				<label>
+		      	<%-- 쿠키에 member_id가 있는 경우 check 상태로 보이게 하기  --%>
+		      	<input type="checkbox" class="input_check" name="remember_me" > 아이디 저장
+		      	</label>
+				<div><a href="#" class="look_link">인증 메일이 오지 않아요</a></div>
+				<div class="social_login" data-v-2b15bea4="">
+					<button type="button" class="btn btn_login_naver full outline" data-v-43813796="" data-v-2b15bea4="">
 					<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_naver.svg">
-				    <svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon icon--btn_naver" >
-				        <use href="#btn_naver" xlink:href="#btn_naver" ></use>
-				    </svg> 네이버로 로그인 
-				</button>
-				
-				<%-- 네이버 로그인 시작 --%>
-				<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-				<script>
-					var naverLogin = new naver.LoginWithNaverId(
-							{
-								clientId: "lmCZvEMfrqOMLdWO1M_n", // cliendId
-								callbackUrl: "http://localhost:8089/zero/member_login", // Callback URL 
-// 								callbackUrl: "http://c5d2302t1.itwillbs.com/zero/member_login", // Callback URL 
-								isPopup: false,
-								callbackHandle: true
-							} );
+					<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4="">
+						<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-naver" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-naver" data-v-2b15bea4=""></use>
+					</svg> 네이버로 로그인 </button>
 					
-					naverLogin.init();
+					<%-- 네이버 로그인 --%>
+					<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+					<script>
+						var naverLogin = new naver.LoginWithNaverId(
+								{
+									clientId: "lmCZvEMfrqOMLdWO1M_n", // cliendId
+									callbackUrl: "http://localhost:8089/zero/member_login", // Callback URL 
+	// 								callbackUrl: "http://c5d2302t1.itwillbs.com/zero/member_login", // Callback URL 
+									isPopup: false,
+									callbackHandle: true
+								} );
+						
+						naverLogin.init();
+						
+						$('.btn_login_naver').on('click', function() {
+						    naverLogin.getLoginStatus(function(status) {
+						    	
+	// 					    	alert("a333333333333333333333333333333333" +status); // false
+						    	
+						    	if (status) {
+						            var email = naverLogin.user.getEmail();
+						            console.log(email);
+						            console.log(naverLogin);
+						            
+						            $.ajax({
+						                type: 'post',
+						                url: 'checkUserNaver',
+						                data: {email:email},
+						                dataType: 'text',
+						                success: function(response) {
+						                  console.log(response);
+						                  if (response === 'new') {
+						                	  sessionStorage.setItem('member_id', member_id);
+						                	  location.href = '<c:url value="join_pro"/>';
+						                	  alert(' 네이버 로그인 성공! 회원가입을 완료해주세요. ');
+	
+						                  }  else if (response === 'existing') { 
+						                	  sessionStorage.removeItem("email");
+						                	  location.href = '<c:url value="/" />';
+						                	  alert(' 네이버 로그인 성공!')
+						                  }
+						                },
+						                error: function(xhr, status, error) {
+						                  console.log(error);
+						                }
+						            });
+						    	} else {
+	// 					            alert("fail");
+						        }
+						    });
+						});
+					</script> 
 					
-					$('.btn_login_naver').on('click', function() {
-					    naverLogin.getLoginStatus(function(status) {
-					    	
-// 					    	alert("a333333333333333333333333333333333" +status); // false
-					    	
-					    	if (status) {
-					            var email = naverLogin.user.getEmail();
-					            console.log(email);
-					            console.log(naverLogin);
-					            
-					            $.ajax({
-					                type: 'post',
-					                url: 'checkUserNaver',
-					                data: {email:email},
-					                dataType: 'text',
-					                success: function(response) {
-					                  console.log(response);
-					                  if (response === 'new') {
-					                	  sessionStorage.setItem('email', member_email);
-					                	  location.href = '<c:url value="/member_join_step2"/>';
-					                	  alert(' 네이버 로그인 성공! 회원가입을 완료해주세요. ');
-
-					                  }  else if (response === 'existing') { 
-					                	  sessionStorage.removeItem("email");
-					                	  location.href = '<c:url value="/" />';
-					                	  alert(' 네이버 로그인 성공!')
-					                  }
-					                },
-					                error: function(xhr, status, error) {
-					                  console.log(error);
-					                }
-					            });
-					    	} else {
-// 					            alert("fail");
-					        }
-					    });
-					});
-				</script> 
-				
-				<button type="button" class="btn btn_login_apple full outline"  >
-				<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" >
+					<button type="button" class="btn btn_login_apple full outline" data-v-43813796="" data-v-2b15bea4="">
 					<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_kakao.svg">
-					<use xlink:href="${pageContext.request.contextPath}/resources/mypage_img/btn_naver"></use>
-				</svg> 카카오로 로그인 </button>
-				<button type="button" class="btn btn_login_google full outline"  >
-				<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" >
+					<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4="">
+						<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" data-v-2b15bea4=""></use>
+					</svg> 카카오로 로그인 </button>
+					<button type="button" class="btn btn_login_google full outline" data-v-43813796="" data-v-2b15bea4="">
 					<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_google.svg">
-					<use xlink:href="${pageContext.request.contextPath}/resources/mypage_img/sprite-sheet.svg#btn_google" />
-				</svg> 구글로 로그인 </button>
-			</div>
+					<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4="">
+						<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-google" data-v-2b15bea4=""></use>
+					</svg> 구글로 로그인 </button>
+				</div>
+				</div>
 			</div>
 		</div>
-	</div>
-
+	</form>
   </article>
   
   <nav id="mainNav" class="d-none d-md-block sidebar">
@@ -387,6 +389,6 @@ ul {
 <!--   <script src="/_nuxt/31641e8.js" defer=""></script> -->
 <!--   <link href="/_nuxt/css/6ca5ffb.css" rel="stylesheet" type="text/css"> -->
 <!--   <link href="/_nuxt/css/caea5a4.css" rel="stylesheet" type="text/css"> -->
-
+  
 </body>
 </html>
