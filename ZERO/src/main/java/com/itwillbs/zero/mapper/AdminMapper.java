@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.ReportVO;
 
 @Mapper
 public interface AdminMapper {
@@ -21,6 +22,18 @@ public interface AdminMapper {
 	
 	// 회원관리 - 회원 정보 수정
 	int updateMember(MemberVO member);
+
+	// 회원관리 - 회원 신고 목록 조회
+	List<ReportVO> selectMemberReportList(String reported_member_id);
+
+	// 회원관리 - 회원 신고 정보 조회
+	ReportVO selectMemberReportDetail(int report_idx);
+
+	// 회원관리 - 회원 피신고 건수 조회
+	int selectMemberReportCount(String member_id);
+
+	// 회원관리 - 회원 신고 정보 수정(처리상태 변경)
+	int updateMemberReport(ReportVO report);
 	
 	// 고객센터관리 - 공지사항 목록 조회
 	List<CsVO> selectCsList();
@@ -42,6 +55,10 @@ public interface AdminMapper {
 
 	// 고객센터관리 - 1:1 문의 게시판 조회하기
 	List<CsVO> selectCsQnAList();
+
+
+
+
 
 
 }

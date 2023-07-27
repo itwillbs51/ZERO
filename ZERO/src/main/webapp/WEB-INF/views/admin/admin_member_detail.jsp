@@ -129,10 +129,10 @@
 											<td colspan="2">${member.member_withdrawl }</td>
 										</tr>
 										<tr>
-											<th>신고건수</th>
-											<td></td>
+											<th>피신고건수</th>
+											<td>${memberReportCount } 건</td>
 											<td class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+												<button type="button" class="btn btn-sm btn-dark text-nowrap" onclick="location.href='admin_member_report?reported_member_id=${member.member_id}'">상세보기</button>
 											</td>
 										</tr>
 										<tr>

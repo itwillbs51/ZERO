@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,21 +40,23 @@
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>작성자 이름</th>
-										<th>작성자 아이디</th>
-										<th>제목</th>
+										<th>신고자 아이디</th>
+										<th>피신고자 아이디</th>
 										<th>작성일</th>
+										<th>처리상태</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
-									</tr>
+									<c:forEach var="report" items="${reportList }" varStatus="vs">
+										<tr>
+											<td>${report.report_member_id }</td>
+											<td>${report.reported_member_id }</td>
+											<td>${report.report_datetime }</td>
+											<td>${report.report_status }</td>
+											<td><a class="btn btn-sm btn-outline-dark" href="admin_member_report_detail?report_idx=${report.report_idx }">상세보기</a></td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
