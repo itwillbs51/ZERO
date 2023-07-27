@@ -84,6 +84,39 @@ public class AdminController {
 		return "admin/admin_member_detail";
 	}
 	
+	// 회원관리 - 회원 정보 삭제
+	@GetMapping("admin_member_delete")
+	public String adminMemberDelete(@RequestParam int member_idx, Model model) {
+		System.out.println("AdminController - adminMemberDelete()");
+		System.out.println(member_idx);
+		
+		int deleteCount = service.removeMember(member_idx);
+		
+		if(deleteCount > 0) {
+			return "redirect:/admin_member_list";			
+		} else {
+			model.addAttribute("msg", "회원 삭제 실패");
+			return "fail_back";
+		}
+		
+	}
+
+	// 회원관리 - 회원 정보 수정
+	@PostMapping("admin_member_modify")
+	public String adminMemberUpdate(MemberVO member, Model model) {
+		System.out.println("AdminController - adminMemberModify()");
+		
+		int insertCount = service.modifyMember(member);
+		
+		if(insertCount > 0) {
+			return "redirect:/admin_member_list";			
+		} else {
+			model.addAttribute("msg", "회원 정보 수정 실패");
+			return "fail_back";
+		}
+		
+	}
+	
 	// 회원관리 - 회원신고 페이지로 디스패치
 	@GetMapping("admin_member_report")
 	public String adminMemberReport() {
@@ -169,7 +202,7 @@ public class AdminController {
 
 	// 고객센터관리 - 공지사항 글쓰기
 	@PostMapping("admin_cs_notice_write_pro")
-	public String adminCsNoticeWritePro(CsVO cs, HttpSession session, Model model) {
+	public String adminCsNoticeWritePro(CsVO cs, @RequestParam String member_id, HttpSession session, Model model) {
 		System.out.println("AdminController - adminCsNoticeWritePro");
 		
 		String uploadDir = "/resources/upload"; 
@@ -210,10 +243,12 @@ public class AdminController {
 		System.out.println("실제 업로드 파일명1 : " + cs.getCs_file());
 		
 		// -----------------------------------------------------------------------------------------------
+		// 작성자의 member_idx, member_type 조회
+		boolean isAdmin = service.isAdmin(member_id);
+		
 		// CsService - registNotice() 메서드를 호출하여 게시물 등록 작업 요청
 		// => 파라미터 : CsVO 객체    리턴타입 : int(insertCount)
 		int insertCount = service.registNotice(cs);
-//				int insertCount = service.registNotice(cs, csTypeNo);
 		
 		// 게시물 등록 작업 요청 결과 판별
 		// => 성공 시 업로드 파일을 실제 디렉토리에 이동시킨 후 BoardList 서블릿 리다이렉트

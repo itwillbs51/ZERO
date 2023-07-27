@@ -66,7 +66,6 @@
 						<div class="card-body">		
 							<%-- main 내용 작성 영역 --%>
 							<form action="admin_cs_notice_write_pro" id="cs_form" method="post" enctype="multipart/form-data">
-<%-- 								<input type="hidden" name="pageNo" value="${param.pageNo }"> 페이지번호 전송용 --%>
 								<input type="hidden" name="cs_type" value="공지" ><%-- 공지사항 유형 정보 전송용 --%>						
 								<table class="table table-striped text-center align-middle">
 								<tbody>
