@@ -3,6 +3,8 @@ package com.itwillbs.zero.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,24 +15,28 @@ import org.slf4j.LoggerFactory;
 
 
 // WebSocket 핸들러를 구현하기 위해 TextWebSocketHandler 상속
+@Component
+@RequestMapping("/chatting")
 public class ChattingHandler extends TextWebSocketHandler{
 	
-	// WebSocket 세션 저장할 리스트 생성(전체 채팅)
+	// WebSocket 세션 저장할 리스트 생성(전체 채팅, 알림)
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
 	private static final Logger logger = LoggerFactory.getLogger(ChattingHandler.class);
 	
-	// 클라이언트와 연결 된 후
+	// 클라이언트가 채팅을 위해 해당 페이지에 들어오면 클라이언트 연결, 해당 클라이언트 세션을 저장
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		logger.info("Socket 연결됨!");
 		
-		// 리스트에 세션저장
+		// 리스트에 세션 저장
 		sessionList.add(session);
 		logger.info(sessionList.toString());
 		
 	}
 	
-	// WebSocket 서버로 데이터 전송 - 세션이(누가) 메세지를 보냄
+	// WebSocket 서버로 데이터 전송 - 세션이(누가) 뷰페이지에서 메세지를 보냄
+	// Session 모두에게 메세지를 전달해야 하므로 loop를 돌며 메세지를 전송한다.
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
@@ -40,11 +46,10 @@ public class ChattingHandler extends TextWebSocketHandler{
 		// getPrincipal()를 이용해 세션에 몰려있는 유저의 정보 불러옴
 		for(WebSocketSession s : sessionList) {
 			s.sendMessage(new TextMessage("test" + ":" + message.getPayload()));
-//			s.sendMessage(new TextMessage(session.getPrincipal().getName() + ":" + message.getPayload()));
 		}
 	}
 	
-	// 연결이 끊어진 경우
+	// 연결이 끊어진 경우(채팅방 나가면) 해당 세션 제거
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
