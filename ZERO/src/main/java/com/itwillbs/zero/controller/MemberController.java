@@ -50,7 +50,7 @@ public class MemberController {
 		System.out.println(member_id);
 		System.out.println(member_passwd);
 		
-		
+		// DB 조회할 컬럼명
 		String column = "member_id";
 		
 		HashMap<String, String> member = service.isMemberCheck(column, member_id);
@@ -124,7 +124,7 @@ public class MemberController {
 
 	
 	// 3. 네이버 로그인 클릭
-	@PostMapping("/checkUserNaver")
+	@PostMapping("/ajax/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
 	public String checkUser(HttpSession session
 							, Model model
@@ -156,10 +156,23 @@ public class MemberController {
 		}
 		
 	}
+	
+	// 로그아웃 작업 후 메인으로 돌아가기
+	@GetMapping("member_logout")
+	public String member_logout(HttpSession session
+			, Model model
+			) {
+		// 세션에 저장한 member_id(저장한 정보들) 초기화
+		session.invalidate();
+		
+		// 세션 초기화 후 main 화면으로 돌아가기
+		return "redirect:/";
+	}
 
 	// 멤버 로그인정보
 	@GetMapping("member_loginInfo")
-	public String memberLoginInfo() {
+	public String memberLoginInfo(HttpSession session
+			, Model model) {
 		System.out.println("MemberController - memberloginInfo");
 		
 		return "member/member_loginInfo";
@@ -168,7 +181,8 @@ public class MemberController {
 	
 	// 멤버 주소 등록
 	@GetMapping("member_address")
-	public String memberAddress() {
+	public String memberAddress(HttpSession session
+			, Model model) {
 		System.out.println("MemberController - memberlogin");
 		
 		return "member/member_address";
@@ -176,7 +190,8 @@ public class MemberController {
 	
 	// 멤버 계좌 등록
 	@GetMapping("member_account")
-	public String memberAccount() {
+	public String memberAccount(HttpSession session
+			, Model model) {
 		System.out.println("MemberController - memberAccount");
 		
 		return "member/member_account";
@@ -184,7 +199,8 @@ public class MemberController {
 	
 	// 멤버 마이스토어
 	@GetMapping("member_mystore")
-	public String memberMyStore() {
+	public String memberMyStore(HttpSession session
+			, Model model) {
 		System.out.println("MemberController - memberMyStore");
 		
 		return "member/member_mystore";
@@ -192,7 +208,8 @@ public class MemberController {
 	
 	// 멤버 프로필
 	@GetMapping("member_profile")
-	public String memberProfile() {
+	public String memberProfile(HttpSession session
+			, Model model) {
 		System.out.println("MemberController - memberProfile");
 		
 		return "member/member_profile";
@@ -200,7 +217,8 @@ public class MemberController {
 	
 	// 멤버 아이디 찾기
 	@GetMapping("member_find_id")
-	public String memberFindId() {
+	public String memberFindId(HttpSession session
+			, Model model) {
 		System.out.println("MemberController - memberFindId");
 		
 		return "member/member_find_id";
@@ -208,7 +226,8 @@ public class MemberController {
 	
 	// 멤버 패스워드 찾기
 	@GetMapping("member_find_passwd")
-	public String memberFindPasswd() {
+	public String memberFindPasswd(HttpSession session
+			, Model model) {
 		System.out.println("MemberController - memberFindPasswd");
 		
 		return "member/member_find_passwd";

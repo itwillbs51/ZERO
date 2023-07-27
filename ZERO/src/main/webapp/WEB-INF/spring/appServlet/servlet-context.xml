@@ -39,4 +39,10 @@
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
 	<beans:bean id="chattingHandler" class="com.itwillbs.zero.handler.ChattingHandler"/>
+	
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<!-- class 에 있는 경로에 NaverLoginBO를 @bean 으로 등록해서  -->
+	<!-- naverLoginBO 를 id로 사용하겠다는 의미  -->
+ 	<beans:bean id="naverLoginBO" class="com.itwillbs.zero.naver.NaverLoginBO" />
+
 </beans:beans>
