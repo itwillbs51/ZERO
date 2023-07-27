@@ -282,7 +282,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipCode, #member_phone, #phone_check {
+#member_zipCode, #member_phone, #phone_check, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -330,6 +330,7 @@ input[type=checkbox] {
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
+						<div class="btn_input_container">
 						<input type="email" 
 						   	   placeholder="예) kream@kream.co.kr" 
 						   	   id="member_id" 
@@ -337,7 +338,33 @@ input[type=checkbox] {
 						   	   autocomplete="off" 
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6="">
+					   	   <button>인증번호 받기</button>
+						</div>
 					</div><br>
+					
+								
+					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">인증코드 확인</h3>
+						<input type="text" 
+							   placeholder="메일에 작성된 인증코드를 작성해주세요" 
+							   id="member_id2" 
+							   name="member_id22" 
+							   autocomplete="off" 
+							   class="input_txt" 
+							   data-v-4e1fd2e6=""
+							   disabled="disabled"
+							   maxlength="6">
+					</div>
+					<!-- 이메일 인증코드 확인 일치 여부-->
+					<div class="row mb-3">
+				    	<label for="emailconfirmCode_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="email_confirm"></span>
+					   		</div>
+					</div>
+					<br>
+					
+					
 					
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
@@ -365,7 +392,7 @@ input[type=checkbox] {
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호 확인</h3>
 						<input type="password" 
-							   placeholder="영문, 숫자, 특수문자(!@#$%)를 조합해서 입력해주세요. (8-16자)" 
+							   placeholder="입력해주세요" 
 							   id="member_passwd2" 
 							   name="member_passwd2" 
 							   autocomplete="off" 
