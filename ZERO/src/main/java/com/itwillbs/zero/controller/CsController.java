@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itwillbs.zero.vo.PageInfoVO;
 import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.service.CsService;
 import com.itwillbs.zero.vo.CsVO;
@@ -49,14 +50,36 @@ public class CsController {
 		
 		return "cs/cs_faq";
 	}
+	
 	// cs_notice 페이지로 디스패치
 	@GetMapping("cs_notice")
-	public String csNotice(Model model) {
+	public String csNotice(Model model, @RequestParam(defaultValue="1") int pageNum) {
 		System.out.println("CsController - csNotice");
+		System.out.println(pageNum);
 		
-		List<CsVO> csList = adminService.getCsList();
-		System.out.println(csList);
+		int listLimit = 10; //한페이지 표시 목록갯수
+		int startRow = (pageNum - 1) * listLimit; //조회시작 행번호
+		
+		//페이징 계산작업
+		//1.전체게시물 수 조회 작업 요청
+		int listCount = csService.getNoticeListCount();
+		int pageListLimit = 5; //2.페이지번호개수
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
+		int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1; //4. 시작 페이지 번호
+		int endPage = startPage + pageListLimit - 1; //5. 끝페이지 번호
+		// 최대페이지번호 처리 
+		if(endPage>maxPage) {
+			endPage = maxPage;
+		}
+		//페이징 처리 정보 저장할 PageInfo객체에 계산데이터 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+		System.out.println(pageInfo);
+		
+		// 공지사항 목록 조회
+		List<CsVO> csList = csService.getCsList(startRow, listLimit);
 		model.addAttribute("csList", csList);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageInfo", pageInfo);
 		
 		return "cs/cs_notice";
 	}

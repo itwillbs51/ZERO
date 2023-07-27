@@ -221,6 +221,21 @@ input[type=checkbox] {
   -moz-appearance: checkbox;
 }
 
+<%-- 입력창 옆에 버튼 생기게--%>
+.btn_input_container {
+   display: flex;
+   align-items: center;
+}
+
+.btn_input_container button {
+    margin-left: 8px;
+    flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
+}
+
+#member_zipCode, #member_phone, #phone_check, #member_id {
+    width: 60%; /* 주소지 검색 입력란 너비 조절 */
+}
+
 </style>
 </head>
 <body>
@@ -237,97 +252,126 @@ input[type=checkbox] {
 					<span class="blind" data-v-2b15bea4="">Z-MAN 신청</span>
 				</h2><br>
 				
-				<%-- 클래스 이름 바꾸기 / 이름, 이메일은 로그인한 회원정보에서 가져오기 --%>
-				<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>
-					<input type="text" placeholder="이름" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				</div><br>
-				
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
-					<input type="email" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				</div><br>
-			
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
-					<input type="text" placeholder="생년월일 8자리를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				</div><br>
-			
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">차량번호</h3>
-					<input type="text" placeholder="차량번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				</div><br>
-			
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">휴대폰번호</h3>
-					<input type="text" placeholder="- 없이 입력" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				<button>인증번호 받기</button>
-				</div>
-			
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
-					<input type="text" placeholder="인증번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				<button>핸드폰 번호 인증확인</button>
-				</div>
-				<br>
-				
-				<%-- 계좌번호 인증할때 은행 선택한값 가져오기? --%>
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">계좌번호</h3>
-					<input type="text" placeholder="- 없이 입력" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				<button>계좌인증 받기</button>
-				</div>
-				<br>
-			
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
-					<input type="text" placeholder="인증번호를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				<button>계좌 인증확인</button>
-				</div>
-				<br>
-				
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">주소지 입력</h3>
-					<input type="text" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-					<input type="text" placeholder="상세주소를 입력해 주세요" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				<button>주소지찾기</button>
-				</div>
-				<br>
-				
-				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">활동 지역 선택</h3>
-					<input type="text" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="">
-				<button>지역찾기</button>
-				</div>
-				<br>	
+				<form action="zman_join_pro" method="post">
+					<%-- 클래스 이름 바꾸기 --%>
+					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>
+						<input type="text" 
+							   placeholder="$member_member_name" 
+							   id="member_name" 
+							   name="member_name" 
+							   autocomplete="off" 
+							   class="input_txt" 
+							   data-v-4e1fd2e6="">
+					</div><br>
 					
-				<div>
-					<label for="agree_all">
-					  <input type="checkbox" name="agree_all" id="agree_all">
-					  <span>모두 동의합니다</span>
-					</label><br>
-					<label for="agree">
-					  <input type="checkbox" name="agree" value="1">
-					  <span>이용약관 동의<strong>(필수)</strong></span>
-					</label>
-					<label for="agree">
-					  <input type="checkbox" name="agree" value="2">
-					  <span>개인정보 수집, 이용 동의<strong>(필수)</strong></span>
-					</label>
-					<label for="agree">
-					  <input type="checkbox" name="agree" value="3">
-					  <span>개인정보 이용 동의<strong>(필수)</strong></span>
-					</label>
-					<label for="agree">
-					  <input type="checkbox" name="agree" value="4">
-					  <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
-					</label>
-				</div>
+					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
+						<div class="btn_input_container">
+						<input type="email" 
+						   	   placeholder="$member_member_id" 
+						   	   id="member_id" 
+						   	   name="member_id" 
+						   	   autocomplete="off" 
+						   	   class="input_txt" 
+						   	   data-v-4e1fd2e6="">
+						</div>
+					</div><br>
+					
 				
-				<div data-v-2b15bea4="" class="login_btn_box">
-					<a data-v-43813796="" data-v-2b15bea4="" href="#" class="btn full solid"> Z-MAN 신청 </a>
-				</div>
-			
+					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">계좌인증</h3>
+						<div class="btn_input_container">
+							<input type="text" 
+								   placeholder="- 없이 입력" 
+								   id="member_phone" 
+								   name="member_phone" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6="">
+							<button>계좌인증하기</button>
+						</div>
+					</div>
+					<br>
+				
+					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">차량번호</h3>
+						<div class="btn_input_container">
+							<input type="text" 
+								   placeholder="차량번호를 입력해 주세요" 
+								   id="phone_check" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6="">
+							<button>차량인증확인</button>
+						</div>
+					</div>
+					<br>
+					
+					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">주소지 입력</h3>
+						<div class="btn_input_container">
+							<input type="text" 
+								   placeholder="우편번호" 
+								   id="member_zipCode" 
+								   name="member_zipCode" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6="">
+							<button onclick="DaumPostcode()">우편번호 찾기</button>
+						</div>
+							<input type="text" 
+								   placeholder="도로명주소" 
+								   id="member_address1" 
+								   name="member_address1" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6="">
+							<input type="text" 
+								   placeholder="참고항목"
+								   id="member_extraAddress" 
+								   name="member_extraAddress" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6="">
+							<input type="text"
+								   placeholder="상세주소" 
+								   id="member_address_detail1" 
+								   name="member_address_detail1" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6="">
+					</div>
+					<br>
+					
+					<div>
+						<label for="agree_all">
+						  <input type="checkbox" name="agree_all" id="agree_all">
+						  <span>모두 동의합니다</span>
+						</label><br>
+						<label for="agree">
+						  <input type="checkbox" name="agree" value="1">
+						  <span>이용약관 동의<strong>(필수)</strong></span>
+						</label>
+						<label for="agree">
+						  <input type="checkbox" name="agree" value="2">
+						  <span>개인정보 수집, 이용 동의<strong>(필수)</strong></span>
+						</label>
+						<label for="agree">
+						  <input type="checkbox" name="agree" value="3">
+						  <span>개인정보 이용 동의<strong>(필수)</strong></span>
+						</label>
+						<label for="agree">
+						  <input type="checkbox" name="agree" value="4">
+						  <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
+						</label>
+					</div>
+					
+					<div data-v-2b15bea4="" class="login_btn_box">
+<!-- 						<a data-v-43813796="" data-v-2b15bea4="" href="join_pro" class="btn full solid"> 회원가입 </a> -->
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button>
+					</div>
+				</form>
 
 			</div>
 		</div>

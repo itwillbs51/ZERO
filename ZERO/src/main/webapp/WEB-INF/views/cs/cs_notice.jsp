@@ -56,7 +56,6 @@
 /* } */
 
 </style>
-
 </head>
 <body>
 	<header>
@@ -85,6 +84,52 @@
 							</c:forEach>
 						</ul>
 					</div>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<c:choose>
+								<c:when test="${pageNum > 1 }">
+									<li class="page-item">
+										<a class="page-link" href="cs_notice?pageNum=${pageNum - 1}" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+								<c:choose>
+									<c:when test="${pageNum eq i }">
+										<li class="page-item"><a class="page-link" href="#">${i }</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="cs_notice?pageNum=${i }">${i }</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:choose>
+								<c:when test="${pageNum < pageInfo.maxPage }">
+									<li class="page-item">
+										<a class="page-link" href="cs_notice?pageNum=${pageNum + 1}" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+								</c:when>
+								<c:otherwise>
+										<li class="page-item disabled">
+										<a class="page-link" href="#" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>		
+									</li>
+								</c:otherwise>
+							</c:choose>								
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</div>
