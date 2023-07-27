@@ -23,17 +23,15 @@
 <title>ZERO</title>
 <script type="text/javascript">	
 	// 전화번호
-// 	function isPhoneNum(phone) {
-// 		let getPhone = RegExp(/^(010|011)[\d]{3,4}[\d]{4}$/);
+	function isContent(content) {
 		
-// 		if(!getPhone.test(phone)) {
-// 			$("#phoneCkArea").text("올바른 전화번호를 입력하세요");
-// 			$(this).focus();
-// 		} else {
-// 			$("#phoneCkArea").empty();
-// 			$("button[type='submit']").attr("disabled", false);
-// 		}
-// 	}
+		if(content == null) {
+			alert("문의 내용을 입력하세요!");
+			$(this).focus();
+		} else {
+			$("button[type='submit']").attr("disabled", false);
+		}
+	}
 </script>
 <style type="text/css">
  .cs_qna_mal {
@@ -59,6 +57,12 @@ input[type=file]::file-selector-button:hover {
 	background: rgb(77,77,77);
     color: #fff;
 }
+
+/* 아이디 */
+	.member_id {
+		
+	}
+	 
  /* 파일 업로드 관련 css 끝 */
 </style>
 </head>
@@ -85,48 +89,39 @@ input[type=file]::file-selector-button:hover {
 								<em style="color: #EB323A;">*</em>  는 필수 입력 항목 입니다. <br>
 								이미지는 JEPG, JPG, PNG만 가능합니다.
 							</div>
-							<form action="csQnaPro" method="post" name="fr" enctype="multipart/form-data">
+							<%-- form 태그 시작 --%>
+							<form action="csQnaFormPro" method="post" name="fr" enctype="multipart/form-data">
+								<%-- hidden 영역 --%>
+								<%-- 고객센터 cs_type 유형 정보 전송용 : 1:1문의 --%>						
+								<input type="hidden" name="cs_type" value="1:1문의" >
+								<input type="hidden" name="member_id" value="${sessionScope.member_id }" >
+								
 								<table class="table" >
 									<tr>
 										<th>
 										  	문의 유형 &nbsp; <em style="color: #EB323A;">*</em> 
 										</th>
 										<td>
-											<select name="cs_type" required="required">
+											<select name="cs_info_idx" required="required">
 								   				<option value="">선택</option>
-												<option value="중고거래문의">중고거래문의</option>
-												<option value="경매문의">경매문의</option>
-												<option value="ZPAY문의">ZPAY문의</option>
-												<option value="ZMAN문의">ZMAN문의</option>
-												<option value="회원문의">회원문의</option>
-												<option value="기타문의">기타문ㄴ의</option>
+												<option value="1">중고거래문의</option>
+												<option value="2">경매문의</option>
+												<option value="3">ZPAY문의</option>
+												<option value="4">ZMAN문의</option>
+												<option value="5">회원문의</option>
+												<option value="6">기타문의</option>
 											</select>
-<!-- 											<div class="dropdown"> -->
-<!-- 											  <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="cs_type" required="required"> -->
-<!-- 											   	문의 유형을 선택하세요 -->
-<!-- 											  </button> -->
-<!-- 											  <ul class="dropdown-menu"> -->
-<!-- 											    <li><a class="dropdown-item" value="">선택</a></li> -->
-<!-- 											    <li><a class="dropdown-item" value="중고거래문의">중고거래문의</a></li> -->
-<!-- 											    <li><a class="dropdown-item" value="경매문의">경매문의</a></li> -->
-<!-- 											    <li><a class="dropdown-item" value="ZPAY문의">ZPAY문의</a></li> -->
-<!-- 											    <li><a class="dropdown-item" value="ZMAN문의">ZMAN문의</a></li> -->
-<!-- 											    <li><a class="dropdown-item" value="회원문의">회원문의</a></li> -->
-<!-- 											    <li><a class="dropdown-item" value="기타문의">기타문의</a></li> -->
-<!-- 											  </ul> -->
-<!-- 											</div> -->
 										</td>
 							 		</tr>
 							 		<tr>
 										<th>
 											아이디&nbsp;<em style="color: #EB323A;">*</em>&nbsp;&nbsp;&nbsp;
-<!-- 											<label for="staticEmail" class="col-sm-2 col-form-label">아이디</label> -->
 										</th>
 										<td>
 											<%-- 회원만 글쓰기 --%>
 											<%-- 아이디(이메일주소)는 읽기전용 --%>
     										<div class="col-sm-10">
-										    	<input type="text" readonly class="form-control-plaintext" id="staticEmail" value="Dolly@zero.co.kr">
+										    	<input type="text" readonly class="form-control-plaintext" id="member_id" value="${sessionScope.member_id }">
 										    </div>
 										</td>
 									</tr>
@@ -147,7 +142,7 @@ input[type=file]::file-selector-button:hover {
 							    			제목&nbsp;<em style="color: #EB323A;">*</em>
 							    		</th>
 							    		<td>
-							    			 <input type="cs_subject" class="form-control" id="inputPassword" required="required">
+							    			 <input type="text" name="cs_subject" class="form-control" id="inputPassword" required="required">
 <!-- 							    			<textarea rows="1" cols="20" name="cs_subject" required="required" maxlength="30"></textarea> -->
 							    		</td>
 							  		</tr>
@@ -156,8 +151,8 @@ input[type=file]::file-selector-button:hover {
 								    		내용&nbsp;<em style="color: #EB323A;">*</em>
 								    	</th>
 								    	<td>
-								    		 <textarea class="form-control" id="floatingTextarea2" style="height: 100px" required="required"
-								    		 placeholder="-문의내용에 개인정보가 포함되지 않도록 유의하시기 바랍니다.&#13;&#10;-회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다."></textarea>
+								    		 <textarea class="form-control" name="cs_content" id="floatingTextarea2" style="height: 100px" required="required"
+								    		 placeholder="-문의내용에 개인정보가 포함되지 않도록 유의하시기 바랍니다.&#13;&#10;-회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다." onkeyup="isContent(this.value)"></textarea>
 <!-- 								    		<textarea rows="5" cols="70" name="cs_content" required="required" -->
 <!-- 								    			placeholder="-문의내용에 개인정보가 포함되지 않도록 유의하시기 바랍니다.&#13;&#10;-회원로그인 후 문의작성시 나의 문의내역을 통해 답변을 확인하실 수 있습니다."></textarea> -->
 							    		</td>
@@ -169,11 +164,12 @@ input[type=file]::file-selector-button:hover {
 							    		<td>
 							    			<%-- 만일 특정파일 유형만 허용하려면 accpet 속성을 사용한다 --%>
 							    			<%-- 사진 파일 1개만 업로드 허용 --%>
-							    			<input type="file" name="cs_file" id="cs_file" accept=".JEPG, .JPG, .PNG">
+							    			<input type="file" name="file" id="file" accept=".JEPG, .JPG, .PNG">
 							    		</td>
 							  		</tr>
 							  		<tr>
 								  		<td colspan="2" style="text-align: center">
+								  			<%-- // CsVo 객체의 MultipartFile의 변수명 private MultipartFile file; --%>
 											<button class="btn btn-dark" disabled="disabled" type="submit">등록</button>	
 								  		</td>
 							  		</tr>
