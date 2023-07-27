@@ -12,38 +12,44 @@ import org.slf4j.LoggerFactory;
 
 
 
-
+// WebSocket 핸들러를 구현하기 위해 TextWebSocketHandler 상속
 public class ChattingHandler extends TextWebSocketHandler{
-
+	
+	// WebSocket 세션 저장할 리스트 생성(전체 채팅)
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
 	private static final Logger logger = LoggerFactory.getLogger(ChattingHandler.class);
 	
+	// 클라이언트와 연결 된 후
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
-		
+		// 리스트에 세션저장
 		sessionList.add(session);
-		
+		logger.info(sessionList.toString());
 		
 	}
 	
+	// WebSocket 서버로 데이터 전송 - 세션이(누가) 메세지를 보냄
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
 		logger.info("#ChattingHandler, handleMessage");
 		
-		
+		// 연결된 모든 클라이언트에게 메세지 전송(리스트 사용)
+		// getPrincipal()를 이용해 세션에 몰려있는 유저의 정보 불러옴
 		for(WebSocketSession s : sessionList) {
 			s.sendMessage(new TextMessage("test" + ":" + message.getPayload()));
+//			s.sendMessage(new TextMessage(session.getPrincipal().getName() + ":" + message.getPayload()));
 		}
 	}
 	
+	// 연결이 끊어진 경우
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
 		
-
+		// 리스트에서 세션 제거
 		sessionList.remove(session);
 		
 		

@@ -126,7 +126,7 @@
 	</header>
 	
 	<%-- 크기 조절을 위해 main에 다 넣음 --%>
-	<div class="container">
+<!-- 	<div class="container"> -->
 	<div id="main">
 		<!-- nav - 메뉴영역 -->
 		<nav>
@@ -222,7 +222,7 @@
 			</article>
 		</section>
 	</div> <%-- main 끝 --%>
-	</div>
+<!-- 	</div> -->
 	<!-- footer -->
 	<footer>
 		<div>여기 footer</div>

@@ -4,27 +4,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
+<%-- 소켓통신을 위한 함수들을 콜백형태로 제공 --%>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <%-- google 아이콘 --%>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/chat.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>채팅 | ZERO</title>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
+	
+	// ================ 채팅 =========================
+	
+	// 웹소켓을 지정한 URL로 연결
+// 	let sock = new SockJS("<c:url value="/chatting"/>");
+	var sock = new SockJS('http://localhost:8089/zero/chatting');
+	// 웹소켓 서버에서 메세지를 보내면 자동으로 실행됨
+	sock.onmessage = onMessage;
+	// 웹소켓과 연결을 끊고 싶을 때 실행하는 메서드
+	sock.onclose = onClose;
 	
 	//문서 시작 시 나올 것들
 	$(function() {
-				
+		// 채팅 기능
+		$(".submitBtn").on("click", function() {
+			console.log('send message...');
+			sendMessage();
+		});	// 보내기 버튼 클릭 함수 끝
+		
 	});		// function() 끝
 	
+	// 웹소켓으로 메세지 보내는 함수
+	function sendMessage() {
+		sock.send($("#inputText").val());
+	}
+	
+	// 웹소켓이 보내준 데이터를 파라미터로 받는 함수
+	function onMessage(evt) { // 변수 안에 function을 넣음
+		let data = evt.data;
+		let sessionid = null;
+		let message = null;
+		
+		// 문자열을 split
+		let strArray = data.split('|');
+		
+		for(let i = 0; i < strArray.length; i++) {
+			console.log('str[' + i + '] : ' + strArray[i]);
+		}
+		
+		//----------- 나중에 로그인 구현되면 구동 되는지 확인하기 --------------
+// 		/* 
+		// 현재 세션아이디
+		let current_sessionId = $("#sId").val();
+		let current_sessionId2 = "${sId}";
+		console.log('현재 세션 아이디 : ' + current_sessionId);
+		console.log('현재 세션 아이디2 : ' + current_sessionId2);
+		
+		sessionid = strArray[0];	// 현재 메세지를 보낸 사람의 세션 등록
+		message = strArray[1];		// 현재 메세지를 저장
+		
+		// 나와 상대방이 보낸 메세지를 구분하여 영역 나눔
+		if(sessionid == current_sessionId) {
+			$(".chatZone").append(
+					'<tr>'
+					+ '<td class="msgRight">'
+					+ '	<div class="msgTime">오후1:37</div>'
+					+ '	<div class="msg">' + sessionid + ' : ' + message + '</div>'
+					+ '</td>'
+					+ '</tr>'
+			);
+			
+		} else {
+			$(".chatZone").append(
+					'<tr>'
+					+ '<td class="msgLeft">'
+					+ '	<div class="msg">' + sessionid + ' : ' + message + '</div>'
+					+ '	<div class="msgTime">오후1:52</div>'
+					+ '</td>'
+					+ '</tr>'
+			);
+			
+		}
+		
+		console.log('chatting data : ' + data);
+		
+		// sock. close();
+// 		*/
+	}	// onMessage() 함수 끝
+	
+	function onClose(evt) {
+		$("#data").append("연결 끊김");
+	}
 	
 	let isOpen = false;
-	// 버튼 클릭 시 목록보이게하 함수
+	// 버튼 클릭 시 목록보이게하는 함수
 	$(function() {
 		$(".listInfoBtn").on("click", function() {
 			if(!isOpen) { // 목록이 열려있지 않으면
@@ -80,6 +154,9 @@
 		<%@ include file="../inc/header.jsp"%>
 	</header>
 	
+	<%-- 세션 아이디 받기 - 없으면 fail_back --%>
+	<input type="hidden" id="sId" value="${session.sId }">
+	
 	<%-- 크기 조절을 위해 main에 다 넣음 --%>
 	<div id="main">
 		<!-- nav - 메뉴영역 -->
@@ -110,7 +187,7 @@
 			</aside>
 			<!-- 채팅 영역 -->
 			<%-- 채팅목록에서 칸을 클릭 시 ajax를 사용하여 채팅창 나오게함 --%>
-			<section id="chatArea"> <%-- style="display: none;" --%>
+			<section id="chatArea" style="display: none;"> <%-- style="display: none;" --%>
 				<%-- 위에 상품정보와 약속잡기, 송금하기 등이 있는 영역 --%>
 				<article class="chatPage">
 					<i class="material-icons backBtn">arrow_back</i>
@@ -148,7 +225,7 @@
 					<article class="chatMsgArea">
 						<%-- 나오는 채팅만큼 보여주고 위로 무한스크롤? --%>
 						<%-- 세션아이디와 비교해 세션아이디가 보낸 메세지는 오른쪽, 아닌 메세지는 왼쪽으로 정렬 --%>
-						<table>
+						<table class="chatZone">
 							<tr>
 								<td class="msgRight">
 									<div class="msgTime">오후1:37</div>
