@@ -46,14 +46,6 @@
 	<!-- 고객센터관리 - 공지사항 글쓰기 -->
 	<insert id="insertNotice" parameterType="com.itwillbs.zero.vo.CsVO">
 		INSERT INTO 
-<!-- 			<selectKey keyProperty="cs_type_list_idx" resultType="int" order="BEFORE">			 -->
-<!-- 				SELECT -->
-<!-- 					IFNULL(MAX(cs_type_list_idx), 0) -->
-<!-- 						FROM -->
-<!-- 			   				CS -->
-<!-- 			   			WHERE -->
-<!-- 			   				cs_type  = #{cs_type} -->
-<!-- 			</selectKey> -->
 			CS(
 				cs_idx
 				, cs_subject
@@ -62,7 +54,6 @@
 				, member_id
 				, cs_type
 				, cs_file
-<!-- 				, cs_type_list_idx -->
 			)
 			VALUES(
 				null
@@ -72,7 +63,6 @@
 				, #{member_id}
 				, #{cs_type}
 				, #{cs_file}
-<!-- 				, #{cs_type_list_idx} + 1 -->
 			)
 	</insert>
 	
