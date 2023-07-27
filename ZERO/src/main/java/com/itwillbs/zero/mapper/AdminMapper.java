@@ -16,8 +16,17 @@ public interface AdminMapper {
 	// 회원 정보 조회
 	MemberVO selectMember(int member_idx);
 	
+	// 회원관리 - 회원 정보 삭제
+	int deleteMemebr(int member_idx);
+	
+	// 회원관리 - 회원 정보 수정
+	int updateMember(MemberVO member);
+	
 	// 고객센터관리 - 공지사항 목록 조회
 	List<CsVO> selectCsList();
+
+	// 고객센터관리 - 공지사항 '관리자'인지 확인
+	String selectAdminMember(String member_id);
 
 	// 고객센터관리 - 공지사항 글쓰기
 	int insertNotice(CsVO cs);
@@ -30,5 +39,6 @@ public interface AdminMapper {
 	
 	// 고객센터관리 - 공지사항 글삭제
 	int deleteNotice(int cs_idx);
+
 
 }
