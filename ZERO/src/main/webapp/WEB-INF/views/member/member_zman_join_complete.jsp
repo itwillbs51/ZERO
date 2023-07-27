@@ -51,59 +51,9 @@
 <!-- <meta data-n-head="ssr" data-hid="Cache-Control" http-equiv="Cache-Control" content="no-cache"> -->
 <!-- <script data-n-head="ssr" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
 
-<%-- 우편번호찾기 Daum api --%>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    function DaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
 
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("member_extraAddress").value = extraAddr;
-                
-                } else {
-                    document.getElementById("member_extraAddress").value = '';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('member_zipCode').value = data.zonecode;
-                document.getElementById("member_address1").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("member_address_detail1").focus();
-            }
-        }).open();
-    }
-</script>
-
-<title>ZERO 회원가입</title>
+<title>ZERO 회원가입 - 메일 인증 후 로그인해주세요</title>
 <style>
 
 .login_area[data-v-2b15bea4] {
@@ -271,24 +221,7 @@ input[type=checkbox] {
   -moz-appearance: checkbox;
 }
 
-<%-- 입력창 옆에 버튼 생기게--%>
-.btn_input_container {
-   display: flex;
-   align-items: center;
-}
-
-.btn_input_container button {
-    margin-left: 8px;
-    flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
-}
-
-#member_zipCode, #member_phone, #phone_check, #member_id {
-    width: 60%; /* 주소지 검색 입력란 너비 조절 */
-}
 </style>
-
-
-
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -301,42 +234,13 @@ input[type=checkbox] {
 		<div class="content lg" data-v-2b15bea4="">
 			<div class="login_area" data-v-2b15bea4="">
 				<h2 class="login_title" data-v-2b15bea4="">
-					<span class="blind" data-v-2b15bea4="">본인 확인</span>
-				</h2><br>
-				
-				<form action="zman_join_form" method="post">
-					<%-- 클래스 이름 바꾸기 --%>
-					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
-						<div class="btn_input_container">
-						<input type="email" 
-						   	   placeholder="예) kream@kream.co.kr" 
-						   	   id="member_id" 
-						   	   name="member_id" 
-						   	   autocomplete="off" 
-						   	   class="input_txt" 
-						   	   data-v-4e1fd2e6="">
-						</div>
-					</div><br>
-					
-					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
-						<input type="password" 
-							   placeholder="비밀번호를 입력해주세요" 
-							   id="member_passwd" 
-							   name="member_passwd" 
-							   autocomplete="off" 
-							   class="input_txt" 
-							   data-v-4e1fd2e6=""
-							   required="required">
-					</div>
-
-					
-					<div data-v-2b15bea4="" class="login_btn_box">
-<!-- 						<a data-v-43813796="" data-v-2b15bea4="" href="join_pro" class="btn full solid"> 회원가입 </a> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 확인 </button>
-					</div>
-				</form>
+					<span class="blind" data-v-2b15bea4="">Z-MAN 신청 완료</span>
+				</h2>
+				관리자 인증 후 Z-MAN활동이 가능합니다
+				<br>
+				<button onclick="location.href='/zero'">홈으로</button>
+				<br>
+				<button onclick="location.href='member_mypage_main'">마이페이지로</button>
 
 			</div>
 		</div>
@@ -389,48 +293,6 @@ input[type=checkbox] {
 	      updateAgreeAllStatus();
 	    });
 	  }
-	 
-	// 비밀번호 정규식 되는데 편의를 위해 주석해놓음
-	  
-	// 비밀번호 정규식
-// 	function checkPass(member_passwd, member_passwd2) {
-// 		let regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9]).{8,16}$/;
-		
-// 		if(regex.exec(member_passwd)) {
-// 			document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
-// 			document.querySelector("#pass_check").style.color = "green";
-// 		} else {
-// 			document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
-// 			document.querySelector("#pass_check").style.color = "red";
-// // 			alert("비밀번호를 다시 입력해주세요!");
-// 			$("#member_pass").val('');
-// 			$("#member_pass2").val('');
-// 		}
-// 	}
-
-// 	// 비밀번호 와 비밀번호 확인 일치
-// 	function checkconfirmPasswd(passwdCheck) {
-// 		let member_passwd = document.querySelector('#member_passwd').value;	
-		 
-// 		if(member_passwd == passwdCheck) {
-// 			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
-// 			document.querySelector("#pass_confirm").style.color = "green";
-// 		} else {
-// 			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
-// 			document.querySelector("#pass_confirm").style.color = "red";
-// // 			alert("비밀번호를 다시 입력해주세요!");
-// 			$("#member_pass").val('');
-// 			$("#member_pass2").val('');
-// 		}
-// 	}
-	  
-	  
-	  
 	</script>
-  
-  
-  
-  
-  
   
 </body>

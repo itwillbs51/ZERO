@@ -252,7 +252,7 @@ input[type=checkbox] {
 					<span class="blind" data-v-2b15bea4="">Z-MAN 신청</span>
 				</h2><br>
 				
-				<form action="zman_join_pro" method="post">
+				<form action="zman_join_complete" method="post">
 					<%-- 클래스 이름 바꾸기 --%>
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>

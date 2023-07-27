@@ -238,9 +238,9 @@ input[type=checkbox] {
 				</h2>
 				인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다.
 				<br>
-				<button >홈으로</button>
+				<button onclick="location.href='/zero'">홈으로</button>
 				<br>
-				<button>로그인</button>
+				<button onclick="location.href='member_login'">로그인</button>
 
 			</div>
 		</div>

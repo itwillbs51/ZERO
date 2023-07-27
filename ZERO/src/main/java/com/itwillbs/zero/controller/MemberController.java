@@ -286,16 +286,22 @@ public class MemberController {
 		return "member/member_join_complete";
 	}
 	
-	
 	// Z-MAN 신청
 	@GetMapping("zman_join")
 	public String zmanJoin() {
 		return "member/member_zman_join_identification";
 	}
 	
-	@PostMapping("zman_join_pro")
+	// Z-MAN 신청폼
+	@PostMapping("zman_join_form")
 	public String zmanJoinPro() {
-		return "member/member_zman_join";
+		return "member/member_zman_join_form";
+	}
+	
+	// Z-MAN 신청완료
+	@PostMapping("zman_join_complete")
+	public String zmanJoinComplete() {
+		return "member/member_zman_join_complete";
 	}
 	
 	// 마이페이지 작성한 후기
@@ -304,7 +310,18 @@ public class MemberController {
 		return "member/member_mypage_write_review";
 	}
 	
+	
+	
 }
+
+
+
+
+
+
+
+
+
 
 
 
