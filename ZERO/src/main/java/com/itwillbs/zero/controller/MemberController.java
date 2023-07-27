@@ -168,6 +168,15 @@ public class MemberController {
 		// 세션 초기화 후 main 화면으로 돌아가기
 		return "redirect:/";
 	}
+	
+	// 네이버 로그인 콜백 
+	@GetMapping("callback_login_naver")
+	public String callbackLoginNaver(HttpSession session
+			, Model model) {
+		System.out.println("MemberController - callback_login_naver");
+		
+		return "member/member_callback";
+	}
 
 	// 멤버 로그인정보
 	@GetMapping("member_loginInfo")
@@ -281,6 +290,11 @@ public class MemberController {
 	// Z-MAN 신청
 	@GetMapping("zman_join")
 	public String zmanJoin() {
+		return "member/member_zman_join_identification";
+	}
+	
+	@PostMapping("zman_join_pro")
+	public String zmanJoinPro() {
 		return "member/member_zman_join";
 	}
 	
