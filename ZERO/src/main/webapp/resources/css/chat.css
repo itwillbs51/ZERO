@@ -106,7 +106,7 @@
 }
 
 .chatMsgArea {
-/* 	height: 100%; */
+	height: 600px;
 	flex-grow: 1;
 }
 
@@ -228,7 +228,8 @@ table div {
 	
 	/* 채팅창 */
 	.chatMsgArea {
-		width: 100%
+		width: 100%;
+		height: 100%;
 	}
 	.msg {
 		min-width: 120px;
