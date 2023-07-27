@@ -13,5 +13,11 @@
 	reflectorFactory, plugins, environments,
 	databaseIdProvider, mappers
 	-->
+	
+	<typeAliases>
+		<typeAlias type="com.itwillbs.zero.vo.MemberVO" alias="Member"/>
+		<typeAlias type="com.itwillbs.zero.vo.ResponseTokenVO" alias="Token"/>
+		<typeAlias type="com.itwillbs.zero.vo.SecondhandVO" alias="Secondhand"/>
+	</typeAliases>
 
 </configuration>
