@@ -68,17 +68,31 @@
 									<tbody>
 										<tr>
 											<th>이름</th>
-											<td colspan="2">${member.member_image} ${member.member_name }</td>
-										</tr>
-										<tr>
-											<th>닉네임</th>
-											<td colspan="2">${member.member_nickname }</td>
+											<td colspan="2">
+												${member.member_image} ${member.member_name }
+											</td>
 										</tr>
 										<tr>
 											<th>아이디</th>
 											<td colspan="2">
-<%-- 												${member.member_id } --%>
-												<input type="text" class="form-control" name="member_id" value="${member.member_id }">
+												${member.member_id }
+											</td>
+										</tr>
+										<tr>
+											<th>닉네임</th>
+											<td colspan="2">
+												${member.member_nickname }
+											</td>
+										</tr>
+<!-- 										<tr> -->
+<!-- 											<th>비밀번호</th> -->
+<%-- 											<td colspan="2">${member.member_passwd }</td> --%>
+<!-- 										</tr> -->
+										<tr>
+											<th>회원타입</th>
+											<td colspan="2">
+<%-- 												${member.member_type } --%>
+												<input type="text" class="form-control" name="member_type" value="${member.member_type }">
 											</td>
 										</tr>
 										<tr>
@@ -104,11 +118,6 @@
 														<option value="활동" <c:if test="${member.member_status eq '활동' }">selected</c:if>>활동</option>
 														<option value="탈퇴" <c:if test="${member.member_status eq '탈퇴' }">selected</c:if>>탈퇴</option>
 													</select>
-<!-- 													<select class="form-select form-select-sm" name="member_status" id="memberStatusSelect" aria-label="Default select example" style="width: 170px;"> -->
-<%-- 														<option selected disabled value="${member.member_status }">현재 상태 : ${member.member_status }</option> --%>
-<!-- 														<option value="활동">활동</option> -->
-<!-- 														<option value="탈퇴">탈퇴</option> -->
-<!-- 													</select> -->
 												</span>
 	<!-- 											<span style="display: inline-block;"> -->
 	<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changeMemberStatus">변경</button>											 -->

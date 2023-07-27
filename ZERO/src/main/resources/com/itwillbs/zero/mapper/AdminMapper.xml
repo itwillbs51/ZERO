@@ -24,17 +24,15 @@
 		SET
 			member_status = #{member_status}
 			, member_phone = #{member_phone}
-			, member_id = #{member_id}
 		WHERE member_idx = #{member_idx}
 	</update>
-	
 	
 	
 	<!-- 고객센터관리 - 공지사항 목록 조회 -->
 	<select id="selectCsList"  resultType="map">
 		SELECT * 
 			FROM CS c 
-			JOIN MEMBER m ON m.member_idx = c.member_idx
+			JOIN MEMBER m ON m.member_id = c.member_id
 			WHERE cs_type = '공지'
 			ORDER BY cs_date DESC
 	</select>
@@ -61,7 +59,7 @@
 				, cs_subject
 				, cs_content
 				, cs_date
-				, member_idx
+				, member_id
 				, cs_type
 				, cs_file
 <!-- 				, cs_type_list_idx -->
@@ -71,7 +69,7 @@
 				, #{cs_subject}
 				, #{cs_content}
 				, now()
-				, #{member_idx}
+				, #{member_id}
 				, #{cs_type}
 				, #{cs_file}
 <!-- 				, #{cs_type_list_idx} + 1 -->
@@ -82,7 +80,7 @@
 	<select id="selectCs" resultType="com.itwillbs.zero.vo.CsVO">
 		SELECT * 
 			FROM CS c 
-			JOIN MEMBER m ON m.member_idx = c.member_idx
+			JOIN MEMBER m ON m.member_id = c.member_id
 			WHERE cs_idx = #{cs_idx}
 	</select>
 	
@@ -93,7 +91,7 @@
 			cs_subject = #{cs_subject}
 			, cs_content = #{cs_content}
 			, cs_date = now()
-			, member_idx = #{member_idx}
+			, member_id = #{member_id}
 			, cs_file = #{cs_file}
 		WHERE cs_idx = #{cs_idx}
 	</update>
