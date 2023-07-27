@@ -131,7 +131,7 @@
 			
 		}
 		/* 이미지 장수 표시 */
-		$("#img_number").html('('+ img_number + '/6)');
+		$("#img_number").html('('+ img_number + '/3)');
 		
 	}
 	
@@ -711,7 +711,9 @@
 		
 		var c_idx = $("#c_idx").val();
 		
-		var p_condition = $("#p_condition").val();
+		var p_dealStatus = $("#p_dealStatus").val();
+		
+		var p_paymentType = $("#p_paymentType").val();
 		
 		var p_location = $("#p_location").val().trim();
 		
@@ -801,7 +803,8 @@
 		formData.append('p_name',p_name);			// 상품명
 		formData.append('c_idx',c_idx);				// 카테고리번호
 		formData.append('p_location',p_location);	// 지역
-		formData.append('p_condition',p_condition);	// 상품상태
+		formData.append('p_dealStatus',p_dealStatus);	// 거래방법
+		formData.append('p_paymentType',p_paymentType);	// 결제타입
 		formData.append('p_price',p_price);			// 가격
 		formData.append('p_exp',p_exp);				// 상품설명
 		
@@ -1088,10 +1091,23 @@ body{
 	}
 	
 	/* 상품 상태 */
-	#p_condition {
+/* 	#p_condition { */
+/* 		width: 15px; */
+/* 		height: 15px; */
+/* 	} */
+	
+	/* 거래 방법*/
+	#p_dealStatus {
 		width: 15px;
 		height: 15px;
 	}
+	
+	/* 결제방법 */
+	#p_paymentType {
+		width: 15px;
+		height: 15px;
+	}
+	
 	
 	input {
 		accent-color: red;
@@ -1136,6 +1152,7 @@ body{
 
 <body>
 <header><%@ include file="../inc/header.jsp"%></header>
+
 	<!-- 파일업로드 용 폼 -->
 	<form enctype="multipart/form-data" id="imgform" method="post">
 		<input type="file" id="sumimage"   style="display: none;" accept=".jpg, .jpeg, .png">
@@ -1290,20 +1307,71 @@ body{
 					<td colspan="2"><hr></td>
 				</tr>
 				
-				<!-- 상품상태 -->
+<!-- 				상품상태 -->
+<!-- 				<tr> -->
+<!-- 					<td class="td1" align="left" style="vertical-align: top;"><span -->
+<!-- 						class="pro_info">상품상태<span style="color: red">*</span></span></td> -->
+<!-- 					<td class="td2" align="left"> -->
+<!-- 						<input type="radio" name="p_condition" id="p_condition" value="중고상품" checked="checked"> -->
+<!-- 						<span class="pro_info">중고상품</span>  -->
+<!-- 						<input type="radio" name="p_condition" id="p_condition" value="새상품">  -->
+<!-- 						<span class="pro_info">새상품</span> -->
+<!-- 					</td> -->
+<!-- 				</tr> -->
+
+
+
+
+
+				<!-- 거래방법 -->
+
 				<tr>
-					<td class="td1" align="left" style="vertical-align: top;"><span
-						class="pro_info">상품상태<span style="color: red">*</span></span></td>
-					<td class="td2" align="left"><input type="radio"
-						name="p_condition" id="p_condition" value="중고상품" checked="checked">
-						<span class="pro_info">중고상품</span> <input type="radio"
-						name="p_condition" id="p_condition" value="새상품"> <span
-						class="pro_info">새상품</span></td>
+					<td class="td1" align="left" style="vertical-align: top;">
+						<span class="pro_info">거래방법
+							<span style="color: red">*</span>
+						</span>
+						<div class="pro_info" style="font-size: 15px; color:gray;"> 중복 선택 가능 </div>
+					</td>
+					<td class="td2" align="left">
+						<input type="checkbox" name="p_dealStatus" id="p_dealStatus" value="직거래" checked="checked">
+						<span class="pro_info">직거래</span> 
+						<input type="checkbox" name="p_dealStatus" id="p_dealStatus" value="택배거래"> 
+						<span class="pro_info">택배거래</span>
+						<input type="checkbox" name="p_dealStatus" id="p_dealStatus" value="Z스테이션"> 
+						<span class="pro_info">Z스테이션</span>
+					</td>
 				</tr>
+				
+				<tr>
+					<td colspan="2"><hr></td>
+				</tr>
+				
+				
+				<!-- 결제방법 -->
+				<tr>
+					<td class="td1" align="left" style="vertical-align: top;">
+						<span class="pro_info">결제방법
+							<span style="color: red">*</span>
+						</span>
+						<div class="pro_info" style="font-size: 15px; color:gray;"> 중복 선택 가능 </div>
+					</td>
+					<td class="td2" align="left">
+						<input type="checkbox" name="p_paymentType" id="p_paymentType" value="Z페이" checked="checked">
+						<span class="pro_info">Z페이</span> 
+						<input type="checkbox" name="p_paymentType" id=p_paymentType value="직접송금"> 
+						<span class="pro_info">직접송금</span>
+					</td>
+				</tr>
+				
 
 				<tr>
 					<td colspan="2"><hr></td>
 				</tr>
+				
+				
+				
+				
+				
 				
 				<!-- 가격  -->
 				<tr>	
