@@ -77,9 +77,9 @@
 // 	let sock = new SockJS("<c:url value="/chatting"/>");
 	var sock = new SockJS('http://localhost:8089/zero/chatting');
 	// 웹소켓 서버에서 메세지를 보내면 자동으로 실행됨
-	sock.onmessage = onMessage;
+// 	sock.onmessage = onMessage;
 	// 웹소켓과 연결을 끊고 싶을 때 실행하는 메서드
-	sock.onclose = onClose;
+// 	sock.onclose = onClose;
 // 	sock.onopen = onOpen;
 	
 	// 웹소켓으로 메세지 보내는 함수
@@ -146,8 +146,9 @@
 	}
 	
 	// 채팅창에 들어왔을 때 -> 채팅에선 필요 없을 듯
-// 	function onOpen(evt) {
-// 	}
+	function onOpen(evt) {
+		
+	}
 	
 	//문서 시작 시 나올 것들
 // 	$(function() {
