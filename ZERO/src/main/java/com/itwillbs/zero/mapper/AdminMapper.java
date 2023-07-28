@@ -42,6 +42,12 @@ public interface AdminMapper {
 	// zman 관리 - zmna 정보 조회
 	ZmanVO selectZman(int zman_idx);
 	
+	// zman관리 - zman 정보 삭제
+	int deleteZamn(int zman_idx);
+	
+	// zman관리 - zman 정보 수정
+	int updateZman(ZmanVO zman);
+	
 	// 고객센터관리 - 공지사항 목록 조회
 	List<CsVO> selectCsList();
 
@@ -62,6 +68,10 @@ public interface AdminMapper {
 
 	// 고객센터관리 - 1:1 문의 게시판 조회하기
 	List<CsVO> selectCsQnAList();
+
+	
+
+	
 
 
 
