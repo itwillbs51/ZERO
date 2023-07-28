@@ -61,6 +61,18 @@
 				report_idx = #{report_idx}
 	</update>
 	
+	<!-- zman 관리 - zmna 목록 조회 -->
+	<select id="selectZmanList" resultType="com.itwillbs.zero.vo.ZmanVO">
+		SELECT * FROM ZMAN
+	</select>
+
+	<!-- zman 관리 - zmna 정보 조회 -->
+	<select id="selectZman" resultType="com.itwillbs.zero.vo.ZmanVO">
+		SELECT * FROM ZMAN
+		WHERE zman_idx = #{zman_idx}
+	</select>
+	
+	
 	<!-- 고객센터관리 - 공지사항 목록 조회 -->
 	<select id="selectCsList"  resultType="map">
 		SELECT * 

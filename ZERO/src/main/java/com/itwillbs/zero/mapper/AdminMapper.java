@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.ZmanVO;
 
 @Mapper
 public interface AdminMapper {
@@ -35,6 +36,12 @@ public interface AdminMapper {
 	// 회원관리 - 회원 신고 정보 수정(처리상태 변경)
 	int updateMemberReport(ReportVO report);
 	
+	// zman 관리 - zmna 목록 조회
+	List<ZmanVO> selectZmanList();
+	
+	// zman 관리 - zmna 정보 조회
+	ZmanVO selectZman(int zman_idx);
+	
 	// 고객센터관리 - 공지사항 목록 조회
 	List<CsVO> selectCsList();
 
@@ -55,6 +62,9 @@ public interface AdminMapper {
 
 	// 고객센터관리 - 1:1 문의 게시판 조회하기
 	List<CsVO> selectCsQnAList();
+
+
+
 
 
 

@@ -9,6 +9,7 @@ import com.itwillbs.zero.mapper.AdminMapper;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.ZmanVO;
 
 @Service
 public class AdminService {
@@ -55,6 +56,16 @@ public class AdminService {
 	public int modifyReport(ReportVO report) {
 		return mapper.updateMemberReport(report);
 	}
+	
+	// zman 관리 - zmna 목록 조회
+	public List<ZmanVO> getZmanList() {
+		return mapper.selectZmanList();
+	}
+
+	// zman 관리 - zmna 정보 조회
+	public ZmanVO getZman(int zman_idx) {
+		return mapper.selectZman(zman_idx);
+	}
 
 	// 고객센터관리 - 공지사항 목록 조회
 	public List<CsVO> getCsList() {
@@ -97,6 +108,9 @@ public class AdminService {
 		return mapper.selectCsQnAList();
 	}
 
+	
+
+	
 
 	
 

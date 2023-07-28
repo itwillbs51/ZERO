@@ -1,7 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function logout(){
+		let isLogout = confirm("로그아웃 하시겠습니까?");
+		
+		// isLogout 이 true 일때 MemberLogout.me 서블릿 요청
+		if(isLogout){
+			location.href = "MemberLogout";
+		}
+	}
+</script>
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 	<!-- Navbar Brand-->
 	<a class="navbar-brand ps-3" href="admin_main">관리자 페이지</a>
@@ -36,10 +47,21 @@
 				<i class="fas fa-user fa-fw"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-				<li><a class="dropdown-item" href="#!">Settings</a></li>
-				<li><a class="dropdown-item" href="#!">Activity Log</a></li>
-				<li><hr class="dropdown-divider" /></li>
-				<li><a class="dropdown-item" href="#!">로그아웃</a></li>
+				<c:choose>
+					<c:when test="${empty sessionScope.member_id }">
+						<li><a class="dropdown-item" href="#!">Settings</a></li>
+						<li><a class="dropdown-item" href="#!">Activity Log</a></li>
+						<li><hr class="dropdown-divider" /></li>
+						<li><a class="dropdown-item" href="member_login">로그인</a></li>
+					</c:when>
+					<c:otherwise>
+						<%-- 로그아웃 링크 클릭 시 자바스크립트 logout() 함수 실행 --%>
+						<li><a class="dropdown-item" href="#!">Settings</a></li>
+						<li><a class="dropdown-item" href="#!">Activity Log</a></li>
+						<li><hr class="dropdown-divider" /></li>
+						<li><a class="dropdown-item" href="member_logout">로그아웃</a></li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</li>
 	</ul>

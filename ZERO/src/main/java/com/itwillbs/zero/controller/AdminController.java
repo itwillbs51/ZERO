@@ -29,6 +29,7 @@ import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.ZmanVO;
 
 @Controller
 public class AdminController {
@@ -170,10 +171,33 @@ public class AdminController {
 	
 	// zman관리 - zman 목록 페이지로 디스패치
 	@GetMapping("admin_zman_list")
-	public String adminZmanList() {
+	public String adminZmanList(Model model) {
 		System.out.println("AdminController - adminZmanList");
 		
+		List<ZmanVO> zmanList = service.getZmanList();
+		System.out.println(zmanList);
+		
+		model.addAttribute("zmanList", zmanList);
+		
 		return "admin/admin_zman_list";
+	}
+	
+	// zman관리 - zman 정보 조회
+	@GetMapping("admin_zman_detail")
+	public String getZman(int zman_idx, Model model) {
+		System.out.println("AdminController - getZman");
+		
+//		int memberIdx =  Integer.parseInt(member_idx);
+		
+		ZmanVO zman = service.getZman(zman_idx);
+//		MemberVO member = service.getMember(memberIdx);
+//		int memberReportCount = service.getZmanReportCount(zman_idx);
+//		int memberReportCount = service.getMemberReportCount(member.getMember_id());
+//			System.out.println(member);
+		model.addAttribute("zman", zman);
+//		model.addAttribute("memberReportCount", memberReportCount);
+		
+		return "admin/admin_member_detail";
 	}
 	
 	// zman관리 - zman 배달 내역 페이지로 디스패치

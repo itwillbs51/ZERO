@@ -58,37 +58,36 @@
 										<th>아이디</th>
 										<td colspan="2">${zman.zman_id }</td>
 									</tr>
-									<tr>
-										<th>생년월일</th>
-										<td colspan="2">${zman.zman_birth }</td>
-									</tr>
+<!-- 									<tr> -->
+<!-- 										<th>생년월일</th> -->
+<%-- 										<td colspan="2">${zman.zman_birth }</td> --%>
+<!-- 									</tr> -->
 									<tr>
 										<th>전화번호</th>
 										<td colspan="2">${zman.zman_phone }</td>
 									</tr>
 									<tr>
 										<th>주소</th>
-										<td colspan="2">${zman.zman_address }</td>
+										<td colspan="2">${zman.zman_address } ${zman.zman_address_detail }</td>
 									</tr>
 									<tr>
 										<th>zman상태</th>
 										<td>${zman.zman_status }</td>
 										<td class="text-end">
 											<span style="display: inline-block;">
-												<select class="form-select form-select-sm" aria-label="Default select example" style="width: 120px;">
-													<option selected>${zman.zman_status }</option>
-													<option value="활동">활동</option>
-													<option value="활동">탈퇴</option>
+												<select class="form-select form-select-sm" name="member_status"  id="memberStatusSelect" aria-label="Default select example" style="width: 170px;">
+													<option value="활동" <c:if test="${member.member_status eq '활동' }">selected</c:if>>활동</option>
+													<option value="탈퇴" <c:if test="${member.member_status eq '탈퇴' }">selected</c:if>>탈퇴</option>
 												</select>
 											</span>
-											<span style="display: inline-block;">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changezmanStatus">변경</button>											
-											</span>
+<!-- 											<span style="display: inline-block;"> -->
+<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changezmanStatus">변경</button>											 -->
+<!-- 											</span> -->
 										</td>
 									</tr>
 									<tr>
 										<th>탈퇴일</th>
-										<td colspan="2"></td>
+										<td colspan="2">${zman.zman_withdrawl }</td>
 									</tr>
 									<tr>
 										<th>배달 내역 상세보기</th>
@@ -104,8 +103,7 @@
 									</tr>
 									<tr>
 										<th>계좌등록일</th>
-										<td colspan="2">
-										</td>
+										<td colspan="2"></td>
 									</tr>
 									<tr>
 										<th>은행명</th>
