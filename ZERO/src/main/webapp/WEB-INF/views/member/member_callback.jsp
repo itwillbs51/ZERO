@@ -10,15 +10,47 @@
 <script type="text/javascript">
   var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8089/zero/callback_login_naver");
   // 접근 토큰 값 출력
-  alert(naver_id_login.oauthParams.access_token);
+//   alert(naver_id_login.oauthParams.access_token);
   // 네이버 사용자 프로필 조회
   naver_id_login.get_naver_userprofile("naverSignInCallback()");
   // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
   function naverSignInCallback() {
-    alert(naver_id_login.getProfileData('email'));
-    alert(naver_id_login.getProfileData('nickname'));
-    alert(naver_id_login.getProfileData('age'));
+	console.log(naver_id_login);
+//     alert(naver_id_login.getProfileData('email'));
+//     alert(naver_id_login.getProfileData('name'));
+    var member_id = naver_id_login.getProfileData('email');
+    var member_name = naver_id_login.getProfileData('name');
+    
+    $.ajax({
+        type: 'post',
+        url: 'checkUserNaver',
+        url: 'ajax/checkUserNaver',
+        data: {"member_id":member_id
+        		, "member_name":member_name
+        	},
+        dataType: 'text',
+        success: function(response) {
+          console.log(response);
+          if (response === 'new') {
+//         	  sessionStorage.setItem('email', member_id);
+        	  window.opener.location.href = 'join?member_id=' + member_id + '&member_name=' + member_name;
+        	  alert(' 네이버 로그인 성공! 회원가입을 완료해주세요. ');
+        	  window.close();
+
+          }  else if (response === 'existing') { 
+//         	  sessionStorage.removeItem("email");
+//         	  sessionStorage.setItem('member_id', member_id);
+        	  window.opener.location.href = './';
+        	  alert(' 네이버 로그인 성공!')
+        	  window.close();
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log(error);
+        }
+    });
   }
 </script>
+
 </body>
 </html>

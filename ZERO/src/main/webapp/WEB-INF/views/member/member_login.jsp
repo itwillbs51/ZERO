@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -405,86 +409,38 @@ function onSignInFailure(t){
 <%-- 구글 api 사용을 위한 스크립트 --%>
 <!-- <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> -->
 <!--  네이버 로그인 시작 -->
-<script type="text/javascript">
-//  	$('.btn_login_naver').on('click', function() {
-//  		let url = "https://nid.naver.com/oauth2.0/authorize?"
-//  						+ "response_type=code"
-//  						+ "&client_id=lmCZvEMfrqOMLdWO1M_n"
-//  						+ "&redirect_uri=http://localhost:8089/zero/member_join"
-//  						+ "&state=test";
-//  		window.open(url, "pop01", 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no');
-//  	});
-</script>
-					
-<script type="text/javascript">
-// 	var naverLogin = new naver.LoginWithNaverId(
-// 			{
-// 				clientId: "lmCZvEMfrqOMLdWO1M_n", // cliendId
-// 				callbackUrl: "http://localhost:8089/zero/member_join", // Callback URL 
-// // 				callbackUrl: "http://c5d2302t1.itwillbs.com/Movie_DongBaek/member_join_step2", // Callback URL 
-// 				isPopup: false,
-// 				callbackHandle: true
-// 			} );
-	
-// 	naverLogin.init();
-	
-// 	$('.btn_login_naver').on('click', function() {
-// 	    naverLogin.getLoginStatus(function(status) {
-	    	
-// 	    	alert("a333333333333333333333333333333333" +status); // false
-	    	
-// 	    	if (status) {
-// 	            var email = naverLogin.user.getEmail();
-// 	            console.log(email);
-// 	            console.log(naverLogin);
-	            
-// 	            $.ajax({
-// 	                type: 'post',
-// 	                url: 'checkUserNaver',
-// 	                data: {email:email},
-// 	                dataType: 'text',
-// 	                success: function(response) {
-// 	                  console.log(response);
-// 	                  if (response === 'new') {
-// 	                	  sessionStorage.setItem('email', member_email);
-// 	                	  location.href = '<c:url value="/join"/>';
-// 	                	  alert(' 네이버 로그인 성공! 회원가입을 완료해주세요. ');
 
-// 	                  }  else if (response === 'existing') { 
-// 	                	  sessionStorage.removeItem("email");
-// 	                	  location.href = '<c:url value="/" />';
-// 	                	  alert(' 네이버 로그인 성공!')
-// 	                  }
-// 	                },
-// 	                error: function(xhr, status, error) {
-// 	                  console.log(error);
-// 	                }
-// 	            });
-// 	    	} else {
-// 	            alert("fail");
-// 	        }
-// 	    });
-// 	});
-</script> 
-					<%-- 네이버 로그인 --%>
 					
-					<script type="text/javascript">
-// 						var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8089/zero/callback_login_naver"); // YOUR_CLIENT_ID, YOUR_CALLBACK_URL 
-// 				        var state = naver_id_login.getUniqState();
-// 				        naver_id_login.setButton("white", 2, 40);
-// 				        naver_id_login.setDomain("http://localhost:8089/zero/member_login"); // YOUR_SERVICE_URL
-// 				        naver_id_login.setState(state);
-// 				        naver_id_login.setPopup();
-// 				        naver_id_login.init_naver_id_login();
+
+<%-- 네이버 로그인 --%>
+
+<script type="text/javascript">
+// 	var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8089/zero/callback_login_naver"); // YOUR_CLIENT_ID, YOUR_CALLBACK_URL 
+//     var state = naver_id_login.getUniqState();
+//     naver_id_login.setButton("white", 2, 40);
+//     naver_id_login.setDomain("http://localhost:8089/zero/member_login"); // YOUR_SERVICE_URL
+//     naver_id_login.setState(state);
+//     naver_id_login.setPopup();
+//     naver_id_login.init_naver_id_login();
 				        
-				        var client_id = "lmCZvEMfrqOMLdWO1M_n";
-				        var redirect_uri = "http://localhost:8089/zero/callback_login_naver";
-// 				        var redirect_uri = "http%3A%2F%2Flocalhost%3A8089%2Fzero%2Fcallback_login_naver";
-						var state = "90aada36-5411-4fe5-bec6-11bc1e78e029";
-				        $(".btn_login_naver").on("click",function(){
-				        	window.open("https://nid.naver.com/oauth2.0/authorize?response_type=token&amp;client_id=" + client_id + "&amp;redirect_uri=" + redirect_uri + "&amp;state=" + state, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550');
-				        })
-					</script>
-
+    var client_id = "lmCZvEMfrqOMLdWO1M_n";
+    var redirect_uri = "http://localhost:8089/zero/callback_login_naver";
+	var state = "90aada36-5411-4fe5-bec6-11bc1e78e029";
+    $(".btn_login_naver").on("click",function(){
+    	window.open("https://nid.naver.com/oauth2.0/authorize?response_type=token&amp;client_id=" + client_id + "&amp;redirect_uri=" + redirect_uri + "&amp;state=" + state, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, left=');
+    })
+</script>
+  <%
+    String clientId = "lmCZvEMfrqOMLdWO1M_n";//애플리케이션 클라이언트 아이디값";
+    String redirectURI = URLEncoder.encode("YOUR_CALLBACK_URL", "UTF-8");
+    SecureRandom random = new SecureRandom();
+    String state = new BigInteger(130, random).toString();
+    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+         + "&client_id=" + clientId
+         + "&redirect_uri=" + redirectURI
+         + "&state=" + state;
+    session.setAttribute("state", state);
+ %>
+<%--   <a href="<%=apiURL%>"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a> --%>
 </body>
 </html>
