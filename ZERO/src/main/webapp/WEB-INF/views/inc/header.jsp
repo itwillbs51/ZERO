@@ -22,7 +22,6 @@
 			<div id="headerArea1_inner">
 				<ul id="headerArea1_list">
 					<li class="headerArea1_item"><a href="cs_main" class="headerArea1_link">고객센터</a></li>
-					<li class="headerArea1_item"><a href="member_logout" class="headerArea1_link">로그아웃</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">알림</a></li>
 					<%-- 알림 임시 --%>
@@ -49,6 +48,7 @@
 							</c:otherwise>
 						</c:choose>
 					</li>
+					<li class="headerArea1_item" <c:if test="${empty sessionScope.member_id }">hidden</c:if>><a href="member_logout" class="headerArea1_link">로그아웃</a></li>
 					<li class="headerArea1_item"><a href="zman_main" class="headerArea1_link">ZMAN</a></li>
 					<li class="headerArea1_item"><a href="admin_main" class="headerArea1_link">관리자</a></li>
 				</ul>
