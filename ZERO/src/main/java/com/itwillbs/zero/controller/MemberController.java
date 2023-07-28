@@ -242,6 +242,15 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
+	// 멤버 이메일 인증 요청
+	@GetMapping("member_find_emailAuth")
+	public String memberFindEmailAuth(HttpSession session
+			, Model model) {
+		System.out.println("MemberController - memberFindEmailAuth");
+		
+		return "member/member_find_emailAuth";
+	}
+	
 	// 멤버 메인화면
 	@GetMapping("member_mypage_main")
 	public String memberMypageHome() {

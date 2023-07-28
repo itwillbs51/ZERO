@@ -312,7 +312,7 @@ input[type=checkbox] {
 		      	<input type="checkbox" class="input_check" name="remember_me" <c:if test="${not empty cookie.member_id.value }">checked</c:if>> 
 		      		<a class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">아이디 저장</a>
 		      	</label>
-				<div><a href="#" class="look_link" data-v-4e1fd2e6="" data-v-2b15bea4="">인증 메일이 오지 않아요</a></div>
+				<div><a href="member_find_emailAuth" class="look_link" data-v-4e1fd2e6="" data-v-2b15bea4="">인증 메일이 오지 않아요</a></div>
 				<div class="social_login" data-v-2b15bea4="">
 					<button type="button" class="btn btn_login_naver full outline" data-v-43813796="" data-v-2b15bea4="" >
 						<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_naver.svg">
