@@ -15,7 +15,7 @@ public class ZmanVO {
 	private String zman_date;	//Date : java.sqlDate 임포트함
 	private String zman_phone;
 	private String zman_status; // ENUM 타입 -> String 타입으로 바꿈
-	private Date zman_withdrawl;	//Date : java.sql.Date 임포트함 XX-YY-MM // NULL
+	private Date zman_withdrawal;	//Date : java.sql.Date 임포트함 XX-YY-MM // NULL
 	private String zman_mail_auth;
 	private String zman_car_num;
 	private int zman_report_count;

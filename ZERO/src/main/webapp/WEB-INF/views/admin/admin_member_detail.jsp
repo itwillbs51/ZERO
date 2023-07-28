@@ -37,8 +37,29 @@
 			let changedStatus = $("#memberStatusSelect>option:selected").val();
 			$("#memberStatus").empty();
 			$("#memberStatus").html(changedStatus);
+
+			if(changedStatus == "활동"){
+				$("#memberWithdrawal").empty();
+			} else {
+				$("#memberWithdrawal").html('<input type="date" id="member_withdrawal" name="member_withdrawal" class="form-control datepicker">');
+			}
 		});
+		
 	});
+	
+	function modify(){
+// 		alert($("#memberStatus").text());
+// 		alert($("#member_withdrawal").val());
+// 		if($("#member_withdrawal").val() == ""){
+	
+		if($("#memberStatus").text() == "탈퇴" && $("#member_withdrawal").val() == ""){
+			alert("탈퇴일을 지정해주세요");
+		} else {
+			$("form").submit();
+		}
+	}
+	
+	
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -62,7 +83,7 @@
 							<b>${member.member_name }</b> 님 회원정보
 						</div>
 						<div class="card-body">
-							<form action="admin_member_modify" method="post">
+							<form action="admin_member_modify" method="post" id="member_modify_form">
 								<input type="hidden" name="member_idx" value="${member.member_idx }">
 								<table id="memberDetailInfo" class="table table-border">
 									<tbody>
@@ -119,14 +140,22 @@
 														<option value="탈퇴" <c:if test="${member.member_status eq '탈퇴' }">selected</c:if>>탈퇴</option>
 													</select>
 												</span>
-	<!-- 											<span style="display: inline-block;"> -->
-	<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changeMemberStatus">변경</button>											 -->
-	<!-- 											</span>	 -->
+<!-- 												<span style="display: inline-block;"> -->
+<!-- 													<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changeMemberStatus">변경</button>											 -->
+<!-- 												</span>	 -->
 											</td>
 										</tr>
 										<tr>
 											<th>탈퇴일</th>
-											<td colspan="2">${member.member_withdrawl }</td>
+											<td colspan="2" id="memberWithdrawal">
+<%-- 											<c:choose> --%>
+<%-- 												<c:when test="${member.member_withdrawal eq null }"> --%>
+<!-- 													<input type="date" name="member_withdrawal" class="form-control datepicker"> -->
+<%-- 												</c:when> --%>
+<%-- 												<c:otherwise> --%>
+													${member.member_withdrawal }
+<%-- 												</c:otherwise> --%>
+<%-- 											</c:choose> --%>
 										</tr>
 										<tr>
 											<th>피신고건수</th>
@@ -205,7 +234,8 @@
 								</table>
 								<div class="text-center">
 									<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
-									<button type="submit" class="btn btn-dark text-nowrap">변경저장</button>						
+									<button type="button" class="btn btn-dark text-nowrap" onclick="modify()">변경저장</button>						
+<!-- 									<button type="submit" class="btn btn-dark text-nowrap">변경저장</button>						 -->
 									<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteMember">
 										&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
 									</button>
@@ -221,8 +251,7 @@
 			</footer>	
 		</div>
 	</div>
-	
-	
+		
 	<%-- 회원 삭제 확인 모달창 --%>
 	<div class="modal fade" id="confirmDeleteMember" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteMemberTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">

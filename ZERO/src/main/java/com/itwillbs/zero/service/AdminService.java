@@ -66,6 +66,16 @@ public class AdminService {
 	public ZmanVO getZman(int zman_idx) {
 		return mapper.selectZman(zman_idx);
 	}
+	
+	// zman관리 - zman 정보 삭제
+	public int removeZman(int zman_idx) {
+		return mapper.deleteZamn(zman_idx);
+	}
+	
+	// zman관리 - zman 정보 수정
+	public int modifyZman(ZmanVO zman) {
+		return mapper.updateZman(zman);
+	}
 
 	// 고객센터관리 - 공지사항 목록 조회
 	public List<CsVO> getCsList() {
@@ -107,6 +117,15 @@ public class AdminService {
 	public List<CsVO> getCsQnAList() {
 		return mapper.selectCsQnAList();
 	}
+
+	// 고객센터관리 - 1:1 문의 게시판 상세 페이지로 이동하기
+	public CsVO getCsQnADetail(int cs_idx, int cs_info_idx) {
+		return mapper.selectCsQnADetail(cs_idx, cs_info_idx);
+	}
+
+	
+
+	
 
 	
 

@@ -81,7 +81,7 @@ public class AdminController {
 		
 		MemberVO member = service.getMember(memberIdx);
 		int memberReportCount = service.getMemberReportCount(member.getMember_id());
-//		System.out.println(member);
+		System.out.println(member);
 		model.addAttribute("member", member);
 		model.addAttribute("memberReportCount", memberReportCount);
 		
@@ -109,6 +109,7 @@ public class AdminController {
 	@PostMapping("admin_member_modify")
 	public String adminMemberUpdate(MemberVO member, Model model) {
 		System.out.println("AdminController - adminMemberModify()");
+		System.out.println(member);
 		
 		int updateCount = service.modifyMember(member);
 		
@@ -184,20 +185,51 @@ public class AdminController {
 	
 	// zman관리 - zman 정보 조회
 	@GetMapping("admin_zman_detail")
-	public String getZman(int zman_idx, Model model) {
+	public String getZman(String zman_idx, Model model) {
 		System.out.println("AdminController - getZman");
 		
-//		int memberIdx =  Integer.parseInt(member_idx);
+		int zmanIdx =  Integer.parseInt(zman_idx);
 		
-		ZmanVO zman = service.getZman(zman_idx);
-//		MemberVO member = service.getMember(memberIdx);
-//		int memberReportCount = service.getZmanReportCount(zman_idx);
+		ZmanVO zman = service.getZman(zmanIdx);
 //		int memberReportCount = service.getMemberReportCount(member.getMember_id());
 //			System.out.println(member);
 		model.addAttribute("zman", zman);
 //		model.addAttribute("memberReportCount", memberReportCount);
 		
-		return "admin/admin_member_detail";
+		return "admin/admin_zman_detail";
+	}
+	
+	// zman관리 - zman 정보 삭제
+	@GetMapping("admin_zman_delete")
+	public String adminZmanDelete(@RequestParam int zman_idx, Model model) {
+		System.out.println("AdminController - adminZmanDelete()");
+		System.out.println(zman_idx);
+		
+		int deleteCount = service.removeZman(zman_idx);
+		
+		if(deleteCount > 0) {
+			return "redirect:/admin_zman_list";			
+		} else {
+			model.addAttribute("msg", "zman 삭제 실패");
+			return "fail_back";
+		}
+		
+	}
+
+	// zman관리 - zman 정보 수정
+	@PostMapping("admin_zman_modify")
+	public String adminZmanModify(ZmanVO zman, Model model) {
+		System.out.println("AdminController - adminZmanModify()");
+		
+		int updateCount = service.modifyZman(zman);
+		
+		if(updateCount > 0) {
+			return "redirect:/admin_zman_list";			
+		} else {
+			model.addAttribute("msg", "zman 정보 수정 실패");
+			return "fail_back";
+		}
+		
 	}
 	
 	// zman관리 - zman 배달 내역 페이지로 디스패치
@@ -331,7 +363,7 @@ public class AdminController {
 			return "fail_back";
 		}
 		
-//		// DB 생성전까지 오류를 방지하기 위함(나중에 없앨 예정)
+//		// DB 생성 전까지 오류를 방지하기 위함(나중에 없앨 예정)
 //		return "admin/admin_cs_notice_list";
 		
 	}
@@ -465,9 +497,36 @@ public class AdminController {
 		return "admin/admin_cs_qna_list";
 	}
 	
-	// 고객센터 관리 - 1:1 문의 답변하기
+	
+	// 고객센터 관리 - 1:1 문의글 상세페이지로 이동하기
+	@GetMapping("admin_cs_qna_detail")
+	public String adminCsQnADetail(HttpSession session, Model model, @RequestParam int cs_idx, @RequestParam int cs_info_idx) {
+		System.out.println("AdminController - adminCsQnADetail");
+		
+		CsVO cs = service.getCsQnADetail(cs_idx, cs_info_idx);
+		model.addAttribute("cs", cs);
+		
+		return "admin/admin_cs_qna_detail";
+	}
+
+	// 고객센터 관리 - 1:1 문의 답변 등록하기
+	@PostMapping("admin_cs_qna_reply")
+	public String adminCsQnAReply() {
+		System.out.println("AdminController - admin_cs_qna_reply");
+		
+		return "";
+	}
+	
+	// 고객센터 관리 - 1:1 문의 답변 수정하기
+	@PostMapping("admin_cs_qna_reply_modify")
+	public String adminCsQnAReplyModify() {
+		System.out.println("AdminController - admin_cs_qna_reply_modify");
+		
+		return "";
+	}
+	
+	// 고객센터 관리 - 1:1 문의글 삭제하기
 	
 	
-	// 고객센터 관리 - 1:1 문의 삭제하기
 	
 }
