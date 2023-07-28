@@ -15,88 +15,6 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 	
-	// ================ 채팅 =========================
-	
-	// 웹소켓을 지정한 URL로 연결
-// 	let sock = new SockJS("<c:url value="/chatting"/>");
-	var sock = new SockJS('http://localhost:8089/zero/chatting');
-	// 웹소켓 서버에서 메세지를 보내면 자동으로 실행됨
-	sock.onmessage = onMessage;
-	// 웹소켓과 연결을 끊고 싶을 때 실행하는 메서드
-	sock.onclose = onClose;
-	
-	//문서 시작 시 나올 것들
-	$(function() {
-		// 채팅 기능
-		$(".submitBtn").on("click", function() {
-			console.log('send message...');
-			sendMessage();
-		});	// 보내기 버튼 클릭 함수 끝
-		
-	});		// function() 끝
-	
-	// 웹소켓으로 메세지 보내는 함수
-	function sendMessage() {
-		sock.send($("#inputText").val());
-	}
-	
-	// 웹소켓이 보내준 데이터를 파라미터로 받는 함수
-	function onMessage(evt) { // 변수 안에 function을 넣음
-		let data = evt.data;
-		let sessionid = null;
-		let message = null;
-		
-		// 문자열을 split
-		let strArray = data.split('|');
-		
-		for(let i = 0; i < strArray.length; i++) {
-			console.log('str[' + i + '] : ' + strArray[i]);
-		}
-		
-		//----------- 나중에 로그인 구현되면 구동 되는지 확인하기 --------------
-// 		/* 
-		// 현재 세션아이디
-		let current_sessionId = $("#sId").val();
-		let current_sessionId2 = "${sId}";
-		console.log('현재 세션 아이디 : ' + current_sessionId);
-		console.log('현재 세션 아이디2 : ' + current_sessionId2);
-		
-		sessionid = strArray[0];	// 현재 메세지를 보낸 사람의 세션 등록
-		message = strArray[1];		// 현재 메세지를 저장
-		
-		// 나와 상대방이 보낸 메세지를 구분하여 영역 나눔
-		if(sessionid == current_sessionId) {
-			$(".chatZone").append(
-					'<tr>'
-					+ '<td class="msgRight">'
-					+ '	<div class="msgTime">오후1:37</div>'
-					+ '	<div class="msg">' + sessionid + ' : ' + message + '</div>'
-					+ '</td>'
-					+ '</tr>'
-			);
-			
-		} else {
-			$(".chatZone").append(
-					'<tr>'
-					+ '<td class="msgLeft">'
-					+ '	<div class="msg">' + sessionid + ' : ' + message + '</div>'
-					+ '	<div class="msgTime">오후1:52</div>'
-					+ '</td>'
-					+ '</tr>'
-			);
-			
-		}
-		
-		console.log('chatting data : ' + data);
-		
-		// sock. close();
-// 		*/
-	}	// onMessage() 함수 끝
-	
-	function onClose(evt) {
-		$("#data").append("연결 끊김");
-	}
-	
 	let isOpen = false;
 	// 버튼 클릭 시 목록보이게하는 함수
 	$(function() {
@@ -146,6 +64,96 @@
 		
 	});	// function 끝
 	
+	// ================ 채팅 =========================
+	// 채팅 기능
+	$(".submitBtn").on("click", function() {
+		console.log('send message...');
+		sendMessage();
+// 		#("#inputText").val("");
+		
+	});	// 보내기 버튼 클릭 함수 끝
+	
+	// 웹소켓을 지정한 URL로 연결
+// 	let sock = new SockJS("<c:url value="/chatting"/>");
+	var sock = new SockJS('http://localhost:8089/zero/chatting');
+	// 웹소켓 서버에서 메세지를 보내면 자동으로 실행됨
+	sock.onmessage = onMessage;
+	// 웹소켓과 연결을 끊고 싶을 때 실행하는 메서드
+	sock.onclose = onClose;
+// 	sock.onopen = onOpen;
+	
+	// 웹소켓으로 메세지 보내는 함수
+	function sendMessage() {
+		sock.send($("#inputText").val());
+	}
+	
+	// 웹소켓이(서버가) 보내준 데이터를 파라미터로 받는 함수
+	function onMessage(evt) { // 변수 안에 function을 넣음
+		let data = evt.data;
+		let sessionId = null;	// 데이터를 보낸 사람
+		let message = null;
+		
+		// 문자열을 split
+		let strArray = data.split('|');
+		
+		for(let i = 0; i < strArray.length; i++) {
+			console.log('strArray[' + i + '] : ' + strArray[i]);
+		}
+		
+		//----------- 나중에 로그인 구현되면 구동 되는지 확인하기 --------------
+// 		/* 
+		// 현재 세션아이디
+// 		let current_sessionId2 = $("#userid").val();
+		let current_sessionId = "${userid}"; // 현재 세션에 로그인 한 사람
+		console.log('현재 세션 아이디 : ' + current_sessionId);
+// 		console.log('현재 세션 아이디2 : ' + current_sessionId2);
+		
+		sessionId = strArray[0];	// 현재 메세지를 보낸 사람의 세션 등록
+		message = strArray[1];		// 현재 메세지를 저장
+		
+		// 나와 상대방이 보낸 메세지를 구분하여 영역 나눔
+		if(sessionId == current_sessionId) {
+			$(".chatZone").append(
+					'<tr>'
+					+ '<td class="msgRight">'
+					+ '	<div class="msgTime">오후1:37</div>'
+					+ '	<div class="msg">' + sessionid + ' : ' + message + '</div>'
+					+ '</td>'
+					+ '</tr>'
+			);
+			
+		} else {
+			$(".chatZone").append(
+					'<tr>'
+					+ '<td class="msgLeft">'
+					+ '	<div class="msg">' + sessionid + ' : ' + message + '</div>'
+					+ '	<div class="msgTime">오후1:52</div>'
+					+ '</td>'
+					+ '</tr>'
+			);
+			
+		}
+		
+// 		console.log('chatting data : ' + data);
+		
+		// sock. close();
+// 		*/
+	}	// onMessage() 함수 끝
+
+	// 채팅방에서 나갔을 때 -> 채팅에선 필요 없을 듯
+	function onClose(evt) {
+		$("#data").append("연결 끊김");
+	}
+	
+	// 채팅창에 들어왔을 때 -> 채팅에선 필요 없을 듯
+// 	function onOpen(evt) {
+// 	}
+	
+	//문서 시작 시 나올 것들
+// 	$(function() {
+		
+// 	});		// function() 끝
+	
 </script>
 </head>
 <body>
@@ -155,7 +163,7 @@
 	</header>
 	
 	<%-- 세션 아이디 받기 - 없으면 fail_back --%>
-	<input type="hidden" id="sId" value="${session.sId }">
+<%-- 	<input type="hidden" id="userid" value="${userid }"> --%>
 	
 	<%-- 크기 조절을 위해 main에 다 넣음 --%>
 	<div id="main">
@@ -171,12 +179,13 @@
 			<aside id="chatListArea">
 				<ul id="chatList">
 					<c:forEach var="i" begin="1" end="2">
-						<li>
-							<img alt="프로필사진" src="">
+						<li class="chatRoomList">
+							<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg">
 							<span>사용자이름(고양이)</span>
 						</li>
-						<li>
-							<img alt="프로필사진" src="">
+						<li class="chatRoomList">
+							<input type="hidden" value="방번호">
+							<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg">
 							<span>사용자이름(유니콘)</span>
 		<%-- 				<c:if test=""> --%>
 								(5) 알람

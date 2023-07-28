@@ -22,7 +22,7 @@
 
 	@media only screen and (min-width: 768px) {
 		body{
-		margin-top: 86px;
+		margin-top: 86px!important;
 		
 	}
 	

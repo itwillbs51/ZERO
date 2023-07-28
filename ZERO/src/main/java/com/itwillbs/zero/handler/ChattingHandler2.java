@@ -17,12 +17,12 @@ import org.slf4j.LoggerFactory;
 // WebSocket 핸들러를 구현하기 위해 TextWebSocketHandler 상속
 @Component
 @RequestMapping("/chatting")
-public class ChattingHandler extends TextWebSocketHandler{
+public class ChattingHandler2 extends TextWebSocketHandler{
 	
 	// WebSocket 세션 저장할 리스트 생성(전체 채팅, 알림)
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
-	private static final Logger logger = LoggerFactory.getLogger(ChattingHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(ChattingHandler2.class);
 	
 	// 클라이언트가 채팅을 위해 해당 페이지에 들어오면 클라이언트 연결, 해당 클라이언트 세션을 저장
 	@Override

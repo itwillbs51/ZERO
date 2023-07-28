@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.zero.mapper.AdminMapper;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.ReportVO;
 
 @Service
 public class AdminService {
@@ -15,14 +16,19 @@ public class AdminService {
 	@Autowired
 	private AdminMapper mapper;
 
-	// 회원 목록 조회
+	// 회원관리 - 회원 목록 조회
 	public List<MemberVO> getMemebrList() {
 		return mapper.selectMemberList();
 	}
 
-	// 회원 정보 조회
+	// 회원관리 - 회원 정보 조회
 	public MemberVO getMember(int member_idx) {
 		return mapper.selectMember(member_idx);
+	}
+	
+	// 회원관리 - 회원 피신고 건수 조회
+	public int getMemberReportCount(String member_id) {
+		return mapper.selectMemberReportCount(member_id);
 	}
 	
 	// 회원관리 - 회원 정보 삭제
@@ -33,6 +39,21 @@ public class AdminService {
 	// 회원관리 - 회원 정보 수정
 	public int modifyMember(MemberVO member) {
 		return mapper.updateMember(member);
+	}
+	
+	// 회원관리 - 회원 신고 목록 조회
+	public List<ReportVO> getMemberReportList(String reported_member_id) {
+		return mapper.selectMemberReportList(reported_member_id);
+	}
+	
+	// 회원관리 - 회원 신고 정보 조회
+	public ReportVO getMemberReportDetail(int report_idx) {
+		return mapper.selectMemberReportDetail(report_idx);
+	}
+	
+	// 회원관리 - 회원 신고 정보 수정(처리상태 변경)
+	public int modifyReport(ReportVO report) {
+		return mapper.updateMemberReport(report);
 	}
 
 	// 고객센터관리 - 공지사항 목록 조회
@@ -70,6 +91,18 @@ public class AdminService {
 	public int removeNotice(int cs_idx) {
 		return mapper.deleteNotice(cs_idx);
 	}
+
+	// 고객센터관리 - 1:1 문의 게시판 조회하기
+	public List<CsVO> getCsQnAList() {
+		return mapper.selectCsQnAList();
+	}
+
+
+	
+
+	
+
+	
 
 		
 	

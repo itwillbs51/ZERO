@@ -28,6 +28,7 @@ import com.itwillbs.zero.controller.AdminController;
 import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.ReportVO;
 
 @Controller
 public class AdminController {
@@ -78,8 +79,10 @@ public class AdminController {
 		int memberIdx =  Integer.parseInt(member_idx);
 		
 		MemberVO member = service.getMember(memberIdx);
-		System.out.println(member);
+		int memberReportCount = service.getMemberReportCount(member.getMember_id());
+//		System.out.println(member);
 		model.addAttribute("member", member);
+		model.addAttribute("memberReportCount", memberReportCount);
 		
 		return "admin/admin_member_detail";
 	}
@@ -106,9 +109,9 @@ public class AdminController {
 	public String adminMemberUpdate(MemberVO member, Model model) {
 		System.out.println("AdminController - adminMemberModify()");
 		
-		int insertCount = service.modifyMember(member);
+		int updateCount = service.modifyMember(member);
 		
-		if(insertCount > 0) {
+		if(updateCount > 0) {
 			return "redirect:/admin_member_list";			
 		} else {
 			model.addAttribute("msg", "회원 정보 수정 실패");
@@ -118,13 +121,45 @@ public class AdminController {
 	}
 	
 	// 회원관리 - 회원신고 페이지로 디스패치
+	// 회원정보 상세보기 페이지에서 [피신고내역 상세보기]를 위해 파라미터 값 설정
 	@GetMapping("admin_member_report")
-	public String adminMemberReport() {
+	public String adminMemberReport(@RequestParam(defaultValue = "") String reported_member_id, Model model) {
 		System.out.println("AdminController - adminMemberReport");
+		
+		List<ReportVO> reportList = service.getMemberReportList(reported_member_id);
+		model.addAttribute("reportList", reportList);
 		
 		return "admin/admin_member_report";
 	}
+	
+	// 회원관리 - 회원 신고 정보 조회
+	@GetMapping("admin_member_report_detail")
+	public String adminMemberReportDetail(int report_idx, Model model) {
+		System.out.println("AdminController - adminMemberReportDetail");
+				
+		ReportVO report = service.getMemberReportDetail(report_idx);
+		System.out.println(report);
+		model.addAttribute("report", report);
+		
+		return "admin/admin_member_report_detail";
+	}
 
+	// 회원관리 - 회원 신고 정보 수정(처리상태 변경)
+	@PostMapping("admin_member_report_status_modify")
+	public String adminMemberReportUpdate(ReportVO report, Model model) {
+		System.out.println("AdminController - adminMemberReportUpdate()");
+		
+		int updateCount = service.modifyReport(report);
+		
+		if(updateCount > 0) {
+			return "redirect:/admin_member_report";			
+		} else {
+			model.addAttribute("msg", "회원 신고 상태 수정 실패");
+			return "fail_back";
+		}
+		
+	}
+	
 	// 회원관리 - 회원리뷰 페이지로 디스패치
 	@GetMapping("admin_member_review")
 	public String adminMemberReview() {
@@ -395,10 +430,20 @@ public class AdminController {
 	
 	// 고객센터 관리 - 1:1 문의 게시판 으로 이동하기
 	@GetMapping("admin_cs_qna")
-	public String adminCsQnA() {
+	public String adminCsQnA(CsVO cs, HttpSession session, Model model) {
 		System.out.println("AdminController - admin_cs_qna");
+		
+		List<CsVO> csQnAList = service.getCsQnAList();
+		System.out.println("csQnAList : " + csQnAList);
+		
+		model.addAttribute("csQnAList", csQnAList);
+		
 		return "admin/admin_cs_qna_list";
 	}
 	
+	// 고객센터 관리 - 1:1 문의 답변하기
+	
+	
+	// 고객센터 관리 - 1:1 문의 삭제하기
 	
 }

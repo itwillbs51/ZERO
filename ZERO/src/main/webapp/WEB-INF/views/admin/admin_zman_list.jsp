@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,13 +53,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
-										</tr>
+										<c:forEach var="zman" items="${zmanList }" varStatus="vs">
+											<tr>
+												<td>${zman.zman_name }</td>
+												<td>${zman.zman_id }</td>
+												<td>${zman.zman_birth }</td>
+												<td>${zman.zman_status }</td>
+	<%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
+												<td>
+													<a class="btn btn-sm btn-outline-dark" href="#">상세보기</a>
+												</td>
+											</tr>
+									</c:forEach>
 									</tbody>
 								</table>
 							</div>

@@ -1,38 +1,41 @@
-//package com.itwillbs.zero.controller;
-//
-//import java.util.*;
-//
-//import javax.servlet.http.*;
-//
-//import org.springframework.beans.factory.annotation.*;
-//import org.springframework.security.core.context.*;
-//import org.springframework.security.core.userdetails.*;
-//import org.springframework.stereotype.*;
-//import org.springframework.ui.*;
-//import org.springframework.web.bind.annotation.*;
-//
-//import com.itwillbs.zero.service.*;
-//import com.itwillbs.zero.vo.*;
-//
-//import lombok.*;
-//
-//@RequiredArgsConstructor
-//@RestController
-//@RequestMapping("/chatMsg")
-//public class ChatController {
-//	
-//	@Autowired
-//	private final ChatService chatService;
-//	
-//	@PostMapping
-//	public ChatRoomVO createRoom(@RequestBody String buyer_id) {
-//		return chatService.createRoom(buyer_id);
-//	}
-//	
-//	@GetMapping
-//	public List<ChatRoomVO> findAllRoom() {
-//		return chatService.findAllRoom();
-//	}
-//		
-//	
-//}
+package com.itwillbs.zero.controller;
+
+import java.util.*;
+
+import javax.servlet.http.*;
+
+import org.springframework.security.core.context.*;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+
+import lombok.extern.log4j.*;
+
+@Controller
+public class ChatController {
+	
+	
+	
+	// 채팅 페이지로 이동
+	@GetMapping("chat")
+	public String chat(HttpSession session, Model model) {
+		
+		// 사용자 정보 출력(세션)
+		// Spring Security를 적용, User 클래스를 상속받은 CustomUser 클래스의 정보(로그인한 ID)를 뷰로 보냄
+//		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		/*
+		System.out.println("user name : " + user.getUsername());
+		System.out.println("normal chat page");
+		
+		model.addAttribute("userId", user);
+		 */
+//		System.out.println("@ChatController, Get Chat/ Username : " + user.getUsername());
+		
+		model.addAttribute("userid", session.getAttribute("member_id"));
+		
+		
+		return "chatting/chat";
+	}
+	
+}

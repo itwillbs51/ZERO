@@ -22,7 +22,7 @@
 			<div id="headerArea1_inner">
 				<ul id="headerArea1_list">
 					<li class="headerArea1_item"><a href="cs_main" class="headerArea1_link">고객센터</a></li>
-					<li class="headerArea1_item"><a href="member_mypage_main" class="headerArea1_link">마이페이지</a></li>
+					<li class="headerArea1_item"><a href="member_logout" class="headerArea1_link">로그아웃</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">알림</a></li>
 					<%-- 알림 임시 --%>
@@ -42,7 +42,7 @@
 					<li class="headerArea1_item">
 						<c:choose>
 							<c:when test="${not empty sessionScope.member_id }">
-								<a href="member_logout" class="headerArea1_link">${sessionScope.member_id } 님</a>
+								<a href="member_mypage_main" class="headerArea1_link">${sessionScope.member_id } 님</a>
 							</c:when>
 							<c:otherwise>
 								<a href="member_login" class="headerArea1_link">로그인</a>					
