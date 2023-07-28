@@ -30,7 +30,7 @@
 <!-- 					</div> -->
 					
 					<%-- 채팅 임시 --%>
-					<li class="headerArea1_item"><a href="chat" class="headerArea1_link">채팅</a></li>
+					<li class="headerArea1_item"><a href="chatting" class="headerArea1_link">채팅</a></li>
 					<li class="headerArea1_item">
 						<c:choose>
 							<c:when test="${not empty sessionScope.member_id }">

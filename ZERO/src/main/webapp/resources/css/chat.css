@@ -18,13 +18,7 @@
 /* 채팅목록 */
 #chatListArea {
 	width: 400px;
-	min-height: 600px;
-}
-
-/* 채팅창 */
-#chatArea {
-	flex: 1 0 auto;
-/* 	position: relative; */
+/* 	min-height: 600px; */
 }
 
 /* 아이콘들 위치변경 */
@@ -32,21 +26,56 @@
 	vertical-align: -4px;
 	font-size: 18px;
 }
+
 #chatList {
 	width: 400px;
-	list-style : none;
+/* 	list-style : none; */
 }
 
-#chatList li {
-	height: 80px;
+
+.listImg {
+	width: 100px;
+	height: 100px;
 }
-#chatList img, #chatList span {
+
+.chatRoomShort {
+	width: 300px;
+}
+
+/* 상대방 이름 */
+.chatUserId {
+	font-size: 18px;
+	font-weight: bold;
+}
+.shortChatMsg {
+	font-size: 14px;
+	color: gray;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 채팅목록 - 프로필 사진 */
+#chatList img {
 	vertical-align: middle;
+}
+#chatList img {
+	width: 50px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
 }
 
 .chatPage {
 	padding: 0;
 	margin: 0;
+}
+
+/* 채팅창 */
+#chatArea {
+	flex: 1 0 auto;
+	background-color: white;
+/* 	position: relative; */
 }
 /* 채팅정보 */
 .art_firstRow {
