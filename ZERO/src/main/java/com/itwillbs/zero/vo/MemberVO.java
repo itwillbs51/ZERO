@@ -46,7 +46,7 @@ public class MemberVO {
 	private String member_status; // ENUM 타입 -> String 타입으로 바꿈
 	private int member_agreement_marketing_email;
 	private int member_agreement_marketing_sms;
-	private Date member_withdrawl;	//Date : java.sql.Date 임포트함 XX-YY-MM // NULL
+	private Date member_withdrawal;	//Date : java.sql.Date 임포트함 XX-YY-MM // NULL
 	private String member_mail_auth;
 	private String member_type;
 	private String member_address1;

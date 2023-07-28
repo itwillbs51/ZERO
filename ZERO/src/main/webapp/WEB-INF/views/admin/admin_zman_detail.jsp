@@ -11,6 +11,7 @@
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -26,6 +27,15 @@
 	}	
 
 </style>
+<script type="text/javascript">
+	$(function() {
+		$("#zmanStatusSelect").on("change", function() {
+			let changedStatus = $("#zmanStatusSelect>option:selected").val();
+			$("#zmanStatus").empty();
+			$("#zmanStatus").html(changedStatus);
+		});
+	});
+</script>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -48,99 +58,122 @@
 							<b>${zman.zman_name }</b> 님 회원정보
 						</div>
 						<div class="card-body">
-							<table id="zmanDetailInfo" class="table table-border">
-								<tbody>
-									<tr>
-										<th>이름</th>
-										<td colspan="2">${zman.zman_name }</td>
-									</tr>
-									<tr>
-										<th>아이디</th>
-										<td colspan="2">${zman.zman_id }</td>
-									</tr>
-<!-- 									<tr> -->
-<!-- 										<th>생년월일</th> -->
-<%-- 										<td colspan="2">${zman.zman_birth }</td> --%>
-<!-- 									</tr> -->
-									<tr>
-										<th>전화번호</th>
-										<td colspan="2">${zman.zman_phone }</td>
-									</tr>
-									<tr>
-										<th>주소</th>
-										<td colspan="2">${zman.zman_address } ${zman.zman_address_detail }</td>
-									</tr>
-									<tr>
-										<th>zman상태</th>
-										<td>${zman.zman_status }</td>
-										<td class="text-end">
-											<span style="display: inline-block;">
-												<select class="form-select form-select-sm" name="member_status"  id="memberStatusSelect" aria-label="Default select example" style="width: 170px;">
-													<option value="활동" <c:if test="${member.member_status eq '활동' }">selected</c:if>>활동</option>
-													<option value="탈퇴" <c:if test="${member.member_status eq '탈퇴' }">selected</c:if>>탈퇴</option>
-												</select>
-											</span>
-<!-- 											<span style="display: inline-block;"> -->
-<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changezmanStatus">변경</button>											 -->
-<!-- 											</span> -->
-										</td>
-									</tr>
-									<tr>
-										<th>탈퇴일</th>
-										<td colspan="2">${zman.zman_withdrawl }</td>
-									</tr>
-									<tr>
-										<th>배달 내역 상세보기</th>
-										<td colspan="2" class="text-end">
-											<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
-										</td>
-									</tr>
-									<tr>
-										<th>수익 내역 상세보기</th>
-										<td colspan="2" class="text-end">
-											<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
-										</td>
-									</tr>
-									<tr>
-										<th>계좌등록일</th>
-										<td colspan="2"></td>
-									</tr>
-									<tr>
-										<th>은행명</th>
-										<td colspan="2">
-										</td>
-									</tr>
-									<tr>
-										<th>계좌번호</th>
-										<td colspan="2">
-										</td>
-									</tr>
-									<tr>
-										<th>본인인증 방법</th>
-										<td colspan="2"></td>
-									</tr>
-									<tr>
-										<th>운전면허증 번호</th>
-										<td colspan="2"></td>
-									</tr>
-									<tr>
-										<th>zman 신청일</th>
-										<td colspan="2"></td>
-									</tr>
-									<tr>
-										<th>교육이수여부</th>
-										<td colspan="2"></td>
-									</tr>
-									<tr>
-										<th>zman 등록일</th>
-										<td colspan="2"></td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="text-center">
-								<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
-								<button type="button" class="btn btn-dark" onclick="history.back()">변경저장</button>							
-							</div>
+							<form action="admin_zman_modify" method="post">
+								<input type="hidden" name="zman_idx" value="${zman.zman_idx }">
+								<table id="zmanDetailInfo" class="table table-border">
+									<tbody>
+										<tr>
+											<th>이름</th>
+											<td colspan="2">${zman.zman_name }</td>
+										</tr>
+										<tr>
+											<th>아이디</th>
+											<td colspan="2">${zman.zman_id }</td>
+										</tr>
+										<tr>
+											<th>생년월일</th>
+											<td colspan="2">${zman.zman_birth }</td>
+										</tr>
+										<tr>
+											<th>전화번호</th>
+											<td colspan="2">
+												<input type="text" class="form-control" name="zman_phone" value="${zman.zman_phone }">
+											</td>
+										</tr>
+										<tr>
+											<th>주소</th>
+											<td colspan="2">${zman.zman_address } ${zman.zman_address_detail }</td>
+										</tr>
+										<tr>
+											<th>zman 가입일</th>
+											<td colspan="2">${zman.zman_date }</td>
+										</tr>
+										<tr>
+											<th>zman상태</th>
+											<td id="zmanStatus">${zman.zman_status }</td>
+											<td class="text-end">
+												<span style="display: inline-block;">
+													<select class="form-select form-select-sm" name="zman_status"  id="zmanStatusSelect" aria-label="Default select example" style="width: 170px;">
+														<option value="활동" <c:if test="${zman.zman_status eq '활동' }">selected</c:if>>활동</option>
+														<option value="대기" <c:if test="${zman.zman_status eq '대기' }">selected</c:if>>대기</option>
+														<option value="정지" <c:if test="${zman.zman_status eq '정지' }">selected</c:if>>정지</option>
+														<option value="탈퇴" <c:if test="${zman.zman_status eq '탈퇴' }">selected</c:if>>탈퇴</option>
+													</select>
+												</span>
+	<!-- 											<span style="display: inline-block;"> -->
+	<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changezmanStatus">변경</button>											 -->
+	<!-- 											</span> -->
+											</td>
+										</tr>
+										<tr>
+											<th>탈퇴일</th>
+											<td colspan="2">
+												<c:choose>
+													<c:when test="${zman.zman_withdrawal eq null }">
+														<input type="date" class="form-control datepicker">
+													</c:when>
+													<c:otherwise>
+														${zman.zman_withdrawal }
+													</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
+										<tr>
+											<th>배달 내역 상세보기</th>
+											<td colspan="2" class="text-end">
+												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+											</td>
+										</tr>
+										<tr>
+											<th>수익 내역 상세보기</th>
+											<td colspan="2" class="text-end">
+												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+											</td>
+										</tr>
+										<tr>
+											<th>계좌등록일</th>
+											<td colspan="2"></td>
+										</tr>
+										<tr>
+											<th>은행명</th>
+											<td colspan="2">
+											</td>
+										</tr>
+										<tr>
+											<th>계좌번호</th>
+											<td colspan="2">
+											</td>
+										</tr>
+										<tr>
+											<th>배달수단</th>
+											<td colspan="2">${zman.zman_transport }</td>
+										</tr>
+										<tr>
+											<th>운전면허증 번호</th>
+											<td colspan="2"></td>
+										</tr>
+										<tr>
+											<th>교육이수여부</th>
+											<td colspan="2">${zman.zman_education_completion }</td>
+										</tr>
+										<tr>
+											<th>보험가입여부</th>
+											<td colspan="2">${zman.zman_insurance_status }</td>
+										</tr>
+										<tr>
+											<th>위치 기반 정보 수집 동의 여부</th>
+											<td colspan="2">${zman.zman_location_agreement }</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="text-center">
+									<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
+										<button type="submit" class="btn btn-dark text-nowrap">변경저장</button>						
+										<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteZman">
+											&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
+										</button>						
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -152,24 +185,21 @@
 		</div>
 	</div>
 	
-	<%-- 회원상태 변경 모달창 --%>
-	<div class="modal fade" id="changezmanStatus" tabindex="-1" role="dialog" aria-labelledby="changezmanStatusTitle" aria-hidden="true">
+	<%-- zman 삭제 확인 모달창 --%>
+	<div class="modal fade" id="confirmDeleteZman" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteZmanTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title fs-5" id="changezmanStatusTitle">회원상태변경</h5>
+					<h5 class="modal-title fs-5" id="confirmDeleteZmanTitle">zman 삭제</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					정말 변경하시겠습니까?
+					삭제 후 복구가 불가합니다.<br>
+					정말 삭제하시겠습니까?<br>
 				</div>
 				<div class="modal-footer">
-					<form action="zman_login_form" method="post">
-						<input type="hidden" name="play_num" value="" />  
-						<input type="hidden" name="url" value="" />
-						<button type="submit" class="btn btn-dark" onclick="location.href='#'">변경</button>
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					</form>
+					<button type="button" id="${zman.zman_idx }" class="btn btn-dark" onclick="location.href='admin_zman_delete?zman_idx=${zman.zman_idx }'">삭제</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 				</div>
 			</div>
 		</div>

@@ -534,7 +534,7 @@
 			contentType : false,
 			dataType : 'json',
 			success  : function(res){
-				if(res == "true"){
+				if(res == true){
 					alert('물품등록 성공!');
 // 					location.href='../mainpage/list.do';
 				}

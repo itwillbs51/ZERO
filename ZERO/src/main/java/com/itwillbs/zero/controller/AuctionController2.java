@@ -38,7 +38,7 @@ public class AuctionController2 {
 	
 	@ResponseBody
 	@PostMapping ("auction_regist_pro")
-	public String auction_regist_pro(@RequestParam Map<String, String> allParameters, @RequestParam Map<String, MultipartFile> Parameters) {
+	public String auction_regist_pro(@RequestParam Map<String, Object> allParameters, @RequestParam Map<String, MultipartFile> Parameters) {
 			System.out.println("allParameters :"+allParameters);
 			System.out.println("Parameters :"+Parameters);
 		return "true";

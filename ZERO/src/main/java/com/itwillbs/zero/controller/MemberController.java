@@ -1,7 +1,9 @@
 package com.itwillbs.zero.controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -123,40 +125,6 @@ public class MemberController {
 	}
 
 	
-	// 3. 네이버 로그인 클릭
-	@PostMapping("/ajax/checkUserNaver")
-	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
-	public String checkUser(HttpSession session
-							, Model model
-							, @RequestParam("email") String email
-							, @RequestParam(value = "column", required = false) String column 
-							) {
-		
-		  System.out.println("email : "+ email);
-		  
-		  // 임시 고정값 설정 
-		  column = "member_id";
-		  
-		  // 회원정보 가져오기
-		  HashMap<String, String> member = service.isMemberCheck(column, email);
-		  System.out.println(member);
-		  
-		// 네이버에서 전달받은 이메일 값으로 회원가입 여부 판별
-		if (!member.isEmpty()) {
-			// DB에 네이버에서 전달받은 이메일이 아이디로 존재할 때
-			System.out.println("존재하는 회원");
-				
-			// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
-			session.setAttribute("member_id", email);
-			return "existing";
-		 
-		} else {
-			// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
-			return "new";
-		}
-		
-	}
-	
 	// 로그아웃 작업 후 메인으로 돌아가기
 	@GetMapping("member_logout")
 	public String member_logout(HttpSession session
@@ -176,6 +144,48 @@ public class MemberController {
 		System.out.println("MemberController - callback_login_naver");
 		
 		return "member/member_callback";
+	}
+	
+	// 네이버 로그인 클릭
+	@PostMapping("ajax/checkUserNaver")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String checkUser(HttpSession session
+							, Model model
+							, @RequestParam Map map
+							) {
+		
+		  System.out.println("map : "+ map);
+		  
+		  // 임시 고정값 설정 
+		  Iterator<String> iterator = map.keySet().iterator();
+		  String column = iterator.next();
+		  System.out.println(column);
+		  System.out.println(iterator.next());
+		  System.out.println(map.get(column).toString());
+		  // 회원정보 가져오기
+		  HashMap<String, String> member = service.isMemberCheck(column, map.get(column).toString());
+		  System.out.println(member);
+		  
+		// 네이버에서 전달받은 이메일 값으로 회원가입 여부 판별
+		if (member != null) {
+//			// DB에 네이버에서 전달받은 이메일이 아이디로 존재할 때
+			System.out.println("존재하는 회원");
+//				
+//			// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
+			session.setAttribute("member_id", member.get("member_id"));
+			session.setAttribute("member_type", member.get("member_type"));
+			return "existing";
+//		 
+		} else {
+//			// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
+			System.out.println("회원가입 넘어가기 : " + map.get(column).toString() + "," +map.get("member_name").toString());
+//			session.setAttribute("no_member_id", map.get(column).toString());
+//			session.setAttribute("no_member_name", map.get("member_name").toString());
+			return "new";
+		}
+		  
+//		  return "";
+		
 	}
 
 	// 멤버 로그인정보

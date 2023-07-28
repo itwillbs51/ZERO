@@ -61,7 +61,7 @@
 												<td>${zman.zman_status }</td>
 	<%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
 												<td>
-													<a class="btn btn-sm btn-outline-dark" href="admin_zman_detail?zman_idx=${zman_idx }">상세보기</a>
+													<a class="btn btn-sm btn-outline-dark" href="admin_zman_detail?zman_idx=${zman.zman_idx }">상세보기</a>
 												</td>
 											</tr>
 									</c:forEach>
