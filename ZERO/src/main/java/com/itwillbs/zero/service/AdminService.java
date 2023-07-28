@@ -108,6 +108,11 @@ public class AdminService {
 		return mapper.selectCsQnAList();
 	}
 
+	// 고객센터관리 - 1:1 문의 게시판 상세 페이지로 이동하기
+	public CsVO getCsQnADetail(int cs_idx, int cs_info_idx) {
+		return mapper.selectCsQnADetail(cs_idx, cs_info_idx);
+	}
+
 	
 
 	

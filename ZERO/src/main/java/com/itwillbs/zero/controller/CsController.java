@@ -110,6 +110,7 @@ public class CsController {
 	public String csQnaFormPro(HttpServletRequest request, HttpSession session, Model model, CsVO cs) {
 		System.out.println("CsController - csQnaFormPro");
 		
+		
 		// ===================== 파일 처리 시작 =====================
 		// 프로젝트 상 업로드 폴더의 실제 경로 알아내기(request or session 객체 필요)
 			String uploadDir = "/resources/upload"; // 현재 폴더상 경로
@@ -169,8 +170,7 @@ public class CsController {
 				e.printStackTrace();
 			}
 			
-			model.addAttribute("msg", "문의 글이 등록되었습니다!");
-			return "success_back";
+			return "redirect:/cs_main";
 		} else { // 글쓰기 실패 
 			model.addAttribute("msg", "문의 글이 등록되지 않았습니다!");
 

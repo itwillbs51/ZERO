@@ -176,6 +176,7 @@ input[type=file]::file-selector-button:hover {
 								</table>
 							</form>
 						</div><!-- content_main 끝 -->
+						
 					</div>
 				</div>
 			</div>

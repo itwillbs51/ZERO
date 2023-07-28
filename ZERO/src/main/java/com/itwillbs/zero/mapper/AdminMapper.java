@@ -3,6 +3,7 @@ package com.itwillbs.zero.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
@@ -62,6 +63,9 @@ public interface AdminMapper {
 
 	// 고객센터관리 - 1:1 문의 게시판 조회하기
 	List<CsVO> selectCsQnAList();
+
+	// 고객센터관리 - 1:1 문의 게시판 상세 페이지로 이동하기
+	CsVO selectCsQnADetail(@Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
 
 
 
