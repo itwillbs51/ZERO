@@ -32,7 +32,13 @@ public class SecondhandController {
 		}
 		
 		
+		
 		//상품등록처리(POST)(INSERT)
+		@PostMapping("secondhandRegistPro")
+		public String secondhandRegistPro() {
+			return "";	
+		}
+		
 		
 		
 		//상품수정하기폼 이동
