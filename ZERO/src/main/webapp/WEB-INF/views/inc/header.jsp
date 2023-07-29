@@ -59,6 +59,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="autionList_present">경매</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="auction_regist_form">경매등록</a>
+					</li>
 				</ul>
 				<form class="form-inline my-2 my-md-0">
 					<input class="form-control form-control-sm mr-2 mr-sm-2" type="search" placeholder="Search">

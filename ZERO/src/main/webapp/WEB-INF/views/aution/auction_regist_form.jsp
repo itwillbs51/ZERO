@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 
@@ -427,13 +431,19 @@
 		var p_name = $("#p_name").val().trim();
 		
 		var c_idx = $("#c_idx").val();
+
+		var b_idx = $("#b_idx").val();
 		
-		var p_condition = $("#p_condition").val();
+		var p_condition = $("input[name='p_condition']:checked").val();
 		
 		var p_location = $("#p_location").val().trim();
+
+		var p_location_detail = $("#p_location_detail").val().trim();
 		
 		var p_price = $("#p_price").val().trim();
 		
+		var p_price2 = $("#p_price2").val().trim();
+				
 		var p_exp = $("#p_exp").val().trim();
 		
 		var sumimage = $("#sumimage").val();
@@ -457,6 +467,12 @@
 			$("#c_idx").focus();
 			return;
 		}
+
+		if(b_idx==0){
+			alert('브랜드를 선택하세요. ');
+			$("#b_idx").focus();
+			return;
+		}
 		
 		
 		if(p_location==''){
@@ -466,15 +482,30 @@
 			return;			
 		}
 		
+		if(p_location_detail==''){
+			alert('상세주소를 입력해 주세요.');
+			$("#p_location_detail").val('');
+			$("#p_location_detail").focus();
+			return;			
+		}
 		
-		if(p_price==''){
+		
+
+		if(p_price2==''){
 			
-			alert('가격이 비어있습니다.');
+			alert('즉시구매가격이 비어있습니다.');
 			$("#p_price").val('');
 			$("#p_price").focus();
 			return;
 		}
 		
+		if(p_price==''){
+			
+			alert('경매시작가격이 비어있습니다.');
+			$("#p_price2").val('');
+			$("#p_price2").focus();
+			return;
+		}
 		
 		if(p_exp==''){
 			
@@ -494,6 +525,7 @@
 
 		/* 가격 콤마 제거 */
 		p_price = p_price.replace(/,/g, "");
+		p_price2 = p_price2.replace(/,/g, "");
 		
 		if(p_price<100){
 			alert('가격은 100원 이상 입력해주세요.');
@@ -507,17 +539,25 @@
 		
 		var form = $("#imgform")[0];
 		var formData = new FormData(form);
+	
+		formData.append('file1',$('#sumimage')[0].files[0]);
 		
-		formData.append('imagedata',$('#sumimage')[0].files[0]);
-		formData.append('imagedata2',$('#imageFile1')[0].files[0]);
-		formData.append('imagedata3',$('#imageFile2')[0].files[0]);
-		formData.append('u_idx',u_idx);				// 유저idx
-		formData.append('p_name',p_name);			// 상품명
-		formData.append('c_idx',c_idx);				// 카테고리번호
-		formData.append('p_location',p_location);	// 지역
-		formData.append('p_condition',p_condition);	// 상품상태
-		formData.append('p_price',p_price);			// 가격
-		formData.append('p_exp',p_exp);				// 상품설명
+		if($('#imageFile1')[0].files[0]!=undefined){
+			formData.append('file2',$('#imageFile1')[0].files[0]);	
+		}
+		if($('#imageFile2')[0].files[0]!=undefined){
+			formData.append('file3',$('#imageFile2')[0].files[0]);
+		}
+		
+		formData.append('auction_title',p_name);			// 상품명
+		formData.append('category_idx',c_idx);				// 카테고리번호
+		formData.append('brand_idx',b_idx);				// 카테고리번호
+		formData.append('auction_seller_address',p_location);	// 지역
+		formData.append('auction_seller_address_detail',p_location_detail);	// 지역
+		formData.append('auction_product_status',p_condition);	// 상품상태
+		formData.append('auction_start_price',p_price);			// 가격
+		formData.append('auction_max_price',p_price2);			// 가격
+		formData.append('auction_content',p_exp);				// 상품설명
 		
 		
 		/*	
@@ -554,7 +594,7 @@
 		
 		if(confirm('상품등록을 취소하시겠습니까?')==false) return;
 		
-		location.href='../mainpage/list.do';
+		history.back();
 		
 	}
 	
@@ -590,6 +630,38 @@
 			/* console.log(p_price); */
 			
 			$("#p_price").val(p_price);
+
+		});
+
+	})
+	$(function() {
+
+		$("#p_price2").on("propertychange change keyup paste input", function() {
+			
+			
+			var p_price2 = $(this).val() ;
+			
+			if(p_price2<100 ){
+				$("#price_under").show();
+				$("#price_under").text('100원 이상만 입력하세요.').css('color','red');
+		 		$("#p_price").css('outline','1px solid red');
+				$("#p_price").css('border-color','red');
+				
+			}
+			
+			if(p_price2>=100 || p_price=='' ){
+				$("#price_under").hide();
+				$("#p_price").css('border-color','black');
+				$("#p_price").css('outline','black');
+			}
+			
+			/* 숫자 comma 찍는 함수 */
+			p_price2 = comma(uncomma(p_price2));
+			
+			
+			/* console.log(p_price); */
+			
+			$("#p_price2").val(p_price2);
 
 		});
 
@@ -955,7 +1027,9 @@ body{
 				<tr>
 					<td colspan="2"><hr></td>
 				</tr>
+				<tr>
 				
+				</tr>
 				<!-- 카테고리 -->
 				<tr>
 					<td class="td1" align="left" style="vertical-align: top;"><span
@@ -963,9 +1037,25 @@ body{
 					<td class="td2" align="left"><select class="input-tag"
 						id="c_idx" name="c_idx" style="width: 30%; height: 35px;">
 							<option value="0">카테고리 선택</option>
-							<option value="1">럭셔리</option>
-							<option value="2">테크</option>
-							<option value="3">한정판</option>
+							<c:forEach var="category" items="${categorylist}">
+				
+							<option value="${category.category_idx }">${category.category_name }</option>
+							</c:forEach>
+							
+							
+					</select></td>
+				</tr>
+				<tr>
+					<td class="td1" align="left" style="vertical-align: top;"><span
+						class="pro_info">브랜드<span style="color: red">*</span></span></td>
+					<td class="td2" align="left"><select class="input-tag"
+						id="b_idx" name="b_idx" style="width: 30%; height: 35px;">
+							<option value="0">브랜드 선택</option>
+							<c:forEach var="brand" items="${brandlist}">
+				
+							<option value="${brand.brand_idx }">${brand.brand_name }</option>
+							</c:forEach>
+							
 							
 					</select></td>
 				</tr>
@@ -999,12 +1089,12 @@ body{
 					<td class="td1" align="left" style="vertical-align: top;"><span
 						class="pro_info">상품상태<span style="color: red">*</span></span></td>
 					<td class="td2" align="left">
-					<input type="radio"name="p_condition" id="p_condition" value="상" checked="checked">
-						<span class="pro_info">상</span> 
+					<label></label><input type="radio"name="p_condition" id="p_condition" value="상" checked="checked">
+						<label for="p_condition" class="pro_info">&nbsp;상&nbsp;&nbsp;</label>
 						<input type="radio"name="p_condition" id="p_condition2" value="중"> 
-						<span class="pro_info">중</span>
+						<label for="p_condition2" class="pro_info">&nbsp;중&nbsp;&nbsp;</label>
 						<input type="radio"name="p_condition" id="p_condition3" value="하"> 
-						<span class="pro_info">하</span>
+						<label for="p_condition3" class="pro_info">&nbsp;하&nbsp;&nbsp;</label>
 					</td>
 				</tr>
 
@@ -1015,11 +1105,21 @@ body{
 				<!-- 가격  -->
 				<tr>	
 					<td class="td1" align="left" style="vertical-align: top;"><span
-						class="pro_info">가격<span style="color: red">*</span></span></td>
+						class="pro_info">경매시작가격<span style="color: red">*</span></span></td>
 					<td class="td2" align="left">
 					<input type="text" id="p_price" maxlength="11"name="p_price" class="input-tag" placeholder="최저가"oninput="numberMaxLength(this);" style="width: 30%;"> &nbsp; <span class="pro_info">원</span>
 						<br>
-						<span class="pro_info" id="price_under"></span>
+						
+				
+						
+					</td>
+				</tr>
+				<tr>	
+					<td class="td1" align="left" style="vertical-align: top;"><span
+						class="pro_info">즉시구매가격<span style="color: red">*</span></span></td>
+					<td class="td2" align="left">
+					
+						
 					<input type="text" id="p_price2" maxlength="11"name="p_price" class="input-tag" placeholder="최고가"oninput="numberMaxLength(this);" style="width: 30%;"> &nbsp; <span class="pro_info">원</span>
 						<br>
 						

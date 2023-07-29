@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.zero.mapper.AuctionMapper2">
+	<select id="selectCategoryList" resultType="hashmap">
+		SELECT * FROM CATEGORY
+		WHERE category_type = '경매'
+	</select>
+	
+	<select id="selectBrandList" resultType="hashmap">
+		SELECT * FROM BRAND
+	</select>
+
+	<insert id="insertProduct" >
+		INSERT
+			INTO AUCTION_PRODUCT
+			VALUES (
+				null 
+				, #{auction_title} 
+				, #{auction_start_price} 
+				, #{category_idx} 
+				, #{auction_product_status}  
+				, #{auction_max_price} 
+				, #{auction_content} 
+				, #{board_file1}   
+				, #{board_file2}   
+				, #{board_file3}   
+				, now()
+				, #{brand_idx} 
+				, #{auction_seller_id} 
+				, #{auction_seller_address} 
+				, #{auction_seller_address_detail} 
+			)
+	</insert>
+	
+	
+</mapper>
