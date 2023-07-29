@@ -32,7 +32,6 @@
 	</servlet-mapping>
 	
 	
-	
 	<!-- POST 방식 파라미터에 대한 한글 등의 인코딩 처리를 위한 필터 설정 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -47,6 +46,8 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
 	
 	
 </web-app>
