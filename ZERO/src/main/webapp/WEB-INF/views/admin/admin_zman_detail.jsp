@@ -35,6 +35,33 @@
 			$("#zmanStatus").html(changedStatus);
 		});
 	});
+	
+	$(function() {
+		$("#zmanStatusSelect").on("change", function() {
+			let changedStatus = $("#zmanStatusSelect>option:selected").val();
+			$("#zmanStatus").empty();
+			$("#zmanStatus").html(changedStatus);
+
+			if(changedStatus != "탈퇴"){
+				$("#zmanWithdrawal").empty();
+			} else {
+				$("#zmanWithdrawal").html('<input type="date" id="zman_withdrawal" name="zman_withdrawal" class="form-control datepicker">');
+			}
+		});
+		
+	});
+	
+	function modify(){
+// 		alert($("#memberStatus").text());
+// 		alert($("#member_withdrawal").val());
+// 		if($("#member_withdrawal").val() == ""){
+	
+		if($("#zmanStatus").text() == "탈퇴" && $("#zman_withdrawal").val() == ""){
+			alert("탈퇴일을 지정해주세요");
+		} else {
+			$("form").submit();
+		}
+	}
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -107,15 +134,8 @@
 										</tr>
 										<tr>
 											<th>탈퇴일</th>
-											<td colspan="2">
-												<c:choose>
-													<c:when test="${zman.zman_withdrawal eq null }">
-														<input type="date" class="form-control datepicker">
-													</c:when>
-													<c:otherwise>
-														${zman.zman_withdrawal }
-													</c:otherwise>
-												</c:choose>
+											<td colspan="2" id="zmanWithdrawal">
+												${zman.zman_withdrawal }
 											</td>
 										</tr>
 										<tr>
@@ -168,7 +188,7 @@
 								</table>
 								<div class="text-center">
 									<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
-										<button type="submit" class="btn btn-dark text-nowrap">변경저장</button>						
+										<button type="button" class="btn btn-dark text-nowrap" onclick="modify()">변경저장</button>						
 										<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteZman">
 											&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
 										</button>						
