@@ -60,9 +60,9 @@
 		let chargeButton = $(".chargeButtonArea>button");
 		
 		if(amountInput === ""){
-			chargeButton.addClass("disabled");
+			chargeButton.attr("disabled", "disabled");
 		} else {
-			chargeButton.removeClass("disabled");
+			chargeButton.removeAttr("disabled");
 		}
 	}
 	
