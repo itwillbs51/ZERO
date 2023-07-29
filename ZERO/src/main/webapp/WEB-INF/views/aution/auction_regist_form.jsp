@@ -704,7 +704,7 @@
 
 			/* console.log(p_name); */
 
-			$("#name_length").html(p_name + '/40')
+			$("#name_length").html(p_name + '/100')
 
 		});
 
@@ -1016,9 +1016,9 @@ body{
 						class="pro_info">제목<span style="color: red">*</span></span></td>
 					<td class="td2" align="left">
 						<div style="display: inline-block; min-width: 70px; ">
-							<span class="pro_info" id="name_length">0/40</span>
+							<span class="pro_info" id="name_length">0/100</span>
 						</div>
-						<input maxlength="40"
+						<input maxlength="100"
 						oninput="numberMaxLength(this);" type="text" id="p_name"
 						name="p_name" class="input-tag" placeholder="제목을 입력하세요.">
 					</td>
