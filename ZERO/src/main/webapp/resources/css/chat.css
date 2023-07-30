@@ -47,6 +47,12 @@
 	font-size: 18px;
 	font-weight: bold;
 }
+/* 최신 채팅 시간 */
+.chatTimeFromNow {
+	font-size: 15px;
+	color: gray;
+}
+
 .shortChatMsg {
 	font-size: 14px;
 	color: gray;
@@ -133,17 +139,32 @@
 	display: block;
 	
 }
-
-.chatMsgArea {
-	height: 600px;
-	flex-grow: 1;
+#msgArea {
+	height: 500px;
+	overflow: auto;
+/* 	scroll-behavior: smooth; */
 }
 
+#chatMsgArea {
+	height: 600px;
+	flex-grow: 1;
+	
+}
+/* ------ 채팅 구현 전 -> 테이블 */
 .chatMsgArea table, tr, td {
 	width: 95%;
 }
-table div {
+.mgsitem div {
 	display: inline-block;
+}
+.noticeMsg {
+	color: gray;
+	text-align: center;
+	background-color: #eee;
+	min-width: 300px;
+	max-width: 500px;
+	padding : 10px;
+	margin: 20px auto;
 }
 .msgRight {
 	text-align: right;
@@ -154,20 +175,26 @@ table div {
 	margin-left: 10px;
 }
 .msgTime {
-	vertical-align: bottom;
 	font-size: 10px;
 	color: gray;
+	width: 50px;
+	vertical-align: bottom;
+}
+.msgRight .msgTime {
+	float: right;
 }
 .msg {
 	min-width: 150px;
 	max-width: 300px;
 	text-align: left;
 }
+
 .msgRight .msg {
 	/* 본인 채팅 */
-	background-color: #dd99ff;
+	background-color: #e7d5ff;
 /* 	border-radius: 10px; */
 	padding: 10px;
+	float: right;
 }
 .msgLeft .msg {
 	/* 상대방 채팅 */

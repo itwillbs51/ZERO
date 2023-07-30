@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.zero.mapper.ChattingMapper">
+	
+	
+	<!-- 채팅방 조회 -  SELECT -->
+	<!-- 세션아이디로 조회해서 현재 열려있는 채팅방을 List로 반환받기 -->
+	<select id="selectChatRoomList" resultType="ChatRoomList">
+		SELECT
+			chat_room_idx
+			, buyer_id
+			, seller_id
+			, secondhand_idx
+			, secondhand_image1
+			, buyer_nickname
+			, buyer_image
+			, seller_nickname
+			, seller_image
+			, chat_content
+			, chat_time_fromNow
+			FROM
+				CHATROOMLIST
+			WHERE
+				seller_id = #{member_id}
+				OR buyer_id = #{member_id}
+	</select>
+		<!-- 나중에 페이징처리하기(무한 스크롤) -->	
+	
+	<!-- 채팅 조회 - SELECT -->
+	<select id="selectChatList" resultType="Chat">
+		SELECT *
+			FROM
+				CHAT
+			WHERE
+				chat_room_idx = #{chat_room_idx}
+			ORDER BY
+				chat_datetime DESC
+			LIMIT 15
+	</select>
+		<!-- 나중에 페이징 처리하기(무한 스크롤) -->
+			
+</mapper>

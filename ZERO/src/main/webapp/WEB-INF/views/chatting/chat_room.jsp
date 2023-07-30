@@ -126,7 +126,7 @@
 			$("#chatArea").css("display", "initial");
 			
 			// 웹소켓 연결 호출 함수
-			connectWs();
+// 			connectWs();
 			
 // 			if($("#chatArea").is(":hidden")) {
 // 			if($("#chatArea").is(":visible")) {

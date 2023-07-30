@@ -37,6 +37,10 @@
 	<!--  웹소켓 사용하기 위한 핸들러(Bean) 등록 -->
 	<websocket:handlers>
 		<websocket:mapping handler="chattingHandler" path="/chatting"/>
+		<!-- 추가 - udonmarket -->
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
+		</websocket:handshake-interceptors>
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
 	

@@ -18,6 +18,9 @@
 		<typeAlias type="com.itwillbs.zero.vo.MemberVO" alias="Member"/>
 		<typeAlias type="com.itwillbs.zero.vo.ResponseTokenVO" alias="Token"/>
 		<typeAlias type="com.itwillbs.zero.vo.SecondhandVO" alias="Secondhand"/>
+		<typeAlias type="com.itwillbs.zero.vo.ChatVO" alias="Chat"/>
+		<typeAlias type="com.itwillbs.zero.vo.ChatRoomVO" alias="ChatRoom"/>
+		<typeAlias type="com.itwillbs.zero.vo.ChatRoomListVO" alias="ChatRoomList"/>
 	</typeAliases>
 
 </configuration>

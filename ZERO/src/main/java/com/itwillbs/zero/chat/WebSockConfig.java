@@ -1,8 +1,10 @@
-package com.itwillbs.zero.handler;
+package com.itwillbs.zero.chat;
 
 import org.springframework.context.annotation.*;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.config.annotation.*;
+
+import com.itwillbs.zero.handler.*;
 
 import lombok.*;
 
@@ -14,13 +16,14 @@ import lombok.*;
 @EnableWebSocket	// => 웹소켓 활성화
 public class WebSockConfig implements WebSocketConfigurer {
 	// WebSocketHandler 에 관한 생성자 추가
-	private final WebSocketHandler webSocketHandler;
+	private final ChattingHandler chattingHandler;
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		// endpoint 설정 : /ws/chat
+		// endpoint 설정 : /ws/chatMsg
         // 이를 통해서 ws://localhost:8089/ws/chat 으로 요청이 들어오면 websocket 통신을 진행한다.
-		registry.addHandler(webSocketHandler, "ws/chatMsg").setAllowedOrigins("*");
+//		registry.addHandler(chattingHandler, "/chatting").setAllowedOrigins("*");
+		registry.addHandler(chattingHandler, "/chatting").setAllowedOrigins("*");
 	}
 	
 	
