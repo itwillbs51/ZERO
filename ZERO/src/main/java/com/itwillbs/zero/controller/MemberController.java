@@ -146,6 +146,7 @@ public class MemberController {
 		return "member/member_callback";
 	}
 	
+	
 	// 네이버 로그인 클릭
 	@PostMapping("ajax/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
@@ -188,6 +189,18 @@ public class MemberController {
 		
 	}
 
+	// 구글 로그인 콜백 
+	@GetMapping("callback_login_google")
+	public String callbackLoginGoogle(HttpSession session
+			, Model model
+			) {
+		
+		
+		System.out.println("MemberController - callback_login_google");
+		
+		return "member/member_login";
+	}
+	
 	// 멤버 로그인정보
 	@GetMapping("member_loginInfo")
 	public String memberLoginInfo(HttpSession session

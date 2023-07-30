@@ -67,6 +67,11 @@
   <article id="mainArticle">
 
 	<div data-v-473e7c14="" class="container my lg">
+		<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
+			<jsp:include page="/WEB-INF/views/inc/member_sidebar_hyo.jsp"></jsp:include>
+		</nav>
+	
+	
 		<div data-v-473e7c14="">
 
 			<%-- 본문 - 계좌 관리 --%>
@@ -120,7 +125,6 @@
   <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
   		<%-- 마이페이지 사이드 --%>
-  		  		<%@ include file="../inc/member_sidebar.jsp"%>
 <!--   		<div data-v-473e7c14="" class="container my lg"> -->
 <!-- 			<div data-v-473e7c14="" class="snb_area"> -->
 <!-- 				<a data-v-473e7c14="" href="/my" class="nuxt-link-active"> -->

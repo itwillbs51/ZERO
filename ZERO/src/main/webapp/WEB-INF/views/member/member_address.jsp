@@ -54,6 +54,48 @@
 
 <title>중고거래 사이트</title>
 <style>
+
+<%-- 모달 --%>
+.article_modal {
+  /* 화면에 꽉 차게 하는 코드 */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  
+  background: rgba(0, 0, 0, 0.35); // 어두운 배경색
+  z-index: 250; // 위에서 만든 도화지보다 높게 준다.
+/*   cursor: pointer; // 누르면 홈으로 이동 */
+}
+
+.background_modal {
+  /* 화면에 꽉 차게 하는 코드(여기서는 너비를 꽉 채우는 용도) */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  
+  /* 위아래 너비를 준 상태에서 가로 50%, 세로 50%를 이동시킬 수 있다 (= 한가운데 배치) */
+  transform: translate(-50%, -50%);
+  
+  /* 위의 overlay 배경보다 한 단계 더 높게 배치 */
+  z-index: 300;
+}
+
+.layer_content {
+  // 내부 컨텐츠 세로 정렬
+  display: flex;
+  flex-direction: column;
+  
+  // 아래 closeButton 배치 용도(부모)
+  position: relative;
+ 
+ // 모달 디자인
+ padding: 80px 28px 50px 27px;
+ width: 50%;
+ background: white;
+ border-radius: 8px; padding:20px;
+}
+
 .container.my[data-v-78dabb2d] {
     margin-left: auto;
     margin-right: auto;
@@ -426,6 +468,8 @@ a, a:active, a:focus, a:hover {
     color: rgba(34,34,34,.8);
     background-color: #fff;
 }
+
+
 </style>
 </head>
 <body>
@@ -437,7 +481,12 @@ a, a:active, a:focus, a:hover {
   <article id="mainArticle">
 
 	<div data-v-473e7c14="" class="container my lg">
-		<div data-v-473e7c14="">
+	
+		<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
+			<jsp:include page="/WEB-INF/views/inc/member_sidebar_hyo.jsp"></jsp:include>
+		</nav>
+	
+		<div data-v-473e7c14="" class="background">
 
 			<%-- 본문 - 주소록 관리 --%>
 			<div data-v-2e8df47b="" data-v-473e7c14="" class="content_area">
@@ -463,7 +512,9 @@ a, a:active, a:focus, a:hover {
 							<a data-v-43813796="" data-v-6abf8c64="" href="#" class="btn outlinegrey small"> 새 배송지 추가 </a>
 						</div>
 					</div>
-					<div data-v-78455e2e="" data-v-71b8d4b9="" data-v-2e8df47b="" class="layer_delivery layer lg">
+					
+					<%-- 모달 --%>
+					<div data-v-78455e2e="" data-v-71b8d4b9="" data-v-2e8df47b="" class="layer_delivery layer lg blind">
 					<div data-v-78455e2e="" class="layer_container">
 						<a data-v-71b8d4b9="" data-v-78455e2e="" href="#" class="btn_layer_close">
 							<div data-v-71b8d4b9="" data-v-78455e2e="">
@@ -472,10 +523,10 @@ a, a:active, a:focus, a:hover {
 								</svg>
 							</div>
 						</a>
-						<div data-v-78455e2e="" class="layer_header">
-							<h2 data-v-71b8d4b9="" data-v-78455e2e="" class="title"> 새 주소 추가 </h2>
-						</div>
 						<div data-v-78455e2e="" class="layer_content">
+							<div data-v-78455e2e="" class="layer_header">
+								<h2 data-v-71b8d4b9="" data-v-78455e2e="" class="title"> 새 주소 추가 </h2>
+							</div>
 							<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_bind">
 								<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_input">
 									<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box has_error" data-v-78455e2e="">
@@ -536,60 +587,8 @@ a, a:active, a:focus, a:hover {
   
   <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
-   <%@ include file="../inc/member_sidebar.jsp"%>
-<%--   		마이페이지 사이드 --%>
-<!--   		<div data-v-473e7c14="" class="container my lg"> -->
-<!-- 			<div data-v-473e7c14="" class="snb_area"> -->
-<!-- 				<a data-v-473e7c14="" href="/my" class="nuxt-link-active"> -->
-<!-- 					<h2 data-v-473e7c14="" class="snb_main_title">마이 페이지</h2> -->
-<!-- 				</a> -->
-<!-- 				<nav data-v-7bcac446="" data-v-473e7c14="" class="snb"> -->
-<!-- 					<div data-v-7bcac446="" class="snb_list"> -->
-<!-- 						<strong data-v-7bcac446="" class="snb_title">쇼핑 정보</strong> -->
-<!-- 						<ul data-v-bd8504ea="" data-v-7bcac446="" class="snb_menu"> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/buying" class="menu_link"> 구매 내역 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/selling" class="menu_link"> 판매 내역 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/inventory" class="menu_link"> 보관 판매 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/saved" class="menu_link"> 관심 상품 </a> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
-<!-- 					</div> -->
-<!-- 					<div data-v-7bcac446="" class="snb_list"> -->
-<!-- 						<strong data-v-7bcac446="" class="snb_title">내 정보</strong> -->
-<!-- 						<ul data-v-bd8504ea="" data-v-7bcac446="" class="snb_menu"> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/profile" class="menu_link"> 로그인 정보 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item menu_on"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/profile-edit" class="menu_link nuxt-link-exact-active nuxt-link-active" aria-current="page"> 프로필 관리 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/address" class="menu_link"> 주소록 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/payment" class="menu_link"> 결제 정보 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/account" class="menu_link"> 판매 정산 계좌 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/receipt" class="menu_link"> 현금영수증 정보 </a> -->
-<!-- 							</li> -->
-<!-- 							<li data-v-bd8504ea="" class="menu_item"> -->
-<!-- 								<a data-v-bd8504ea="" href="/my/point" class="menu_link"> 포인트 </a> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
-<!-- 					</div> -->
-<!-- 				</nav> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
+<%--    <%@ include file="../inc/member_sidebar.jsp"%> --%>
+
   </nav>
   
   <div id="sieAds"></div>

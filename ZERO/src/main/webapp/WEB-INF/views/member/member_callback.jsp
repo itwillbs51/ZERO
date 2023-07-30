@@ -23,7 +23,7 @@
     
     $.ajax({
         type: 'post',
-        url: 'checkUserNaver',
+//         url: 'checkUserNaver',
         url: 'ajax/checkUserNaver',
         data: {"member_id":member_id
         		, "member_name":member_name
