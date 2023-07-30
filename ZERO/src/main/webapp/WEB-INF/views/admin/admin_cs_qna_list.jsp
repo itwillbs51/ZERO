@@ -70,7 +70,9 @@
 														<td>완료</td>
 													</c:otherwise>
 												</c:choose>
-												<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
+												<td>
+													<a class="btn btn-sm btn-outline-dark" href="admin_cs_qna_detail?cs_idx=${cs.cs_idx }&cs_info_idx=${cs.cs_info_idx}">상세보기</a>
+												</td>
 											</tr>
 										</c:forEach>
 									</tbody>

@@ -30,18 +30,86 @@
 		<%@ include file="../inc/header.jsp"%>
 	</header>
 		
+	
+	<%-- 본문 영역 --%>
 	<article id="mainArticle">
 		<div class="container">
 			<%-- 사이드 바 영역 --%>
 			<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
 				<jsp:include page="/WEB-INF/views/inc/zman_sidebar.jsp"></jsp:include>
 			</nav>
-			<div class="contentArea">
-				<div id="main">
-					
+			
+			<%-- 본문 내용 --%>
+			<div class="container-fluid">
+				<div class="contentArea">
+					<div id="main">
+						<h1> 정산 내역 </h1>
+						
+						<%--ZMAN 프로필 영역 --%>
+<!-- 						<section id="sec01"> -->
+<!-- 							<div class="user_membership" data-v-32a5de90="" data-v-412d8616=""> -->
+<!-- 								<div class="user_detail" data-v-32a5de90=""> -->
+<!-- 									<div class="user_thumb01" data-v-32a5de90=""> -->
+<!-- 										<br> -->
+<%-- 											프로필 사진 --%>
+<%-- 											<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
+<!-- 												 alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
+<%-- 											ZMAN 개인정보 --%>
+<!-- 											<strong class="name" data-v-32a5de90="">김둘리</strong> | -->
+<!-- 											<strong class="email" data-v-32a5de90="">Dooly@zero.co.kr</strong> | -->
+<!-- 											<strong class="phone" data-v-32a5de90="">010-1234-5678</strong> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</section> -->
 				
-				</div> <%-- <div id="main">  --%>
-			</div>
+						<%-- 주간 정산 목록 게시판 --%>
+						<section id="sec02">
+							<table class="table">
+								<thead>
+									<tr>
+										<%-- 배달 번호 , 배달물품, 배달거리, 배달료,   --%>
+								        <th scope="col">날짜</th>
+								        <th scope="col">배달 번호</th>
+								        <th scope="col">배달 물품</th>
+								        <th scope="col">배달 거리</th>
+								        <th scope="col">배달료</th>
+								        <th scope="col">상세보</th>
+								 	</tr>
+								 </thead>
+								 <tbody class="table-group-divider">
+								 	<tr>
+								         <th scope="row">7/24 ~ 7/30</th>
+								         <td>1</td>
+								         <td>텀블러</td>
+								         <td>650m</td>
+								         <td></td>
+								         <td></td>
+								     </tr>
+							     	 <tr>
+								         <th scope="row"> </th>
+								         <td>2</td>
+								         <td>맥북</td>
+								         <td>1,300m</td>
+								         <td></td>
+								         <td></td>
+								     </tr>
+							    	 <tr>
+								         <th scope="row"> </th>
+								         <td>3</td>
+								         <td>마우스</td>
+								         <td>720m</td>
+								         <td></td>
+								         <td></td>
+								    </tr>
+								</tbody>
+							</table>
+						</section>
+						
+						
+					</div> <%-- <div id="main">  --%>
+				</div> <%-- <div class="contentArea"> --%>
+			</div> <%-- <div class="container-fluid"> --%>
 		</div>
 	</article>
 </body>

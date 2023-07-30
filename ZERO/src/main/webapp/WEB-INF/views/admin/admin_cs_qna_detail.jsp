@@ -51,16 +51,20 @@
 					<div class="content_main">
 						<%-- form 태그 시작 --%>
 						<c:choose>
-							<c:when test="${empty cs.cs_reply }"> <%-- 답변 없음 - 등록하기 --%>
+							<%-- 답변 없음 - 등록하기 --%>
+							<c:when test="${empty cs.cs_reply }"> 
 								<form action="admin_cs_qna_reply" method="post" name="fr" enctype="multipart/form-data">								
-							</c:when>						
-							<c:otherwise> <%-- 답변 있음 - 수정하기 --%>
+							</c:when>	
+							<%-- 답변 있음 - 수정하기 --%>					
+							<c:otherwise>
 								<form action="admin_cs_qna_reply_modify" method="post" name="fr" enctype="multipart/form-data">		
 							</c:otherwise>
 						</c:choose>
 							<%-- hidden 영역 --%>
 							<%-- 고객센터 cs_type 유형 정보 전송용 : 1:1문의 --%>						
 							<input type="hidden" name="cs_type" value="1:1문의" >
+							<input type="hidden" name="cs_idx" value="${cs.cs_idx }" >
+							<input type="hidden" name="cs_info_idx" value="${cs.cs_info_idx}" >
 							<input type="hidden" name="member_id" value="${sessionScope.member_id }" >
 							
 							<table class="table" >
@@ -132,11 +136,11 @@
 							    		<c:choose>
 											<c:when test="${empty cs.cs_reply }">
 <!-- 												<input type="text" name="cs_reply" class="form-control" id="cs_reply" > -->
-												<textarea class="form-control" name="cs_content" id="cs_content" style="height: 100px" onkeyup="isContent(this.value)"></textarea>
+												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px" onkeyup="isContent(this.value)"></textarea>
 											</c:when>
 							  				<c:otherwise>
 <%-- 												<input type="text" name="cs_reply" class="form-control" id="cs_reply" value="${cs.cs_reply }">	 --%>
-												<textarea class="form-control" name="cs_content" id="cs_content" style="height: 100px" onkeyup="isContent(this.value)">${cs.cs_reply }</textarea>			  				
+												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px" onkeyup="isContent(this.value)">${cs.cs_reply }</textarea>			  				
 							  				</c:otherwise>
 										</c:choose>							  			
 						    		</td>
@@ -145,6 +149,7 @@
 							  		<td colspan="2" style="text-align: center">
 <!-- 										<button class="btn btn-dark" disabled="disabled" type="submit">등록</button>	 -->
 										<c:choose>
+											<%-- 답변이 없을 때 - 답변하기 버튼 출력 --%>
 											<c:when test="${empty cs.cs_reply }">
 												<button class="btn btn-dark" type="button" onclick="history.back()">돌아가기</button>
 												<button class="btn btn-dark" type="submit">답변하기</button>
@@ -152,6 +157,7 @@
 												&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
 											</button>
 											</c:when>
+											<%-- 답변이 있을 때 - 수정하기 버튼 출력 --%>
 							  				<c:otherwise>
 							  					<button class="btn btn-dark" type="button" onclick="history.back()">돌아가기</button>
 <!-- 												<button class="btn btn-dark" type="submit">수정하기</button> -->
@@ -209,5 +215,5 @@
 <script src="${pageContext.request.contextPath }/resources/demo/chart-pie-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath }/resources/js/datatables-simple-demo.js"></script>
-</body>
 </html>
+</body>

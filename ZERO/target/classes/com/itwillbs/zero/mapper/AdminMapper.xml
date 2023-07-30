@@ -177,5 +177,17 @@
 			AND cs_info_idx = #{cs_info_idx}
 	</select>
 	
+	<!-- 고객센터 관리 - 1:1 문의 답변 등록하기 - INSERT -->
+<!-- 	<insert id="insertReplyQnA" parameterType="com.itwillbs.zero.vo.CsVO"> -->
+<!-- 		INSERT INTO -->
+<!-- 				CS ( -->
+<!-- 					cs_reply -->
+<!-- 				) -->
+<!-- 				VALUES ( -->
+<!-- 					#{cs_reply} -->
+<!-- 				) -->
+<!-- 			WHERE cs_idx = #{cs_idx} -->
+<!-- 			AND cs_info_idx = #{cs_info_idx} -->
+<!-- 	</insert> -->
 	
 </mapper>

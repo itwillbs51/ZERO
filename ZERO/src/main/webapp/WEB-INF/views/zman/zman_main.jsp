@@ -20,6 +20,12 @@
 	#user_membership {
 		margin: 25px;
 	}
+	
+	#sec01, #sec02 {
+		display: flex;
+		justify-content: center;
+		align-items: center;	
+	}
 </style>
 <script>
   $(function(){
@@ -118,7 +124,7 @@
 					<hr>
 					
 				<%--카카오맵 지도 API 시작 --%>
-				<div id="map" style="width:500px;height:350px;" data-v-32a5de90=""></div>
+				<div id="map" style="width:1000px;height:450px;" data-v-32a5de90=""></div>
 					<%-- 발급받은 appkey 를 넣어주기 --%>
 					<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c7b64b9fe8be0d3ba0e69ecffe2e6efe"></script>
 					<script>
@@ -152,7 +158,7 @@
 				 				var circle = new kakao.maps.Circle({
 				 					map: map, // 원을 표시할 지도 객체
 				 					center : new kakao.maps.LatLng(lat, lon), // 지도의 중심 좌표
-				 					radius : 750, // 원의 반지름 (단위 : m)
+				 					radius : 1500, // 원의 반지름 (단위 : m)
 				 					fillColor: '#00ff00', // 채움 색
 				 					fillOpacity: 0.5, // 채움 불투명도
 				 					strokeWeight: 1, // 선의 두께
@@ -205,7 +211,7 @@
 				 				}
 								    // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
 									kakao.maps.event.addListener(marker, 'click', function() {
-									    alert('마커를 클릭했습니다!22222222222222');
+									    alert('마커를 클릭했습니다!22');
 									});
 						    });
 						    
