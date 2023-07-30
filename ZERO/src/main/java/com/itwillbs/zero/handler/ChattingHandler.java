@@ -2,6 +2,7 @@ package com.itwillbs.zero.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -41,12 +42,14 @@ public class ChattingHandler extends TextWebSocketHandler{
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
 		logger.info("#ChattingHandler, handleMessage");
-//		logger.info(session.getId() + " : " + message);
+		 Map<String,Object> map = session.getAttributes();
+		  String userId = (String)map.get("member_id");
+		 logger.info(userId);
 		
 		// 연결된 모든 클라이언트에게 메세지 전송(리스트 사용)
 		// getPrincipal()를 이용해 세션에 몰려있는 유저의 정보 불러옴
 		for(WebSocketSession s : sessionList) {
-			s.sendMessage(new TextMessage("test" + ":" + message.getPayload()));
+			s.sendMessage(new TextMessage(userId + ":" + message.getPayload()));
 //			s.sendMessage(new TextMessage(message.getPayload()));
 		}
 	}

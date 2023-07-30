@@ -158,7 +158,7 @@
 //전송 버튼 누르는 이벤트
 $("#button-send").on("click", function(e) {
 	sendMessage();
-	$('#bid_price').val('')
+	
 });
 
 var sock = new SockJS('http://localhost:8089/zero/chatting');
@@ -182,7 +182,7 @@ function onMessage(msg) {
 		console.log('arr[' + i + ']: ' + arr[i]);
 	}
 	
-	var cur_session = '${userid}'; //현재 세션에 로그인 한 사람
+	var cur_session = '${sessionScope.member_id}'; //현재 세션에 로그인 한 사람
 	console.log("cur_session : " + cur_session);
 	
 	sessionId = arr[0];
@@ -192,7 +192,7 @@ function onMessage(msg) {
 	if(sessionId == cur_session){
 		
 		var str = "<div class='col-6'>";
-		str += "<div class='alert alert-secondary'>";
+		str += "<div class='alert alert-warning'>";
 		str += "<b>" + sessionId + " : " + message + "</b>";
 		str += "</div></div>";
 		
@@ -201,7 +201,7 @@ function onMessage(msg) {
 	else{
 		
 		var str = "<div class='col-6'>";
-		str += "<div class='alert alert-warning'>";
+		str += "<div class='alert alert-secondary'>";
 		str += "<b>" + sessionId + " : " + message + "</b>";
 		str += "</div></div>";
 		
@@ -212,7 +212,7 @@ function onMessage(msg) {
 //채팅창에서 나갔을 때
 function onClose(evt) {
 	
-	var user = '${userid}';
+	var user = '${sessionScope.member_id}';
 	var str = user + " 님이 퇴장하셨습니다.";
 	
 	$("#msgArea").append(str);
@@ -220,7 +220,7 @@ function onClose(evt) {
 //채팅창에 들어왔을 때
 function onOpen(evt) {
 	
-	var user = '${userid}';
+	var user = '${sessionScope.member_id}';
 	var str = user + "님이 입장하셨습니다.";
 	
 	$("#msgArea").append(str);

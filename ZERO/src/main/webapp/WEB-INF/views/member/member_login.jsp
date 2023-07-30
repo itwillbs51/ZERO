@@ -4,7 +4,7 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.security.SecureRandom" %>
 <%@ page import="java.math.BigInteger" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- <%@ page contentType="text/html;charset=UTF-8" language="java" %> --%>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

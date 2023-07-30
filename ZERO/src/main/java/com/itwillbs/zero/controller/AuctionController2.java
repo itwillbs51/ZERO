@@ -33,7 +33,7 @@ public class AuctionController2 {
 	@GetMapping("auction_detail")
 	public String auction_detail(Model model) {
 		
-		model.addAttribute("userid", "test");
+		
 		
 		return "aution/auction_detail";
 	}
