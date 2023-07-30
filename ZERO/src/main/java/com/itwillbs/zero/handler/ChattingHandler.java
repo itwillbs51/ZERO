@@ -90,9 +90,13 @@ public class ChattingHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
-		
+		 Map<String,Object> map = session.getAttributes();
+		 
+		  String userId = (String)map.get("member_id");
 		// 리스트에서 세션 제거
-//		sessionList.remove(session);
+		 roomUsers.get(session.getUri().getQuery().split("=")[1].toString()).remove(userId);
+		
+		  logger.info(userId + "님이 퇴장하셨습니다.");
 		
 		
 	}

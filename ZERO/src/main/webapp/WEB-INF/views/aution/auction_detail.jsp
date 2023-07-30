@@ -161,7 +161,7 @@ $("#button-send").on("click", function(e) {
 	
 });
 
-var sock = new SockJS('http://localhost:8089/zero/chatting?id=4');
+var sock = new SockJS('http://localhost:8089/zero/chatting?id=${param.id}');
 sock.onmessage = onMessage;
 sock.onclose = onClose;
 sock.onopen = onOpen;
@@ -213,7 +213,7 @@ function onMessage(msg) {
 function onClose(evt) {
 	
 	var user = '${sessionScope.member_id}';
-	sock.send( "님이 퇴장하셨습니다.");
+// 	sock.send( "님이 퇴장하셨습니다.");
 	
 	
 }
