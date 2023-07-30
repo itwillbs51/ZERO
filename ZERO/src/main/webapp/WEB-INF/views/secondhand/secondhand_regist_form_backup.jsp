@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +9,8 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
-<link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/resources/css/defualt.css" rel="stylesheet" type="text/css">
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <meta charset="UTF-8">
 <%-- 반응형웹페이지위한 설정 --%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -363,130 +363,6 @@
 	}
 	
 	
-	/* 4번사진 */
-	
-	function send_4() {
-		$("#imageFile4").click();
-	}
-	$(function(){
-		$("#imageFile4").on('change',function(){
-			/* 파일선택 취소했을때 */
-			if( $("#imageFile4")[0].files[0]==undefined){
-				return;
-			}
-			imgcheck4(this);
-			
-		})
-		
-	});
-
-	function imgcheck4(input) {
-		
-		/* 이미지 확장자 파일체크 */
-		var file_kind = input.value.lastIndexOf('.');
-		var file_name = input.value.substring(file_kind+1,input.length);
-		var file_type = file_name.toLowerCase();
-
-		var check_array = new Array( 'jpg','png','jpeg' );
-
-		
-		if(check_array.indexOf(file_type)==-1){
-			
-			alert('이미지 파일만 선택할 수 있습니다.');
-			
-			
-			/* 실제 업로드 되는 input태그 vlaue값 지우기 */
-			$('#imageFile4').val('');
-			
-			return;
-		
-		}
-		
-	    if (input.files && input.files[0]) {
-	        var reader = new FileReader();
-	        reader.onload = function (e) {
-	        	
-				$('#imgup_4').attr('src', e.target.result);
-				 $("#img_preview4").css("display","inline-block");
-				$("#imgup_4").show();
-				$("#del_img4").show();
-				
-				preview_array[4] = true;
-	        	/* 이미지넘버 변경 */
-				img_num();
-				
-	       
-	        }
-	        reader.readAsDataURL(input.files[0]);
-	    }
-	}
-	
-	
-	/* 5번사진 */
-	
-	function send_5() {
-		$("#imageFile5").click();
-		
-	}
-	
-	$(function(){
-		
-		$("#imageFile5").on('change',function(){
-			
-			/* 파일선택 취소했을때 */
-			if( $("#imageFile5")[0].files[0]==undefined){
-				
-				return;
-			}
-			
-			imgcheck5(this);
-			
-		})
-		
-	});
-
-	function imgcheck5(input) {
-		
-		/* 이미지 확장자 파일체크 */
-		var file_kind = input.value.lastIndexOf('.');
-		var file_name = input.value.substring(file_kind+1,input.length);
-		var file_type = file_name.toLowerCase();
-
-		var check_array = new Array( 'jpg','png','jpeg' );
-
-		
-		if(check_array.indexOf(file_type)==-1){
-			
-			alert('이미지 파일만 선택할 수 있습니다.');
-			
-			
-			/* 실제 업로드 되는 input태그 vlaue값 지우기 */
-			$('#imageFile5').val('');
-			
-			return;
-		
-		}
-		
-		
-	    if (input.files && input.files[0]) {
-	        var reader = new FileReader();
-	        reader.onload = function (e) {
-		        	
-		        $('#imgup_5').attr('src', e.target.result);
-		        
-		        $("#img_preview5").css("display","inline-block");
-				$('#imgup_5').show();
-		        $("#del_img5").show();
-				
-		        preview_array[5] = true;
-		        /* 이미지넘버 변경 */
-		        img_num();
-	       
-	        }
-	        reader.readAsDataURL(input.files[0]);
-	    }
-	}
-
 //-----------------------------------------------------------
 
 
@@ -549,55 +425,6 @@
 		
 		return;
 	}
-	
-	function del_img3() {
-		/* alert('3번이미지 지움'); */
-		
-		$('#imageFile3').val('');
-		$("#img_preview3").css("display","none");
-		$('#imgup_3').hide();
-		$("#del_img3").hide(); 
-		
-		/* 3번사진 비움 */
-		preview_array[3] = false;
-		
-		/* 이미지 넘버변경 */
-		img_num();
-		 
-		return;
-	}
-	function del_img4() {
-		/* alert('4번이미지 지움'); */
-		
-		$('#imageFile4').val('');
-		$("#img_preview4").css("display","none");
-		$('#imgup_4').hide();
-		$("#del_img4").hide();
-		
-		/* 4번사진 비움 */
-		preview_array[4] = false;
-		
-		/* 이미지 넘버변경 */
-		img_num();
-
-		return;
-	}
-	function del_img5() {
-		/* alert('5번이미지 지움'); */
-		
-		$('#imageFile5').val('');
-		$("#img_preview5").css("display","none");
-		$('#imgup_5').hide();
-		$("#del_img5").hide(); 
-		
-		/* 5번사진 비움 */
-		preview_array[5] = false;
-		
-		/* 이미지 넘버변경 */
-		img_num();
-		
-		return;
-	}
 //-----------------------------------------------------------
 
 
@@ -634,21 +461,6 @@
 	}
 
 //-----------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -771,7 +583,7 @@
 		
 	 	$.ajax({
 			
-			url 	 : 'product_insert.do',
+			url 	 : 'secondhandRegistPro',
 			type	 : 'POST',
 			data	 : formData,
 			processData : false,
@@ -782,7 +594,7 @@
 				if(res.res==true){
 					alert('물품등록 성공!');
 // 					location.href='../mainpage/list.do';
-					location.href='../secondhand/secondhand_regist_form';
+// 					location.href='../secondhand/secondhand_regist_form';
 				}
 				
 			},error	: function(err){
@@ -800,8 +612,8 @@
 		
 		if(confirm('상품등록을 취소하시겠습니까?')==false) return;
 		
-// 		location.href='../mainpage/list.do';
-		location.href='../secondhand/secondhand_regist_form';
+		history.back();
+
 		
 	}
 	
@@ -1115,9 +927,6 @@ body{
 		<input type="file" id="sumimage"   style="display: none;" accept=".jpg, .jpeg, .png">
 		<input type="file" id="imageFile1" style="display: none;" accept=".jpg, .jpeg, .png">
 		<input type="file" id="imageFile2" style="display: none;" accept=".jpg, .jpeg, .png">
-		<input type="file" id="imageFile3" style="display: none;" accept=".jpg, .jpeg, .png">
-		<input type="file" id="imageFile4" style="display: none;" accept=".jpg, .jpeg, .png">
-		<input type="file" id="imageFile5" style="display: none;" accept=".jpg, .jpeg, .png">
 	</form>
 
 	<div id="root">
@@ -1174,23 +983,6 @@ body{
 								<span id="del_img2" class="chk_style" onclick="del_img2();">x</span>
 							</div>
 
-							<div id="img_preview3">
-								<input type="image" id="imgup_3" onclick="send_3();"
-									src="" width="150px" height="150px">
-								<span id="del_img3" class="chk_style" onclick="del_img3();">x</span>
-							</div>
-
-							<div id="img_preview4">
-								<input type="image" id="imgup_4" onclick="send_4();"
-									src="" width="150px" height="150px">
-								<span id="del_img4" class="chk_style" onclick="del_img4();">x</span>
-							</div>
-
-							<div id="img_preview5">
-								<input type="image" id="imgup_5" onclick="send_5();"
-									src="" width="150px" height="150px">
-								<span id="del_img5" class="chk_style" onclick="del_img5();">x</span>
-							</div>
 						</div>
 						<div id="img_intro">
 								
@@ -1254,10 +1046,10 @@ body{
 						class="pro_info">거래지역<span style="color: red">*</span></span></td>
 					
 					<td align="left">
-						<input type="button" id="myaddr" value="내주소" onclick="myAddr();">
 						<input type="button" id="addrfind" value="주소찾기" onclick="addrFind();">
 						<br>
 						<input type="text" id="p_location" class="input-tag" style="margin-top: 5px;" readonly="readonly">
+						<input type="text" id="p_location_detail" class="input-tag"  placeholder="상세주소입력" style="margin-top: 5px;" >
 					</td>
 
 
@@ -1299,6 +1091,8 @@ body{
 						<span class="pro_info">택배거래</span>
 						<input type="checkbox" name="p_dealStatus" id="p_dealStatus" value="Z스테이션"> 
 						<span class="pro_info">Z스테이션</span>
+						<input type="checkbox" name="p_dealStatus" id="p_dealStatus" value="Z맨"> 
+						<span class="pro_info">Z맨</span>
 					</td>
 				</tr>
 				

@@ -161,7 +161,7 @@
 			var str = "<div class='msgitem'>";
 			str += "<div class='alert msgRight'>";
 			str += "<div class='msg'>";
-			str += "<b>" + sessionId +"</b>";
+			str += "<b>" + message + "</b>";
 			str += "</div>";
 			str += "<div class='msgTime'>";
 // 			str +=  ;
@@ -174,7 +174,8 @@
 			var str = "<div class='msgitem'>";
 			str += "<div class='alert msgLeft'>";
 			str += "<div class='msg'>";
-			str += "<b>" + sessionId +"</b>";
+			str += "<b>" + message + "</b>";
+// 			str += "<b>" + message + " : " + sessionId + "</b>";
 			str += "</div>";
 			str += "<div class='msgTime'>";
 // 			str +=   ;
@@ -185,6 +186,21 @@
 		
 		// 채팅 내용을 DB에 저장하기
 		$.ajax({
+// 			data: {
+// // 				chat_datetime: , // 이건 DB에 넣을 때 기본값으로 넣기
+// 				chat_content: sessionId,
+// 				chat_room_idx: "${chat_room_idx}",
+// 				member_id: "${member_id}"
+// 			},
+// 			dataType: json,
+// 			url: "/chatRemember",
+// 			type: post,
+// 			seccess: function() {
+// 				console.log("DB 저장 성공");
+// 			},
+// 			error: function() {
+// 				console.log("DB 저장 실패");
+// 			}
 			
 		});	// ajax 끝
 		

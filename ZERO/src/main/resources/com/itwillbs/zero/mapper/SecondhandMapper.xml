@@ -2,5 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.zero.mapper.SecondhandMapper">
 
+	<select id="selectCategoryList" resultType="hashmap">
+		SELECT * 
+		FROM 
+			CATEGORY
+		WHERE 
+			category_type = '중고'
+	</select>
 	
+	<insert id="insertProduct">
+
+		INSERT INTO 
+			SECONDHAND	
+		VALUES (
+			null 								-- secondhand_idx		 	
+			, #{secondhand_price}
+			, #{secondhand_subject}
+			, #{secondhand_content}
+			, #{secondhand_deliveryType_ptp}
+			, #{secondhand_paymentType_ptp}
+			, #{secondhand_image1}
+			, #{secondhand_image2}
+			, #{secondhand_image3}
+			, now()								-- 작성일
+			, null 								-- update date
+			, 0									-- read count(조회수)
+			, secondhand_idx + 1				-- re_ref
+			, '판매중'							-- deal_status(default 거래중?)
+			, #{member_idx}	 					-- 작성자
+			, #{category_idx}
+			, #{secondhand_deliveryType_parcel}
+			, #{secondhand_deliveryType_zstation}
+			, #{secondhand_deliveryType_zman}
+			, #{secondhand_paymentType_zpay}
+			)
+	</insert>
 </mapper>

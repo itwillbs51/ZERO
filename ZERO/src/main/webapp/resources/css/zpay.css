@@ -444,10 +444,130 @@
 	}
 	
 	
+/* ============================ zpay_charge_success.jsp ============================= */
 	
+	.successContentArea {
+		display: flex;
+		display: -ms-flexbox;
+		flex-direction: column;
+		flex: 1 1;
+		-ms-flex: 1 1 0%;
+/* 		padding: 0 20px 20px; */
+		height: 100%;
+		box-sizing: border-box;
+		letter-spacing: -0.5px;
+		margin-bottom: 12px;
+		padding: 20px;
+		border-radius: 16px;
+		background-color: #fff;
+		box-shadow: 0 4px 16px 0 rgba(0,0,0,.05);
+	}
+
+	.successContentArea .targetArea {
+		text-align: center;
+		color: #222;
+	}
+
+	.successContentArea .targetArea .icon {
+		width: 55px;
+		margin: 0 auto;
+		background-color: #fff;
+	}
+
+	.successContentArea .targetArea .targetMessage {
+		color: #1e1e23;
+		margin-top: 15px;
+		font-size: 23px;
+		line-height: 29px;
+	}
 	
+	.successContentArea .targetArea .targetMessage .amount {
+		font-weight: 700;
+		color: #09aa5c;
+		font-style: normal;
+	}
 	
+	.successContentArea .targetArea .targetAccountInfo {
+		margin: 11px 0 -12px;
+		font-size: 14px;
+/* 		font-weight: 500; */
+		color: #666;
+		line-height: 18px;
+	}
+
+	.successContentArea .successInfoArea {
+		margin-top: 30px;
+	}
+
+	.successContentArea .successInfoArea .balanceArea {
+		display: flex;
+		display: -ms-flexbox;
+		padding: 15px 0 15px;
+		border-top: 1px solid #ebedef;
+		line-height: 26px;
+	}
 	
+	.successContentArea .successInfoArea .balanceArea_label, .accountInfoArea_label {
+		font-size: 14px;
+		color: #666;
+	}
+	
+	.successContentArea .successInfoArea .balanceArea_balance {
+		flex: 1 1;
+		-ms-flex: 1 1 0%;
+		font-size: 17px;
+		font-weight: 600;
+		color: #222;
+		text-align: right;
+		color: #09aa5c !important;
+	}
+	
+	.successContentArea .successInfoArea .accountInfoArea {
+		display: flex;
+		border-top-color: #efeff0;
+		border-bottom-color: #ebedef;
+		padding: 12px 0;
+		border: solid #d9d9d9;
+		border-width: 1px 0;
+		font-size: 16px;
+		color: #222;
+		line-height: 26px;
+	}
+	
+	.successContentArea .successInfoArea .accountInfoArea_accountNum {
+		flex: 1 1;
+		-ms-flex: 1 1 0%;
+/* 		font-size: 17px; */
+/* 		font-weight: 600; */
+		color: #222;
+		text-align: right;
+	}
+
+	.successContentArea .successNoticeArea {
+		margin-top: 12px;
+		color: #929294;
+		line-height: 21px;
+		font-size: 12px;
+	}
+
+	.successContentArea .buttonArea {
+		display:flex;
+		margin-top: 254px;
+		padding-top: 30px;
+	}
+
+	.successContentArea .buttonArea .moreCharge {
+		flex: 1 1;
+		margin-right: 5px;
+	}
+	
+	.successContentArea .buttonArea .zpayHistory {
+		flex: 1 1;
+		border-color: #09aa5c;
+		color: #fff;
+		text-shadow: 0 0 2px rgba(0,0,0,.2);
+		background-color: #09aa5c;
+	}
 	
 	
 	

@@ -22,12 +22,6 @@ $(document).ready(function(){
    			</li>
 		    <hr>
 		    <li class="nav-item">
-		    	<a class="nav-link" href="zman_earning">
-		        정산내역
-		      	</a>
-		    </li>
-		    <hr>
-		    <li class="nav-item">
 		    	<a class="nav-link" href="zman_delivery_want">
 		        배달 예정 목록
 		      	</a>
@@ -36,6 +30,12 @@ $(document).ready(function(){
 		    <li class="nav-item">
 		    	<a class="nav-link" href="zman_delivery_done">
 		        배달 완료 목록
+		      	</a>
+		    </li>
+		    <hr>
+ 		    <li class="nav-item">
+		    	<a class="nav-link" href="zman_earning">
+		        정산내역
 		      	</a>
 		    </li>
 		    <hr>

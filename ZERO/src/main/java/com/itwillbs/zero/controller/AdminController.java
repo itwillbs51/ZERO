@@ -510,12 +510,21 @@ public class AdminController {
 	}
 
 	// 고객센터 관리 - 1:1 문의 답변 등록하기
-	@PostMapping("admin_cs_qna_reply")
-	public String adminCsQnAReply() {
-		System.out.println("AdminController - admin_cs_qna_reply");
-		
-		return "";
-	}
+//	@PostMapping("admin_cs_qna_reply")
+//	public String adminCsQnAReply(HttpSession session, Model model, CsVO cs, @RequestParam int cs_idx, @RequestParam int cs_info_idx) {
+//		System.out.println("AdminController - admin_cs_qna_reply");
+//		System.out.println("CsVO : " + cs);
+//		System.out.println("cs_idx : " + cs_idx + "cs_info_idx : " + cs_info_idx);
+//		
+//		int insertCount = service.replyCsQnADetail(cs, cs_idx, cs_info_idx);
+//		
+//		if(insertCount > 0) {
+//			return "redirect:/admin_cs_qna_reply";			
+//		} else {
+//			model.addAttribute("msg", "1:1 문의글 답변 등록 실패!");
+//			return "fail_back";
+//		}
+//	}
 	
 	// 고객센터 관리 - 1:1 문의 답변 수정하기
 	@PostMapping("admin_cs_qna_reply_modify")

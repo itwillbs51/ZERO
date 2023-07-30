@@ -71,7 +71,11 @@ public interface AdminMapper {
 	List<CsVO> selectCsQnAList();
 
 	// 고객센터관리 - 1:1 문의 게시판 상세 페이지로 이동하기
-		CsVO selectCsQnADetail(@Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
+	CsVO selectCsQnADetail(@Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
+
+	// 고객센터 관리 - 1:1 문의 답변 등록하기
+//	int insertReplyQnA(CsVO cs, @Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
+
 
 	
 

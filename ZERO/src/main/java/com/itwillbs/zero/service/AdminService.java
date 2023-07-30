@@ -123,6 +123,11 @@ public class AdminService {
 		return mapper.selectCsQnADetail(cs_idx, cs_info_idx);
 	}
 
+	// 고객센터 관리 - 1:1 문의 답변 등록하기
+//	public int replyCsQnADetail(CsVO cs, int cs_idx, int cs_info_idx) {
+//		return mapper.insertReplyQnA(cs, cs_idx, cs_info_idx);
+//	}
+
 	
 
 	

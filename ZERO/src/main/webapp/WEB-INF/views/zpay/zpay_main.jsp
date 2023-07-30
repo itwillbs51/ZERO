@@ -21,6 +21,20 @@
 		padding-bottom: 0;
 	}
 </style>
+<script type="text/javascript">
+	$(function() {
+		let balance = ${zpay_balance };
+// 		alert(inputNumberFormat(balance));
+				
+		$(".balanceArea .balance").html(comma(balance) + "원");
+	});
+
+	function comma(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+		
+</script>
 </head>
 <body>
 	<header>
@@ -37,7 +51,8 @@
 							</span>
 							<span class="profileInfo">
 								<strong class="profileName">
-									홍길동 님
+									${sessionScope.member_id } 님
+<!-- 									홍길동 님 -->
 								</strong>
 								hong
 							</span>
@@ -50,7 +65,6 @@
 									ZPAY 잔액
 								</strong>
 								<div class="balance">
-									50,000원
 								</div>
 							</div>
 							<div class="zpayLinkArea">
@@ -145,6 +159,48 @@
 									</div>
 								</div>
 							</li>
+							<c:forEach var="zpayHistory" items="${zpayHistoryList }">
+								<li>
+									<div class="zpayHistoryItem">
+									<div class="zpayHistoryItem_date">
+										<fmt:formatDate value="${zpayHistory.zpay_time }" pattern="MM.dd"/>
+									</div>
+									<div class="zpayHistoryItem_infoArea">
+										<div class="zpayHistoryItem_info">
+											<c:choose>
+												<c:when test="${zpayHistory.zpay_deal_type eq '충전' or zpayHistory.zpay_deal_type eq '환급' }">
+													<a class="itemTitle itemLink">${zpayHistory.zpay_deal_type }</a>
+												</c:when>
+												<c:otherwise>
+													<a href="#" class="itemTitle itemLink">${zpayHistory.zpay_deal_type }</a>
+												</c:otherwise>
+											</c:choose>
+											<div class="zpayHistoryItem_info_sub">
+												<span class="payTime">
+													<fmt:formatDate value="${zpayHistory.zpay_time }" pattern="HH:mm"/>
+												</span>
+												<span class="paymentType">${zpayHistory.zpay_deal_type }</span>
+											</div>
+										</div>
+										<div class="zpayHistoryItem_amountArea">
+											<strong class="zpayHistoryItem_amount">
+												<c:choose>
+													<c:when test="${zpayHistory.zpay_deal_type eq '충전' or zpayHistory.zpay_deal_type eq '중고입금' or zpayHistory.zpay_deal_type eq '경매입금'}">
+														 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="+ #,##0"/>원
+													</c:when>
+													<c:otherwise>
+														 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="- #,##0"/>원
+													</c:otherwise>
+												</c:choose>
+											</strong>
+											<div class="zpayBalance">
+												 <fmt:formatNumber value="${zpayHistory.zpay_balance}" pattern="#,##0"/>원
+											</div>
+										</div>
+									</div>
+								</div>
+								</li>
+							</c:forEach>
 						</ul>
 					</div><%-- zpayHistoryListArea 영역 끝 --%>
 				</div><%-- zpayHistoryArea 영역 끝 --%>

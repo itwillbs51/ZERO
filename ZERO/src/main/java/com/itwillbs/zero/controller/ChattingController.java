@@ -74,4 +74,17 @@ public class ChattingController {
 		
 		return "chatting/chat";
 	}
+	
+	// 실시간 채팅 DB에 저장하기
+	@PostMapping("/chatRemember")
+	public void chatRemember(@RequestParam Map<String, String> map, HttpSession session) {
+		
+		// 받아온 채팅내용(chat_content), 채팅방번호(chat_room_idx), 메세지보낸사람(member_id) 정보 넣기
+		// 파라미터 : map		리턴타입 : boolean(isInsert)
+//		boolean isInsert = service.insertChat(map);
+//		logger.info("*** 채팅내역 : " + isInsert);
+		
+	}
+	
+	
 }
