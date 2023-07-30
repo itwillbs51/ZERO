@@ -5,11 +5,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +31,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService service;
+	
+	@Autowired
+	private ApplicationContext ctx;
 	
 	// 멤버 로그인
 	@GetMapping("member_login")
@@ -293,6 +300,39 @@ public class MemberController {
 		int insertCount = service.registMember(member);
 		
 		if(insertCount > 0) {
+			
+			// 메일 보내기위한 코드 수정
+			JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
+			
+			// 메일 제목, 내용
+			String subject = "제목";
+			String content = "내용";
+			
+			// 보내는 사람
+			String from = "zero_market_itwb@naver.com";
+			
+			// 받는 사람
+			String[] to = new String[1];
+			to[0] = "파라미터로받아야할듯";
+			
+			try {
+				// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성
+				MimeMessage mail = mailSender.createMimeMessage();
+				MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
+
+				// 메일 내용을 채워줌
+				mailHelper.setFrom(from);	// 보내는 사람 셋팅
+				mailHelper.setTo(to);		// 받는 사람 셋팅
+				mailHelper.setSubject(subject);	// 제목 셋팅
+				mailHelper.setText(content);	// 내용 셋팅
+
+				// 메일 전송
+				mailSender.send(mail);
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 			return "redirect:/join_complete";
 		} else {
 			model.addAttribute("msg", "회원가입 실패 다시 작성해주세요");
