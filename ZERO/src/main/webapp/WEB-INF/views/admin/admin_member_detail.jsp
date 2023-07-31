@@ -118,7 +118,10 @@
 										</tr>
 										<tr>
 											<th>이메일 인증여부</th>
-											<td colspan="2">${member.member_mail_auth }</td>
+											<td colspan="2">
+												<input type="text" class="form-control" name="member_mail_auth" value="${member.member_mail_auth }">
+<%-- 												${member.member_mail_auth } --%>
+											</td>
 										</tr>
 										<tr>
 											<th>생년월일</th>
