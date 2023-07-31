@@ -15,4 +15,7 @@ public interface ChattingMapper {
 	// 채팅 조회
 	List<ChatVO> selectChatList(int chat_room_idx);
 	
+	// 채팅 내역 삽입
+	int insertChat(Map<String, String> map);
+	
 }

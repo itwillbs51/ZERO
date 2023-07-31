@@ -24,6 +24,16 @@ public class ChattingService {
 		return mapper.selectChatList(chat_room_idx);
 	}
 	
+	// 채팅 내역 삽입
+	public boolean insertChat(Map<String, String> map) {
+		int insertChat = mapper.insertChat(map);
+		if(insertChat > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	
 	
 }
