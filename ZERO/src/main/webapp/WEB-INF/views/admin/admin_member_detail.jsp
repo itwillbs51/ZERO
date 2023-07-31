@@ -211,7 +211,10 @@
 										</tr>
 										<tr>
 											<th>계좌인증여부</th>
-											<td colspan="2">${member.member_bank_auth }</td>
+											<td colspan="2">
+												<input type="text" class="form-control" name="member_bank_auth" value="${member.member_bank_auth }">
+<%-- 												${member.member_bank_auth } --%>
+											</td>
 										</tr>
 										<tr>
 											<th>계좌등록일</th>

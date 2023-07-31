@@ -38,16 +38,7 @@ public class ZpayController {
 		
 		String member_id = (String)session.getAttribute("member_id");
 		MemberVO member = memberService.getMember(member_id);
-		
-		// ZPAY 사용자 여부 조회
-		ZpayVO zpay = service.isZpayUser(member_id);
-		if(zpay == null) {
-			
-			model.addAttribute("member", member);
-			
-			return "zpay/zpay_regist_form";
-		}
-		
+
 		// 핀테크 계좌 인증을 완료한 회원일 경우
 		// 엑세스토큰과 사용자번호를 조회하여 세션에 저장
 		// => MemberService - isBankAuth()를 호출하여 계좌인증 여부 확인
@@ -62,6 +53,15 @@ public class ZpayController {
 		if(token != null) {
 			session.setAttribute("access_token", token.getAccess_token());
 			session.setAttribute("user_seq_no", token.getUser_seq_no());
+		}
+		
+		// ZPAY 사용자 여부 조회
+		ZpayVO zpay = service.isZpayUser(member_id);
+		if(zpay == null) {
+			
+			model.addAttribute("member", member);
+			
+			return "zpay/zpay_regist_form";
 		}
 		
 		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistory(member_id);

@@ -10,10 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwillbs.zero.vo.BankAccountDetailVO;
+import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.ResponseUserInfoVO;
+import com.itwillbs.zero.vo.ResponseWithdrawVO;
 import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
@@ -107,6 +111,80 @@ public class BankController {
 		
 		return "zpay/bank_user_info";
 	}
+	
+	
+	// 2.3. 조회서비스(사용자) - 2.3.1. 잔액조회 API
+	// => 예금주명, 계좌번호(마스킹), 핀테크이용번호 파라미터 => Map 타입으로 처리
+	@PostMapping("bankAccountDetail")
+	public String bankAccountDetail(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		// 미로그인 또는 엑세스토큰이 없으면 "권한이 없습니다."출력 후 이전 페이지로 돌아가기
+		if(session.getAttribute("member_id") == null || session.getAttribute("access_token") == null) {
+			model.addAttribute("msg", "권한이 없습니다!");
+			return "bank_auth_fail_back";
+		}
+		
+		// 요청에 사용도리 엑세스토큰을 Map 객체에 추가
+		map.put("access_token", (String)session.getAttribute("access_token"));
+		logger.info("●●●●● bankAccountDetail : " + map);
+		
+		// BankApiService - requestAccountDetail() 메서드 호출하여 계좌 상세정보 조회 요청
+		// => 파라미터 : Map 객체   리턴타입 : BankAccountDetailVO(accountDetail)
+		BankAccountDetailVO accountDetail = bankApiService.requestAccountDetail(map);
+		logger.info("●●●●● BankAccountDetailVO : " + accountDetail);
+		
+		// Model 객체에 조회 결과 저장 - BankAccountDetailVO 객체, 예금주명, 계좌번호(마스킹)
+		model.addAttribute("accountDetail", accountDetail);
+		model.addAttribute("account_num_masked", map.get("account_num_masked"));
+		model.addAttribute("user_name", map.get("user_name"));
+		
+		return "zpay/bank_account_detail";
+	}
+	
+	
+	// 2.5. 이체서비스 - 2.5.1. 출금이체 API 요청을 위한 폼 생성(PDF p74)
+	@PostMapping("bankWithdraw")
+	public String bankWithdraw(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		// 미로그인 또는 엑세스토큰이 없으면 "권한이 없습니다."출력 후 이전 페이지로 돌아가기
+		if(session.getAttribute("member_id") == null || session.getAttribute("access_token") == null) {
+			model.addAttribute("msg", "권한이 없습니다!");
+			return "bank_auth_fail_back";
+		}
+		
+		// Map 객체에 엑세스토큰 추가
+		map.put("access_token", (String)session.getAttribute("access_token"));
+		
+		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
+		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
+		ResponseWithdrawVO  withdrawResult = bankApiService.requestWithdraw(map);
+		
+		// Model 객체에 ResponseWithdrawVO 객체 저장
+		model.addAttribute("withdrawResult", withdrawResult);
+		
+		return "zpay/bank_withdraw_result";
+	}
+	
+	// 2.5.2. 입금이체 API 응답 데이터의 1개 입금 정보를 관리하는 클래스 정의
+	@PostMapping("bankDeposit")
+	public String requestDeposit(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		// 미로그인 또는 엑세스토큰 없으면 "권한이 없습니다!" 출력 후 이전페이지로 돌아가기
+		if(session.getAttribute("member_id") == null || session.getAttribute("access_token") == null) {
+			model.addAttribute("msg", "권한이 없습니다!");
+			return "bank_auth_fail_back";
+		}
+		
+		// Map 객체에 엑세스토큰 추가
+		map.put("access_token", (String)session.getAttribute("access_token"));
+		
+		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
+		// => 파라미터 : Map 객체   리턴타입 : ResponseDepositVO
+		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+		
+		// Model 객체에 ResponseDepositVO 객체 저장
+		model.addAttribute("depositResult", depositResult);
+		
+		return "zpay/bank_deposit_result";
+	}
+	
 	
 	
 }

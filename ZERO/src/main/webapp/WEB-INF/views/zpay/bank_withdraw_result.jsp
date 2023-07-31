@@ -74,40 +74,26 @@
 <!-- 							</div> -->
 <!-- 						</div> -->
 <!-- 					</div> -->
-					<h1>핀테크 사용자 정보</h1>
-					<h3>
-						${userInfo.user_name } 고객님의 계좌목록<br>
-						(일련번호 : ${userInfo.user_seq_no })
-					</h3>
+					<h1>출금이체 결과 확인</h1>
 					<table border="1">
 						<tr>
-							<th>계좌별칭</th>
-							<th>계좌번호</th><%-- 일반 계좌번호 대신 마스킹 된 계좌번호(account_num_masked)만 사용 가능 --%>
-							<th>은행명</th>
-							<th>예금주명</th>
-							<th>핀테크이용번호</th>
-							<th></th>
+							<th>출금은행명</th>
+							<th>출금은행기관코드</th>
+							<th>거래일자</th>
+							<th>송금인성명</th>
+							<th>출금금액</th>
+							<th>출금한도잔여금액</th>
+							<th>출금계좌인자내역</th>
 						</tr>
-						<%-- userInfo 객체의 res_list 객체 반복하여 BankAccountVO 객체에 접근하여 각 데이터 꺼내서 테이블 출력 --%>
-						<c:forEach var="account" items="${userInfo.res_list }">
-							<tr>
-								<td>${account.account_alias }</td>
-								<td>${account.account_num_masked }</td>
-								<td>${account.bank_name }(${account.bank_code_std })</td>
-								<td>${account.account_holder_name }</td>
-								<td>${account.fintech_use_num }</td>
-								<td>
-									<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-									<form action="bankAccountDetail" method="post">
-										<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
-										<input type="hidden" name="user_name" value="${userInfo.user_name }">
-										<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
-										<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
-										<input type="submit" value="상세조회">
-									</form>
-								</td>
-							</tr>
-						</c:forEach>
+						<tr>
+							<td>${withdrawResult.bank_name }</td>
+							<td>${withdrawResult.bank_code_std }</td>
+							<td>${withdrawResult.bank_tran_date }</td>
+							<td>${withdrawResult.account_holder_name }</td>
+							<td>${withdrawResult.tran_amt }</td>
+							<td>${withdrawResult.wd_limit_remain_amt }</td>
+							<td>${withdrawResult.print_content }</td>
+						</tr>
 					</table>
 				</div>
 			</div><%-- contentArea 영역 끝 --%>

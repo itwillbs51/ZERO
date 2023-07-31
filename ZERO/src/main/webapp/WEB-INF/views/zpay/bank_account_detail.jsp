@@ -74,40 +74,40 @@
 <!-- 							</div> -->
 <!-- 						</div> -->
 <!-- 					</div> -->
-					<h1>핀테크 사용자 정보</h1>
-					<h3>
-						${userInfo.user_name } 고객님의 계좌목록<br>
-						(일련번호 : ${userInfo.user_seq_no })
-					</h3>
+					<h1>${user_name } 고객님의 계좌 잔고</h1>
 					<table border="1">
 						<tr>
-							<th>계좌별칭</th>
-							<th>계좌번호</th><%-- 일반 계좌번호 대신 마스킹 된 계좌번호(account_num_masked)만 사용 가능 --%>
 							<th>은행명</th>
-							<th>예금주명</th>
-							<th>핀테크이용번호</th>
+							<th>계좌번호</th>
+							<th>상품명</th>
+							<th>계좌잔액</th>
+							<th>출금가능금액</th>
 							<th></th>
 						</tr>
-						<%-- userInfo 객체의 res_list 객체 반복하여 BankAccountVO 객체에 접근하여 각 데이터 꺼내서 테이블 출력 --%>
-						<c:forEach var="account" items="${userInfo.res_list }">
-							<tr>
-								<td>${account.account_alias }</td>
-								<td>${account.account_num_masked }</td>
-								<td>${account.bank_name }(${account.bank_code_std })</td>
-								<td>${account.account_holder_name }</td>
-								<td>${account.fintech_use_num }</td>
-								<td>
-									<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-									<form action="bankAccountDetail" method="post">
-										<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
-										<input type="hidden" name="user_name" value="${userInfo.user_name }">
-										<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
-										<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
-										<input type="submit" value="상세조회">
+						<tr>
+							<td>${accountDetail.bank_name }</td>
+							<td>${account_num_masked }</td>
+							<td>${accountDetail.product_name }</td>
+							<td>${accountDetail.balance_amt }</td>
+							<td>${accountDetail.available_amt }</td>
+							<td>
+								<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
+								<%-- 2.5.1. 출금이체 API 요청을 위한 폼 생성(PDF p74) --%>
+								<form action="bankWithdraw" method="post">
+									<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
+									<input type="hidden" name="bank_name" value="${accountDetail.bank_name }">
+									<input type="hidden" name="fintech_use_num" value="${accountDetail.fintech_use_num }">
+									<input type="submit" value="출금이체">
+								</form>
+								<%-- 2.5.2. 입금이체 API 요청을 위한 폼 생성(PDF p83) --%>
+								<form action="bankDeposit" method="post">
+										<%-- hidden 타입으로 은행명, 핀테크이용번호 전달 --%>
+										<input type="hidden" name="bank_name" value="${accountDetail.bank_name }">
+										<input type="hidden" name="fintech_use_num" value="${accountDetail.fintech_use_num }">
+										<input type="submit" value="입금이체">
 									</form>
-								</td>
-							</tr>
-						</c:forEach>
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div><%-- contentArea 영역 끝 --%>

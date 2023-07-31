@@ -74,41 +74,23 @@
 <!-- 							</div> -->
 <!-- 						</div> -->
 <!-- 					</div> -->
-					<h1>핀테크 사용자 정보</h1>
-					<h3>
-						${userInfo.user_name } 고객님의 계좌목록<br>
-						(일련번호 : ${userInfo.user_seq_no })
-					</h3>
-					<table border="1">
-						<tr>
-							<th>계좌별칭</th>
-							<th>계좌번호</th><%-- 일반 계좌번호 대신 마스킹 된 계좌번호(account_num_masked)만 사용 가능 --%>
-							<th>은행명</th>
-							<th>예금주명</th>
-							<th>핀테크이용번호</th>
-							<th></th>
-						</tr>
-						<%-- userInfo 객체의 res_list 객체 반복하여 BankAccountVO 객체에 접근하여 각 데이터 꺼내서 테이블 출력 --%>
-						<c:forEach var="account" items="${userInfo.res_list }">
+					<h1>입금이체 결과 내역</h1>
+					<c:forEach var="depositInfo" items="${depositResult.res_list }">
+						<table border="1">
 							<tr>
-								<td>${account.account_alias }</td>
-								<td>${account.account_num_masked }</td>
-								<td>${account.bank_name }(${account.bank_code_std })</td>
-								<td>${account.account_holder_name }</td>
-								<td>${account.fintech_use_num }</td>
-								<td>
-									<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-									<form action="bankAccountDetail" method="post">
-										<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
-										<input type="hidden" name="user_name" value="${userInfo.user_name }">
-										<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
-										<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
-										<input type="submit" value="상세조회">
-									</form>
-								</td>
+								<th>입금은행명(은행코드)</th>
+								<th>거래일자</th>
+								<th>수취인성명</th>
+								<th>입금금액</th>
 							</tr>
-						</c:forEach>
-					</table>
+								<tr>
+										<td>${depositInfo.bank_name }(${depositInfo.bank_code_std })</td>
+										<td>${depositInfo.bank_tran_date }</td>
+										<td>${depositInfo.account_holder_name }</td>
+										<td>${depositInfo.tran_amt } 원</td>
+								</tr>
+						</table>
+					</c:forEach>
 				</div>
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>

@@ -19,13 +19,13 @@
 	<!-- 토큰 정보 조회 - JOIN 구문 활용 -->
 	<select id="selectTokenForBankAuth" >
 			SELECT 
-				t.id, t.access_token, t.user_seq_no
+				t.member_id, t.access_token, t.user_seq_no
 			FROM BANK_TOKEN AS t
 			LEFT JOIN MEMBER AS m
-			ON t.member_id = m.memebr_id
+			ON t.member_id = m.member_id
 			WHERE 
 				m.member_id = #{member_id}
-				AND m.bank_auth_status = 'Y'
+				AND m.member_bank_auth= 'Y'
 	
 	</select>
 </mapper>

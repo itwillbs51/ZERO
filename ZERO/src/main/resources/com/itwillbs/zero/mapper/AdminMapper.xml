@@ -34,6 +34,7 @@
 				, member_phone = #{member_phone}
 				, member_mail_auth = #{member_mail_auth}
 				, member_type = #{member_type}
+				, member_bank_auth = #{member_bank_auth}
 				<if test="!member_status.equals('탈퇴')">
 					, member_withdrawal = null
 				</if>
