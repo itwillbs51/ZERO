@@ -58,6 +58,11 @@ public class MemberVO {
 	private String member_image;
 	private String member_bank_name;
 	private String member_bank_auth;
+	// 우편주소 추가
+	private String member_zipcode;
+	private String member_zipcode2;
+	private String member_zipcode3;
+	
 }
 
 
