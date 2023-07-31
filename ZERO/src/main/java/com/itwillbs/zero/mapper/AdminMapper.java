@@ -1,10 +1,12 @@
 package com.itwillbs.zero.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
@@ -49,6 +51,15 @@ public interface AdminMapper {
 	// zman관리 - zman 정보 수정
 	int updateZman(ZmanVO zman);
 	
+	// 경매관리 - 경매예정 상품 목록 조회
+	List<AuctionManagingVO> selectAuctionManagingList();
+	
+	// 경매관리 - 경매예정 상품 정보 조회
+	Map<String, String> selectAuctionManaging(int auction_idx);
+
+	// 경매관리 - 경매예정 상품 정보 수정
+	int updateAuctionManaging(AuctionManagingVO auctionManaging);
+	
 	// 고객센터관리 - 공지사항 목록 조회
 	List<CsVO> selectCsList();
 
@@ -72,6 +83,10 @@ public interface AdminMapper {
 
 	// 고객센터관리 - 1:1 문의 게시판 상세 페이지로 이동하기
 	CsVO selectCsQnADetail(@Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
+
+
+
+	
 
 	// 고객센터 관리 - 1:1 문의 답변 등록하기
 //	int insertReplyQnA(CsVO cs, @Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);

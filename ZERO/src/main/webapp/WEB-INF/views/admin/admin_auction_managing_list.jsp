@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,13 +52,24 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="auctionManaging" items="${auctionManagingList }" varStatus="vs">
+									<c:forEach var="auctionProduct" items="${auctionManagingList }" varStatus="vs">
 										<tr>
-											<td>${auctionProduct.aution_seller_id }</td>
-											<td>${auctionProduct.aution_title }</td>
-											<td>${auctionProduct.aution_regist_date }</td>
-											<td>${auctionProduct.auction_manage_check_status }</td>
-											<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
+											<td>
+												${auctionProduct.member_id }
+											</td>
+											<td>
+												${auctionProduct.auction_title }
+											</td>
+											<td>
+												${auctionProduct.auction_regist_date }
+<%-- 												<fmt:formatDate value="${auctionProduct.auction_regist_date }" pattern="yy.MM.dd"/> --%>
+											</td>
+											<td>
+												${auctionProduct.auction_manage_check_status }
+											</td>
+											<td>
+												<a class="btn btn-sm btn-outline-dark" href="admin_auction_managing_detail?auction_idx=${auctionProduct.auction_idx }">상세보기</a>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
