@@ -342,7 +342,7 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 								<div   class="user_profile">
 									<input type="file" accept=".jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
 									<div  class="profile_thumb">
-										<img  src="${pageContext.request.contextPath }/resources/member_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
+										<img  src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
 									</div>
 									<div  class="profile_detail">
 										<strong  class="name">김커피</strong>
