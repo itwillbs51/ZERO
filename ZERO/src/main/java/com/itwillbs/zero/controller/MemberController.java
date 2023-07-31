@@ -259,12 +259,12 @@ public class MemberController {
 	}
 	
 	// 멤버 로그인정보
-	@GetMapping("member_loginInfo")
+	@GetMapping("member_Info")
 	public String memberLoginInfo(HttpSession session
 			, Model model) {
 		System.out.println("MemberController - memberloginInfo");
 		
-		return "member/member_loginInfo";
+		return "member/member_Info";
 	}
 	
 	

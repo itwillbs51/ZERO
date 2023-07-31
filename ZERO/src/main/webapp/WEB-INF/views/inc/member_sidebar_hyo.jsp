@@ -53,14 +53,14 @@ $(document).ready(function(){
     <hr>
  
     <li class="nav-item">
-      <a class="nav-link" href="">
+      <a class="nav-link" href="member_mystore">
         판매스토어
       </a>
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="">
-        상품판매내역
+      <a class="nav-link" href="member_address">
+        나의 주소록 관리
       </a>
     </li>
     <hr>
@@ -71,7 +71,7 @@ $(document).ready(function(){
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="">
+      <a class="nav-link" href="member_account">
         나의 Z-PAY
       </a>
     </li>
@@ -83,7 +83,7 @@ $(document).ready(function(){
     </li>
     <hr>
      <li class="nav-item">
-      <a class="nav-link" href="">
+      <a class="nav-link" href="member_Info">
         개인정보 수정
       </a>
     </li>

@@ -55,17 +55,35 @@
 
 <title>중고거래 사이트</title>
 <style>
-.content_area[data-v-2b15bea4] {
-    margin: 0 auto;
-    padding: 60px 0 160px;
-    width: 400px;
-}
 
+/* .content_area[data-v-2b15bea4] { */
+/*     margin: 0 auto; */
+/*     padding: 60px 0 160px; */
+/*     width: 400px; */
+/* } */
+.content_title[data-v-88eb18f6] {
+    padding-bottom: 16px;
+    border-bottom: 3px solid #222!important;
+}
 
 .container.my .content_area[data-v-473e7c14] {
     overflow: hidden;
     min-height: 380px;
 }
+
+.profile_info[data-v-cf6a6ef4] {
+    padding-top: 38px;
+    max-width: 480px;
+}
+
+.profile_group[data-v-8b96a82e]:first-of-type {
+    padding-top: 0;
+}
+.group_title[data-v-8b96a82e] {
+    font-size: 18px;
+    letter-spacing: -.27px;
+}
+
 *, :after, :before {
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -84,6 +102,11 @@ body, button, input, select, table, textarea {
 <%-- 프로필 관리 --%>
 .lg .user_profile[data-v-4b474860], .md .user_profile[data-v-4b474860] {
     border-bottom: 1px solid #ebebeb;
+}
+
+.profile_info[data-v-cf6a6ef4] {
+    padding-top: 38px;
+    max-width: 480px;
 }
 
 .user_profile[data-v-4b474860] {
@@ -255,6 +278,16 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 	margin-right: 10px;
 }
 
+<%-- 체크박스 버튼 --%>
+input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    appearance: checkbox;
+    -webkit-appearance: checkbox;
+    -moz-appearance: checkbox;
+}
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -367,64 +400,70 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 										<h3 data-v-88eb18f6="">프로필 관리</h3>
 									</div>
 								</div>
-								<div data-v-4b474860="" data-v-75326462="" class="user_profile">
-									<input type="file" accept=".jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
-									<div data-v-4b474860="" class="profile_thumb">
-									<c:choose>
-										<c:when test="${not empty member.member_image }">
-											<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img">
-										</c:when>
-										<c:otherwise>
-											<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
-										</c:otherwise>
-									</c:choose>
-									</div>
-									<div data-v-4b474860="" class="profile_detail">
-										<strong data-v-4b474860="" class="name">${member_id }</strong>
-										<div data-v-4b474860="" class="profile_btn_box">
-											<label for="profile">
-												<div data-v-43813796="" data-v-4b474860="" class="btn outlinegrey small" >이미지 변경</div>
-<!-- 												<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small" >이미지 변경</button> -->
-											</label>
-											<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small btn_update" id="profile_delete" name="profile_delete" data-data-v-4b474860=""> 삭제 </button>
+								
+								<div data-v-cf6a6ef4="" class="profile_info">
+								
+									<div data-v-4b474860="" data-v-75326462="" class="user_profile" >
+										<input type="file" accept=".jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
+										<div data-v-4b474860="" class="profile_thumb">
+										<c:choose>
+											<c:when test="${not empty member.member_image }">
+												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img">
+											</c:when>
+											<c:otherwise>
+												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
+											</c:otherwise>
+										</c:choose>
+										</div>
+										<div data-v-4b474860="" class="profile_detail">
+											<strong data-v-4b474860="" class="name">${member_id }</strong>
+											<div data-v-4b474860="" class="profile_btn_box">
+												<label for="profile">
+													<div data-v-43813796="" data-v-4b474860="" class="btn outlinegrey small" >이미지 변경</div>
+	<!-- 												<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small" >이미지 변경</button> -->
+												</label>
+												<button data-v-43813796="" data-v-4b474860="" type="button" class="btn outlinegrey small btn_update" id="profile_delete" name="profile_delete" data-data-v-4b474860=""> 삭제 </button>
+											</div>
 										</div>
 									</div>
+									<div data-v-75326462="" class="user_profile" data-v-cf6a6ef4="">
+										<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
+											<h4 data-v-8b96a82e="" class="group_title">프로필 정보</h4>
+											<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+												<h5 data-v-0c9f3f9e="" class="title">닉네임</h5>
+												<div data-v-0c9f3f9e="" class="unit_content">
+	<%-- 												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_nickname } </p> --%>
+													<input type="text" id="member_nickname" name="member_nickname" data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e="" value="${member.member_nickname }" style="border:none;">
+													<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update" data-v-0c9f3f9e="" name="member_nickname"> 변경 </button>
+												</div>
+											</div>
+											<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+												<h5 data-v-0c9f3f9e="" class="title">이름</h5>
+												<div data-v-0c9f3f9e="" class="unit_content">
+													<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_name } </p>
+	<!-- 												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update"  data-v-0c9f3f9e=""> 변경 </button> -->
+												</div>
+											</div>
+											<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+												<h5 data-v-0c9f3f9e="" class="title">생일</h5>
+												<div data-v-0c9f3f9e="" class="unit_content">
+													<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify placeholder" data-v-0c9f3f9e="">${member.member_birth }  </p>
+	<!-- 												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update" data-v-0c9f3f9e=""> 변경 </button> -->
+												</div>
+											</div>
+										</div>
+										<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
+											<h4 data-v-8b96a82e="" class="group_title">신고내역</h4>
+											<div data-v-0c9f3f9e="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+												<div data-v-0c9f3f9e="" class="unit_content">
+													<p data-v-24a03828="" data-v-75326462="" class="desc" role="button" data-v-0c9f3f9e=""> 신고리스트 </p>
+												</div>
+											</div>
+										</div>
+									</div>
+								
 								</div>
-								<div data-v-75326462="" class="profile_info">
-									<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
-										<h4 data-v-8b96a82e="" class="group_title">프로필 정보</h4>
-										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<h5 data-v-0c9f3f9e="" class="title">닉네임</h5>
-											<div data-v-0c9f3f9e="" class="unit_content">
-<%-- 												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_nickname } </p> --%>
-												<input type="text" id="member_nickname" name="member_nickname" data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e="" value="${member.member_nickname }" style="border:none;">
-												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update" data-v-0c9f3f9e="" name="member_nickname"> 변경 </button>
-											</div>
-										</div>
-										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<h5 data-v-0c9f3f9e="" class="title">이름</h5>
-											<div data-v-0c9f3f9e="" class="unit_content">
-												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_name } </p>
-<!-- 												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update"  data-v-0c9f3f9e=""> 변경 </button> -->
-											</div>
-										</div>
-										<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<h5 data-v-0c9f3f9e="" class="title">생일</h5>
-											<div data-v-0c9f3f9e="" class="unit_content">
-												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify placeholder" data-v-0c9f3f9e="">${member.member_birth }  </p>
-<!-- 												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update" data-v-0c9f3f9e=""> 변경 </button> -->
-											</div>
-										</div>
-									</div>
-									<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
-										<h4 data-v-8b96a82e="" class="group_title">신고내역</h4>
-										<div data-v-0c9f3f9e="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-											<div data-v-0c9f3f9e="" class="unit_content">
-												<p data-v-24a03828="" data-v-75326462="" class="desc" role="button" data-v-0c9f3f9e=""> 신고리스트 </p>
-											</div>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 							<div data-v-75326462="" class="v-portal" style="display: none;">
 							</div>
