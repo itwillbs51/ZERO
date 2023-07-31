@@ -76,6 +76,18 @@
 			SECONDHAND
 	</select>
 	
+	
+	<select id="selectProduct" resultType="com.itwillbs.zero.vo.SecondhandVO">
+		SELECT *
+		FROM
+			SECONDHAND
+		WHERE
+			secondhand_idx = #{secondhand_idx}
+	</select>
+	
+	
+	
+	
 	<!-- 끌어올리기 작업 시 업데이트 처리 (등록날짜)-->
 	
 </mapper>

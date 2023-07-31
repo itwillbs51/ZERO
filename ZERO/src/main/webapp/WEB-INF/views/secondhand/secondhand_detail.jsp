@@ -140,29 +140,60 @@ a {
 		<div class="row" style="margin-top:20px;">
 			<div class="column">
 			
-				<div class="mySlides">
-				  <img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:450px; height:450px;">
-				</div>
+<!-- 				<div class="mySlides"> -->
+<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:450px; height:450px;"> --%>
+<!-- 				</div> -->
 				
-				<div class="mySlides">
-				 	<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:450px; height:450px;">
-				</div>
+<!-- 				<div class="mySlides"> -->
+<%-- 				 	<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:450px; height:450px;"> --%>
+<!-- 				</div> -->
 		
-				<div class="mySlides">
-					 <img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:450px; height:450px;">
-				 </div>
+<!-- 				<div class="mySlides"> -->
+<%-- 					 <img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:450px; height:450px;"> --%>
+<!-- 				 </div> -->
 		    
-				<div class="mySlides">
-		   			<img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:450px; height:450px;">
-				</div>
+<!-- 				<div class="mySlides"> -->
+<%-- 		   			<img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:450px; height:450px;"> --%>
+<!-- 				</div> -->
 					
-				<!--  썸네일이미지 -->
-				 <div class="row">
-				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)" ></span>
-				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:80px;" onclick="currentSlide(2)" ></span>
-				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:80px;" onclick="currentSlide(3)" ></span>
-				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:80px;" onclick="currentSlide(4)"></span>
-				</div>
+<!-- 				 썸네일이미지 -->
+<!-- 				 <div class="row"> -->
+<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)" ></span> --%>
+<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:80px;" onclick="currentSlide(2)" ></span> --%>
+<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:80px;" onclick="currentSlide(3)" ></span> --%>
+<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:80px;" onclick="currentSlide(4)"></span> --%>
+<!-- 				</div> -->
+
+				<div id="slid">
+						<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+							<ol class="carousel-indicators">
+								<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+								<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+								<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+							</ol>
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+									<img src="${pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image1}" class="card-img-top" >
+								</div>
+								<div class="carousel-item">
+									<img src="${pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image2}" class="card-img-top" >
+								</div>
+								<div class="carousel-item">
+									<img src="${pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image3}" class="card-img-top" >
+								</div>
+							</div>
+							<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+
+
 					
 			</div><%-- 1행 1열 -- 왼쪽 column끝 --%>
 			
@@ -170,18 +201,19 @@ a {
 			
 			<%--1행 2열 -- 오른쪽 column 추가하기 --%>
 			<div class="column">
-			
-				<button class="btn btn-dark" style="margine-bottom:10px;">거래중</button>
+				<!-- 거래상태 -->
+				<button class="btn btn-dark" style="margine-bottom:10px;">${secondhandProduct.secondhand_deal_status }</button>
 				<span class="icon">
 					<a href="reportPopup"><img src="${pageContext.request.contextPath }/resources/img/report_icon.png" width="30px" height="30px"></a>
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
 				</span>
 					
-				<h3>제목입니다</h3>
-				<h5>14,000<b>원</b></h5>
-				<span class="readcount">조회수 125485 </span><span class="registDate">등록일 2023-09-20 11:00</span>
+				<h3>${secondhandProduct.secondhand_subject }</h3>
+				<h5>${secondhandProduct.secondhand_price }<b>원</b></h5>
+				<span class="readcount">조회수 ${secondhandProduct.secondhand_read_count } </span>
+				<span class="registDate">등록일 ${secondhandProduct.secondhand_first_date }</span>
 				<hr>
-				<p>예수는 무엇을 위하여 광야에서 방황하였으며 공자는 무엇을 위하여 천하를 철환하였는가? 밥을 위하여서 옷을 위하여서 미인을 구하기 위하여서 그리하였는가? 아니다 그들은 커다란 이상 곧 만천하의 대중을 품에 안고 그들에게 밝은 길을 찾아 주며 그들을 행복스럽고 평화스러운 곳으로 인도하겠다는 커다란 이상을 품었기 때문이다 그러므로 그들은 길지 아니한 목숨을 사는가 싶이 살았으며 그들의 그림자는 천고에 사라지지 않는 것이다 이것은 현저하게 일월과 같은 예가 되려니와 그와 같지 못하다 할지라도 창공에 반짝이는 뭇 별과 같이 산야에 피어나는 군영과 같이 이상은 실로 인간의 부패를 방지하는 소금이라 할지니 인생에 가치를 주는 원질이 되는 것이다 그들은</p>
+				<p>${secondhandProduct.secondhand_content }</p>
 				<br>
 				<%-- 
 					sessionId 일치하는경우 (작성자 본인일경우 -> 수정하기, 삭제하기 버튼 보여줌

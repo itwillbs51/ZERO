@@ -23,6 +23,9 @@ public interface SecondhandMapper {
 	
 	// 상품번호에 해당하는 카테고리 정보 조회요청
 	String selectCategory(int secondhand_idx);
+
+	// 상품번호에 해당하는 상품의 상세정보조회 요청
+	SecondhandVO selectProduct(int secondhand_idx);
 	
 
 }

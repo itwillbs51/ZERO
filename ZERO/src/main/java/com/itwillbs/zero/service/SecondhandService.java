@@ -43,6 +43,11 @@ public class SecondhandService {
 	public String getCategory(int secondhand_idx) {
 		return mapper.selectCategory(secondhand_idx);
 	}
+	
+	//상세페이지 - 상품번호에 해당하는 상품정보 조회
+	public SecondhandVO getSecondhandProduct(int secondhand_idx) {
+		return mapper.selectProduct(secondhand_idx);
+	}
 
 	    
 

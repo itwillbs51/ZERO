@@ -36,7 +36,7 @@ public class SecondhandController {
 			
 			//상품의 idx에 해당하는 카테고리 조회(return String?)
 			//파라미터:SecondhandVO secondhand.idx
-			secondhand.setSecondhand_idx(secondhand.getSecondhand_idx());
+			System.out.println(secondhand.getSecondhand_idx());
 			
 			String category = service.getCategory(secondhand.getSecondhand_idx());
 			model.addAttribute("category", category);
@@ -116,7 +116,17 @@ public class SecondhandController {
 		
 		//상품 상세정보페이지
 		@GetMapping("secondhand_detail")
-		public String secondhand_detail() {
+		public String secondhand_detail(@RequestParam int secondhand_idx, Model model, HttpSession session) {
+			
+			//파라미터로 전달받은 상품번호 확인
+			System.out.println(secondhand_idx);
+			
+			//상품번호에 해당하는 상품의 정보조회작업
+			SecondhandVO secondhandProduct = service.getSecondhandProduct(secondhand_idx);
+			//조회결과 저장
+			model.addAttribute("secondhandProduct", secondhandProduct);
+			
+			
 			return "secondhand/secondhand_detail";
 		}
 		
