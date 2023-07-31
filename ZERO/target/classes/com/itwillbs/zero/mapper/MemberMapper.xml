@@ -43,4 +43,18 @@
 			FROM MEMBER
 				WHERE ${column} = #{value}
 	</select>
+	
+	
+	<!-- 회원정보 조회(혜진) -->
+	<select id="selectMember" resultType="com.itwillbs.zero.vo.MemberVO">
+		SELECT * FROM MEMBER
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 계좌인증 완료한 회원의 member_bank_auth를 'Y'로 수정(혜진) -->
+	<update id="updateBankAuth">
+		UPDATE MEMBER
+		SET member_bank_auth = 'Y'
+		WHERE member_id = #{member_id}
+	</update>
 </mapper>

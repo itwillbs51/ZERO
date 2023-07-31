@@ -17,4 +17,11 @@ public interface MemberMapper {
 	HashMap<String, String> selectMemberCheck(@Param("column") String column, @Param("value") String value);
 	
 	List<HashMap<String, String>> selectMemberCheckList(@Param("column") String column, @Param("value") String value);
+	
+	// 회원정보조회(혜진)
+	MemberVO selectMember(String member_id);
+
+	// 계좌인증 완료한 회원의 member_bank_auth를 'Y'로 수정(혜진)
+	int updateBankAuth(String member_id);
+
 }
