@@ -38,5 +38,21 @@
 			LIMIT 15
 	</select>
 		<!-- 나중에 페이징 처리하기(무한 스크롤) -->
-			
+	
+	<!-- 채팅 내용 삽입 - INSERT -->
+	<insert id="insertChat">
+		INSERT INTO
+			CHAT
+			VALUES
+				(
+				null		-- chat_idx
+				, now()		-- chat_datetime
+				, #{chat_content}		-- chat_content
+				, #{chat_content_type}		-- chat_content_type
+				, #{chat_room_idx}		-- chat_room_idx
+				, #{member_id}		-- member_id
+				)
+	
+	</insert>
+	
 </mapper>

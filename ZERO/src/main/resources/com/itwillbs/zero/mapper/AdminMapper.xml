@@ -132,10 +132,10 @@
 		UPDATE AUCTION_MANAGING
 			SET
 				auction_manage_check_status = #{auction_manage_check_status}
-				<if test="!auction_manage_check_status.equals('검수완료') or !auction_manage_check_status.equals('검수완료')">
+				<if test="!auction_manage_check_status.equals('검수완료') and !auction_manage_check_status.equals('경매불가')">
 					, auction_manage_check_date = null
 				</if>
-				<if test="auction_manage_check_status.equals('검수완료') and auction_manage_check_status.equals('검수완료')">
+				<if test="auction_manage_check_status.equals('검수완료') or auction_manage_check_status.equals('경매불가')">
 					, auction_manage_check_date = #{auction_manage_check_date}
 				</if>
 			WHERE auction_managing_idx = #{auction_managing_idx}
