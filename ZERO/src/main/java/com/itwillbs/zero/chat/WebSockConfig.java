@@ -18,6 +18,7 @@ import lombok.*;
 public class WebSockConfig implements WebSocketConfigurer {
 	// WebSocketHandler 에 관한 생성자 추가
 	private final ChattingHandler chattingHandler;
+//	private final ChatHandler chatHandler;
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -30,6 +31,10 @@ public class WebSockConfig implements WebSocketConfigurer {
 		// interceptor for adding httpsession into websocket session
 		// interceptor를 사용해서 HTTP session안에 있는 member_id 사용하기!
 		
+		// 분리용으로 만들어둠(지영)
+//		registry.addHandler(chatHandler, "/chat")
+//		.setAllowedOrigins("*")
+//		.addInterceptors(new HttpSessionHandshakeInterceptor());
 	}
 	
 	

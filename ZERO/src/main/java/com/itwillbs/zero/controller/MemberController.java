@@ -20,6 +20,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itwillbs.zero.email.EmailErrorResponse;
+import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.vo.MemberVO;
@@ -522,7 +526,7 @@ public class MemberController {
 	
 	@PostMapping("sendAuthCode")
 	@ResponseBody
-	public String sendAuthCode(@RequestParam("email") String email, HttpSession session) {
+	public ResponseEntity<?> sendAuthCode(@RequestParam("email") String email, HttpSession session) {
 		// 메일 보내기위한 코드 수정
 		JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
 		
@@ -554,12 +558,14 @@ public class MemberController {
 			// 메일 전송
 			mailSender.send(mail);
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "이메일이 성공적으로 전송되었습니다";
-		
+		}  catch(Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>(new EmailErrorResponse("이메일 발송에 실패했습니다. 다시 시도해주세요."),
+	                HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+
+	    // 반환할 JSON 형식 (성공 시)
+	    return new ResponseEntity<>(new SuccessResponse("이메일이 성공적으로 전송되었습니다."), HttpStatus.OK);
 	}
 	
 	

@@ -28,7 +28,7 @@ public class SecondhandVO {
 	private int secondhand_read_count;
 	private int secondhand_re_ref;
 	private String secondhand_deal_status;
-	private String member_idx;
+	private String member_id; //idx->id수정
 	private String category_idx;
 	
 	//추가컬럼

@@ -1,5 +1,7 @@
 package com.itwillbs.zero.vo;
 
+import java.sql.*;
+
 import lombok.*;
 
 @Data
@@ -13,7 +15,7 @@ public class ChatVO {
 	private MessageType type;
 	
 	private int chat_idx;
-	private String chat_datetime;
+	private Date chat_datetime;
 	private String chat_content;
 	private String chat_content_type;	// 채팅타입 - "사용자", "안내"
 	private int chat_room_idx;

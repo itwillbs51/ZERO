@@ -614,26 +614,27 @@ input[type=checkbox] {
 	  
 	</script>
   <script type="text/javascript">
-	$(document).ready(function () {
-	    $("#emailAuthButton").on("click", function (event) {
-	        event.preventDefault();
-	
-	        const email = $("#member_id").val();
-	        
-	        // AJAX 요청 시작
-	        $.ajax({
-	            type: "POST",
-	            url: "sendAuthCode",
-	            data: { email: email },
-	            success: function (data) {
-	                if (data.success) {
-	                    alert("인증번호가 이메일로 발송되었습니다.");
-	                } else {
-	                    alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
-	                }
-	            },
-	            error: function () {
-	                alert("오류가 발생했습니다. 다시 시도해주세요.");
+  $(document).ready(function () {
+      $("#emailAuthButton").on("click", function (event) {
+          event.preventDefault();
+
+          const email = $("#member_id").val();
+          
+          // AJAX 요청 시작
+          $.ajax({
+              type: "POST",
+              url: "sendAuthCode",
+              data: { email: email },
+              success: function (data) {
+                  console.log("응답 데이터:", data); // 추가된 부분
+                  if (data.success) {
+                      alert("인증번호가 이메일로 발송되었습니다.");
+                  } else {
+                      alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
+                  }
+              },
+              error: function () {
+                  alert("오류가 발생했습니다. 다시 시도해주세요.");
 	            }
 	        });
 	    });
@@ -641,31 +642,29 @@ input[type=checkbox] {
 
 </script>
 <script type="text/javascript">
-$("#member_id2").on("input", function () {
-    // 입력값 받아오기
-    const inputAuthCode = $(this).val();
-
-    // AJAX 요청 시작
-    $.ajax({
-        type: "POST",
-        url: "checkAuthCode",
-        data: { inputAuthCode: inputAuthCode },
-        success: function (response) {
-            if (response === "인증코드가 일치합니다.") {
-                $("#email_confirm").html("인증코드가 일치합니다!");
-                $("#email_confirm").css("color", "green");
-            } else {
-                $("#email_confirm").html("인증코드가 일치하지 않습니다!");
-                $("#email_confirm").css("color", "red");
-            }
-        },
-        error: function () {
-            alert("오류가 발생했습니다. 다시 시도해주세요.");
-        }
-    });
-});
-
-
+	$("#member_id2").on("input", function () {
+	    // 입력값 받아오기
+	    const inputAuthCode = $(this).val();
+	
+	    // AJAX 요청 시작
+	    $.ajax({
+	        type: "POST",
+	        url: "checkAuthCode",
+	        data: { inputAuthCode: inputAuthCode },
+	        success: function (response) {
+	            if (response === "인증코드가 일치합니다.") {
+	                $("#email_confirm").html("인증코드가 일치합니다!");
+	                $("#email_confirm").css("color", "green");
+	            } else {
+	                $("#email_confirm").html("인증코드가 일치하지 않습니다!");
+	                $("#email_confirm").css("color", "red");
+	            }
+	        },
+	        error: function () {
+	            alert("오류가 발생했습니다. 다시 시도해주세요.");
+	        }
+	    });
+	});
 </script>
   
   

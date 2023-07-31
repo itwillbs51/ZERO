@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +62,7 @@
 											<b>${chat.chat_content }</b>
 										</div>
 										<div class="msgTime">
-											${chat.chat_datetime }
+											<fmt:formatDate value="${chat.chat_datetime }" pattern="a hh:mm"/>
 										</div>
 									</div>
 								</div>
@@ -73,7 +74,7 @@
 											<b>${chat.chat_content }</b>
 										</div>
 										<div class="msgTime">
-											${chat.chat_datetime }
+											<fmt:formatDate value="${chat.chat_datetime }" pattern="a hh:mm"/>
 										</div>
 									</div>
 								</div>
@@ -125,8 +126,7 @@
 		}
 	});
 	
-	
-	var sock = new SockJS('http://localhost:8089/zero/chatting');
+	var sock = new SockJS('http://localhost:8089/zero/chatting?id=${param.chat_room_idx}');
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	sock.onopen = onOpen;
@@ -148,12 +148,15 @@
 		}
 		
 		var cur_session = '${member_id}'; //현재 세션에 로그인 한 사람
-		console.log("member_id : " + cur_session);
+// 		console.log("member_id : " + cur_session);
 		
 		sessionId = arr[0];
 		message = arr[1];
 		
-// 		LocalDate 
+		let now = new Date();
+// 		console.log(now);
+		// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
+		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
 		
 	    //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
 		if(sessionId == cur_session){
@@ -162,9 +165,10 @@
 			str += "<div class='alert msgRight'>";
 			str += "<div class='msg'>";
 			str += "<b>" + message + "</b>";
+// 			str += "<b>" + sessionId + " : " + message + "</b>";
 			str += "</div>";
 			str += "<div class='msgTime'>";
-// 			str +=  ;
+			str += formattedTime;
 			str += "</div></div></div>";
 			
 			$("#msgArea").append(str);
@@ -175,35 +179,46 @@
 			str += "<div class='alert msgLeft'>";
 			str += "<div class='msg'>";
 			str += "<b>" + message + "</b>";
-// 			str += "<b>" + message + " : " + sessionId + "</b>";
+// 			str += "<b>" + sessionId + " : " + message + "</b>";
 			str += "</div>";
 			str += "<div class='msgTime'>";
-// 			str +=   ;
+			str += formattedTime;
 			str += "</div></div></div>";
 			
 			$("#msgArea").append(str);
 		}
 		
+	    let chat_content_type = '일반';
+	    
 		// 채팅 내용을 DB에 저장하기
 		$.ajax({
-// 			data: {
-// // 				chat_datetime: , // 이건 DB에 넣을 때 기본값으로 넣기
-// 				chat_content: sessionId,
-// 				chat_room_idx: "${chat_room_idx}",
-// 				member_id: "${member_id}"
-// 			},
+			data: {
+// 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
+				'chat_content': message,
+				'chat_content_type' : chat_content_type,
+				'chat_room_idx': "${param.chat_room_idx}",
+				'member_id': "${member_id}"
+			},
 // 			dataType: json,
-// 			url: "/chatRemember",
-// 			type: post,
-// 			seccess: function() {
-// 				console.log("DB 저장 성공");
-// 			},
-// 			error: function() {
-// 				console.log("DB 저장 실패");
-// 			}
+			url: "/chatRemember",
+			type: "POST",
+			seccess: function() {
+				console.log("DB 저장 성공");
+			},
+			error: function() {
+				console.log("DB 저장 실패");
+			}
 			
 		});	// ajax 끝
 		
+		// 스크롤 위치 조정
+		// 요소 가져오기
+		scrollContainer = document.querySelector('#msgArea');
+		// 요소 영역의 높이와 스크롤 높이 가져오기
+		scrollHeight = scrollContainer.scrollHeight;
+		containerHeight = scrollContainer.clientHeight;
+		// 스크롤 위치 조정
+		scrollContainer.scrollTop = scrollHeight - containerHeight;
 	}
 	//채팅창에서 나갔을 때
 	function onClose(evt) {
