@@ -13,16 +13,11 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/aution.css" rel="stylesheet" type="text/css">
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title> ZERO | 경매 </title>
 <style type="text/css">
-	#demo {
-		text-align: center;
-		font-size: 60px;
-		margin-top: 0px;
-	}
+	
+	
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
@@ -82,13 +77,13 @@
 		<%@ include file="../inc/header.jsp"%>
 	</header>
 	
+	<!-- nav - 메뉴영역 -->
 	<%-- 크기 조절을 위해 main에 다 넣음 --%>
 	<div id="main">
-		<!-- nav - 메뉴영역 -->
 		<nav>
-			<a href="autionList_present">경매중</a>&nbsp;&nbsp;
-			<a href="autionList_prepare">입찰 예정 경매</a>&nbsp;&nbsp;
-			<a>종료된 경매</a>
+			<a href="auctionList_present">경매중</a>&nbsp;&nbsp;
+			<a>입찰 예정 경매</a>&nbsp;&nbsp;
+			<a href="auctionList_end">종료된 경매</a>
 		</nav>
 		<hr>
 		<nav>
@@ -97,7 +92,7 @@
 			<a>테크</a>&nbsp;&nbsp;
 			<a>한정판</a>
 		</nav>
-	
+		
 		<section>
 			<!-- 1. 배너 -->
 			<article>
@@ -125,13 +120,13 @@
 				
 					<c:forEach var="i" begin="1" end="6">
 						<%-- 상품 하나 --%>
-						<div class="product_card_wrap">
+						<div class="product_card_wrap"> 
 							<div class="product_card">
 								<%-- 클릭 시 상세페이지로 이동(사진, 상품명 클릭 시 이동) --%>
 								<a href="auction_detail" class="item_inner">
-									<div>
-	<%-- 									<img alt="..." src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg"> --%>
-										<img alt="조던" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp">
+									<div class="item_img">
+										<img alt="..." src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg">
+	<%-- 									<img alt="조던" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp"> --%>
 									</div>
 									<div class="item_title">
 										<p class="product_info_brand">브랜드명(ex. Jordan)</p>
@@ -139,26 +134,30 @@
 									</div>
 								</a>
 								<div class="autionTime">
+									경매시작까지
+									<span>n일 nn시간 nn분</span>
 									<div>
-										낙찰 시간 : YYYY년 MM월 dd일 HH:mm:ss
+										입찰 예정 시간 : YYYY년 MM월 dd일
 									</div>
 								</div>
 								<div class="price row">
 									<div class="col">
-										낙찰가<br>
+										입찰가<br>
 										<span>10,000원</span>
 									</div>
-									<div class="col">
+									<div class="col colRight">
 										즉시구매가<br>
 										<span>150,000원</span>
 									</div>
 								</div>
-								<div class="applyInfo">
+								<div class="applyInfos">
 									<%-- 입찰자 수 --%>
 									<div class="person">
 										<i class="material-icons">people</i>
 										<span>참가 20명</span>
 									</div>
+									<%-- 버튼 : 입찰신청, 신청완료 --%>
+									<button class="applyBtn">입찰신청</button>
 								</div>
 							</div> <%-- 상품하나 끝 --%>
 						</div>

@@ -928,7 +928,7 @@ body{
 
 <body>
 <header>
-		
+		<%@ include file="../inc/header.jsp"%>
 	</header>
 	<!-- 파일업로드 용 폼 -->
 	<form enctype="multipart/form-data" id="imgform" method="post">
