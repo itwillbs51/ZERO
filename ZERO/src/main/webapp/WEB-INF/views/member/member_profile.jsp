@@ -369,7 +369,6 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 								</div>
 								<div data-v-4b474860="" data-v-75326462="" class="user_profile">
 									<input type="file" accept=".jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
-<<<<<<< HEAD
 									<div data-v-4b474860="" class="profile_thumb">
 									<c:choose>
 										<c:when test="${not empty member.member_image }">
@@ -379,10 +378,6 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
 											<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
 										</c:otherwise>
 									</c:choose>
-=======
-									<div  class="profile_thumb">
-										<img  src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
->>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 									</div>
 									<div data-v-4b474860="" class="profile_detail">
 										<strong data-v-4b474860="" class="name">${member_id }</strong>
