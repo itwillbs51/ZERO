@@ -62,7 +62,7 @@
   width: 100%;
   height: 100%;
   
-  background: rgba(0, 0, 0, 0.35); // 어두운 배경색
+background: rgba(0, 0, 0, 0.35); // 어두운 배경색
   z-index: 250; // 위에서 만든 도화지보다 높게 준다.
 /*   cursor: pointer; // 누르면 홈으로 이동 */
 }
@@ -95,6 +95,7 @@
  background: white;
  border-radius: 8px; padding:20px;
 }
+<%-- 모달 끝 --%>
 
 .container.my[data-v-78dabb2d] {
     margin-left: auto;

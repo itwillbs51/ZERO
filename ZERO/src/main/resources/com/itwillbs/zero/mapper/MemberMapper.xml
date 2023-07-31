@@ -4,7 +4,7 @@
 	<!-- 설정상 먼저 만들어둠! 파이팅! - 지영 -->
 	
 	<!-- 회원가입 -->
-	<insert id="insertMember" parameterType="com.itwillbs.zero.vo.MemberVO">
+	<insert id="insertMember" parameterType="Member">
 		INSERT
 			INTO
 				MEMBER
@@ -38,9 +38,17 @@
 	
 	
 	<!-- 특정 컬럼으로 회원정보 조회 -->
-	<select id="selectMemberCheck" resultType="hashmap">
+	<select id="selectMemberCheck" resultType="map">
 		SELECT *
 			FROM MEMBER
 				WHERE ${column} = #{value}
 	</select>
+	
+	<!-- 세션 아이디가 동일한 회원 프로필 이미지 변경 -->
+	<update id="updateMemberImage">
+		UPDATE MEMBER
+			SET ${column2} = #{fileName1}
+				WHERE ${column1} = #{member_id}
+	</update>
+	
 </mapper>

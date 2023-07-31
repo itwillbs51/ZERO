@@ -4,7 +4,6 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.security.SecureRandom" %>
 <%@ page import="java.math.BigInteger" %>
-<%-- <%@ page contentType="text/html;charset=UTF-8" language="java" %> --%>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -245,11 +244,10 @@ input[type=checkbox] {
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <!-- 구글 -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- content에 자신의 OAuth2.0 클라이언트ID를 넣습니다. -->
-<meta name ="google-signin-client_id" content="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com">
 <%-- 구글 api 사용을 위한 스크립트 --%>
-<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+<!-- content에 자신의 OAuth2.0 클라이언트ID를 넣습니다. -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta name ="google-signin-client_id" content="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com">
 <script type="text/javascript">
 	
 	$(function (){
@@ -263,6 +261,7 @@ input[type=checkbox] {
 		$("#loginForm").submit();
 	}
 </script>
+
 
 </head>
 <body>
@@ -361,7 +360,7 @@ input[type=checkbox] {
 						구글로 로그인 
 					</button>
 					<div id="g_id_onload"
-					     data-client_id="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com"
+					     data-client_id="763453617602-ml4rp3s6uevn7v8c8g4dunmj43khvi32.apps.googleusercontent.com"
 					     data-callback="handleCredentialResponse">
 					</div>
 					<div class="g_id_signin" data-type="icon" data-shape="circle" ></div>
@@ -391,10 +390,23 @@ input[type=checkbox] {
 <!--   <link href="/_nuxt/css/caea5a4.css" rel="stylesheet" type="text/css"> -->
 <script src="https://accounts.google.com/gsi/client" async></script>
 <script>
+	function init() {
+		 gapi.load('auth2', function() {
+		  console.log("init()시작");
+		  auth2 = gapi.auth2.init({
+		        client_id: '763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com'
+// 		        cookiepolicy: 'single_host_origin',
+		      });
+		      attachSignin(document.getElementById('google_login'));
+		 });
+	}
+</script>
+<script>
 
 	//처음 실행하는 함수
 	//google signin API
 	var googleUser = {};
+	
     $(".btn_login_google").on("click",function(){
     	
 	   	var googleUrl ="https://accounts.google.com/o/oauth2/auth?" +
@@ -406,8 +418,9 @@ input[type=checkbox] {
 	   	window.open(googleUrl, 'googleloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100, left=600');
     });
 
-  </script>
-        <script>
+</script>
+<script>
+
         function handleCredentialResponse(response) {
             // decodeJwtResponse() is a custom function defined by you
             // to decode the credential response.
@@ -430,11 +443,11 @@ input[type=checkbox] {
 
             return JSON.parse(jsonPayload);
         };
+        
+        
 
-        </script>
+</script>
 
-<%-- 구글 api 사용을 위한 스크립트 --%>
-<!-- <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> -->
 <!--  네이버 로그인 시작 -->
 <%-- 네이버 로그인 --%>
 
