@@ -22,8 +22,10 @@ public class AuctionService2  {
 		return  mapper.selectBrandList();
 	}
 	public int registProduct(AuctionProductVO auctionProduct) {
-		// TODO Auto-generated method stub
-		return  mapper.insertProduct(auctionProduct);
+		int insertcount= mapper.insertProduct(auctionProduct);
+		mapper.insertAuctionManaging(auctionProduct);
+		
+		return  insertcount;
 	}
 
 }

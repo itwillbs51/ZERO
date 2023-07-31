@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class AuctionProductVO {
+	private int auction_idx;
 	private String auction_title;
 	private int category_idx;
 	private int auction_start_price;

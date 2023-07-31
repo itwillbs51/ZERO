@@ -153,6 +153,7 @@ public class MemberController {
 		return "member/member_callback";
 	}
 	
+	
 	// 네이버 로그인 클릭
 	@PostMapping("ajax/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
@@ -195,6 +196,18 @@ public class MemberController {
 		
 	}
 
+	// 구글 로그인 콜백 
+	@GetMapping("callback_login_google")
+	public String callbackLoginGoogle(HttpSession session
+			, Model model
+			) {
+		
+		
+		System.out.println("MemberController - callback_login_google");
+		
+		return "member/member_login";
+	}
+	
 	// 멤버 로그인정보
 	@GetMapping("member_loginInfo")
 	public String memberLoginInfo(HttpSession session
@@ -305,7 +318,7 @@ public class MemberController {
 			JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
 			
 			// 메일 제목, 내용
-			String subject = "제목";
+			String subject = "ZERO 회원가입 인증 메일입니다";
 			String content = "내용";
 			
 			// 보내는 사람
@@ -313,7 +326,7 @@ public class MemberController {
 			
 			// 받는 사람
 			String[] to = new String[1];
-			to[0] = "파라미터로받아야할듯";
+			to[0] = member.getMember_id();
 			
 			try {
 				// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성

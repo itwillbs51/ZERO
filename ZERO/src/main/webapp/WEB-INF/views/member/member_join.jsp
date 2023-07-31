@@ -55,6 +55,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function DaumPostcode() {
+    	event.preventDefault();
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -87,14 +88,16 @@
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("member_extraAddress").value = extraAddr;
+//                     document.getElementById("member_extraAddress").value = extraAddr;
+                    addr = addr + " " + extraAddr;
                 
                 } else {
-                    document.getElementById("member_extraAddress").value = '';
+//                     document.getElementById("member_extraAddress").value = '';
+					addr = addr;
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('member_zipCode').value = data.zonecode;
+                document.getElementById('member_zipcode').value = data.zonecode;
                 document.getElementById("member_address1").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("member_address_detail1").focus();
@@ -282,7 +285,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipCode, #member_phone, #phone_check, #member_id {
+#member_zipcode, #member_phone, #phone_check, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -458,12 +461,13 @@ input[type=checkbox] {
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="우편번호" 
-								   id="member_zipCode" 
-								   name="member_zipCode" 
+								   id="member_zipcode" 
+								   name="member_zipcode" 
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6="">
-							<button onclick="DaumPostcode()">우편번호 찾기</button>
+<!-- 							<button onclick="DaumPostcode()">우편번호 찾기</button> -->
+								<button onclick="DaumPostcode(event)">우편번호 찾기</button>
 						</div>
 							<input type="text" 
 								   placeholder="도로명주소" 
@@ -472,13 +476,13 @@ input[type=checkbox] {
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6="">
-							<input type="text" 
-								   placeholder="참고항목"
-								   id="member_extraAddress" 
-								   name="member_extraAddress" 
-								   autocomplete="off" 
-								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+<!-- 							<input type="text"  -->
+<!-- 								   placeholder="참고항목" -->
+<!-- 								   id="member_extraAddress"  -->
+<!-- 								   name="member_extraAddress"  -->
+<!-- 								   autocomplete="off"  -->
+<!-- 								   class="input_txt"  -->
+<!-- 								   data-v-4e1fd2e6=""> -->
 							<input type="text"
 								   placeholder="상세주소" 
 								   id="member_address_detail1" 

@@ -21,7 +21,7 @@
 				, 0                    -- {member_agreement_marketing_email}
 				, 0                    -- {member_agreement_marketing_sms}
 				, '회원'                -- {member_type}
-				, 1                   -- {member_mail_auth}
+				, 'N'                   -- {member_mail_auth}
 				, #{member_image} 
 				, #{member_address1}
 				, #{member_address_detail1}
@@ -29,9 +29,12 @@
 				, #{member_address_detail2}
 				, #{member_address3}
 				, #{member_address_detail3}
-				, #{member_withdrawl}
+				, #{member_withdrawal}
 				, #{member_bank_name}
 				, 'N'
+				, #{member_zipcode}
+				, #{member_zipcode2}
+				, #{member_zipcode3}
 			)
 	
 	</insert>

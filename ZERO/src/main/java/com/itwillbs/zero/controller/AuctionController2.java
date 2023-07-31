@@ -35,36 +35,44 @@ public class AuctionController2 {
 		
 		
 		
-		return "aution/auction_detail";
+		return "auction/auction_detail";
 	}
 	
 	// 경매 예정 상세 페이지로 이동
 	@GetMapping("auction_prepare_detail")
 	public String auction_prepare_detail() {
 		
-		return "aution/auction_prepare_detail";
+		return "auction/auction_prepare_detail";
 	}
 
 	// 경매 상품 등록폼
 	@GetMapping("auction_regist_form")
-	public String auction_regist_form(Model model) {
+	public String auction_regist_form(Model model, HttpSession session) {
+		
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
+			return "fail_back";
+		}
 		List<HashMap<String, String>> category=service.getCategory();
 		List<HashMap<String, String>> brand=service.getBrand();
 		
 		model.addAttribute("categorylist", category);
 		model.addAttribute("brandlist", brand);
-		return "aution/auction_regist_form";
+		return "auction/auction_regist_form";
 	}
 	// 경매 상품 등록
 	
 	@ResponseBody
 	@PostMapping ("auction_regist_pro")
 	public String auction_regist_pro(AuctionProductVO auctionProduct,HttpSession session, Model model) {
-		
-//		auctionProduct.setAuction_seller_id((String)session.getAttribute("member_id"));
-		auctionProduct.setAuction_seller_id("admin@gmail.com");//임시
-		
-		
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", "세션이 만료되었습니다 다시 로그인하세요");
+			return "fail_back";
+		}
+		auctionProduct.setAuction_seller_id(member_id);
+				
 		String uploadDir = "/resources/upload"; 
 //		String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 		String saveDir = session.getServletContext().getRealPath(uploadDir);
