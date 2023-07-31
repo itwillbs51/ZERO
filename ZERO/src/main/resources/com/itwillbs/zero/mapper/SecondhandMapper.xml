@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.zero.mapper.SecondhandMapper">
 
+	<!-- 중고 카테고리 조회 작업 -->
 	<select id="selectCategoryList" resultType="hashmap">
 		SELECT * 
 		FROM 
@@ -10,6 +11,22 @@
 			category_type = '중고'
 	</select>
 	
+	<!-- 상품번호에 해당하는 카테고리 정보 조회작업 -->
+	<select id="selectCategory" resultType="String">
+		SELECT 
+			c.category_name
+		FROM
+			CATEGORY c
+		JOIN
+			SECONDHAND s
+		ON 
+			c.category_idx = s.category_idx
+		WHERE 
+			s.secondhand_idx = #{secondhand_idx}
+	</select>
+	
+	
+	<!-- 중고 상품 등록 작업  -->
 	<insert id="insertProduct">
 
 		INSERT INTO 
@@ -37,4 +54,28 @@
 			, #{secondhand_paymentType_zpay}
 			)
 	</insert>
+	
+	<!-- 중고상품 목록 조회작업 -->
+	<select id="selectSecondhandList" resultType="com.itwillbs.zero.vo.SecondhandVO">
+		SELECT
+			*
+		FROM
+			SECONDHAND
+		ORDER BY
+			secondhand_first_date DESC 
+<!-- 		LIMIT -->
+<!-- 			#{startRow} -->
+<!-- 			,#{listLimit} -->
+	</select>
+	
+	<!-- 중고상품 목록 개수 조회작업(페이징) -->
+	<select id="selectSecondhandListCount" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			SECONDHAND
+	</select>
+	
+	<!-- 끌어올리기 작업 시 업데이트 처리 (등록날짜)-->
+	
 </mapper>

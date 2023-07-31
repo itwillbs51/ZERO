@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
@@ -24,12 +25,88 @@ public class SecondhandController {
 		
 		
 		//중고상품목록페이지
-		//날짜순 기본정렬
-	
+		//날짜순 기본정렬	
 		@GetMapping("secondhand_list")
-		public String secondhand_list() {
+		public String secondhand_list(@RequestParam(defaultValue = "1") int pageNum,SecondhandVO secondhand, Model model) {
+
+			//중고 카테고리 리스트 전달 
+			List<HashMap<String, String>> categorylist = service.getCategorylist();
+			model.addAttribute("categorylist", categorylist);
+			
+			//상품의 idx에 해당하는 카테고리 조회(return String?)
+			//파라미터:SecondhandVO secondhand.idx
+			String category = service.getCategory(secondhand.getSecondhand_idx());
+			model.addAttribute("category", category);
+			
+			// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+			int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+			int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+			
+			//secondhandService - getSecondhandList() 호출하여 게시물목록 조회요청
+			//파라미터 : (검색타입,검색어), 시작행번호, 목록갯수
+			List<SecondhandVO> secondhandList = service.getSecondhandList(startRow, listLimit);
+			//페이징처리 위한 계산작업----------------------------------------------------
+			//1. SecondhandService - getSecondhandListCount() 호출하여 전체게시물 수 조회요청
+			int listCount = service.getSecondhandListCount();
+			//2. 전체페이지 목록 개수 계산
+			int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+			//System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+			//----------------------------------------------------------------------------
+//			// 최대페이지번호(maxPage)값 또한 JSON데이터로 전달
+//			// => 기존목록을 JSONObject 객체통해 객체형태변환, 최대 페이지번호 함께전달
+//			JSONObject jsonObject = new JSONObject();
+//
+//			// JSONXXX 객체의 put() 메서드를 사용하여 데이터 추가 가능
+//			jsonObject.put("secondhandList", secondhandList);
+//			jsonObject.put("maxPage", maxPage);
+//			return jsonObject.toString();
+			
+			model.addAttribute("secondhandList",secondhandList);
+			model.addAttribute("maxPage", maxPage);
+			
 			return "secondhand/secondhand_list";
 		}
+
+		//ajax 요청 통한 글목록조회
+		//글목록-json 데이터 형식 응답
+		//JSON문자열로 리턴위해 String으로 리턴타입지정(출력스트림-void타입지정)
+		
+//		@ResponseBody
+//		@GetMapping("SecondhandListJson")
+//		public String listJson(
+//				@RequestParam(defaultValue = "1") int pageNum,
+//				Model model,
+//				HttpServletResponse response) {
+//			
+//			// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+//			int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
+//			int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+//			
+//			//secondhandService - getSecondhandList() 호출하여 게시물목록 조회요청
+//			//파라미터 : (검색타입,검색어), 시작행번호, 목록갯수
+//			List<SecondhandVO> secondhandList = service.getSecondhandList(startRow, listLimit);
+//			
+//			//페이징처리 위한 계산작업----------------------------------------------------
+//			//1. SecondhandService - getSecondhandListCount() 호출하여 전체게시물 수 조회요청
+//			int listCount = service.getSecondhandListCount();
+//			//2. 전체페이지 목록 개수 계산
+//			int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+//			//System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+//			//----------------------------------------------------------------------------
+//			// 최대페이지번호(maxPage)값 또한 JSON데이터로 전달
+//			// => 기존목록을 JSONObject 객체통해 객체형태변환, 최대 페이지번호 함께전달
+//			JSONObject jsonObject = new JSONObject();
+//
+//			// JSONXXX 객체의 put() 메서드를 사용하여 데이터 추가 가능
+//			jsonObject.put("secondhandList", secondhandList);
+//			jsonObject.put("maxPage", maxPage);
+//			
+//			
+//			return jsonObject.toString();
+//			
+//		}
+		
+		
 		
 		//상품 상세정보페이지
 		@GetMapping("secondhand_detail")
@@ -51,8 +128,8 @@ public class SecondhandController {
 			System.out.println("secondhandRegistForm");
 			
 			//중고 카테고리 값 전달 
-			List<HashMap<String, String>> category=service.getCategory();
-			model.addAttribute("categorylist", category);
+			List<HashMap<String, String>> categorylist = service.getCategorylist();
+			model.addAttribute("categorylist", categorylist);
 			
 			return "secondhand/secondhand_regist_form";	
 		}

@@ -17,8 +17,8 @@ public class SecondhandService {
 	 private SecondhandMapper mapper;
 
 
-	// 중고상품 등록 폼 - 중고 카테고리
-	public List<HashMap<String, String>> getCategory() {
+	// 중고상품 등록 폼 - 중고 카테고리 목록
+	public List<HashMap<String, String>> getCategorylist() {
 		return mapper.selectCategoryList();
 
 	}
@@ -27,6 +27,21 @@ public class SecondhandService {
 	public int registBoard(SecondhandVO secondhand) {
 		
 		return mapper.insertProduct(secondhand);
+	}
+
+	// 중고 목록 페이지
+	public List<SecondhandVO> getSecondhandList(int startRow, int listLimit) {
+		return mapper.selectSecondhandList(startRow, listLimit);
+	}
+
+	// 페이징처리 - 중고목록 전체 개수 
+	public int getSecondhandListCount() {
+		return mapper.selectSecondhandListCount();
+	}
+
+	//상품번호에 해당하는 카테고리 정보 조회
+	public String getCategory(int secondhand_idx) {
+		return mapper.selectCategory(secondhand_idx);
 	}
 
 	    
