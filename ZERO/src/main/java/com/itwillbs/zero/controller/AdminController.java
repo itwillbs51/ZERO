@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.zero.controller.AdminController;
+import com.itwillbs.zero.mapper.AuctionMapper2;
 import com.itwillbs.zero.service.AdminService;
+import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
@@ -254,6 +257,48 @@ public class AdminController {
 		System.out.println("AdminController - adminSecondhandList");
 		
 		return "admin/admin_secondhand_list";
+	}
+	
+	// 경매관리 - 경매예정 상품 목록 페이지로 디스패치
+	@GetMapping("admin_auction_managing_list")
+	public String adminAuctionManagingList(Model model) {
+		System.out.println("AdminController - adminAuctionManagingList");
+		
+		List<AuctionManagingVO> auctionManagingList = service.getAuctionManagingList();
+		System.out.println(auctionManagingList);
+		
+		model.addAttribute("auctionManagingList", auctionManagingList);
+		
+		return "admin/admin_auction_managing_list";
+	}
+
+	// 경매관리 - 경매예정 상품 상세보기
+	@GetMapping("admin_auction_managing_detail")
+	public String adminAuctionManagingDetail(@RequestParam int auction_idx, Model model) {
+		System.out.println("AdminController - adminAuctionManagingDetail");
+		
+		Map<String, String> auctionManaging = service.getAuctionManaging(auction_idx);
+		System.out.println(auctionManaging);
+		
+		model.addAttribute("auctionManaging", auctionManaging);
+		
+		return "admin/admin_auction_managing_detail";
+	}
+	
+	// 경매관리 - 경매예정 상품 정보 수정
+	@PostMapping("admin_auction_mangaing_modify")
+	public String adminAuctionMangaingModify(AuctionManagingVO auctionManaging, Model model) {
+		System.out.println("AdminController - adminAuctionMangaingModify()");
+		
+		int updateCount = service.modifyAuctionManaging(auctionManaging);
+		
+		if(updateCount > 0) {
+			return "redirect:/admin_auction_managing_list";			
+		} else {
+			model.addAttribute("msg", "경매 예정 상품 정보 수정 실패");
+			return "fail_back";
+		}
+		
 	}
 	
 	// 부트스트랩 테이블 예제

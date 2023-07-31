@@ -22,6 +22,12 @@ $(document).ready(function(){
     </li>
     <hr>
     <li class="nav-item">
+      <a class="nav-link" href="member_profile">
+        프로필 관리
+      </a>
+    </li>
+    <hr>
+    <li class="nav-item">
       <a class="nav-link" href="member_mypage_buyList">
         상품구매내역
       </a>

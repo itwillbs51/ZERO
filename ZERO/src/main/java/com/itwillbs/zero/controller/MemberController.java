@@ -1,9 +1,17 @@
 package com.itwillbs.zero.controller;
 
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
@@ -21,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.MemberService;
@@ -62,7 +71,7 @@ public class MemberController {
 		// DB 조회할 컬럼명
 		String column = "member_id";
 		
-		HashMap<String, String> member = service.isMemberCheck(column, member_id);
+		Map<String, String> member = service.isMemberCheck(column, member_id);
 		System.out.println(member);
 	
 		// 2. BcryptPasswordEncoder 객체 생성
@@ -150,14 +159,14 @@ public class MemberController {
 			, Model model) {
 		System.out.println("MemberController - callback_login_naver");
 		
-		return "member/member_callback";
+		return "member/member_callback_naver";
 	}
 	
 	
-	// 네이버 로그인 클릭
+	// 네이버 정보 전달
 	@PostMapping("ajax/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
-	public String checkUser(HttpSession session
+	public String checkUserNaver(HttpSession session
 							, Model model
 							, @RequestParam Map map
 							) {
@@ -171,7 +180,7 @@ public class MemberController {
 		  System.out.println(iterator.next());
 		  System.out.println(map.get(column).toString());
 		  // 회원정보 가져오기
-		  HashMap<String, String> member = service.isMemberCheck(column, map.get(column).toString());
+		  Map<String, String> member = service.isMemberCheck(column, map.get(column).toString());
 		  System.out.println(member);
 		  
 		// 네이버에서 전달받은 이메일 값으로 회원가입 여부 판별
@@ -205,7 +214,48 @@ public class MemberController {
 		
 		System.out.println("MemberController - callback_login_google");
 		
-		return "member/member_login";
+		return "member/member_callback";
+	}
+	
+	// ajax로 로그인 정보 가져오기
+	@PostMapping("ajax/checkUser")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String checkUser(HttpSession session
+							, Model model
+							, @RequestParam Map map
+							) {
+		
+		  System.out.println("map : "+ map);
+		  
+		  // 임시 고정값 설정 
+		  Iterator<String> iterator = map.keySet().iterator();
+		  String column = iterator.next();
+		  System.out.println(column);
+		  System.out.println(iterator.next());
+		  System.out.println(map.get(column).toString());
+		  // 회원정보 가져오기
+		  Map<String, String> member = service.isMemberCheck(column, map.get(column).toString());
+		  System.out.println(member);
+		  
+		// 전달받은 이메일 값으로 회원가입 여부 판별
+		if (member != null) {
+//			// DB에 네이버에서 전달받은 이메일이 아이디로 존재할 때
+			System.out.println("존재하는 회원");
+//				
+//			// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
+			session.setAttribute("member_id", member.get("member_id"));
+			session.setAttribute("member_type", member.get("member_type"));
+			return "existing";
+//		 
+		} else {
+//			// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
+			System.out.println("회원가입 넘어가기 : " + map.get(column).toString() + "," +map.get("member_name").toString());
+//			session.setAttribute("no_member_id", map.get(column).toString());
+//			session.setAttribute("no_member_name", map.get("member_name").toString());
+			return "new";
+		}
+		  
+		
 	}
 	
 	// 멤버 로그인정보
@@ -251,7 +301,153 @@ public class MemberController {
 			, Model model) {
 		System.out.println("MemberController - memberProfile");
 		
+		String column = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		  // 임시 고정값 설정 
+		  
+		  System.out.println(column);
+		  System.out.println(member_id);
+		  // 회원정보 가져오기
+		  Map<String, String> member = service.isMemberCheck(column, member_id);
+		  System.out.println(member);
+		
+		  model.addAttribute("member", member);
+		
 		return "member/member_profile";
+	}
+	
+	
+	// ajax로 프로필 이미지 변경
+	@PostMapping("ajax/profileUpdate")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String profileUpdate(HttpSession session
+							, Model model
+							, @RequestParam MultipartFile profile
+							) {
+		//  MultipartFile 객체 확인
+		  System.out.println("profile : "+ profile);
+		  
+		  
+		  String column1 = "member_id";
+		  String member_id = (String)session.getAttribute("member_id");
+		  
+		  // 변경할 컬럼
+		  String column2 = "member_image";
+		  // 임시 고정값 설정 
+//		  Iterator<String> iterator = map.keySet().iterator();
+//		  String column = iterator.next();
+//		  System.out.println(column);
+//		  System.out.println(iterator.next());
+//		  System.out.println(map.get(column).toString());
+		  // 회원정보 가져오기
+		  
+//			System.out.println(request.getRealPath("/resources/upload")); // Deprecated 처리된 메서드
+			String uploadDir = "/resources/upload"; 
+//			String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
+			String saveDir = session.getServletContext().getRealPath(uploadDir);
+			System.out.println("실제 업로드 경로 : "+ saveDir);
+			// 실제 업로드 경로 : D:\Shared\Spring\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Spring_MVC_Board\resources\ upload
+			
+			String subDir = ""; // 서브디렉토리(날짜 구분)
+			
+			try {
+				// ------------------------------------------------------------------------------
+
+				Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
+//			System.out.println(date);
+
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				// 기존 업로드 경로에 날짜 경로 결합하여 저장
+				subDir = sdf.format(date);
+				saveDir += "/" + subDir;
+				// --------------------------------------------------------------
+
+				// => 파라미터 : 실제 업로드 경로
+				Path path = Paths.get(saveDir);
+				
+				// Files 클래스의 createDirectories() 메서드를 호출하여
+				// Path 객체가 관리하는 경로 생성(존재하지 않으면 거쳐가는 경로들 중 없는 경로 모두 생성)
+				Files.createDirectories(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			// BoardVO 객체에 전달된 MultipartFile 객체 꺼내기
+//			MultipartFile mFile1 = csInfo.getFile1();
+//			System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
+			
+
+			// "랜덤ID값_파일명.확장자" 형식으로 중복 파일명 처리
+			String uuid = UUID.randomUUID().toString();
+//			System.out.println("uuid : " + uuid);
+			
+			// 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
+//			csInfo.setCs_file("");
+			
+			// 파일명을 저장할 변수 선언
+			String fileName1 = uuid.substring(0, 8) + "_" + profile.getOriginalFilename();
+			
+			String fileRealName = subDir + "/" + fileName1;
+			System.out.println("실제 업로드 파일명1 : " + fileRealName);
+			
+			// -----------------------------------------------------------------------------------
+			// MemberService - updateMember() 메서드를 호출하여 회원정보 변경 작업 요청
+			// => 파라미터 : fileName1    리턴타입 : int(updateCount)
+			int updateCount = service.updateMember(column1, member_id, column2, fileRealName);
+			
+			
+			// 프로필 변경 작업 요청 결과 판별
+			if(updateCount > 0) { // 성공
+				try {
+					// 업로드 된 파일은 MultipartFile 객체에 의해 임시 디렉토리에 저장
+					if(!profile.getOriginalFilename().equals("")) {
+						profile.transferTo(new File(saveDir, fileName1));
+					}
+
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				// 프로필 변경 작업 성공 시 "성공" 출력
+				return "성공";
+			} else { // 실패
+				return "프로필 변경 실패";
+			}
+		  
+	}
+	
+	// ajax로 프로필 정보 변경
+	@ResponseBody
+	@PostMapping("/ajax/profileUpdateInfo")
+	public String profileUpdateInfo(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println("profileUpdatePost:" + map);
+		
+		String column1 = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		
+		String column2 = map.get("column2");
+		String value2 = map.get("value2");
+		
+		// -----------------------------------------------------------------------------------
+		// MemberService - updateMember() 메서드를 호출하여 회원정보 변경 작업 요청
+		// => 파라미터 : fileName1    리턴타입 : int(updateCount)
+		int updateCount = service.updateMember(column1, member_id, column2, value2);
+		
+		
+		// 프로필 변경 작업 요청 결과 판별
+		if(updateCount > 0) { // 성공
+						
+			// 프로필 변경 작업 성공 시 "성공" 출력
+			return "성공";
+		} else { // 실패
+			return "프로필 정보 변경 실패";
+		}
 	}
 	
 	// 멤버 아이디 찾기
@@ -314,37 +510,7 @@ public class MemberController {
 		
 		if(insertCount > 0) {
 			
-			// 메일 보내기위한 코드 수정
-			JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
 			
-			// 메일 제목, 내용
-			String subject = "ZERO 회원가입 인증 메일입니다";
-			String content = "내용";
-			
-			// 보내는 사람
-			String from = "zero_market_itwb@naver.com";
-			
-			// 받는 사람
-			String[] to = new String[1];
-			to[0] = member.getMember_id();
-			
-			try {
-				// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성
-				MimeMessage mail = mailSender.createMimeMessage();
-				MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
-
-				// 메일 내용을 채워줌
-				mailHelper.setFrom(from);	// 보내는 사람 셋팅
-				mailHelper.setTo(to);		// 받는 사람 셋팅
-				mailHelper.setSubject(subject);	// 제목 셋팅
-				mailHelper.setText(content);	// 내용 셋팅
-
-				// 메일 전송
-				mailSender.send(mail);
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 			
 			return "redirect:/join_complete";
 		} else {
@@ -352,6 +518,51 @@ public class MemberController {
 			return "fail_back";
 		}
 	}
+	
+	
+	@PostMapping("sendAuthCode")
+	@ResponseBody
+	public String sendAuthCode(@RequestParam("email") String email, HttpSession session) {
+		// 메일 보내기위한 코드 수정
+		JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
+		
+		Random random = new Random();
+		int checkNum = random.nextInt(888888) + 111111;
+		session.setAttribute("emailAuthCode", checkNum);
+		
+		// 메일 제목, 내용
+		String subject = "ZERO 회원가입 인증 메일입니다";
+		String content = "아래의 인증 번호를 입력해주세요 인증코드 : " + checkNum;
+		
+		// 보내는 사람
+		String from = "zero_market_itwb@naver.com";
+		
+		// 받는 사람
+		String[] to = new String[]{email};
+		
+		try {
+			// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성
+			MimeMessage mail = mailSender.createMimeMessage();
+			MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
+
+			// 메일 내용을 채워줌
+			mailHelper.setFrom(from);	// 보내는 사람 셋팅
+			mailHelper.setTo(to);		// 받는 사람 셋팅
+			mailHelper.setSubject(subject);	// 제목 셋팅
+			mailHelper.setText(content);	// 내용 셋팅
+
+			// 메일 전송
+			mailSender.send(mail);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "이메일이 성공적으로 전송되었습니다";
+		
+	}
+	
+	
 	
 	@GetMapping("join_complete")
 	public String memberJoinComplete() {

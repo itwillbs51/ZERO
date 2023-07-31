@@ -34,6 +34,7 @@
 				, member_phone = #{member_phone}
 				, member_mail_auth = #{member_mail_auth}
 				, member_type = #{member_type}
+				, member_bank_auth = #{member_bank_auth}
 				<if test="!member_status.equals('탈퇴')">
 					, member_withdrawal = null
 				</if>
@@ -96,7 +97,48 @@
 				<if test="!zman_status.equals('탈퇴')">
 					, zman_withdrawal = null
 				</if>
+				<if test="zman_status.equals('탈퇴')">
+					, zman_withdrawal = #{zman_withdrawal}
+				</if>
 			WHERE zman_idx = #{zman_idx}
+	</update>
+	
+	<!-- 경매관리 - 경매예정 상품 목록 조회 -->
+	<select id="selectAuctionManagingList" resultType="map">
+		SELECT * 
+			FROM 
+				AUCTION_MANAGING am 
+			LEFT JOIN 
+				AUCTION_PRODUCT ap 
+			ON 
+				am.auction_idx = ap.auction_idx		
+	</select>
+	
+	<!-- 경매관리 - 경매예정 상품 정보 조회 -->
+	<select id="selectAuctionManaging" resultType="map">
+		SELECT * 
+			FROM 
+				AUCTION_MANAGING am 
+			LEFT JOIN 
+				AUCTION_PRODUCT ap 
+			ON 
+				am.auction_idx = ap.auction_idx	
+			WHERE 
+				am.auction_idx = #{auction_idx}	
+	</select>
+	
+	<!-- 경매관리 - 경매예정 상품 정보 수정 -->
+	<update id="updateAuctionManaging">
+		UPDATE AUCTION_MANAGING
+			SET
+				auction_manage_check_status = #{auction_manage_check_status}
+				<if test="!auction_manage_check_status.equals('검수완료') and !auction_manage_check_status.equals('경매불가')">
+					, auction_manage_check_date = null
+				</if>
+				<if test="auction_manage_check_status.equals('검수완료') or auction_manage_check_status.equals('경매불가')">
+					, auction_manage_check_date = #{auction_manage_check_date}
+				</if>
+			WHERE auction_managing_idx = #{auction_managing_idx}
 	</update>
 	
 	

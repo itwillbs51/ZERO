@@ -1,4 +1,12 @@
 @charset "UTF-8";
+	html,  article, .container, .contentArea, form, .chargeContentArea, .successContentArea {
+		height: 100%
+	}
+
+	body {
+		height: 91%
+	}
+
 	article{
 		min-height: 100%;
 		background-color: #f4f6f8;
@@ -8,7 +16,8 @@
 		margin-left: auto;
 		margin-right: auto;
 		max-width: 1280px;
-		padding: 40px 40px 160px;
+		padding: 40px 40px;
+/* 		padding-bottom: 20px; */
 	}
 	
 	.contentArea {
@@ -17,6 +26,22 @@
 		min-width: 360px;
 	}
 	
+	/* ============================ zpay_regist_form.jsp ============================= */
+	.payWalletWidgetArea  .zpayArea #zpayBankAuthButton, #bankUserInfoButton{
+		border-top-right-radius: 8px;
+		border-bottom-right-radius: 8px;
+		display: block;
+		padding: 10px 0 9px;
+		background-color: rgba(0,0,0,.5);
+		font-size: 15px;
+		font-weight: 700;
+		line-height: 21px;
+		text-align: center;
+		color: #fff;
+	}
+
+
+
 	/* ============================ zpay_main.jsp ============================= */
 	.zpayManageArea {
 		margin-bottom: 12px;
@@ -327,6 +352,16 @@
 
 /* ============================ zpay_charge_form.jsp ============================= */
 	.chargeContentArea {
+		display: flex;
+		display: -ms-flexbox;
+		flex-direction: column;
+		flex: 1 1;
+		-ms-flex: 1 1 0%;
+		padding: 0 20px 20px;
+		height: 100%;
+		box-sizing: border-box;
+		letter-spacing: -0.5px;
+		/* ------------------------------ */
 		margin-bottom: 12px;
 		padding: 20px;
 /* 		padding: 0 20px; */
@@ -439,7 +474,8 @@
 	}
 	
 	.chargeContentArea .chargeButtonArea {
-		margin-top: 218px;
+		margin-top: auto;
+/* 		margin-top: 218px; */
 		padding-top: 30px;
 	}
 	

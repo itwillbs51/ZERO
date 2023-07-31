@@ -1,11 +1,13 @@
 package com.itwillbs.zero.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.mapper.AdminMapper;
+import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
@@ -76,6 +78,23 @@ public class AdminService {
 	public int modifyZman(ZmanVO zman) {
 		return mapper.updateZman(zman);
 	}
+	
+	
+	// 경매관리 - 경매예정 상품 목록 조회
+	public List<AuctionManagingVO> getAuctionManagingList() {
+		return mapper.selectAuctionManagingList();
+	}
+	
+	// 경매관리 - 경매예정 상품 정보 조회
+	public Map<String, String> getAuctionManaging(int auction_idx) {
+		return mapper.selectAuctionManaging(auction_idx);
+	}
+	
+	// 경매관리 - 경매예정 상품 정보 수정
+	public int modifyAuctionManaging(AuctionManagingVO auctionManaging) {
+		return mapper.updateAuctionManaging(auctionManaging);
+	}
+
 
 	// 고객센터관리 - 공지사항 목록 조회
 	public List<CsVO> getCsList() {
@@ -122,6 +141,10 @@ public class AdminService {
 	public CsVO getCsQnADetail(int cs_idx, int cs_info_idx) {
 		return mapper.selectCsQnADetail(cs_idx, cs_info_idx);
 	}
+
+	
+	
+
 
 	// 고객센터 관리 - 1:1 문의 답변 등록하기
 //	public int replyCsQnADetail(CsVO cs, int cs_idx, int cs_info_idx) {
