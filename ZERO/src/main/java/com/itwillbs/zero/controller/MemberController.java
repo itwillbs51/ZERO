@@ -263,12 +263,12 @@ public class MemberController {
 	}
 	
 	// 멤버 로그인정보
-	@GetMapping("member_loginInfo")
+	@GetMapping("member_Info")
 	public String memberLoginInfo(HttpSession session
 			, Model model) {
 		System.out.println("MemberController - memberloginInfo");
 		
-		return "member/member_loginInfo";
+		return "member/member_Info";
 	}
 	
 	
@@ -567,6 +567,25 @@ public class MemberController {
 	    // 반환할 JSON 형식 (성공 시)
 	    return new ResponseEntity<>(new SuccessResponse("이메일이 성공적으로 전송되었습니다."), HttpStatus.OK);
 	}
+	
+	@PostMapping("checkAuthCode")
+	@ResponseBody
+	public ResponseEntity<?> checkAuthCode(@RequestParam("inputAuthCode") String inputAuthCode,
+	                                       HttpSession session) {
+	    Integer storedAuthCode = (Integer) session.getAttribute("emailAuthCode");
+
+	    if (storedAuthCode == null) {
+	        return new ResponseEntity<>(new EmailErrorResponse("세션에 인증코드 정보가 없습니다."), HttpStatus.BAD_REQUEST);
+	    }
+
+	    if (storedAuthCode.toString().equals(inputAuthCode)) {
+	        return new ResponseEntity<>(new SuccessResponse("인증코드가 일치합니다."), HttpStatus.OK);
+	    } else {
+	        // 인증코드 불일치
+	        return new ResponseEntity<>(new EmailErrorResponse("인증코드가 일치하지 않습니다!"), HttpStatus.OK);
+	    }
+	}
+
 	
 	
 	

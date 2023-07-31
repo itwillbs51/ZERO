@@ -646,25 +646,28 @@ input[type=checkbox] {
 	    // 입력값 받아오기
 	    const inputAuthCode = $(this).val();
 	
-	    // AJAX 요청 시작
-	    $.ajax({
-	        type: "POST",
-	        url: "checkAuthCode",
-	        data: { inputAuthCode: inputAuthCode },
-	        success: function (response) {
-	            if (response === "인증코드가 일치합니다.") {
-	                $("#email_confirm").html("인증코드가 일치합니다!");
-	                $("#email_confirm").css("color", "green");
-	            } else {
-	                $("#email_confirm").html("인증코드가 일치하지 않습니다!");
-	                $("#email_confirm").css("color", "red");
+	    // 인증코드가 입력된 경우에만 AJAX 요청 시작
+	    if (inputAuthCode.length === 6) {
+	        $.ajax({
+	            type: "POST",
+	            url: "checkAuthCode",
+	            data: { inputAuthCode: inputAuthCode },
+	            success: function (response) {
+	                if (response.success) {
+	                    $("#email_confirm").html(response.message);
+	                    $("#email_confirm").css("color", "green");
+	                } else {
+	                    $("#email_confirm").html(response.message);
+	                    $("#email_confirm").css("color", "red");
+	                }
+	            },
+	            error: function () {
+	                alert("오류가 발생했습니다. 다시 시도해주세요.");
 	            }
-	        },
-	        error: function () {
-	            alert("오류가 발생했습니다. 다시 시도해주세요.");
-	        }
-	    });
+	        });
+	    }
 	});
+
 </script>
   
   
