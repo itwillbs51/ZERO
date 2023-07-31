@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
 <!doctype html>
 <head>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" -->
+<!-- 	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" -->
+<!-- 	crossorigin="anonymous"></script> -->
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -55,6 +57,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function DaumPostcode() {
+    	event.preventDefault();
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -87,14 +90,16 @@
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("member_extraAddress").value = extraAddr;
+//                     document.getElementById("member_extraAddress").value = extraAddr;
+                    addr = addr + " " + extraAddr;
                 
                 } else {
-                    document.getElementById("member_extraAddress").value = '';
+//                     document.getElementById("member_extraAddress").value = '';
+					addr = addr;
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('member_zipCode').value = data.zonecode;
+                document.getElementById('member_zipcode').value = data.zonecode;
                 document.getElementById("member_address1").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("member_address_detail1").focus();
@@ -102,6 +107,7 @@
         }).open();
     }
 </script>
+
 
 <title>ZERO 회원가입</title>
 <style>
@@ -282,7 +288,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipCode, #member_phone, #phone_check, #member_id {
+#member_zipcode, #member_phone, #phone_check, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -338,7 +344,7 @@ input[type=checkbox] {
 						   	   autocomplete="off" 
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6="">
-					   	   <button>인증번호 받기</button>
+					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
 						</div>
 					</div><br>
 					
@@ -352,7 +358,6 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   disabled="disabled"
 							   maxlength="6">
 					</div>
 					<!-- 이메일 인증코드 확인 일치 여부-->
@@ -458,12 +463,13 @@ input[type=checkbox] {
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="우편번호" 
-								   id="member_zipCode" 
-								   name="member_zipCode" 
+								   id="member_zipcode" 
+								   name="member_zipcode" 
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6="">
-							<button onclick="DaumPostcode()">우편번호 찾기</button>
+<!-- 							<button onclick="DaumPostcode()">우편번호 찾기</button> -->
+								<button onclick="DaumPostcode(event)">우편번호 찾기</button>
 						</div>
 							<input type="text" 
 								   placeholder="도로명주소" 
@@ -472,13 +478,13 @@ input[type=checkbox] {
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6="">
-							<input type="text" 
-								   placeholder="참고항목"
-								   id="member_extraAddress" 
-								   name="member_extraAddress" 
-								   autocomplete="off" 
-								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+<!-- 							<input type="text"  -->
+<!-- 								   placeholder="참고항목" -->
+<!-- 								   id="member_extraAddress"  -->
+<!-- 								   name="member_extraAddress"  -->
+<!-- 								   autocomplete="off"  -->
+<!-- 								   class="input_txt"  -->
+<!-- 								   data-v-4e1fd2e6=""> -->
 							<input type="text"
 								   placeholder="상세주소" 
 								   id="member_address_detail1" 
@@ -607,7 +613,60 @@ input[type=checkbox] {
 	  
 	  
 	</script>
-  
+  <script type="text/javascript">
+	$(document).ready(function () {
+	    $("#emailAuthButton").on("click", function (event) {
+	        event.preventDefault();
+	
+	        const email = $("#member_id").val();
+	        
+	        // AJAX 요청 시작
+	        $.ajax({
+	            type: "POST",
+	            url: "sendAuthCode",
+	            data: { email: email },
+	            success: function (data) {
+	                if (data.success) {
+	                    alert("인증번호가 이메일로 발송되었습니다.");
+	                } else {
+	                    alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
+	                }
+	            },
+	            error: function () {
+	                alert("오류가 발생했습니다. 다시 시도해주세요.");
+	            }
+	        });
+	    });
+	});
+
+</script>
+<script type="text/javascript">
+$("#member_id2").on("input", function () {
+    // 입력값 받아오기
+    const inputAuthCode = $(this).val();
+
+    // AJAX 요청 시작
+    $.ajax({
+        type: "POST",
+        url: "checkAuthCode",
+        data: { inputAuthCode: inputAuthCode },
+        success: function (response) {
+            if (response === "인증코드가 일치합니다.") {
+                $("#email_confirm").html("인증코드가 일치합니다!");
+                $("#email_confirm").css("color", "green");
+            } else {
+                $("#email_confirm").html("인증코드가 일치하지 않습니다!");
+                $("#email_confirm").css("color", "red");
+            }
+        },
+        error: function () {
+            alert("오류가 발생했습니다. 다시 시도해주세요.");
+        }
+    });
+});
+
+
+</script>
   
   
   

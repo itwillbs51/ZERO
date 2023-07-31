@@ -11,6 +11,11 @@
 	</select>
 
 	<insert id="insertProduct" >
+	<selectKey keyProperty="auction_idx" resultType="int" order="AFTER">
+			SELECT MAX(auction_idx)
+				FROM AUCTION_PRODUCT
+				
+	</selectKey>
 		INSERT
 			INTO AUCTION_PRODUCT
 			VALUES (
@@ -29,6 +34,19 @@
 				, #{auction_seller_id} 
 				, #{auction_seller_address} 
 				, #{auction_seller_address_detail} 
+			)
+	</insert>
+	
+	<insert id="insertAuctionManaging" >
+	
+		INSERT 
+		INTO AUCTION_MANAGING
+		(auction_managing_idx, auction_idx, auction_manage_check_status,member_id)
+		values(
+			null
+			,#{auction_idx}
+			,'등록'
+			,#{auction_seller_id}
 			)
 	</insert>
 	

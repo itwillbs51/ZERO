@@ -16,42 +16,120 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ZERO</title>
+
+<!-- 제이쿼리 -->
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 
-function myFunction() {
-	  var x = document.getElementById("myDIV");
-	  if (x.style.display === "none") {
-	    x.style.display = "block";
-	  } else {
-	    x.style.display = "none";
-	  }
-}
-function myFunction2() {
-	  var x2 = document.getElementById("myDIV2");
-	  if (x2.style.display === "none") {
-	    x2.style.display = "block";
-	  } else {
-	    x2.style.display = "none";
-	  }
-	  
-}
+	//전역변수 pageNum, maxPage 미리저장
+	let pageNum = 1;
+	let maxPage = 1;
+	
+	$(function(){
+		
+		//목록조회 처음수행위해 문서 로딩시 loadList호출
+		let searchType = $("#searchType").val();
+		let searchKeyword= $("#searchKeyword").val();
+		loadList(searchType, searchKeyword);
+		
+		// 무한스크롤 추가
+		// 스크롤바가 바닥에 닿으면->다음목록조회(loadList())
+		$(window).on("scroll", function(){ // 스크롤 동작시 이벤트처리
+			console.log("scroll");
+			//1.
+			let scrollTop = $(window).scrollTop(); // 스크롤바의 현재위치
+			let windowHeight = $(window).height(); // 브라우저 창의 높이
+			let documentHeight = $(document).height(); // 문서의 높이(창의 높이보다 크거나 같음)
+			console.log("scrollTop=" + scrollTop + "windowHeight=" + windowHeight + "documentHeight=" + documentHeight);
+			
+			//2.x+스크롤바위치값+창높이>문서전체 높이 일경우 ⇒ 다음페이지 게시물목록 로딩 → 하단에 추가			
+			let x = 1;
+			if(scrollTop + windowHeight + x >= documentHeight){
+				// 다음페이지 글 목록 로딩 loadList()호출
+				// 스크롤바가 바닥에 닿을때마다 pageNum+1 => 다음페이지목록 지정
+				
+				//최대페이지 번호 초과시 다음페이지로딩 요청않도록
+				if(pageNum < maxPage){
+					pageNum++;
+					loadList(searchType, searchKeyword);
+				} else {
+					alert("다음페이지 X");
+				}
+			}
+		});//무한스크롤 이벤트처리 끝
+	});
+	
+	
+	
+// 	function loadList(searchType,searchKeyword){
+// 		let url;
+// 		// searchKeyword 없을경우, pageNum전달 -> BoardListJson 서블릿 요청
+// 		// or pageNum, searchType, searchKeyword 전달
+		
+// 		// -> 검색타입/검색키워드 존재유무 컨트롤러에서 판별
+// 		url="BoardListJson?pageNum=" + pageNum + "&searchType=" + searchType +"&searchKeyword=" + searchKeyword;
+
+// 		$.ajax({
+// 			type:"get",
+// 			dataType:"json",
+// 			url:url,
+// 			success:function(data){
+				
+// 				// 글목록, 최대 페이지 번호를 함께 받은경우
+// 				//1. 최대페이지번호 꺼내기
+// 				maxPage = data.maxPage; 
+// 				console.log("maxPage=" + maxPage)
+				
+// 				//json 데이터 반복문사용하여 차례접근 후 데이터 출력
+// 					for(secondhand of data){
+// 						// 테이블에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
+// 						let item = "<tr height='50'>"
+// 									+ "<td>" + board.board_num + "</td>" 
+// 									+ "<td id='subject'>"
+// 										+ space
+// 										+ "<a href='BoardDetail?board_num=" + board.board_num + "'>"
+// 										+ board.board_subject 
+// 										+ "</a>"
+// 									+ "</td>" 
+// 									+ "<td>" + board.board_name + "</td>" 
+// //	 								+ "<td>" + board.board_date + "</td>" 
+// 									+ "<td>" + getFormatDate(board.board_date) + "</td>" 
+// 									+ "<td>" + board.board_readcount + "</td>" 
+// 									+ "</tr>"
+// 						$("table").append(item);	
+					
+					
+					
+// 					}
+					
+				
+				
+// 			},
+		
+// 	}//loadList함수 끝	
+	
+	
+	
 
 
 
-//탭으로했을경우
-// function openCity(evt, cityName) {
-//   var i, tabcontent, tablinks;
-//   tabcontent = document.getElementsByClassName("tabcontent");
-//   for (i = 0; i < tabcontent.length; i++) {
-//     tabcontent[i].style.display = "none";
-//   }
-//   tablinks = document.getElementsByClassName("tablinks");
-//   for (i = 0; i < tablinks.length; i++) {
-//     tablinks[i].className = tablinks[i].className.replace(" active", "");
-//   }
-//   document.getElementById(cityName).style.display = "block";
-//   evt.currentTarget.className += " active";
-// }
+	//카테고리, 가격대 선택 탭
+	$(document).ready(function(){
+		
+		$('ul.tabs li').click(function(){
+			var tab_id = $(this).attr('data-tab');
+	
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+	
+			$(this).addClass('current');
+			$("#"+tab_id).addClass('current');
+		})
+	
+	});
+
+
+
 
 
 </script>
@@ -59,6 +137,22 @@ function myFunction2() {
 #mainArticle {
 	margin-top: 150px;
 }
+
+
+
+/* body{ */
+/* 	margin-top: 100px; */
+/* 	font-family: 'Trebuchet MS', serif; */
+/* 	line-height: 1.6 */
+/* } */
+
+/* .container{ */
+/* 	width: 500px; */
+/* 	margin: 0 auto; */
+/* } */
+
+
+
 a {
 	color:black;
 
@@ -96,7 +190,31 @@ a {
 }
 
 /*탭으로하였을경우*/
+ul.tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+ul.tabs li{
+	background: none;
+	color: #222;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
+}
 
+ul.tabs li.current{
+	color: #222;
+}
+
+.tab-content{
+	display: none;
+	padding: 15px;
+}
+
+.tab-content.current{
+	display: inherit;
+}
 
 </style>
 </head>
@@ -106,54 +224,107 @@ a {
 	<header>
 		<%@ include file="../inc/header.jsp"%>
 	</header>
-	
+	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1로 설정) --%>
+	<c:set var="pageNum" value="1" />
+	<c:if test="${not empty param.pageNum }">
+		<c:set var="pageNum" value="${param.pageNum }" />
+	</c:if>
 
 	<article id="mainArticle">
 		<div class="container">
-			<hr>
+		
+			<hr>	
 			<div class="category">
-			  <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="myFunction()" >
-			   	카테고리 <img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
-			  </a>
-			  	<%-- collapse 출력 영역 --%>
-			 	<div id="myDIV">
-					<button class="btn btn-light">유아동/유아의류/장난감</button>
-					<button class="btn btn-light">유아동/유아의류/장난감</button>
-					<button class="btn btn-light">유아동/유아의류/장난감</button>
-					<button class="btn btn-light">유아동/유아의류/장난감</button>
-					<button class="btn btn-light">유아동/유아의류/장난감</button>
+				<ul class="tabs">
+					<li class="tab-link current" data-tab="tab-1"> 카테고리 선택하기</li>
+					<li class="tab-link" data-tab="tab-2"> 가격대 선택하기</li>		
+				</ul>
+				<!-- 카테고리 선택 영역 -->
+				<div id="tab-1" class="tab-content">
+					<c:forEach var="category" items="${categorylist }">
+						<button class="btn btn-light" style="margin-top:10px;">${category.category_name }</button><br>
+					</c:forEach>
 				</div>
-			  <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="myFunction2()">
-			  	가격선택 <img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow">
-			  </button>
-			 	 <%-- collapse 출력 영역 --%>
-			  	<div id="myDIV2">
+				<!-- 가격대 선택 영역 -->
+				<div id="tab-2" class="tab-content">
 					<input type="text" placeholder="최저가"> ~ <input type="text" placeholder="최고가"><button class="btn btn-light"> 적용하기</button>
 				</div>
-				<%-- 초기화,내상품등록 --%>
-				<div class="secondhandRegist" align="right">
+				<!-- 초기화,내상품등록 -->
+				<div class="secondhandRegist" align="right" style="margin-top:20px;">
 					<button class="btn btn-dark"> 필터초기화 </button>
 					<a href="secondhandRegistForm"><button class="btn btn-dark"> 내 상품 등록하기 </button></a>
 				</div>
 			</div>
-			<%-- 거래중 상품만 보기 --%>
+			
+			<!-- 거래중 상품만 보기 -->
 			<div class="form-check form-switch">
      			 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
       			<label class="form-check-label" for="flexSwitchCheckDefault"> 거래가능 상품만 보기 </label>
     		</div>
 			
-<!-- 			<div class="collapse" id="collapseExample"> -->
-<!-- 			  <div class="card card-body"> -->
-<!-- 			    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger. -->
-<!-- 			  </div> -->
-<!-- 			</div> -->
+			
+<!-- 		<div class="row row-cols-1 row-cols-sm-4 g-4"> -->
+<%-- 			<c:forEach var="secondhand" items="${secondhandList}"> --%>
+<!-- 			  <div class="col"> -->
+<!-- 				<div class="card h-100"> -->
+<!-- 					<div class="photoDiv"> -->
+<!-- 						이미지 -> 상세페이지 이동  -->
+<%-- 						<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}"> --%>
+<%-- 							<img src="${secondhand.secondhand_image1}" class="card-img-top" alt="..." > --%>
+<!-- 						</a> -->
+<%-- 						<span class="dealStatus"><button>${secondhand.secondhand_dealStatus}</button></span> --%>
+<!-- 					</div> -->
+<!-- 					<div class="card-body"> -->
+<!-- 						<h5 class="card-title"> -->
+<%-- 							<button class="btn btn-light" style="margin-top:10px">"${category.category_name}</button> --%>
+<!-- 							찜하기 버튼 -->
+<!-- 							<a href="#" style="margin-left:5px; margin-bottom:50px;"> -->
+<%-- 								<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 							제목 -> 상세페이지 이동  -->
+<%-- 							<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}"> --%>
+<%-- 								${secondhand.secondhand_subject} <br> --%>
+<!-- 							</a> -->
+<!-- 						</h5> -->
+<%-- 					<p class="card-text">${secondhand.secondhand_content}</p> --%>
+<!-- 					</div> -->
+<!-- 					</div>div card 끝 -->
+<!-- 				</div>div col 끝 -->
+<%-- 			</c:forEach> --%>
+<!-- 		</div> -->
 
-
-			<div class="row col col-3">
-				<hr>
-
-
-					<div class="productListArea">
+		<hr>
+		<div class="row" align="left">
+		<c:forEach var="secondhand" items="${secondhandList }">
+			<div class="col-lg-3 col-mid-4">
+				<div class="productListArea">
+						<div class="card">
+							<div class="photoDiv">
+								<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}">
+									<img src="${secondhand.secondhand_image1}" class="card-img-top" alt="..." >
+								</a>
+								<span class="dealStatus"><button>${secondhand.secondhand_deal_status}</button></span>
+							</div>
+							<div class="card-body">
+								<!-- 카테고리 가져오기 -->
+								<button class="btn btn-light">"${category.category_name}</button>
+								<p class="card-text">
+									<!-- 제목 링크 -->
+									<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}">
+										${secondhand.secondhand_subject}
+									</a>
+									<!-- 찜하기 버튼 -->
+									<a href="#" style="margin-left:50px">
+										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px">
+									</a>
+								</p>
+								<p>${secondhand.secondhand_price }</p>
+								<p>${secondhand.secondhand_first_date }</p>
+							</div><!-- cardbody끝 -->
+						</div><!-- card끝 -->
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 						<div class="card">
 							<div class="photoDiv">
 								<a href="secondhand_detail">
@@ -336,6 +507,8 @@ a {
 							<p>2023-08-01 11:00:00</p>
 						</div>
 						</div>
+						
+						
 					</div>
 				</div>
 			</div><%--row끝 --%>
