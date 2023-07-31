@@ -46,7 +46,7 @@
 			, 0									-- read count(조회수)
 			, secondhand_idx + 1				-- re_ref
 			, '판매중'							-- deal_status(default 거래중?)
-			, #{member_idx}	 					-- 작성자
+			, #{member_id}	 					-- 작성자
 			, #{category_idx}
 			, #{secondhand_deliveryType_parcel}
 			, #{secondhand_deliveryType_zstation}

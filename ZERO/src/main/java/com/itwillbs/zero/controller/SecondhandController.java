@@ -27,16 +27,21 @@ public class SecondhandController {
 		//중고상품목록페이지
 		//날짜순 기본정렬	
 		@GetMapping("secondhand_list")
-		public String secondhand_list(@RequestParam(defaultValue = "1") int pageNum,SecondhandVO secondhand, Model model) {
+		public String secondhand_list(@RequestParam(defaultValue = "1") int pageNum,  SecondhandVO secondhand, Model model) {
 
 			//중고 카테고리 리스트 전달 
 			List<HashMap<String, String>> categorylist = service.getCategorylist();
 			model.addAttribute("categorylist", categorylist);
 			
+			
 			//상품의 idx에 해당하는 카테고리 조회(return String?)
 			//파라미터:SecondhandVO secondhand.idx
+			secondhand.setSecondhand_idx(secondhand.getSecondhand_idx());
+			
 			String category = service.getCategory(secondhand.getSecondhand_idx());
 			model.addAttribute("category", category);
+			
+			System.out.println(category);
 			
 			// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
 			int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
@@ -45,6 +50,7 @@ public class SecondhandController {
 			//secondhandService - getSecondhandList() 호출하여 게시물목록 조회요청
 			//파라미터 : (검색타입,검색어), 시작행번호, 목록갯수
 			List<SecondhandVO> secondhandList = service.getSecondhandList(startRow, listLimit);
+			
 			//페이징처리 위한 계산작업----------------------------------------------------
 			//1. SecondhandService - getSecondhandListCount() 호출하여 전체게시물 수 조회요청
 			int listCount = service.getSecondhandListCount();
@@ -155,7 +161,7 @@ public class SecondhandController {
 //			}
 			
 			//임시
-			secondhand.setMember_idx("test3@test.com");
+			secondhand.setMember_id("test3@test.com");
 			
 			
 			
