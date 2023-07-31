@@ -32,7 +32,16 @@
 
 </style>
 <script type="text/javascript">
+
 	$(function() {
+
+		let auction_regist_date = "${auctionManaging.auction_regist_date}";
+		let auction_manage_check_date = "${auctionManaging.auction_manage_check_date}";
+		
+		// 변환된 변수를 사용하여 날짜 데이터를 HTML 요소에 추가
+		$("#auctionRegistDate").html(getFormatDate2(auction_regist_date));
+		$("#auctionManageCheckDate").html(getFormatDate3(auction_manage_check_date));
+		
 		$("#auctionManageCheckStatusSelect").on("change", function() {
 			let changedStatus = $("#auctionManageCheckStatusSelect>option:selected").val();
 			$("#auctionManageCheckStatus").empty();
@@ -45,7 +54,9 @@
 						'<input type="datetime-local" id="auction_manage_check_date" class="form-control datepicker">'
 						 + '<input type="hidden" name="auction_manage_check_date" value="">'
 				);
+				
 			}
+			
 		});
 		
 	});
@@ -55,10 +66,24 @@
 		let formatDate = "$1-$2-$3 $4:$5:00";
 		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
 	}
+
+	function getFormatDate2(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
+		let targetDate = /(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)/g;
+		let formatDate = "$1-$2-$3";
+		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
+	}
+	
+	function getFormatDate3(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
+		let targetDate = /(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d)/g;
+		let formatDate = "$1-$2-$3";
+		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
+	}
 	
 	function modify(){
 		
-		$("input[name=auction_manage_check_date]").val(getFormatDate($("#auction_manage_check_date").val()));
+		if($("#auctionManageCheckStatus").text() == "검수완료" || $("#auctionManageCheckStatus").text() == "경매불가"){			
+			$("input[name=auction_manage_check_date]").val(getFormatDate($("#auction_manage_check_date").val()));
+		}
 		
 		if($("#auctionManageCheckStatus").text() == "검수완료" && $("input[name=auction_manage_check_date]").val() == ""){
 			alert("검수완료일을 지정해주세요");
@@ -68,9 +93,6 @@
 			$("form").submit();
 		}
 	}
-	
-	
-	
 	
 </script>
 </head>
@@ -107,7 +129,7 @@
 										</tr>
 										<tr>
 											<th>경매상품 등록일</th>
-											<td colspan="2">
+											<td colspan="2" id="auctionRegistDate">
 												${auctionManaging.auction_regist_date }
 											</td>
 										</tr>
@@ -121,14 +143,12 @@
 											<th>경매시작가</th>
 											<td colspan="2">
 												<fmt:formatNumber value="${auctionManaging.auction_start_price }" pattern="#,##0"/>원
-<%-- 												${auctionManaging.auction_start_price } --%>
 											</td>
 										</tr>
 										<tr>
 											<th>즉시구매가</th>
 											<td colspan="2">
 												<fmt:formatNumber value="${auctionManaging.auction_max_price }" pattern="#,##0"/>원
-<%-- 												${auctionManaging.auction_max_price } --%>
 											</td>
 										</tr>
 										<tr>
@@ -178,7 +198,7 @@
 										<tr>
 											<th>검수완료일</th>
 											<td colspan="2" id="auctionManageCheckDate">
-												${auctionManaging.auction_manage_check_date }
+<%-- 												${auctionManaging.auction_manage_check_date } --%>
 											</td>
 										</tr>
 										<tr>
