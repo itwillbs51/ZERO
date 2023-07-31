@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
@@ -509,37 +510,7 @@ public class MemberController {
 		
 		if(insertCount > 0) {
 			
-			// 메일 보내기위한 코드 수정
-			JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
 			
-			// 메일 제목, 내용
-			String subject = "제목";
-			String content = "내용";
-			
-			// 보내는 사람
-			String from = "zero_market_itwb@naver.com";
-			
-			// 받는 사람
-			String[] to = new String[1];
-			to[0] = "파라미터로받아야할듯";
-			
-			try {
-				// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성
-				MimeMessage mail = mailSender.createMimeMessage();
-				MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
-
-				// 메일 내용을 채워줌
-				mailHelper.setFrom(from);	// 보내는 사람 셋팅
-				mailHelper.setTo(to);		// 받는 사람 셋팅
-				mailHelper.setSubject(subject);	// 제목 셋팅
-				mailHelper.setText(content);	// 내용 셋팅
-
-				// 메일 전송
-				mailSender.send(mail);
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 			
 			return "redirect:/join_complete";
 		} else {
@@ -547,6 +518,51 @@ public class MemberController {
 			return "fail_back";
 		}
 	}
+	
+	
+	@PostMapping("sendAuthCode")
+	@ResponseBody
+	public String sendAuthCode(@RequestParam("email") String email, HttpSession session) {
+		// 메일 보내기위한 코드 수정
+		JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
+		
+		Random random = new Random();
+		int checkNum = random.nextInt(888888) + 111111;
+		session.setAttribute("emailAuthCode", checkNum);
+		
+		// 메일 제목, 내용
+		String subject = "ZERO 회원가입 인증 메일입니다";
+		String content = "아래의 인증 번호를 입력해주세요 인증코드 : " + checkNum;
+		
+		// 보내는 사람
+		String from = "zero_market_itwb@naver.com";
+		
+		// 받는 사람
+		String[] to = new String[]{email};
+		
+		try {
+			// 메일 내용 넣을 객체와, 이를 도와주는 Helper 객체 생성
+			MimeMessage mail = mailSender.createMimeMessage();
+			MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
+
+			// 메일 내용을 채워줌
+			mailHelper.setFrom(from);	// 보내는 사람 셋팅
+			mailHelper.setTo(to);		// 받는 사람 셋팅
+			mailHelper.setSubject(subject);	// 제목 셋팅
+			mailHelper.setText(content);	// 내용 셋팅
+
+			// 메일 전송
+			mailSender.send(mail);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "이메일이 성공적으로 전송되었습니다";
+		
+	}
+	
+	
 	
 	@GetMapping("join_complete")
 	public String memberJoinComplete() {

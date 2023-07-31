@@ -16,6 +16,8 @@ public interface AuctionMapper2 {
 
 	int insertProduct(AuctionProductVO auctionProduct);
 
+	void insertAuctionManaging(AuctionProductVO auctionProduct);
+
 	
 
 }

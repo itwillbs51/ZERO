@@ -7,7 +7,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -17,6 +16,23 @@
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
+<script type="text/javascript">
+	$(function() {
+		$("#zpayBankAuthButton").on("click", function() {
+			// 새 창에서 사용자 인증 페이지 요청
+			// => 입금 이체 API 사용을 위해 scope 항목에 oob추가
+			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
+					+ "response_type=code"
+					+ "&client_id=4066d795-aa6e-4720-9383-931d1f60d1a9"
+					+ "&redirect_uri=http://localhost:8089/zero/callback"
+					+ "&scope=login inquiry transfer oob"
+					+ "&state=12345678901234567890123456789012"
+					+ "&auth_type=0";
+			
+			window.open(requestUri, "authWindow", "width=600, height=800");
+		});
+	});
+</script>
 </head>
 <body>
 	<header>
@@ -26,45 +42,47 @@
 		<div class="container">
 			<div class="contentArea">
 			<%-- 메인영역 --%>
-				<div class="successContentArea">
-					<div class="targetArea">
-						<div class="icon">
-						
-						</div>
-						<p class="targetMessage">
-							<strong>내 ZPAY </strong>로<br>
-							<em class="amount">10,000원 충전완료</em>
-						</p>
-						<p class="targetAccountInfo">
-							산업 123****123 
-						</p>
+				<div class="zpayManageArea">
+					<div class="profileArea">
+						<a class="profileLink" href="#">
+							<span class="profileImg">
+							</span>
+							<span class="profileInfo">
+								<strong class="profileName">
+									${sessionScope.member_id } 님
+<!-- 									홍길동 님 -->
+								</strong>
+								hong
+							</span>
+						</a>
 					</div>
-					<div class="successInfoArea">
-						<div class="balanceArea">
-							<div class="balanceArea_label">
-								ZPAY 잔액
+					<div class="payWalletWidgetArea">
+						<div class="zpayArea">
+							<div class="balanceArea">
+								<strong class="title">
+									ZPAY 잔액
+								</strong>
+								<div class="balance">
+									등록된 ZPAY가 없습니다.
+								</div>
 							</div>
-							<strong class="balanceArea_balance">
-								70,000원
-							</strong>	
-						</div>
-						<div class="accountInfoArea">
-							<div class="accountInfoArea_label">
-								출금계좌
+							<div class="zpayLinkArea">
+								<div class="zpayChargeLink">
+									<%-- 계좌인증이 되어있지 않은 경우 계좌인증 버튼을 표시하고 --%>
+									<%-- 계좌인증이 되어있는 경우 계좌관리 버튼을 표시 --%>
+									<c:choose>
+										<c:when test="${member.member_bank_auth eq 'N' }">
+											<a class="btn" id="zpayBankAuthButton">계좌인증하기</a>
+										</c:when>
+										<c:otherwise>
+											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌관리</a>		
+										</c:otherwise>
+									</c:choose>
+								</div>
 							</div>
-							<div class="accountInfoArea_accountNum">
-								산업 123****123
-							</div>	
-						</div>
-						<div class="successNoticeArea">
-							ZPAY는 ZPAY 홈에서 무료로 즉시 인출가능합니다.
 						</div>
 					</div>
-					<div class="buttonArea">
-						<a href="zpay_charge_form" class="btn btn-outline-secondary btn-lg moreCharge">추가충전하기</a>
-						<a href="zpay_main" class="btn btn-secondary btn-lg zpayHistory">ZPAY 내역</a>
-					</div>
-				</div><%-- successContentArea 영역 끝 --%>	
+				</div>
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
 	</article>

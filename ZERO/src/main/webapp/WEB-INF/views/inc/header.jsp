@@ -58,7 +58,7 @@
 						<a class="nav-link" href="secondhand_list">중고거래</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="autionList_present">경매</a>
+						<a class="nav-link" href="auctionList_present">경매</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="auction_regist_form">경매등록</a>

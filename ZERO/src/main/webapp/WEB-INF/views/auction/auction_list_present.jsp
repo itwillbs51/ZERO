@@ -131,8 +131,8 @@
 		<!-- nav - 메뉴영역 -->
 		<nav>
 			<a>경매중</a>&nbsp;&nbsp;
-			<a href="autionList_prepare">입찰 예정 경매</a>&nbsp;&nbsp;
-			<a href="autionList_end">종료된 경매</a>
+			<a href="auctionList_prepare">입찰 예정 경매</a>&nbsp;&nbsp;
+			<a href="auctionList_end">종료된 경매</a>
 		</nav>
 		<hr>
 		<nav>

@@ -20,4 +20,10 @@ public interface MemberMapper {
 
 	// 세션 아이디와 동일한 회원의 프로필 이미지 변경
 	int updateMemberImage(@Param("column1")String column1, @Param("member_id")String member_id, @Param("column2")String column2, @Param("fileName1")String fileName1);
+// 회원정보조회(혜진)
+MemberVO selectMember(String member_id);
+
+// 계좌인증 완료한 회원의 member_bank_auth를 'Y'로 수정(혜진)
+int updateBankAuth(String member_id);
+
 }

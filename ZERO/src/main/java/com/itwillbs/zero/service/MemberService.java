@@ -36,8 +36,15 @@ public class MemberService {
 		return mapper.updateMemberImage(column1, member_id, column2, fileName1);
 	}
 
+	// 회원 정보 조회(혜진)
+	public MemberVO getMember(String member_id) {
+		return mapper.selectMember(member_id);
+	}
+	
+	// 계좌인증 완료한 회원의 member_bank_auth를 'Y'로 수정(혜진)
+	public int modifyBankAuth(String member_id) {
+		return mapper.updateBankAuth(member_id);
+	}
 
-
-
-
+	
 }
