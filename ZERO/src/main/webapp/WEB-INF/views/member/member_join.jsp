@@ -87,10 +87,12 @@
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("member_extraAddress").value = extraAddr;
+//                     document.getElementById("member_extraAddress").value = extraAddr;
+                    addr = addr + " " + extraAddr;
                 
                 } else {
-                    document.getElementById("member_extraAddress").value = '';
+//                     document.getElementById("member_extraAddress").value = '';
+					addr = addr;
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
@@ -472,13 +474,13 @@ input[type=checkbox] {
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6="">
-							<input type="text" 
-								   placeholder="참고항목"
-								   id="member_extraAddress" 
-								   name="member_extraAddress" 
-								   autocomplete="off" 
-								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+<!-- 							<input type="text"  -->
+<!-- 								   placeholder="참고항목" -->
+<!-- 								   id="member_extraAddress"  -->
+<!-- 								   name="member_extraAddress"  -->
+<!-- 								   autocomplete="off"  -->
+<!-- 								   class="input_txt"  -->
+<!-- 								   data-v-4e1fd2e6=""> -->
 							<input type="text"
 								   placeholder="상세주소" 
 								   id="member_address_detail1" 
