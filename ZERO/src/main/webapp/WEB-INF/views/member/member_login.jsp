@@ -229,6 +229,7 @@ ul {
 	height:20px;
 }
 
+<%-- 체크박스 버튼 --%>
 input[type=checkbox] {
     width: 20px;
     height: 20px;
@@ -239,6 +240,12 @@ input[type=checkbox] {
     -moz-appearance: checkbox;
 }
 
+<%-- 구글 로그인 버튼 --%>
+.nsm7Bb-HzV7m-LgbsS {
+	width: 400px;
+	height: 52px;
+}
+
 </style>
 <!-- 네이버 -->
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
@@ -247,15 +254,70 @@ input[type=checkbox] {
 <%-- 구글 api 사용을 위한 스크립트 --%>
 <!-- content에 자신의 OAuth2.0 클라이언트ID를 넣습니다. -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script type="text/javascript">
+	function handleCredentialResponse(response) {
+	    // decodeJwtResponse() is a custom function defined by you
+	    // to decode the credential response.
+	    const responsePayload = parseJwt(response.credential);
+	
+	    console.log("ID: " + responsePayload.sub);
+	    console.log('Full Name: ' + responsePayload.name);
+	    console.log('Given Name: ' + responsePayload.given_name);
+	    console.log('Family Name: ' + responsePayload.family_name);
+	    console.log("Image URL: " + responsePayload.picture);
+	    console.log("Email: " + responsePayload.email); 
+	    
+	    var member_id = responsePayload.email;
+	    var member_name = responsePayload.name;
+	    var sns_type = 'google';
+	     
+	    $.ajax({
+	         type: 'post',
+//	          url: 'checkUserNaver',
+	         url: 'ajax/checkUser',
+	         data: {"member_id":member_id
+	         		, "member_name":member_name
+	         		, "sns_type":sns_type
+	         	},
+	         dataType: 'text',
+	         success: function(response) {
+	           console.log(response);
+	           if (response === 'new') {
+//	          	  sessionStorage.setItem('email', member_id);
+	         	  location.href = 'join?member_id=' + member_id + '&member_name=' + member_name;
+	         	  alert('구글 로그인 성공! 회원가입을 완료해주세요. ');
+// 	         	  window.close();
+
+	           }  else if (response === 'existing') { 
+//	          	  sessionStorage.removeItem("email");
+//	          	  sessionStorage.setItem('member_id', member_id);
+	         	  location.href = './';
+	         	  alert('구글 로그인 성공!')
+// 	         	  window.close();
+	           }
+	         },
+	         error: function(xhr, status, error) {
+	           console.log(error);
+	         }
+	     });
+	};
+
+	function parseJwt (token) {
+	    var base64Url = token.split('.')[1];
+	    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+	    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+	        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+	    }).join(''));
+	
+	    return JSON.parse(jsonPayload);
+	};
+</script>
 <meta name ="google-signin-client_id" content="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com">
 <script type="text/javascript">
 	
-	$(function (){
+
 		
-		
-	});
-	
-	
+	// 로그인 버튼 작동
 	function clickLogin() {
 		alert('로그인 클릭됨');
 		$("#loginForm").submit();
@@ -359,11 +421,13 @@ input[type=checkbox] {
 <!-- 						</svg>  -->
 						구글로 로그인 
 					</button>
-					<div id="g_id_onload"
-					     data-client_id="763453617602-ml4rp3s6uevn7v8c8g4dunmj43khvi32.apps.googleusercontent.com"
-					     data-callback="handleCredentialResponse">
-					</div>
-					<div class="g_id_signin" data-type="icon" data-shape="circle" ></div>
+<!-- 					<div class="blind" style="visibility: hidden;"> -->
+						<div id="g_id_onload"
+						     data-client_id="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com"
+						     data-callback="handleCredentialResponse">
+						</div>
+						<div class="g_id_signin" data-size="large" data-type="standard" data-logo_alignment="center" data-text="signup_with" data-shape="rectangular" ></div>
+<!-- 					</div> -->
 				</div>
 				</div>
 			</div>
@@ -388,65 +452,50 @@ input[type=checkbox] {
 <!--   <script src="/_nuxt/31641e8.js" defer=""></script> -->
 <!--   <link href="/_nuxt/css/6ca5ffb.css" rel="stylesheet" type="text/css"> -->
 <!--   <link href="/_nuxt/css/caea5a4.css" rel="stylesheet" type="text/css"> -->
-<script src="https://accounts.google.com/gsi/client" async></script>
+<!-- <script src="https://accounts.google.com/gsi/client" async></script> -->
 <script>
-	function init() {
-		 gapi.load('auth2', function() {
-		  console.log("init()시작");
-		  auth2 = gapi.auth2.init({
-		        client_id: '763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com'
-// 		        cookiepolicy: 'single_host_origin',
-		      });
-		      attachSignin(document.getElementById('google_login'));
-		 });
-	}
+// 	function init() {
+// 		 gapi.load('auth2', function() {
+// 		  console.log("init()시작");
+// 		  auth2 = gapi.auth2.init({
+// 		        client_id: '763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com'
+// // 		        cookiepolicy: 'single_host_origin',
+// 		      });
+// 		      attachSignin(document.getElementById('google_login'));
+// 		 });
+// 	}
 </script>
 <script>
 
 	//처음 실행하는 함수
 	//google signin API
-	var googleUser = {};
+// 	var googleUser = {};
 	
-    $(".btn_login_google").on("click",function(){
+//     $(".btn_login_google").on("click",function(){
     	
-	   	var googleUrl ="https://accounts.google.com/o/oauth2/auth?" +
-	   	  "client_id=763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com&"+
-	   	  "redirect_uri=http://localhost:8089/zero/callback_login_google&"+
-	   	  "response_type=token&"+
-	   	  "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
+// 	   	var googleUrl ="https://accounts.google.com/o/oauth2/auth?" +
+// 	   	  "client_id=763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com&"+
+// 	   	  "redirect_uri=http://localhost:8089/zero/callback_login_google&"+
+// 	   	  "response_type=token&"+
+// 	   	  "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
     	
-	   	window.open(googleUrl, 'googleloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100, left=600');
-    });
+// 	   	window.open(googleUrl, 'googleloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100, left=600');
+//     });
+
+	// 구글 로그인 버튼 작동
+	$(document).ready(function() {
+	    // 새로 추가한 버튼 클릭 시 동작할 함수를 정의합니다.
+	    $(".btn_login_google").on("click", function() {
+// 	      alert('구글 버튼 클릭됨');
+	      // 기존 구글 로그인 버튼을 클릭합니다.
+	      $(".uaxL4e-RbRzK").on("click");
+// 	      $(".JGcpL-RbRzK").on("click");
+		// class="nsm7Bb-HzV7m-LgbsSe jVeSEe i5vt6e-Ia7Qfc uaxL4e-RbRzK"
+	    });
+	  });
 
 </script>
-<script>
 
-        function handleCredentialResponse(response) {
-            // decodeJwtResponse() is a custom function defined by you
-            // to decode the credential response.
-            const responsePayload = parseJwt(response.credential);
-
-            console.log("ID: " + responsePayload.sub);
-            console.log('Full Name: ' + responsePayload.name);
-            console.log('Given Name: ' + responsePayload.given_name);
-            console.log('Family Name: ' + responsePayload.family_name);
-            console.log("Image URL: " + responsePayload.picture);
-            console.log("Email: " + responsePayload.email); 
-        };
-
-        function parseJwt (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-
-            return JSON.parse(jsonPayload);
-        };
-        
-        
-
-</script>
 
 <!--  네이버 로그인 시작 -->
 <%-- 네이버 로그인 --%>
@@ -464,7 +513,7 @@ input[type=checkbox] {
     var redirect_uri = "http://localhost:8089/zero/callback_login_naver";
 	var state = "90aada36-5411-4fe5-bec6-11bc1e78e029";
     $(".btn_login_naver").on("click",function(){
-    	window.open("https://nid.naver.com/oauth2.0/authorize?response_type=token&amp;client_id=" + client_id + "&amp;redirect_uri=" + redirect_uri + "&amp;state=" + state, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, left=');
+    	window.open("https://nid.naver.com/oauth2.0/authorize?response_type=token&amp;client_id=" + client_id + "&amp;redirect_uri=" + redirect_uri + "&amp;state=" + state, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100 left=600');
     })
 </script>
 
