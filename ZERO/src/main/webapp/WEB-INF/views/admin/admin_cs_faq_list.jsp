@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,27 +46,56 @@
 								<div class="card-header">
 									<i class="fas fa-table me-1"></i>
 									자주 묻는 질문
-									<a href="cs_notice" class="btn btn-sm btn-outline-dark" style="float: right;">고객센터 바로가기</a>					
+									<a href="cs_faq_form" class="btn btn-sm btn-outline-dark" style="float: right;">자주 묻는 질문 등록하기</a>					
 								</div>
 								<div class="card-body">
 									<table id="datatablesSimple">
 										<thead>
 											<tr>
-												<th>문의유형</th>
-												<th>1</th>
-												<th>2</th>
-												<th>3</th>
-												<th>4</th>
+												<th>분류</th>
+												<th>제목</th>
+												<th>등록일</th>
+												<th>작성자</th>
+												<th>상세보기</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
-											</tr>
+											<c:forEach var="cs" items="${csFaqList}">
+												<tr>
+													<%-- 분류 --%>
+													<td>
+														<c:choose>
+															<c:when test="${cs.cs_info_idx eq 1 }">
+																이용정책
+															</c:when>
+															<c:when test="${cs.cs_info_idx eq 2 }">
+																공통
+															</c:when>
+															<c:when test="${cs.cs_info_idx eq 3 }">
+																중고판매
+															</c:when>
+															<c:when test="${cs.cs_info_idx eq 4 }">
+																중고구매
+															</c:when>
+															<c:when test="${cs.cs_info_idx eq 5 }">
+																경매판매
+															</c:when>
+															<c:when test="${cs.cs_info_idx eq 6 }">
+																경매구매
+															</c:when>
+															<c:when test="${cs.cs_info_idx eq 7 }">
+																ZPAY
+															</c:when>
+														</c:choose>
+													</td>
+													<td>${cs.cs_subject }</td>
+													<td>${cs.cs_date }</td>
+													<td>${cs.member_id }</td>
+													<td>	
+														<a class="btn btn-sm btn-outline-dark" href="admin_cs_faq_detail?cs_idx=${cs.cs_idx }&cs_info_idx=${cs.cs_info_idx}">상세보기</a>
+													</td>
+												</tr>
+											</c:forEach>											
 										</tbody>
 									</table>
 								</div>

@@ -36,6 +36,10 @@ public class SecondhandVO {
 	private String secondhand_deliveryType_zstation;
 	private String secondhand_deliveryType_zman;
 	private String secondhand_paymentType_zpay;
+	
+	//추가(view)
+	private String category_name;
+	private String category_type;
 
 	
 	
