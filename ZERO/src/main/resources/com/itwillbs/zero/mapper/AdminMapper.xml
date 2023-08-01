@@ -289,7 +289,9 @@
 	<update id="updateFaq">
 		UPDATE
 				CS
-			SET cs_reply = #{cs_reply}
+			SET
+				cs_subject = #{cs_subject}
+				, cs_content = #{cs_content}
 			WHERE cs_idx = #{cs_idx}
 			AND cs_info_idx = #{cs_info_idx}
 	</update>

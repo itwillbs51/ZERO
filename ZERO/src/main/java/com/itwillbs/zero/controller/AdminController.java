@@ -713,6 +713,7 @@ public class AdminController {
 		System.out.println("cs_idx : " + cs_idx + "cs_info_idx : " + cs_info_idx);
 		
 		int updateReplyCount = service.modifyFaqDetail(cs);
+		System.out.println("updateReplyCount - " + updateReplyCount);
 		
 		if(updateReplyCount > 0) {
 			return "redirect:/admin_cs_faq";			
