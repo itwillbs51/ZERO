@@ -236,7 +236,12 @@ a {
 				
 				<%-- 판매자 본인 아닐경우 --%>		
 				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
-				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" > 채팅하기 </button>
+<!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button> -->
+				<form action="doChat" method="POST">
+					<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
+					<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
+					<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
+				</form>
 		
 			</div><%-- 오른쪽 column끝 --%>
 			<hr>

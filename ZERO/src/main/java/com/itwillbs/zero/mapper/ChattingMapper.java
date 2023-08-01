@@ -18,4 +18,13 @@ public interface ChattingMapper {
 	// 채팅 내역 삽입
 	int insertChat(Map<String, String> map);
 	
+	// 채팅방 찾기
+	int selectChatRoomIdx(@Param("map") Map<String, String> map, @Param("buyer_id") String buyer_id);
+	
+	// 채팅방 생성하기
+	int insertChatRoom(@Param("map") Map<String, String> map, @Param("buyer_id") String buyer_id);
+	
+	// 
+	int selectSecondhandIdx(int chat_room_idx);
+	
 }

@@ -15,7 +15,7 @@ public class ChatVO {
 	private MessageType type;
 	
 	private int chat_idx;
-	private Date chat_datetime;
+	private Timestamp chat_datetime;
 	private String chat_content;
 	private String chat_content_type;	// 채팅타입 - "사용자", "안내"
 	private int chat_room_idx;

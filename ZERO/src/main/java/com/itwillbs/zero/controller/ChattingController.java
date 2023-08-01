@@ -24,6 +24,9 @@ public class ChattingController {
 	@Autowired
 	private ChattingService service;
 	
+	@Autowired
+	private SecondhandService secondhandService;
+	
 	// 채팅 페이지로 이동
 	@GetMapping("chatList")
 	public String chat(HttpSession session, Model model) {
@@ -46,7 +49,10 @@ public class ChattingController {
 	}
 	
 	// 채팅방으로 연결
-	@GetMapping("chatRoom")
+	// 중고거래관련 가져올 정보
+	// 중고상품 번호, 사진, 상태, 가격 - secondhand_idx, secondhand_image1, secondhand_deal_status, secondhand_price
+//	@GetMapping("chatRoom")
+	@RequestMapping(value = "chatRoom", method = {RequestMethod.GET, RequestMethod.POST})
 	public String chatRoom(int chat_room_idx, HttpSession session, Model model) {
 		// 로그인 해야 들어갈 수 있음!
 		String member_id = (String) session.getAttribute("member_id");
@@ -60,13 +66,22 @@ public class ChattingController {
 		List<ChatVO> chatList = service.selectChatList(chat_room_idx);
 		logger.info("*** 채팅내역 : " + chatList);
 		
+		// 채팅방 번호로 중고상품 정보 조회
+		// 파라미터 : chat_room_idx		리턴타입 : int(secondhand_idx)
+		int secondhand_idx = service.getSecondhandIdx(chat_room_idx);
+		
+		SecondhandVO secondhandInfo = secondhandService.getSecondhandProduct(secondhand_idx);
+		logger.info("*** 중고상품 정보 : " + secondhandInfo);
+		
 		model.addAttribute("chatList", chatList);
+		model.addAttribute("secondhandInfo", secondhandInfo);
 		
 		return "chatting/chat";
 	}
 	
 	// 실시간 채팅 DB에 저장하기
-	@PostMapping("/chatRemember")
+	@ResponseBody
+	@PostMapping("chatRemember")
 	public void chatRemember(@RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("*** 넘어온 파라미터들 : " + map.toString());
 		
@@ -118,37 +133,37 @@ public class ChattingController {
 	// DB - CHAT_ROOM에 일치하는 값이 
 	//		없으면 생성을 (INSERT INTO CHAT_ROOM - 파라미터 세개)
 	// 		있으면 값을 가져와서 "chatRoom"로 연결
-//	@RequestMapping(value = "doChat", method = RequestMethod.GET)
-//	public String doChat(@RequestParam Map<String, String> map, HttpSession session, Model model) {
-//		
-//		// 로그인 해야 들어갈 수 있음!
-//		String member_id = (String) session.getAttribute("member_id");
-//		if(member_id == null) {
-//			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
-//			return "fail_back";
-//		}
-//		// 판매자 아이디 받아오기
-//		String buyer_id = member_id;
-//		
-//		// 채팅방 찾기
-//		int chat_room_idx = service.selectChatRoomList(map, buyer_id);
-//		logger.info("채팅방 번호 : " + chat_room_idx);
-//		
-//		// 채팅방 유무 판별
-//		if(chat_room_idx == 0) {
-//			// 채팅방이 없으면
-//			// => 채팅방 생성하기
-//			int insertChatRoom = service.insertChatRoom(map, buyer_id);
+	@RequestMapping(value = "doChat", method = {RequestMethod.GET, RequestMethod.POST})
+	public String doChat(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		
+		// 로그인 해야 들어갈 수 있음!
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
+			return "fail_back";
+		}
+		// 판매자 아이디 받아오기
+		String buyer_id = member_id;
+		
+		// 채팅방 찾기
+		int chat_room_idx = service.selectChatRoomIdx(map, buyer_id);
+		logger.info("채팅방 번호 : " + chat_room_idx);
+		
+		// 채팅방 유무 판별
+		if(chat_room_idx == 0) {
+			// 채팅방이 없으면
+			// => 채팅방 생성하기
+			int insertChatRoom = service.insertChatRoom(map, buyer_id);
 //			chat_room_idx = ??;
-//		}
-//	
-//		// 채팅방이 있으면
-//		// => 채팅방으로 이동(채팅방 번호 : chat_room_idx)
-//	
-//		// 채팅방 번호 들고오기
-//		return "chatRoom?chat_room_idx=" + chat_room_idx;
-//		
-//	}
+		}
+	
+		// 채팅방이 있으면
+		// => 채팅방으로 이동(채팅방 번호 : chat_room_idx)
+	
+		// 채팅방 번호 들고오기
+		return "redirect:/chatRoom?chat_room_idx=" + chat_room_idx;
+		
+	}
 	
 	
 }
