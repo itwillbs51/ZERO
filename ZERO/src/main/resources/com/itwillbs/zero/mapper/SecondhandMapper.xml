@@ -11,19 +11,19 @@
 			category_type = '중고'
 	</select>
 	
-	<!-- 상품번호에 해당하는 카테고리 정보 조회작업 -->
-	<select id="selectCategory" resultType="String">
-		SELECT 
-			c.category_name
-		FROM
-			CATEGORY c
-		JOIN
-			SECONDHAND s
-		ON 
-			c.category_idx = s.category_idx
-		WHERE 
-			s.secondhand_idx = #{secondhand_idx}
-	</select>
+		<!-- 상품번호에 해당하는 카테고리 정보 조회작업 --> 
+<!-- 	<select id="selectCategory" resultType="String"> -->
+<!-- 		SELECT  -->
+<!-- 			c.category_name -->
+<!-- 		FROM -->
+<!-- 			CATEGORY c -->
+<!-- 		JOIN -->
+<!-- 			SECONDHAND s -->
+<!-- 		ON  -->
+<!-- 			c.category_idx = s.category_idx -->
+<!-- 		WHERE  -->
+<!-- 			s.secondhand_idx = #{secondhand_idx} -->
+<!-- 	</select> -->
 	
 	
 	<!-- 중고 상품 등록 작업  -->
@@ -56,11 +56,12 @@
 	</insert>
 	
 	<!-- 중고상품 목록 조회작업 -->
+	<!-- 해당카테고리 조회 작업으로 뷰 생성 SECONDHAND_CATEGORY -->
 	<select id="selectSecondhandList" resultType="com.itwillbs.zero.vo.SecondhandVO">
 		SELECT
 			*
 		FROM
-			SECONDHAND
+			SECONDHAND_CATEGORY
 		ORDER BY
 			secondhand_first_date DESC 
 <!-- 		LIMIT -->

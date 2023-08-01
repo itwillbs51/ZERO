@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- -->
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,13 +26,43 @@
 	//전역변수 pageNum, maxPage 미리저장
 	let pageNum = 1;
 	let maxPage = 1;
+
+	
+	//상품번호넘기기 -- 반복문()
+// 	$(function(){
+// 		let secondhand_idx = $("#secondhand_idx").val();
+// 		alert('$("#secondhand_idx").val()');
+		
+// 		let url = "secondhandList_Json?secondhand_idx=" + secondhand_idx
+			
+// 		$.ajax({
+// 			type : "get",
+// 			dataType : "json",
+// 			url : url,
+// 			success : function(data){
+// 				alert('상품번호넘김성공');
+// 			},
+// 			error:function(){
+// 				alert('상품번호넘김실패');
+// 			}
+			
+// 		});//ajax끝
+		
+// 	});//window.onload함수끝
+	
+	
+	
+	
+	
+	
+	
 	
 	$(function(){
 		
 		//목록조회 처음수행위해 문서 로딩시 loadList호출
 		let searchType = $("#searchType").val();
 		let searchKeyword= $("#searchKeyword").val();
-		loadList(searchType, searchKeyword);
+// 		loadList(searchType, searchKeyword);
 		
 		// 무한스크롤 추가
 		// 스크롤바가 바닥에 닿으면->다음목록조회(loadList())
@@ -137,12 +169,10 @@
 #mainArticle {
 	margin-top: 150px;
 }
-
-
 a {
 	color:black;
-
 }
+
 .photoDiv {
 	position: relative;
 }
@@ -152,14 +182,15 @@ a {
 		position: absolute;
 		top: 263px;
 		right: 0px;
-
-/* 		border: 3px double gray;  */
-		border-radius: 30%
-
+		border-radius: 30%;
 }
 .card-text{
 	text-align: center;
 	margin-top: 5px;
+}
+
+.card-body{
+	font-size:0.9rem;
 }
 
 
@@ -168,6 +199,9 @@ a {
 	margin-bottom:10px;
 	margin-left:10px;
 }
+
+
+
 
 /* 탭 css */
 ul.tabs{
@@ -258,20 +292,29 @@ row{
 		<hr>
 		<div class="row" align="left">
 		<c:forEach var="secondhand" items="${secondhandList }">
+			
 			<div class="col-lg-3 col-mid-4">
 						<div class="card border-0 shadow-sm" >
-							<!-- 썸네일이미지 - 서버 업로드시 경로 필요할수도 -->
+							
+							
+							<!-- 썸네일이미지 - 서버 업로드시 경로 재설정 필요할수도 -->
 							<div class="photoDiv">	
+								
 								<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}">
+								
+									<%--<img src="${image1 }" class="card-img-top" > --%>
+									<%-- <img src="<spring:url value='${secondhand.secondhand_image1}'/>" class="card-img-top"/> --%>
 									<img src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" >
+									<%-- <img src="<%= request.getContextPath()%> + ${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1} "/> --%>									
+									<%-- <img src="http://localhost:8089/zero/${secondhand.secondhand_image1}" class="card-img-top" > --%>
 								</a>
 								<!-- 거래상태 버튼 -->
 								<span class="dealStatus"><button class="btn btn-danger">${secondhand.secondhand_deal_status}</button></span>
 							</div>
 							<div class="card-body">
 								<!-- 카테고리 가져오기 -->
-								<input type="hidden" id="secondhand_idx" value="${secondhand.secondhand_idx}">
-								<button class="btn btn-light">"${category.category_name}</button>
+								<%-- <input type="hidden" id="seoncdhand_idx" value="${secondhand.secondhand_idx}"> --%>
+								<button class="btn btn-light" style="font-size:0.8rem; width:240px; align: left; text-align: left; margin-left:0px;">${secondhand.category_name }</button>
 								
 								<div class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
 									<!-- 제목 링크 -->
@@ -279,7 +322,8 @@ row{
 										${secondhand.secondhand_subject}
 									</a>
 									<!-- 찜하기 버튼 -->
-									<a href="#" style="margin-left:50px">
+									<br>
+									<a href="#" style="align:right;">
 										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px">
 									</a>
 								</div>

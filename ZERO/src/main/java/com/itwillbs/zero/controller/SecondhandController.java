@@ -27,22 +27,16 @@ public class SecondhandController {
 		//중고상품목록페이지
 		//날짜순 기본정렬	
 		@GetMapping("secondhand_list")
-		public String secondhand_list(@RequestParam(defaultValue = "1") int pageNum,  SecondhandVO secondhand, Model model) {
+		public String secondhand_list(@RequestParam(defaultValue = "1") int pageNum,
+						SecondhandVO secondhand, 
+						Model model, 
+						HttpSession session) {
 
+			
 			//중고 카테고리 리스트 전달 
 			List<HashMap<String, String>> categorylist = service.getCategorylist();
 			model.addAttribute("categorylist", categorylist);
-			
-			
-			//상품의 idx에 해당하는 카테고리 조회(return String?)
-			//파라미터:SecondhandVO secondhand.idx
-			System.out.println(secondhand.getSecondhand_idx());
-			
-			String category = service.getCategory(secondhand.getSecondhand_idx());
-			model.addAttribute("category", category);
-			
-			System.out.println(category);
-			
+
 			// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
 			int listLimit = 10; // 한 페이지에서 표시할 목록 갯수 지정
 			int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
@@ -70,9 +64,51 @@ public class SecondhandController {
 			model.addAttribute("secondhandList",secondhandList);
 			model.addAttribute("maxPage", maxPage);
 			
+			
+			System.out.println("+++++++++++++ 리스트 :" + secondhandList);
+			//각리스트에서 상품idx당 카테고리idx 번호 알아내기
+			//secondhand_idx값설정=> category_idx
+			
+			System.out.println("..................상품번호 : " + secondhand.getSecondhand_idx());
+			//상품의 idx에 해당하는 카테고리 조회(return String?)
+			//파라미터:SecondhandVO secondhand.idx
+//			String category = service.getCategory(secondhand.getSecondhand_idx()); 
+//			System.out.println("....................................카테고리 : " + category);
+//			model.addAttribute("category", category.toString());
+//			System.out.println("....................................카테고리 : " + category);
+			
+			
+
+			
+			
+
+			
+			
+			
+//			String uploadDir = "/resources/upload"; 
+			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
+			String saveDir = session.getServletContext().getRealPath("/resources/upload");
+			System.out.println("실제 업로드 경로 : "+ saveDir);
+			//실제업로드경로 : C:\Users\ user\Documents\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ZERO\resources\ upload
+			String image1 = saveDir + secondhand.getSecondhand_image1();
+			String image2 = saveDir + secondhand.getSecondhand_image2();
+			String image3 = saveDir + secondhand.getSecondhand_image3();
+			model.addAttribute("image1",image1);
+			model.addAttribute("image2",image2);
+			model.addAttribute("image3",image3);
+			
+			
 			return "secondhand/secondhand_list";
 		}
-
+		@ResponseBody
+		@GetMapping("secondhandList_Json")
+		public String secondhandList_Json(@RequestParam(defaultValue = "1") int secondhand_idx) {
+			
+			System.out.println(secondhand_idx);
+			return "";
+		}
+		
+		
 		//ajax 요청 통한 글목록조회
 		//글목록-json 데이터 형식 응답
 		//JSON문자열로 리턴위해 String으로 리턴타입지정(출력스트림-void타입지정)
@@ -160,18 +196,17 @@ public class SecondhandController {
 			
 			//판매자아이디저장
 //			secondhand.setMember_idx((String)session.getAttribute("member_idx"));
-			String sId = (String)session.getAttribute("sId");
-			System.out.println(sId);
-//			session.setAttribute("member_idx", sId);
-			
-			
-//			if(sId == null) {
-//				model.addAttribute("msg", "잘못된 접근입니다!");
-//				return "fail_back";
-//			}
+			String member_id = (String)session.getAttribute("member_id");
+			System.out.println(member_id);
+			session.setAttribute("member_id", member_id);
+		
+			if(member_id == null) {
+				model.addAttribute("msg", "잘못된 접근입니다!");
+				return "fail_back";
+			}
 			
 			//임시
-			secondhand.setMember_id("test3@test.com");
+//			secondhand.setMember_id("test3@test.com");
 			
 			
 			
@@ -260,6 +295,7 @@ public class SecondhandController {
 			System.out.println("실제 업로드 파일명1 : " + secondhand.getSecondhand_image1());
 			System.out.println("실제 업로드 파일명2 : " + secondhand.getSecondhand_image2());
 			System.out.println("실제 업로드 파일명3 : " + secondhand.getSecondhand_image3());
+			//
 			
 			//=========================================================================================
 			

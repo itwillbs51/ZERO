@@ -25,8 +25,10 @@ public class SecondhandService {
 	 
 	// 중고 상품 등록작업 요청
 	public int registBoard(SecondhandVO secondhand) {
+		int insertcount= mapper.insertProduct(secondhand);
+		mapper.insertProduct(secondhand);
 		
-		return mapper.insertProduct(secondhand);
+		return  insertcount;
 	}
 
 	// 중고 목록 페이지
@@ -40,9 +42,9 @@ public class SecondhandService {
 	}
 
 	//상품번호에 해당하는 카테고리 정보 조회
-	public String getCategory(int secondhand_idx) {
-		return mapper.selectCategory(secondhand_idx);
-	}
+//	public String getCategory(int secondhand_idx) {
+//		return mapper.selectCategory(secondhand_idx);
+//	}
 	
 	//상세페이지 - 상품번호에 해당하는 상품정보 조회
 	public SecondhandVO getSecondhandProduct(int secondhand_idx) {
