@@ -73,7 +73,27 @@
 									  	문의 유형
 									</th>
 									<td>
-										<input type="text" readonly class="form-control-plaintext" id="cs_info_idx"  value="${cs.cs_info_idx }">
+<%-- 										<input type="text" readonly class="form-control-plaintext" id="cs_info_idx"  value="${cs.cs_info_idx }"> --%>
+										<c:choose>
+											<c:when test="${cs.cs_info_idx eq 1 }">
+												중고거래 문의
+											</c:when>
+											<c:when test="${cs.cs_info_idx eq 2 }">
+												경매 문의
+											</c:when>
+											<c:when test="${cs.cs_info_idx eq 3 }">
+												ZPAY 문의
+											</c:when>
+											<c:when test="${cs.cs_info_idx eq 4 }">
+												ZMAN 문의
+											</c:when>
+											<c:when test="${cs.cs_info_idx eq 5 }">
+												회원 문의
+											</c:when>
+											<c:when test="${cs.cs_info_idx eq 6 }">
+												기타 문의
+											</c:when>
+										</c:choose>
 									</td>
 						 		</tr>
 						 		<tr>
@@ -136,11 +156,11 @@
 							    		<c:choose>
 											<c:when test="${empty cs.cs_reply }">
 <!-- 												<input type="text" name="cs_reply" class="form-control" id="cs_reply" > -->
-												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px" onkeyup="isContent(this.value)"></textarea>
+												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px"></textarea>
 											</c:when>
 							  				<c:otherwise>
 <%-- 												<input type="text" name="cs_reply" class="form-control" id="cs_reply" value="${cs.cs_reply }">	 --%>
-												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px" onkeyup="isContent(this.value)">${cs.cs_reply }</textarea>			  				
+												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px">${cs.cs_reply }</textarea>			  				
 							  				</c:otherwise>
 										</c:choose>							  			
 						    		</td>
@@ -148,44 +168,40 @@
 						  		<tr>
 							  		<td colspan="2" style="text-align: center">
 <!-- 										<button class="btn btn-dark" disabled="disabled" type="submit">등록</button>	 -->
-										<c:choose>
-											<%-- 답변이 없을 때 - 답변하기 버튼 출력 --%>
-											<c:when test="${empty cs.cs_reply }">
-												<button class="btn btn-dark" type="button" onclick="history.back()">돌아가기</button>
-												<button class="btn btn-dark" type="submit">답변하기</button>
-												<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteNotice">
+											<button class="btn btn-dark" type="button" onclick="history.back()">돌아가기</button>
+												<%-- 답변하기 또는 수정하기 버튼  --%>
+												<c:choose>
+													<%-- 답변이 없을 때 - 답변하기 버튼 출력 --%>
+													<c:when test="${empty cs.cs_reply }">
+														<button class="btn btn-dark" type="submit">답변하기</button>
+													</c:when>
+													<%-- 답변이 있을 때 - 수정하기 버튼 출력 --%>
+									  				<c:otherwise>
+														<button class="btn btn-dark" type="submit">수정하기</button>
+									  				</c:otherwise>
+												</c:choose>		
+											<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteNotice">
 												&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
-											</button>
-											</c:when>
-											<%-- 답변이 있을 때 - 수정하기 버튼 출력 --%>
-							  				<c:otherwise>
-							  					<button class="btn btn-dark" type="button" onclick="history.back()">돌아가기</button>
-<!-- 												<button class="btn btn-dark" type="submit">수정하기</button> -->
-												<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteNotice">
-												&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
-												</button>	 
-												
-												<%-- 1:1 문의 삭제 확인 모달창 --%>
-												<div class="modal fade" id="confirmDeleteNotice" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteNoticeTitle" aria-hidden="true">
-													<div class="modal-dialog modal-dialog-centered">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title fs-5" id="confirmDeleteNoticeTitle">1:1 문의 삭제</h5>
-																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-															</div>
-															<div class="modal-body">
-																삭제 후 복구가 불가합니다.<br>
-																정말 삭제하시겠습니까?<br>
-															</div>
-															<div class="modal-footer">
-																<button type="button" id="${cs.cs_idx }" class="btn btn-dark" onclick="location.href='admin_cs_qna_delete?cs_idx=${cs.cs_idx}&cs_info_idx=${cs.cs_info_idx }'">삭제</button>
-																<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-															</div>
+											</button>	
+											<%-- 1:1  삭제 확인 모달창 --%>
+											<div class="modal fade" id="confirmDeleteNotice" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteNoticeTitle" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title fs-5" id="confirmDeleteNoticeTitle">1:1 문의글 삭제</h5>
+															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															삭제 후 복구가 불가합니다.<br>
+															정말 삭제하시겠습니까?<br>
+														</div>
+														<div class="modal-footer">
+															<button type="button" id="${cs.cs_idx }" class="btn btn-dark" onclick="location.href='admin_cs_qna_delete?cs_idx=${cs.cs_idx}'">삭제</button>
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 														</div>
 													</div>
-												</div> <%-- 공지사항 삭제 확인 모달창 끝 --%>
-							  				</c:otherwise>
-										</c:choose>		
+												</div>
+											</div> 
 									</td>
 						  		</tr>
 							</table>

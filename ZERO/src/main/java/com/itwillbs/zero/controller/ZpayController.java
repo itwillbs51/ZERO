@@ -1,6 +1,7 @@
 package com.itwillbs.zero.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,10 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwillbs.zero.vo.BankAccountDetailVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
+import com.itwillbs.zero.vo.ResponseUserInfoVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
+import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.ZpayService;
@@ -29,59 +33,91 @@ public class ZpayController {
 	private BankService bankService;
 	
 	@Autowired
+	private BankApiService bankApiService;
+	
+	@Autowired
 	private MemberService memberService;
 	
 	// zpay_main.jsp 페이지로 디스페치
 	@GetMapping("zpay_main")
-	public String zpayMain(Model model, HttpSession session) {
+	public String zpayMain(Map<String, String> map, Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayMain()");
 		
 		String member_id = (String)session.getAttribute("member_id");
 		MemberVO member = memberService.getMember(member_id);
-
-		// 핀테크 계좌 인증을 완료한 회원일 경우
-		// 엑세스토큰과 사용자번호를 조회하여 세션에 저장
-		// => MemberService - isBankAuth()를 호출하여 계좌인증 여부 확인
-		// => 파라미터 : 아이디   리턴타입 : boolean(isBankAuth)
 		
-		// 검색하고자 하는 아이디의 member 테이블의 bank_auth_status 값이 'Y' 일 때
-		// fintech_token 테이블의 레코드 조회
-		// => 파라미터 : 아이디   리턴타입 : ResponseTokenVO(token)
-		ResponseTokenVO token = bankService.getTokenForBankAuth(member_id);
-		
-		// 토큰 정보가 존재할 경우 세션에 엑세스토큰과 사용자번호 저장
+		// 토큰 정보 조회 => 세션에 저장
+		ResponseTokenVO token = bankService.getTokenForBankAuth(member_id);	
 		if(token != null) {
 			session.setAttribute("access_token", token.getAccess_token());
 			session.setAttribute("user_seq_no", token.getUser_seq_no());
-		}
-		
+		}		
+
 		// ZPAY 사용자 여부 조회
 		ZpayVO zpay = service.isZpayUser(member_id);
 		if(zpay == null) {
-			
-			model.addAttribute("member", member);
-			
+			model.addAttribute("member", member);	
 			return "zpay/zpay_regist_form";
 		}
 		
+		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
 		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistory(member_id);
 		System.out.println(zpayHistoryList);
 		System.out.println(member_id);
 		
+		// ZPAY 잔액 조회
 		Integer zpay_balance = service.getZpayBalance(member_id);
 		System.out.println(zpay_balance);
 		
 		model.addAttribute("zpayHistoryList", zpayHistoryList);
 		model.addAttribute("zpay_balance", zpay_balance);
+		
 		return "zpay/zpay_main";
 	}
+	
+	@PostMapping("zpay_regist")
+	public String zpayRegist(@RequestParam Map<String, String> map, Model model, HttpSession session) {
+		String member_id = (String)session.getAttribute("member_id");
+		MemberVO member = memberService.getMember(member_id);
+		
+//		// 세션에 저장된 엑세스토큰 및 사용자번호를 변수에 저장 => 핀테크 이용자 정보 조회
+//		String access_token = (String)session.getAttribute("access_token");
+//		String user_seq_no = (String)session.getAttribute("user_seq_no");
+//		ResponseUserInfoVO userInfo = bankApiService.requestUserInfo(access_token, user_seq_no);
+//		
+		
+		map.put("access_token", (String)session.getAttribute("access_token"));
+		
+		// BankApiService - requestAccountDetail() 메서드 호출하여 계좌 상세정보 조회 요청
+		// => 파라미터 : Map 객체   리턴타입 : BankAccountDetailVO(accountDetail)
+		BankAccountDetailVO accountDetail = bankApiService.requestAccountDetail(map);
+		
+		// 핀테크 이용자 정보를 ZPAY 테이블에 추가 => 이용자의 ZPAY 등록
+		ZpayVO zpay = new ZpayVO();
+		zpay.setMember_id(member_id);
+		zpay.setZpay_bank_name(accountDetail.getBank_name());
+		zpay.setZpay_bank_account(map.get("account_num_masked"));
+		
+		int insertCount = service.registZpay(zpay);
+		
+		if(insertCount > 0) {
+//			model.addAttribute("accountDetail", accountDetail);
+			return "zpay/zpay_main";			
+		} else {
+			model.addAttribute("msg", "ZPAY 등록 실패");
+			return "bank_auth_fail_back";
+		}
+		
+		
+	}
+	
 	
 	// zpay_charge_form.jsp 페이지로 디스페치
 	@GetMapping("zpay_charge_form")
 	public String zpayChargeForm() {
 		System.out.println("ZpayController - zpayChargeForm()");
 		
-		return "zpay/zpay_charge_form";
+		return "zpay/zpay_charge_form2";
 	}
 	
 	// ZPAY 충전
@@ -111,7 +147,7 @@ public class ZpayController {
 		if(insertCount > 0) {
 			return "zpay/zpay_charge_success";			
 		} else {
-			model.addAttribute("msg", "회원 삭제 실패");
+			model.addAttribute("msg", "ZPAY 충전 실패");
 			return "fail_back";
 		}
 		

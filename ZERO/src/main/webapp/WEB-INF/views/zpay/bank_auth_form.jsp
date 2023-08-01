@@ -73,14 +73,13 @@
 									<c:choose>
 										<c:when test="${member.member_bank_auth eq 'N' }">
 											<a class="btn" id="zpayBankAuthButton">계좌인증하기</a>
-											<a href="zpay_regist" class="btn" id="zpayRegistButton">ZPAY등록하기</a>
+											<a href="zpayRegist" class="btn" id="zpayRegistButton">ZPAY등록하기</a>
 										</c:when>
 										<c:otherwise>
-<!-- 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">ZPAY등록하기</a>		 -->
 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌관리</a>		
-<!-- 											<a href="zpay_regist" class="btn"  id="zpayRegistButton">ZPAY등록하기</a>		 -->
+											<a href="zpayRegist" class="btn"  id="zpayRegistButton">ZPAY등록하기</a>		
 										</c:otherwise>
-									</c:choose>	
+									</c:choose>
 								</div>
 							</div>
 						</div>

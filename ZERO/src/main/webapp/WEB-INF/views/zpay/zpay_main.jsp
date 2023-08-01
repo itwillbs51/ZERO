@@ -18,9 +18,6 @@
 <meta charset="UTF-8">
 <title>ZERO</title>
 <style type="text/css">
-	.container {
-		padding-bottom: 0;
-	}
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -35,6 +32,23 @@
 		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 	}
 		
+</script>
+<script type="text/javascript">
+	$(function() {
+		$("#zpayBankAuthButton").on("click", function() {
+			// 새 창에서 사용자 인증 페이지 요청
+			// => 입금 이체 API 사용을 위해 scope 항목에 oob추가
+			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
+					+ "response_type=code"
+					+ "&client_id=4066d795-aa6e-4720-9383-931d1f60d1a9"
+					+ "&redirect_uri=http://localhost:8089/zero/callback"
+					+ "&scope=login inquiry transfer oob"
+					+ "&state=12345678901234567890123456789012"
+					+ "&auth_type=0";
+			
+			window.open(requestUri, "authWindow", "width=600, height=800");
+		});
+	});
 </script>
 </head>
 <body>
@@ -70,10 +84,11 @@
 							</div>
 							<div class="zpayLinkArea">
 								<div class="zpayChargeLink">
-									<a href="zpay_charge_form" class="zpayChargeButton">충전</a>
+									<a href="bankUserInfo" class="zpayChargeButton">충전</a>
 								</div>
 								<div class="zpayRefundLink">
-									<a href="#" class="zpayRefundButton">환급</a>
+									<a class="btn" id="zpayBankAuthButton">계좌인증하기</a>
+<!-- 									<a href="#" class="zpayRefundButton">환급</a> -->
 								</div>
 							</div>
 						</div>
@@ -112,30 +127,6 @@
 					</div>
 					<div class="zpayHistoryListArea">
 						<ul>
-							<li>
-								<div class="zpayHistoryItem">
-									<div class="zpayHistoryItem_date">
-										07.29
-									</div>
-									<div class="zpayHistoryItem_infoArea">
-										<div class="zpayHistoryItem_info">
-											<a href="#" class="itemTitle itemLink">신발</a>
-											<div class="zpayHistoryItem_info_sub">
-												<span class="payTime">09:00</span>
-												<span class="paymentType">사용</span>
-											</div>
-										</div>
-										<div class="zpayHistoryItem_amountArea">
-											<strong class="zpayHistoryItem_amount">
-												- 10,000원
-											</strong>
-											<div class="zpayBalance">
-												50,000원
-											</div>
-										</div>
-									</div>
-								</div>
-							</li>
 							<li>
 								<div class="zpayHistoryItem">
 									<div class="zpayHistoryItem_date">

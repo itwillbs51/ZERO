@@ -7,26 +7,32 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
-import com.itwillbs.zero.mapper.ZpayHistoryMapper;
+
+
 import com.itwillbs.zero.mapper.ZpayMapper;
 
 @Service
 public class ZpayService {
 
 	@Autowired
-	private ZpayMapper zpayMapper;
+	private ZpayMapper mapper;
 	
-	private ZpayHistoryMapper zpayHistorymapper;
+//	private ZpayHistoryMapper zpayHistorymapper;
 	
 	// ZPAY 사용자 여부 조회
 	public ZpayVO isZpayUser(String member_id) {
-		return zpayMapper.selectZpay(member_id);
+		return mapper.selectZpay(member_id);
+	}
+	
+	// ZPAY 등록
+	public int registZpay(ZpayVO zpay) {
+		return mapper.insertZpay(zpay);
 	}
 	
 	// ZPAY 잔액 조회
 	public Integer getZpayBalance(String member_id) {
 		
-		Integer zpay_balance = zpayHistorymapper.selectZpayBalance(member_id);
+		Integer zpay_balance = mapper.selectZpayBalance(member_id);
 		
 		return zpay_balance != null ? zpay_balance : 0;
 	}
@@ -34,20 +40,23 @@ public class ZpayService {
 	
 	// ZPAY 사용 내역(목록) 조회
 	public List<ZpayHistoryVO> getZpayHistory(String member_id) {
-		return zpayHistorymapper.selectZpayHistory(member_id);
+				
+		return mapper.selectZpayHistory(member_id);
 	}
-
+	
 
 	// ZPAY 번호 조회
 	public int getZpayIdx(String member_id) {
-		return zpayHistorymapper.selectZpayIdx(member_id);
+		return mapper.selectZpayIdx(member_id);
 	}
 
 
 	// ZPYA_HISTORY 테이블에 충전내역 추가
 	public int chargeZpay(ZpayHistoryVO zpayHistory) {
-		return zpayHistorymapper.insertZpayHistory(zpayHistory);
+		return mapper.insertZpayHistory(zpayHistory);
 	}
+
+	
 
 
 	

@@ -221,17 +221,28 @@
 			AND cs_info_idx = #{cs_info_idx}
 	</select>
 	
-	<!-- 고객센터 관리 - 1:1 문의 답변 등록하기 - INSERT -->
-<!-- 	<insert id="insertReplyQnA" parameterType="com.itwillbs.zero.vo.CsVO"> -->
-<!-- 		INSERT INTO -->
-<!-- 				CS ( -->
-<!-- 					cs_reply -->
-<!-- 				) -->
-<!-- 				VALUES ( -->
-<!-- 					#{cs_reply} -->
-<!-- 				) -->
-<!-- 			WHERE cs_idx = #{cs_idx} -->
-<!-- 			AND cs_info_idx = #{cs_info_idx} -->
-<!-- 	</insert> -->
+	<!-- 고객센터 관리 - 1:1 문의글 삭제하기 -->
+	<delete id="deleteQnA">
+		DELETE FROM CS
+		WHERE cs_idx = #{cs_idx}
+	</delete>
 	
+	<!-- 고객센터 관리 - 1:1 문의 답변 등록하기 - UPDATE -->
+	<update id="updateReplyQnA">
+		UPDATE
+				CS
+			SET cs_reply = #{cs_reply}
+			WHERE cs_idx = #{cs_idx}
+			AND cs_info_idx = #{cs_info_idx}
+	</update>
+	
+	<!-- 고객센터 관리 - 1:1 문의 답변 수정하기 - UPDATE -->
+	<update id="updateReplyModifyQnA">
+		UPDATE
+				CS
+			SET cs_reply = #{cs_reply}
+			WHERE cs_idx = #{cs_idx}
+			AND cs_info_idx = #{cs_info_idx}
+	</update>
+
 </mapper>

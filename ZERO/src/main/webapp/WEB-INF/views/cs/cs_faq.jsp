@@ -206,10 +206,10 @@ $(function() {
 //						console.log("받아오기 성공!");
 					
 					// 눌린 버튼 비활성화, 아닌 버튼 활성화(다른 페이지 선택시 사용하기 위한 장치)
-					$(".btn-group>button").addClass("btn-outline-danger");
-					$(".btn-group>button").removeClass("btn-danger");
-					$("button[value='" + cs_type +"']").addClass("btn-danger");
-					$("button[value='" + cs_type +"']").removeClass("btn-outline-danger");
+					$(".btn-group>button").addClass("btn-outline-dark");
+					$(".btn-group>button").removeClass("btn-dark");
+					$("button[value='" + cs_type +"']").addClass("btn-dark");
+					$("button[value='" + cs_type +"']").removeClass("btn-outline-dark");
 //						$(".btn-group>button").attr("disabled", false);
 //						$("button[value='" + cs_type +"']").attr("disabled", true);
 					
@@ -302,12 +302,16 @@ $(document).on("change", ".checkbox", function() {
 							자주묻는질문
 						</div>
 					</div>
+					
+					<%-- 검색 영역 --%>
 					<div class="searchFaq">
 						<form class="form-inline my-2 my-md-0">
 							<input class="form-control form-control mr-2 mr-sm-2" type="search" placeholder="Search">
 							<button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
 						</form>
 					</div>
+					
+					<%-- 카테고리 표시 영역 --%>
 					<div id="csCategory">
 						<div class="btn-group" role="group" aria-label="Basic example">
 							<button type="button" id="faqAll" value="전체" class="btn btn-dark text-nowrap" >전체</button>
@@ -319,7 +323,9 @@ $(document).on("change", ".checkbox", function() {
 							<button type="button" id="faqTheater" value="ZPAY" class="btn btn-outline-dark text-nowrap">ZPAY</button>
 						</div>
 					</div>
+					
 					<hr>
+					<%--  --%>
 					<div>
 						<div class="faq-list-box">
 							<p class="reset mb10">
@@ -337,12 +343,76 @@ $(document).on("change", ".checkbox", function() {
 <!-- 									</li> -->
 <!-- 								</ul> -->
 <!-- 							</div> -->
-						</div>
+							</div>
+							
 				   		<div id="faqContents">
 				   		</div>
 				   		<hr>
 						<div id="pageBtn-group">
 						</div>
+						
+						<script type="text/javascript">
+							// $(function){} 안에 넣으면 페이지가 로딩될 때 구현되므로
+							// 버튼 클릭 시 안의 내용이 실행되도록 on()메서드에
+							// "click", "지정요소(#, ., 태그이름 등)", 익명함수를 파라미터로 사용
+							// 페이지 버튼 클릭 시 ajax 실행
+							$(document).on("click", ".pageBtn", function() {
+								// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
+								// 카테고리 버튼이 클릭되면 btn-danger 클래스를 추가함
+								// btn-group안 btn-danger 클래스를 추가된 버튼의 value값을 가져옴
+								let cs_type = $(".btn-group>.btn-danger").val();
+								let pageNum = $(this).text();	// <button>안 글자를 페이지 변수로 사용
+								
+								$("#pageBtn-group>button").removeClass("btn-danger");
+								$("#pageBtn-group>button").addClass("btn-outline-danger");
+								$(this).removeClass("btn-outline-danger");
+								$(this).addClass("btn-danger");
+					// 			console.log(cs_type);
+					// 			console.log(pageNum);
+								
+								$.ajax({
+									type: 'GET',
+									url: '<c:url value="/faq_data"/>',
+									data: {'cs_type': cs_type},
+									dataType: 'JSON',
+									success: function(result) {	// 요청 성공 시
+										
+										// 페이징 처리를 위한 변수 정의
+										let start = pageNum * 5 - 4;
+										let limit = pageNum * 5;
+										
+										if(result.length <= limit){
+											limit = result.length;
+										}
+									
+						
+										$("#faqContents").empty();
+										for(let i = (start - 1); i < limit; i++) {
+											// 답변 내용을 db에서 받아올때 줄바꿈 형식을 태그로 바꿔서 줄바꿈 구현
+											let content = result[i].cs_content;
+											let fomattedContent = content.replace(/\n/g, "<br>");
+					// 						
+											$("#faqContents").append(
+													"<label class='qPart' id='check" + i + "'>"
+													+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+													+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
+													+ "</label>"
+													);
+											// 지정한 div안에 내용 추가(A. 답변)
+											$("#faqContents").append(
+													"<div class='target' id='target" + i + "' > A. " + fomattedContent + "</div>"
+													);
+										}
+										// 답변 영역 사라지게하기
+										$(".target").hide();
+									},
+									error: function() {
+										alert('에러');
+									}
+								});
+							});
+						</script>
+
 					</div>
 				</div>
 			</div>

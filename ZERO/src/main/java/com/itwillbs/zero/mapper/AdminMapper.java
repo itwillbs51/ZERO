@@ -84,12 +84,20 @@ public interface AdminMapper {
 	// 고객센터관리 - 1:1 문의 게시판 상세 페이지로 이동하기
 	CsVO selectCsQnADetail(@Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
 
+	// 고객센터 관리 - 1:1 문의 답변 등록하기
+	int updateReplyQnA(CsVO cs);
+
+	// 고객센터 관리 - 1:1 문의 답변 수정하기
+	int updateReplyModifyQnA(CsVO cs);
+
+	// 고객센터 관리 - 1:1 문의글 삭제하기
+	int deleteQnA(int cs_idx);
+
+
 
 
 	
 
-	// 고객센터 관리 - 1:1 문의 답변 등록하기
-//	int insertReplyQnA(CsVO cs, @Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
 
 
 	

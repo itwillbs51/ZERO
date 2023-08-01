@@ -57,6 +57,7 @@
 				
 			}
 			
+			$("#modifyButton").removeAttr("disabled");
 		});
 		
 	});
@@ -217,7 +218,7 @@
 								</table>
 								<div class="text-center">
 									<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
-									<button type="button" class="btn btn-dark text-nowrap" onclick="modify()">변경저장</button>						
+									<button type="button" id="modifyButton" class="btn btn-dark text-nowrap" onclick="modify()" disabled="disabled">변경저장</button>						
 <!-- 									<button type="submit" class="btn btn-dark text-nowrap">변경저장</button>						 -->
 <!-- 									<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteMember"> -->
 <!-- 										&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp; -->

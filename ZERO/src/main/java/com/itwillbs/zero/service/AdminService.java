@@ -142,14 +142,27 @@ public class AdminService {
 		return mapper.selectCsQnADetail(cs_idx, cs_info_idx);
 	}
 
-	
-	
-
-
 	// 고객센터 관리 - 1:1 문의 답변 등록하기
-//	public int replyCsQnADetail(CsVO cs, int cs_idx, int cs_info_idx) {
-//		return mapper.insertReplyQnA(cs, cs_idx, cs_info_idx);
-//	}
+	public int replyCsQnADetail(CsVO cs) {
+		return mapper.updateReplyQnA(cs);
+	}
+
+	// 고객센터 관리 - 1:1 문의 답변 수정하기
+	public int replyModifyCsQnADetail(CsVO cs) {
+		return mapper.updateReplyModifyQnA(cs);
+	}
+	
+	// 고객센터 관리 - 1:1 문의글 삭제하기
+	public int removeCsQnA(int cs_idx) {
+		return mapper.deleteQnA(cs_idx);
+	}
+
+
+
+	
+	
+
+
 
 	
 

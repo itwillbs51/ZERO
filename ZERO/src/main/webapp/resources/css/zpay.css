@@ -1,10 +1,10 @@
 @charset "UTF-8";
-	html,  article, .container, .contentArea, form, .chargeContentArea, .successContentArea {
+	html, .container, .contentArea, form, .chargeContentArea, .successContentArea {
 		height: 100%
 	}
 
 	body {
-		height: 91%
+		height: 100%
 	}
 
 	article{
@@ -27,7 +27,8 @@
 	}
 	
 	/* ============================ zpay_regist_form.jsp ============================= */
-	.payWalletWidgetArea  .zpayArea #zpayBankAuthButton, #bankUserInfoButton{
+	.payWalletWidgetArea  .zpayArea #zpayBankAuthButton, #bankUserInfoButton, #zpayRegistButton {
+		margin-bottom: 5px;
 		border-top-right-radius: 8px;
 		border-bottom-right-radius: 8px;
 		display: block;
