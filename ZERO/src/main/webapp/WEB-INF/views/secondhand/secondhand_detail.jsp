@@ -16,8 +16,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ZERO</title>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
-
+//슬라이드인덱스
 let slideIndex = 1;//슬라이드인덱스 기본값 1
 showSlides(slideIndex);
 
@@ -50,6 +51,8 @@ function showSlides(n) {
 	slides[slideIndex-1].style.display = "block";
 	dots[slideIndex-1].className += " active";
 }
+
+
 
 </script>
 <style>
@@ -222,18 +225,24 @@ a {
 				--%>
 				
 				<%-- 판매자본인일경우 - 수정하기 / 삭제하기 버튼 활성화 --%>
-				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
-				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandModifyForm'"> 수정하기 </button>
-				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px""onclick="location.href='secondhandDelete'"> 삭제하기 </button>
-<!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em;"onclick="location.href='secondhandUpdateDate'"> 끌어올리기</button><br><br> -->
-				<%-- 판매자본인일경우 -  셀렉트박스로 거래상태변경가능 --%>
-				<select class="changeDealStatus" aria-label="Default select example">
-				  <option selected> 거래중 </option>
-				  <option value="1"> 거래완료 </option>
-				  <option value="2"> 끌어올리기 </option>
-				</select>
-				<hr>
-				
+			<c:choose>
+				<c:when test="${not empty secondhandProduct.member_id}">
+					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 수정하기 </button>
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px""onclick="location.href='secondhandDelete'"> 삭제하기 </button>
+	<!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em;"onclick="location.href='secondhandUpdateDate'"> 끌어올리기</button><br><br> -->
+				</c:when>
+	
+	
+					<%-- 판매자본인일경우 -  셀렉트박스로 거래상태변경가능 --%>
+					<select class="changeDealStatus" aria-label="Default select example">
+					  <option selected> 거래중 </option>
+					  <option value="1"> 거래완료 </option>
+					  <option value="2"> 끌어올리기 </option>
+					</select>
+					<hr>
+					
+				<c:otherwise>
 				<%-- 판매자 본인 아닐경우 --%>		
 				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 <!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button> -->
@@ -242,7 +251,11 @@ a {
 					<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
 					<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
 				</form>
-		
+			
+				</c:otherwise>
+			</c:choose>
+			
+			
 			</div><%-- 오른쪽 column끝 --%>
 			<hr>
 		</div><%-- 첫번째 row끝 ----%>

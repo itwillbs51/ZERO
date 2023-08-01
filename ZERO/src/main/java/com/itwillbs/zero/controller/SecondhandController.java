@@ -68,24 +68,10 @@ public class SecondhandController {
 			System.out.println("+++++++++++++ 리스트 :" + secondhandList);
 			//각리스트에서 상품idx당 카테고리idx 번호 알아내기
 			//secondhand_idx값설정=> category_idx
+			//System.out.println("..................상품번호 : " + secondhand.getSecondhand_idx());
+	
 			
-			System.out.println("..................상품번호 : " + secondhand.getSecondhand_idx());
-			//상품의 idx에 해당하는 카테고리 조회(return String?)
-			//파라미터:SecondhandVO secondhand.idx
-//			String category = service.getCategory(secondhand.getSecondhand_idx()); 
-//			System.out.println("....................................카테고리 : " + category);
-//			model.addAttribute("category", category.toString());
-//			System.out.println("....................................카테고리 : " + category);
-			
-			
-
-			
-			
-
-			
-			
-			
-//			String uploadDir = "/resources/upload"; 
+			//String uploadDir = "/resources/upload"; 
 			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 			String saveDir = session.getServletContext().getRealPath("/resources/upload");
 			System.out.println("실제 업로드 경로 : "+ saveDir);
@@ -152,32 +138,35 @@ public class SecondhandController {
 		
 		//상품 상세정보페이지
 		@GetMapping("secondhand_detail")
-		public String secondhand_detail(@RequestParam int secondhand_idx, Model model, HttpSession session) {
+		public String secondhand_detail(
+							@RequestParam int secondhand_idx,
+							Model model, 
+							HttpSession session) {
 			
 			//파라미터로 전달받은 상품번호 확인
-			System.out.println(secondhand_idx);
+			System.out.println(" 상품번호++++++++++++++++++++" + secondhand_idx);
 			
 			//상품번호에 해당하는 상품의 정보조회작업
 			SecondhandVO secondhandProduct = service.getSecondhandProduct(secondhand_idx);
 			//조회결과 저장
 			model.addAttribute("secondhandProduct", secondhandProduct);
 			
-			
 			return "secondhand/secondhand_detail";
 		}
+		
+		
 		
 		
 		//상품등록폼 이동
 		@GetMapping("secondhandRegistForm")
 		public String secondhandRegistForm(HttpSession session, Model model) {
-//			//미로그인시 "로그인필수"출력 후 이전페이지 돌아감
-//			String sId = (String)session.getAttribute("sId");
-//			if(sId == null) {
-//				model.addAttribute("msg", "로그인 필수!");
-//				return "fail_back";
-//			}
-			
-			System.out.println("secondhandRegistForm");
+			//미로그인시 "로그인필수"출력 후 이전페이지 돌아감
+			String member_id = (String) session.getAttribute("member_id");
+			System.out.println(" member_id : +++++++++++++++++++++++++++++++++++"+ member_id);
+			if(member_id == null) {
+				model.addAttribute("msg", "로그인이 필요한 작업입니다!");
+				return "fail_back";
+			}
 			
 			//중고 카테고리 값 전달 
 			List<HashMap<String, String>> categorylist = service.getCategorylist();
@@ -197,17 +186,17 @@ public class SecondhandController {
 			//판매자아이디저장
 //			secondhand.setMember_idx((String)session.getAttribute("member_idx"));
 			String member_id = (String)session.getAttribute("member_id");
-			System.out.println(member_id);
+			System.out.println("#############" + member_id);
 			session.setAttribute("member_id", member_id);
-		
+			System.out.println("setAttribute +++++++++++" + member_id);
+
 			if(member_id == null) {
 				model.addAttribute("msg", "잘못된 접근입니다!");
 				return "fail_back";
 			}
 			
 			//임시
-//			secondhand.setMember_id("test3@test.com");
-			
+			//secondhand.setMember_id("test3@test.com");
 			
 			
 			//이미지파일업로드==========================================================================
@@ -367,27 +356,34 @@ public class SecondhandController {
 		
 		
 		
+		
 		//상품삭제 처리(DELETE)
 		@GetMapping("secondhandDelete")
 		public String secondhandDelete(
-//				@RequestParam int board_num, 
+				@RequestParam int secondhand_idx, 
 //				@RequestParam(defaultValue = "1") int pageNum, 
-//				HttpSession session, Model model
+				SecondhandVO secondhand,
+				HttpSession session, Model model
 				) {
 		
-//			// 세션 아이디가 존재하지 않으면(미로그인) "잘못된 접근입니다!" 출력 후 이전 페이지 돌아가기 처리
-//			String sId = (String)session.getAttribute("sId");
-//			if(sId == null) {
-//				model.addAttribute("msg", "잘못된 접근입니다!");
-//				return "fail_back";
-//			}
+//			//미로그인시 "로그인필수"출력 후 이전페이지 돌아감
+			String member_id = (String) session.getAttribute("member_id");
+			System.out.println("member_id : +++++++++++++++++++++++++++++++++++"+ member_id);
+			System.out.println("secondhand_idx : +++++++++++++++++++++++++++++++++++"+ secondhand_idx);
 
+			if(member_id == null) {
+				model.addAttribute("msg", "로그인이 필요한 작업입니다!");
+				return "fail_back";
+			}
 			
-			// SecondhandService - isWriter()작성자 판별요청
-			// 파라미터:글번호, 세션아이디 리턴타입:boolean(isWriter)
-			// 단, 세션아이디가 "admin" 아닐 경우에만 수행
-//			if(!sId.equals("admin")) {
-//				boolean isBoardWriter = service.isBoardWriter(board_num, sId);
+			// 작성자 확인 작업 ---------------------------------------------
+			 //SecondhandService - isProductRegister()작성자 판별요청
+			// 파라미터:상품번호(secondhand_idx), 세션아이디 리턴타입:boolean(isProductRegister)
+			// 단, 세션아이디가 "admin@gmail.com" 아닐 경우에만 수행
+			System.out.println(secondhand.getSecondhand_idx());
+			
+//			if(!member_id.equals("admin@gmail.com")) {
+//				boolean isBoardWriter = service.isBoardWriter(secondhand.getSecondhand_idx(), member_id);
 //				
 //				if(!isBoardWriter) {
 //					model.addAttribute("msg", "권한이 없습니다!");
@@ -395,8 +391,8 @@ public class SecondhandController {
 //				}
 //			}
 			
-			
-			// SecondhandService - removeBoard() 호출하여 글 삭제요청
+			// 글삭제작업 ----------------------------------------------------
+			// SecondhandService - removeProduct() 호출하여 글 삭제요청
 			// 파라미터 : 글번호, 리턴타입 : int(deleteCount)
 //			int deleteCount = service.removeBoard(board_num);
 			
