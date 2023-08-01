@@ -42,7 +42,7 @@
 	</select>
 	
 	<!-- ZPYA_HISTORY 테이블에 충전내역 추가 -->
-	<insert id="insertZpayHistory">
+	<insert id="insertChargeHistory">
 		INSERT INTO 
 			ZPAY_HISTORY(
 				zpay_history_idx
@@ -59,6 +59,28 @@
 				, now()
 				, #{zpay_balance} + #{zpay_amount}
 				, #{zpay_deal_type}
+				, #{member_id}
+			)		
+	</insert>
+
+	<!-- ZPYA_HISTORY 테이블에 충전내역 추가 -->
+	<insert id="insertRefundHistory">
+		INSERT INTO 
+			ZPAY_HISTORY(
+				zpay_history_idx
+				, zpay_idx
+				, zpay_amount
+				, zpay_time
+				, zpay_balance
+				, zpay_deal_type
+				, member_id)
+			VALUES(
+				null
+				, #{zpay_idx}
+				, #{zpay_amount}
+				, now()
+				, #{zpay_balance} - #{zpay_amount}
+				, "환급"
 				, #{member_id}
 			)		
 	</insert>

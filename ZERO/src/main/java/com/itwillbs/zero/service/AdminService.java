@@ -157,6 +157,32 @@ public class AdminService {
 		return mapper.deleteQnA(cs_idx);
 	}
 
+	// 고객센터 관리 - 자주 묻는 질문 게시판 조회하기
+	public List<CsVO> getCsFaqList() {
+		return mapper.selectFaQ();
+	}
+
+	// 고객센터 관리 - 자주 묻는 질문 등록하기
+	public int registCsFaQ(CsVO cs) {
+		return mapper.insertFaQ(cs);
+	}
+
+	// 고객센터 관리 - 자주 묻는 질문 상세페이지로 이동하기
+	public CsVO getCsFaqDetail(int cs_idx, int cs_info_idx) {
+		return mapper.selectFaQDetail(cs_idx, cs_info_idx);
+	}
+
+	// 고객센터 관리 - 자주 묻는 질문 수정하기
+	public int modifyFaqDetail(CsVO cs) {
+		return mapper.updateFaq(cs);
+	}
+
+	// 고객센터 관리 - 자주 묻는 질문 삭제하기
+	public int removeCsFaq(int cs_idx) {
+		return mapper.deleteFaq(cs_idx);
+	}
+
+
 
 
 	

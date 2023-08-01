@@ -79,7 +79,12 @@
 								<strong class="title">
 									ZPAY 잔액
 								</strong>
-								<div class="balance">
+								<div style="display: flex;">
+									<div class="balance" style="flex: 1 1;">
+									</div>
+									<div class="bank_auth" style="flex: 1 1;">
+										<a class="btn btn-outline-dark" id="zpayBankAuthButton">계좌인증하기</a>
+									</div>								
 								</div>
 							</div>
 							<div class="zpayLinkArea">
@@ -87,8 +92,7 @@
 									<a href="bankUserInfo" class="zpayChargeButton">충전</a>
 								</div>
 								<div class="zpayRefundLink">
-									<a class="btn" id="zpayBankAuthButton">계좌인증하기</a>
-<!-- 									<a href="#" class="zpayRefundButton">환급</a> -->
+									<a href="zpay_refund_pro" class="zpayRefundButton">환급</a>
 								</div>
 							</div>
 						</div>

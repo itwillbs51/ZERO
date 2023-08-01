@@ -53,7 +53,12 @@ public class ZpayService {
 
 	// ZPYA_HISTORY 테이블에 충전내역 추가
 	public int chargeZpay(ZpayHistoryVO zpayHistory) {
-		return mapper.insertZpayHistory(zpayHistory);
+		return mapper.insertChargeHistory(zpayHistory);
+	}
+
+	// ZPAY_HISTORY 테이블에 환급내역 추가
+	public int refundZpay(ZpayHistoryVO zpayHistory) {
+		return mapper.insertRefundHistory(zpayHistory);
 	}
 
 	

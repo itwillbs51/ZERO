@@ -411,7 +411,7 @@
 		
 		
 		/* 세션으로부터 받은 member_idx 값 */
-		var member_idx = $("#member_idx").val().trim();
+		var member_id = $("#member_id").val().trim();
 		
 		var p_name = $("#p_name").val().trim();
 		var c_idx = $("#c_idx").val();
@@ -953,7 +953,7 @@ body{
 	</form>
 
 	<div id="root">
-		<input type="hidden" id="member_idx" value="${sessionScope.member_idx }">
+		<input type="hidden" id="member_id" value="${sessionScope.member_id }">
 
 		<div id="insert_box">
 			<span id="title">상품등록</span>
@@ -1013,7 +1013,7 @@ body{
 								- 이미지를 <b>클릭할</b> 경우 이미지를 <b>수정</b>하실 수 있습니다.<br>
 								- 이미지 등록은 좌측 <b>이미지 등록</b>을 눌러 등록할 수 있습니다.<br>
 								- 이미지 확장자는 <b>.jpg, .jpeg, .png</b> 만 등록 가능합니다.
-							</div>
+						</div>
 
 					</td>
 				</tr><!-- 이미지영역끝 -->

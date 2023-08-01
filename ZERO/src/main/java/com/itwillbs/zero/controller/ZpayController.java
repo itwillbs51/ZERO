@@ -75,6 +75,41 @@ public class ZpayController {
 		return "zpay/zpay_main";
 	}
 	
+//	@GetMapping("zpay_regist")
+//	public String zpayRegist(Map<String, String> map, Model model, HttpSession session) {
+//		String member_id = (String)session.getAttribute("member_id");
+//		MemberVO member = memberService.getMember(member_id);
+//		
+//		// 세션에 저장된 엑세스토큰 및 사용자번호를 변수에 저장 => 핀테크 이용자 정보 조회
+//		String access_token = (String)session.getAttribute("access_token");
+//		String user_seq_no = (String)session.getAttribute("user_seq_no");
+//		ResponseUserInfoVO userInfo = bankApiService.requestUserInfo(access_token, user_seq_no);
+//		
+//		map.put("access_token", (String)session.getAttribute("access_token"));
+//		map.put("user_name", userInfo.getUser_name());
+//		
+//		// BankApiService - requestAccountDetail() 메서드 호출하여 계좌 상세정보 조회 요청
+//		// => 파라미터 : Map 객체   리턴타입 : BankAccountDetailVO(accountDetail)
+//		BankAccountDetailVO accountDetail = bankApiService.requestAccountDetail(map);
+//		
+//		// 핀테크 이용자 정보를 ZPAY 테이블에 추가 => 이용자의 ZPAY 등록
+//		ZpayVO zpay = new ZpayVO();
+//		zpay.setMember_id(member_id);
+//		zpay.setZpay_bank_name(accountDetail.getBank_name());
+//		zpay.setZpay_bank_account(map.get("account_num_masked"));
+//		
+//		int insertCount = service.registZpay(zpay);
+//		
+//		if(insertCount > 0) {
+////			model.addAttribute("accountDetail", accountDetail);
+//			return "zpay/zpay_main";			
+//		} else {
+//			model.addAttribute("msg", "ZPAY 등록 실패");
+//			return "bank_auth_fail_back";
+//		}
+		
+//	}
+	
 	@PostMapping("zpay_regist")
 	public String zpayRegist(@RequestParam Map<String, String> map, Model model, HttpSession session) {
 		String member_id = (String)session.getAttribute("member_id");
@@ -148,6 +183,39 @@ public class ZpayController {
 			return "zpay/zpay_charge_success";			
 		} else {
 			model.addAttribute("msg", "ZPAY 충전 실패");
+			return "fail_back";
+		}
+		
+	}
+
+	// ZPAY 환급
+	@PostMapping("zpay_refund_pro")
+	public String zpayRefundPro(ZpayHistoryVO zpayHistory, 
+			@RequestParam String member_id, 
+			@RequestParam String zpayAmount, 
+			Model model) {
+		System.out.println("ZpayController - zpayChargePro()");
+		
+		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+		
+		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
+		int zpay_idx = service.getZpayIdx(member_id);
+		System.out.println(zpay_idx);
+		
+		// ZPAY_HISTORY 테이블에서 잔액조회
+		Integer zpay_balance = service.getZpayBalance(member_id);
+		
+		zpayHistory.setZpay_idx(zpay_idx);
+		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+		zpayHistory.setZpay_balance(zpay_balance);
+		
+		// ZPYA_HISTORY 테이블에 충전내역 추가
+		int insertCount = service.refundZpay(zpayHistory);
+		
+		if(insertCount > 0) {
+			return "zpay/zpay_charge_success";			
+		} else {
+			model.addAttribute("msg", "ZPAY 환급 실패");
 			return "fail_back";
 		}
 		

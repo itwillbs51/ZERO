@@ -23,9 +23,9 @@
 <link
 	href="${pageContext.request.contextPath }/resources/css/sidebar.css"
 	rel="stylesheet" type="text/css">
-<!-- <link -->
-<%-- 	href="${pageContext.request.contextPath }/resources/css/button.css" --%>
-<!-- 	rel="stylesheet" type="text/css"> -->
+<link
+	href="${pageContext.request.contextPath }/resources/css/member.css"
+	rel="stylesheet" type="text/css">
 
 	
 <%-- vue.js 링크 --%>
@@ -61,233 +61,7 @@
 /*     padding: 60px 0 160px; */
 /*     width: 400px; */
 /* } */
-.content_title[data-v-88eb18f6] {
-    padding-bottom: 16px;
-    border-bottom: 3px solid #222!important;
-}
 
-.container.my .content_area[data-v-473e7c14] {
-    overflow: hidden;
-    min-height: 380px;
-}
-
-.profile_info[data-v-cf6a6ef4] {
-    padding-top: 38px;
-    max-width: 480px;
-}
-
-.profile_group[data-v-8b96a82e]:first-of-type {
-    padding-top: 0;
-}
-.group_title[data-v-8b96a82e] {
-    font-size: 18px;
-    letter-spacing: -.27px;
-}
-
-*, :after, :before {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-div {
-    display: block;
-    
-}
-body, button, input, select, table, textarea {
-    font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
-    color: #222;
-    -webkit-font-feature-settings: "frac" 0,"numr" 0;
-    font-feature-settings: "frac" 0,"numr" 0;
-}
-
-<%-- 프로필 관리 --%>
-.lg .user_profile[data-v-4b474860], .md .user_profile[data-v-4b474860] {
-    border-bottom: 1px solid #ebebeb;
-}
-
-.profile_info[data-v-cf6a6ef4] {
-    padding-top: 38px;
-    max-width: 480px;
-}
-
-.user_profile[data-v-4b474860] {
-    display: flex;
-    align-items: center;
-    padding: 38px 0;
-    background-color: #fff;
-}
-
-.title[data-v-88eb18f6] {
-    font-size: 24px;
-    letter-spacing: -.36px;
-}
-
-.title>h3[data-v-88eb18f6] {
-    line-height: 29px;
-    font-size: inherit;
-}
-
-h3 {
-    display: block;
-    font-size: 1.17em;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-}
-
-.content_title.border[data-v-88eb18f6] {
-    padding-bottom: 16px;
-    border-bottom: 3px solid #222;
-}
-
-<%-- 버튼 설정 --%>
-.outlinegrey[data-v-43813796] {
-    border: 1px solid #d3d3d3;
-    color: rgba(34,34,34,.8);
-}
-.small[data-v-43813796], .xsmall[data-v-43813796] {
-    font-size: 12px;
-    letter-spacing: -.06px;
-}
-.small[data-v-43813796] {
-    padding: 0 14px;
-    height: 34px;
-    border-radius: 10px;
-}
-.btn[data-v-43813796] {
-    display: inline-flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    text-align: center;
-    color: rgba(34,34,34,.8);
-    background-color: #fff;
-    margin: 0 5px 0;
-}
-
-button {
-    padding: 0;
-    border: 0;
-    outline: none;
-    background: none;
-    background-color: transparent;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0;
-}
-
-.profile_btn_box .btn+.btn[data-v-4b474860] {
-    margin-left: 8px;
-}
-<%-- 프로필 이미지 - 이름 --%>
-.profile_btn_box[data-v-4b474860] {
-    margin-top: 12px;
-    font-size: 0;
-}
-.profile_detail .name[data-v-4b474860] {
-    font-size: 18px;
-    letter-spacing: -.27px;
-    line-height: 1.2222222222;
-    color: #000;
-}
-
-
-<%-- 프로필 정보 속성 --%>
-.group_title[data-v-8b96a82e] {
-    font-size: 18px;
-    letter-spacing: -.27px;
-}
-h4 {
-    display: block;
-    margin-block-start: 1.33em;
-    margin-block-end: 1.33em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-}
-
-<%-- 프로필 이름/이름/소개 설정 --%>
-.title[data-v-0c9f3f9e] {
-    font-size: 13px;
-    letter-spacing: -.07px;
-    font-weight: 400;
-    color: rgba(34,34,34,.5);
-}
-
-h5 {
-    display: block;
-    font-size: 0.83em;
-    margin-block-start: 1.67em;
-    margin-block-end: 1.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-}
-<%-- 영역 밑줄 설정 --%>
-.unit[data-v-0c9f3f9e] {
-    display: flex;
-    flex-direction: column;
-    padding: 25px 0 12px;
-    position: relative;
-    border-bottom: 1px solid #ebebeb;
-}
-
-<%-- 변경 영역 설정 --%>
-.unit_content[data-v-0c9f3f9e] {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.desc_modify[data-v-e5372ca2] {
-    padding-right: 58px;
-}
-
-.desc[data-v-24a03828] {
-    flex: 1;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    font-size: 16px;
-    letter-spacing: -.16px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p, select, table, td, textarea, th, ul {
-    margin: 0;
-    padding: 0;
-}
-<%-- 프로필 이미지 크기 지정 --%>
-.thumb_img {
-	width:100px;
-	height:100px;
-	border-radius: 50%;
-	margin-right: 10px;
-}
-
-<%-- 체크박스 버튼 --%>
-input[type=checkbox] {
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    appearance: checkbox;
-    -webkit-appearance: checkbox;
-    -moz-appearance: checkbox;
-}
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -379,12 +153,13 @@ input[type=checkbox] {
 	</header>
 	
 	<article id="mainArticle">
-		<div class="container">
+	
+		<div class="container my lg">
 			<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
 				<jsp:include page="/WEB-INF/views/inc/member_sidebar_hyo.jsp"></jsp:include>
 			</nav>
 		
-			<div class="contentArea">
+			<div data-v-473e7c14="" class="contentArea">
 			<%-- 메인영역 --%>
 			
 
@@ -404,7 +179,7 @@ input[type=checkbox] {
 								<div data-v-cf6a6ef4="" class="profile_info">
 								
 									<div data-v-4b474860="" data-v-75326462="" class="user_profile" >
-										<input type="file" accept=".jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
+										<input type="file" accept=".jpg,.jpeg,.png" id="profile" name="profile" hidden="hidden" onchange="updateImage(this)">
 										<div data-v-4b474860="" class="profile_thumb">
 										<c:choose>
 											<c:when test="${not empty member.member_image }">
@@ -433,7 +208,7 @@ input[type=checkbox] {
 												<h5 data-v-0c9f3f9e="" class="title">닉네임</h5>
 												<div data-v-0c9f3f9e="" class="unit_content">
 	<%-- 												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_nickname } </p> --%>
-													<input type="text" id="member_nickname" name="member_nickname" data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e="" value="${member.member_nickname }" style="border:none;">
+													<input type="text" id="member_nickname" name="member_nickname" data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e="" maxlength="25" value="${member.member_nickname }" style="border:none;">
 													<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update" data-v-0c9f3f9e="" name="member_nickname"> 변경 </button>
 												</div>
 											</div>
