@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -521,13 +522,6 @@ public class AdminController {
 		
 	}
 	
-	// 고객센터 관리 - 자주 묻는 질문 게시판으로 이동하기
-	@GetMapping("admin_cs_faq")
-	public String adminCsFaq() {
-		System.out.println("AdminController - admin_cs_faq");
-		return "admin/admin_cs_faq_list";
-	}
-	
 	
 	// 고객센터 관리 - 1:1 문의 게시판 으로 이동하기
 	@GetMapping("admin_cs_qna")
@@ -591,7 +585,7 @@ public class AdminController {
 	
 	// 고객센터 관리 - 1:1 문의글 삭제하기
 	@GetMapping("admin_cs_qna_delete")
-	public String adminCsQnQDelete(HttpSession session, Model model, @RequestParam int cs_idx) {
+	public String adminCsQnADelete(HttpSession session, Model model, @RequestParam int cs_idx) {
 		System.out.println("AdminController - admin_cs_qna_delete");
 		
 		int deleteCount = service.removeCsQnA(cs_idx);
@@ -603,6 +597,150 @@ public class AdminController {
 			return "fail_back";
 		}
 	}
+	
+	// 고객센터 관리 - 자주 묻는 질문 게시판으로 이동하기
+	@GetMapping("admin_cs_faq")
+	public String adminCsFaq(HttpSession session, Model model, CsVO cs) {
+		System.out.println("AdminController - admin_cs_faq");
+		
+		List<CsVO> csFaqList = service.getCsFaqList();
+		System.out.println("csFaqList : " + csFaqList);
+		
+		model.addAttribute("csFaqList", csFaqList);
+		
+		return "admin/admin_cs_faq_list";
+	}
+	
+	// 고객센터 관리 - 자주 묻는 질문 등록 뷰페이지로 이동하기
+	@GetMapping("cs_faq_form")
+	public String adminCsFaqForm() {
+		System.out.println("AdminController - adminCsFaqForm");
+		
+		return "admin/admin_cs_faq_form";
+	}
+	
+	// 고객센터 관리 - 자주 묻는 질문 등록하기
+	@PostMapping("admin_cs_faq_write_pro")
+	public String adminCsFaqWritePro(HttpServletRequest request, HttpSession session, Model model, CsVO cs) {
+		System.out.println("AdminController - admin_cs_faq_write_pro");
+		
+		// ===================== 파일 처리 시작 =====================
+		// 프로젝트 상 업로드 폴더의 실제 경로 알아내기(request or session 객체 필요)
+			String uploadDir = "/resources/upload"; // 현재 폴더상 경로
+			String saveDir = request.getServletContext().getRealPath(uploadDir); // 실제 경로
+			System.out.println("csQnaFormPro - 실제업로드경로 : " + saveDir);
+			
+			String subDir = ""; // 서브 디렉토리 ( 업로드 날짜에 따라 디렉토리 구분하기 )
+			
+			try {
+				// 1. Date 객체 생성
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd"); // 날짜 형식 포맷 지정 ( / 로 디렉토리 구분 )
+				// 실제 업로드 경로에 날짜 경로 결합
+				subDir = sdf.format(date); // 날짜 디렉토리
+				saveDir += "/" + subDir;
+				
+				// 실제 경로를 관리하는 객체 리턴받기 
+				Path path = Paths.get(saveDir);
+				
+				// path 객체로 관리하는 경로를 생성
+				Files.createDirectories(path);
+			} catch (IOException e) {
+				System.out.println("1:1 문의 게시판 파일 업로드 : e 이거 오류");
+				e.printStackTrace();
+			}
+			
+			// 파라미터로 받은 CsVO cs 에서 전달된 MultipartFile 객체 꺼내기
+			MultipartFile mFile = cs.getFile(); // CsVo 객체의 MultipartFile의 변수명 private MultipartFile file;
+			System.out.println("csQnaFormPro 원본파일명1 : " + mFile.getOriginalFilename());
+			
+			// 파일명 중복 방지 처리 - 랜덤 ID (8글자) 붙이기 ( ex. 랜덤ID_파일명.확장자)
+			String uuid = UUID.randomUUID().toString().substring(0, 8);
+			
+			// 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
+			cs.setCs_file("");
+			
+			// 파일명을 저장할 변수 선언
+			String fileName = uuid.substring(0, 8) + "_" + mFile.getOriginalFilename();
+			
+			if(!mFile.getOriginalFilename().equals("")) {
+				cs.setCs_file(subDir + "/" + fileName);			
+			}
+			System.out.println("실제 업로드 파일명1 : " + cs.getCs_file());
+		// ===================== 파일 처리 끝 =====================
+		
+		int insertCount = service.registCsFaQ(cs);
+				
+		if(insertCount > 0) { // 글쓰기 성공
+			try {
+				if(!mFile.getOriginalFilename().equals("")) {
+					mFile.transferTo(new File(saveDir, fileName));
+				}
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return "redirect:/admin_cs_faq";
+//			return "admin/admin_cs_faq_list";
+		} else { // 글쓰기 실패 
+			model.addAttribute("msg", "자주묻는질문 등록 실패!");
+
+			return "fail_back";
+		}	
+			
+	}
+	
+	// 고객센터 관리 - 자주 묻는 질문 상세페이지로 이동하기
+	@GetMapping("admin_cs_faq_detail")
+	public String adminCsFaqDetail(HttpSession session, Model model, @RequestParam int cs_idx, @RequestParam int cs_info_idx) {
+		System.out.println("AdminController - adminCsFaqDetail");
+		
+		CsVO cs = service.getCsFaqDetail(cs_idx, cs_info_idx);
+		model.addAttribute("cs", cs);
+		
+		return "admin/admin_cs_faq_detail";
+	}
+	
+	
+	// 고객센터 관리 - 자주 묻는 질문 수정하기
+	@PostMapping("admin_cs_faq_modify")
+	public String adminCsFaqModify(HttpSession session, Model model, CsVO cs, @RequestParam int cs_idx, @RequestParam int cs_info_idx) {
+		System.out.println("AdminController - admin_cs_faq_modify");
+		System.out.println("CsVO : " + cs);
+		System.out.println("cs_idx : " + cs_idx + "cs_info_idx : " + cs_info_idx);
+		
+		int updateReplyCount = service.modifyFaqDetail(cs);
+		
+		if(updateReplyCount > 0) {
+			return "redirect:/admin_cs_faq";			
+		} else {
+			model.addAttribute("msg", "1:1 문의글 답변 등록 실패!");
+			return "fail_back";
+		}
+
+	}
+	
+	// 고객센터 관리 - 자주 묻는 질문 삭제하기
+	@GetMapping("admin_cs_faq_delete")
+	public String adminCsFaqDelete(HttpSession session, Model model, @RequestParam int cs_idx) {
+		System.out.println("AdminController - admin_cs_faq_delete");
+		
+		int deleteCount = service.removeCsFaq(cs_idx);
+		
+		if(deleteCount > 0) {
+			return "redirect:/admin_cs_faq";
+		} else {
+			model.addAttribute("msg", "1:1 문의글 삭제 실패!");
+			return "fail_back";
+		}
+	}
+	
+	
+	
+	
 	
 	
 	

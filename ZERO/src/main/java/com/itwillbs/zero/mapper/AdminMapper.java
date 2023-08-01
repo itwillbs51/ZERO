@@ -92,6 +92,21 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 1:1 문의글 삭제하기
 	int deleteQnA(int cs_idx);
+	
+	// 고객센터 관리 - 자주 묻는 질문 게시판 조회하기
+	List<CsVO> selectFaQ();
+	
+	// 고객센터 관리 - 자주 묻는 질문 등록하기
+	int insertFaQ(CsVO cs);
+
+	// 고객센터 관리 - 자주 묻는 질문 상세페이지로 이동하기
+	CsVO selectFaQDetail(@Param("cs_idx") int cs_idx, @Param("cs_info_idx") int cs_info_idx);
+
+	// 고객센터 관리 - 자주 묻는 질문 수정하기
+	int updateFaq(CsVO cs);
+
+	// 고객센터 관리 - 자주 묻는 질문 삭제하기
+	int deleteFaq(int cs_idx);
 
 
 
