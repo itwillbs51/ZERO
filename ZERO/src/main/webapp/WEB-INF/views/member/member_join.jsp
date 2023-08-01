@@ -354,7 +354,7 @@ input[type=checkbox] {
 						<input type="text" 
 							   placeholder="메일에 작성된 인증코드를 작성해주세요" 
 							   id="member_id2" 
-							   name="member_id22" 
+							   name="member_id2" 
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
@@ -439,7 +439,7 @@ input[type=checkbox] {
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6="">
-							<button>인증번호 받기</button>
+							<button type="button" id="phone_chk">인증번호 받기</button>
 						</div>
 					</div>
 					<br>
@@ -449,14 +449,22 @@ input[type=checkbox] {
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="인증번호를 입력해 주세요" 
-								   id="phone_check" 
+								   id="member_phone2" 
+								   name="member_phone2"
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6="">
-							<button>인증확인</button>
 						</div>
 					</div>
+					<!-- 핸드폰 인증코드 확인 일치 여부-->
+					<div class="row mb-3">
+				    	<label for="phoneChk_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span class="phone_chk" id="phone_chk"></span>
+					   		</div>
+					</div>
 					<br>
+					
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">주소지 입력</h3>
@@ -656,6 +664,8 @@ input[type=checkbox] {
 	                if (response.success) {
 	                    $("#email_confirm").html(response.message);
 	                    $("#email_confirm").css("color", "green");
+	                    $("#member_id").attr("readonly", true); // 추가된 부분
+	                    $("#member_id2").attr("readonly", true); // 추가된 부분
 	                } else {
 	                    $("#email_confirm").html(response.message);
 	                    $("#email_confirm").css("color", "red");
@@ -669,8 +679,47 @@ input[type=checkbox] {
 	});
 
 </script>
-  
-  
+ 
+<script type="text/javascript">
+//휴대폰 번호 인증
+var code2 = "";
+$("#phone_chk").click(function(){
+	alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+	var phone = $("#member_phone").val();
+	$.ajax({
+        type:"GET",
+        url:"phoneCheck?member_phone=" + phone,
+        cache : false,
+        success:function(data){
+        	if(data == "error"){
+        		alert("휴대폰 번호가 올바르지 않습니다.")
+				$("#member_phone").attr("autofocus",true);
+        	}else{	        		
+        		$("#member_phone2").attr("disabled",false);
+        		$("#member_phone").attr("readonly",true);
+        		code2 = data;
+        	}
+        }
+    });
+});
+
+</script>
+<script type="text/javascript">
+//휴대폰 인증번호 대조
+$("#member_phone2").on("input", function() {
+    if ($("#member_phone2").val() == code2) {
+        $(".phone_chk").text("인증번호가 일치합니다.");
+        $(".phone_chk").css("color", "green");
+        $("#phoneDoubleChk").val("true");
+        $("#member_phone2").attr("readonly", true);
+    } else {
+        $(".phone_chk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
+        $(".phone_chk").css("color", "red");
+        $("#phoneDoubleChk").val("false");
+        $("#member_phone2").attr("autofocus", true);
+    }
+});
+</script> 
   
   
   
