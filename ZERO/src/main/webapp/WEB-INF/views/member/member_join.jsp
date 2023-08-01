@@ -664,6 +664,8 @@ input[type=checkbox] {
 	                if (response.success) {
 	                    $("#email_confirm").html(response.message);
 	                    $("#email_confirm").css("color", "green");
+	                    $("#member_id").attr("readonly", true); // 추가된 부분
+	                    $("#member_id2").attr("readonly", true); // 추가된 부분
 	                } else {
 	                    $("#email_confirm").html(response.message);
 	                    $("#email_confirm").css("color", "red");
