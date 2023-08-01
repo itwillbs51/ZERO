@@ -45,5 +45,11 @@ $(document).ready(function(){
 		      	</a>
 		    </li>
 		    <hr>
+		    <li class="nav-item">
+		    	<a class="nav-link" href="zman_test_location">
+		        지도 테스트 
+		      	</a>
+		    </li>
+		    <hr>
 		</ul>
 </div>

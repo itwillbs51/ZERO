@@ -25,10 +25,16 @@ public class CsService {
 		return mapper.selectNoticeList(startRow, listLimit);
 	}
 	
+	// 자주 묻는 질문 조회
+	public List<CsVO> getCsFaq(String cs_type) {
+		return mapper.selectCsFaq(cs_type);
+	}
+
 	// 1:1 문의글 등록하기 (csQnaFormPro)
 	public int registCsQnaform(CsVO cs) {
 		return mapper.insertCsQna(cs);
 	}
+
 
 
 }

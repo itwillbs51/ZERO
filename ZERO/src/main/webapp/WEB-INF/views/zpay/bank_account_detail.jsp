@@ -105,7 +105,14 @@
 										<input type="hidden" name="bank_name" value="${accountDetail.bank_name }">
 										<input type="hidden" name="fintech_use_num" value="${accountDetail.fintech_use_num }">
 										<input type="submit" value="입금이체">
-									</form>
+								</form>
+								<%-- ZPAY 등록하기 --%>
+								<form action="zpay_regist" method="post">
+									<input type="hidden" name="bank_name" value="${accountDetail.bank_name }">
+									<input type="hidden" name="fintech_use_num" value="${accountDetail.fintech_use_num }">
+									<input type="hidden" name="account_num_masked" value="${account_num_masked }">
+									<input type="submit" value="ZPAY에 계좌 등록">
+								</form>
 							</td>
 						</tr>
 					</table>

@@ -4,7 +4,7 @@
 
 	<!-- ZPAY 잔액 조회 -->
 	<select id="selectZpayBalance" resultType="Integer">
-		SELECT zpay_balance
+		SELECT ifnull(zpay_balance, 0)
 			FROM ZPAY_HISTORY
 			WHERE zpay_history_idx 
 					= (SELECT MAX(zpay_history_idx) FROM ZPAY_HISTORY WHERE member_id = #{member_id})

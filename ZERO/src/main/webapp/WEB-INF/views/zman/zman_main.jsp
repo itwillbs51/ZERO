@@ -126,7 +126,7 @@
 				<%--카카오맵 지도 API 시작 --%>
 				<div id="map" style="width:1000px;height:450px;" data-v-32a5de90=""></div>
 					<%-- 발급받은 appkey 를 넣어주기 --%>
-					<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c7b64b9fe8be0d3ba0e69ecffe2e6efe"></script>
+					<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c7b64b9fe8be0d3ba0e69ecffe2e6efe&libraries=services"></script>
 					<script>
 						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 						    mapOption = {

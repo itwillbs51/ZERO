@@ -14,7 +14,8 @@ public class ChattingService {
 	@Autowired
 	private ChattingMapper mapper;
 	
-	// 채팅방 조회
+	
+	// 채팅방 정보 조회
 	public List<ChatRoomListVO> selectChatRoomList(String member_id) {
 		return mapper.selectChatRoomList(member_id);
 	}
@@ -32,6 +33,21 @@ public class ChattingService {
 		}
 		
 		return false;
+	}
+	
+	// 채팅방 찾기
+	public int selectChatRoomIdx(Map<String, String> map, String buyer_id) {
+		return mapper.selectChatRoomIdx(map, buyer_id);
+	}
+	
+	// 채팅방 생성하기
+	public int insertChatRoom(Map<String, String> map, String buyer_id) {
+		return mapper.insertChatRoom(map, buyer_id);
+	}
+	
+	// 채팅건 상품 번호 가져오기
+	public int getSecondhandIdx(int chat_room_idx) {
+		return mapper.selectSecondhandIdx(chat_room_idx);
 	}
 	
 	
