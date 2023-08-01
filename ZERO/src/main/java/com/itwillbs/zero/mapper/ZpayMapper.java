@@ -10,4 +10,7 @@ public interface ZpayMapper {
 	// ZPAY 사용자 여부 조회
 	ZpayVO selectZpay(String member_id);
 
+	// ZPZY 등록
+	int insertZpay(ZpayVO zpay);
+
 }

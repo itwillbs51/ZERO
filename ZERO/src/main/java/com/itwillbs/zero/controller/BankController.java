@@ -98,7 +98,7 @@ public class BankController {
 		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
 		if(access_token == null) {
 			model.addAttribute("msg", "계좌 인증 필수!");
-			return "fail_back";
+			return "bank_auth_fail_back";
 		}
 		
 		// BankApiService - requestUserInfo() 메서드 호출하여 핀테크 이용자 정보 조회
@@ -123,7 +123,7 @@ public class BankController {
 			return "bank_auth_fail_back";
 		}
 		
-		// 요청에 사용도리 엑세스토큰을 Map 객체에 추가
+		// 요청에 사용될 엑세스토큰을 Map 객체에 추가
 		map.put("access_token", (String)session.getAttribute("access_token"));
 		logger.info("●●●●● bankAccountDetail : " + map);
 		

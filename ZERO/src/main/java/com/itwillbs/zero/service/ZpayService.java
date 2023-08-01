@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
+
+import edu.emory.mathcs.backport.java.util.Collections;
+
 import com.itwillbs.zero.mapper.ZpayHistoryMapper;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
@@ -23,10 +26,17 @@ public class ZpayService {
 		return zpayMapper.selectZpay(member_id);
 	}
 	
+	// ZPAY 등록
+	public int registZpay(ZpayVO zpay) {
+		return zpayMapper.insertZpay(zpay);
+	}
+	
 	// ZPAY 잔액 조회
 	public Integer getZpayBalance(String member_id) {
+		System.out.println("ZpayService - getZpayBalance");
 		
 		Integer zpay_balance = zpayHistorymapper.selectZpayBalance(member_id);
+		System.out.println(zpay_balance != null ? zpay_balance : 0);
 		
 		return zpay_balance != null ? zpay_balance : 0;
 	}
@@ -34,8 +44,11 @@ public class ZpayService {
 	
 	// ZPAY 사용 내역(목록) 조회
 	public List<ZpayHistoryVO> getZpayHistory(String member_id) {
+//		List<ZpayHistoryVO> zpayHistoryList = zpayHistorymapper.selectZpayHistory(member_id);
+				
 		return zpayHistorymapper.selectZpayHistory(member_id);
 	}
+	
 
 
 	// ZPAY 번호 조회
@@ -48,6 +61,8 @@ public class ZpayService {
 	public int chargeZpay(ZpayHistoryVO zpayHistory) {
 		return zpayHistorymapper.insertZpayHistory(zpayHistory);
 	}
+
+	
 
 
 	
