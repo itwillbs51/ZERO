@@ -76,8 +76,8 @@
 											<a href="zpay_regist" class="btn" id="zpayRegistButton">ZPAY등록하기</a>
 										</c:when>
 										<c:otherwise>
-											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">ZPAY등록하기</a>		
-<!-- 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌관리</a>		 -->
+<!-- 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">ZPAY등록하기</a>		 -->
+											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌관리</a>		
 <!-- 											<a href="zpay_regist" class="btn"  id="zpayRegistButton">ZPAY등록하기</a>		 -->
 										</c:otherwise>
 									</c:choose>	

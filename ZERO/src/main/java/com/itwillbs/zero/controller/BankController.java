@@ -18,9 +18,11 @@ import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.ResponseUserInfoVO;
 import com.itwillbs.zero.vo.ResponseWithdrawVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
+import com.itwillbs.zero.service.ZpayService;
 
 @Controller
 public class BankController {
@@ -32,6 +34,9 @@ public class BankController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private ZpayService zpayService;
 	
 	// 로그 출력을 위한 변수 선언 => getLogger() 메서드 파라미터로 로그 처리할 현재 클래스 지정
 	private static final Logger logger = LoggerFactory.getLogger(BankController.class);
@@ -109,7 +114,8 @@ public class BankController {
 		// Model 객체에 ResponseUserInfoVO 객체 저장
 		model.addAttribute("userInfo", userInfo);
 		
-		return "zpay/bank_user_info";
+//		return "zpay/bank_user_info";
+		return "zpay/zpay_charge_form2";
 	}
 	
 	
@@ -137,7 +143,7 @@ public class BankController {
 		model.addAttribute("account_num_masked", map.get("account_num_masked"));
 		model.addAttribute("user_name", map.get("user_name"));
 		
-		return "zpay/bank_account_detail";
+		return "zpay/zpay_bank_account_detail";
 	}
 	
 	
@@ -160,7 +166,37 @@ public class BankController {
 		// Model 객체에 ResponseWithdrawVO 객체 저장
 		model.addAttribute("withdrawResult", withdrawResult);
 		
-		return "zpay/bank_withdraw_result";
+		// -------------------------------------------------------------------------------
+		// 출금이체한 금액을 ZPAY에 충전
+		ZpayHistoryVO zpayHistory = new ZpayHistoryVO();
+		String member_id = (String)session.getAttribute("member_id");
+		
+		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
+		int zpay_idx = zpayService.getZpayIdx(member_id);
+		System.out.println(zpay_idx);
+		
+		// ZPAY_HISTORY 테이블에서 잔액조회
+		Integer zpay_balance = zpayService.getZpayBalance(member_id);
+		
+		zpayHistory.setZpay_idx(zpay_idx);
+		zpayHistory.setMember_id(member_id);
+		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
+		zpayHistory.setZpay_balance(zpay_balance);
+		zpayHistory.setZpay_deal_type("충전");
+		
+		// ZPYA_HISTORY 테이블에 충전내역 추가
+		int insertCount = zpayService.chargeZpay(zpayHistory);
+		
+		if(insertCount > 0) {
+//			model.addAttribute("accountDetail", accountDetail);
+			return "zpay/zpay_charge_success2";			
+		} else {
+			model.addAttribute("msg", "ZPAY 충전 실패");
+			return "bank_auth_fail_back";
+		}
+		
+//		return "zpay/zpay_charge_success2";
+//		return "zpay/bank_withdraw_result";
 	}
 	
 	// 2.5.2. 입금이체 API 응답 데이터의 1개 입금 정보를 관리하는 클래스 정의

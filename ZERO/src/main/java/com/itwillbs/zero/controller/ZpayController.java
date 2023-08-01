@@ -40,7 +40,7 @@ public class ZpayController {
 	
 	// zpay_main.jsp 페이지로 디스페치
 	@GetMapping("zpay_main")
-	public String zpayMain(Model model, HttpSession session) {
+	public String zpayMain(Map<String, String> map, Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayMain()");
 		
 		String member_id = (String)session.getAttribute("member_id");
@@ -51,7 +51,7 @@ public class ZpayController {
 		if(token != null) {
 			session.setAttribute("access_token", token.getAccess_token());
 			session.setAttribute("user_seq_no", token.getUser_seq_no());
-		}
+		}		
 
 		// ZPAY 사용자 여부 조회
 		ZpayVO zpay = service.isZpayUser(member_id);
@@ -61,15 +61,17 @@ public class ZpayController {
 		}
 		
 		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
-//		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistory(member_id);
-//		System.out.println(zpayHistoryList);
-//		System.out.println(member_id);
-//		
+		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistory(member_id);
+		System.out.println(zpayHistoryList);
+		System.out.println(member_id);
+		
+		// ZPAY 잔액 조회
 		Integer zpay_balance = service.getZpayBalance(member_id);
 		System.out.println(zpay_balance);
 		
-//		model.addAttribute("zpayHistoryList", zpayHistoryList);
+		model.addAttribute("zpayHistoryList", zpayHistoryList);
 		model.addAttribute("zpay_balance", zpay_balance);
+		
 		return "zpay/zpay_main";
 	}
 	
@@ -99,10 +101,11 @@ public class ZpayController {
 		int insertCount = service.registZpay(zpay);
 		
 		if(insertCount > 0) {
+//			model.addAttribute("accountDetail", accountDetail);
 			return "zpay/zpay_main";			
 		} else {
-			model.addAttribute("msg", "회원 삭제 실패");
-			return "fail_back";
+			model.addAttribute("msg", "ZPAY 등록 실패");
+			return "bank_auth_fail_back";
 		}
 		
 		
@@ -114,7 +117,7 @@ public class ZpayController {
 	public String zpayChargeForm() {
 		System.out.println("ZpayController - zpayChargeForm()");
 		
-		return "zpay/zpay_charge_form";
+		return "zpay/zpay_charge_form2";
 	}
 	
 	// ZPAY 충전
@@ -144,7 +147,7 @@ public class ZpayController {
 		if(insertCount > 0) {
 			return "zpay/zpay_charge_success";			
 		} else {
-			model.addAttribute("msg", "회원 삭제 실패");
+			model.addAttribute("msg", "ZPAY 충전 실패");
 			return "fail_back";
 		}
 		

@@ -1,10 +1,10 @@
 @charset "UTF-8";
-	html,  article, .container, .contentArea, form, .chargeContentArea, .successContentArea {
+	html, .container, .contentArea, form, .chargeContentArea, .successContentArea {
 		height: 100%
 	}
 
 	body {
-		height: 91%
+		height: 100%
 	}
 
 	article{
