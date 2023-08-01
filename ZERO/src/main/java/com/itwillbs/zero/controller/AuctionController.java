@@ -32,7 +32,9 @@ public class AuctionController {
 	
 	// 입찰예정경매 목록 페이지로 이동
 	@GetMapping("auctionList_prepare")
-	public String auctionList_prepare(HttpSession session, Model model) {
+	public String auctionList_prepare(
+//			@RequestParam(defaultValue = "1"),
+			HttpSession session, Model model) {
 		
 		// AUCTION_MANAGING 에서 검수상태가 '검수완료'이고 검수일자컬럼의 다음날부터 그 다음 3일날까지인 상품 보여주기
 		// 파라미터 없음(페이징?)		리턴타입 List<AuctionProductVO>(preAuctionList)
