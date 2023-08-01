@@ -37,32 +37,38 @@ public class ChattingHandler extends TextWebSocketHandler{
 	// 클라이언트가 채팅을 위해 해당 페이지에 들어오면 클라이언트 연결, 해당 클라이언트 세션을 저장
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		
 		logger.info("Socket 연결됨!");
+		
+		String roomNum=session.getUri().getQuery().split("=")[1].toString();
+		//session.getUri().getQuery()=>http://localhost:8089/zero/chatting? 뒤에 파라미터 (ex id=1) 가져옴 .split("=")[1].toString()= '1'
 		Map<String,Object> map = session.getAttributes();
 		 String userId = (String)map.get("member_id");
 		System.out.println(userId);
 		
-		if(roomUsers.get(session.getUri().getQuery().split("=")[1].toString())==null) {
-			//session.getUri().getQuery()=>http://localhost:8089/zero/chatting? 뒤에 파라미터 (ex id=1) 가져옴 .split("=")[1].toString()= '1'
+		if(roomUsers.get(roomNum)==null) {
 			//Map roomUsers에 저장된 방이 없으면(ex 1번 방 없으면)
-			roomUsers.put(session.getUri().getQuery().split("=")[1].toString(),getMap(userId, session));
+			roomUsers.put(roomNum,getMap(userId, session));
 			//방번호(ex 1),userId, session 저장
 			System.out.println("새로운방");
 			
 		}else {
-			if(roomUsers.get(session.getUri().getQuery().split("=")[1].toString()).get(userId)==null) {
+			if(roomUsers.get(roomNum).get(userId)==null) {
 				//방은 있는데 유저아이디가 없다?
-			roomUsers.get(session.getUri().getQuery().split("=")[1].toString()).put(userId, session);
+			roomUsers.get(roomNum).put(userId, session);
 			//(ex 1번방)에 userId, session 저장
 			System.out.println("put");
 			}else {
-			roomUsers.get(session.getUri().getQuery().split("=")[1].toString()).replace(userId, session);
+			roomUsers.get(roomNum).replace(userId, session);
 			//방도 있고 유저아이디도 있다? userId에 session을 replace
 			System.out.println("replace");
 			}
 			
-			System.out.println(roomUsers.get(session.getUri().getQuery().split("=")[1].toString()));
 		}
+		
+		logger.info(roomUsers.toString());
+		
+		logger.info(userId + "님이 입장하셨습니다.");
 	
 		
 //		sessionList.add(session);
@@ -76,15 +82,17 @@ public class ChattingHandler extends TextWebSocketHandler{
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
 		logger.info("#ChattingHandler, handleMessage");
-		 Map<String,Object> map = session.getAttributes();
+		
+		String roomNum=session.getUri().getQuery().split("=")[1].toString();
+		Map<String,Object> map = session.getAttributes();
 		 System.out.println(map);
 		  String userId = (String)map.get("member_id");
 		 logger.info(userId);
-		 System.out.println(session.getUri().getQuery().split("=")[1].toString());
+		 
 		
 		 // 연결된 방의 클라이언트에게 메세지 전송
-		 for ( String key : (roomUsers.get(session.getUri().getQuery().split("=")[1].toString()).keySet())) {
-				WebSocketSession s=roomUsers.get(session.getUri().getQuery().split("=")[1].toString()).get(key);
+		 for ( String key : (roomUsers.get(roomNum).keySet())) {
+				WebSocketSession s=roomUsers.get(roomNum).get(key);
 				s.sendMessage(new TextMessage(userId + ":" + message.getPayload()));
 				
 			}
@@ -98,14 +106,21 @@ public class ChattingHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		
-		 Map<String,Object> map = session.getAttributes();
+		String roomNum=session.getUri().getQuery().split("=")[1].toString();
+		
+		Map<String,Object> map = session.getAttributes();
 		 
 		  String userId = (String)map.get("member_id");
 		
-		  // 맵에서 해당 아이디 세션 제거
-		 roomUsers.get(session.getUri().getQuery().split("=")[1].toString()).remove(userId);
+		 // 맵에서 해당 아이디 세션 제거
+		 roomUsers.get(roomNum).remove(userId);
+		//방비었으면 제거
+		 if(roomUsers.get(roomNum).isEmpty()) {
+			 roomUsers.remove(roomNum);
+		 }
+		 logger.info(roomUsers.toString());
 		
-		  logger.info(userId + "님이 퇴장하셨습니다.");
+		 logger.info(userId + "님이 퇴장하셨습니다.");
 		
 		
 	}
