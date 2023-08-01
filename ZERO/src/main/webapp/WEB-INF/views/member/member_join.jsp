@@ -505,25 +505,25 @@ input[type=checkbox] {
 					
 					<div>
 						<label for="agree_all">
-						  <input type="checkbox" name="agree_all" id="agree_all">
-						  <span>모두 동의합니다</span>
-						</label><br>
-						<label for="agree">
-						  <input type="checkbox" name="agree" value="1">
-						  <span>이용약관 동의<strong>(필수)</strong></span>
-						</label>
-						<label for="agree">
-						  <input type="checkbox" name="agree" value="2">
-						  <span>개인정보 수집, 이용 동의<strong>(필수)</strong></span>
-						</label>
-						<label for="agree">
-						  <input type="checkbox" name="agree" value="3">
-						  <span>개인정보 이용 동의<strong>(필수)</strong></span>
-						</label>
-						<label for="agree">
-						  <input type="checkbox" name="agree" value="4">
-						  <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
-						</label>
+				        	<input type="checkbox" name="agree_all" id="agree_all">
+				      		<span>모두 동의합니다</span>
+					    </label><br>
+					    <label for="agree1">
+					        <input type="checkbox" name="agree" value="1" class="sub_agree">
+					        <span>이용약관 동의<strong>(필수)</strong></span>
+					    </label><br>
+					    <label for="agree2">
+					        <input type="checkbox" name="agree" value="2" class="sub_agree">
+					        <span>개인정보 수집 및 이용 동의<strong>(필수)</strong></span>
+					    </label>
+<!-- 					    <label for="agree3"> -->
+<!-- 					        <input type="checkbox" name="agree" value="3" class="sub_agree"> -->
+<!-- 					        <span>개인정보 이용 동의<strong>(필수)</strong></span> -->
+<!-- 					    </label> -->
+					    <label for="agree3">
+					        <input type="checkbox" name="agree" value="3" class="sub_agree">
+					        <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
+					    </label>
 					</div>
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
@@ -557,32 +557,32 @@ input[type=checkbox] {
 <!--   <link href="/_nuxt/css/caea5a4.css" rel="stylesheet" type="text/css"> -->
 
 	<script type="text/javascript">
-	  // 동의 모두선택/해제
-	  const agreeChkAll = document.querySelector('input[name=agree_all]');
-	  const agreeChk = document.querySelectorAll('input[name=agree]');
+// 	  // 동의 모두선택/해제 지울예정
+// 	  const agreeChkAll = document.querySelector('input[name=agree_all]');
+// 	  const agreeChk = document.querySelectorAll('input[name=agree]');
 
-	  agreeChkAll.addEventListener('change', (e) => {
-	    for (let i = 0; i < agreeChk.length; i++) {
-	      agreeChk[i].checked = e.target.checked;
-	    }
-	  });
+// 	  agreeChkAll.addEventListener('change', (e) => {
+// 	    for (let i = 0; i < agreeChk.length; i++) {
+// 	      agreeChk[i].checked = e.target.checked;
+// 	    }
+// 	  });
 
-	  const updateAgreeAllStatus = () => {
-	    let allChecked = true;
-	    for (let i = 0; i < agreeChk.length; i++) {
-	      if (!agreeChk[i].checked) {
-	        allChecked = false;
-	        break;
-	      }
-	    }
-	    agreeChkAll.checked = allChecked;
-	  };
+// 	  const updateAgreeAllStatus = () => {
+// 	    let allChecked = true;
+// 	    for (let i = 0; i < agreeChk.length; i++) {
+// 	      if (!agreeChk[i].checked) {
+// 	        allChecked = false;
+// 	        break;
+// 	      }
+// 	    }
+// 	    agreeChkAll.checked = allChecked;
+// 	  };
 
-	  for (let i = 0; i < agreeChk.length; i++) {
-	    agreeChk[i].addEventListener('change', () => {
-	      updateAgreeAllStatus();
-	    });
-	  }
+// 	  for (let i = 0; i < agreeChk.length; i++) {
+// 	    agreeChk[i].addEventListener('change', () => {
+// 	      updateAgreeAllStatus();
+// 	    });
+// 	  }
 	 
 	// 비밀번호 정규식 되는데 편의를 위해 주석해놓음
 	  
@@ -622,6 +622,7 @@ input[type=checkbox] {
 	  
 	</script>
   <script type="text/javascript">
+  // 이메일 인증번호 발송 버튼
   $(document).ready(function () {
       $("#emailAuthButton").on("click", function (event) {
           event.preventDefault();
@@ -682,45 +683,83 @@ input[type=checkbox] {
  
 <script type="text/javascript">
 //휴대폰 번호 인증
-var code2 = "";
-$("#phone_chk").click(function(){
-	alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-	var phone = $("#member_phone").val();
-	$.ajax({
-        type:"GET",
-        url:"phoneCheck?member_phone=" + phone,
-        cache : false,
-        success:function(data){
-        	if(data == "error"){
-        		alert("휴대폰 번호가 올바르지 않습니다.")
-				$("#member_phone").attr("autofocus",true);
-        	}else{	        		
-        		$("#member_phone2").attr("disabled",false);
-        		$("#member_phone").attr("readonly",true);
-        		code2 = data;
-        	}
-        }
-    });
-});
-
+	var code2 = "";
+	$("#phone_chk").click(function(){
+		alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+		var phone = $("#member_phone").val();
+		$.ajax({
+	        type:"GET",
+	        url:"phoneCheck?member_phone=" + phone,
+	        cache : false,
+	        success:function(data){
+	        	if(data == "error"){
+	        		alert("휴대폰 번호가 올바르지 않습니다.")
+					$("#member_phone").attr("autofocus",true);
+	        	}else{	        		
+	        		$("#member_phone2").attr("disabled",false);
+	        		$("#member_phone").attr("readonly",true);
+	        		code2 = data;
+	        	}
+	        }
+	    });
+	});
 </script>
+
 <script type="text/javascript">
-//휴대폰 인증번호 대조
-$("#member_phone2").on("input", function() {
-    if ($("#member_phone2").val() == code2) {
-        $(".phone_chk").text("인증번호가 일치합니다.");
-        $(".phone_chk").css("color", "green");
-        $("#phoneDoubleChk").val("true");
-        $("#member_phone2").attr("readonly", true);
-    } else {
-        $(".phone_chk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
-        $(".phone_chk").css("color", "red");
-        $("#phoneDoubleChk").val("false");
-        $("#member_phone2").attr("autofocus", true);
-    }
-});
+	//휴대폰 인증번호 대조
+	$("#member_phone2").on("input", function() {
+	    if ($("#member_phone2").val() == code2) {
+	        $(".phone_chk").text("인증번호가 일치합니다.");
+	        $(".phone_chk").css("color", "green");
+	        $("#phoneDoubleChk").val("true");
+	        $("#member_phone2").attr("readonly", true);
+	    } else {
+	        $(".phone_chk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
+	        $(".phone_chk").css("color", "red");
+	        $("#phoneDoubleChk").val("false");
+	        $("#member_phone2").attr("autofocus", true);
+	    }
+	});
 </script> 
-  
+
+<script type="text/javascript">
+	// 동의 버튼
+	document.getElementById("agree_all").addEventListener("change", function() {
+	    let allChecked = this.checked;
+	    let subAgrees = document.getElementsByClassName("sub_agree");
+	    for (let i = 0; i < subAgrees.length; i++) {
+	        subAgrees[i].checked = allChecked;
+	    }
+	});
+	
+	let subAgrees = document.getElementsByClassName("sub_agree");
+	for (let i = 0; i < subAgrees.length; i++) {
+	    subAgrees[i].addEventListener("change", function() {
+	        let allChecked = true;
+	        for (let j = 0; j < subAgrees.length; j++) {
+	            if (!subAgrees[j].checked) {
+	                allChecked = false;
+	                break;
+	            }
+	        }
+	        document.getElementById("agree_all").checked = allChecked;
+	    });
+	
+	    subAgrees[i].parentElement.addEventListener("click", function(e) {
+	        if (e.target.tagName !== 'INPUT') {
+	            subAgrees[i].checked = !subAgrees[i].checked;
+	            let allChecked = true;
+	            for (let j = 0; j < subAgrees.length; j++) {
+	                if (!subAgrees[j].checked) {
+	                    allChecked = false;
+	                    break;
+	                }
+	            }
+	            document.getElementById("agree_all").checked = allChecked;
+	        }
+	    });
+	}
+</script>
   
   
 </body>
