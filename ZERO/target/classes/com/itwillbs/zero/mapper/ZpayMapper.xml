@@ -84,4 +84,56 @@
 				, #{member_id}
 			)		
 	</insert>
+	
+	<!-- 중고거래 내역 추가 -->
+	<select id="selectOrderSecondhand" resultType="com.itwillbs.ZeroPrivate.vo.Order_SecondhandVO">
+		SELECT * FROM ORDER_SECONDHAND
+		WHERE order_secondhand_idx = #{order_secondhand_idx}
+		AND order_secondhand_iszpay = 'Y'
+	</select>
+	
+	<!-- ZPYA_HISTORY 테이블에 송금내역 추가 -->
+	<insert id="insertSendHistory">
+		INSERT INTO 
+			ZPAY_HISTORY(
+				zpay_history_idx
+				, zpay_idx
+				, zpay_amount
+				, zpay_time
+				, zpay_balance
+				, zpay_deal_type
+				, member_id)
+			VALUES(
+				null
+				, #{zpay_idx}
+				, #{zpay_amount}
+				, now()
+				, #{zpay_balance} - #{zpay_amount}
+				, '중고출금'
+				, #{member_id}
+			)		
+	</insert>
+
+	<!-- ZPYA_HISTORY 테이블에 수취내역 추가 -->
+	<insert id="insertReceiveHistory">
+		INSERT INTO 
+			ZPAY_HISTORY(
+				zpay_history_idx
+				, zpay_idx
+				, zpay_amount
+				, zpay_time
+				, zpay_balance
+				, zpay_deal_type
+				, member_id)
+			VALUES(
+				null
+				, #{zpay_idx}
+				, #{zpay_amount}
+				, now()
+				, #{zpay_balance} + #{zpay_amount}
+				, "중고입금"
+				, #{member_id}
+			)		
+	</insert>
+	
 </mapper>
