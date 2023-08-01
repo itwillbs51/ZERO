@@ -90,9 +90,9 @@
 								<div data-v-4e1fd2e6="" class="input_item">
 									<input data-v-4e1fd2e6="" type="text" placeholder="선택하세요" readonly="readonly" autocomplete="off" inputmode="numeric" class="input_txt">
 									<button data-v-43813796="" type="button" class="btn btn_dropdown" data-v-4e1fd2e6="">
-										<svg xmlns="http://www.w3.org/2000/svg" class="ico-arr-dir-down-circle icon sprite-icons">
-											<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-arr-dir-down-circle" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-arr-dir-down-circle"></use>
-										</svg>
+<!-- 										<svg xmlns="http://www.w3.org/2000/svg" class="ico-arr-dir-down-circle icon sprite-icons"> -->
+<!-- 											<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-arr-dir-down-circle" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-arr-dir-down-circle"></use> -->
+<!-- 										</svg> -->
 									</button>
 								</div>
 							</div>
