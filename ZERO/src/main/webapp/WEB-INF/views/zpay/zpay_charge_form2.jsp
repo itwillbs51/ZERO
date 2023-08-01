@@ -99,6 +99,22 @@
 		
 	})
 	
+	$(function() {
+		$("#zpayBankAuthButton").on("click", function() {
+			// 새 창에서 사용자 인증 페이지 요청
+			// => 입금 이체 API 사용을 위해 scope 항목에 oob추가
+			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
+					+ "response_type=code"
+					+ "&client_id=4066d795-aa6e-4720-9383-931d1f60d1a9"
+					+ "&redirect_uri=http://localhost:8089/zero/callback"
+					+ "&scope=login inquiry transfer oob"
+					+ "&state=12345678901234567890123456789012"
+					+ "&auth_type=0";
+			
+			window.open(requestUri, "authWindow", "width=600, height=800");
+		});
+	});
+	
 </script>
 <style type="text/css">
 /* 	.container { */
@@ -164,18 +180,26 @@
 										출금계좌선택
 									</button>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<c:forEach var="account" items="${userInfo.res_list }">
-											<a class="dropdown-item withdrawalBankName" href="#">${account.bank_name } ${account.account_num_masked }
-												<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-												<form action="bankAccountDetail" method="post">
-													<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
-													<input type="hidden" name="user_name" value="${userInfo.user_name }">
-													<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
-													<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
-													<input type="submit" value="상세조회">
-												</form>
-											</a>
-										</c:forEach>
+										<c:choose>
+											<c:when test="${empty userInfo.res_list }">
+												<a class="btn dropdown-item" id="zpayBankAuthButton">계좌인증하기</a>
+											</c:when>
+											<c:otherwise>
+												<c:forEach var="account" items="${userInfo.res_list }">
+													<a class="dropdown-item withdrawalBankName" href="#">${account.bank_name } ${account.account_num_masked }
+														<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
+														<form action="bankAccountDetail" method="post">
+															<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
+															<input type="hidden" name="user_name" value="${userInfo.user_name }">
+															<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
+															<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
+															<input type="submit" value="상세조회">
+														</form>
+													</a>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
+									
 									</div>
 								</div>
 								

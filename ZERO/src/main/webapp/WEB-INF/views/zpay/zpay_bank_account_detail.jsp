@@ -92,6 +92,13 @@
 					<div class="buttonArea">
 						<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
 						<%-- 2.5.1. 출금이체 API 요청을 위한 폼 생성(PDF p74) --%>
+						<%-- ZPAY 등록하기 --%>
+						<form action="zpay_regist" method="post">
+							<input type="hidden" name="bank_name" value="${accountDetail.bank_name }">
+							<input type="hidden" name="fintech_use_num" value="${accountDetail.fintech_use_num }">
+							<input type="hidden" name="account_num_masked" value="${account_num_masked }">
+							<input type="submit" value="ZPAY에 계좌 등록" class="btn btn-secondary btn-lg moreCharge">
+						</form>
 						<form action="bankWithdraw" method="post">
 							<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
 							<input type="hidden" name="bank_name" value="${accountDetail.bank_name }">

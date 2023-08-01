@@ -27,5 +27,8 @@ public interface ZpayMapper {
 	int selectZpayIdx(String member_id);
 
 	// ZPYA_HISTORY 테이블에 충전내역 추가
-	int insertZpayHistory(ZpayHistoryVO zpayHistory);
+	int insertChargeHistory(ZpayHistoryVO zpayHistory);
+
+	// ZPYA_HISTORY 테이블에 환급내역 추가
+	int insertRefundHistory(ZpayHistoryVO zpayHistory);
 }
