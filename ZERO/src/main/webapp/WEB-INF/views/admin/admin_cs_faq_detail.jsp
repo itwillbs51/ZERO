@@ -20,18 +20,7 @@
 	body{
 		min-width: 360px;
 	}
-	.container-fluid {
-		max-width: 1000px;
-	}
 </style>
-<script type="text/javascript">
-	function emptyFile(){
-		$("#insertImg").empty();
-		$("#insertImg").html(
-			'<input type="file" class="form-control" aria-label="cs_file" name="file" />'	
-		);
-	};
-</script>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -44,25 +33,17 @@
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">고객센터 관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">1 : 1 문의글 상세페이지 </li>
+						<li class="breadcrumb-item active">자주 묻는 질문 수정 및 삭제 관리</li>
 					</ol>
 					
 					<%-- main 내용 작성 영역 --%>
+					<%-- main 내용 작성 영역 --%>
 					<div class="content_main">
 						<%-- form 태그 시작 --%>
-						<c:choose>
-							<%-- 답변 없음 - 등록하기 --%>
-							<c:when test="${empty cs.cs_reply }"> 
-								<form action="admin_cs_qna_reply" method="post" name="fr" enctype="multipart/form-data">								
-							</c:when>	
-							<%-- 답변 있음 - 수정하기 --%>					
-							<c:otherwise>
-								<form action="admin_cs_qna_reply_modify" method="post" name="fr" enctype="multipart/form-data">		
-							</c:otherwise>
-						</c:choose>
+						<form action="admin_cs_faq_modify" method="post" name="fr" enctype="multipart/form-data">		
 							<%-- hidden 영역 --%>
 							<%-- 고객센터 cs_type 유형 정보 전송용 : 1:1문의 --%>						
-							<input type="hidden" name="cs_type" value="1:1문의" >
+							<input type="hidden" name="cs_type" value="자주묻는질문" >
 							<input type="hidden" name="cs_idx" value="${cs.cs_idx }" >
 							<input type="hidden" name="cs_info_idx" value="${cs.cs_info_idx}" >
 							<input type="hidden" name="member_id" value="${sessionScope.member_id }" >
@@ -76,22 +57,25 @@
 <%-- 										<input type="text" readonly class="form-control-plaintext" id="cs_info_idx"  value="${cs.cs_info_idx }"> --%>
 										<c:choose>
 											<c:when test="${cs.cs_info_idx eq 1 }">
-												중고거래 문의
+												이용정책
 											</c:when>
 											<c:when test="${cs.cs_info_idx eq 2 }">
-												경매 문의
+												공통
 											</c:when>
 											<c:when test="${cs.cs_info_idx eq 3 }">
-												ZPAY 문의
+												중고판매
 											</c:when>
 											<c:when test="${cs.cs_info_idx eq 4 }">
-												ZMAN 문의
+												중고구매
 											</c:when>
 											<c:when test="${cs.cs_info_idx eq 5 }">
-												회원 문의
+												경매판매
 											</c:when>
 											<c:when test="${cs.cs_info_idx eq 6 }">
-												기타 문의
+												경매구매
+											</c:when>
+											<c:when test="${cs.cs_info_idx eq 7 }">
+												ZPAY
 											</c:when>
 										</c:choose>
 									</td>
@@ -113,7 +97,7 @@
 						    			제목
 						    		</th>
 						    		<td>
-						    			 <input type="text" name="cs_subject" class="form-control" id="cs_subject" value="${cs.cs_subject }" readonly="readonly">
+						    			 <input type="text" name="cs_subject" class="form-control" id="cs_subject" value="${cs.cs_subject }" >
 						    		</td>
 						  		</tr>
 						  		<tr>
@@ -121,7 +105,7 @@
 							    		내용
 							    	</th>
 							    	<td>
-							    		 <textarea class="form-control" name="cs_content" id="cs_content" style="height: 100px" onkeyup="isContent(this.value)" readonly="readonly">
+							    		 <textarea class="form-control" name="cs_content" id="cs_content" style="height: 100px" onkeyup="isContent(this.value)">
 							    		 	${cs.cs_content }
 							    		 </textarea>
 						    		</td>
@@ -149,37 +133,9 @@
 						    		</td>
 						  		</tr>
 						  		<tr>
-						    		<th>
-							    		관리자 답변</em>
-							    	</th>
-							    	<td>
-							    		<c:choose>
-											<c:when test="${empty cs.cs_reply }">
-<!-- 												<input type="text" name="cs_reply" class="form-control" id="cs_reply" > -->
-												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px"></textarea>
-											</c:when>
-							  				<c:otherwise>
-<%-- 												<input type="text" name="cs_reply" class="form-control" id="cs_reply" value="${cs.cs_reply }">	 --%>
-												<textarea class="form-control" name="cs_reply" id="cs_reply" style="height: 100px">${cs.cs_reply }</textarea>			  				
-							  				</c:otherwise>
-										</c:choose>							  			
-						    		</td>
-						  		</tr>
-						  		<tr>
 							  		<td colspan="2" style="text-align: center">
-<!-- 										<button class="btn btn-dark" disabled="disabled" type="submit">등록</button>	 -->
 											<button class="btn btn-dark" type="button" onclick="history.back()">돌아가기</button>
-												<%-- 답변하기 또는 수정하기 버튼  --%>
-												<c:choose>
-													<%-- 답변이 없을 때 - 답변하기 버튼 출력 --%>
-													<c:when test="${empty cs.cs_reply }">
-														<button class="btn btn-dark" type="submit">답변하기</button>
-													</c:when>
-													<%-- 답변이 있을 때 - 수정하기 버튼 출력 --%>
-									  				<c:otherwise>
-														<button class="btn btn-dark" type="submit">수정하기</button>
-									  				</c:otherwise>
-												</c:choose>		
+											<button class="btn btn-dark" type="submit">수정하기</button>
 											<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteNotice">
 												&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
 											</button>	
@@ -188,7 +144,7 @@
 												<div class="modal-dialog modal-dialog-centered">
 													<div class="modal-content">
 														<div class="modal-header">
-															<h5 class="modal-title fs-5" id="confirmDeleteNoticeTitle">1:1 문의글 삭제</h5>
+															<h5 class="modal-title fs-5" id="confirmDeleteNoticeTitle">자주 묻는 질문 삭제</h5>
 															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
 														<div class="modal-body">
@@ -196,7 +152,7 @@
 															정말 삭제하시겠습니까?<br>
 														</div>
 														<div class="modal-footer">
-															<button type="button" id="${cs.cs_idx }" class="btn btn-dark" onclick="location.href='admin_cs_qna_delete?cs_idx=${cs.cs_idx}'">삭제</button>
+															<button type="button" id="${cs.cs_idx }" class="btn btn-dark" onclick="location.href='admin_cs_faq_delete?cs_idx=${cs.cs_idx}'">삭제</button>
 															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 														</div>
 													</div>
@@ -214,14 +170,15 @@
 							</c:otherwise>
 						</c:choose>
 					</div><!-- content_main 끝 -->
+					
 				</div>
 			</main>
-
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include file="../inc/admin_footer.jsp" %>	
 			</footer>	
 		</div>
 	</div>
+	
 <!-- 이 스크립트들은 위로 올리면 작동하지 않음 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath }/resources/js/scripts.js"></script>
@@ -231,5 +188,5 @@
 <script src="${pageContext.request.contextPath }/resources/demo/chart-pie-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath }/resources/js/datatables-simple-demo.js"></script>
-</html>
 </body>
+</html>

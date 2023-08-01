@@ -27,9 +27,9 @@
 <link
 	href="${pageContext.request.contextPath }/resources/css/sidebar.css"
 	rel="stylesheet" type="text/css">
-<!-- <link -->
-<%-- 	href="${pageContext.request.contextPath }/resources/css/button.css" --%>
-<!-- 	rel="stylesheet" type="text/css"> -->
+<link
+	href="${pageContext.request.contextPath }/resources/css/member.css"
+	rel="stylesheet" type="text/css">
 	
 <%-- vue.js 링크 --%>
 <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
@@ -57,188 +57,6 @@
 <title>중고거래 사이트</title>
 <style>
 
-.login_title {
-	text-align: center;
-}
-
-.login_area[data-v-2b15bea4] {
-    margin: 0 auto;
-    padding: 60px 0 160px;
-    width: 400px;
-}
-
-.logo-social[data-v-2b15bea4] {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 13px;
-    left: 15px;
-}
-.input_title[data-v-4e1fd2e6] {
-    font-size: 13px;
-    letter-spacing: -.07px;
-    line-height: 18px;
-}
-
-.solid.disabled[data-v-43813796], .solid[data-v-43813796]:disabled {
-    background-color: #ebebeb;
-    color: #fff;
-    cursor: default;
-}
-
-.has_button .input_txt[data-v-4e1fd2e6] {
-    padding-right: 30px;
-    height: 38px;
-}
-
-.input_txt[data-v-4e1fd2e6] {
-    padding: 8px 0;
-    width: 100%;
-    font-size: 15px;
-    letter-spacing: -.15px;
-    line-height: 22px;
-    border-bottom: 1px solid #ebebeb;
-}
-
-input, textarea {
-    padding: 0;
-    outline: 0;
-    border: 0;
-    resize: none;
-    border-radius: 0;
-    -webkit-appearance: none;
-    background-color: transparent;
-}
-
-.btn[data-v-43813796] {
-    display: inline-flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    text-align: center;
-    color: rgba(34,34,34,.8);
-    background-color: #fff;
-}
-
-.look_link[data-v-2b15bea4] {
-    margin: auto;
-    padding: 0 10px;
-    display: inline-flex;
-    font-size: 13px;
-    letter-spacing: -.07px;
-}
-
-
-	
-<%-- 인증에러 --%>
-.input_error[data-v-4e1fd2e6] {
-    display: none;
-}
-
-*, :after, :before {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-
-.full[data-v-43813796] {
-    width: 100%;
-    font-size: 16px;
-    letter-spacing: -.16px;
-    font-weight: 700;
-    height: 52px;
-    border-radius: 12px;
-}
-
- div {
-    padding: 0px;
-    background: white;
-    display: block;
-}
-
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-
-
-.solid[data-v-43813796] {
-    font-weight: 700;
-    color: #fff;
-    background-color: #222;
-}
-
-*, :after, :before {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-
-link {
-    display: none;
-}
-
-body, button, input, select, table, textarea {
-    font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
-    color: #222;
-    -webkit-font-feature-settings: "frac" 0,"numr" 0;
-    font-feature-settings: "frac" 0,"numr" 0;
-}
-
-.look_box[data-v-2b15bea4] {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-li, ol, ul {
-    list-style: none;
-}
-
-ul {
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
-}
-<%-- 로그인 버튼 --%>
-.login_btn_box[data-v-2b15bea4] {
-    padding-top: 20px;
-}
-
-.social_login>.btn[data-v-2b15bea4] {
-    margin-bottom: 8px;
-}
-
-.outline[data-v-43813796] {
-    border: 1px solid #d3d3d3;
-}
-
-.social_login img {
-	width:30px;
-}
-
-.input_check {
-	width:20px;
-	height:20px;
-}
-
-<%-- 체크박스 버튼 --%>
-input[type=checkbox] {
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    appearance: checkbox;
-    -webkit-appearance: checkbox;
-    -moz-appearance: checkbox;
-}
 
 <%-- 구글 로그인 버튼 --%>
 .nsm7Bb-HzV7m-LgbsS {
@@ -414,13 +232,13 @@ input[type=checkbox] {
 <!-- 						</svg>  -->
 						카카오로 로그인 
 					</button>
-					<button type="button" class="btn btn_login_google full outline" data-v-43813796="" data-v-2b15bea4="" >
-					<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_google.svg">
-<!-- 						<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4=""> -->
-<!-- 							<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-google" data-v-2b15bea4=""></use> -->
-<!-- 						</svg>  -->
-						구글로 로그인 
-					</button>
+<!-- 					<button type="button" class="btn btn_login_google full outline" data-v-43813796="" data-v-2b15bea4="" > -->
+<%-- 					<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_google.svg"> --%>
+<!-- <!-- 						<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4=""> -->
+<!-- <!-- 							<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-google" data-v-2b15bea4=""></use> -->
+<!-- <!-- 						</svg>  -->
+<!-- 						구글로 로그인  -->
+<!-- 					</button> -->
 <!-- 					<div class="blind" style="visibility: hidden;"> -->
 						<div id="g_id_onload"
 						     data-client_id="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com"

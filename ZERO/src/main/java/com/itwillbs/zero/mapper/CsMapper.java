@@ -17,9 +17,11 @@ public interface CsMapper {
 	// 공지사항 목록 조회
 	List<CsVO> selectNoticeList(@Param("startRow") int startRow, @Param("listLimit") int listLimit);
 
+	// 자주 묻는 질문 조회
+	List<CsVO> selectCsFaq(String cs_type);
+
 	// 1:1 문의글 등록하기 (csQnaFormPro)
 	int insertCsQna(CsVO cs);
-
 
 
 }

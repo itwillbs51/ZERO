@@ -30,19 +30,24 @@
 	<select id="selectChatList" resultType="Chat">
 		SELECT *
 			FROM
-				CHAT
-			WHERE
-				chat_room_idx = #{chat_room_idx}
+				( SELECT *
+					FROM
+						CHAT
+					WHERE
+						chat_room_idx = #{chat_room_idx}
+					ORDER BY
+						chat_idx DESC
+					LIMIT 15
+					) AS SUB
 			ORDER BY
-				chat_datetime DESC
-			LIMIT 15
+				chat_idx
 	</select>
 		<!-- 나중에 페이징 처리하기(무한 스크롤) -->
 	
 	<!-- 채팅 내용 삽입 - INSERT -->
 	<insert id="insertChat">
-		INSERT INTO
-			CHAT
+		INSERT
+			INTO CHAT
 			VALUES
 				(
 				null		-- chat_idx
@@ -54,5 +59,43 @@
 				)
 	
 	</insert>
+	
+	<!-- 채팅방 번호 찾기 -->
+	<select id="selectChatRoomIdx" resultType="int">
+		SELECT
+			IFNULL(MAX(chat_room_idx), 0)
+			FROM
+				CHAT_ROOM
+			WHERE
+				seller_id = #{map.seller_id}
+				AND 
+					buyer_id = #{buyer_id}
+				AND
+					secondhand_idx = #{map.secondhand_idx}
+	</select>
+	
+	<!-- 채팅방 생성하기 -->
+	<insert id="insertChatRoom">
+		INSERT
+			INTO CHAT_ROOM
+			VALUES
+				(
+				null
+				, #{map.seller_id}
+				, #{buyer_id}
+				, #{map.secondhand_idx}
+				)
+	</insert>
+	
+	<!--  -->
+	<select id="selectSecondhandIdx" resultType="int">
+		SELECT
+			secondhand_idx
+			FROM
+				CHAT_ROOM
+			WHERE
+				chat_room_idx = #{chat_room_idx}
+	</select>
+	
 	
 </mapper>

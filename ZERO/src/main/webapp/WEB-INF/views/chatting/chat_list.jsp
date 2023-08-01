@@ -157,19 +157,6 @@
 								</td>
 							</tr>
 					</c:forEach>
-						<tr>
-							<td class="listImg" rowspan="2">
-								<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg">
-							</td>
-							<td class="chatRoomShort">
-								<span class="chatUserId">사용자이름(유니콘)</span><br>
-							</td>
-						</tr>
-						<tr>
-							<td class="shortChatMsg">
-								아니 이거 왜 안줄여지냐 채팅도 안되고.. 제발 되라
-							</td>
-						</tr>
 						
 				</table>
 			

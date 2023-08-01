@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.zero.vo.PageInfoVO;
@@ -41,14 +42,6 @@ public class CsController {
 		System.out.println("CsController - csMain");
 		
 		return "cs/cs_main";
-	}
-	
-	// cs_faq 페이지로 디스패치
-	@GetMapping("cs_faq")
-	public String csFaq() {
-		System.out.println("CsController - csFaq");
-		
-		return "cs/cs_faq";
 	}
 	
 	// cs_notice 페이지로 디스패치
@@ -170,12 +163,30 @@ public class CsController {
 				e.printStackTrace();
 			}
 			
-			return "redirect:/cs_main";
+			return "redirect:/admin_cs_faq_list";
 		} else { // 글쓰기 실패 
 			model.addAttribute("msg", "문의 글이 등록되지 않았습니다!");
 
 			return "fail_back";
 		}
+	}
+	
+	//================================================================================================
+	// 고객센터관리 - cs_faq.jsp로 디스패치
+	@GetMapping("cs_faq")
+	public String cs_faq() {
+		return "cs/cs_faq";
+	}
+	
+	// 고객센터관리 - 자주묻는질문 DB 조회하는 메서드
+	@GetMapping("/faq_data")
+	@ResponseBody	// CsVO -> json으로 리턴
+	public List<CsVO> fag_data(@RequestParam("cs_type") String cs_type
+//			, @RequestParam("pageNum") int pageNum
+			) {
+		List<CsVO> faq = csService.getCsFaq(cs_type);
+		
+		return faq;
 	}
 	
 }

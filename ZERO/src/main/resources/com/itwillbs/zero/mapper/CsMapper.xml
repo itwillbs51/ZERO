@@ -46,4 +46,22 @@
 			);
 	</insert>
 
+	<!-- 자주 묻는 질문 조회하기 - SELECT -->
+	<select id="selectCsFaq" resultType="com.itwillbs.zero.vo.CsVO">
+		SELECT
+				cs_subject
+				, cs_content
+				, cs_type
+			FROM CS
+ 			<choose>
+ 				<when test="cs_type eq '전체'">
+ 					WHERE cs_type IN ('이용정책', '공통', '중고판매', '경매판매', '경매구매', 'ZPAY')
+ 				</when>
+ 				<otherwise>
+		 			WHERE cs_type = #{cs_type}
+ 				</otherwise>
+ 			</choose>
+	</select>
+	
+	
 </mapper>

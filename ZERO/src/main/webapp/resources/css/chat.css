@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 #main{
-	padding: 100px 10px 20px 10px;
+	padding: 100px 40px 20px 40px;
 }
 
 #main hr{
@@ -95,19 +95,28 @@
 	max-width: 90px;
 	min-width: 90px;
 }
-.art_firstRow .co02 {
-	max-width: 400px;
+.co02 {
+	max-width: 600px;
 	min-width: 290px;
+}
+.co02 div {
 	vertical-align: middle;
 }
+.co02-2 {
+/* 	max-width: 500px; */
+	/* 영역보다 긴 글의 경우 ... 으로 처리 */
+	white-space: nowrap; /* 영역보다 커도 줄 바꿈하지마라 */
+	overflow: hidden; /* 잘리는 부분 안보이게 함 */
+	text-overflow: ellipsis; /* 잘리는 부분 ...으로 처리 */
+}
+
 .co02-1, .co02-3 {
 	font-weight: bold;
 }
 .art_firstRow .co03 {
 	width: 110px;
 	position: absolute;
-	right: 10px;
-	top: 15px;
+	right: 5px;
 }
 .co03>button {
 	border: none;
@@ -140,9 +149,9 @@
 	
 }
 #msgArea {
-	height: 500px;
+	height: 470px;
 	overflow: auto;
-/* 	scroll-behavior: smooth; */
+	scroll-behavior: smooth;
 }
 
 #chatMsgArea {
@@ -150,9 +159,6 @@
 	flex-grow: 1;
 }
 /* ------ 채팅 구현 전 -> 테이블 */
-.chatMsgArea table, tr, td {
-	width: 95%;
-}
 .mgsitem {
 	padding : 10px;
 	margin: 20px auto;
@@ -165,24 +171,42 @@
 	background-color: #eee;
 	min-width: 300px;
 	max-width: 500px;
+	min-height: 40px;
+	margin: auto;
+	padding: 10px;
+}
+.noticeMsg span {
+	vertical-align: middle;
 }
 .msgRight {
 	text-align: right;
 	margin-right: 10px;
 	position: relative;
-	right: 10px;
+	right: 5px;
 }
 .msgLeft{
 	text-align: left;
 	margin-left: 10px;
 }
+.msg {
+	display: inline-block;
+	padding-left: 12px;
+	font-size: 15px;
+	min-width: 250px;
+	max-width: 400px;
+	text-align: left;
+}
 .msgTime {
+	display: inline-block;
 	font-size: 10px;
 	color: gray;
 	width: 50px;
 	vertical-align: bottom;
 }
-
+.alert {
+	padding: 7px 10px;
+	margin-bottom: 0;
+}
 .msgRight .msg {
 	/* 본인 채팅 */
 	background-color: #e7d5ff;
@@ -194,11 +218,6 @@
 	background-color: #ccc;
 /* 	border-radius: 10px; */
 	padding: 10px 5px;
-}
-.msg {
-	min-width: 150px;
-	max-width: 300px;
-	text-align: left;
 }
 
 /* 채팅 입력 영역 */
@@ -244,14 +263,26 @@
 	border-radius: 5px;
 	padding: 3px 5px;
 	vertical-align: middle;
-	
+}
+/* 입력창 밑에 기능버튼들 */
+.listSort {
+	min-width: 500px;
+	table-layout: fixed;
+}
+.listSort td {
+	text-align: center;
+	font-size: 14px;
+}
+.listSort i {
+	font-size: 50px;
+	text-align: center;
 }
 
 /* ------------------------------------------------- */
 @media only screen and (max-width: 768px) {	
 	
 	#main{
-		padding-top: 0;
+		padding: 0 15px 20px 15px;
 	}
 	
 	#navLine {
@@ -267,17 +298,31 @@
 	}
 	
 	/* 반응형이 되면 플롯? */
-	#chatArea {
-		background-color: white;
-		position: absolute;
-		width: 100%;
-		height: 100%;
+/* 	#chatArea { */
+/* 		background-color: white; */
+/* 		position: absolute; */
+/* 		width: 100%; */
+/* 		height: 100%; */
+/* 	} */
+	
+	.art_firstRow .co01 {
+		max-width: 80px;
+	}
+	.art_firstRow .co02 {
+		max-width: 300px;
+		vertical-align: middle;
+	}
+	.co02 div {
+		width: 300px;
+		/* 영역보다 긴 글의 경우 ... 으로 처리 */
+		white-space: nowrap; /* 영역보다 커도 줄 바꿈하지마라 */
+		overflow: hidden; /* 잘리는 부분 안보이게 함 */
+		text-overflow: ellipsis; /* 잘리는 부분 ...으로 처리 */
 	}
 	.art_firstRow .co03 {
 		width: 110px;
 		position: absolute;
 		right: 5px;
-		top: 15px;
 	}
 	
 	/* 채팅창 */
@@ -285,9 +330,23 @@
 		width: 100%;
 		height: 100%;
 	}
+	.msgRight {
+		margin-right: 0;
+	}
+	.msgLeft{
+		margin-left: 0;
+	}
+	.alert {
+		padding: 5px 0;
+	}
 	.msg {
 		min-width: 120px;
 		max-width: 250px;
+	}
+	
+	.listSort {
+		width: 400px;
+		table-layout: fixed;
 	}
 	
 }

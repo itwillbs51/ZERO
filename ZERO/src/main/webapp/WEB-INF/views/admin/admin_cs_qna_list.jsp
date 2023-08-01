@@ -41,7 +41,7 @@
 							<div class="card-header">
 								<i class="fas fa-table me-1"></i>
 								1:1 문의 목록
-								<a href="cs_notice" class="btn btn-sm btn-outline-dark" style="float: right;">고객센터 바로가기</a>					
+								<a href="cs_qna_form" class="btn btn-sm btn-outline-dark" style="float: right;">1:1 문의 폼 바로가기</a>					
 							</div>
 							<div class="card-body">
 								<table id="datatablesSimple">
@@ -58,7 +58,28 @@
 									<tbody>
 										<c:forEach var="cs" items="${csQnAList }">
 											<tr>
-												<td>${cs.cs_info_idx }</td>
+												<td>
+													<c:choose>
+														<c:when test="${cs.cs_info_idx eq 1 }">
+															중고거래 문의
+														</c:when>
+														<c:when test="${cs.cs_info_idx eq 2 }">
+															경매 문의
+														</c:when>
+														<c:when test="${cs.cs_info_idx eq 3 }">
+															ZPAY 문의
+														</c:when>
+														<c:when test="${cs.cs_info_idx eq 4 }">
+															ZMAN 문의
+														</c:when>
+														<c:when test="${cs.cs_info_idx eq 5 }">
+															회원 문의
+														</c:when>
+														<c:when test="${cs.cs_info_idx eq 6 }">
+															기타 문의
+														</c:when>
+													</c:choose>
+												</td>
 												<td>${cs.member_id }</td>
 												<td>${cs.cs_subject }</td>
 												<td>${cs.cs_date }</td>
