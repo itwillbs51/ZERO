@@ -24,7 +24,7 @@
 	href="${pageContext.request.contextPath }/resources/css/sidebar.css"
 	rel="stylesheet" type="text/css">
 <link
-	href="${pageContext.request.contextPath }/resources/css/button.css"
+	href="${pageContext.request.contextPath }/resources/css/member.css"
 	rel="stylesheet" type="text/css">
 	
 <%-- vue.js 링크 --%>
@@ -72,9 +72,10 @@
 		</nav>
 	
 	
-		<div data-v-473e7c14="">
+		<div data-v-473e7c14="" class="contentArea">
 
 			<%-- 본문 - 계좌 관리 --%>
+			<div  class="my_profile">
 			<div data-v-67133191="" data-v-473e7c14="" class="content_area">
 				<div data-v-67133191="" class="my_account">
 					<div data-v-88eb18f6="" data-v-67133191="" class="content_title">
