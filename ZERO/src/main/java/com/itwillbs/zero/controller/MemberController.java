@@ -29,6 +29,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +39,7 @@ import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.MemberService;
+import com.itwillbs.zero.service.TestService;
 import com.itwillbs.zero.vo.MemberVO;
 
 @Controller
@@ -47,6 +50,9 @@ public class MemberController {
 	
 	@Autowired
 	private ApplicationContext ctx;
+	
+	@Autowired
+	private TestService testService; 
 	
 	// 멤버 로그인
 	@GetMapping("member_login")
@@ -266,7 +272,20 @@ public class MemberController {
 	@GetMapping("member_Info")
 	public String memberLoginInfo(HttpSession session
 			, Model model) {
+		
 		System.out.println("MemberController - memberloginInfo");
+		
+		String column = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		// 임시 고정값 설정 
+		
+		System.out.println(column);
+		System.out.println(member_id);
+		// 회원정보 가져오기
+		Map<String, String> member = service.isMemberCheck(column, member_id);
+		System.out.println(member);
+		
+		model.addAttribute("member", member);
 		
 		return "member/member_Info";
 	}
@@ -523,7 +542,7 @@ public class MemberController {
 		}
 	}
 	
-	
+	// 회원가입 메일인증
 	@PostMapping("sendAuthCode")
 	@ResponseBody
 	public ResponseEntity<?> sendAuthCode(@RequestParam("email") String email, HttpSession session) {
@@ -568,6 +587,7 @@ public class MemberController {
 	    return new ResponseEntity<>(new SuccessResponse("이메일이 성공적으로 전송되었습니다."), HttpStatus.OK);
 	}
 	
+	// 메일인증 코드 확인
 	@PostMapping("checkAuthCode")
 	@ResponseBody
 	public ResponseEntity<?> checkAuthCode(@RequestParam("inputAuthCode") String inputAuthCode,
@@ -586,9 +606,20 @@ public class MemberController {
 	    }
 	}
 
+	// 핸드폰 인증
+	@RequestMapping(value = "/phoneCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public String sendSMS(@RequestParam("phone") String userPhoneNumber) { // 휴대폰 문자보내기
+		int randomNumber = (int)((Math.random()* (9999 - 1000 + 1)) + 1000);//난수 생성
+
+		testService.certifiedPhoneNumber(userPhoneNumber,randomNumber);
+		
+		return Integer.toString(randomNumber);
+		
+	}
 	
 	
-	
+	// 회원가입 완료 이동
 	@GetMapping("join_complete")
 	public String memberJoinComplete() {
 		return "member/member_join_complete";
