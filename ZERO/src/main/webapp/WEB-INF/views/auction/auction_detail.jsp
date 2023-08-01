@@ -161,7 +161,7 @@ $("#button-send").on("click", function(e) {
 	
 });
 
-var sock = new SockJS('http://localhost:8089/zero/chatting?id=${param.id}');
+var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?id=${param.id}');
 sock.onmessage = onMessage;
 sock.onclose = onClose;
 sock.onopen = onOpen;
