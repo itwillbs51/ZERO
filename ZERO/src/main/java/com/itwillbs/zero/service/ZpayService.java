@@ -63,25 +63,12 @@ public class ZpayService {
 	public int refundZpay(ZpayHistoryVO zpayHistory) {
 		return mapper.insertRefundHistory(zpayHistory);
 	}
-<<<<<<< HEAD
 
 	// 중고거래 내역 조회
 	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
 		return mapper.selectOrderSecondhand(secondhand_idx);
 	}
 	
-	// ZPYA_HISTORY 테이블에 송금내역 추가
-	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
-		return mapper.insertSendHistory(zpayBuyerHistory);
-	}
-
-	// ZPYA_HISTORY 테이블에 수취내역 추가
-	public int receiveZpay(ZpayHistoryVO zpaySellerHistory) {
-		return mapper.insertReceiveHistory(zpaySellerHistory);
-	}
-=======
->>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
-
 	// ZPYA_HISTORY 테이블에 송금내역 추가
 	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
 		return mapper.insertSendHistory(zpayBuyerHistory);
@@ -102,12 +89,5 @@ public class ZpayService {
 	public SecondhandVO getSecondhand(int secondhand_idx) {
 		return mapper.selectSecondhand(secondhand_idx);
 	}
-
-	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
-		return mapper.selectOrderSecondhand(secondhand_idx);
-	}
-
-
-	
 
 }
