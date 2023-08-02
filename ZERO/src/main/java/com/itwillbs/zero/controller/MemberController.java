@@ -548,7 +548,7 @@ public class MemberController {
 		return "member/member_find_emailAuth";
 	}
 	
-	// 회원 탈퇴 직전 페이지 이동
+	// 회원 탈퇴 확인 페이지 이동
 	@GetMapping("member_withdrawal")
 	public String memberWithdrawal(HttpSession session
 			, Model model
@@ -557,26 +557,19 @@ public class MemberController {
 		
 		System.out.println("memberWithdrawal:" + map);
 	
-		return "member_withdrawal_final";
+		return "member/member_withdrawal";
 	}
 	
-	// 회원 탈퇴 요청
-	@GetMapping("member_withdrawal_final")
-	public String memberWithdrawalFinal(HttpSession session
+	// 회원 탈퇴 요청/ajax/checkWithrawal
+	@GetMapping("/ajax/checkWithrawal")
+	@ResponseBody
+	public String checkWithrawal(HttpSession session
 			, Model model
-			, @RequestParam Map<String, String> map
 			) {
-	
-		System.out.println("memberWithdrawalFinal:" + map);
+		System.out.println("ajax/checkWithrawal");
 		
-		// 탈퇴 이용약관 체크 여부
-		String withdrawCheck = map.get("withdrawCheck");
-		
-		// 탈퇴 이용약관 체크 파라미터 false 시 접근 차단
-		if(withdrawCheck.equals("false")) {
-			model.addAttribute("msg", "잘못된 접근입니다!");
-			return "fail_back";
-		}
+		// 세션 파라미터 없을 경우 리턴(구현중)
+
 		
 		// 조건 파라미터 - 아이디
 		String column1 = "member_id";
@@ -586,25 +579,30 @@ public class MemberController {
 		String column2 ="member_status";
 		String value2 = "탈퇴";
 		
+		// 옥션 판매중이거나 낙찰진행중인 경우 탈퇴 불가
+		String column3 = "";
+		
+		if(false) { // 옥션 판매중이거나 낙찰 진행중인 경우(구현중)
+			
+			return "false";
+		}
 		// -----------------------------------------------------------------------------------
 		// MemberService - updateMember() 메서드를 호출하여 회원정보 상태 탈퇴 변경 작업 요청
 		// => 파라미터 : column2, value2    리턴타입 : int(updateCount)
 		int updateCount = service.updateMember(column1, member_id, column2, value2);
 		
 		
-		// 회원상태 변경 작업 요청 결과 판별
+		// 회원상태 탈퇴 변경 작업 요청 결과 판별
 		if(updateCount > 0) { // 성공
 			
-			model.addAttribute("msg", "회원 탈퇴가 되었습니다");
-			// 회원상태 변경 작업 성공 시 "성공" 출력
-			return "success_forward_sj";
+			return "true";
 			
 		} else { // 실패
 
-//			model.addAttribute("msg", "회원 탈퇴가 실패하였습니다");
-			return "member_logout";
+			return "false";
 			
 		}
+		
 	}
 	
 	
