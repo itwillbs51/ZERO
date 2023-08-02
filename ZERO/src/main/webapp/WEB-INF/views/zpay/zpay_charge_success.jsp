@@ -17,6 +17,19 @@
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
+<style type="text/css">
+	html {
+		height: 100%
+	}
+	
+	body {
+		height: 89vh;
+	}
+
+	.container {
+		padding-bottom: 0;
+	}
+</style>
 </head>
 <body>
 	<header>
@@ -45,7 +58,7 @@
 								ZPAY 잔액
 							</div>
 							<strong class="balanceArea_balance">
-								70,000원
+								${zpay_balance }원
 							</strong>	
 						</div>
 						<div class="accountInfoArea">
