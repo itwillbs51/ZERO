@@ -21,7 +21,59 @@
 	}
 </style>
 <script>
-
+	// 셀렉트박스 일주일 단위 선택
+	function makeWeekSelectOptions() {
+		var year = $("#sh_year").val();
+		var month = $("#sh_month").val();
+		
+		var today = new Date();
+		
+		var sdate = new Date(year, month-1, 01);
+		var lastDay = (new Date(sdate.getFullYear(), sdate.getMonth()+1, 0)).getDate();
+		var endDate = new Date(sdate.getFullYear(), sdate.getMonth(), lastDay);
+		
+		var week = sdate.getDay();
+		sdate.setDate(sdate.getDate() - week);
+		var edate = new Date(sdate.getFullYear(), sdate.getMonth(), sdate.getDate());
+		
+		var obj = document.getElementById("sh_week");
+		obj.options.length = 0;
+		var seled = "";
+		
+		while(endDate.getTime() >= edate.getTime()) {
+		
+			var sYear = sdate.getFullYear();
+			var sMonth = (sdate.getMonth()+1);
+			var sDay = sdate.getDate();
+			
+			sMonth = (sMonth < 10) ? "0"+sMonth : sMonth;
+			sDay = (sDay < 10) ? "0"+sDay : sDay;
+			
+			var stxt = sYear + "-" + sMonth + "-" + sDay;
+			
+			edate.setDate(sdate.getDate() + 6);
+			
+			var eYear = edate.getFullYear();
+			var eMonth = (edate.getMonth()+1);
+			var eDay = edate.getDate();
+			
+			eMonth = (eMonth < 10) ? "0"+ eMonth : eMonth;
+			eDay = (eDay < 10) ? "0"+ eDay : eDay;
+			
+			var etxt = eYear + "-" + eMonth + "-" + eDay;
+			
+			if(today.getTime() >= sdate.getTime() && today.getTime() <= edate.getTime()) {
+				seled = stxt+"|"+etxt;
+			}
+			
+			obj.options[obj.options.length] = new Option(stxt+"~"+etxt, stxt+"|"+etxt);
+			
+			sdate = new Date(edate.getFullYear(), edate.getMonth(), edate.getDate() + 1);
+			edate = new Date(sdate.getFullYear(), sdate.getMonth(), sdate.getDate());
+		}
+		
+		if(seled) obj.value = seled;
+	}
 </script>
 </head>
 <body>
@@ -46,22 +98,29 @@
 						<h1> 정산 내역 </h1>
 						
 						<%--ZMAN 프로필 영역 --%>
-<!-- 						<section id="sec01"> -->
-<!-- 							<div class="user_membership" data-v-32a5de90="" data-v-412d8616=""> -->
-<!-- 								<div class="user_detail" data-v-32a5de90=""> -->
-<!-- 									<div class="user_thumb01" data-v-32a5de90=""> -->
-<!-- 										<br> -->
-<%-- 											프로필 사진 --%>
-<%-- 											<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
-<!-- 												 alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
-<%-- 											ZMAN 개인정보 --%>
-<!-- 											<strong class="name" data-v-32a5de90="">김둘리</strong> | -->
-<!-- 											<strong class="email" data-v-32a5de90="">Dooly@zero.co.kr</strong> | -->
-<!-- 											<strong class="phone" data-v-32a5de90="">010-1234-5678</strong> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</section> -->
+						<select name="sh_year" id="sh_year" onchange="makeWeekSelectOptions();">
+							<option value='2023' selected='selected'>2023년</option>
+						</select>
+						
+						<select name="sh_month" id="sh_month" onchange="makeWeekSelectOptions();">
+							<option value='01'>01월</option>
+							<option value='02'>02월</option>
+							<option value='03'>03월</option>
+							<option value='04'>04월</option>
+							<option value='05'>05월</option>
+							<option value='06'>06월</option>
+							<option value='07'>07월</option>
+							<option value='08' selected='selected'>08월</option>
+							<option value='09'>09월</option>
+							<option value='10'>10월</option>
+							<option value='11'>11월</option>
+							<option value='12'>12월</option>
+						</select>
+
+						<select name="sh_week" id="sh_week">
+						</select>
+
+
 				
 						<%-- 주간 정산 목록 게시판 --%>
 						<section id="sec02">
@@ -70,35 +129,23 @@
 									<tr>
 										<%-- 배달 번호 , 배달물품, 배달거리, 배달료,   --%>
 								        <th scope="col">날짜</th>
-								        <th scope="col">배달 번호</th>
-								        <th scope="col">배달 물품</th>
-								        <th scope="col">배달 거리</th>
 								        <th scope="col">배달료</th>
-								        <th scope="col">상세보</th>
+								        <th scope="col">상세보기</th>
 								 	</tr>
 								 </thead>
 								 <tbody class="table-group-divider">
 								 	<tr>
-								         <th scope="row">7/24 ~ 7/30</th>
-								         <td>1</td>
-								         <td>텀블러</td>
-								         <td>650m</td>
+								         <th scope="row">7/24 ~ 7/30</th> <%-- 일주일 단위로 표시 --%>
 								         <td></td>
 								         <td></td>
 								     </tr>
 							     	 <tr>
 								         <th scope="row"> </th>
-								         <td>2</td>
-								         <td>맥북</td>
-								         <td>1,300m</td>
 								         <td></td>
 								         <td></td>
 								     </tr>
 							    	 <tr>
 								         <th scope="row"> </th>
-								         <td>3</td>
-								         <td>마우스</td>
-								         <td>720m</td>
 								         <td></td>
 								         <td></td>
 								    </tr>

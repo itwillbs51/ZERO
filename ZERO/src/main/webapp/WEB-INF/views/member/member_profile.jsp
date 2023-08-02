@@ -105,16 +105,32 @@
 	<%-- 이미지 이외의 정보 변경 --%>
 	$(function(){
 		
+		// 자기소개 줄바꿈 제한
+		$('#member_intro').keydown(function(){
+	        var rows = $('#member_intro').val().split('\n').length;
+	        var maxRows = 3;
+	        if( rows > maxRows){
+	            alert('3줄 까지만 가능합니다');
+	            modifiedText = $('#member_intro').val().split("\n").slice(0, maxRows);
+	            $('#member_intro').val(modifiedText.join("\n"));
+	        }
+   		});
+		
 		$(".btn_update").on("click", function(){ // 삭제, 변경 버튼 클릭 시 
 			var buttonName = $(this).attr("name");
 			let column2;
 			let value2; 
-// 		    console.log("클릭한 버튼의 name 속성 값: " + buttonName);
+		    console.log("클릭한 버튼의 name 속성 값: " + buttonName);
+		    console.log("입력 값: " + $("#member_intro").val());
+		    
 
 			if(buttonName == 'profile_delete') { // 삭제 버튼 클릭 시
 				column2 = 'member_image';
 				value2 = null;
-			} else {
+			} else if(buttonName == 'member_intro') { // 자기소개 변경 버튼 
+				column2 = 'member_intro';
+				value2 = $("#member_intro").val();
+			} else { // 닉네임 변경 버튼
 				column2 = 'member_nickname';
 				value2 = $("#member_nickname").val();
 			}
@@ -142,6 +158,7 @@
 		
 	});
 	
+
 	
 </script>
 
@@ -205,6 +222,13 @@
 										<div data-v-8b96a82e="" data-v-75326462="" class="profile_group">
 											<h4 data-v-8b96a82e="" class="group_title">프로필 정보</h4>
 											<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
+												<h5 data-v-0c9f3f9e="" class="title">이름</h5>
+												<div data-v-0c9f3f9e="" class="unit_content">
+													<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_name } </p>
+	<!-- 												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update"  data-v-0c9f3f9e=""> 변경 </button> -->
+												</div>
+											</div>
+											<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
 												<h5 data-v-0c9f3f9e="" class="title">닉네임</h5>
 												<div data-v-0c9f3f9e="" class="unit_content">
 	<%-- 												<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_nickname } </p> --%>
@@ -213,16 +237,11 @@
 												</div>
 											</div>
 											<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-												<h5 data-v-0c9f3f9e="" class="title">이름</h5>
+												<h5 data-v-0c9f3f9e="" class="title">자기소개</h5>
 												<div data-v-0c9f3f9e="" class="unit_content">
-													<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e=""> ${member.member_name } </p>
-	<!-- 												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update"  data-v-0c9f3f9e=""> 변경 </button> -->
-												</div>
-											</div>
-											<div data-v-0c9f3f9e="" data-v-e5372ca2="" data-v-75326462="" class="unit" data-v-8b96a82e="">
-												<h5 data-v-0c9f3f9e="" class="title">생일</h5>
-												<div data-v-0c9f3f9e="" class="unit_content">
-													<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify placeholder" data-v-0c9f3f9e="">${member.member_birth }  </p>
+<%-- 													<p data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify placeholder" data-v-0c9f3f9e="">${member.member_intro }  </p> --%>
+													<textarea id="member_intro" name="member_intro" data-v-24a03828="" data-v-e5372ca2="" class="desc desc_modify" data-v-0c9f3f9e="" cols="20"  rows="3" maxlength="300" style="border:none;">${member.member_intro }</textarea>
+													<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update" data-v-0c9f3f9e="" name="member_intro"> 변경 </button>
 	<!-- 												<button data-v-43813796="" data-v-e5372ca2="" type="button" class="btn btn_modify outlinegrey small btn_update" data-v-0c9f3f9e=""> 변경 </button> -->
 												</div>
 											</div>

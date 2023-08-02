@@ -129,6 +129,12 @@ input, textarea {
     background-color: transparent;
 }
 
+.solid[data-v-43813796] {
+    font-weight: 700!important;
+    color: #fff!important;
+    background-color: #222!important;
+}
+
 .solid.disabled[data-v-43813796], .solid[data-v-43813796]:disabled {
     background-color: #ebebeb;
     color: #fff;

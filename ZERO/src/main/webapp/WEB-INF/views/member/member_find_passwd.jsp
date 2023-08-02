@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/member.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>ZERO</title>
 <style>
@@ -214,7 +214,19 @@ h2 {
 }
 	
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+function submitForm() { // 폼 데이터 전송
+	
+	// 1. 이메일과 휴대폰 번호가 가입된 정보와 일치할 경우  버튼 클릭 disabled 클래스 삭제로 활성화
+	
+	
+	// 2. 버튼 클릭 시 폼 데이터 전송
+	
+  $("myForm").submit();
+}
+
 </script>
 </head>
 <body>
@@ -235,27 +247,30 @@ h2 {
 							<div>
 								<h2 class="help_title">비밀번호 찾기</h2>
 								<div class="help_notice">
-									<p class="notice_txt"> 가입 시 등록하신 휴대폰 번호와 이메일을 입력하시면,<br>
-										휴대폰으로 임시 비밀번호를 전송해 드립니다. 
+									<p class="notice_txt"> 가입 시 등록하신 이메일와 휴대폰 번호을 입력하시면,<br>
+										이메일로 임시 비밀번호를 전송해 드립니다. 
 									</p>
 								</div>
-								<div class="input_box">
-									<h3 class="input_title">휴대폰 번호</h3>
-									<div class="input_item">
-										<input type="tel" placeholder="가입하신 휴대폰 번호" autocomplete="off" class="input_txt">
+								<form action="request_authMail_find_passwd" method="post" id="myForm">
+									<div class="input_box">
+										<h3 class="input_title">이메일 주소</h3>
+										<div class="input_item">
+											<input type="email" placeholder="예) zero@zero.co.kr" autocomplete="off" class="input_txt" name="member_id" id="member_id">
+										</div>
+										<p class="input_error">이메일 주소를 정확히 입력해주세요.</p>
 									</div>
-									<p class="input_error">휴대폰 번호를 정확히 입력해주세요.</p>
-								</div>
-								<div class="input_box">
-									<h3 class="input_title">이메일 주소</h3>
-									<div class="input_item">
-										<input type="email" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt">
+									<div class="input_box">
+										<h3 class="input_title">휴대폰 번호</h3>
+										<div class="input_item">
+											<input type="tel" placeholder="가입하신 휴대폰 번호" autocomplete="off" class="input_txt" name="member_phone" id="member_phone">
+										</div>
+										<p class="input_error">휴대폰 번호를 정확히 입력해주세요.</p>
 									</div>
-									<p class="input_error">이메일 주소를 정확히 입력해주세요.</p>
-								</div>
-								<div class="help_btn_box">
-									<a disabled="disabled" href="#" class="btn full solid disabled"> 문자 발송하기 </a>
-								</div>
+									<div class="help_btn_box">
+	<!-- 									<a disabled="disabled" href="#" class="btn full solid disabled"> 문자 발송하기 </a> -->
+										<a class="btn full solid sendEmail" data-v-43813796="" onclick="submitForm()"> 문자 발송하기 </a>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>

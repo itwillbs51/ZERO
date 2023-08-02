@@ -366,7 +366,7 @@
 										</div>
 									</div>
 								</div>
-								<a data-v-cf6a6ef4="" href="/my/withdrawal" class="btn_withdrawal">회원 탈퇴</a>
+								<a data-v-cf6a6ef4="" href="member_withdrawal" class="btn_withdrawal">회원 탈퇴</a>
 							</div>
 						</div>
 					</div>
