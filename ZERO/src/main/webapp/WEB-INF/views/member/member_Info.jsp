@@ -87,7 +87,7 @@
 	        $(".phone").text(formatted_phone);
 	  	}
 	  	
-	  	$("#")
+	  	
 		
 	});
 	
@@ -317,31 +317,6 @@
 									<h4 data-v-8b96a82e="" class="group_title">광고성 정보 수신</h4>
 									<div data-v-0c9f3f9e="" data-v-cf6a6ef4="" class="unit to_receive" data-v-8b96a82e="">
 										<div data-v-0c9f3f9e="" class="unit_content">
-											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc" data-v-0c9f3f9e="">문자 메시지</p>
-											<div data-v-cf6a6ef4="" data-v-0c9f3f9e="" class="radio_txt_box">
-												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
-													<label data-v-42808438="" for="agree1" class="radio_label">
-<!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
-<!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
-<!-- 														</svg> -->
-														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신 동의&nbsp;&nbsp;</span>
-														<input data-v-42808438="" id="agree1" type="radio" name="message_radio" class="radio_input">
-													</label>
-												</div>
-												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
-													<label data-v-42808438="" for="disagree1" class="radio_label">
-<!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
-<!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
-<!-- 														</svg> -->
-														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신거부&nbsp;&nbsp;</span>
-														<input data-v-42808438="" id="disagree1" type="radio" name="message_radio" class="radio_input">
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div data-v-0c9f3f9e="" data-v-cf6a6ef4="" class="unit to_receive" data-v-8b96a82e="">
-										<div data-v-0c9f3f9e="" class="unit_content">
 											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc" data-v-0c9f3f9e="">이메일</p>
 											<div data-v-cf6a6ef4="" data-v-0c9f3f9e="" class="radio_txt_box">
 												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
@@ -350,7 +325,8 @@
 <!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
 <!-- 														</svg> -->
 														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신 동의&nbsp;&nbsp;</span>
-														<input data-v-42808438="" id="agree2" type="radio" name="email_radio" class="radio_input">
+														<input data-v-42808438="" id="agree2" type="radio" name="email_radio" class="radio_input" 
+															<c:if test="${member.member_agreement_marketing_email ne '0'}">checked</c:if>>
 													</label>
 												</div>
 												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
@@ -359,7 +335,35 @@
 <!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
 <!-- 														</svg> -->
 														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신거부&nbsp;&nbsp;</span>
-														<input data-v-42808438="" id="disagree2" type="radio" name="email_radio" class="radio_input">
+														<input data-v-42808438="" id="disagree2" type="radio" name="email_radio" class="radio_input" 
+															<c:if test="${member.member_agreement_marketing_email eq '0'}">checked</c:if>>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div data-v-0c9f3f9e="" data-v-cf6a6ef4="" class="unit to_receive" data-v-8b96a82e="">
+										<div data-v-0c9f3f9e="" class="unit_content">
+											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc" data-v-0c9f3f9e="">문자 메시지</p>
+											<div data-v-cf6a6ef4="" data-v-0c9f3f9e="" class="radio_txt_box">
+												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
+													<label data-v-42808438="" for="agree1" class="radio_label">
+<!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
+<!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
+<!-- 														</svg> -->
+														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신 동의&nbsp;&nbsp;</span>
+														<input data-v-42808438="" id="agree1" type="radio" name="message_radio" class="radio_input" 
+															<c:if test="${member.member_agreement_marketing_sms ne '0'}">checked</c:if>>
+													</label>
+												</div>
+												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
+													<label data-v-42808438="" for="disagree1" class="radio_label">
+<!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
+<!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
+<!-- 														</svg> -->
+														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신거부&nbsp;&nbsp;</span>
+														<input data-v-42808438="" id="disagree1" type="radio" name="message_radio" class="radio_input" 
+															<c:if test="${member.member_agreement_marketing_sms eq '0'}">checked</c:if>>
 													</label>
 												</div>
 											</div>
