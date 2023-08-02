@@ -442,27 +442,52 @@ a {
     background-color: transparent;
 }
 </style>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+	$.ajax({
+	    type: "GET",
+	    url: "/zero/ajax/profileUpdateInfo",
+	    data: {
+	  	  "column2":column2,
+	  	  "value2":value2
+	    },
+	    dataType: "text",
+	    success: function(result){
+	//   	  alert(result);
+	    },
+	    error: function(err){
+	  	  alert('닉네임 중복으로 변경 실패');
+	    }
+	}).done((res) => {
+	//	  alert(res.msg);
+	    location.reload();
+	}); // ajax 끝
+
 </script>
 </head>
 <body>
+ <%--네비게이션 바 영역 --%>
 	<header>
 		<%@ include file="../inc/header.jsp"%>
 	</header>
 	
-	<article>
-		<div class="container">
+	<article id="mainArticle">
+	
+		<div class="container my lg">
 			<nav id="mainNav" class="sidebarArea d-none d-md-block sidebar">
-				<jsp:include page="/WEB-INF/views/inc/member_sidebar.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/inc/member_sidebar_hyo.jsp"></jsp:include>
 			</nav>
-			<div class="contentArea">
+		
+			<div data-v-473e7c14="" class="contentArea">
 			<%-- 메인영역 --%>
-				<div data-v-473e7c14="" class="my lg">
-<!-- 				<div data-v-473e7c14="" class="my lg"> -->
-<!-- 					<div data-v-473e7c14=""> -->
 			
-						<%-- 본문 - 나의 상점 --%>
+
+				<div  class=" my lg">
+					<div >
+			
+					<%-- 본문 - 스토어 관리 --%>
+						<div   class="content_area" data-v-2b15bea4="">
 						<div class="sc-fAJaQT gHsrAW">
 							<div class="sc-jotlie lmEPCP">
 								<div class="sc-hRmvpr efKeHO">
@@ -474,7 +499,7 @@ a {
 												</div>
 												<div class="sc-iIHSe fFhxdm">
 													<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxjaXJjbGUgZmlsbD0iI0ZBRkFGQSIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+CiAgICAgICAgPHBhdGggZD0iTTM2LjIxNiA0MS42ODNjLjI0OC0xLjkzMS40OTgtMy44NjIuNzUtNS43OTRoNi43OWwtLjI4MyA1LjUzN2MwIC4wMTcuMDA3LjAzNC4wMDcuMDUxLS4wMDIuMDEtLjAwMi4wMi0uMDAyLjAzLS4wOTggMS44NzYtMS44OTcgMy4zOTItNC4wMzUgMy4zOTItMS4wNjYgMC0yLjAxOC0uMzktMi42MTUtMS4wNzItLjUxLS41ODUtLjcyMi0xLjMyNS0uNjEyLTIuMTQ0em04Ljg4OCA0LjA3OGMxLjIyNCAxLjI4OSAzLjAwOSAyLjAyOCA0Ljg5IDIuMDI4IDEuODkgMCAzLjY3NC0uNzQgNC45LTIuMDMzLjEwNy0uMTEyLjIwNy0uMjI4LjMwNC0uMzQ1IDEuMjggMS40NDcgMy4yMTcgMi4zNzggNS4zNSAyLjM3OC4xMTIgMCAuMjE2LS4wMjcuMzI4LS4wMzJWNjMuNkgzOS4xMTVWNDcuNzU3Yy4xMTIuMDA1LjIxNS4wMzIuMzI4LjAzMiAyLjEzMyAwIDQuMDcxLS45MzEgNS4zNTEtMi4zOC4wOTkuMTIxLjIuMjM4LjMxLjM1MnptMS41NDUtOS44NzJoNi42OThsLjI4MiA1LjYxOWMwIC4wMTUtLjAwNy4wMjctLjAwNy4wNGwuMDA0LjA4NmEyLjkzOSAyLjkzOSAwIDAgMS0uODI2IDIuMTMyYy0xLjM2NyAxLjQ0LTQuMjMzIDEuNDQxLTUuNjA0LjAwM2EyLjk1IDIuOTUgMCAwIDEtLjgzLTIuMTQybC4wMDQtLjA3OGMwLS4wMTYtLjAwOC0uMDMtLjAwOC0uMDQ4bC4yODctNS42MTJ6bTE2LjM3NiAwYy4yNTIgMS45MzMuNTAyIDMuODY1Ljc1MyA1LjgwNC4xMDkuODEtLjEwNCAxLjU0Ny0uNjE0IDIuMTMyLS41OTYuNjgzLTEuNTUgMS4wNzQtMi42MTYgMS4wNzQtMi4xMzcgMC0zLjkzMi0xLjUxNC00LjAzNC0zLjM4OGEuMzU5LjM1OSAwIDAgMC0uMDAzLS4wNDRjMC0uMDE1LjAwNi0uMDI3LjAwNi0uMDRsLS4yNzgtNS41MzhoNi43ODZ6TTM2LjIyNiA0Ni45NDZ2MTguMDk4YzAgLjc5OC42NDYgMS40NDUgMS40NDQgMS40NDVoMjQuNjVjLjc5OSAwIDEuNDQ1LS42NDcgMS40NDUtMS40NDVWNDYuOTQ2Yy41OS0uMzI4IDEuMTM3LS43MTkgMS41NzUtMS4yMiAxLjA2MS0xLjIxNCAxLjUyMi0yLjc4NSAxLjMwMS00LjQxLS4zLTIuMzU1LS42MDctNC43MDctLjkxOC03LjA2YTEuNDQzIDEuNDQzIDAgMCAwLTEuNDMxLTEuMjU3SDM1LjY5OWMtLjcyNCAwLTEuMzM4LjUzOC0xLjQzMSAxLjI1Ny0uMzExIDIuMzU0LS42MTcgNC43MDctLjkxNiA3LjA1LS4yMjEgMS42MzcuMjQgMy4yMDggMS4zIDQuNDIxLjQzOS41MDIuOTg0Ljg5MyAxLjU3NCAxLjIyeiIgZmlsbD0iI0NDQyIvPgogICAgPC9nPgo8L3N2Zz4K" width="100" height="100" alt="상점 프로필 이미지" class="sc-gldTML bHnJBW">
-													<div class="sc-feryYK dxKilp">상점81695109호</div>
+													<div class="sc-feryYK dxKilp">상점&nbsp;${member.idx }호</div>
 													<div class="sc-eLdqWK gIaRHa">
 														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
 														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
@@ -483,17 +508,7 @@ a {
 														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
 													</div>
 													<div class="sc-jKmXuR jLHspK">
-														<a class="sc-jUpvKA hzlLUQ" href="/products/manage">내 상점 관리</a>
-													</div>
-												</div>
-											</div>
-											<div class="sc-kafWEX jzkZCA">
-												<div class="sc-feJyhm dcmPGl">
-													<h2 class="sc-iELTvK iBiqya">프로필 수정</h2>
-													<p class="sc-cmTdod fLuLKj">프로필 사진 추가/수정은 번개장터 앱에서만 가능해요</p>
-													<div class="sc-jwKygS iTENYU">
-														<button type="button" class="sc-btzYZH FwXcU">앱으로 이동하기</button>
-														<button type="button" class="sc-lhVmIH jxfGgv">취소</button>
+														<a class="sc-jUpvKA hzlLUQ" href="member_profile">프로필 이동</a>
 													</div>
 												</div>
 											</div>
@@ -501,10 +516,11 @@ a {
 									</div>
 									<div class="sc-gbzWSY hBpLcq">
 										<div class="sc-jqIZGH fawuLi">
-											<div class="sc-jRuhRL fJiQAJ">상점81695109호<button class="sc-ecaExY cxNNaK">상점명 수정</button>
-										</div>
-										<div class="sc-eopZyb hYzNdy">본인인증 완료</div>
-										</div>
+											<div class="sc-jRuhRL fJiQAJ">상점&nbsp;${member.idx }호
+<!-- 												<button class="sc-ecaExY cxNNaK">상점명 수정</button> -->
+											</div>
+											<div class="sc-eopZyb hYzNdy">본인인증 완료</div>
+											</div>
 										<div class="sc-jMMfwr zhbnl">
 											<div class="sc-jGxEUC adWrx">
 												<img src="/pc-static/resource/4b323fe1ef79c2b715fe.png" width="14" height="13" alt="상점오픈일 아이콘">상점오픈일
@@ -523,29 +539,30 @@ a {
 												<div class="sc-jdeSqf dBzPWd">0 회</div>
 											</div>
 										</div>
-										<div class="sc-cBrjTV czeXQe"></div>
+										<div class="sc-cBrjTV czeXQe">${member.member_intro }</div>
 										<div class="sc-fkyLDJ isYF">
-											<button class="sc-ecaExY cxNNaK">소개글 수정</button>
+<!-- 											<button class="sc-ecaExY cxNNaK">소개글 수정</button> -->
 										</div>
 									</div>
 								</div>
 							</div>
+							<%-- 탭 목록 --%>
 							<div class="sc-cNnxps cdXYEZ">
 								<div class="sc-eMRERa ebVkwH">
 									<div class="sc-RbTVP kcRaQl">
-										<a class="sc-hMrMfs JoOgK" href="/shop/81695109/products">상품 
+										<a class="sc-hMrMfs JoOgK" href="/ajax/sell_secondhandList">중고 
 											<span class="sc-bIqbHp gtokyO">1</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/shop/81695109/reviews">판매후기 
+										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_secondhand_reviews">판매후기 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/shop/81695109/favorites">경매
+										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList">경매
 											<span class="sc-bIqbHp gtokyO">3</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/shop/81695109/followings">경매후기 
+										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList_reviews">경매후기 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/shop/81695109/followers">찜 
+										<a class="sc-hMrMfs eXINrs" href="/ajax/myLikeList">찜 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
 									</div>
@@ -553,7 +570,7 @@ a {
 								<div class="sc-eqPNPO crpdHA">
 									<div class="sc-ileJJU ljwWRl">
 										<div class="sc-jxGEyO khHtgc">
-											<div>상품
+											<div>상품&nbsp;
 												<span class="sc-ghsgMZ kmGPmj">1</span>
 											</div>
 											<div class="inRpvj">
@@ -566,8 +583,10 @@ a {
 			<!-- 										<a class="sc-kEmuub zPWkt">키덜트</a> -->
 													<select class="form-control">
 														<option value="전체">전체</option>
-														<option value="카테고리1">카테고리1</option>
-														<option value="카테고리2">카테고리2</option>
+														<option value="카테고리1">최신순</option>
+														<option value="카테고리1">인기순</option>
+														<option value="카테고리1">저가순</option>
+														<option value="카테고리2">고가순</option>
 													</select>
 <!-- 												</div> -->
 <!-- 											</div> -->
@@ -575,18 +594,7 @@ a {
 										</div>
 										<div class="sc-dznXNo fpPGpL">
 											<div class="sc-ciodno hiHzLz">
-												<div class="sc-gacfCG giJkiq">
-													<div class="sc-jkCMRl kJRqmA">
-														<div>전체</div>
-														<div class="sc-bqjOQT kmGPmj">1개</div>
-													</div>
-													<div class="sc-dEfkYy fAkqZn">
-														<a class="sc-cqPOvA kPUmxO">최신순</a>
-														<a class="sc-cqPOvA izfehG">인기순</a>
-														<a class="sc-cqPOvA izfehG">저가순</a>
-														<a class="sc-cqPOvA izfehG">고가순</a>
-													</div>
-												</div>
+												<br>
 											</div>
 											<div class="sc-hwcHae fQrqBm">
 												<div class="sc-lnmtFM iUmdcc">
@@ -615,21 +623,24 @@ a {
 											<div class="sc-gGCbJM igUjHg"></div>
 										</div>
 									</div>
+									<%-- 판매 후기 --%>
 									<div class="sc-ileJJU cLznef">
 										<div class="sc-jxGEyO khHtgc">
-											<div>찜<span class="sc-keFjpB edhbau">0</span></div>
+											<div>판매후기&nbsp;
+												<span class="sc-keFjpB edhbau">0</span>
+											</div>
 										</div>
 										<div class="sc-AnqlK hYpuCz">
 											<div class="sc-jWojfa hwzHa">
 												<div class="sc-kVrTmx lcBRID">
-													<div class="sc-cEvuZC hzgTJv"></div>
-													<button class="sc-crNyjn dRjcfF">선택삭제</button>
+													<div class="sc-cEvuZC hzgTJv">등록된 판매후기가 없습니다.</div>
+<!-- 													<button class="sc-crNyjn dRjcfF">선택삭제</button> -->
 												</div>
 												<div class="sc-ekkqgF cTdzXF">
-													<a class="sc-iBmynh gjtVmz">최신순</a>
-													<a class="sc-iBmynh iHPPlM">인기순</a>
-													<a class="sc-iBmynh iHPPlM">저가순</a>
-													<a class="sc-iBmynh iHPPlM">고가순</a>
+<!-- 													<a class="sc-iBmynh gjtVmz">최신순</a> -->
+<!-- 													<a class="sc-iBmynh iHPPlM">인기순</a> -->
+<!-- 													<a class="sc-iBmynh iHPPlM">저가순</a> -->
+<!-- 													<a class="sc-iBmynh iHPPlM">고가순</a> -->
 												</div>
 											</div>
 											<div class="sc-eitiEO uLBJN"></div>
@@ -638,24 +649,32 @@ a {
 									</div>
 									<div class="sc-ileJJU cLznef">
 										<div class="sc-jxGEyO khHtgc">
-											<div>상점후기<span class="sc-gJqsIT dULvPK">0</span></div>
+											<div>경매&nbsp;
+												<span class="sc-gJqsIT dULvPK">0</span>
+											</div>
 										</div>
-										<div class="sc-kDhYZr izbPOa">상점후기가 없습니다.</div>
+										<div class="sc-kDhYZr izbPOa">경매 내역이 없습니다.</div>
 									</div>
+									<%-- 경매후기 --%>
 									<div class="sc-ileJJU cLznef">
 										<div class="sc-OxbzP cPmpNi">
 											<div class="sc-jxGEyO khHtgc">
-												<div>팔로잉<span class="sc-lnrBVv hIZyef">0</span></div>
+												<div>경매후기&nbsp;
+													<span class="sc-lnrBVv hIZyef">0</span>
+												</div>
 											</div>
-											<div class="sc-hvvHee cdYewf">아직 팔로우한 사람이 없습니다.</div>
+											<div class="sc-hvvHee cdYewf">등록된 경매후기가 없습니다.</div>
 										</div>
 									</div>
+									<%-- 찜 목록 --%>
 									<div class="sc-ileJJU cLznef">
 										<div class="sc-jHXLhC dItGrF">
 											<div class="sc-jxGEyO khHtgc">
-												<div>팔로워<span class="sc-bOCYYb jGomlc">0</span></div>
+												<div>찜&nbsp;
+													<span class="sc-bOCYYb jGomlc">0</span>
+												</div>
 											</div>
-											<div class="sc-clBsIJ hLgItk">아직 이 상점을 팔로우한 사람이 없습니다.</div>
+											<div class="sc-clBsIJ hLgItk">찜 목록이 없습니다</div>
 										</div>
 									</div>
 								</div>
@@ -665,8 +684,8 @@ a {
 					</div>
 				</div>
 			</div>
-			
-<!-- 		</div> -->
+		</div>
+		</div>
 	</article>
 	
 	<footer>

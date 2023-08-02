@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -495,7 +496,7 @@ public class MemberController {
 		return "member/member_find_id";
 	}
 	
-	// 멤버 패스워드 찾기
+	// 멤버 패스워드 찾기 폼
 	@GetMapping("member_find_passwd")
 	public String memberFindPasswd(HttpSession session
 			, Model model) {
@@ -504,14 +505,129 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
-	// 멤버 이메일 인증 요청
-	@GetMapping("member_find_emailAuth")
+	// 멤버 이메일 인증 요청 - 작업중
+	@PostMapping("request_authMail_find_passwd")
 	public String memberFindEmailAuth(HttpSession session
+			, Map<String, String> map
 			, Model model) {
 		System.out.println("MemberController - memberFindEmailAuth");
+		System.out.println("메일 인증:" + map);
+		// 인증 메일 발송 요청
+		String sId = (String)model.getAttribute("sId");
+		
+			// Service - getId() 메서드를 호출하여
+			// member 테이블에서 email 에 해당하는 id 값 조회
+			// => 파라미터 : 이메일(email)    리턴타입 : String(id)
+//			String id = service.getId(email);
+//			System.out.println(id);
+			
+			// SendAuthMail 인스턴스 생성 후 sendMail() 메서드 호출하여 메일 발송 요청
+			// => 파라미터 : 아이디, 이메일   리턴타입 : boolean(isSendSuccess)
+//			SendMailService mailService = new SendMailService();
+//			String authCode = mailService.sendAuthMail(id, email);
+//			System.out.println("메일 발송 결과 인증코드 : " + authCode);
+			
+			// MemberService - registAuthInfo() 메서드를 호출하여 
+			// 인증 메일에 포함된 아이디와 인증코드를 인증정보 테이블에 추가
+			// => 파라미터 : 아아디, 인증코드   리턴타입 : void
+			// => 단, 메일 발송 후 리턴받은 인증코드가 있을 경우에만 작업 수행
+//			if(!authCode.equals("")) {
+//				// 인증 코드 DB 작업 요청
+//				service.registAuthInfo(id, authCode);
+//				
+//				// AJAX 요청에 대한 응답으로 "true" 값 리턴
+//				return "true";
+//			}
+//			
+//			return "false";
 		
 		return "member/member_find_emailAuth";
 	}
+	
+	// 등록한 중고 상품 리스트
+	@ResponseBody
+	@GetMapping("/ajax/mySsecondhandList")
+	public JSONArray myStoreSecondHandList(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 중고 상품 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_secondhandList")
+	public JSONArray sellSecondHandList(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 중고 상품 후기 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_secondhand_reviews")
+	public JSONArray sellSecondhand_reviews(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 경매 상품 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_auctionList")
+	public JSONArray sellAuctionList(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 경매 상품 후기 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_auctionList_reviews")
+	public JSONArray sellAuctionListReviews(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 경매 상품 후기 리스트
+	@ResponseBody
+	@GetMapping("/ajax/myLikeList")
+	public JSONArray myLikeList(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
 	
 	// 멤버 메인화면
 	@GetMapping("member_mypage_main")
