@@ -404,12 +404,16 @@ public class ZpayController {
 	
 	// zpay_charge_form.jsp 페이지로 디스페치
 	@GetMapping("zpay_charge_form")
-	public String zpayChargeForm() {
+	public String zpayChargeForm(Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayChargeForm()");
+		
+		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
+		model.addAttribute("zpay", zpay);
 				
 		return "zpay/zpay_charge_form";
 	}
-		
+	
+	// ZPAY 충전 비즈니스 로직 요청
 	@PostMapping("zpay_charge_pro")
 	public String zpayChargePro(ZpayHistoryVO zpayHistory, 
 								@RequestParam String member_id, 
@@ -447,6 +451,7 @@ public class ZpayController {
 		if(insertCount > 0) {
 			zpay_balance = service.getZpayBalance(member_id);
 			
+			model.addAttribute("zpay", zpay);
 			model.addAttribute("zpayHistory", zpayHistory);
 			model.addAttribute("zpay_balance", zpay_balance);
 			return "zpay/zpay_charge_success";			
@@ -459,12 +464,17 @@ public class ZpayController {
 	
 	// zpay_refund_form.jsp 페이지로 디스페치
 	@GetMapping("zpay_refund_form")
-	public String zpayRefundForm() {
+	public String zpayRefundForm(Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayRefundForm()");
+		
+		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
+		model.addAttribute("zpay", zpay);
 				
 		return "zpay/zpay_refund_form";
 	}
 	
+	
+	// ZPAY 환급 비즈니스 로직 요청
 	@PostMapping("zpay_refund_pro")
 	public String zpayRefundPro(ZpayHistoryVO zpayHistory, 
 			@RequestParam String member_id, 
@@ -491,9 +501,9 @@ public class ZpayController {
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
 //		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_balance(zpay_balance);
+//		zpayHistory.setZpay_balance(zpay_balance);
 		zpayHistory.setZpay_amount(depositResult.getRes_list().get(0).getTran_amt());
-		zpayHistory.setZpay_balance(zpay_balance);
+		zpayHistory.setZpay_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
 		zpayHistory.setZpay_deal_type("환급");
 		
 		// ZPYA_HISTORY 테이블에 충전내역 추가
@@ -502,6 +512,7 @@ public class ZpayController {
 		if(insertCount > 0) {
 			zpay_balance = service.getZpayBalance(member_id);
 			
+			model.addAttribute("zpay", zpay);
 			model.addAttribute("zpayHistory", zpayHistory);
 			model.addAttribute("zpay_balance", zpay_balance);
 			return "zpay/zpay_refund_success";				
@@ -576,10 +587,10 @@ public class ZpayController {
 		if(insertSendCount > 0 && insertReceiveCount >0) {
 			buyer_zpay_balance = service.getZpayBalance(buyer_id);
 			
-			model.addAttribute("zpaySellerHistory", zpayBuyerHistory);
-			model.addAttribute("zpaySellerHistory", zpayBuyerHistory);
-			return "zpay/zpay_main";			
-//			return "zpay/zpay_send_success";			
+			model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
+			model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
+//			return "zpay/zpay_main";			
+			return "zpay/zpay_send_success";			
 		} else {
 			model.addAttribute("msg", "ZPAY 송금 실패");
 			return "fail_back";

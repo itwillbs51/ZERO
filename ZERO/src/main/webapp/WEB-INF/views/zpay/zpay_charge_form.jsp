@@ -156,8 +156,8 @@
 									출금 계좌
 								</div>
 								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">하나</div>
-									<div class="withdrawalAccountNum">123-456-789</div>
+									<div class="withdrawalBankName">${zpay.zpay_bank_name }</div>
+									<div class="withdrawalAccountNum">${zpay.zpay_bank_account }</div>
 								</div>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
