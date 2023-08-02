@@ -52,6 +52,7 @@ public class AdminController {
 		return "admin/admin_main";
 	}
 	
+	// ============================= 회원관리 ==========================================================
 	// 회원관리 - 회원목록 페이지로 디스패치
 	@GetMapping("admin_member_list")
 	public String adminMemberList() {
@@ -174,6 +175,8 @@ public class AdminController {
 		return "admin/admin_member_review";
 	}
 	
+	
+	// ============================= ZMAN 관리 =======================================================================================
 	// zman관리 - zman 목록 페이지로 디스패치
 	@GetMapping("admin_zman_list")
 	public String adminZmanList(Model model) {
@@ -252,6 +255,7 @@ public class AdminController {
 		return "admin/admin_zman_report";
 	}
 
+	// ============================= 중고거래 관리 =======================================================================================
 	// 중고거래관리 - 중고거래 목록 페이지로 디스패치
 	@GetMapping("admin_secondhand_list")
 	public String adminSecondhandList() {
@@ -273,6 +277,7 @@ public class AdminController {
 		return "admin/admin_auction_managing_list";
 	}
 
+	// ============================= 경매 관리 =======================================================================================
 	// 경매관리 - 경매예정 상품 상세보기
 	@GetMapping("admin_auction_managing_detail")
 	public String adminAuctionManagingDetail(@RequestParam int auction_idx, Model model) {
@@ -318,6 +323,8 @@ public class AdminController {
 		return "admin/charts_ex";
 	}
 	
+	
+	//============================= 고객센터 관리 =======================================================================================
 	// 고객센터관리 - admin_cs_notice_list.jsp로 디스패치
 	@GetMapping("admin_cs_notice_list")
 	public String adminCsNoticeList(Model model) {
@@ -413,7 +420,6 @@ public class AdminController {
 //		return "admin/admin_cs_notice_list";
 		
 	}
-	
 	
 	// 고객센터관리 - admin_cs_notice_modify_form.jsp로 디스패치
 	@GetMapping("admin_cs_notice_modify_form")
