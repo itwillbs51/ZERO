@@ -17,6 +17,8 @@
 				, #{zpay_bank_account}
 				, 0
 				, #{member_id}
+				, #{fintech_use_num}
+				, #{access_token}
 			)
 	</insert>
 	
@@ -85,7 +87,7 @@
 			)		
 	</insert>
 	
-	<!-- 중고거래 내역 추가 -->
+	<!-- 중고거래 내역 조회 -->
 	<select id="selectOrderSecondhand" resultType="com.itwillbs.zero.vo.OrderSecondhandVO">
 		SELECT * FROM ORDER_SECONDHAND
 		WHERE order_secondhand_idx = #{order_secondhand_idx}
