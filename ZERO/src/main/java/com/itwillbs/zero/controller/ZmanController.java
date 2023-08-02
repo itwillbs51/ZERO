@@ -1,11 +1,20 @@
 package com.itwillbs.zero.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.itwillbs.zero.service.ZmanDeliveryService;
+import com.itwillbs.zero.vo.ZmanDeliveryVO;
+
 @Controller
 public class ZmanController {
+	
+	@Autowired
+	private ZmanDeliveryService service;
 	
 	// ZMAN 메인 페이지로 이동
 	@GetMapping("zman_main")
@@ -21,7 +30,13 @@ public class ZmanController {
 	
 	// ZMAN 배달 예정 페이지로 이동
 	@GetMapping("zman_delivery_want")
-	public String zmanDeliveryWant() {
+	public String zmanDeliveryWant(HttpSession session, Model model) {
+		System.out.println("ZmanController - zman_delivery_want");
+		
+		ZmanDeliveryVO zd = service.getDeliveryYetList();
+		System.out.println("ZmanDeliveryVO : " + zd);
+		model.addAttribute("zd", zd);
+		
 		return "zman/zman_delivery_want";
 	}
 	
