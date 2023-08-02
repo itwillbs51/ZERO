@@ -115,7 +115,8 @@ public class BankController {
 		model.addAttribute("userInfo", userInfo);
 		
 //		return "zpay/bank_user_info";
-		return "zpay/zpay_charge_form2";
+//		return "zpay/zpay_charge_form2";
+		return "zpay/zpay_bank_user_info";
 	}
 	
 	
@@ -189,7 +190,8 @@ public class BankController {
 		
 		if(insertCount > 0) {
 //			model.addAttribute("accountDetail", accountDetail);
-			return "zpay/zpay_charge_success2";			
+			return "zpay/zpay_charge_success";			
+//			return "zpay/zpay_charge_success2";			
 		} else {
 			model.addAttribute("msg", "ZPAY 충전 실패");
 			return "bank_auth_fail_back";

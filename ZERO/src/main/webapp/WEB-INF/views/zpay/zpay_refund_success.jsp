@@ -42,14 +42,14 @@
 				<div class="successContentArea">
 					<div class="targetArea">
 						<div class="icon">
-						
+							<img alt="zpay_success" src="${pageContext.request.contextPath }/resources/img/zpay_success.png">
 						</div>
 						<p class="targetMessage">
-							<strong>산업 123****123  </strong>로<br>
-							<em class="amount">10,000원 환급완료</em>
+							<strong>${zpay.zpay_bank_name } ${zpay.zpay_bank_account }  </strong>로<br>
+							<em class="amount">${zpayHistory.zpay_amount }원 환급완료</em>
 						</p>
 						<p class="targetAccountInfo">
-							산업 123****123 
+							${zpay.zpay_bank_name } ${zpay.zpay_bank_account }
 						</p>
 					</div>
 					<div class="successInfoArea">
@@ -66,7 +66,7 @@
 								환급계좌
 							</div>
 							<div class="accountInfoArea_accountNum">
-								산업 123****123
+								${zpay.zpay_bank_name } ${zpay.zpay_bank_account }
 							</div>	
 						</div>
 						<div class="successNoticeArea">

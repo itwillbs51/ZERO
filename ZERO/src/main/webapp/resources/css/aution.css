@@ -18,6 +18,22 @@
 	background-color: #ccc;
 	margin: 1rem auto;
 }
+
+/* 카테고리 클릭 시 표시 */
+#categoryNav span {
+	text-decoration: none;
+	color: gray;
+}
+#categoryNav span:hover{
+	color: black;
+}
+.select {
+	color: black !important;
+}
+/* 목록 전체 크기 */
+#listContainer {
+	min-height: 600px;
+}
 /* 2-1. 상품갯수, 검색창, 정렬 */
 .listInfo {
 	margin-top: 25px;
@@ -71,7 +87,7 @@ li, ul {
 .productListArea {
 	margin-left: auto;
     margin-right: auto;
-	margin-top: 15px;
+	margin-top: 25px;
 	max-width: 1280px;
 	padding-left: 16px;
     padding-right: 16px;
@@ -107,13 +123,14 @@ li, ul {
 .product_info_brand {
 	margin: 5px 0 5px 0;
 	font-weight: bold;
+	font-size: 13px;
 }
 .product_info_name, .autionTime {
 	font-size: 12px;
 }
 .product_info_name {
 	line-height: 16px;
-    font-size: 15px;
+    font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -134,22 +151,25 @@ li, ul {
 } 
 .autionTime span {
 	color: red;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: bold;
 }
 
+.row div {
+	padding: 0 5px 0 0;
+	line-height: 25px;
+}
 .price {
 	display: flex;
 	justify-content: center;
-	font-size: 12px;
+	text-align: center;
+	font-size: 11px;
 	color: gray;
 }
-.price span {
-	font-size: 16px;
+.colRight{
+	font-size: 14px;
 	color: black;
-}
-.price div {
-	text-align: center;
+	text-align: right;
 }
 
 /* 경매중, 경매종료 */

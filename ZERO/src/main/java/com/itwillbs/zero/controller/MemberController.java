@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,9 @@ public class MemberController {
 	
 	@Autowired
 	private TestService testService; 
+	
+	
+	//---------------------------------------------------- 수정 ----------------------------------------------------
 	
 	// 멤버 로그인
 	@GetMapping("member_login")
@@ -222,7 +226,6 @@ public class MemberController {
 			, Model model
 			) {
 		
-		
 		System.out.println("MemberController - callback_login_google");
 		
 		return "member/member_callback";
@@ -313,14 +316,28 @@ public class MemberController {
 		return "member/member_address";
 	}	
 	
-	// 멤버 계좌 등록
+	// 멤버 개인 계좌 등록 
 	@GetMapping("member_account")
 	public String memberAccount(HttpSession session
 			, Model model) {
 		System.out.println("MemberController - memberAccount");
 		
+		String column = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		// 임시 고정값 설정 
+		
+		System.out.println(column);
+		System.out.println(member_id);
+		// 회원 계좌 정보 가져오기
+		Map<String, String> member = service.selectMemberInfo(column, member_id);
+		System.out.println(member);
+		
+		model.addAttribute("member", member);
+		
 		return "member/member_account";
 	}
+	
+	// 
 	
 	// 멤버 마이스토어
 	@GetMapping("member_mystore")
@@ -363,7 +380,7 @@ public class MemberController {
 		//  MultipartFile 객체 확인
 		  System.out.println("profile : "+ profile);
 		  
-		  
+		  // 조건 파라미터 - 아이디
 		  String column1 = "member_id";
 		  String member_id = (String)session.getAttribute("member_id");
 		  
@@ -464,6 +481,7 @@ public class MemberController {
 		
 		System.out.println("profileUpdatePost:" + map);
 		
+		// 조건 파라미터 - 아이디
 		String column1 = "member_id";
 		String member_id = (String)session.getAttribute("member_id");
 		
@@ -495,7 +513,7 @@ public class MemberController {
 		return "member/member_find_id";
 	}
 	
-	// 멤버 패스워드 찾기
+	// 멤버 패스워드 찾기 폼
 	@GetMapping("member_find_passwd")
 	public String memberFindPasswd(HttpSession session
 			, Model model) {
@@ -504,14 +522,191 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
-	// 멤버 이메일 인증 요청
-	@GetMapping("member_find_emailAuth")
+	// 멤버 이메일 인증 요청 - 작업중
+	@PostMapping("request_authMail_find_passwd")
 	public String memberFindEmailAuth(HttpSession session
+			, Map<String, String> map
 			, Model model) {
 		System.out.println("MemberController - memberFindEmailAuth");
+		System.out.println("메일 인증:" + map);
+		// 인증 메일 발송 요청
+		String sId = (String)model.getAttribute("sId");
+		
+			// Service - getId() 메서드를 호출하여
+			// member 테이블에서 email 에 해당하는 id 값 조회
+			// => 파라미터 : 이메일(email)    리턴타입 : String(id)
+//			String id = service.getId(email);
+//			System.out.println(id);
+			
+			// SendAuthMail 인스턴스 생성 후 sendMail() 메서드 호출하여 메일 발송 요청
+			// => 파라미터 : 아이디, 이메일   리턴타입 : boolean(isSendSuccess)
+//			SendMailService mailService = new SendMailService();
+//			String authCode = mailService.sendAuthMail(id, email);
+//			System.out.println("메일 발송 결과 인증코드 : " + authCode);
+			
+			// MemberService - registAuthInfo() 메서드를 호출하여 
+			// 인증 메일에 포함된 아이디와 인증코드를 인증정보 테이블에 추가
+			// => 파라미터 : 아아디, 인증코드   리턴타입 : void
+			// => 단, 메일 발송 후 리턴받은 인증코드가 있을 경우에만 작업 수행
+//			if(!authCode.equals("")) {
+//				// 인증 코드 DB 작업 요청
+//				service.registAuthInfo(id, authCode);
+//				
+//				// AJAX 요청에 대한 응답으로 "true" 값 리턴
+//				return "true";
+//			}
+//			
+//			return "false";
 		
 		return "member/member_find_emailAuth";
 	}
+	
+	// 회원 탈퇴 확인 페이지 이동
+	@GetMapping("member_withdrawal")
+	public String memberWithdrawal(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		
+		System.out.println("memberWithdrawal:" + map);
+	
+		return "member/member_withdrawal";
+	}
+	
+	// 회원 탈퇴 요청/ajax/checkWithrawal
+	@GetMapping("/ajax/checkWithrawal")
+	@ResponseBody
+	public String checkWithrawal(HttpSession session
+			, Model model
+			) {
+		System.out.println("ajax/checkWithrawal");
+		
+		// 세션 파라미터 없을 경우 리턴(구현중)
+
+		
+		// 조건 파라미터 - 아이디
+		String column1 = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		
+		// 변경할 컬럼 파라미터
+		String column2 ="member_status";
+		String value2 = "탈퇴";
+		
+		// 옥션 판매중이거나 낙찰진행중인 경우 탈퇴 불가
+		String column3 = "";
+		
+		if(false) { // 옥션 판매중이거나 낙찰 진행중인 경우(구현중)
+			
+			return "false";
+		}
+		// -----------------------------------------------------------------------------------
+		// MemberService - updateMember() 메서드를 호출하여 회원정보 상태 탈퇴 변경 작업 요청
+		// => 파라미터 : column2, value2    리턴타입 : int(updateCount)
+		int updateCount = service.updateMember(column1, member_id, column2, value2);
+		
+		
+		// 회원상태 탈퇴 변경 작업 요청 결과 판별
+		if(updateCount > 0) { // 성공
+			
+			return "true";
+			
+		} else { // 실패
+
+			return "false";
+			
+		}
+		
+	}
+	
+	
+	
+
+	
+	// 등록한 중고 상품 리스트
+	@ResponseBody
+	@GetMapping("/ajax/mySsecondhandList")
+	public JSONArray myStoreSecondHandList(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 중고 상품 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_secondhandList")
+	public JSONArray sellSecondHandList(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 중고 상품 후기 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_secondhand_reviews")
+	public JSONArray sellSecondhand_reviews(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 경매 상품 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_auctionList")
+	public JSONArray sellAuctionList(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 경매 상품 후기 리스트
+	@ResponseBody
+	@GetMapping("/ajax/sell_auctionList_reviews")
+	public JSONArray sellAuctionListReviews(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	// 등록한 경매 상품 후기 리스트
+	@ResponseBody
+	@GetMapping("/ajax/myLikeList")
+	public JSONArray myLikeList(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		
+		System.out.println();
+		JSONArray myStore = new JSONArray();
+		
+		return myStore;
+	}
+	
+	//---------------------------------------------------- 수정 ----------------------------------------------------
 	
 	// 멤버 메인화면
 	@GetMapping("member_mypage_main")
@@ -645,7 +840,7 @@ public class MemberController {
 	}
 	
 	// Z-MAN 신청폼
-	@PostMapping("zman_join_form")
+	@GetMapping("zman_join_form")
 	public String zmanJoinPro() {
 		return "member/member_zman_join_form";
 	}

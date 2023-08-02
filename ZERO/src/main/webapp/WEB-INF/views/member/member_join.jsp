@@ -108,6 +108,58 @@
     }
 </script>
 
+<%-- 이용약관 내용보기 스크립트  --%>
+<script type="text/javascript">
+$(function () {
+    // 모든 modal-trigger에 클릭 이벤트를 바인딩
+    $(".modal-trigger").on("click", function () {
+      // data-* 속성에서 데이터를 가져온다.
+      var source = $(this).data("source");
+      var modalId = $(this).data("modal-id");
+      var $targetModal = $("#" + modalId);
+
+      // 내용을 불러온 후 모달을 표시한다.
+      $.get(source, function (data) {
+        $targetModal.find(".modal-body").html(data);
+        $targetModal.modal("show");
+      });
+
+      return false;
+    });
+  });
+</script>
+
+<script type="text/javascript">
+	function validateName() {
+	  var nameInput = document.getElementById("member_name");
+	  var nameMessage = document.getElementById("pass_name");
+	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
+
+	  if (KoreanConsonantRegex.test(nameInput.value)) {
+	    nameMessage.innerHTML = "올바른 형식의 이름으로 입력해주세요.";
+	    nameMessage.style.color = "red";
+	  } else {
+	    nameMessage.innerHTML = "올바른 형식입니다.";
+	    nameMessage.style.color = "green";
+	  }
+	}
+</script>
+
+<script type="text/javascript">
+	function validateNick() {
+	  var nickInput = document.getElementById("member_nickname");
+	  var nickMessage = document.getElementById("pass_nick");
+	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
+
+	  if (KoreanConsonantRegex.test(nickInput.value)) {
+	    nickMessage.innerHTML = ".";
+	    nickMessage.style.color = "red";
+	  } else {
+	    nickMessage.innerHTML = "올바른 형식입니다.";
+	    nickMessage.style.color = "green";
+	  }
+	}
+</script>
 
 <title>ZERO 회원가입</title>
 <style>
@@ -310,7 +362,7 @@ input[type=checkbox] {
 					<span class="blind" data-v-2b15bea4="">회원가입</span>
 				</h2><br>
 				
-				<form action="join_pro" method="post">
+				<form action="join_pro" method="post" id="joinForm">
 					<%-- 클래스 이름 바꾸기 --%>
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>
@@ -320,7 +372,15 @@ input[type=checkbox] {
 							   name="member_name" 
 							   autocomplete="off" 
 							   class="input_txt" 
-							   data-v-4e1fd2e6="">
+							   data-v-4e1fd2e6=""
+							   onkeyup="validateName()" 
+							   required="required">
+					</div>
+					<div class="row mb-3">
+		    			<label for="inputNameRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="pass_name"></span>
+				   		</div>
 					</div><br>
 					
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -331,19 +391,28 @@ input[type=checkbox] {
 							   name="member_nickname" 
 							   autocomplete="off" 
 							   class="input_txt" 
-							   data-v-4e1fd2e6="">
+							   data-v-4e1fd2e6=""
+							   onkeyup="validateNick()" 
+							   required="required">
+					</div>
+					<div class="row mb-3">
+		    			<label for="inputNickRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="pass_nick"></span>
+				   		</div>
 					</div><br>
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
 						<div class="btn_input_container">
 						<input type="email" 
-						   	   placeholder="예) kream@kream.co.kr" 
+						   	   placeholder="예)zero@zero.com" 
 						   	   id="member_id" 
 						   	   name="member_id" 
 						   	   autocomplete="off" 
 						   	   class="input_txt" 
-						   	   data-v-4e1fd2e6="">
+						   	   data-v-4e1fd2e6=""
+						   	   required="required">
 					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
 						</div>
 					</div><br>
@@ -358,7 +427,8 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   maxlength="6">
+							   maxlength="6"
+							   > <!-- required="required" 편의를위해뺴놓음 테스트시 넣기 -->
 					</div>
 					<!-- 이메일 인증코드 확인 일치 여부-->
 					<div class="row mb-3">
@@ -403,8 +473,8 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   required="required"
 							   onkeyup="checkconfirmPasswd(this.value)">
+							   <!-- required="required"  편의를위해 뺴놓음 테스트시 켜기  -->
 					</div>
 						<!-- 비밀번호 와 비밀번호 확인 일치 여부-->
 					<div class="row mb-3">
@@ -426,7 +496,8 @@ input[type=checkbox] {
 							   name="member_birth" 
 							   autocomplete="off" 
 							   class="input_txt" 
-							   data-v-4e1fd2e6="">
+							   data-v-4e1fd2e6=""
+							   required="required">
 					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -438,7 +509,8 @@ input[type=checkbox] {
 								   name="member_phone" 
 								   autocomplete="off" 
 								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+								   data-v-4e1fd2e6=""
+								   required="required">
 							<button type="button" id="phone_chk">인증번호 받기</button>
 						</div>
 					</div>
@@ -453,7 +525,9 @@ input[type=checkbox] {
 								   name="member_phone2"
 								   autocomplete="off" 
 								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+								   data-v-4e1fd2e6=""
+								   maxlength="4"
+								   > <!-- required="required" 편의를위해 뺴놓음 테스트시 켜기 -->
 						</div>
 					</div>
 					<!-- 핸드폰 인증코드 확인 일치 여부-->
@@ -475,7 +549,8 @@ input[type=checkbox] {
 								   name="member_zipcode" 
 								   autocomplete="off" 
 								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+								   data-v-4e1fd2e6=""
+								   required="required">
 <!-- 							<button onclick="DaumPostcode()">우편번호 찾기</button> -->
 								<button onclick="DaumPostcode(event)">우편번호 찾기</button>
 						</div>
@@ -485,7 +560,8 @@ input[type=checkbox] {
 								   name="member_address1" 
 								   autocomplete="off" 
 								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+								   data-v-4e1fd2e6=""
+								   required="required">
 <!-- 							<input type="text"  -->
 <!-- 								   placeholder="참고항목" -->
 <!-- 								   id="member_extraAddress"  -->
@@ -499,31 +575,40 @@ input[type=checkbox] {
 								   name="member_address_detail1" 
 								   autocomplete="off" 
 								   class="input_txt" 
-								   data-v-4e1fd2e6="">
+								   data-v-4e1fd2e6=""
+								   required="required">
 					</div>
 					<br>
 					
 					<div>
 						<label for="agree_all">
-				        	<input type="checkbox" name="agree_all" id="agree_all">
+				        	<input type="checkbox" name="agree_all" id="agree_all" value="check">
 				      		<span>모두 동의합니다</span>
 					    </label><br>
-					    <label for="agree1">
-					        <input type="checkbox" name="agree" value="1" class="sub_agree">
-					        <span>이용약관 동의<strong>(필수)</strong></span>
-					    </label><br>
-					    <label for="agree2">
-					        <input type="checkbox" name="agree" value="2" class="sub_agree">
-					        <span>개인정보 수집 및 이용 동의<strong>(필수)</strong></span>
-					    </label>
+					    <div>
+						    <label for="agree1">
+						        <input type="checkbox" name="agree1" id="agree1" value="check1" class="sub_agree">
+						        <span>이용약관 동의<strong>(필수)</strong></span>
+						    </label>
+					        <span><a href="#" class="modal-trigger" data-source="${pageContext.request.contextPath}/resources/terms/term" data-modal-id="agree1Modal">내용보기</a></span>
+					    </div>
+					    <div>
+						    <label for="agree2">
+						        <input type="checkbox" name="agree2" id="agree2" value="check2" class="sub_agree">
+						        <span>개인정보 수집 및 이용 동의<strong>(필수)</strong></span>
+						    </label>
+						    <span><a href="#" class="modal-trigger" data-source="${pageContext.request.contextPath}/resources/terms/term2" data-modal-id="agree2Modal">내용보기</a></span>
+					    </div>
 <!-- 					    <label for="agree3"> -->
 <!-- 					        <input type="checkbox" name="agree" value="3" class="sub_agree"> -->
 <!-- 					        <span>개인정보 이용 동의<strong>(필수)</strong></span> -->
 <!-- 					    </label> -->
-					    <label for="agree3">
-					        <input type="checkbox" name="agree" value="3" class="sub_agree">
-					        <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
-					    </label>
+						<div>
+						    <label for="agree3">
+						        <input type="checkbox" name="agree" value="3" class="sub_agree">
+						        <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
+						    </label>
+					    </div>
 					</div>
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
@@ -537,6 +622,47 @@ input[type=checkbox] {
 	</div>
 
   </article>
+  
+<!-- 첫번째 내용보기 -->
+<div class="modal fade" id="agree1Modal" tabindex="-1" role="dialog" aria-labelledby="agree1ModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agree1ModalTitle">이용약관 동의</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--         <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+ <%-- 두번째 내용보기 --%>
+<div class="modal fade" id="agree2Modal" tabindex="-1" role="dialog" aria-labelledby="agree2ModalTitle" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="agree2ModalTitle">개인정보 수집 및 이용 동의</h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body">
+     
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     </div>
+   </div>
+ </div>
+</div>
   
   <nav id="mainNav" class="d-none d-md-block sidebar">
   <%--왼쪽 사이드바 --%>
@@ -723,43 +849,60 @@ input[type=checkbox] {
 </script> 
 
 <script type="text/javascript">
-	// 동의 버튼
-	document.getElementById("agree_all").addEventListener("change", function() {
-	    let allChecked = this.checked;
-	    let subAgrees = document.getElementsByClassName("sub_agree");
-	    for (let i = 0; i < subAgrees.length; i++) {
-	        subAgrees[i].checked = allChecked;
-	    }
-	});
-	
-	let subAgrees = document.getElementsByClassName("sub_agree");
-	for (let i = 0; i < subAgrees.length; i++) {
-	    subAgrees[i].addEventListener("change", function() {
-	        let allChecked = true;
-	        for (let j = 0; j < subAgrees.length; j++) {
-	            if (!subAgrees[j].checked) {
-	                allChecked = false;
-	                break;
-	            }
-	        }
-	        document.getElementById("agree_all").checked = allChecked;
-	    });
-	
-	    subAgrees[i].parentElement.addEventListener("click", function(e) {
-	        if (e.target.tagName !== 'INPUT') {
-	            subAgrees[i].checked = !subAgrees[i].checked;
-	            let allChecked = true;
-	            for (let j = 0; j < subAgrees.length; j++) {
-	                if (!subAgrees[j].checked) {
-	                    allChecked = false;
-	                    break;
-	                }
-	            }
-	            document.getElementById("agree_all").checked = allChecked;
-	        }
-	    });
-	}
+  // 동의 버튼
+  document.getElementById("agree_all").addEventListener("change", function () {
+    const allChecked = this.checked;
+    const subAgrees = document.getElementsByClassName("sub_agree");
+    for (let i = 0; i < subAgrees.length; i++) {
+      subAgrees[i].checked = allChecked;
+    }
+  });
+
+  const subAgrees = document.getElementsByClassName("sub_agree");
+  for (let i = 0; i < subAgrees.length; i++) {
+    subAgrees[i].addEventListener("change", function () {
+      let allChecked = true;
+      for (let j = 0; j < subAgrees.length; j++) {
+        if (!subAgrees[j].checked) {
+          allChecked = false;
+          break;
+        }
+      }
+      document.getElementById("agree_all").checked = allChecked;
+    });
+
+    subAgrees[i].parentElement.addEventListener("click", function (e) {
+      if (e.target.tagName !== "INPUT") {
+        subAgrees[i].checked = !subAgrees[i].checked;
+        let allChecked = true;
+        for (let j = 0; j < subAgrees.length; j++) {
+          if (!subAgrees[j].checked) {
+            allChecked = false;
+            break;
+          }
+        }
+        document.getElementById("agree_all").checked = allChecked;
+      }
+    });
+  }
 </script>
-  
-  
+ 
+<script type="text/javascript">
+	$(document).ready(function () {
+	    // 회원가입 폼 제출 시 유효성 검사
+	    $("#joinForm").on("submit", function (e) {
+	      const agree1 = $("#agree1").prop("checked");
+	      const agree2 = $("#agree2").prop("checked");
+	
+	      // 필수 체크박스가 체크되지 않은 경우
+	      if (!agree1 || !agree2) {
+	        e.preventDefault();
+	        alert("필수 체크박스를 체크해주세요.");
+	      }
+	    });
+	  });
+</script>
+
+
+ 
 </body>

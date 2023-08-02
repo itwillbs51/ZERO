@@ -52,7 +52,7 @@
     padding-top: 0!important;
 }
 
-.group_title[data-v-8b96a82e] {
+.group_title[data-v-8b96a82e], .group_title {
     font-size: 18px;
     letter-spacing: -.27px;
 }
@@ -127,6 +127,12 @@ input, textarea {
     border-radius: 0;
 /*     -webkit-appearance: none; */
     background-color: transparent;
+}
+
+.solid[data-v-43813796] {
+    font-weight: 700!important;
+    color: #fff!important;
+    background-color: #222!important;
 }
 
 .solid.disabled[data-v-43813796], .solid[data-v-43813796]:disabled {
@@ -364,6 +370,18 @@ input[type=checkbox] {
     cursor: pointer;
 }
 
+/* .desc[data-v-24a03828] { */
+.modal_desc[modal] {
+    flex: 1;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 16px;
+    letter-spacing: -.16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* .layer_header .title[data-v-0fdfe010] { */
 .layer_header .title[modal] {
     line-height: 22px;
@@ -426,9 +444,9 @@ input[type=checkbox] {
 
 /* .solid[data-v-43813796] { */
 .solid[modal] {
-    font-weight: 700;
-    color: #fff;
-    background-color: #222;
+    font-weight: 700!important;
+    color: #fff!important;
+    background-color: #222!important;
 }
 
 /* .medium[data-v-43813796] { */
@@ -441,7 +459,7 @@ input[type=checkbox] {
 }
 
 /* .layer_delivery .delivery_bind[data-v-71b8d4b9] { */
-.layer_delivery .delivery_bind[modal] {
+.layer_delivery .delivery_bind[modal], .layer_content[modal] {
     padding: 0 32px;
 }
 /* .input_box[data-v-4e1fd2e6] { */
@@ -511,6 +529,8 @@ input[type=checkbox] {
     padding-top: 32px;
 }
 
+
+
 /* .layer_btn[data-v-0fdfe010] { */
 .layer_btn[modal] {
     padding: 24px 32px 32px;
@@ -533,6 +553,32 @@ input[type=checkbox] {
     display: block;
     clear: both;
 }
+.modal_btn_box[modal] {
+    padding-top: 20px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.btn[modal] {
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+    color: rgba(34,34,34,.8);
+    background-color: #fff;
+}
+
+.modal_btn_box .btn[modal] {
+    width: 120px;
+}
+
+.modal_btn_box .btn+.btn[modal] {
+    margin-left: 8px;
+}
+
+/* 모달 속성 끝 */
 
 
 /* a태그 속성 */
@@ -687,4 +733,121 @@ input[type=checkbox] {
     border-radius: 10px;
     background-color: #f4f4f4;
     box-sizing: border-box;
+}
+
+/* 회원 탈퇴 페이지 */
+.title[data-v-88eb18f6] {
+    font-size: 24px;
+    letter-spacing: -.36px;
+}
+
+
+/* @media (max-width: 768px) 수정 */
+/* .wrap[data-v-78dabb2d] { */
+/*     padding-top: 60px; */
+/*     min-height:  100px; */
+/* } */
+
+.withdrawal_terms[data-v-48e89bd9] {
+    margin-top: 20px;
+    padding: 24px;
+    border: 1px solid #d3d3d3;
+}
+
+.withdrawal_btn_box[data-v-48e89bd9] {
+    padding-top: 40px;
+    text-align: center;
+}
+
+.withdrawal_btn_box .btn[data-v-48e89bd9] {
+    width: 120px;
+}
+
+.withdrawal_btn_box .btn+.btn[data-v-48e89bd9] {
+    margin-left: 8px;
+}
+
+.withdrawal_wrap .label_txt[data-v-4c714e9f] {
+    letter-spacing: -.16px;
+    font-size: 16px;
+}
+
+.lg .withdrawal_wrap[data-v-48e89bd9], .md .withdrawal_wrap[data-v-48e89bd9] {
+    padding-top: 40px;
+}
+
+.withdrawal_check[data-v-48e89bd9] {
+    margin-top: 20px;
+}
+
+
+.terms_detail[data-v-48e89bd9] {
+    padding-top: 16px;
+}
+
+.terms_item[data-v-48e89bd9] {
+    position: relative;
+    padding-left: 12px;
+    color: #333;
+    word-break: keep-all;
+}
+
+.terms_item[data-v-48e89bd9], .terms_subtitle[data-v-48e89bd9] .terms_subtitle[data-v-48e89bd9] {
+    font-size: 15px;
+    letter-spacing: -.15px;
+}
+
+.terms_box+.terms_box[data-v-48e89bd9] {
+    margin-top: 40px;
+}
+
+.terms_title[data-v-48e89bd9] {
+    font-size: 16px;
+    letter-spacing: -.16px;
+}
+
+.label_txt[data-v-4c714e9f] {
+	font-weight: 600;
+    padding-left: 8px;
+    display: inline-block;
+    line-height: 24px;
+    font-size: 13px;
+    letter-spacing: -.07px;
+    vertical-align: top;
+}
+
+.terms_subtitle[data-v-48e89bd9] {
+    padding-bottom: 8px;
+    font-weight: 600;
+}
+
+/* .medium[data-v-43813796] { */
+.medium {
+    padding: 0 18px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 14px;
+    letter-spacing: -.14px;
+}
+
+/* .btn[data-v-43813796] { */
+.btn {
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+    color: rgba(34,34,34,.8);
+    background-color: #fff;
+}
+
+/* 블라인드 속성 */
+.blind, .u_skip {
+    overflow: hidden!important;
+    position: absolute!important;
+    clip: rect(0,0,0,0)!important;
+    width: 1px!important;
+    height: 1px!important;
+    margin: -1px!important;
 }

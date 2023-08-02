@@ -20,6 +20,7 @@ public class DepositInfoVO {
 	private String account_num_masked;
 	private String print_content;
 	private String account_holder_name;
-	private String tran_amt;
+	private long tran_amt;
+//	private String tran_amt;
 	private String cms_num;
 }

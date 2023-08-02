@@ -82,7 +82,7 @@
 												        var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 												            message = '<div style="padding:5px;">ZMAN 현재 위치!</div>'; // 인포윈도우에 표시될 내용입니다
 												        
-												        // 마커와 인포윈도우를 표시하기
+												        // ZMAN 현재 위치 - 마커와 인포윈도우를 표시하기
 												        displayMarker(locPosition, message);
 												            
 														// 지도에 원을 표시한다
@@ -99,8 +99,15 @@
 										 				});	 
 														
 										 			// 마커를 표시할 위치와 title 객체 배열입니다 
-										 			//alert(lat); // 35.1544453
-													//alert(lon); // 129.060646
+										 			// 학원 현재 위치
+										 				// alert(lat); // 35.1544453
+														// alert(lon); // 129.060646
+													
+													// ********** positions 배열 에 위도와 경도를 저장
+													
+													// DB 에서 출발지에 대한 값들을 배열 형태로 가져오기
+													// -> 출발지 를 좌표로 검색해서 그 값들을 저장하기
+													
 										 				var positions = [
 										 				    {
 										 				        title: '서면로 62', 
@@ -226,7 +233,6 @@
 							<%-- AJAX 마커 클릭 시 간단 정보 출력 영역 끝--%>
 						
 						<hr>
-							<h2>배달 예정 게시판</h2>
 					    	<%-- 배달 예정 게시판 영역 시작 --%>
 							<div class="container text-center">
 									<table class="table">
