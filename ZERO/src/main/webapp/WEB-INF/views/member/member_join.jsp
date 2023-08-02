@@ -129,6 +129,22 @@ $(function () {
   });
 </script>
 
+<script type="text/javascript">
+	function validateName() {
+	  var nameInput = document.getElementById("member_name");
+	  var nameMessage = document.getElementById("pass_name");
+	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
+
+	  if (KoreanConsonantRegex.test(nameInput.value)) {
+	    nameMessage.innerHTML = "올바른 형식의 이름으로 입력해주세요.";
+	    nameMessage.style.color = "red";
+	  } else {
+	    nameMessage.innerHTML = "올바른 형식입니다.";
+	    nameMessage.style.color = "green";
+	  }
+	}
+</script>
+
 <title>ZERO 회원가입</title>
 <style>
 
@@ -341,8 +357,15 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
+							   onkeyup="validateName()" 
 							   required="required">
-					</div><br>
+					</div>
+					<div class="row mb-3">
+		    			<label for="inputNameRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="pass_name"></span>
+				   		</div>
+					</div>	
 					
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">닉네임</h3>
@@ -360,7 +383,7 @@ input[type=checkbox] {
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
 						<div class="btn_input_container">
 						<input type="email" 
-						   	   placeholder="예) zero@zero.com" 
+						   	   placeholder="예)zero@zero.com" 
 						   	   id="member_id" 
 						   	   name="member_id" 
 						   	   autocomplete="off" 
@@ -856,6 +879,7 @@ input[type=checkbox] {
 	    });
 	  });
 </script>
+
 
  
 </body>
