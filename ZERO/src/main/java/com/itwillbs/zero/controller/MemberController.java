@@ -55,6 +55,9 @@ public class MemberController {
 	@Autowired
 	private TestService testService; 
 	
+	
+	//---------------------------------------------------- 수정 ----------------------------------------------------
+	
 	// 멤버 로그인
 	@GetMapping("member_login")
 	public String memberLogin(HttpSession session
@@ -363,7 +366,7 @@ public class MemberController {
 		//  MultipartFile 객체 확인
 		  System.out.println("profile : "+ profile);
 		  
-		  
+		  // 조건 파라미터 - 아이디
 		  String column1 = "member_id";
 		  String member_id = (String)session.getAttribute("member_id");
 		  
@@ -464,6 +467,7 @@ public class MemberController {
 		
 		System.out.println("profileUpdatePost:" + map);
 		
+		// 조건 파라미터 - 아이디
 		String column1 = "member_id";
 		String member_id = (String)session.getAttribute("member_id");
 		
@@ -512,6 +516,68 @@ public class MemberController {
 		
 		return "member/member_find_emailAuth";
 	}
+	
+	// 회원 탈퇴 직전 페이지 이동
+	@GetMapping("member_withdrawal")
+	public String memberWithdrawal(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		
+		System.out.println("memberWithdrawal:" + map);
+	
+		return "member_withdrawal_final";
+	}
+	
+	// 회원 탈퇴 요청
+	@GetMapping("member_withdrawal_final")
+	public String memberWithdrawalFinal(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+	
+		System.out.println("memberWithdrawalFinal:" + map);
+		
+		// 탈퇴 이용약관 체크 여부
+		String withdrawCheck = map.get("withdrawCheck");
+		
+		// 탈퇴 이용약관 체크 파라미터 false 시 접근 차단
+		if(withdrawCheck.equals("false")) {
+			model.addAttribute("msg", "잘못된 접근입니다!");
+			return "fail_back";
+		}
+		
+		// 조건 파라미터 - 아이디
+		String column1 = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		
+		// 변경할 컬럼 파라미터
+		String column2 ="member_status";
+		String value2 = "탈퇴";
+		
+		// -----------------------------------------------------------------------------------
+		// MemberService - updateMember() 메서드를 호출하여 회원정보 상태 탈퇴 변경 작업 요청
+		// => 파라미터 : column2, value2    리턴타입 : int(updateCount)
+		int updateCount = service.updateMember(column1, member_id, column2, value2);
+		
+		
+		// 회원상태 변경 작업 요청 결과 판별
+		if(updateCount > 0) { // 성공
+			
+			model.addAttribute("msg", "회원 탈퇴가 되었습니다");
+			// 회원상태 변경 작업 성공 시 "성공" 출력
+			return "success_forward_sj";
+			
+		} else { // 실패
+
+//			model.addAttribute("msg", "회원 탈퇴가 실패하였습니다");
+			return "member_logout";
+			
+		}
+	}
+	
+	//---------------------------------------------------- 수정 ----------------------------------------------------
+
 	
 	// 멤버 메인화면
 	@GetMapping("member_mypage_main")
