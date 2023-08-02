@@ -19,9 +19,21 @@ public class AuctionService {
 		return mapper.selectPreAuctionList(pageNum, category, sort, startRow, listLimit);
 	}
 	
+	// 경매중 목록 조회
+	public List<HashMap<String, String>> selectNowAuctionList(int pageNum, String category, String sort, int startRow,
+			int listLimit) {
+		return mapper.selectNowAuctionList(pageNum, category, sort, startRow, listLimit);
+	}
+
+	// 경매종료 목록 조회
+	public List<HashMap<String, String>> selectEndAuctionList(int pageNum, String category, String sort, int startRow,
+			int listLimit) {
+		return mapper.selectEndAuctionList(pageNum, category, sort, startRow, listLimit);
+	}
+
 	// 전체 게시물 수 계산 (type으로 목록 구분)
 	public int getAucionListCount(int pageNum, String category, String sort, String type) {
 		return mapper.selectGetAuctionListCount(pageNum, category, sort, type);
 	}
-
+	
 }

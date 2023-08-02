@@ -27,7 +27,6 @@ public class AuctionController {
 	@GetMapping("auctionList_present")
 	public String auctionList_present() {
 		
-		
 		return "auction/auction_list_present";
 	}
 	
@@ -47,6 +46,14 @@ public class AuctionController {
 		return "auction/auction_list_prepare";
 	}
 	
+	// 경매 종료 목록 페이지로 이동
+	@GetMapping("auctionList_end")
+	public String auctionList_end() {
+		
+		return "auction/auction_list_end";
+	}
+	
+	
 	// 입찰예정경매 목록 가져오는 메서드 정의
 	@ResponseBody
 	@GetMapping("preAuctionListJson")
@@ -65,7 +72,7 @@ public class AuctionController {
 		// AUCTION_MANAGING 에서 검수상태가 '검수완료'이고 검수일자컬럼의 다음날부터 그 다음 3일날까지인 상품 보여주기
 		// 파라미터 없음(페이징?)		리턴타입 List<AuctionProductVO>(preAuctionList)
 		List<HashMap<String, String>> preAuctionList =  service.selectPreAuctionList(pageNum, category, sort, startRow, listLimit);
-		logger.info(preAuctionList.toString());
+//		logger.info(preAuctionList.toString());
 		// -------------------------------------------------------------------------
 		// 페이징 처리를 위한 계산 작업
 		// 한 페이지에서 표시할 페이지 목록(번호) 계산
@@ -73,11 +80,11 @@ public class AuctionController {
 		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
 		String type = "입찰예정";
 		int listCount = service.getAucionListCount(pageNum, category, sort, type);
-		System.out.println("전체 게시물 수 : " + listCount);
+//		System.out.println("전체 게시물 수 : " + listCount);
 //				
 		// 2. 전체 페이지 목록 갯수 계산
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
-		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
 		// => 이것도 리턴값으로 들고가고 싶다 => 객체로 넣기(boardList = XX, maxPage = xx) => JSONObject
 		
 		// 최대 페이지번호(maxPage) 값도 JSON 데이터로 함께 넘기기
@@ -89,18 +96,87 @@ public class AuctionController {
 		jsonObject.put("preAuctionList", preAuctionList);
 		jsonObject.put("maxPage", maxPage);
 		jsonObject.put("listCount", listCount);
+//		System.out.println(jsonObject);
+		
+		return jsonObject.toString();
+	}
+	
+	// 경매중 목록 가져오는 메서드 정의 (입찰예정경매 목록 메서드와 유사)
+	@ResponseBody
+	@GetMapping("nowAuctionListJson")
+	public String nowAuctionList(
+			@RequestParam(defaultValue = "1") int pageNum
+			, @RequestParam(defaultValue = "") String category
+			, @RequestParam(defaultValue = "") String sort) {
+		
+		int listLimit = 12; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		
+		List<HashMap<String, String>> nowAuctionList =  service.selectNowAuctionList(pageNum, category, sort, startRow, listLimit);
+//		logger.info(nowAuctionList.toString());
+		// 1. BoardService - getBoardListCount() 메서드를 호출하여
+		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
+		String type = "경매중";
+		int listCount = service.getAucionListCount(pageNum, category, sort, type);
+//		System.out.println("전체 게시물 수 : " + listCount);
+				
+		// 2. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		// => 이것도 리턴값으로 들고가고 싶다 => 객체로 넣기(boardList = XX, maxPage = xx) => JSONObject
+		
+		// 최대 페이지번호(maxPage) 값도 JSON 데이터로 함께 넘기기
+		JSONObject jsonObject = new JSONObject();
+		
+		jsonObject.put("nowAuctionList", nowAuctionList);
+		jsonObject.put("maxPage", maxPage);
+		jsonObject.put("listCount", listCount);
 		System.out.println(jsonObject);
 		
 		return jsonObject.toString();
+	}
+	
+	// 경매종료 목록 가져오는 메서드 정의 (입찰예정경매 목록 메서드와 유사)
+	@ResponseBody
+	@GetMapping("endAuctionListJson")
+	public String endAuctionList(
+			@RequestParam(defaultValue = "1") int pageNum
+			, @RequestParam(defaultValue = "") String category
+			, @RequestParam(defaultValue = "") String sort) {
 		
+		int listLimit = 12; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		
+		List<HashMap<String, String>> endAuctionList =  service.selectEndAuctionList(pageNum, category, sort, startRow, listLimit);
+		logger.info(endAuctionList.toString());
+		// 1. BoardService - getBoardListCount() 메서드를 호출하여
+		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
+		String type = "경매중";
+		int listCount = service.getAucionListCount(pageNum, category, sort, type);
+		System.out.println("전체 게시물 수 : " + listCount);
+		
+		// 2. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		// => 이것도 리턴값으로 들고가고 싶다 => 객체로 넣기(boardList = XX, maxPage = xx) => JSONObject
+		
+		// 최대 페이지번호(maxPage) 값도 JSON 데이터로 함께 넘기기
+		JSONObject jsonObject = new JSONObject();
+		
+		jsonObject.put("endAuctionList", endAuctionList);
+		jsonObject.put("maxPage", maxPage);
+		jsonObject.put("listCount", listCount);
+		System.out.println(jsonObject);
+		
+		return jsonObject.toString();
 	}
 	
 	
 	
-	// 경매 종료 목록 페이지로 이동
-	@GetMapping("auctionList_end")
-	public String auctionList_end() {
-		
-		return "auction/auction_list_end";
-	}
+	
+	
+	
+	
+	
+	
 }
