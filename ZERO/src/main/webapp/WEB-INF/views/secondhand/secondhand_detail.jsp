@@ -218,22 +218,26 @@ a {
 				<hr>
 				<p>${secondhandProduct.secondhand_content }</p>
 				<br>
+				
 				<%-- 
 					sessionId 일치하는경우 (작성자 본인일경우 -> 수정하기, 삭제하기 버튼 보여줌
 					sessionId 일치하지 않는경우 or 없는경우 : 채팅하기 버튼 보여줌
 					=> 없는경우 채팅버튼 누를경우 : 로그인알람창 -> 로그인페이지 이동
 				--%>
 				
-				<%-- 판매자본인일경우 - 수정하기 / 삭제하기 버튼 활성화 --%>
+				
+				<%-- 
+					판매자본인일경우 - 수정하기 / 삭제하기 버튼 활성화 
+					-> 페이지이동시 상품번호,페이지번호 파라미터로 전달
+				--%>
 			<c:choose>
-				<c:when test="${not empty secondhandProduct.member_id}">
+				<%-- 세션아이디 존재하고, 세션아이디=판매자아이디 동일할 경우 --%>
+				<c:when test="${not empty sessionScope.member_id && sessionScope.member_id eq secondhandProduct.member_id}">
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 수정하기 </button>
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px""onclick="location.href='secondhandDelete'"> 삭제하기 </button>
-	<!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em;"onclick="location.href='secondhandUpdateDate'"> 끌어올리기</button><br><br> -->
-				</c:when>
-	
-	
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px""onclick="location.href='secondhandDeletesecondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 삭제하기 </button>
+					<!--<button class="btn btn-primary btn-lg" style="font-size:1em;"onclick="location.href='secondhandUpdateDate'"> 끌어올리기</button><br><br> -->
+
 					<%-- 판매자본인일경우 -  셀렉트박스로 거래상태변경가능 --%>
 					<select class="changeDealStatus" aria-label="Default select example">
 					  <option selected> 거래중 </option>
@@ -241,9 +245,10 @@ a {
 					  <option value="2"> 끌어올리기 </option>
 					</select>
 					<hr>
-					
+				</c:when>					
+				
+				<%-- 판매자 본인 아닐경우 - 채팅하기 가능 --%>
 				<c:otherwise>
-				<%-- 판매자 본인 아닐경우 --%>		
 				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 <!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button> -->
 				<form action="doChat" method="POST">
@@ -251,7 +256,6 @@ a {
 					<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
 					<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
 				</form>
-			
 				</c:otherwise>
 			</c:choose>
 			
@@ -269,9 +273,36 @@ a {
 			<hr>
 			<div class="column" >
 				<hr>
-					<b>카테고리</b> <button class="btn btn-light" style="align:left;">유아동/유아패션/장난감/도서</button><br>
-					<b>거래방법</b> <button class="btn btn-light" > Z스테이션 </button> <button class="btn btn-light" > 직거래</button> <button class="btn btn-light" > 택배거래</button><br>
-					<b>결제방법</b> <button class="btn btn-light" > Z페이 </button><br><br>
+					<p>
+						<b>카테고리</b> 
+						<button class="btn btn-light" style="align:left;">${secondhandProduct.category_name }</button><br>
+					</p>	
+
+					<p>
+						<b>거래방법</b>
+						<c:if test="${not empty secondhandProduct.secondhand_deliveryType_ptp }">
+							<button class="btn btn-light" > 직거래 </button> 
+						</c:if>
+						<c:if test="${not empty secondhandProduct.secondhand_deliveryType_parcel }">
+							<button class="btn btn-light" > 택배거래 </button> 
+						</c:if>
+						<c:if test="${not empty secondhandProduct.secondhand_deliveryType_zstation }">
+							<button class="btn btn-light" > Z스테이션 </button> 
+						</c:if>
+						<c:if test="${not empty secondhandProduct.secondhand_deliveryType_zman }">
+							<button class="btn btn-light" > Z맨 </button> 
+						</c:if>
+					</p>												
+
+					<p>
+						<b>결제방법</b> 
+						<c:if test="${not empty secondhandProduct.secondhand_paymentType_ptp }">
+							<button class="btn btn-light" > 직거래 </button> 
+						</c:if>
+						<c:if test="${not empty secondhandProduct.secondhand_paymentType_zpay }">
+							<button class="btn btn-light" > Z페이 </button> 
+						</c:if>
+					</p>
 			</div>
 			
 			<%-- 2행 2열 (판매자정보) --%>
