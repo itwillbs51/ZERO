@@ -295,8 +295,7 @@ row{
 			
 			<div class="col-lg-3 col-mid-4">
 						<div class="card border-0 shadow-sm" >
-							
-							
+						
 							<!-- 썸네일이미지 - 서버 업로드시 경로 재설정 필요할수도 -->
 							<div class="photoDiv">	
 								

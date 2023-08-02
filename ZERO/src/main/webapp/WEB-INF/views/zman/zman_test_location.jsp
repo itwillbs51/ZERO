@@ -20,9 +20,9 @@
 		margin: 25px;
 	}
 	
-	.dot {overflow:hidden;float:left;width:12px;height:12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mini_circle.png');}    
-	.dotOverlay {position:relative;bottom:10px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;font-size:12px;padding:5px;background:#fff;}
-	.dotOverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}    
+/* 	.dot {overflow:hidden;float:left;width:12px;height:12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mini_circle.png');}     */
+/* 	.dotOverlay {position:relative;bottom:10px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;font-size:12px;padding:5px;background:#fff;} */
+/* 	.dotOverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}     */
 	.number {font-weight:bold;color:#ee6152;}
 	.dotOverlay:after {content:'';position:absolute;margin-left:-6px;left:50%;bottom:-8px;width:11px;height:8px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white_small.png')}
 	.distanceInfo {position:relative;top:5px;left:5px;list-style:none;margin:0;}
@@ -58,6 +58,11 @@
 						<div id="check">
 							출발지 : ${depart} <br> 
 							도착지 : ${arrive}
+						</div>
+						
+						<hr>
+						<div id="distance">
+							<button type="button" onclick="">버튼 클릭</button>
 						</div>
 						
 						<hr>
@@ -119,19 +124,35 @@
 						// 주소-좌표 변환 객체를 생성합니다
 						var geocoder = new kakao.maps.services.Geocoder();
 						
+						
+						// 출발지와 도착지 좌표 저장을 위한 변수 선언
 						var departCoords = new kakao.maps.LatLng(33.450701, 126.570667);
 						var arriveCoords = new kakao.maps.LatLng(33.450701, 126.570667);
-												
+						
+						// 출발지와 도착지 좌표 (경도, 위도) 각각 저장을 위한 변수 선언
+						var lat1 = 33.450701;
+						var lon1 = 126.570667;
+						var lat2 = 33.450701;
+						var lon2 = 126.570667;
+						
+						
+						// (추가) 마커와 선분을 담을 배열을 생성하기
+						var markers = []; // 마커를 담을 배열 -> 이 마커들을 마커 배열에 넣고, 그 배열을 이용해서 선을 그려준다.
+						var lines = []; // 선분을 담을 배열
 						
 						// 출발지 - 주소로 좌표를 검색합니다
-						geocoder.addressSearch('${depart}', function(result, status) {
+						geocoder.addressSearch('${depart}', function(result, status) { <%-- ${depart} --%> 
 						
 						    // 정상적으로 검색이 완료됐으면 
 						     if (status === kakao.maps.services.Status.OK) {
 						
-						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x); // 위도, 경도 
 								var message = 'latlng: new kakao.maps.LatLng(' + result[0].y + ', ';
 								message += result[0].x + ')';
+						        
+						        // 거리 계산을 위해 위도, 경도 저장
+						        lat1 = new kakao.maps.LatLng(result[0].y);
+						        lon1 = new kakao.maps.LatLng(result[0].x);
 								
 								var resultDiv = document.getElementById('clickLatlng'); 
 								resultDiv.innerHTML = message;
@@ -141,6 +162,9 @@
 						            map: map,
 						            position: coords
 						        });
+						        
+						        // 마커를 배열에 저장하기
+						        markers.push(marker);
 						        
 						        // 출발지 좌표 저장하기
 						        departCoords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -157,7 +181,7 @@
 						}); 
 						
 						// 도착지 - 주소로 좌표를 검색합니다
-						geocoder.addressSearch('${arrive}', function(result, status) {
+						geocoder.addressSearch('${arrive}', function(result, status) {  <%-- ${arrive} --%> 
 						
 						    // 정상적으로 검색이 완료됐으면 
 						     if (status === kakao.maps.services.Status.OK) {
@@ -165,6 +189,10 @@
 						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 								var message = 'latlng: new kakao.maps.LatLng(' + result[0].y + ', ';
 								message += result[0].x + ')';
+								
+								// 거리 계산을 위해 위도, 경도 저장
+						        lat2 = new kakao.maps.LatLng(result[0].y);
+						        lon2 = new kakao.maps.LatLng(result[0].x);
 								
 								var resultDiv = document.getElementById('clickLatlng'); 
 								resultDiv.innerHTML = message;
@@ -174,6 +202,9 @@
 						            map: map,
 						            position: coords
 						        });
+						        
+						        // 마커를 배열에 저장하기
+						        markers.push(marker);
 						
 						        // 도착지 좌표 저장하기
 						        arriveCoords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -190,35 +221,74 @@
 						}); 
 						
 					//=========================================================================================================================
+					// 경도와 위도 좌표를 사용하여 직선 거리 구하기
+					function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
+					    function deg2rad(deg) {
+					        return deg * (Math.PI/180)
+					    }
+					
+					    var R = 6371; // 지구 반지름
+					    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+					    var dLon = deg2rad(lng2-lng1);
+					    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+					    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+					    var d = R * c; // km로 표현한 거리
+					    
+					    return d;
+					} 
+					//=========================================================================================================================
 					// 출발지 마커와 도착지 마커 사이 선 그리고 경로 계산하기				
 					// 클릭하지 않고 페이지가 로딩될 때 바로 선이 그려지고 , 결과값이 도출되도록 코드 수정하기
-					var positions = [
-						 {
-						  content: '<div>출발지</div>',
-						  latlng: departCoords
-						 },
-						 {
-						  content: '<div>도착지</div>',
-						  latlng: arriveCoords
-						 }
-					];			
+// 					var positions = [
+// 						 {
+// 						  content: '<div>출발지</div>',
+// 						  latlng: departCoords
+// 						 },
+// 						 {
+// 						  content: '<div>도착지</div>',
+// 						  latlng: arriveCoords
+// 						 }
+// 					];			
 					
-					// 선을 구성하는 좌표 배열, 이 좌표들을 이어서 선을 표시한다.
-					var polyline = [
-						departCoords, arriveCoords
-					];
+// 					// 선을 구성하는 좌표 배열, 이 좌표들을 이어서 선을 표시한다.
+// 					var polyline = [
+// 						departCoords, arriveCoords
+// 					];
 					
-					// 지도에 표시할 선을 생성한다.
-					var linePath = new kakao.maps.Polyline({
-						path: polyline, 		// 선을 구성하는 좌표 배열
-						strokeWeight: 3, 		// 선의 두께
-						strokeColor: 'black', 	// 선의 컬러
-						strokeOpacity: 0.7, 	// 선의 불투명도 (0 ~ 1 / 0에 가까울수록 투명)
-						strokeStyle: 'solid'	// 선의 스타일
-					});
+// 					// 지도에 표시할 선을 생성한다.
+// 					var linePath = new kakao.maps.Polyline({
+// 						path: polyline, 		// 선을 구성하는 좌표 배열
+// 						strokeWeight: 3, 		// 선의 두께
+// 						strokeColor: 'black', 	// 선의 컬러
+// 						strokeOpacity: 0.7, 	// 선의 불투명도 (0 ~ 1 / 0에 가까울수록 투명)
+// 						strokeStyle: 'solid'	// 선의 스타일
+// 					});
 					
-					// 지도에 선을 표시하기
-					linePath.setMap(map);
+// 					// 지도에 선을 표시하기
+// 					linePath.setMap(map);
+					//==================================================== 
+					// test 2
+					// 마커를 지도에 표시 (위에서 진행)
+					// 마커를 배열에 추가하기
+				
+					
+					// 선분 생성
+					if(markers.length > 1) { // 마커가 2개 이상이면
+						var linePath = [markers[markers.length - 2].getPosition(), markerPosition];// 첫번째 마커와 두번째 마커
+					
+						// 선분 생성, 생김새
+			            var line = new kakao.maps.Polyline({
+			                path: linePath,
+			                strokeWeight: 2,
+			                strokeColor: '#FF0000',
+			                strokeOpacity: 0.7,
+			                strokeStyle: 'solid'
+			            });
+
+			            line.setMap(map);
+			            lines.push(line);
+					}
+					
 					
 					
 				</script>

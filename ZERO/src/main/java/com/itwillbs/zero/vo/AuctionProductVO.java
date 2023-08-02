@@ -1,5 +1,7 @@
 package com.itwillbs.zero.vo;
 
+import java.sql.*;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -23,5 +25,10 @@ public class AuctionProductVO {
 	private MultipartFile file1;
 	private MultipartFile file2;
 	private MultipartFile file3;
-
+	
+	// 목록 가져오기용 파라미터 추가
+	private String brand_name;
+	private Date auction_manage_check_date;
+	private Date auction_start_date;
+	private int auction_log_count;
 }

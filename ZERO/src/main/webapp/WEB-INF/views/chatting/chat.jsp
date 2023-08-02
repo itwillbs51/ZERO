@@ -72,6 +72,33 @@
 							<c:if test="${secondhandInfo.member_id eq sessionScope.member_id }">
 								<button><i class="material-icons">done</i><span>거래하기 </span></button>
 							</c:if>
+							
+							<c:choose>
+								<%--
+								회원이나 직원이('비회원'이 아닐 때)
+								세션 아이디가 있을 때(로그인o) 찜하기 기능
+									- 찜하기 목록에 있으면 찜 표시
+									- 찜하기 목록에 없으면 그대로 표시
+								세션 아이디가 없을 때(로그인x) 모달창으로 로그인권유,
+								--%>
+								<c:when test="${not empty sessionScope.member_id && member_type ne '비회원'}">
+									<button type="button" class="btn btn-outline-danger" id="likeMovie${i.count }" data-target="#movie_num${i.count }" value="${i.count }" onclick="checkMovie(this, ${i.count })">♡찜하기</button>
+									<input type="hidden" id="clickCk${i.count }">
+								</c:when>
+<%-- 									<c:otherwise> --%>
+<%-- 										<button type="button" class="btn btn-outline-danger" id="likeMovie${i.count }" data-target="#movie_num${i.count }" data-number="${i.count }" onclick="checkMovie(this.dataset.number)">♡찜하기</button> --%>
+<%-- 										<input type="hidden" id="clickCk${i.count }"> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 									</c:choose> --%>
+<%-- 								</c:when> --%>
+								<%-- 세션아이디가 없거나 비회원일 때 -> 클릭 시 모달창 팝업 --%>
+								<c:otherwise>
+									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
+									<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button>
+								</c:otherwise>
+							</c:choose>
+							
+							
 							<button><i class="material-icons">access_time</i><span>약속잡기 </span></button>
 							<button><i class="material-icons">attach_money</i><span>송금하기 </span></button>
 						</div>
