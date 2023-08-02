@@ -186,9 +186,9 @@ public class BankApiClient {
 		jo.put("bank_tran_id", valueGenerator.getBankTranId());
 		jo.put("cntr_account_type", "N"); // 약정 계좌/계정 구분(N:계좌, C:계정 => N 고정)
 		jo.put("cntr_account_num", "50000012"); // 약정계좌 계좌번호
-		jo.put("dps_print_content", "출금테스트");	// 입금계좌 인자내역 : 핀테크 기관 입장에서 입금해주는 것!
+		jo.put("dps_print_content", "ZERO 충전테스트");	// 입금계좌 인자내역 : 핀테크 기관 입장에서 입금해주는 것!
 		jo.put("fintech_use_num", map.get("fintech_use_num")); // 출금계좌 핀테크이용번호(전달받은 값)
-		jo.put("tran_amt", "1000");	// 거래금액
+		jo.put("tran_amt", "10000");	// 거래금액
 		jo.put("tran_dtime", valueGenerator.getTranDTime());	// 거래 요청 일시
 		jo.put("req_client_name", "신혜진");
 		jo.put("req_client_fintech_use_num", map.get("fintech_use_num"));
@@ -232,8 +232,8 @@ public class BankApiClient {
 		joReq.put("tran_no", "1"); // 거래순번
 		joReq.put("bank_tran_id", valueGenerator.getBankTranId());
 		joReq.put("fintech_use_num", map.get("fintech_use_num")); // 입금계좌 핀테크이용번호(전달받은 값)
-		joReq.put("print_content", "입금테스트"); // 입금계좌 인자내역(테스트 데이터 등록)
-		joReq.put("tran_amt", "2000"); // 거래금액(테스트 데이터 등록)
+		joReq.put("print_content", "ZERO 환급테스트"); // 입금계좌 인자내역(테스트 데이터 등록)
+		joReq.put("tran_amt", "1000"); // 거래금액(테스트 데이터 등록)
 		joReq.put("req_client_name", "신혜진"); // 거래를 요청한 사용자 이름
 //		joReq.put("req_client_bank_code", "002"); // 
 		joReq.put("req_client_fintech_use_num", map.get("fintech_use_num")); // 거래를 요청한 사용자 핀테크번호

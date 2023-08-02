@@ -17,6 +17,19 @@
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
+<style type="text/css">
+	html {
+		height: 100%
+	}
+	
+	body {
+		height: 89vh;
+	}
+
+	.container {
+		padding-bottom: 0;
+	}
+</style>
 </head>
 <body>
 	<header>
@@ -29,14 +42,14 @@
 				<div class="successContentArea">
 					<div class="targetArea">
 						<div class="icon">
-						
+							<img alt="zpay_success" src="${pageContext.request.contextPath }/resources/img/zpay_success.png">
 						</div>
 						<p class="targetMessage">
 							<strong>내 ZPAY </strong>로<br>
-							<em class="amount">10,000원 충전완료</em>
+							<em class="amount">${zpayHistory.zpay_amount }원 충전완료</em>
 						</p>
 						<p class="targetAccountInfo">
-							산업 123****123 
+							${zpay.zpay_bank_name } ${zpay.zpay_bank_account }
 						</p>
 					</div>
 					<div class="successInfoArea">
@@ -45,7 +58,7 @@
 								ZPAY 잔액
 							</div>
 							<strong class="balanceArea_balance">
-								70,000원
+								${zpay_balance }원
 							</strong>	
 						</div>
 						<div class="accountInfoArea">
@@ -53,7 +66,7 @@
 								출금계좌
 							</div>
 							<div class="accountInfoArea_accountNum">
-								산업 123****123
+								${zpay.zpay_bank_name } ${zpay.zpay_bank_account }
 							</div>	
 						</div>
 						<div class="successNoticeArea">
