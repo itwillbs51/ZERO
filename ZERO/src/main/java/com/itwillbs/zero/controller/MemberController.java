@@ -761,7 +761,7 @@ public class MemberController {
 	}
 	
 	// Z-MAN 신청폼
-	@PostMapping("zman_join_form")
+	@GetMapping("zman_join_form")
 	public String zmanJoinPro() {
 		return "member/member_zman_join_form";
 	}
