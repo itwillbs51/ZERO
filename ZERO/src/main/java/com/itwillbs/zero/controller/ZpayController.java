@@ -197,41 +197,41 @@ public class ZpayController {
 		return "zpay/zpay_refund_form";
 	}
 	
-	@PostMapping("zpay_refund_pro")
-	public String zpayRefundPro(ZpayHistoryVO zpayHistory, 
-			@RequestParam String member_id, 
-			@RequestParam String zpayAmount, 
-			Model model) {
-		System.out.println("ZpayController - zpayChargePro()");
-		
-		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		
-		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
-		int zpay_idx = service.getZpayIdx(member_id);
-		System.out.println(zpay_idx);
-		
-		// ZPAY_HISTORY 테이블에서 잔액조회
-		Integer zpay_balance = service.getZpayBalance(member_id);
-		
-		zpayHistory.setZpay_idx(zpay_idx);
-		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_balance(zpay_balance);
-		
-		// ZPYA_HISTORY 테이블에 충전내역 추가
-		int insertCount = service.refundZpay(zpayHistory);
-		
-		if(insertCount > 0) {
-			zpay_balance = service.getZpayBalance(member_id);
-			
-			model.addAttribute("zpayHistory", zpayHistory);
-			model.addAttribute("zpay_balance", zpay_balance);
-			return "zpay/zpay_refund_success";				
-		} else {
-			model.addAttribute("msg", "ZPAY 환급 실패");
-			return "fail_back";
-		}
-		
-	}
+//	@PostMapping("zpay_refund_pro")
+//	public String zpayRefundPro(ZpayHistoryVO zpayHistory, 
+//			@RequestParam String member_id, 
+//			@RequestParam String zpayAmount, 
+//			Model model) {
+//		System.out.println("ZpayController - zpayChargePro()");
+//		
+//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		
+//		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
+//		int zpay_idx = service.getZpayIdx(member_id);
+//		System.out.println(zpay_idx);
+//		
+//		// ZPAY_HISTORY 테이블에서 잔액조회
+//		Integer zpay_balance = service.getZpayBalance(member_id);
+//		
+//		zpayHistory.setZpay_idx(zpay_idx);
+//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		zpayHistory.setZpay_balance(zpay_balance);
+//		
+//		// ZPYA_HISTORY 테이블에 충전내역 추가
+//		int insertCount = service.refundZpay(zpayHistory);
+//		
+//		if(insertCount > 0) {
+//			zpay_balance = service.getZpayBalance(member_id);
+//			
+//			model.addAttribute("zpayHistory", zpayHistory);
+//			model.addAttribute("zpay_balance", zpay_balance);
+//			return "zpay/zpay_refund_success";				
+//		} else {
+//			model.addAttribute("msg", "ZPAY 환급 실패");
+//			return "fail_back";
+//		}
+//		
+//	}
 
 	
 	// zpay_send_form.jsp 페이지로 디스페치
