@@ -63,6 +63,9 @@
 									ZPAY 잔액
 								</strong>
 								<div class="balance">
+									<c:if test="${sessionScope.member_id }">
+										로그인이 필요한 서비스입니다
+									</c:if>
 									등록된 ZPAY가 없습니다.
 								</div>
 							</div>
@@ -71,6 +74,10 @@
 									<%-- 계좌인증이 되어있지 않은 경우 계좌인증 버튼을 표시하고 --%>
 									<%-- 계좌인증이 되어있는 경우 계좌관리 버튼을 표시 --%>
 									<c:choose>
+										<c:when test="${empty sessionScope.member_id}">
+											<a href="member_login" class="btn" id="zpayRegistButton">로그인</a>
+<!-- 											<a href="zpay_regist" class="btn" id="zpayRegistButton">ZPAY등록하기</a> -->
+										</c:when>
 										<c:when test="${member.member_bank_auth eq 'N' }">
 											<a class="btn" id="zpayBankAuthButton">계좌인증하기</a>
 <!-- 											<a href="zpay_regist" class="btn" id="zpayRegistButton">ZPAY등록하기</a> -->

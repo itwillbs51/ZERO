@@ -18,6 +18,7 @@ import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.ResponseUserInfoVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
@@ -188,36 +189,121 @@ public class ZpayController {
 		
 	}
 
-	// ZPAY 환급
-	@PostMapping("zpay_refund_pro")
-	public String zpayRefundPro(ZpayHistoryVO zpayHistory, 
-			@RequestParam String member_id, 
-			@RequestParam String zpayAmount, 
-			Model model) {
-		System.out.println("ZpayController - zpayChargePro()");
-		
-		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		
-		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
-		int zpay_idx = service.getZpayIdx(member_id);
-		System.out.println(zpay_idx);
-		
-		// ZPAY_HISTORY 테이블에서 잔액조회
-		Integer zpay_balance = service.getZpayBalance(member_id);
-		
-		zpayHistory.setZpay_idx(zpay_idx);
-		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_balance(zpay_balance);
-		
-		// ZPYA_HISTORY 테이블에 충전내역 추가
-		int insertCount = service.refundZpay(zpayHistory);
-		
-		if(insertCount > 0) {
-			return "zpay/zpay_charge_success";			
-		} else {
-			model.addAttribute("msg", "ZPAY 환급 실패");
-			return "fail_back";
-		}
-		
+	// zpay_charge_form.jsp 페이지로 디스페치
+	@GetMapping("zpay_refund_form")
+	public String zpayRefundForm() {
+		System.out.println("ZpayController - zpayRefundForm()");
+				
+		return "zpay/zpay_refund_form";
 	}
+	
+//	@PostMapping("zpay_refund_pro")
+//	public String zpayRefundPro(ZpayHistoryVO zpayHistory, 
+//			@RequestParam String member_id, 
+//			@RequestParam String zpayAmount, 
+//			Model model) {
+//		System.out.println("ZpayController - zpayChargePro()");
+//		
+//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		
+//		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
+//		int zpay_idx = service.getZpayIdx(member_id);
+//		System.out.println(zpay_idx);
+//		
+//		// ZPAY_HISTORY 테이블에서 잔액조회
+//		Integer zpay_balance = service.getZpayBalance(member_id);
+//		
+//		zpayHistory.setZpay_idx(zpay_idx);
+//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		zpayHistory.setZpay_balance(zpay_balance);
+//		
+//		// ZPYA_HISTORY 테이블에 충전내역 추가
+//		int insertCount = service.refundZpay(zpayHistory);
+//		
+//		if(insertCount > 0) {
+//			zpay_balance = service.getZpayBalance(member_id);
+//			
+//			model.addAttribute("zpayHistory", zpayHistory);
+//			model.addAttribute("zpay_balance", zpay_balance);
+//			return "zpay/zpay_refund_success";				
+//		} else {
+//			model.addAttribute("msg", "ZPAY 환급 실패");
+//			return "fail_back";
+//		}
+//		
+//	}
+
+	
+	// zpay_send_form.jsp 페이지로 디스페치
+//	@GetMapping("zpay_send_form")
+//	public String zpaySendForm(@RequestParam int order_secondhand_idx, Model model) {
+//		System.out.println("ZpayController - zpaySendForm()");
+//		
+//		OrderSecondhandVO order_secondhand = service.getOrderSecondhand(order_secondhand_idx);
+//		
+//		model.addAttribute("order_secondhand", order_secondhand);
+//		
+//		return "zpay/zpay_send_form";
+//	}
+//	
+//	// 송금 및 수취
+//	@PostMapping("zpay_send_pro")
+//	public String zpaySendPro(@RequestParam int order_secondhand_idx, Model model) {
+//		System.out.println("ZpayController - zpaySendPro()");
+//		
+//		OrderSecondhandVO order_secondhand = service.getOrderSecondhand(order_secondhand_idx);
+//		
+//		String seller_id = order_secondhand.getOrder_secondhand_seller();
+//		String buyer_id = order_secondhand.getOrder_secondhand_buyer();
+//		long zpay_amount = order_secondhand.getOrder_secondhand_price();
+//		
+//		// ZPAY 테이블에서 buyer_id에 일치하는 zpay_idx 조회
+//		int buyer_zpay_idx = service.getZpayIdx(buyer_id);
+//		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
+//		Integer buyer_zpay_balance = service.getZpayBalance(buyer_id);
+//		
+//		
+//		// zpaySellerHistory 객체에 저장
+//		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
+//		zpayBuyerHistory.setZpay_idx(buyer_zpay_idx);
+//		zpayBuyerHistory.setMember_id(buyer_id);
+//		zpayBuyerHistory.setZpay_amount(zpay_amount);
+//		zpayBuyerHistory.setZpay_balance(buyer_zpay_balance);
+//
+//		// ZPYA_HISTORY 테이블에 송금내역 추가
+//		int insertSendCount = service.sendZpay(zpayBuyerHistory);
+//		
+//		// -----------------------------------------------------------------
+//		
+//		
+//		// ZPAY 테이블에서 seller_id에 일치하는 zpay_idx 조회
+//		int seller_zpay_idx = service.getZpayIdx(seller_id);
+//		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
+//		Integer seller_zpay_balance = service.getZpayBalance(seller_id);
+//		
+//		// zpayBuyerHistory 객체에 저장
+//		ZpayHistoryVO zpaySellerHistory = new ZpayHistoryVO();
+//		zpaySellerHistory.setZpay_idx(seller_zpay_idx);
+//		zpaySellerHistory.setMember_id(seller_id);
+//		zpaySellerHistory.setZpay_amount(zpay_amount);
+//		zpaySellerHistory.setZpay_balance(seller_zpay_balance);
+//				
+//		// ZPYA_HISTORY 테이블에 수취내역 추가
+//		int insertReceiveCount = service.receiveZpay(zpaySellerHistory);
+//		
+//		// -------------------------------------------------------------------
+//		
+//		if(insertSendCount > 0 && insertReceiveCount >0) {
+//			buyer_zpay_balance = service.getZpayBalance(buyer_id);
+//			
+//			model.addAttribute("zpaySellerHistory", zpayBuyerHistory);
+//			model.addAttribute("zpaySellerHistory", zpayBuyerHistory);
+//			return "zpay/zpay_main";			
+////			return "zpay/zpay_send_success";			
+//		} else {
+//			model.addAttribute("msg", "ZPAY 송금 실패");
+//			return "fail_back";
+//		}
+//		
+//	}
 }
