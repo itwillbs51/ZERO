@@ -26,4 +26,10 @@ MemberVO selectMember(String member_id);
 // 계좌인증 완료한 회원의 member_bank_auth를 'Y'로 수정(혜진)
 int updateBankAuth(String member_id);
 
+	// 회원정보 조인해서 가져오기
+	Map<String, String> selectMemberJoin(@Param("column1")String column1, @Param("member_id")String member_id);
+
+	// 회원정보 조인하고 조건절로 가져오기
+	Map<String, String> selectMemberJoin(String column1, String value1, String column2, String value2);
+
 }

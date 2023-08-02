@@ -46,5 +46,10 @@ public class MemberService {
 		return mapper.updateBankAuth(member_id);
 	}
 
+	// 계좌정보 조회
+	public Map<String, String> selectMemberInfo(String column, String member_id) {
+		return mapper.selectMemberJoin(column, member_id);
+	}
+
 	
 }

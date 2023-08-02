@@ -226,7 +226,6 @@ public class MemberController {
 			, Model model
 			) {
 		
-		
 		System.out.println("MemberController - callback_login_google");
 		
 		return "member/member_callback";
@@ -317,14 +316,28 @@ public class MemberController {
 		return "member/member_address";
 	}	
 	
-	// 멤버 계좌 등록
+	// 멤버 개인 계좌 등록 
 	@GetMapping("member_account")
 	public String memberAccount(HttpSession session
 			, Model model) {
 		System.out.println("MemberController - memberAccount");
 		
+		String column = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		// 임시 고정값 설정 
+		
+		System.out.println(column);
+		System.out.println(member_id);
+		// 회원 계좌 정보 가져오기
+		Map<String, String> member = service.selectMemberInfo(column, member_id);
+		System.out.println(member);
+		
+		model.addAttribute("member", member);
+		
 		return "member/member_account";
 	}
+	
+	// 
 	
 	// 멤버 마이스토어
 	@GetMapping("member_mystore")
