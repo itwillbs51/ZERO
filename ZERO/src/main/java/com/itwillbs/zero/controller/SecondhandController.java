@@ -151,6 +151,15 @@ public class SecondhandController {
 			//조회결과 저장
 			model.addAttribute("secondhandProduct", secondhandProduct);
 			
+			
+			//상세페이지의 판매자정보조회 
+			//- 파라미터로 전달받은 secondhand_idx의 member_id와 동일한 member정보 얻어옴
+			//  멤버테이블 필요정보 : member_profile, member_nickname, member_address1, member_address_deatil1
+			//- 리턴타입 : , 
+			
+			
+			//판매자의 판매상품 개수 조회 
+			
 			return "secondhand/secondhand_detail";
 		}
 		

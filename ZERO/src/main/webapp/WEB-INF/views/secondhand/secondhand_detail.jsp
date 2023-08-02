@@ -310,11 +310,14 @@ a {
 			<hr>
 				<%-- 판매자 프로필, 닉네임, 판매상품수 --%>
 				<div class="row">
+				
+					<%-- 판매자프로필 --%>
 					<div class="column">
 						<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="border-radius:50%">
 					 </div>
+					
 					 <div class="column">
-						<b><a href="secondhandSeller"> 김커피입니다</a></b>
+						<b><a href="secondhandSeller"> 닉네임 </a></b>
 					 	<br>판매상품 nn개
 					 </div>
 				</div>
@@ -322,7 +325,7 @@ a {
 				<%-- 판매자의 판매중 다른상품정보 --%>
 				<br>
 				<div class="row" style="margin-left:10px; margin-bottom:10px;">
-					<b>김커피입니다</b> 님의 판매중인 상품 ... <a href="secondhandSeller">더보기</a>
+					<b>김커피입니다</b> 님의 판매중인 상품 ... <a href="secondhandSeller?member_id=${secondhandProduct.member_id}">더보기</a>
 				</div>
 				 <%--썸네일이미지 --%>
 				  <div class="row">
