@@ -218,6 +218,35 @@ public class BankController {
 		// Model 객체에 ResponseDepositVO 객체 저장
 		model.addAttribute("depositResult", depositResult);
 		
+		// -------------------------------------------------------------------------------
+//		// 출금이체한 금액을 ZPAY에 충전
+//		ZpayHistoryVO zpayHistory = new ZpayHistoryVO();
+//		String member_id = (String)session.getAttribute("member_id");
+//		
+//		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
+//		int zpay_idx = zpayService.getZpayIdx(member_id);
+//		System.out.println(zpay_idx);
+//		
+//		// ZPAY_HISTORY 테이블에서 잔액조회
+//		Integer zpay_balance = zpayService.getZpayBalance(member_id);
+//		
+//		zpayHistory.setZpay_idx(zpay_idx);
+//		zpayHistory.setMember_id(member_id);
+//		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
+//		zpayHistory.setZpay_balance(zpay_balance);
+//		zpayHistory.setZpay_deal_type("충전");
+//		
+//		// ZPYA_HISTORY 테이블에 충전내역 추가
+//		int insertCount = zpayService.chargeZpay(zpayHistory);
+//		
+//		if(insertCount > 0) {
+////					model.addAttribute("accountDetail", accountDetail);
+//			return "zpay/zpay_charge_success2";			
+//		} else {
+//			model.addAttribute("msg", "ZPAY 충전 실패");
+//			return "bank_auth_fail_back";
+//		}
+		
 		return "zpay/bank_deposit_result";
 	}
 	
