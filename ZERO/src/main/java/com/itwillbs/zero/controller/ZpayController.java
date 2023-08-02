@@ -256,7 +256,7 @@ public class ZpayController {
 		
 		String seller_id = order_secondhand.getOrder_secondhand_seller();
 		String buyer_id = order_secondhand.getOrder_secondhand_buyer();
-		int zpay_amount = order_secondhand.getOrder_secondhand_price();
+		long zpay_amount = order_secondhand.getOrder_secondhand_price();
 		
 		// ZPAY 테이블에서 buyer_id에 일치하는 zpay_idx 조회
 		int buyer_zpay_idx = service.getZpayIdx(buyer_id);
