@@ -8,8 +8,40 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <meta charset="UTF-8">
 <title> ZERO | 경매상세 </title>
+	
+<script type="text/javascript">
+
+
+$(function(){
+	updateTime();
+	});
+
+	function updateTime() {
+	  const now = new Date();
+	  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+	  let timeRemaining = endOfDay - now;
+	  let hours = Math.floor(timeRemaining / 1000 / 60 / 60);
+	  let minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+	  let seconds = Math.floor((timeRemaining / 1000) % 60);
+	  let currentTime = padZero(hours, 2)+':'+padZero(minutes, 2)+':'+padZero(seconds, 2);
+	  
+	  $('#clock').html('<h3>'+currentTime+'</h3>');
+
+// 	  setInterval(updateTime, 1000);
+	  setTimeout(updateTime, 1000);
+	  
+	}
+function padZero(num, size) {
+	  let s = num + '';
+	  while (s.length < size) s = '0' + s;
+	  return s;
+	}
+</script>
+
+
 <style type="text/css">
 
 	#auction_log{
@@ -66,8 +98,10 @@
 			<div class="row">
 				<!-- 좌측 영역 -->
                 <div class="col-md-4">
-                	<div class="d-flex justify-content-center">
-                		<h2>03 : 23 : 01</h2>
+                	<div class="row d-flex justify-content-center">
+                	<div class="col-4 col-md-3"><h3>남은시간</h3></div>	<div class="col-3 col-md-3" id="clock"></div>
+
+<!--                 		<h2>03 : 23 : 01</h2> -->
                 	</div>
                 		<div id="auction_log">
                 		<div id="msgArea" class="col">
