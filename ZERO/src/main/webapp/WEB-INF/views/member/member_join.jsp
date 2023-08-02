@@ -145,6 +145,22 @@ $(function () {
 	}
 </script>
 
+<script type="text/javascript">
+	function validateNick() {
+	  var nickInput = document.getElementById("member_nickname");
+	  var nickMessage = document.getElementById("pass_nick");
+	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
+
+	  if (KoreanConsonantRegex.test(nickInput.value)) {
+	    nickMessage.innerHTML = ".";
+	    nickMessage.style.color = "red";
+	  } else {
+	    nickMessage.innerHTML = "올바른 형식입니다.";
+	    nickMessage.style.color = "green";
+	  }
+	}
+</script>
+
 <title>ZERO 회원가입</title>
 <style>
 
@@ -365,7 +381,7 @@ input[type=checkbox] {
 				    	<div class="col-sm-12">
 							<span id="pass_name"></span>
 				   		</div>
-					</div>	
+					</div><br>
 					
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">닉네임</h3>
@@ -376,7 +392,14 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
+							   onkeyup="validateNick()" 
 							   required="required">
+					</div>
+					<div class="row mb-3">
+		    			<label for="inputNickRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="pass_nick"></span>
+				   		</div>
 					</div><br>
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
