@@ -86,7 +86,7 @@
 	</insert>
 	
 	<!-- 중고거래 내역 추가 -->
-	<select id="selectOrderSecondhand" resultType="com.itwillbs.ZeroPrivate.vo.Order_SecondhandVO">
+	<select id="selectOrderSecondhand" resultType="com.itwillbs.zero.vo.OrderSecondhandVO">
 		SELECT * FROM ORDER_SECONDHAND
 		WHERE order_secondhand_idx = #{order_secondhand_idx}
 		AND order_secondhand_iszpay = 'Y'
