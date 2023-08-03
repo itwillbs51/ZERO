@@ -26,10 +26,6 @@ import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.ZpayService;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 @Controller
 public class ZpayController {
 	
