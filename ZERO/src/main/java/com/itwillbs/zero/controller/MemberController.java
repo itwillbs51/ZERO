@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -179,7 +180,7 @@ public class MemberController {
 	
 	
 	// 네이버 정보 전달
-	@PostMapping("ajax/checkUserNaver")
+	@PostMapping("/ajax/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
 	public String checkUserNaver(HttpSession session
 							, Model model
@@ -294,6 +295,64 @@ public class MemberController {
 		return "member/member_Info";
 	}
 	
+	// 멤버 마케팅 수신 동의 변경
+//	@PostMapping("ajax/chgMarketing1")
+//	@RequestMapping
+//	public String chgMarketing(HttpSession session
+//			, Model model
+//			, @RequestParam Map<String, String> map
+//			) {
+//		System.out.println("/ajax/chgMarketing1" + map);
+//		
+//		return "ajax 끝";
+//	}
+	
+	// 멤버 마케팅 수신 동의 변경
+//	@PostMapping("/ajax/chgMarketing")
+//	@RequestMapping
+//	public String chgMarketing2(HttpSession session
+//			, Model model
+//			, @RequestParam Map<String, String> map
+//			) {
+//		System.out.println("/ajax/chgMarketing2" + map);
+//		
+//		return "ajax 끝";
+//	}
+	
+	// 멤버 마케팅 수신 동의 변경
+	@PostMapping("ajax/chgMarketing")
+	@ResponseBody
+	public JSONObject chgMarketing(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		System.out.println("/ajax/chgMarketing" + map);
+		// 조건 파라미터 - 아이디
+		String column1 = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		  
+		// 변경할 컬럼( member_agreement_marketing_sms 또는 member_agreement_marketing_email)
+		String column2 = map.get("column");
+		String value2 = map.get("value");
+		int updateCount = service.updateMember(column1, member_id, column2, value2);
+		
+		JSONObject jo = new JSONObject();
+		jo.put(column2, value2);
+		
+		return jo;
+	}
+	
+//	// 멤버 마케팅 수신 동의 변경
+//	@PostMapping("/zero/ajax/chgMarketing")
+//	@RequestMapping
+//	public String chgMarketing4(HttpSession session
+//			, Model model
+//			, @RequestParam Map<String, String> map
+//			) {
+//		System.out.println("/ajax/chgMarketing4" + map);
+//		
+//		return "ajax 끝";
+//	}
 	
 	// 멤버 주소 등록
 	@GetMapping("member_address")
@@ -386,6 +445,7 @@ public class MemberController {
 		  
 		  // 변경할 컬럼
 		  String column2 = "member_image";
+		  
 		  // 임시 고정값 설정 
 //		  Iterator<String> iterator = map.keySet().iterator();
 //		  String column = iterator.next();
@@ -522,9 +582,23 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
+	// 회원 탈퇴 확인 페이지 이동
+	@GetMapping("member_find_emailAuth")
+	public String memberFindEmailAuth(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		
+		System.out.println("memberWithdrawal:" + map);
+	
+		return "member/member_find_emailAuth";
+	}
+	
+	
+	
 	// 멤버 이메일 인증 요청 - 작업중
 	@PostMapping("request_authMail_find_passwd")
-	public String memberFindEmailAuth(HttpSession session
+	public String memberFindEmailAuthPro(HttpSession session
 			, Map<String, String> map
 			, Model model) {
 		System.out.println("MemberController - memberFindEmailAuth");

@@ -67,7 +67,7 @@
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
-	//JSP의 member_phone 정보를 JavaScript 변수에 할당합니다.
+	//휴대폰 번호 입력형태 추가
 	$(function () {
 		var member_phone = '${member.member_phone}';
 // 		var member_phone_ren = member_phone.length;
@@ -86,10 +86,90 @@
 	        console.log('2번' + formatted_phone);
 	        $(".phone").text(formatted_phone);
 	  	}
-	  	
-	  	
 		
 	});
+	
+	function chgAgree(check) {
+		// id, name 값 출력
+		console.log("name:", check.name);
+		console.log("id:", check.id);
+		var checkId = check.id;
+		  
+		var column = "";
+		var value = "";
+		  
+		if(check.name == 'email_radio') {
+			column = 'member_agreement_marketing_email';
+		} else {
+			column = 'member_agreement_marketing_sms';
+		}
+	
+		if(check.id == 'agree1') {
+			value = 1;
+		} else {
+			value = 0;
+		}
+		
+		$.ajax({
+	         type: 'post',
+//	          url: 'checkUserNaver',
+	         url: 'ajax/chgMarketing',
+            datatype: "JSON",
+            data: {
+            	column: column,
+            	value: value
+            },
+            success: function (result) {
+//                 console.log('ajax - chgMarketing:' + result.stringify());
+				modal('modal1');
+            },
+            error: function () {
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        });
+	}
+	
+	<%-- 휴대폰 번호 유효성 검사 --%>
+	function isHpFormat(hp){
+		if(hp == ""){
+			return true;
+		}
+		var phoneRule = /^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/;
+		return phoneRule.test(hp);
+	}
+	
+	<%-- 모달 --%>
+	function modal(pop) {
+		console.log(pop)
+		$('#' + pop).toggleClass('blind');
+	}
+	
+	function oninputPhone(target) {
+	    target.value = target.value
+	        .replace(/[^0-9]/g, '')
+	        .replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
+	}
+	
+	const autoHyphen2 = (target) => {
+		 target.value = target.value
+		   .replace(/[^0-9]/g, '')
+		  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
+// 	function openModal(data) {
+
+// 		$('div[name="' + data + '"]').removeAttr('hidden');
+		
+// 	}
+
+// 	function closeModal(data) {
+		
+		
+// 		console.log('클릭한 링크의 파라미터 값:', data);
+// 		console.log('hidden 값 상태:', $('div[name="' + data + '"]').attr('hidden'));
+
+// 		$('div[name="' + data + '"]').attr('hidden','');
+		
+// 	}
 	
 </script>
 
@@ -149,11 +229,11 @@
 										<div data-v-0c9f3f9e="" class="unit_content">
 <%-- 											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc password" data-v-0c9f3f9e=""><c:forEach var="i" begin="0" end="${member.member_passwd.length() }">●</c:forEach></p> --%>
 											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc passwd" data-v-0c9f3f9e="">●●●●●●●●</p>
-											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e="" id="passwd"> 변경 </button>
+											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e="" id="passwd" onclick="modal('modal2')"> 변경 </button>
 										</div>
 									</div>
 									<%-- 모달 --%>
-									<div data-v-cf6a6ef4="" data-v-8b96a82e="" class="modify_passwd" style="display: none;">
+									<div data-v-cf6a6ef4="" data-v-8b96a82e="" class="modify_passwd blind" id="modal2">
 										<h5 data-v-cf6a6ef4="" data-v-8b96a82e="" class="title">비밀번호 변경</h5>
 										<div data-v-4e1fd2e6="" data-v-cf6a6ef4="" class="input_box" data-v-8b96a82e="">
 											<h6 data-v-cf6a6ef4="" data-v-4e1fd2e6="" class="input_title">이전 비밀번호</h6>
@@ -170,7 +250,7 @@
 											<p data-v-cf6a6ef4="" data-v-4e1fd2e6="" class="input_error"> 영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자) </p>
 										</div>
 										<div data-v-cf6a6ef4="" data-v-8b96a82e="" class="modify_btn_box">
-											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn outlinegrey medium" slot="button" data-v-8b96a82e=""> 취소 </button>
+											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn outlinegrey medium" slot="button" data-v-8b96a82e="" onclick="modal('modal2')"> 취소 </button>
 											<button data-v-43813796="" data-v-cf6a6ef4="" disabled="disabled" type="button" class="btn solid medium disabled" slot="button" data-v-8b96a82e=""> 저장 </button>
 										</div>
 									</div>
@@ -181,22 +261,22 @@
 										<h5 data-v-0c9f3f9e="" class="title">휴대폰 번호</h5>
 										<div data-v-0c9f3f9e="" class="unit_content">
 											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc phone" data-v-0c9f3f9e=""></p>
-											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e="" id="phone"> 변경 </button>
+											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn btn_modify outlinegrey small" data-v-0c9f3f9e="" id="phone" onclick="modal('modal3')"> 변경 </button>
 										</div>
 									</div>
 									<%-- 모달 --%>
-									<div data-v-cf6a6ef4="" data-v-8b96a82e="" class="modify_phone" style="display: none;">
-										<h5 data-v-cf6a6ef4="" data-v-8b96a82e="" class="title">휴대폰 번호 변경</h5>
-										<div data-v-4e1fd2e6="" data-v-cf6a6ef4="" class="input_box" data-v-8b96a82e="">
-											<h6 data-v-cf6a6ef4="" data-v-4e1fd2e6="" class="input_title">새 휴대폰 번호</h6>
-											<div data-v-4e1fd2e6="" class="input_item">
-												<input data-v-4e1fd2e6="" type="text" placeholder="영문, 숫자, 특수문자 조합 8-16자" autocomplete="off" class="input_txt" name="phone">
+									<div data-v-cf6a6ef4="" data-v-8b96a82e="" class="modify_phone blind" id="modal3">
+										<h5 data-v-cf6a6ef4="" data-v-8b96a82e="" class="title" modal="">휴대폰 번호 변경</h5>
+										<div data-v-4e1fd2e6="" data-v-cf6a6ef4="" class="input_box" data-v-8b96a82e="" modal="">
+											<h6 data-v-cf6a6ef4="" data-v-4e1fd2e6="" class="input_title" modal="">새 휴대폰 번호</h6>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="tel" placeholder="휴대폰 번호를 입력하세요" autocomplete="off" class="input_txt" name="phone" id="phone" oninput="autoHyphen2(this)" maxlength="13">
 											</div>
-											<p data-v-cf6a6ef4="" data-v-4e1fd2e6="" class="input_error"> 영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자) </p>
+											<p data-v-cf6a6ef4="" data-v-4e1fd2e6="" class="input_error" > 휴대폰 번호를 정확히 입력해주세요. </p>
 										</div>
-										<div data-v-cf6a6ef4="" data-v-8b96a82e="" class="modify_btn_box">
-											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn outlinegrey medium" slot="button" data-v-8b96a82e=""> 취소 </button>
-											<button data-v-43813796="" data-v-cf6a6ef4="" disabled="disabled" type="button" class="btn solid medium disabled" slot="button" data-v-8b96a82e=""> 저장 </button>
+										<div data-v-cf6a6ef4="" data-v-8b96a82e="" class="modify_btn_box" modal="">
+											<button data-v-43813796="" data-v-cf6a6ef4="" type="button" class="btn outlinegrey medium small" slot="button" data-v-8b96a82e="" modal="" onclick="modal('modal3')"> 취소 </button>
+											<button data-v-43813796="" data-v-cf6a6ef4="" disabled="disabled" type="button" class="btn solid medium disabled small" slot="button" data-v-8b96a82e="" modal=""> 저장 </button>
 										</div>
 									</div>
 									<div data-v-0c9f3f9e="" data-v-cf6a6ef4="" class="unit" data-v-8b96a82e="">
@@ -208,110 +288,6 @@
 									</div>
 									<%-- 모달창 --%>
 		<!-- 							<div data-v-0fdfe010="" data-v-feb03f9c="" data-v-cf6a6ef4="" class="layer lg" data-v-8b96a82e="" style=""> -->
-									<div data-v-0fdfe010="" data-v-feb03f9c="" data-v-cf6a6ef4="" class="layer lg modify" data-v-8b96a82e="" style="display: none;">
-										<div data-v-0fdfe010="" class="layer_container">
-											<a data-v-feb03f9c="" data-v-0fdfe010="" class="btn_layer_close">
-												<svg data-v-feb03f9c="" data-v-0fdfe010="" xmlns="http://www.w3.org/2000/svg" class="ico-close icon sprite-icons">
-													<use data-v-feb03f9c="" data-v-0fdfe010="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-close" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-close"></use>
-												</svg>
-											</a>
-											<div data-v-0fdfe010="" class="layer_header">
-												<h2 data-v-feb03f9c="" data-v-0fdfe010="" class="title">사이즈 선택</h2>
-											</div>
-											<div data-v-0fdfe010="" class="layer_content">
-												<div data-v-feb03f9c="" data-v-0fdfe010="" class="size_list_area">
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">220</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">225</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">230</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">235</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">240</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">245</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">250</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">255</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium on">
-															<span data-v-1b874462="" class="info_txt">260</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">265</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">270</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">275</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">280</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">285</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">290</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">295</span>
-														</a>
-													</div>
-													<div data-v-1b874462="" data-v-feb03f9c="" class="size_item" data-v-0fdfe010="">
-														<a data-v-43813796="" data-v-1b874462="" href="#" class="btn outlinegrey medium">
-															<span data-v-1b874462="" class="info_txt">300</span>
-														</a>
-													</div>
-												</div>
-												<div data-v-feb03f9c="" data-v-0fdfe010="" class="layer_btn">
-													<a data-v-43813796="" data-v-feb03f9c="" href="#" class="btn solid medium" data-v-0fdfe010=""> 확인 </a>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 								<div data-v-8b96a82e="" data-v-cf6a6ef4="" class="profile_group">
 									<h4 data-v-8b96a82e="" class="group_title">광고성 정보 수신</h4>
@@ -320,23 +296,23 @@
 											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc" data-v-0c9f3f9e="">이메일</p>
 											<div data-v-cf6a6ef4="" data-v-0c9f3f9e="" class="radio_txt_box">
 												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
-													<label data-v-42808438="" for="agree2" class="radio_label">
+													<label data-v-42808438="" class="radio_label">
 <!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
 <!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
 <!-- 														</svg> -->
 														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신 동의&nbsp;&nbsp;</span>
-														<input data-v-42808438="" id="agree2" type="radio" name="email_radio" class="radio_input" 
-															<c:if test="${member.member_agreement_marketing_email ne '0'}">checked</c:if>>
+														<input data-v-42808438="" id="agree1" type="radio" name="email_radio" class="radio_input" 
+															<c:if test="${member.member_agreement_marketing_email ne '0'}">checked</c:if> onchange="chgAgree(this)">
 													</label>
 												</div>
 												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
-													<label data-v-42808438="" for="disagree2" class="radio_label">
+													<label data-v-42808438="" class="radio_label">
 <!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
 <!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
 <!-- 														</svg> -->
 														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신거부&nbsp;&nbsp;</span>
-														<input data-v-42808438="" id="disagree2" type="radio" name="email_radio" class="radio_input" 
-															<c:if test="${member.member_agreement_marketing_email eq '0'}">checked</c:if>>
+														<input data-v-42808438="" id="disagree1" type="radio" name="email_radio" class="radio_input" 
+															<c:if test="${member.member_agreement_marketing_email eq '0'}">checked</c:if> onchange="chgAgree(this)">
 													</label>
 												</div>
 											</div>
@@ -347,23 +323,23 @@
 											<p data-v-24a03828="" data-v-cf6a6ef4="" class="desc" data-v-0c9f3f9e="">문자 메시지</p>
 											<div data-v-cf6a6ef4="" data-v-0c9f3f9e="" class="radio_txt_box">
 												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
-													<label data-v-42808438="" for="agree1" class="radio_label">
+													<label data-v-42808438="" class="radio_label">
 <!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
 <!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
 <!-- 														</svg> -->
 														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신 동의&nbsp;&nbsp;</span>
 														<input data-v-42808438="" id="agree1" type="radio" name="message_radio" class="radio_input" 
-															<c:if test="${member.member_agreement_marketing_sms ne '0'}">checked</c:if>>
+															<c:if test="${member.member_agreement_marketing_sms ne '0'}">checked</c:if> onchange="chgAgree(this)">
 													</label>
 												</div>
 												<div data-v-42808438="" data-v-cf6a6ef4="" class="radio_item" data-v-0c9f3f9e="">
-													<label data-v-42808438="" for="disagree1" class="radio_label">
+													<label data-v-42808438="" class="radio_label">
 <!-- 														<svg data-v-42808438="" xmlns="http://www.w3.org/2000/svg" class="ico-radio-inactive icon sprite-icons"> -->
 <!-- 															<use data-v-42808438="" href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-radio-inactive"></use> -->
 <!-- 														</svg> -->
 														<span data-v-42808438="" class="label_txt">&nbsp;&nbsp;수신거부&nbsp;&nbsp;</span>
 														<input data-v-42808438="" id="disagree1" type="radio" name="message_radio" class="radio_input" 
-															<c:if test="${member.member_agreement_marketing_sms eq '0'}">checked</c:if>>
+															<c:if test="${member.member_agreement_marketing_sms eq '0'}">checked</c:if> onchange="chgAgree(this)">
 													</label>
 												</div>
 											</div>
@@ -372,6 +348,32 @@
 								</div>
 								<a data-v-cf6a6ef4="" href="member_withdrawal" class="btn_withdrawal">회원 탈퇴</a>
 							</div>
+							<%-- 모달 --%>
+							<div class="layer_withdrawal layer lg blind" data-v-0fdfe010="" data-v-79f8507c="" data-v-48e89bd9="" modal="" id="modal1">
+								<div class="layer_container" data-v-0fdfe010="" modal="">
+									<a href="#" class="btn_layer_close" data-v-0fdfe010="" data-v-79f8507c="" modal="">
+<!-- 												<svg xmlns="http://www.w3.org/2000/svg" class="ico-close icon sprite-icons" data-v-0fdfe010="" data-v-79f8507c=""> -->
+<!-- 													<use href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-close" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-close" data-v-0fdfe010="" data-v-79f8507c=""></use> -->
+<!-- 												</svg> -->
+									</a>
+									<div class="layer_header" data-v-0fdfe010="" modal="">
+										<h2 class="title" data-v-0fdfe010="" data-v-79f8507c="" modal="">
+<!-- 													<svg xmlns="http://www.w3.org/2000/svg" class="alert-circle-dark icon sprite-icons" data-v-0fdfe010="" data-v-79f8507c=""> -->
+<!-- 														<use href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-alert-circle-dark" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-alert-circle-dark" data-v-0fdfe010="" data-v-79f8507c=""></use> -->
+<!-- 													</svg>  -->
+											회원 정보 변경
+										</h2>
+									</div>
+									<div class="layer_content" data-v-0fdfe010="" modal="">
+										<p class="modal_desc unable_desc" data-v-0fdfe010="" data-v-79f8507c="" modal="">회원정보가 변경되었습니다</p>
+										<ul class="withdrawal_list" data-v-0fdfe010="" data-v-79f8507c="" modal=""></ul>
+										<div class="modal_btn_box" data-v-0fdfe010="" data-v-79f8507c="" modal="">
+											<button type="button" class="btn outlinegrey medium" data-v-43813796="" data-v-79f8507c="" data-v-0fdfe010="" modal="" onclick="modal('modal1')"> 확인 </button>
+										</div>
+									</div>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 				</div>

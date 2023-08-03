@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/member.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>ZERO</title>
 <style>
