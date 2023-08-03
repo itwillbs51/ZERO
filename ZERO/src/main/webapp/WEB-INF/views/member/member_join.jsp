@@ -99,7 +99,7 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('member_zipcode').value = data.zonecode;
+                document.getElementById('member_zipcode1').value = data.zonecode;
                 document.getElementById("member_address1").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("member_address_detail1").focus();
@@ -378,7 +378,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipcode, #member_phone, #phone_check, #member_id {
+#member_zipcode1, #member_phone, #phone_check, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -597,8 +597,8 @@ input[type=checkbox] {
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="우편번호" 
-								   id="member_zipcode" 
-								   name="member_zipcode" 
+								   id="member_zipcode1" 
+								   name="member_zipcode1" 
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""

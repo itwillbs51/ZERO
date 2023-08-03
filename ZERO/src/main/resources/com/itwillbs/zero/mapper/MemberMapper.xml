@@ -32,9 +32,10 @@
 				, #{member_withdrawal}
 				, #{member_bank_name}
 				, 'N'
-				, #{member_zipcode}
+				, #{member_zipcode1}
 				, #{member_zipcode2}
 				, #{member_zipcode3}
+				, #{member_intro}
 			)
 	
 	</insert>
