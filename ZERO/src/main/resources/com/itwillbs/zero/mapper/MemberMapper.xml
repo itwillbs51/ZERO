@@ -40,6 +40,10 @@
 	
 	</insert>
 	
+	<!-- 아이디 중복 확인 -->
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT COUNT(member_id) FROM MEMBER WHERE member_id = #{member_id}
+	</select>
 	
 	<!-- 특정 컬럼으로 회원정보 조회 -->
 	<select id="selectMemberCheck" resultType="map">

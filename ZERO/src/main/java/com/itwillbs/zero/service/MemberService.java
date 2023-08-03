@@ -51,5 +51,12 @@ public class MemberService {
 		return mapper.selectMemberJoin(column, member_id);
 	}
 
+	// 회원가입 폼 - 아이디 중복확인 메서드 
+	public int idCheck(String member_id) {
+		int cnt = mapper.idCheck(member_id);
+		System.out.println("cnt : " + cnt);
+		return cnt;
+	}
+
 	
 }
