@@ -27,7 +27,42 @@
 						<li class="breadcrumb-item active">ZMAN 배달내역 목록</li>
 					</ol>
 					<%-- main 내용 작성 영역 --%>
-					
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i>
+							ZMAN 배달내역 목록
+						</div>
+						<div class="card-body">
+							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>배달 번호</th>
+										<th>ZMAN 이름</th>
+										<th>ZMAN 아이디</th>
+										<th>배달 상품 이름</th>
+										<th>배달 상태</th>
+										<th>상세보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="zd" items="${zmanDeliveryList }" varStatus="vs">
+										<tr>
+											<td>${zd.zman_delivery_idx }</td>
+											<td>${zd.zman_name }</td>
+											<td>${zd.zman_id }</td>
+											<td>${zd.order_secondhand_product }</td>
+											<td>${zd.zman_delivery_status }</td>
+<%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
+											<td>
+												<a class="btn btn-sm btn-outline-dark" href="admin_zman_delivery_detail?zman_delivery_idx=${zd.zman_delivery_idx }">상세보기</a>
+											</td>
+										</tr>
+								</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<%--  메인 영역 끝 --%>
 					
 				</div>
 			</main>

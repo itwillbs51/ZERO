@@ -35,7 +35,7 @@
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item active">ZMAN 목록</li>
 					</ol>
-					<%-- main 내용 작성 영역 --%>
+						<%-- main 내용 작성 영역 --%>
 						<div class="card mb-4">
 							<div class="card-header">
 								<i class="fas fa-table me-1"></i>

@@ -33,6 +33,7 @@ import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 
 @Controller
@@ -235,14 +236,16 @@ public class AdminController {
 		} else {
 			model.addAttribute("msg", "zman 정보 수정 실패");
 			return "fail_back";
-		}
-		
+		}	
 	}
 	
 	// zman관리 - zman 배달 내역 페이지로 디스패치
 	@GetMapping("admin_zman_delivery_list")
-	public String adminZmanDeliveryList() {
+	public String adminZmanDeliveryList(HttpSession session, Model model) {
 		System.out.println("AdminController - adminZmanDeliveryList");
+		
+		ZmanDeliveryVO zmanDeliveryList = service.getDeliveryList();
+		model.addAttribute("zmanDeliveryList", zmanDeliveryList);
 		
 		return "admin/admin_zman_delivery_list";
 	}
@@ -325,6 +328,7 @@ public class AdminController {
 	
 	
 	//============================= 고객센터 관리 =======================================================================================
+
 	// 고객센터관리 - admin_cs_notice_list.jsp로 디스패치
 	@GetMapping("admin_cs_notice_list")
 	public String adminCsNoticeList(Model model) {
