@@ -45,11 +45,11 @@
 							<img alt="zpay_success" src="${pageContext.request.contextPath }/resources/img/zpay_success.png">
 						</div>
 						<p class="targetMessage">
-							<strong>내 ZPAY </strong>로<br>
-							<em class="amount">${zpayHistory.zpay_amount }원 충전완료</em>
+							<strong>${seller_id } </strong>께<br>
+							<em class="amount">${zpayBuyerHistory.zpay_amount }원 송금완료</em>
 						</p>
 						<p class="targetAccountInfo">
-							${zpay.zpay_bank_name } ${zpay.zpay_bank_account }
+							${buyer_zpay.zpay_bank_name } ${buyer_zpay.zpay_bank_account }
 						</p>
 					</div>
 					<div class="successInfoArea">
@@ -58,15 +58,15 @@
 								ZPAY 잔액
 							</div>
 							<strong class="balanceArea_balance">
-								${zpay_balance }원
+								${buyer_zpay_balance }원
 							</strong>	
 						</div>
 						<div class="accountInfoArea">
 							<div class="accountInfoArea_label">
-								출금계좌
+								송금계좌
 							</div>
 							<div class="accountInfoArea_accountNum">
-								${zpay.zpay_bank_name } ${zpay.zpay_bank_account }
+								${buyer_zpay.zpay_bank_name } ${buyer_zpay.zpay_bank_account }
 							</div>	
 						</div>
 						<div class="successNoticeArea">
@@ -74,7 +74,6 @@
 						</div>
 					</div>
 					<div class="buttonArea">
-						<a href="zpay_charge_form" class="btn btn-outline-secondary btn-lg moreCharge">추가충전하기</a>
 						<a href="zpay_main" class="btn btn-secondary btn-lg zpayHistory">ZPAY 내역</a>
 					</div>
 				</div><%-- successContentArea 영역 끝 --%>	

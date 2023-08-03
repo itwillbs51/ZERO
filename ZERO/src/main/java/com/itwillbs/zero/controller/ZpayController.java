@@ -26,7 +26,6 @@ import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.ZpayService;
 
-
 @Controller
 public class ZpayController {
 	
@@ -246,8 +245,10 @@ public class ZpayController {
 		System.out.println("ZpayController - zpaySendForm()");
 		
 		OrderSecondhandVO order_secondhand = service.getOrderSecondhand(order_secondhand_idx);
+		ZpayVO zpay = service.getZpay(order_secondhand.getOrder_secondhand_buyer());
 		
 		model.addAttribute("order_secondhand", order_secondhand);
+		model.addAttribute("zpay", zpay);
 		
 		return "zpay/zpay_send_form";
 	}
@@ -265,6 +266,7 @@ public class ZpayController {
 		
 		// ZPAY 테이블에서 buyer_id에 일치하는 zpay_idx 조회
 		int buyer_zpay_idx = service.getZpayIdx(buyer_id);
+		ZpayVO buyer_zpay = service.getZpay(buyer_id);
 		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
 		Integer buyer_zpay_balance = service.getZpayBalance(buyer_id);
 		
@@ -305,6 +307,8 @@ public class ZpayController {
 			buyer_zpay_balance = service.getZpayBalance(buyer_id);
 			
 			model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
+			model.addAttribute("seller_id", seller_id);
+			model.addAttribute("buyer_zpay", buyer_zpay);
 			model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
 //			return "zpay/zpay_main";			
 			return "zpay/zpay_send_success";			

@@ -9,6 +9,9 @@ import com.itwillbs.zero.vo.CsVO;
 
 @Mapper
 public interface CsMapper {
+	
+	// CsMain.jsp -  공지사항 목록 조회
+	List<CsVO> selectNoticeListMain();
 
 	// 공지사항 - 페이징 계산작업
 	// 전체게시물 수 조회 작업 요청
@@ -22,6 +25,8 @@ public interface CsMapper {
 
 	// 1:1 문의글 등록하기 (csQnaFormPro)
 	int insertCsQna(CsVO cs);
+
+	
 
 
 }
