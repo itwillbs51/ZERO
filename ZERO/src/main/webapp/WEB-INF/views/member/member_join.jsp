@@ -135,7 +135,11 @@ $(function () {
 	  var nameInput = document.getElementById("member_name");
 	  var nameMessage = document.getElementById("pass_name");
 	  var regex = /^[A-Za-z가-힣]{2,15}$/;
-
+	
+	  if(nameInput.value.trim() === ""){
+		    nameMessage.innerHTML = "";
+		    return;
+		  }
 	  if (!regex.test(nameInput.value)) {
 	    nameMessage.innerHTML = "이름을 한글 또는 영어로 입력해주세요";
 	    nameMessage.style.color = "red";
@@ -153,6 +157,10 @@ $(function () {
 	  var nickMessage = document.getElementById("pass_nick");
 	  var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
 
+	  if(nickInput.value.trim() === ""){
+		    nickMessage.innerHTML = "";
+		    return;
+		  }
 	  if (!regex.test(nickInput.value)) {
 	    nickMessage.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
 	    nickMessage.style.color = "red";
@@ -170,6 +178,10 @@ $(function () {
 		  var birthMessage = document.getElementById("birth_check");
 		  var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
 
+		  if(birthInput.value.trim() === ""){
+			    birthMessage.innerHTML = "";
+			    return;
+			  }
 		  if (!regex.test(birthInput.value)) {
 			  birthMessage.innerHTML = "생년월일 8자리를 입력해주세요";
 			  birthMessage.style.color = "red";
@@ -183,20 +195,25 @@ $(function () {
 <script type="text/javascript">
 // 정규표현식으로 전화번호 판별
 function validatePhone() {
-	  var birthInput = document.getElementById("member_phone");
-	  var birthMessage = document.getElementById("phone_check");
-	  var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
+    var phoneInput = document.getElementById("member_phone");
+    var phoneMessage = document.getElementById("phone_check");
+    var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
 
-	  if (!regex.test(birthInput.value)) {
-		  birthMessage.innerHTML = "올바른 전화번호를 입력해주세요.";
-		  birthMessage.style.color = "red";
-          return false;
-	  } else {
-		  birthMessage.innerHTML = "올바른 형식입니다.";
-		  birthMessage.style.color = "green";
-          return true;
-	  }
-	}
+    if (phoneInput.value.trim() === "") {
+        phoneMessage.innerHTML = "";
+        return;
+    }
+
+    if (!regex.test(phoneInput.value)) {
+        phoneMessage.innerHTML = "올바른 전화번호를 입력해주세요.";
+        phoneMessage.style.color = "red";
+        return false;
+    } else {
+        phoneMessage.innerHTML = "올바른 형식입니다.";
+        phoneMessage.style.color = "green";
+        return true;
+    }
+}
 
 </script>
 <title>ZERO 회원가입</title>
@@ -664,8 +681,8 @@ input[type=checkbox] {
 					</div>
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
-<!-- 						<a data-v-43813796="" data-v-2b15bea4="" href="join_pro" class="btn full solid"> 회원가입 </a> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button>
+<!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled> 회원가입 </button>
 					</div>
 				</form>
 
@@ -845,10 +862,13 @@ input[type=checkbox] {
 	                    $("#email_confirm").css("color", "green");
 	                    $("#member_id").attr("readonly", true); // 추가된 부분
 	                    $("#member_id2").attr("readonly", true); // 추가된 부분
+	                    emailAuthSuccess = true;
 	                } else {
 	                    $("#email_confirm").html(response.message);
 	                    $("#email_confirm").css("color", "red");
+	                    emailAuthSuccess = false;
 	                }
+	                checkAuthSuccess(); // 활성화 확인 함수 호출
 	            },
 	            error: function () {
 	                alert("오류가 발생했습니다. 다시 시도해주세요.");
@@ -893,19 +913,27 @@ input[type=checkbox] {
 <script type="text/javascript">
 	//휴대폰 인증번호 대조
 	$("#member_phone2").on("input", function() {
-	    if ($("#member_phone2").val() == code2) {
+	    const inputValue = $("#member_phone2").val();
+
+	    if (inputValue.length === 0) {
+	        $(".phone_chk").text("");
+	        phoneAuthSuccess = false;
+	    } else if (inputValue == code2) {
 	        $(".phone_chk").text("인증번호가 일치합니다.");
 	        $(".phone_chk").css("color", "green");
 	        $("#phoneDoubleChk").val("true");
 	        $("#member_phone2").attr("readonly", true);
+	        phoneAuthSuccess = true;
 	    } else {
 	        $(".phone_chk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
 	        $(".phone_chk").css("color", "red");
 	        $("#phoneDoubleChk").val("false");
 	        $("#member_phone2").attr("autofocus", true);
+	        phoneAuthSuccess = false;
 	    }
+	    checkAuthSuccess(); // 활성화 확인 함수 호출
 	});
-</script> 
+</script>
 
 <script type="text/javascript">
   // 동의 버튼
@@ -962,6 +990,20 @@ input[type=checkbox] {
 	  });
 </script>
 
+<script type="text/javascript">
+//인증 성공 여부를 저장할 변수 추가
+let phoneAuthSuccess = false;
+let emailAuthSuccess = false;
 
+// 회원가입 버튼 활성화 확인 함수 추가
+function checkAuthSuccess() {
+    // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화
+    if (phoneAuthSuccess && emailAuthSuccess) {
+        $("#registerButton").prop("disabled", false);
+    } else {
+        $("#registerButton").prop("disabled", true);
+    }
+}
+</script>
  
 </body>
