@@ -10,6 +10,7 @@ import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 
 @Mapper
@@ -39,6 +40,7 @@ public interface AdminMapper {
 	// 회원관리 - 회원 신고 정보 수정(처리상태 변경)
 	int updateMemberReport(ReportVO report);
 	
+	//  ========== ========== zman 관리  ========== ==========
 	// zman 관리 - zmna 목록 조회
 	List<ZmanVO> selectZmanList();
 	
@@ -51,6 +53,14 @@ public interface AdminMapper {
 	// zman관리 - zman 정보 수정
 	int updateZman(ZmanVO zman);
 	
+	// zman 관리 - 배달 내역 목록 조회
+	ZmanDeliveryVO selectDeliveryList();
+
+	// zman 관리 - zman 배달 내역 상세 조회 
+	ZmanDeliveryVO selectDeliveryDetail(int zman_delivery_idx);
+	
+	// ========== ========== 경매 관리  ========== ==========
+	
 	// 경매관리 - 경매예정 상품 목록 조회
 	List<AuctionManagingVO> selectAuctionManagingList();
 	
@@ -60,6 +70,8 @@ public interface AdminMapper {
 	// 경매관리 - 경매예정 상품 정보 수정
 	int updateAuctionManaging(AuctionManagingVO auctionManaging);
 	
+	
+	//  ========== ========== 고객센터 관리  ========== ==========
 	// 고객센터관리 - 공지사항 목록 조회
 	List<CsVO> selectCsList();
 
@@ -107,6 +119,7 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
+
 
 
 

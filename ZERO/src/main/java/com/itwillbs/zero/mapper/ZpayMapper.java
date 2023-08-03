@@ -33,6 +33,9 @@ public interface ZpayMapper {
 
 	// ZPYA_HISTORY 테이블에 환급내역 추가
 	int insertRefundHistory(ZpayHistoryVO zpayHistory);
+	
+	// 중고거래 내역 조회
+	OrderSecondhandVO selectOrderSecondhand(int secondhand_idx);
 
 	// ZPYA_HISTORY 테이블에 송금내역 추가
 	int insertSendHistory(ZpayHistoryVO zpayBuyerHistory);
@@ -40,24 +43,10 @@ public interface ZpayMapper {
 	// ZPYA_HISTORY 테이블에 수취내역 추가
 	int insertReceiveHistory(ZpayHistoryVO zpaySellerHistory);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	// ========================================================================
 	SecondhandVO selectSecondhand(int secondhand_idx);
-
-	OrderSecondhandVO selectOrderSecondhand(int secondhand_idx);
-
-
-
-
 	
 }
 

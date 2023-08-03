@@ -11,6 +11,7 @@ import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 
 @Service
@@ -59,6 +60,7 @@ public class AdminService {
 		return mapper.updateMemberReport(report);
 	}
 	
+	//  ========== ========== zman 관리  ========== ==========
 	// zman 관리 - zmna 목록 조회
 	public List<ZmanVO> getZmanList() {
 		return mapper.selectZmanList();
@@ -79,7 +81,17 @@ public class AdminService {
 		return mapper.updateZman(zman);
 	}
 	
+	// zman 관리 - 배달 내역 목록 조회
+	public ZmanDeliveryVO getDeliveryList() {
+		return mapper.selectDeliveryList();
+	}
 	
+	// zman 관리 - zman 배달 내역 상세 조회 
+	public ZmanDeliveryVO getDeliveryDetail(int zman_delivery_idx) {
+		return mapper.selectDeliveryDetail(zman_delivery_idx);
+	}
+
+	//  ========== ========== 경매 관리  ========== ==========
 	// 경매관리 - 경매예정 상품 목록 조회
 	public List<AuctionManagingVO> getAuctionManagingList() {
 		return mapper.selectAuctionManagingList();
@@ -95,7 +107,7 @@ public class AdminService {
 		return mapper.updateAuctionManaging(auctionManaging);
 	}
 
-
+	//  ========== ========== 고객센터 관리  ========== ==========
 	// 고객센터관리 - 공지사항 목록 조회
 	public List<CsVO> getCsList() {
 		return mapper.selectCsList();

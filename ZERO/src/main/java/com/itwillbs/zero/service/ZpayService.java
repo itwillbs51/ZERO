@@ -64,6 +64,11 @@ public class ZpayService {
 		return mapper.insertRefundHistory(zpayHistory);
 	}
 
+	// 중고거래 내역 조회
+	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
+		return mapper.selectOrderSecondhand(secondhand_idx);
+	}
+	
 	// ZPYA_HISTORY 테이블에 송금내역 추가
 	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
 		return mapper.insertSendHistory(zpayBuyerHistory);
@@ -84,12 +89,5 @@ public class ZpayService {
 	public SecondhandVO getSecondhand(int secondhand_idx) {
 		return mapper.selectSecondhand(secondhand_idx);
 	}
-
-	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
-		return mapper.selectOrderSecondhand(secondhand_idx);
-	}
-
-
-	
 
 }

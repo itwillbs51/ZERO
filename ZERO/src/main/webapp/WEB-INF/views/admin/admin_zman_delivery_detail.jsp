@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +40,7 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">${zman.zman_name } 님 회원정보</h1>
+					<h1 class="mt-4">${zmanDeliveryDetail.zman_name } 님 회원정보</h1>
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="admin_zman_list">zman목록</a></li>
 						<li class="breadcrumb-item active" aria-current="page">상세정보</li>
@@ -45,63 +49,76 @@
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
-							<b>${zman.zman_name }</b> 님 회원정보
+							<b>${zmanDeliveryDetail.zman_name }</b> 님 회원정보
 						</div>
 						<div class="card-body">
 							<table id="zmanDetailInfo" class="table table-border">
 								<tbody>
 									<tr>
 										<th>배달번호</th>
-										<td></td>
+										<td>${zmanDeliveryDetail.zman_delivery_idx }</td>
 									</tr>
 									<tr>
-										<th>이름</th>
-										<td>${zmanDelivery.zman_name }</td>
+										<th>ZMAN 이름</th>
+										<td>${zmanDeliveryDetail.zman_name }</td>
 									</tr>
 									<tr>
-										<th>아이디</th>
-										<td>${zmanDelivery.zman_id }</td>
-									</tr>
-									<tr>
-										<th>배달일</th>
-										<td></td>
-									</tr>
-									<tr>
-										<th>거래번호</th>
-										<td>
-										</td>
+										<th>ZMAN 아이디</th>
+										<td>${zmanDeliveryDetail.zman_id }</td>
 									</tr>
 									<tr>
 										<th>판매자 아이디</th>
-										<td></td>
-									</tr>
-									<tr>
-										<th>배달시작 주소</th>
-										<td></td>
+										<td>${zmanDeliveryDetail.seller_id }</td>
 									</tr>
 									<tr>
 										<th>구매자 아이디</th>
-										<td></td>
+										<td>${zmanDeliveryDetail.buyer_id }</td>
+									</tr>
+									<tr>
+										<th>배달시작 주소</th>
+										<td>${zmanDeliveryDetail.buyer_id }</td>
+									</tr>
+									<tr>
+										<th>구매자 아이디</th>
+										<td>${zmanDeliveryDetail.buyer_id }</td>
 									</tr>
 									<tr>
 										<th>배달완료 주소</th>
-										<td></td>
+										<td>${zmanDeliveryDetail.buyer_id }</td>
+									</tr>
+									<tr>
+										<th>배달 시작 시간</th>
+										<td>
+											<c:choose>
+												<c:when test="${not empty zmanDeliveryDetail.zman_delivery_startime}">
+													<td>${zmanDeliveryDetail.zman_delivery_startime }</td>
+												</c:when>
+												<c:otherwise>
+													배달 시작 전입니다.
+												</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th>배달 도착 시간</th>
+										<td>
+											<c:choose>
+												<c:when test="${not empty zmanDeliveryDetail.zman_delivery_endtime}">
+													<td>${zmanDeliveryDetail.zman_delivery_endtime }</td>
+												</c:when>
+												<c:otherwise>
+													배달 시작 전입니다.
+												</c:otherwise>
+											</c:choose>
+										</td>
 									</tr>
 									<tr>
 										<th>배달거리</th>
-										<td></td>
-									</tr>
-									<tr>
-										<th>배달시작 시간</th>
-										<td></td>
-									</tr>
-									<tr>
-										<th>배달완료 시간</th>
-										<td></td>
+										<td>${zmanDeliveryDetail.zman_delivery_distance }</td>
 									</tr>
 									<tr>
 										<th>배달수수료</th>
-										<td></td>
+										<td>${zmanDeliveryDetail.zman_delivery_commission }</td>
 									</tr>
 								</tbody>
 							</table>

@@ -38,8 +38,11 @@ public class CsController {
 	
 	// CS - 메인페이지로 디스패치
 	@GetMapping("cs_main")
-	public String csMain() {
+	public String csMain(Model model) {
 		System.out.println("CsController - csMain");
+		
+		List<CsVO> csList = csService.getCsListMain();
+		model.addAttribute("csList", csList);
 		
 		return "cs/cs_main";
 	}

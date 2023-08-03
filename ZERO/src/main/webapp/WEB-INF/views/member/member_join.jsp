@@ -99,7 +99,7 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('member_zipcode').value = data.zonecode;
+                document.getElementById('member_zipcode1').value = data.zonecode;
                 document.getElementById("member_address1").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("member_address_detail1").focus();
@@ -129,6 +129,76 @@ $(function () {
   });
 </script>
 
+<script type="text/javascript">
+// 이름 정규식
+	function validateName() {
+	  var nameInput = document.getElementById("member_name");
+	  var nameMessage = document.getElementById("pass_name");
+	  var regex = /^[A-Za-z가-힣]{2,15}$/;
+
+	  if (!regex.test(nameInput.value)) {
+	    nameMessage.innerHTML = "이름을 한글 또는 영어로 입력해주세요";
+	    nameMessage.style.color = "red";
+	  } else {
+	    nameMessage.innerHTML = "올바른 형식입니다.";
+	    nameMessage.style.color = "green";
+	  }
+	}
+</script>
+
+<script type="text/javascript">
+// 닉네임 정규식
+	function validateNick() {
+	  var nickInput = document.getElementById("member_nickname");
+	  var nickMessage = document.getElementById("pass_nick");
+	  var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
+
+	  if (!regex.test(nickInput.value)) {
+	    nickMessage.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
+	    nickMessage.style.color = "red";
+	  } else {
+	    nickMessage.innerHTML = "올바른 형식입니다.";
+	    nickMessage.style.color = "green";
+	  }
+	}
+</script>
+
+<script type="text/javascript">
+// 생년월일 정규식
+	function validateBirth() {
+		  var birthInput = document.getElementById("member_birth");
+		  var birthMessage = document.getElementById("birth_check");
+		  var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+
+		  if (!regex.test(birthInput.value)) {
+			  birthMessage.innerHTML = "생년월일 8자리를 입력해주세요";
+			  birthMessage.style.color = "red";
+		  } else {
+			  birthMessage.innerHTML = "올바른 형식입니다.";
+			  birthMessage.style.color = "green";
+		  }
+		}
+</script>
+
+<script type="text/javascript">
+// 정규표현식으로 전화번호 판별
+function validatePhone() {
+	  var birthInput = document.getElementById("member_phone");
+	  var birthMessage = document.getElementById("phone_check");
+	  var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
+
+	  if (!regex.test(birthInput.value)) {
+		  birthMessage.innerHTML = "올바른 전화번호를 입력해주세요.";
+		  birthMessage.style.color = "red";
+          return false;
+	  } else {
+		  birthMessage.innerHTML = "올바른 형식입니다.";
+		  birthMessage.style.color = "green";
+          return true;
+	  }
+	}
+
+</script>
 <title>ZERO 회원가입</title>
 <style>
 
@@ -308,7 +378,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipcode, #member_phone, #phone_check, #member_id {
+#member_zipcode1, #member_phone, #phone_check, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -341,7 +411,14 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
+							   onkeyup="validateName()" 
 							   required="required">
+					</div>
+					<div class="row mb-3">
+		    			<label for="inputNameRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="pass_name"></span>
+				   		</div>
 					</div><br>
 					
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -353,14 +430,21 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
+							   onkeyup="validateNick()" 
 							   required="required">
+					</div>
+					<div class="row mb-3">
+		    			<label for="inputNickRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="pass_nick"></span>
+				   		</div>
 					</div><br>
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
 						<div class="btn_input_container">
 						<input type="email" 
-						   	   placeholder="예) zero@zero.com" 
+						   	   placeholder="예)zero@zero.com" 
 						   	   id="member_id" 
 						   	   name="member_id" 
 						   	   autocomplete="off" 
@@ -441,7 +525,6 @@ input[type=checkbox] {
 					<br>
 					
 					
-					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
 						<input type="text"
@@ -451,7 +534,15 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   required="required">
+							   required="required"
+							   onkeyup="validateBirth()">
+					</div>
+					<%-- 생년월일 정규식 : regex --%>
+					<div class="row mb-3">
+		    			<label for="inputBirthRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="birth_check"></span>
+				   		</div>
 					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -464,11 +555,18 @@ input[type=checkbox] {
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
-								   required="required">
+								   required="required"
+								   onkeyup="validatePhone()">
 							<button type="button" id="phone_chk">인증번호 받기</button>
 						</div>
 					</div>
-					<br>
+					<%-- 휴대폰번호 정규식 : regex --%>
+					<div class="row mb-3">
+		    			<label for="inputPhoneRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="phone_check"></span>
+				   		</div>
+					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
@@ -499,8 +597,8 @@ input[type=checkbox] {
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="우편번호" 
-								   id="member_zipcode" 
-								   name="member_zipcode" 
+								   id="member_zipcode1" 
+								   name="member_zipcode1" 
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
@@ -765,23 +863,30 @@ input[type=checkbox] {
 //휴대폰 번호 인증
 	var code2 = "";
 	$("#phone_chk").click(function(){
-		alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-		var phone = $("#member_phone").val();
-		$.ajax({
-	        type:"GET",
-	        url:"phoneCheck?member_phone=" + phone,
-	        cache : false,
-	        success:function(data){
-	        	if(data == "error"){
-	        		alert("휴대폰 번호가 올바르지 않습니다.")
-					$("#member_phone").attr("autofocus",true);
-	        	}else{	        		
-	        		$("#member_phone2").attr("disabled",false);
-	        		$("#member_phone").attr("readonly",true);
-	        		code2 = data;
-	        	}
-	        }
-	    });
+	    var phone = $("#member_phone").val();
+		if (!validatePhone()) {
+			alert("올바르게 입력해주세요.");
+		} else {
+			alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오."); 
+	        // 기존 인증번호 발송 코드는 여기에 배치
+	        var phone = $("#member_phone").val();
+	        $.ajax({
+	                type:"GET",
+	                url:"phoneCheck?phone=" + phone, // 이 부분을 수정하였습니다.
+	                cache : false,
+	                success:function(data){
+	                    if(data == "error"){
+	                        alert("휴대폰 번호가 올바르지 않습니다.")
+	                        $("#member_phone").attr("autofocus",true);
+	                    }else{                       
+	                        $("#member_phone2").attr("disabled",false);
+	                        $("#member_phone").attr("readonly",true);
+	                        code2 = data;
+	                    }
+	                }
+	            });
+	        // 기존 인증번호 발송 코드 종료
+		}
 	});
 </script>
 
@@ -856,6 +961,7 @@ input[type=checkbox] {
 	    });
 	  });
 </script>
+
 
  
 </body>

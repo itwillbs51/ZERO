@@ -54,10 +54,24 @@
 
 <title>중고거래 사이트</title>
 <style>
-
-
-
 </style>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#btnAccountAuth").on("click", function() {
+			// 새 창에서 사용자 인증 페이지 요청
+			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
+					+ "response_type=code"
+					+ "&client_id=4066d795-aa6e-4720-9383-931d1f60d1a9"
+					+ "&redirect_uri=http://localhost:8089/fintech/callback"
+					+ "&scope=login inquiry transfer"
+					+ "&state=12345678901234567890123456789012"
+					+ "&auth_type=0";
+			window.open(requestUri, "authWindow", "width=600, height=800");
+		});
+	});
+</script>
+
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -88,7 +102,7 @@
 							<div data-v-4e1fd2e6="" class="input_logistics_companies input_box">
 								<h4 data-v-4e1fd2e6="" class="input_title">은행명</h4>
 								<div data-v-4e1fd2e6="" class="input_item">
-									<input data-v-4e1fd2e6="" type="text" placeholder="선택하세요" readonly="readonly" autocomplete="off" inputmode="numeric" class="input_txt">
+									<input data-v-4e1fd2e6="" type="text" placeholder="미등록" autocomplete="off" inputmode="numeric" class="input_txt" value="${member.zpay_bank_name }" readonly>
 									<button data-v-43813796="" type="button" class="btn btn_dropdown" data-v-4e1fd2e6="">
 <!-- 										<svg xmlns="http://www.w3.org/2000/svg" class="ico-arr-dir-down-circle icon sprite-icons"> -->
 <!-- 											<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-arr-dir-down-circle" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-arr-dir-down-circle"></use> -->
@@ -99,20 +113,27 @@
 							<div data-v-4e1fd2e6="" class="input_box">
 								<h4 data-v-4e1fd2e6="" class="input_title">계좌번호</h4>
 								<div data-v-4e1fd2e6="" class="input_item">
-									<input data-v-4e1fd2e6="" type="tel" placeholder="- 없이 입력하세요" autocomplete="off" class="input_txt">
+									<input data-v-4e1fd2e6="" type="tel" placeholder="등록된 계좌정보가 없습니다" autocomplete="off" class="input_txt" value="${member.zpay_bank_account }" readonly>
 								</div>
 								<p data-v-4e1fd2e6="" class="input_error">올바른 계좌번호를 입력해주세요.</p>
 							</div>
 							<div data-v-4e1fd2e6="" class="input_box">
 								<h4 data-v-4e1fd2e6="" class="input_title">예금주</h4>
 								<div data-v-4e1fd2e6="" class="input_item">
-									<input data-v-4e1fd2e6="" type="text" placeholder="예금주명을 정확히 입력하세요." autocomplete="off" class="input_txt">
+									<input data-v-4e1fd2e6="" type="text" placeholder="예금주명" autocomplete="off" class="input_txt" value="${member.member_name }" readonly>
 								</div>
 								<p data-v-4e1fd2e6="" class="input_error">올바른 이름을 입력해주세요. (2-50자)</p>
 							</div>
 						</div>
 						<div data-v-028af65a="" class="registration_btn_box">
-							<a data-v-43813796="" data-v-028af65a="" disabled="disabled" href="#" class="btn btn_save solid medium disabled"> 저장하기 </a>
+							<c:choose>
+								<c:when test="${member.member_bank_auth eq 'Y' }">
+									<button id="btnAccountAuth" data-v-43813796="" data-v-028af65a="" href="#" class="btn btn_save solid medium"> 변경하기 </button>
+								</c:when>
+								<c:otherwise>
+									<button id="btnAccountAuth" data-v-43813796="" data-v-028af65a="" href="#" class="btn btn_save solid medium"> 등록하기 </button>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>

@@ -32,9 +32,10 @@
 				, #{member_withdrawal}
 				, #{member_bank_name}
 				, 'N'
-				, #{member_zipcode}
+				, #{member_zipcode1}
 				, #{member_zipcode2}
 				, #{member_zipcode3}
+				, #{member_intro}
 			)
 	
 	</insert>
@@ -69,4 +70,13 @@
 		SET member_bank_auth = 'Y'
 		WHERE member_id = #{member_id}
 	</update>
+	
+	<!-- 회원 아이디로 계좌정보 조회 -->
+	<select id="selectMemberJoin">
+		SELECT * 
+			FROM MEMBER m
+				JOIN ZPAY z
+					ON m.member_id = z.member_id
+					WHERE m.member_id = #{member_id}
+	</select>
 </mapper>
