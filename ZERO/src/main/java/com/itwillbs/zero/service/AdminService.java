@@ -91,6 +91,16 @@ public class AdminService {
 		return mapper.selectDeliveryDetail(zman_delivery_idx);
 	}
 
+	// zman관리 - zman 신고 내역 조회
+	public List<ReportVO> getZmanReportList() {
+		return mapper.selectZmanReportList();
+	}
+
+	// zman관리 - zman 신고 상세 페이지로 이동
+	public ReportVO getZmanReportDetail(int report_idx) {
+		return mapper.selectZmanReportDetail(report_idx);
+	}
+	
 	//  ========== ========== 경매 관리  ========== ==========
 	// 경매관리 - 경매예정 상품 목록 조회
 	public List<AuctionManagingVO> getAuctionManagingList() {
@@ -193,6 +203,10 @@ public class AdminService {
 	public int removeCsFaq(int cs_idx) {
 		return mapper.deleteFaq(cs_idx);
 	}
+
+
+
+
 
 
 

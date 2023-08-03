@@ -32,7 +32,7 @@
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="admin_zman_list">ZMAN목록</a>
 							<a class="nav-link" href="admin_zman_delivery_list">ZMAN배달내역</a>
-							<a class="nav-link" href="admin_zman_report">ZMAN신고</a>
+							<a class="nav-link" href="admin_zman_report_list">ZMAN신고</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#secondhandManagement" aria-expanded="false" aria-controls="secondhandManagement">

@@ -16,6 +16,7 @@ import com.itwillbs.zero.vo.ZmanVO;
 @Mapper
 public interface AdminMapper {
 
+
 	// 회원 목록 조회
 	List<MemberVO> selectMemberList();
 
@@ -58,6 +59,12 @@ public interface AdminMapper {
 
 	// zman 관리 - zman 배달 내역 상세 조회 
 	ZmanDeliveryVO selectDeliveryDetail(int zman_delivery_idx);
+	
+	// zman관리 - zman 신고 내역 조회
+	List<ReportVO> selectZmanReportList();
+	
+	// zman관리 - zman 신고 상세 페이지로 이동
+	ReportVO selectZmanReportDetail(int report_idx);
 	
 	// ========== ========== 경매 관리  ========== ==========
 	
@@ -119,6 +126,9 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
+
+
+
 
 
 
