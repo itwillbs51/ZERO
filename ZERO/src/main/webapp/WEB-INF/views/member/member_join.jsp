@@ -130,13 +130,14 @@ $(function () {
 </script>
 
 <script type="text/javascript">
+// 이름 정규식
 	function validateName() {
 	  var nameInput = document.getElementById("member_name");
 	  var nameMessage = document.getElementById("pass_name");
-	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
+	  var regex = /^[A-Za-z가-힣]{2,15}$/;
 
-	  if (KoreanConsonantRegex.test(nameInput.value)) {
-	    nameMessage.innerHTML = "올바른 형식의 이름으로 입력해주세요.";
+	  if (!regex.test(nameInput.value)) {
+	    nameMessage.innerHTML = "이름을 한글 또는 영어로 입력해주세요";
 	    nameMessage.style.color = "red";
 	  } else {
 	    nameMessage.innerHTML = "올바른 형식입니다.";
@@ -146,13 +147,14 @@ $(function () {
 </script>
 
 <script type="text/javascript">
+// 닉네임 정규식
 	function validateNick() {
 	  var nickInput = document.getElementById("member_nickname");
 	  var nickMessage = document.getElementById("pass_nick");
-	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
+	  var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
 
-	  if (KoreanConsonantRegex.test(nickInput.value)) {
-	    nickMessage.innerHTML = ".";
+	  if (!regex.test(nickInput.value)) {
+	    nickMessage.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
 	    nickMessage.style.color = "red";
 	  } else {
 	    nickMessage.innerHTML = "올바른 형식입니다.";
@@ -161,6 +163,42 @@ $(function () {
 	}
 </script>
 
+<script type="text/javascript">
+// 생년월일 정규식
+	function validateBirth() {
+		  var birthInput = document.getElementById("member_birth");
+		  var birthMessage = document.getElementById("birth_check");
+		  var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+
+		  if (!regex.test(birthInput.value)) {
+			  birthMessage.innerHTML = "생년월일 8자리를 입력해주세요";
+			  birthMessage.style.color = "red";
+		  } else {
+			  birthMessage.innerHTML = "올바른 형식입니다.";
+			  birthMessage.style.color = "green";
+		  }
+		}
+</script>
+
+<script type="text/javascript">
+// 정규표현식으로 전화번호 판별
+function validatePhone() {
+	  var birthInput = document.getElementById("member_phone");
+	  var birthMessage = document.getElementById("phone_check");
+	  var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
+
+	  if (!regex.test(birthInput.value)) {
+		  birthMessage.innerHTML = "올바른 전화번호를 입력해주세요.";
+		  birthMessage.style.color = "red";
+          return false;
+	  } else {
+		  birthMessage.innerHTML = "올바른 형식입니다.";
+		  birthMessage.style.color = "green";
+          return true;
+	  }
+	}
+
+</script>
 <title>ZERO 회원가입</title>
 <style>
 
@@ -487,7 +525,6 @@ input[type=checkbox] {
 					<br>
 					
 					
-					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
 						<input type="text"
@@ -497,7 +534,15 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   required="required">
+							   required="required"
+							   onkeyup="validateBirth()">
+					</div>
+					<%-- 생년월일 정규식 : regex --%>
+					<div class="row mb-3">
+		    			<label for="inputBirthRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="birth_check"></span>
+				   		</div>
 					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -510,11 +555,18 @@ input[type=checkbox] {
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
-								   required="required">
+								   required="required"
+								   onkeyup="validatePhone()">
 							<button type="button" id="phone_chk">인증번호 받기</button>
 						</div>
 					</div>
-					<br>
+					<%-- 휴대폰번호 정규식 : regex --%>
+					<div class="row mb-3">
+		    			<label for="inputPhoneRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="phone_check"></span>
+				   		</div>
+					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
@@ -811,23 +863,30 @@ input[type=checkbox] {
 //휴대폰 번호 인증
 	var code2 = "";
 	$("#phone_chk").click(function(){
-		alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-		var phone = $("#member_phone").val();
-		$.ajax({
-	        type:"GET",
-	        url:"phoneCheck?member_phone=" + phone,
-	        cache : false,
-	        success:function(data){
-	        	if(data == "error"){
-	        		alert("휴대폰 번호가 올바르지 않습니다.")
-					$("#member_phone").attr("autofocus",true);
-	        	}else{	        		
-	        		$("#member_phone2").attr("disabled",false);
-	        		$("#member_phone").attr("readonly",true);
-	        		code2 = data;
-	        	}
-	        }
-	    });
+	    var phone = $("#member_phone").val();
+		if (!validatePhone()) {
+			alert("올바르게 입력해주세요.");
+		} else {
+			alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오."); 
+	        // 기존 인증번호 발송 코드는 여기에 배치
+	        var phone = $("#member_phone").val();
+	        $.ajax({
+	                type:"GET",
+	                url:"phoneCheck?phone=" + phone, // 이 부분을 수정하였습니다.
+	                cache : false,
+	                success:function(data){
+	                    if(data == "error"){
+	                        alert("휴대폰 번호가 올바르지 않습니다.")
+	                        $("#member_phone").attr("autofocus",true);
+	                    }else{                       
+	                        $("#member_phone2").attr("disabled",false);
+	                        $("#member_phone").attr("readonly",true);
+	                        code2 = data;
+	                    }
+	                }
+	            });
+	        // 기존 인증번호 발송 코드 종료
+		}
 	});
 </script>
 
