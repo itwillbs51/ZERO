@@ -76,7 +76,7 @@
 		ORDER BY zman_date DESC
 	</select>
 
-	<!-- zman 관리 - zmna 정보 조회 -->
+	<!-- zman 관리 - zman 정보 조회 -->
 	<select id="selectZman" resultType="com.itwillbs.zero.vo.ZmanVO">
 		SELECT * FROM ZMAN
 		WHERE zman_idx = #{zman_idx}
@@ -137,6 +137,35 @@
 				ON 
 					zd.zman_idx = z.zman_idx
 			WHERE zman_delivery_idx = #{zman_delivery_idx};
+	</select>
+	
+	<!--  zman관리 - zman 신고 내역 조회 - SELECT -->
+	<select id="selectZmanReportList" resultType="map">
+		SELECT *
+			FROM 
+				REPORT
+			WHERE report_type = 'ZMAN';
+	</select>
+	
+	<!--   zman관리 - zman 신고 상세 페이지로 이동 -->
+	<select id="selectZmanReportDetail" resultType="map">
+		SELECT
+			  r.report_idx , r.report_content , r.report_status, r.report_datetime 
+			, r.report_member_id , r.reported_zman_id , r.reported_delivery_idx 
+			, zd.seller_id , zd.buyer_id , zd.zman_delivery_endtime 
+			, os.order_secondhand_date , os.order_secondhand_product 
+		FROM
+			 REPORT r 
+		JOIN 
+			ZMAN_DELIVERY zd 
+			ON 
+				r.reported_delivery_idx = zd.zman_delivery_idx
+		JOIN 
+			ORDER_SECONDHAND os 
+			ON 
+				zd.zman_delivery_idx = os.zman_delivery_idx
+		WHERE r.report_type ='ZMAN'
+		ORDER BY r.report_datetime ASC;
 	</select>
 	
 	<!-- 경매관리 - 경매예정 상품 목록 조회 -->

@@ -178,6 +178,7 @@ public class AdminController {
 	
 	
 	// ============================= ZMAN 관리 =======================================================================================
+	// ---------- ---------- zman 회원 정보 관련  ---------- ----------
 	// zman관리 - zman 목록 페이지로 디스패치
 	@GetMapping("admin_zman_list")
 	public String adminZmanList(Model model) {
@@ -224,7 +225,7 @@ public class AdminController {
 		
 	}
 	
-	// ---------- ---------- 배달 관련 --------------------
+	// ---------- ---------- zman 배달 관련 ---------- ----------
 	// zman관리 - zman 정보 수정
 	@PostMapping("admin_zman_modify")
 	public String adminZmanModify(ZmanVO zman, Model model) {
@@ -240,7 +241,7 @@ public class AdminController {
 		}	
 	}
 	
-	// zman관리 - zman 배달 내역 페이지로 디스패치
+	// zman관리 - zman 배달 내역 페이지로 이동
 	@GetMapping("admin_zman_delivery_list")
 	public String adminZmanDeliveryList(HttpSession session, Model model) {
 		System.out.println("AdminController - adminZmanDeliveryList");
@@ -262,13 +263,28 @@ public class AdminController {
 		return  "admin/admin_zman_delivery_detail";
 	}
 	
-	
-	// zman관리 - zman 신고 페이지로 디스패치
-	@GetMapping("admin_zman_report")
-	public String adminZmanReport() {
+	// ---------- ---------- zman 신고 관련 ---------- ----------
+	// zman관리 - zman 신고 페이지로 이동
+	@GetMapping("admin_zman_report_list")
+	public String adminZmanReport(HttpSession session, Model model) {
 		System.out.println("AdminController - adminZmanReport");
 		
-		return "admin/admin_zman_report";
+		List<ReportVO> report = service.getZmanReportList();
+		model.addAttribute("report", report);
+		
+		return "admin/admin_zman_report_list";
+	}
+	
+	// zman관리 - zman 신고 상세 페이지로 이동
+	@GetMapping("admin_zman_report_detail")
+	public String adminZmanReportDetail(HttpSession session, Model model, int report_idx) {
+		System.out.println("AdminController - adminZmanReport");
+		
+		ReportVO report = service.getZmanReportDetail(report_idx);
+		System.out.println(report);
+		model.addAttribute("report", report);
+		
+		return "admin/admin_zman_report_detail";
 	}
 
 	// ============================= 중고거래 관리 =======================================================================================
@@ -280,6 +296,7 @@ public class AdminController {
 		return "admin/admin_secondhand_list";
 	}
 	
+	// ============================= 경매 관리 =======================================================================================
 	// 경매관리 - 경매예정 상품 목록 페이지로 디스패치
 	@GetMapping("admin_auction_managing_list")
 	public String adminAuctionManagingList(Model model) {
@@ -293,7 +310,6 @@ public class AdminController {
 		return "admin/admin_auction_managing_list";
 	}
 
-	// ============================= 경매 관리 =======================================================================================
 	// 경매관리 - 경매예정 상품 상세보기
 	@GetMapping("admin_auction_managing_detail")
 	public String adminAuctionManagingDetail(@RequestParam int auction_idx, Model model) {
