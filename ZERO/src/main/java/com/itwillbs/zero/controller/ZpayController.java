@@ -143,7 +143,6 @@ public class ZpayController {
 		ZpayVO zpay = service.getZpay(member_id);
 		map.put("access_token", zpay.getAccess_token());
 		map.put("fintech_use_num", zpay.getFintech_use_num());
-		System.out.println("map : " + map);
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
@@ -157,10 +156,10 @@ public class ZpayController {
 		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-		zpayHistory.setZpay_balance(zpay_balance);
 		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);
 		zpayHistory.setZpay_deal_type("충전");
+		System.out.println(zpayHistory);
 		
 		// ZPYA_HISTORY 테이블에 충전내역 추가
 		int insertCount = service.chargeZpay(zpayHistory);
@@ -198,9 +197,9 @@ public class ZpayController {
 			@RequestParam String zpayAmount, 
 			Map<String, String> map,
 			Model model) {
-		System.out.println("ZpayController - zpayChargePro()");		
+		System.out.println("ZpayController - zpayRefundPro()");		
 		
-		// 출금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
+		// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
 		ZpayVO zpay = service.getZpay(member_id);
 		map.put("access_token", zpay.getAccess_token());
 		map.put("fintech_use_num", zpay.getFintech_use_num());
@@ -219,11 +218,12 @@ public class ZpayController {
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
 //		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
 //		zpayHistory.setZpay_balance(zpay_balance);
-		zpayHistory.setZpay_amount(depositResult.getRes_list().get(0).getTran_amt());
+		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
 		zpayHistory.setZpay_deal_type("환급");
+		System.out.println(zpayHistory);
 		
-		// ZPYA_HISTORY 테이블에 충전내역 추가
+		// ZPYA_HISTORY 테이블에 환급내역 추가
 		int insertCount = service.refundZpay(zpayHistory);
 		
 		if(insertCount > 0) {
