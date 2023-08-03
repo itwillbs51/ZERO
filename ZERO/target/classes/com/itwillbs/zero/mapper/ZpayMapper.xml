@@ -138,4 +138,61 @@
 			)		
 	</insert>
 	
+	
+	<!--  -->
+	<select id="selectZpayHistoryListCount" resultType="int">
+		SELECT COUNT(*)
+			FROM ZPAY_HISTORY
+				WHERE
+					member_id = #{member_id}
+<!-- 					<if test="!searchKeyword.equals('')"> -->
+<!-- 						AND -->
+<!-- 						<choose> -->
+<!-- 							<when test="searchType.equals('subject')"> -->
+<!-- 								board_subject LIKE CONCAT('%', #{searchKeyword} ,'%') -->
+<!-- 							</when> -->
+<!-- 							<when test="searchType.equals('content')"> -->
+<!-- 								board_content LIKE CONCAT('%', #{searchKeyword} ,'%') -->
+<!-- 							</when> -->
+<!-- 							<when test="searchType.equals('subject_content')"> -->
+<!-- 								board_subject LIKE CONCAT('%', #{searchKeyword} ,'%')  -->
+<!-- 								OR board_content LIKE CONCAT('%', #{searchKeyword} ,'%')  -->
+<!-- 							</when> -->
+<!-- 							<when test="searchType.equals('name')"> -->
+<!-- 								board_name LIKE CONCAT('%', #{searchKeyword} ,'%') -->
+<!-- 							</when> -->
+<!-- 						</choose> -->
+<!-- 					</if> -->
+	</select>
+	
+	<select id="selectZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT *
+			FROM ZPAY_HISTORY
+				WHERE
+					member_id = #{member_id}
+<!-- 				<if test="!searchKeyword.equals('')"> -->
+<!-- 					AND -->
+<!-- 					<choose> -->
+<!-- 						<when test="searchType.equals('subject')"> -->
+<!-- 							board_subject LIKE '%${searchKeyword}%' -->
+<!-- 						</when> -->
+<!-- 						<when test="searchType.equals('content')"> -->
+<!-- 							board_content LIKE '%${searchKeyword}%' -->
+<!-- 						</when> -->
+<!-- 						<when test="searchType.equals('subject_content')"> -->
+<!-- 							board_subject LIKE '%${searchKeyword}%' -->
+<!-- 							OR board_content LIKE '%${searchKeyword}%' -->
+<!-- 						</when> -->
+<!-- 						<when test="searchType.equals('name')"> -->
+<!-- 							board_name LIKE '%${searchKeyword}%' -->
+<!-- 						</when> -->
+<!-- 					</choose> -->
+<!-- 				</if> -->
+			ORDER BY 
+				zpay_time DESC
+			LIMIT
+				#{startRow}
+				, #{listLimit}
+	</select>
+	
 </mapper>

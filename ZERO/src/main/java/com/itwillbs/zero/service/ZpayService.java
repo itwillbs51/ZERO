@@ -90,4 +90,15 @@ public class ZpayService {
 		return mapper.selectSecondhand(secondhand_idx);
 	}
 
+	
+	
+	public int getZpayHistoryListCount(String member_id, String searchType, String searchKeyword) {
+		return mapper.selectZpayHistoryListCount(member_id, searchType, searchKeyword);
+	}
+
+	public List<ZpayHistoryVO> getZpayHistoryList(String member_id, String searchType, String searchKeyword,
+			int startRow, int listLimit) {
+		return mapper.selectZpayHistoryList(member_id, searchType, searchKeyword, startRow, listLimit);
+	}
+
 }

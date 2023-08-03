@@ -3,6 +3,7 @@ package com.itwillbs.zero.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -47,6 +48,11 @@ public interface ZpayMapper {
 	
 	// ========================================================================
 	SecondhandVO selectSecondhand(int secondhand_idx);
+
+	int selectZpayHistoryListCount(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
+
+	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword, @Param("startRow") int startRow,
+			@Param("listLimit") int listLimit);
 	
 }
 
