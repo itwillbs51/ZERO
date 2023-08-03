@@ -99,7 +99,7 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('member_zipcode').value = data.zonecode;
+                document.getElementById('member_zipcode1').value = data.zonecode;
                 document.getElementById("member_address1").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("member_address_detail1").focus();
@@ -130,13 +130,18 @@ $(function () {
 </script>
 
 <script type="text/javascript">
+// 이름 정규식
 	function validateName() {
 	  var nameInput = document.getElementById("member_name");
 	  var nameMessage = document.getElementById("pass_name");
-	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
-
-	  if (KoreanConsonantRegex.test(nameInput.value)) {
-	    nameMessage.innerHTML = "올바른 형식의 이름으로 입력해주세요.";
+	  var regex = /^[A-Za-z가-힣]{2,15}$/;
+	
+	  if(nameInput.value.trim() === ""){
+		    nameMessage.innerHTML = "";
+		    return;
+		  }
+	  if (!regex.test(nameInput.value)) {
+	    nameMessage.innerHTML = "이름을 한글 또는 영어로 입력해주세요";
 	    nameMessage.style.color = "red";
 	  } else {
 	    nameMessage.innerHTML = "올바른 형식입니다.";
@@ -146,13 +151,18 @@ $(function () {
 </script>
 
 <script type="text/javascript">
+// 닉네임 정규식
 	function validateNick() {
 	  var nickInput = document.getElementById("member_nickname");
 	  var nickMessage = document.getElementById("pass_nick");
-	  var KoreanConsonantRegex = /[ㄱ-ㅎ]/;
+	  var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
 
-	  if (KoreanConsonantRegex.test(nickInput.value)) {
-	    nickMessage.innerHTML = ".";
+	  if(nickInput.value.trim() === ""){
+		    nickMessage.innerHTML = "";
+		    return;
+		  }
+	  if (!regex.test(nickInput.value)) {
+	    nickMessage.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
 	    nickMessage.style.color = "red";
 	  } else {
 	    nickMessage.innerHTML = "올바른 형식입니다.";
@@ -160,6 +170,53 @@ $(function () {
 	  }
 	}
 </script>
+
+<script type="text/javascript">
+// 생년월일 정규식
+	function validateBirth() {
+		  var birthInput = document.getElementById("member_birth");
+		  var birthMessage = document.getElementById("birth_check");
+		  var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+
+		  if(birthInput.value.trim() === ""){
+			    birthMessage.innerHTML = "";
+			    return;
+			  }
+		  if (!regex.test(birthInput.value)) {
+			  birthMessage.innerHTML = "생년월일 8자리를 입력해주세요";
+			  birthMessage.style.color = "red";
+		  } else {
+			  birthMessage.innerHTML = "올바른 형식입니다.";
+			  birthMessage.style.color = "green";
+		  }
+		}
+</script>
+
+<script type="text/javascript">
+// 정규표현식으로 전화번호 판별
+function validatePhone() {
+    var phoneInput = document.getElementById("member_phone");
+    var phoneMessage = document.getElementById("phone_check");
+    var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
+
+    if (phoneInput.value.trim() === "") {
+        phoneMessage.innerHTML = "";
+        return;
+    }
+
+    if (!regex.test(phoneInput.value)) {
+        phoneMessage.innerHTML = "올바른 전화번호를 입력해주세요.";
+        phoneMessage.style.color = "red";
+        return false;
+    } else {
+        phoneMessage.innerHTML = "올바른 형식입니다.";
+        phoneMessage.style.color = "green";
+        return true;
+    }
+}
+
+</script>
+
 
 <title>ZERO 회원가입</title>
 <style>
@@ -340,7 +397,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipcode, #member_phone, #phone_check, #member_id {
+#member_zipcode1, #member_phone, #phone_check, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -413,9 +470,17 @@ input[type=checkbox] {
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6=""
 						   	   required="required">
-					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
+					   	   <button type="button" id="emailAuthButton" onclick="checkId()">인증번호 받기</button>
 						</div>
-					</div><br>
+					<!-- 이메일 중복 확인 일치 여부-->
+					<div class="row mb-3">
+				    	<label for="emailDup_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="email_dup_result"></span>
+					   		</div>
+					</div>
+					</div>
+					<br>
 					
 								
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -487,7 +552,6 @@ input[type=checkbox] {
 					<br>
 					
 					
-					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
 						<input type="text"
@@ -497,7 +561,15 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   required="required">
+							   required="required"
+							   onkeyup="validateBirth()">
+					</div>
+					<%-- 생년월일 정규식 : regex --%>
+					<div class="row mb-3">
+		    			<label for="inputBirthRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="birth_check"></span>
+				   		</div>
 					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -510,11 +582,18 @@ input[type=checkbox] {
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
-								   required="required">
+								   required="required"
+								   onkeyup="validatePhone()">
 							<button type="button" id="phone_chk">인증번호 받기</button>
 						</div>
 					</div>
-					<br>
+					<%-- 휴대폰번호 정규식 : regex --%>
+					<div class="row mb-3">
+		    			<label for="inputPhoneRegex_Result" class="col-sm-5 "></label>
+				    	<div class="col-sm-12">
+							<span id="phone_check"></span>
+				   		</div>
+					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
@@ -545,8 +624,8 @@ input[type=checkbox] {
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="우편번호" 
-								   id="member_zipcode" 
-								   name="member_zipcode" 
+								   id="member_zipcode1" 
+								   name="member_zipcode1" 
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
@@ -612,8 +691,8 @@ input[type=checkbox] {
 					</div>
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
-<!-- 						<a data-v-43813796="" data-v-2b15bea4="" href="join_pro" class="btn full solid"> 회원가입 </a> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button>
+<!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled> 회원가입 </button>
 					</div>
 				</form>
 
@@ -748,33 +827,60 @@ input[type=checkbox] {
 	  
 	</script>
   <script type="text/javascript">
+//이메일 인증번호 발송 및 아이디 중복 확인
+  function sendEmailAndCheckId() {
+      var id = $('#member_id').val();
+      var emailResult = document.getElementById("email_dup_result");
+
+      $.ajax({
+          url: './idCheck',
+          type: 'post',
+          data: { id: id },
+          success: function (cnt) {
+              if (cnt == 0) {
+                  emailResult.innerHTML = "가입이 가능한 이메일입니다.";
+                  emailResult.style.color = "green";
+                  alert("가입이 가능한 아이디입니다. 인증코드를 입력해주세요");
+                  
+                  const email = $("#member_id").val();
+
+                  // AJAX 요청 시작
+                  $.ajax({
+                      type: "POST",
+                      url: "sendAuthCode",
+                      data: { email: email },
+                      success: function (data) {
+                          if (data.success) {
+                              alert("인증번호가 이메일로 발송되었습니다.");
+                          } else {
+                              alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
+                          }
+                      },
+                      error: function () {
+                          alert("오류가 발생했습니다. 다시 시도해주세요.");
+                      }
+                  });
+
+              } else {
+                  emailResult.innerHTML = "이미 등록된 이메일입니다.";
+                  emailResult.style.color = "red";
+                  alert("이미 가입된 아이디입니다. 아이디를 다시 입력해주세요!");
+                  $('#member_id').val('');
+              }
+          },
+          error: function (error) {
+              alert("error : " + JSON.stringify(error));
+          }
+      });
+  }
+
   // 이메일 인증번호 발송 버튼
   $(document).ready(function () {
       $("#emailAuthButton").on("click", function (event) {
           event.preventDefault();
-
-          const email = $("#member_id").val();
-          
-          // AJAX 요청 시작
-          $.ajax({
-              type: "POST",
-              url: "sendAuthCode",
-              data: { email: email },
-              success: function (data) {
-                  console.log("응답 데이터:", data); // 추가된 부분
-                  if (data.success) {
-                      alert("인증번호가 이메일로 발송되었습니다.");
-                  } else {
-                      alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
-                  }
-              },
-              error: function () {
-                  alert("오류가 발생했습니다. 다시 시도해주세요.");
-	            }
-	        });
-	    });
-	});
-
+          sendEmailAndCheckId();
+      });
+  });
 </script>
 <script type="text/javascript">
 	$("#member_id2").on("input", function () {
@@ -793,10 +899,13 @@ input[type=checkbox] {
 	                    $("#email_confirm").css("color", "green");
 	                    $("#member_id").attr("readonly", true); // 추가된 부분
 	                    $("#member_id2").attr("readonly", true); // 추가된 부분
+	                    emailAuthSuccess = true;
 	                } else {
 	                    $("#email_confirm").html(response.message);
 	                    $("#email_confirm").css("color", "red");
+	                    emailAuthSuccess = false;
 	                }
+	                checkAuthSuccess(); // 활성화 확인 함수 호출
 	            },
 	            error: function () {
 	                alert("오류가 발생했습니다. 다시 시도해주세요.");
@@ -811,42 +920,57 @@ input[type=checkbox] {
 //휴대폰 번호 인증
 	var code2 = "";
 	$("#phone_chk").click(function(){
-		alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-		var phone = $("#member_phone").val();
-		$.ajax({
-	        type:"GET",
-	        url:"phoneCheck?member_phone=" + phone,
-	        cache : false,
-	        success:function(data){
-	        	if(data == "error"){
-	        		alert("휴대폰 번호가 올바르지 않습니다.")
-					$("#member_phone").attr("autofocus",true);
-	        	}else{	        		
-	        		$("#member_phone2").attr("disabled",false);
-	        		$("#member_phone").attr("readonly",true);
-	        		code2 = data;
-	        	}
-	        }
-	    });
+	    var phone = $("#member_phone").val();
+		if (!validatePhone()) {
+			alert("올바르게 입력해주세요.");
+		} else {
+			alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오."); 
+	        // 기존 인증번호 발송 코드는 여기에 배치
+	        var phone = $("#member_phone").val();
+	        $.ajax({
+	                type:"GET",
+	                url:"phoneCheck?phone=" + phone, // 이 부분을 수정하였습니다.
+	                cache : false,
+	                success:function(data){
+	                    if(data == "error"){
+	                        alert("휴대폰 번호가 올바르지 않습니다.")
+	                        $("#member_phone").attr("autofocus",true);
+	                    }else{                       
+	                        $("#member_phone2").attr("disabled",false);
+	                        $("#member_phone").attr("readonly",true);
+	                        code2 = data;
+	                    }
+	                }
+	            });
+	        // 기존 인증번호 발송 코드 종료
+		}
 	});
 </script>
 
 <script type="text/javascript">
 	//휴대폰 인증번호 대조
 	$("#member_phone2").on("input", function() {
-	    if ($("#member_phone2").val() == code2) {
+	    const inputValue = $("#member_phone2").val();
+
+	    if (inputValue.length === 0) {
+	        $(".phone_chk").text("");
+	        phoneAuthSuccess = false;
+	    } else if (inputValue == code2) {
 	        $(".phone_chk").text("인증번호가 일치합니다.");
 	        $(".phone_chk").css("color", "green");
 	        $("#phoneDoubleChk").val("true");
 	        $("#member_phone2").attr("readonly", true);
+	        phoneAuthSuccess = true;
 	    } else {
 	        $(".phone_chk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
 	        $(".phone_chk").css("color", "red");
 	        $("#phoneDoubleChk").val("false");
 	        $("#member_phone2").attr("autofocus", true);
+	        phoneAuthSuccess = false;
 	    }
+	    checkAuthSuccess(); // 활성화 확인 함수 호출
 	});
-</script> 
+</script>
 
 <script type="text/javascript">
   // 동의 버튼
@@ -903,6 +1027,20 @@ input[type=checkbox] {
 	  });
 </script>
 
+<script type="text/javascript">
+//인증 성공 여부를 저장할 변수 추가
+let phoneAuthSuccess = false;
+let emailAuthSuccess = false;
 
+// 회원가입 버튼 활성화 확인 함수 추가
+function checkAuthSuccess() {
+    // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화
+    if (phoneAuthSuccess && emailAuthSuccess) {
+        $("#registerButton").prop("disabled", false);
+    } else {
+        $("#registerButton").prop("disabled", true);
+    }
+}
+</script>
  
 </body>

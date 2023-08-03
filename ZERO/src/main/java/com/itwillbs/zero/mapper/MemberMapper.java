@@ -32,4 +32,7 @@ int updateBankAuth(String member_id);
 	// 회원정보 조인하고 조건절로 가져오기
 	Map<String, String> selectMemberJoin(String column1, String value1, String column2, String value2);
 
+	// 아이디 중복 체크 (카카오 로그인에서도 사용 - 값이 있으면 > 0)
+	int idCheck(String member_id);
+	
 }

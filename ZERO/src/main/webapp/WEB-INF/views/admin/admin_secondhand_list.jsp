@@ -41,20 +41,12 @@
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>아이디</th>
-										<th>상품카테고리</th>
-										<th>상품명</th>
-										<th>등록일</th>
-										<th>신고여부</th>
+										<th>${shList.member_id }</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
 										<td></td>
 										<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
 									</tr>

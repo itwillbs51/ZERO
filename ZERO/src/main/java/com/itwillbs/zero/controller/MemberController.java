@@ -900,6 +900,14 @@ public class MemberController {
 		
 	}
 	
+	// 회원가입 폼에서 아이디 중복확인
+	@PostMapping("/idCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int idCheck(@RequestParam("id") String id) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.idCheck(id);
+		return cnt;
+	}
+	
 	
 	// 회원가입 완료 이동
 	@GetMapping("join_complete")

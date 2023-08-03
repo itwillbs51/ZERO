@@ -51,5 +51,11 @@ $(document).ready(function(){
 		      	</a>
 		    </li>
 		    <hr>
+		    <li class="nav-item">
+		    	<a class="nav-link" href="zero_report_form">
+		        	신고 폼
+		      	</a>
+		    </li>
+		    <hr>
 		</ul>
 </div>

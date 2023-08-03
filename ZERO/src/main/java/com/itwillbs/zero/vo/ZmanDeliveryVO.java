@@ -15,11 +15,16 @@ public class ZmanDeliveryVO {
 	private int zman_delivery_commission;
 	private String zman_delivery_status;
 
-	//	private DECIMAL(3, 2) zman_delivery_distance;
+	private int zman_delivery_distance;
 	
 	// FK
 	private String zman_idx;
 	private int order_secondhand_idx;
 	private String seller_id;
 	private String buyer_id;
+	
+	// JOIN
+	private String order_secondhand_product;
+	private String zman_name;
+
 }

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +30,41 @@
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item active">ZMAN 신고</li>
 					</ol>
-					<%-- main 내용 작성 영역 --%>
 					
+					<%-- main 내용 작성 영역 --%>
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i>
+							ZMAN 신고 목록
+						</div>
+						<div class="card-body">
+							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>신고번호</th>
+										<th>신고일</th>
+										<th>신고자 ID</th>
+										<th>피신고자 ID (ZMAN ID)</th>
+										<th>처리상태</th>
+										<th>상세보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="report" items="${report }" varStatus="vs">
+										<tr>
+											<td>${report.report_idx }</td>
+											<td>${report.report_datetime }</td>
+											<td>${report.report_member_id }</td>
+											<td>${report.reported_zman_id }</td>
+											<td>${report.report_status }</td>
+											<td><a class="btn btn-sm btn-outline-dark" href="admin_zman_report_detail?report_idx=${report.report_idx }">상세보기</a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<%-- main 내용 작성 영역 끝 --%>
 					
 				</div>
 			</main>

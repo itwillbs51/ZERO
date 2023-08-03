@@ -206,57 +206,14 @@
 		}
 	});
 	
-	// 채팅일 알람(다른날 채팅이면 날짜 알려주기)
-	// 채팅창에서 가장 최근 올라온 메세지의 datetime을 받음(sethour)
-	let lastDatetime = new Date($(".date").last().val());
-// 	console.log("최후 : " + lastDatetime);	// Thu Aug 03 2023 00:00:00 GMT+0900
-	let now = formatDate(new Date());
-	
-	function formatDate(data){
-        let date = new Date(data);
-        let year = date.getFullYear();
-        let month = String(date.getMonth() + 1).padStart(2, '0');
-        let day = String(date.getDate()).padStart(2, '0');
-
-        let formattedDate = year + '년 ' + month + "월 " + day + "일 ";
-        return formattedDate;
-    }
-	
-// 	console.log(formatDate(lastDatetime));
-// 	console.log(now);
-	
-	// ================== 웹소켓을 통한 채팅창 동기 과정 ==================================
-	var sock = new SockJS('http://localhost:8089/zero/chatting?=chat_${param.room_idx}');
+	var sock = new SockJS('http://localhost:8089/zero/chatting?chat_=${param.room_idx}');
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	sock.onopen = onOpen;
+		let lastDatetime = $(".date").last().val();
+		console.log("최후 : " + lastDatetime);
 	
 	function sendMessage() {
-		
-// 		if(formatDate(lastDatetime) != now) {
-// 			// 채팅 내용을 DB에 저장하기
-// 			$.ajax({
-// 				data: {
-// //	 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
-// 					'chat_content': now,
-// 					'chat_content_type' : '안내',
-// 					'room_idx': "${param.room_idx}",
-// 					'member_id': "${member_id}"
-// 				},
-// 				url: "chatRemember",
-// 				type: "POST",
-// 				success: function(data) {
-// 					console.log("DB 저장 성공");
-// 				},
-// 				error: function(request,status,error) {
-// 					alert("code:"+request.status+"\n"
-// 							+"message:"+request.responseText+"\n"
-// 							+"error:"+error);
-// 					console.log("DB 저장 실패");
-// 				}
-// 			});	// ajax 끝
-// 		}
-		
 		let message = $("#msg").val();
 		sock.send(message);
 		
@@ -269,7 +226,7 @@
 				'chat_content': message,
 				'chat_content_type' : chat_content_type,
 				'room_idx': "${param.room_idx}",
-				'member_id': "notice@test.com"
+				'member_id': "${member_id}"
 			},
 			url: "chatRemember",
 			type: "POST",
@@ -282,8 +239,13 @@
 						+"error:"+error);
 				console.log("DB 저장 실패");
 			}
+			
 		});	// ajax 끝
+		
 	}// sendMessage() 끝
+	
+// 	let lastDatetime = $(".msgTime").last().val();
+// 	console.log(lastDatetime);
 	
 	//서버에서 메시지를 받았을 때
 	function onMessage(msg) {
@@ -297,6 +259,7 @@
 // 		for(var i=0; i<arr.length; i++){
 // 			console.log('arr[' + i + ']: ' + arr[i]);
 // 		}
+		
 		var cur_session = '${member_id}'; //현재 세션에 로그인 한 사람
 		
 		sessionId = arr[0];
@@ -336,6 +299,7 @@
 			
 			$("#msgArea").append(str);
 		}
+		
 	    
 		// 스크롤 위치 조정
 		// 요소 가져오기
@@ -348,21 +312,21 @@
 	}
 	//채팅창에서 나갔을 때
 	function onClose(evt) {
+		
 // 		var user = '${pr.username}';
 // 		var str = user + " 님이 퇴장하셨습니다.";
+		
 // 		$("#msgArea").append(str);
 	}
 	//채팅창에 들어왔을 때
 	function onOpen(evt) {
+		
 // 		var user = '${pr.username}';
 // 		var str = user + "님이 입장하셨습니다.";
+		
 // 		$("#msgArea").append(str);
 	}
 	
-	// ==========================================================================
-	
-		
-	// ====================== 텍스트 외 다른 입력 기능 ==========================
 	let isOpen = false;
 	// 버튼 클릭 시 목록보이게하는 함수
 	$(function() {
