@@ -53,7 +53,15 @@
 			}
 			
 		});	// 버튼 클릭 시 호출되는 함수 끝
-		
+
+		$(document).on("click", function(event) {
+	        const target = $(event.target);
+	        if (!target.closest(".listInfoBtn").length && !target.closest(".listSort").length) {
+	            $(".listSort").css("display", "none");
+	            isOpen = false;
+	        }
+	    });	 // 정렬 목록이 열려있을 때 다른 곳을 누르면 목록 닫히게 하는 함수
+	    
 		// AJAX + JSON을 활용한 게시물 목록 조회(무한스크롤 기능 포함)
 		// 정렬기준 선택 시 호출되는 함수
 		$(".listSort li").on("click", function() {
@@ -82,8 +90,6 @@
 			loadList(category, sort);
 		});
 		
-	//		console.log("카테고리는 : " + category);
-	//		console.log("정렬 기준은 " + sort);
 		
 		// 무한스크롤 기능 추가
 		// 웹브라우저의 스크롤바가 바닥에 닿으면 다음 목록 조회를 위해 loadList() 함수 호출
@@ -226,7 +232,6 @@
         let seconds = String(date.getSeconds()).padStart(2, '0');
 
         let formattedDate = year + '년 ' + month + "월 " + day + "일 " + hours + ":" + minutes + ":" + seconds;
-        console.log(formattedDate);
         return formattedDate;
     }
 	
@@ -242,16 +247,15 @@
 	<%-- 크기 조절을 위해 main에 다 넣음 --%>
 	<div id="main">
 		<!-- nav - 메뉴영역 -->
-		<nav>
-			<a href="auctionList_present">경매중</a>&nbsp;&nbsp;&nbsp;
-			<a href="auctionList_prepare">입찰 예정 경매</a>&nbsp;&nbsp;&nbsp;
-			<a>종료된 경매</a>
+		<nav id="auctionStatus">
+			<a href="auctionList_present">경매중</a>
+			<a href="auctionList_prepare">입찰 예정 경매</a>
+			<a id="pageName">종료된 경매</a>
 		</nav>
-		<hr>
 		<nav id="categoryNav">
-			<span class="select">전체</span>&nbsp;&nbsp;&nbsp;
-			<span>럭셔리</span>&nbsp;&nbsp;&nbsp;
-			<span>테크</span>&nbsp;&nbsp;&nbsp;
+			<span class="select">전체</span>
+			<span>럭셔리</span>
+			<span>테크</span>
 			<span>한정판</span>
 		</nav>
 	
