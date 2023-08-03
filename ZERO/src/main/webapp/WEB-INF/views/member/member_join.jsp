@@ -216,6 +216,8 @@ function validatePhone() {
 }
 
 </script>
+
+
 <title>ZERO 회원가입</title>
 <style>
 
@@ -468,9 +470,17 @@ input[type=checkbox] {
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6=""
 						   	   required="required">
-					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
+					   	   <button type="button" id="emailAuthButton" onclick="checkId()">인증번호 받기</button>
 						</div>
-					</div><br>
+					<!-- 이메일 중복 확인 일치 여부-->
+					<div class="row mb-3">
+				    	<label for="emailDup_Result" class="col-sm-5 "></label>
+					    	<div class="col-sm-12">
+								<span id="email_dup_result"></span>
+					   		</div>
+					</div>
+					</div>
+					<br>
 					
 								
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -817,33 +827,60 @@ input[type=checkbox] {
 	  
 	</script>
   <script type="text/javascript">
+//이메일 인증번호 발송 및 아이디 중복 확인
+  function sendEmailAndCheckId() {
+      var id = $('#member_id').val();
+      var emailResult = document.getElementById("email_dup_result");
+
+      $.ajax({
+          url: './idCheck',
+          type: 'post',
+          data: { id: id },
+          success: function (cnt) {
+              if (cnt == 0) {
+                  emailResult.innerHTML = "가입이 가능한 이메일입니다.";
+                  emailResult.style.color = "green";
+                  alert("가입이 가능한 아이디입니다. 인증코드를 입력해주세요");
+                  
+                  const email = $("#member_id").val();
+
+                  // AJAX 요청 시작
+                  $.ajax({
+                      type: "POST",
+                      url: "sendAuthCode",
+                      data: { email: email },
+                      success: function (data) {
+                          if (data.success) {
+                              alert("인증번호가 이메일로 발송되었습니다.");
+                          } else {
+                              alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
+                          }
+                      },
+                      error: function () {
+                          alert("오류가 발생했습니다. 다시 시도해주세요.");
+                      }
+                  });
+
+              } else {
+                  emailResult.innerHTML = "이미 등록된 이메일입니다.";
+                  emailResult.style.color = "red";
+                  alert("이미 가입된 아이디입니다. 아이디를 다시 입력해주세요!");
+                  $('#member_id').val('');
+              }
+          },
+          error: function (error) {
+              alert("error : " + JSON.stringify(error));
+          }
+      });
+  }
+
   // 이메일 인증번호 발송 버튼
   $(document).ready(function () {
       $("#emailAuthButton").on("click", function (event) {
           event.preventDefault();
-
-          const email = $("#member_id").val();
-          
-          // AJAX 요청 시작
-          $.ajax({
-              type: "POST",
-              url: "sendAuthCode",
-              data: { email: email },
-              success: function (data) {
-                  console.log("응답 데이터:", data); // 추가된 부분
-                  if (data.success) {
-                      alert("인증번호가 이메일로 발송되었습니다.");
-                  } else {
-                      alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
-                  }
-              },
-              error: function () {
-                  alert("오류가 발생했습니다. 다시 시도해주세요.");
-	            }
-	        });
-	    });
-	});
-
+          sendEmailAndCheckId();
+      });
+  });
 </script>
 <script type="text/javascript">
 	$("#member_id2").on("input", function () {

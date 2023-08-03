@@ -31,11 +31,22 @@ public class AuctionController2 {
 	
 	// 경매 상세 페이지로 이동
 	@GetMapping("auction_detail")
-	public String auction_detail(Model model) {
-		
-		
+	public String auction_detail(Model model, int id) {
+		HashMap<String, String> product= service.getAuctionProduct(id);
+		List<HashMap<String, String>> logList=service.getAuctionLog(id);
+		System.out.println(logList);
+		model.addAttribute("product", product);
+		model.addAttribute("logList", logList);
 		
 		return "auction/auction_detail";
+	}
+	@ResponseBody
+	@PostMapping("logHistory")
+	public void logHistory(@RequestParam Map<String, String> map, HttpSession session) {
+		map.put("member_id", (String) session.getAttribute("member_id"));
+		service.registLog(map);
+		
+		
 	}
 	
 	// 경매 예정 상세 페이지로 이동

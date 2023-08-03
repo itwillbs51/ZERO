@@ -71,7 +71,7 @@
 // 		$("#chatArea").css("display", "initial");
 // 		$("#chatArea").append(
 // 		);
-		location.href = "chatRoom?chat_room_idx=" + roomIdx;
+		location.href = "chatRoom?room_idx=chat_" + roomIdx;
 		
 	} // 채팅방 클릭 시 함수 끝
 	

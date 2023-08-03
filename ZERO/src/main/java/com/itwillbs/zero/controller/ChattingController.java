@@ -51,9 +51,8 @@ public class ChattingController {
 	// 채팅방으로 연결
 	// 중고거래관련 가져올 정보
 	// 중고상품 번호, 사진, 상태, 가격 - secondhand_idx, secondhand_image1, secondhand_deal_status, secondhand_price
-//	@GetMapping("chatRoom")
 	@RequestMapping(value = "chatRoom", method = {RequestMethod.GET, RequestMethod.POST})
-	public String chatRoom(int chat_room_idx, HttpSession session, Model model) {
+	public String chatRoom(String room_idx, HttpSession session, Model model) {
 		// 로그인 해야 들어갈 수 있음!
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
@@ -61,6 +60,8 @@ public class ChattingController {
 			return "fail_back";
 		}
 		
+		int chat_room_idx = Integer.parseInt(room_idx.split("_")[1]);
+		System.out.println("채팅방 번호 : " + chat_room_idx);
 		// 받아온 채팅방 번호(chat_room_idx) 로 채팅 조회
 		// 파라미터 : chat_room_idx		리턴타입 : List<ChatVO>(chatList)
 		List<ChatVO> chatList = service.selectChatList(chat_room_idx);
@@ -84,6 +85,18 @@ public class ChattingController {
 	@PostMapping("chatRemember")
 	public void chatRemember(@RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("*** 넘어온 파라미터들 : " + map.toString());
+		
+		// 채팅방 번호 String-> int로 바꾸기
+		String room_idx = map.remove("room_idx");
+		String chat_room_idx = room_idx.split("_")[1];
+		map.put("chat_room_idx", chat_room_idx);
+		
+		// 받아온 채팅내용이 만약 안내타입인 경우("&-안내"로 시작)
+		// 키워드를 때고 DB에 저장
+		String content = map.get("chat_content");
+		if(content.startsWith("&-안내")) {
+			map.replace("chat_content", content, content.split("&-안내")[1]);
+		}
 		
 		// 받아온 채팅내용(chat_content), 채팅방번호(chat_room_idx), 메세지보낸사람(member_id) 정보 넣기
 		// 파라미터 : map		리턴타입 : boolean(isInsert)
@@ -156,12 +169,12 @@ public class ChattingController {
 			int insertChatRoom = service.insertChatRoom(map, buyer_id);
 //			chat_room_idx = ??;
 		}
-	
+		
 		// 채팅방이 있으면
 		// => 채팅방으로 이동(채팅방 번호 : chat_room_idx)
 	
 		// 채팅방 번호 들고오기
-		return "redirect:/chatRoom?chat_room_idx=" + chat_room_idx;
+		return "redirect:/chatRoom?room_idx=chat_" + chat_room_idx;
 		
 	}
 	
