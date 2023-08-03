@@ -42,9 +42,42 @@ public class AuctionController2 {
 	}
 	@ResponseBody
 	@PostMapping("logHistory")
-	public void logHistory(@RequestParam Map<String, String> map, HttpSession session) {
+	public String logHistory(@RequestParam Map<String, String> map, HttpSession session) {
+		HashMap<String, String> product= service.getAuctionProduct(Integer.parseInt(map.get("auction_idx")));
+		int maxBidPrice=service.getMaxPrice(map);
+	
 		map.put("member_id", (String) session.getAttribute("member_id"));
-		service.registLog(map);
+		int startPrice=Integer.parseInt(String.valueOf(product.get("auction_start_price")));
+		int maxPrice=Integer.parseInt(String.valueOf(product.get("auction_max_price")));
+		
+		long currentBid=Long.parseLong(map.get("auction_log_bid"));
+		
+		if(maxPrice<currentBid) {
+			System.out.println("즉시구매");
+			return "false";
+		}
+		
+		if(maxBidPrice == 0) {
+			if(startPrice<=currentBid) {
+				System.out.println("입찰성공");
+				service.registLog(map);
+				return "true";
+			}else {
+				System.out.println("입찰불가");
+				return "false";
+			}
+			
+		}else{
+			if(maxBidPrice<currentBid) {
+				System.out.println("입찰성공2");
+				service.registLog(map);
+				return "true";
+			}else {
+				System.out.println("입찰불가2");
+				return "false";
+			}
+			
+		}
 		
 		
 	}

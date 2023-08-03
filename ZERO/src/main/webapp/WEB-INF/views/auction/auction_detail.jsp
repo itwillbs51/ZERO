@@ -221,7 +221,7 @@ function sendMessage() {
 // 	if(bid_price<=presentPrice){
 // 		alert("현재 가격 보다 높은 금액으로 입찰 가능합니다.")
 // 	}
-	sock.send(bid_price);
+	;
 	$.ajax({
 		data: {
 			'auction_idx':"${param.id}",
@@ -229,13 +229,16 @@ function sendMessage() {
 		},
 		url: "logHistory",
 		type: "POST",
-		success: function(data) {
-			alert("입찰 성공");
+		success: function(result) {
+			if(result == "true") {
+				sock.send(bid_price)
+			} else {
+				alert("실패!");
+			}
 		},
-		error: function() {
-			
-			alert("입찰 실패 다시 시도");
-		}
+		fail: function() {
+			alert("실패!");
+		}	
 		
 	});
 	

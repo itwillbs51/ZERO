@@ -26,6 +26,8 @@ public interface AuctionMapper2 {
 
 	int insertLog(Map<String, String> map);
 
+	int selectMaxPrice(Map<String, String> map);
+
 	
 
 }

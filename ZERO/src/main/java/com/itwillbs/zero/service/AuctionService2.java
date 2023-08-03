@@ -40,5 +40,9 @@ public class AuctionService2  {
 		// TODO Auto-generated method stub
 		return mapper.insertLog(map);
 	}
+	public int getMaxPrice(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return mapper.selectMaxPrice(map);
+	}
 
 }
