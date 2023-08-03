@@ -10,6 +10,7 @@ import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 
@@ -126,6 +127,10 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
+
+	// ========== ========== 중고거래 관리  ========== ==========
+	// 중고거래관리 - 중고거래 목록 페이지로 이동
+//	SecondhandVO selectSecondHandList();
 
 
 

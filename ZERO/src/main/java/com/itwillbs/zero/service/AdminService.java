@@ -11,6 +11,7 @@ import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 
@@ -203,6 +204,12 @@ public class AdminService {
 	public int removeCsFaq(int cs_idx) {
 		return mapper.deleteFaq(cs_idx);
 	}
+
+	//  ========== ========== 중고거래 관리  ========== ==========
+	// 중고거래관리 - 중고거래 목록 페이지로 이동
+//	public SecondhandVO getSecondHandList() {
+//		return mapper.selectSecondHandList();
+//	}
 
 
 
