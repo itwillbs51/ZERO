@@ -121,7 +121,7 @@
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
-								${order_secondhand.order_secondhand_buyer } 님께
+								${order_secondhand.order_secondhand_seller } 님께
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
@@ -154,8 +154,8 @@
 									송금 계좌
 								</div>
 								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">하나</div>
-									<div class="withdrawalAccountNum">123-456-789</div>
+									<div class="withdrawalBankName">${zpay.zpay_bank_name }</div>
+									<div class="withdrawalAccountNum">${zpay.zpay_bank_account }</div>
 								</div>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>

@@ -61,4 +61,12 @@ public class ZmanController {
 		
 		return "zman/zman_test_location";
 	}
+	
+	// 신청 폼
+	@GetMapping("zero_report_form")
+	public String zmanReportForm() {
+		
+		return "zero_report_form";
+	}
+	
 }

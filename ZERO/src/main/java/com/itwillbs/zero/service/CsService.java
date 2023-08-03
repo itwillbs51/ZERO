@@ -13,6 +13,11 @@ public class CsService {
 
 	@Autowired
 	private CsMapper mapper;
+	
+	// CsMain.jsp -  공지사항 목록 조회
+	public List<CsVO> getCsListMain() {
+		return mapper.selectNoticeListMain();
+	}
 
 	// 공지사항 - 페이징 계산작업
 	// 전체게시물 수 조회 작업 요청
@@ -34,6 +39,7 @@ public class CsService {
 	public int registCsQnaform(CsVO cs) {
 		return mapper.insertCsQna(cs);
 	}
+
 
 
 

@@ -12,49 +12,14 @@
 <link href="${pageContext.request.contextPath }/resources/css/cs.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
-<style>
-/* a>b{ */
-/* 	color: #000; */
-/* 	text-decoration: none; */
-/* } */
+<style type="text/css">
+	.page-link {
+		color: #222;
+	}
 
-/* a:hover{ */
-/* 	color: #000; */
-/* 	text-decoration: none; */
-/* } */
-
-/* #mainNav>ul{ */
-/* 	list-style: none; */
-/* } */
-
-/* /* 페이징 색상변경 */ 
-/* .page-link { */
-/*   color: #000;  */
-/*   background-color: #fff; */
-/*   border: 1px solid #ccc;  */
-/* } */
-
-/* .page-item.active .page-link { */
-/*  z-index: 1; */
-/*  color: #fff; */
-/*  font-weight:bold; */
-/*  background-color: #ff5050; */
-/*  border-color: #ccc; */
- 
-/* } */
-
-/* .page-link:focus, .page-link:hover { */
-/*   color: #000; */
-/*   background-color: #fafafa;  */
-/*   border-color: #ccc; */
-/* } */
-
-/* /* a링크 활성화 색상 변경 */ */
-/* a:hover, a:active{ */
-/*  color:  #ff5050 !important; */
-	
-/* } */
-
+	.page-link:hover {
+		color: #222;
+	}
 </style>
 </head>
 <body>
@@ -84,7 +49,7 @@
 							</c:forEach>
 						</ul>
 					</div>
-					<nav aria-label="Page navigation example">
+					<nav aria-label="Page navigation example" class="d-flex justify-content-center">
 						<ul class="pagination">
 							<c:choose>
 								<c:when test="${pageNum > 1 }">

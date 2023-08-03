@@ -43,15 +43,7 @@ public interface ZpayMapper {
 	// ZPYA_HISTORY 테이블에 수취내역 추가
 	int insertReceiveHistory(ZpayHistoryVO zpaySellerHistory);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	// ========================================================================
 	SecondhandVO selectSecondhand(int secondhand_idx);

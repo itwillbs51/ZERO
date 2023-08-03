@@ -2,6 +2,7 @@ package com.itwillbs.zero.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,18 @@ public class AuctionService2  {
 		mapper.insertAuctionManaging(auctionProduct);
 		
 		return  insertcount;
+	}
+	public HashMap<String, String> getAuctionProduct(int id) {
+		// TODO Auto-generated method stub
+		return mapper.selectAuctionProduct(id);
+	}
+	public List<HashMap<String, String>> getAuctionLog(int id) {
+		// TODO Auto-generated method stub
+		return mapper.selectAuctionLog(id);
+	}
+	public int registLog(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return mapper.insertLog(map);
 	}
 
 }
