@@ -50,5 +50,29 @@
 			)
 	</insert>
 	
+	<select id="selectAuctionProduct" resultType="hashmap">
+		SELECT *FROM AUCTION_PRODUCT ap  JOIN AUCTION_MANAGING am 
+		ON ap.auction_idx = am.auction_idx
+		WHERE ap.auction_idx=${id}
+	</select>
+
+	<insert id="insertLog" >
+	
+		INSERT 
+		INTO AUCTION_LOG_ROOM
+		values(
+			null
+			, #{auction_log_bid}
+			, now()
+			, #{member_id}
+			, #{auction_idx}
+			)
+	</insert>
+	<select id="selectAuctionLog" resultType="hashmap">
+		SELECT *from AUCTION_LOG_ROOM
+		WHERE auction_idx=${id}
+		ORDER BY auction_log_bid
+	</select>
+	
 	
 </mapper>
