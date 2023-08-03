@@ -85,6 +85,11 @@ public class AdminService {
 	public ZmanDeliveryVO getDeliveryList() {
 		return mapper.selectDeliveryList();
 	}
+	
+	// zman 관리 - zman 배달 내역 상세 조회 
+	public ZmanDeliveryVO getDeliveryDetail(int zman_delivery_idx) {
+		return mapper.selectDeliveryDetail(zman_delivery_idx);
+	}
 
 	//  ========== ========== 경매 관리  ========== ==========
 	// 경매관리 - 경매예정 상품 목록 조회

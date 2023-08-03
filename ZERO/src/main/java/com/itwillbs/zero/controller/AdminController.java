@@ -223,7 +223,8 @@ public class AdminController {
 		}
 		
 	}
-
+	
+	// ---------- ---------- 배달 관련 --------------------
 	// zman관리 - zman 정보 수정
 	@PostMapping("admin_zman_modify")
 	public String adminZmanModify(ZmanVO zman, Model model) {
@@ -250,6 +251,18 @@ public class AdminController {
 		return "admin/admin_zman_delivery_list";
 	}
 
+	// zman 관리 - zman 배달 내역 상세 페이지로 이동
+	@GetMapping("admin_zman_delivery_detail")
+	public String adminZmanDeliveryListDetail(HttpSession session, Model model, @RequestParam int zman_delivery_idx) {
+		System.out.println("AdminController - admin_zman_delivery_detail");
+		
+		ZmanDeliveryVO zmanDeliveryDetail = service.getDeliveryDetail(zman_delivery_idx);
+		model.addAttribute("zmanDeliveryDetail", zmanDeliveryDetail);
+		
+		return  "admin/admin_zman_delivery_detail";
+	}
+	
+	
 	// zman관리 - zman 신고 페이지로 디스패치
 	@GetMapping("admin_zman_report")
 	public String adminZmanReport() {
@@ -528,7 +541,6 @@ public class AdminController {
 		
 //		// DB 생성전까지 오류를 방지하기 위함(나중에 없앨 예정)
 //		return "admin/admin_cs_notice_list";
-		
 		
 	}
 	
