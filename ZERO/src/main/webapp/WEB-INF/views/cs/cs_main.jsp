@@ -33,59 +33,115 @@
 						<div class="title">
 							고객센터
 						</div>
+						<div class="navbar-light" style="">
+							<button id="navToggle" class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#csCollapse" aria-controls="csCollapse" aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<div class="collapse navbar-collapse" id="csCollapse">
+									<ul class="nav flex-column">
+							    		<li class="nav-item">
+							      			<a class="nav-link" href="cs_main">
+							        			고객센터홈<span class="sr-only">(current)</span>
+							      			</a>
+							    		</li>
+							    		<li class="nav-item">
+							      			<a class="nav-link" href="cs_notice">
+							        			공지사항
+							      			</a>
+							    		</li>
+								    	<li class="nav-item">
+							      			<a class="nav-link" href="cs_faq">
+							        			자주묻는질문
+							      			</a>
+							    		</li>
+							    		<li class="nav-item">
+							      			<a class="nav-link" href="cs_qna_form">
+							        			1:1문의
+							      			</a>
+							    		</li>
+							  		</ul>
+							</div>
+						</div>
 					</div>
 					<div class="content_main">
 						<div class="row">
-							<div class="col col-lg-2 col-sm-6 mt-3 d-flex justify-content-center">
-								<a href="cs_qna_form" class="text-center">
-									<img src="${pageContext.request.contextPath}/resources/img/online-meeting.png"  alt="..." width="100px" height="100px"style=" display:block;">
-								</a>
+							<div class="col-12">
+								<div class="row">
+									<div class="col col-6">
+										<div class="row">
+											<div class="col col-12 col-lg-4 mt-3 d-flex justify-content-center">
+												<a href="cs_qna_form" class="text-center">
+													<img src="${pageContext.request.contextPath}/resources/img/online-meeting.png"  alt="..." width="100px" height="100px"style=" display:block;">
+												</a>
+											</div>
+											<div class="col col-12 col-lg-8 mt-3">
+												<h5>1:1 문의</h5>
+												<span class="info">해결되지 않은 문제가 있나요? <br>1:1 문의로 문의주세요. </span>
+											</div>
+										</div>
+									</div>
+									<div class="col col-6">
+										<div class="row">
+											<div class="col col-12 col-lg-4 mt-3 d-flex justify-content-center">
+												<a href="cs_faq" class="text-center">
+													<img src="${pageContext.request.contextPath}/resources/img/faq.png"  alt="..." width="100px" height="100px"style=" display:block;">
+												</a>
+											</div>
+											<div class="col col-12 col-lg-8 mt-3">
+												<h5>FAQ</h5>
+												<span class="info">자주 묻는 질문 <br>빠르고 간편하게 검색하세요. </span>
+											</div>		
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="col col-lg-4 col-sm-6 mt-3">
-								<h5>1:1 문의</h5>
-								<span class="info">해결되지 않은 문제가 있나요? <br>1:1 문의로 문의주세요. </span>
-							</div>
-							<div class="col col-lg-2 col-sm-6 mt-3 d-flex justify-content-center">
-								<a href="cs_faq" class="text-center">
-									<img src="${pageContext.request.contextPath}/resources/img/faq.png"  alt="..." width="100px" height="100px"style=" display:block;">
-								</a>
-							</div>
-							<div class="col col-lg-4 col-sm-6 mt-3">
-								<h5>FAQ</h5>
-								<span class="info">자주 묻는 질문 <br>빠르고 간편하게 검색하세요. </span>
-							</div>		
+							
+							
 						</div><!-- 첫번째 row 끝-->
-						<hr>
+<!-- 						<hr> -->
 						<div class="bottomRow">
 							<div class="noticeArea">
-								<div class="title">
-									공지사항
+								<div class="noticeTitleArea">
+									<div class="title">
+										공지사항
+									</div>
+									<a href="cs_notice">더보기></a>								
 								</div>
-								<a href="cs_notice">더보기></a>
-								<hr>
-								<table>
-									<c:forEach items="${csInfoList }" var="csNotice" varStatus="i">
-								    	<tr>
-								    		<th>
-									    		<c:choose>
-									    			<c:when test="${i.index eq 1 }">
-														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-									    			</c:when>
-									    			<c:otherwise>
-														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="m16.114 1.553 6.333 6.333a1.75 1.75 0 0 1-.603 2.869l-1.63.633a5.67 5.67 0 0 0-3.395 3.725l-1.131 3.959a1.75 1.75 0 0 1-2.92.757L9 16.061l-5.595 5.594a.749.749 0 1 1-1.06-1.06L7.939 15l-3.768-3.768a1.75 1.75 0 0 1 .757-2.92l3.959-1.131a5.666 5.666 0 0 0 3.725-3.395l.633-1.63a1.75 1.75 0 0 1 2.869-.603ZM5.232 10.171l8.597 8.597a.25.25 0 0 0 .417-.108l1.131-3.959A7.17 7.17 0 0 1 19.67 9.99l1.63-.634a.25.25 0 0 0 .086-.409l-6.333-6.333a.25.25 0 0 0-.409.086l-.634 1.63a7.17 7.17 0 0 1-4.711 4.293L5.34 9.754a.25.25 0 0 0-.108.417Z"></path></svg>
-									    			</c:otherwise>
-									    		</c:choose>
-								   			</th>
-										    <th>${csNotice.cs_type }</th>
-										    <td>
-										    	<a id="tit" href="cs_notice_view?cstypeNo=1&cs_type_list_num=${csNotice.cs_type_list_num }&pageNo=1">${csNotice.cs_subject }</a>
-								    		</td>
-										    <td>
-										    	<fmf:formatDate value="${csNotice.cs_date}" pattern="yyyy.MM.dd"/>
-										    </td>
-								    	</tr>
-									</c:forEach>
-							    </table>
+								<div class="content_main notice">
+									<ul>
+										<c:forEach var="cs" items="${csList }">
+											<li>
+												<a href="cs_notice_view?cs_idx=${cs.cs_idx }">
+													<p>${cs.cs_subject }</p>
+												</a>
+											</li>
+										</c:forEach>
+									</ul>
+								</div>
+								
+<!-- 								<table> -->
+<%-- 									<c:forEach items="${csInfoList }" var="csNotice" varStatus="i"> --%>
+<!-- 								    	<tr> -->
+<!-- 								    		<th> -->
+<%-- 									    		<c:choose> --%>
+<%-- 									    			<c:when test="${i.index eq 1 }"> --%>
+<%-- 														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> --%>
+<%-- 									    			</c:when> --%>
+<%-- 									    			<c:otherwise> --%>
+<!-- 														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="m16.114 1.553 6.333 6.333a1.75 1.75 0 0 1-.603 2.869l-1.63.633a5.67 5.67 0 0 0-3.395 3.725l-1.131 3.959a1.75 1.75 0 0 1-2.92.757L9 16.061l-5.595 5.594a.749.749 0 1 1-1.06-1.06L7.939 15l-3.768-3.768a1.75 1.75 0 0 1 .757-2.92l3.959-1.131a5.666 5.666 0 0 0 3.725-3.395l.633-1.63a1.75 1.75 0 0 1 2.869-.603ZM5.232 10.171l8.597 8.597a.25.25 0 0 0 .417-.108l1.131-3.959A7.17 7.17 0 0 1 19.67 9.99l1.63-.634a.25.25 0 0 0 .086-.409l-6.333-6.333a.25.25 0 0 0-.409.086l-.634 1.63a7.17 7.17 0 0 1-4.711 4.293L5.34 9.754a.25.25 0 0 0-.108.417Z"></path></svg> -->
+<%-- 									    			</c:otherwise> --%>
+<%-- 									    		</c:choose> --%>
+<!-- 								   			</th> -->
+<%-- 										    <th>${csNotice.cs_type }</th> --%>
+<!-- 										    <td> -->
+<%-- 										    	<a id="tit" href="cs_notice_view?cstypeNo=1&cs_type_list_num=${csNotice.cs_type_list_num }&pageNo=1">${csNotice.cs_subject }</a> --%>
+<!-- 								    		</td> -->
+<!-- 										    <td> -->
+<%-- 										    	<fmf:formatDate value="${csNotice.cs_date}" pattern="yyyy.MM.dd"/> --%>
+<!-- 										    </td> -->
+<!-- 								    	</tr> -->
+<%-- 									</c:forEach> --%>
+<!-- 							    </table> -->
 							</div>
 					 	</div><!-- 두번째 row 끝-->
 					</div><!-- content_main 끝 -->
