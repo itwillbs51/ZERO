@@ -166,7 +166,10 @@ a {
 <%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:80px;" onclick="currentSlide(3)" ></span> --%>
 <%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:80px;" onclick="currentSlide(4)"></span> --%>
 <!-- 				</div> -->
-
+				
+				
+				
+				<%-- 상품이미지영역 - 슬라이드 --%>
 				<div id="slid">
 						<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 							<ol class="carousel-indicators">
@@ -195,11 +198,13 @@ a {
 							</a>
 						</div>
 					</div>
-
-
 					
 			</div><%-- 1행 1열 -- 왼쪽 column끝 --%>
 			
+
+
+
+
 		
 			
 			<%--1행 2열 -- 오른쪽 column 추가하기 --%>
@@ -220,25 +225,23 @@ a {
 				<br>
 				
 				<%-- 
-					sessionId 일치하는경우 (작성자 본인일경우 -> 수정하기, 삭제하기 버튼 보여줌
+					sessionId 일치하는경우 (판매자본인일경우) - 수정하기 / 삭제하기 버튼 활성화 
+					-> 페이지이동시 상품번호,페이지번호 파라미터로 전달
+					
 					sessionId 일치하지 않는경우 or 없는경우 : 채팅하기 버튼 보여줌
 					=> 없는경우 채팅버튼 누를경우 : 로그인알람창 -> 로그인페이지 이동
 				--%>
 				
-				
-				<%-- 
-					판매자본인일경우 - 수정하기 / 삭제하기 버튼 활성화 
-					-> 페이지이동시 상품번호,페이지번호 파라미터로 전달
-				--%>
 			<c:choose>
-				<%-- 세션아이디 존재하고, 세션아이디=판매자아이디 동일할 경우 --%>
+				<%-- 1. 세션아이디 존재하고, 세션아이디=판매자아이디 동일할 경우 --%>
+				<%-- 1-1. 수정하기, 삭제하기, 끌어올리기 영역 노출 --%>
 				<c:when test="${not empty sessionScope.member_id && sessionScope.member_id eq secondhandProduct.member_id}">
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 수정하기 </button>
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px""onclick="location.href='secondhandDeletesecondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 삭제하기 </button>
-					<!--<button class="btn btn-primary btn-lg" style="font-size:1em;"onclick="location.href='secondhandUpdateDate'"> 끌어올리기</button><br><br> -->
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandDelete?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 삭제하기 </button>
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 끌어올리기 </button>
 
-					<%-- 판매자본인일경우 -  셀렉트박스로 거래상태변경가능 --%>
+					<%--1-2.셀렉트박스로 거래상태변경가능 --%>
 					<select class="changeDealStatus" aria-label="Default select example">
 					  <option selected> 거래중 </option>
 					  <option value="1"> 거래완료 </option>
@@ -247,27 +250,45 @@ a {
 					<hr>
 				</c:when>					
 				
-				<%-- 판매자 본인 아닐경우 - 채팅하기 가능 --%>
+				
+				<%-- 2.판매자 본인 아닐경우 - 채팅하기 가능 --%>
 				<c:otherwise>
-				<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
-<!-- 				<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button> -->
-				<form action="doChat" method="POST">
-					<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
-					<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
-					<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
-				</form>
+					<%-- 2-1.세션아이디 없을경우(미로그인) -> 로그인알람창띄우고 로그인페이지로 이동 --%>
+					<c:if test="${empty sessionScope.member_id }">
+						<%--<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button> --%>
+						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
+						<button class="btn btn-primary btn-lg" id="chatting" data-toggle="modal" data-target="#needLogin" style="font-size:1em; margin:10px 10px">
+							채팅하기
+						</button>
+					</c:if>
+					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
+					<c:if test="${not empty sessionScope.member_id && sessionScope.member_id ne secondhandProduct.member_id }">
+						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
+						<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button>
+						
+						<form action="doChat" method="POST">
+							<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
+							<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
+							<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
+						</form>
+						
+					</c:if>
 				</c:otherwise>
 			</c:choose>
-			
 			
 			</div><%-- 오른쪽 column끝 --%>
 			<hr>
 		</div><%-- 첫번째 row끝 ----%>
-		
-		<%-- 두번째 row 시작 --%>
 
-		<div class="row" style="margin-top:30px;">
-			
+
+
+
+		
+
+
+		<%-- 두번째 row 시작 --%>
+		<div class="row" style="margin-top:30px;">			
+		
 			<%-- 2행 1열 (카테고리 결제방법 거래방법) --%>
 			<hr>
 			<hr>
@@ -305,36 +326,53 @@ a {
 					</p>
 			</div>
 			
+			
+			
+			
+			
+			
 			<%-- 2행 2열 (판매자정보) --%>
 			<div class="column">
 			<hr>
 				<%-- 판매자 프로필, 닉네임, 판매상품수 --%>
-				<div class="row">
-				
-					<%-- 판매자프로필 --%>
+				<div class="row">				
+					
+					<%-- 판매자 프로필 --%>
 					<div class="column">
 						<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="border-radius:50%">
 					 </div>
 					
+					<%-- 판매자 닉네임 --%>
 					 <div class="column">
-						<b><a href="secondhandSeller"> 닉네임 </a></b>
-					 	<br>판매상품 nn개
+						<b><a href="secondhandSeller?member_id=${seller.member_id }">${seller.member_nickname } </a></b>
+						<%-- 판매자의 판매하는 상품의 개수 --%>
+					 	<br>판매상품 ${sellerProduct } 개
 					 </div>
 				</div>
+				
 				
 				<%-- 판매자의 판매중 다른상품정보 --%>
 				<br>
 				<div class="row" style="margin-left:10px; margin-bottom:10px;">
-					<b>김커피입니다</b> 님의 판매중인 상품 ... <a href="secondhandSeller?member_id=${secondhandProduct.member_id}">더보기</a>
+					<b>${seller.member_nickname }</b> 님의 판매중인 상품 ... <a href="secondhandSeller?member_id=${secondhandProduct.member_id}">더보기</a>
 				</div>
+
 				 <%--썸네일이미지 --%>
-				  <div class="row">
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:150px;" ></span>
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:150px;" ></span>
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:150px;" ></span>
-				    <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:150px;"></span>
+				 	<%-- 판매자의 물품 개수만큼 반복표시 --%>
+				<div class="row">
+				  	<c:forEach var="sellerProductList" items="${sellerProductList }" varStatus="loop">
+				  		<c:if test="${loop.index lt 4}">
+						<%--판매자의 첫번째상품의 첫번째이미지(썸네일이미지)만 보여줌 --> 판매상품여러개일수도 -> 리스트로 받아옴 --%>
+						<%--네개까지만 받아오는 방법.. --%>
+						<%--각이미지마다 상품 상세페이지로 이동하는 하이퍼링크 --%>
+						<span class="sumnail">						
+							<a href="secondhand_detail?secondhand_idx=${sellerProductList.secondhand_idx }&member_id=${sellerProductList.member_id}">		
+								<img class="democursor" src="${pageContext.request.contextPath }/resources/upload/${sellerProductList.secondhand_image1}" style="width:130px; height:160px;" >
+							</a>
+						</span>	
+						</c:if>
+				  	</c:forEach>
 				  </div>
-				
 			</div>
 		</div>
 		

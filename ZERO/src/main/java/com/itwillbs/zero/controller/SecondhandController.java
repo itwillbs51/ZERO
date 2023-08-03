@@ -136,29 +136,51 @@ public class SecondhandController {
 		
 		
 		
-		//상품 상세정보페이지
+		//중고 상세정보페이지
 		@GetMapping("secondhand_detail")
 		public String secondhand_detail(
 							@RequestParam int secondhand_idx,
+							@RequestParam String member_id,
+//							@RequestParam Map<String, String> map,
 							Model model, 
 							HttpSession session) {
 			
 			//파라미터로 전달받은 상품번호 확인
-			System.out.println(" 상품번호++++++++++++++++++++" + secondhand_idx);
-			
+			//System.out.println(" 상품번호++++++++++++++++++++" + secondhand_idx);
+			System.out.println(" 판매자아이디++++++++++++++++++++" + member_id);
 			//상품번호에 해당하는 상품의 정보조회작업
 			SecondhandVO secondhandProduct = service.getSecondhandProduct(secondhand_idx);
 			//조회결과 저장
 			model.addAttribute("secondhandProduct", secondhandProduct);
 			
 			
+			
+			
+			
 			//상세페이지의 판매자정보조회 
 			//- 파라미터로 전달받은 secondhand_idx의 member_id와 동일한 member정보 얻어옴
 			//  멤버테이블 필요정보 : member_profile, member_nickname, member_address1, member_address_deatil1
-			//- 리턴타입 : , 
+			//- 리턴타입 : ,파라미터:상품번호, 멤버아이디
 			
 			
-			//판매자의 판매상품 개수 조회 
+			//주의!!!!!-> 파라미터 두개이상일경우 매퍼-(@Param)어노테이션필요! 
+			
+			// 맵?
+			HashMap<String,String> sellerInfo = service.getSellerInfo(secondhand_idx, member_id);
+			System.out.println("&&&&&&&&&&&&&&&& 판매자정보 : " + sellerInfo);
+		
+			
+			model.addAttribute("seller",sellerInfo);
+			
+			//판매자의 판매상품 개수 조회
+			int sellerProduct = service.getSellerProductCount(member_id);
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&"+ sellerProduct);
+			model.addAttribute("sellerProduct", sellerProduct);
+			
+			//판매자의 판매목록조회
+			List<HashMap<String, String>> sellerProductList = service.getSellerProductList(member_id);
+			model.addAttribute("sellerProductList",sellerProductList);
+			System.out.println(sellerProductList);
 			
 			return "secondhand/secondhand_detail";
 		}

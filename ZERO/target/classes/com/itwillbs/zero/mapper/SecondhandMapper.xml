@@ -77,15 +77,60 @@
 			SECONDHAND
 	</select>
 	
-	
+	<!-- 중고상품 상세페이지 - 상품상세정보 조회작업 -->	
 	<select id="selectProduct" resultType="com.itwillbs.zero.vo.SecondhandVO">
 		SELECT *
 		FROM
-			SECONDHAND
+			SECONDHAND_CATEGORY
 		WHERE
 			secondhand_idx = #{secondhand_idx}
 	</select>
 	
+	
+	<!-- 중고상품 상세페이지 - 판매자 정보 조회  -->
+	<!-- 필요정보 : 판매자 프로필이미지, 닉네임, 주소, 등 -->
+	<!-- 판매중 상품의 개수????? 는 따로-->
+	<select id="selectSellerInfo" resultType="hashmap">
+		SELECT *
+		FROM 
+			MEMBER m
+		JOIN
+			SECONDHAND s
+		ON 
+			m.member_id = s.member_id
+		WHERE
+			secondhand_idx = #{secondhand_idx}
+			AND s.member_id = #{member_id}
+			
+	</select>
+	
+	
+	<!-- 판매자의 판매상품 총 개수 조회 -->
+	<select id="selectSellerProductCount" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			SECONDHAND
+		WHERE 
+			member_id = #{member_id}
+	</select>
+
+
+	<!-- 판매자의 판매 물품 리스트 조회 -->
+	<select id="selectSellerProductList" resultType="hashmap">
+		SELECT *
+		FROM 
+			MEMBER m
+		JOIN
+			SECONDHAND s
+		ON 
+			m.member_id = s.member_id
+		WHERE
+			s.member_id = #{member_id} 	
+
+	</select>
+
+
 	
 	
 	

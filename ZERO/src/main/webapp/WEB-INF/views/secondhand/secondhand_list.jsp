@@ -299,7 +299,7 @@ row{
 							<!-- 썸네일이미지 - 서버 업로드시 경로 재설정 필요할수도 -->
 							<div class="photoDiv">	
 								
-								<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}">
+								<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
 								
 									<%--<img src="${image1 }" class="card-img-top" > --%>
 									<%-- <img src="<spring:url value='${secondhand.secondhand_image1}'/>" class="card-img-top"/> --%>
@@ -317,7 +317,7 @@ row{
 								
 								<div class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
 									<!-- 제목 링크 -->
-									<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}">
+									<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
 										${secondhand.secondhand_subject}
 									</a>
 									<!-- 찜하기 버튼 -->
