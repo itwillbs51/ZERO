@@ -84,7 +84,10 @@ public class AuctionController2 {
 	
 	// 경매 예정 상세 페이지로 이동
 	@GetMapping("auction_prepare_detail")
-	public String auction_prepare_detail() {
+	public String auction_prepare_detail(Model model, int id) {
+		HashMap<String, String> product= service.getAuctionProduct(id);
+	
+		model.addAttribute("product", product);
 		
 		return "auction/auction_prepare_detail";
 	}
