@@ -67,6 +67,13 @@ public interface AdminMapper {
 	// zman관리 - zman 신고 상세 페이지로 이동
 	ReportVO selectZmanReportDetail(int report_idx);
 	
+	// ========== ========== 중고거래 관리  ========== ==========
+	// 중고거래관리 - 중고거래 목록 페이지로 이동
+	List<SecondhandVO> selectSecondhandManagingList();
+	
+	// 중고거래관리 - 중고 거래 상품 상세 보기 페이지로 이동
+	Map<String, String> selectSecondhandManagingDetail(int secondhand_idx);
+	
 	// ========== ========== 경매 관리  ========== ==========
 	
 	// 경매관리 - 경매예정 상품 목록 조회
@@ -128,9 +135,7 @@ public interface AdminMapper {
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
 
-	// ========== ========== 중고거래 관리  ========== ==========
-	// 중고거래관리 - 중고거래 목록 페이지로 이동
-//	SecondhandVO selectSecondHandList();
+
 
 
 

@@ -42,7 +42,7 @@
 					</a>
 					<div class="collapse" id="secondhandManagement" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="admin_secondhand_list">상품목록</a>
+							<a class="nav-link" href="admin_secondhand_managing_list">상품목록</a>
 							<a class="nav-link" href="#">금지품목</a>
 							<a class="nav-link" href="#">상품신고</a>
 						</nav>

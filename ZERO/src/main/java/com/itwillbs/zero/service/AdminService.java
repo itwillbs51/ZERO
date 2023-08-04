@@ -21,6 +21,7 @@ public class AdminService {
 	@Autowired
 	private AdminMapper mapper;
 
+//  ========== ========== 회원 관리  ========== ==========
 	// 회원관리 - 회원 목록 조회
 	public List<MemberVO> getMemebrList() {
 		return mapper.selectMemberList();
@@ -101,6 +102,18 @@ public class AdminService {
 	public ReportVO getZmanReportDetail(int report_idx) {
 		return mapper.selectZmanReportDetail(report_idx);
 	}
+	
+	//  ========== ========== 중고거래 관리  ========== ==========
+	// 중고거래관리 - 중고거래 목록 페이지로 이동
+	public List<SecondhandVO> getsecondhandManagingList() {
+		return mapper.selectSecondhandManagingList();
+	}
+
+	// 중고거래관리 - 중고 거래 상품 상세 보기 페이지로 이동
+	public Map<String, String> getsecondhandManagingDetail(int secondhand_idx) {
+		return mapper.selectSecondhandManagingDetail(secondhand_idx);
+	}
+	
 	
 	//  ========== ========== 경매 관리  ========== ==========
 	// 경매관리 - 경매예정 상품 목록 조회
@@ -205,11 +218,7 @@ public class AdminService {
 		return mapper.deleteFaq(cs_idx);
 	}
 
-	//  ========== ========== 중고거래 관리  ========== ==========
-	// 중고거래관리 - 중고거래 목록 페이지로 이동
-//	public SecondhandVO getSecondHandList() {
-//		return mapper.selectSecondHandList();
-//	}
+
 
 
 
