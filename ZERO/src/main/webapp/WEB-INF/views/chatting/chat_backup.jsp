@@ -69,18 +69,18 @@
 						<div>
 							<%-- 판매자의 경우 거래하기 아이콘버튼 넣기 --%>
 							<%-- 판매자가 누르면 상태가 바뀐다는 것 알려주기 - 확인 - 상태 : 예약중으로 변경,  --%>
-							<c:if test="${secondhandInfo.member_id eq sessionScope.member_id }">
+							<c:if test="${secondhandInfo.member_id eq sessionScope.member_id && secondhandInfo.secondhand_deal_status eq '판매중'}">
 								<button id="doDeal" data-toggle="modal" data-target="#needConfirm">
 									<i class="material-icons">done</i><span>거래하기 </span>
 								</button>
 							</c:if>
-<!-- 							<button onclick="moveNext(this.text)"><i class="material-icons">access_time</i><span>약속잡기 </span></button> -->
-<!-- 							<button onclick="moveNext(this.text)"><i class="material-icons">attach_money</i><span>송금하기 </span></button> -->
-							
+							<%-- 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화 --%>
+							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' }">
+								<button onclick="reservationNext(this.text)"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
+								<button onclick="reservationNext(this.text)"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
+								<button onclick="reservationNext(this.text)"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
+							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
-
-
-
 
 						</div>
 					</div>
@@ -99,7 +99,6 @@
 								<c:when test="${chat.chat_content_type eq '안내' }">
 									<div class="noticeMsg">
 										<span>
-											<input type="hidden" class="date" value="${chat.chat_datetime }">
 											${chat.chat_content }
 										</span>
 									</div>
@@ -229,14 +228,14 @@
 	let chatMessage;
 	
 	// 채팅 보내는 사람(안내일때는 그때마다 바꾸는걸로)
-	let messageSender = "${member_id}";
+	let sender = "${member_id}";
 	
 	//전송 버튼 누르는 이벤트
 	$("#button-send").on("click", function(e) {
 		chatMessage = $('#msg').val();
 		
 		if(chatMessage != "") {
-			sendMessage();
+			sendMessage(sender);
 			$('#msg').val('');
 		}
 	});
@@ -246,7 +245,7 @@
 		chatMessage = $('#msg').val();
 		
 		if(chatMessage != "" && key.keyCode == 13) {
-			sendMessage();
+			sendMessage(sender);
 			$('#msg').val('');
 		}
 	});
@@ -276,8 +275,10 @@
 	sock.onclose = onClose;
 	sock.onopen = onOpen;
 	
-	function sendMessage() {
+	function sendMessage(sender) {
 		
+		let chat_content_type = '일반';
+
 		if(formatDate(lastDatetime) != formatNow) {
 			formatNow = "&-안내" + formatNow;
 			sock.send(formatNow);
@@ -304,12 +305,12 @@
 					console.log("DB 저장 실패");
 				}
 			});	// ajax 끝
+		} else if(sender == 'notice@test.com') {
+			// 안내메세지 관리
+			chat_content_type = '안내';
+// 			chatMessage = chatMessage.split("&-안내")[1];
 		}
 		
-// 		let message = $("#msg").val();
-		sock.send(chatMessage);	// 각 이벤트 시 받는 메세지를 소켓으로 전달
-		
-		let chat_content_type = '일반';
 		// 채팅 내용을 DB에 저장하기
 		$.ajax({
 			data: {
@@ -317,7 +318,7 @@
 				'chat_content': chatMessage,
 				'chat_content_type' : chat_content_type,
 				'room_idx': "${param.room_idx}",
-				'member_id': "${member_id}"
+				'member_id': sender
 			},
 			url: "chatRemember",
 			type: "POST",
@@ -331,7 +332,11 @@
 				console.log("DB 저장 실패");
 			}
 		});	// ajax 끝
-	}// sendMessage() 끝
+		
+		// 각 이벤트 시 받는 메세지를 소켓으로 전달
+		sock.send(chatMessage);
+		
+	}// sendMessage(sender) 끝
 	
 	//서버에서 메시지를 받았을 때
 	function onMessage(msg) {
@@ -354,14 +359,13 @@
 		// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
 		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
 		
-		let noticeDate = formatNow.split("&-안내")[1];
-		
 		if(message.startsWith("&-안내")) {	// 안내메세지인 경우
+		let noticeMessage = message.split("&-안내")[1];
 			
 			var str = '<div class="noticeMsg">';
-			str += '<span>';
-			str += noticeDate;
-			str += '</span>';
+// 			str += '<div>';
+			str += noticeMessage;
+// 			str += '</div>';
 			str += '</div>';
 			
 			$("#msgArea").append(str);
@@ -443,35 +447,37 @@
 		let price = $("#finalPrice").val();
 		console.log("최종 금액 : " + price);
 		
-		// 채팅내용 : chatMessage에 저장(안내니까 "-&안내" 붙이기)하고 sendMessage() 실행시키기
+		// 채팅내용 : chatMessage에 저장(안내니까 "-&안내" 붙이기)하고 sendMessage(sender) 실행시키기
 		switch(num) {
 			case 1 :
 				// 1-1. 만나서 거래하기 클릭 => 안내 메세지 띄우기
-				chatMessage = '-&안내' + '${member_id}' + '님이 <b>만나서 거래하기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
+				chatMessage = '&-안내' + '${chatRoom.buyer_id}' + '님이 <b>만나서 거래하기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
 				setOrderSecondhand("직거래", price);
 				break;
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
-				chatMessage = '-&안내' + '${member_id}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!';
-// 				chatMessage += '<c:if test="">'	// 나중에 폼에 다 저장해서 호출하기 성공 시 disabled 넣어주기
-				chatMessage += '<button class="btn btn-dark" onclick="location.href=\'chatToZ\'">Z맨 호출하기</button>'
+				chatMessage = '&-안내' + ' ${chatRoom.buyer_id}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!';
+// 				chatMessage += '<c:if test="${secondhandInfo.secondhand_deal_status neq \'예약중\' }">'	// 나중에 폼에 다 저장해서 호출하기 성공 시 disabled 넣어주기
+				chatMessage += '<button class="btn btn-dark" onclick="window.open("chatToZ","newWindow",
+																						"width=300, height=300, left=600, top=400");">'
+				chatMessage += 'Z맨 호출 접수</button>'
 // 				chatMessage += '</c:if>'
-				setOrderSecondhand("Z맨", price);
+// 				setOrderSecondhand("Z맨", price);
 				
 				break;
 			case 3 :
 				// 1-3. 택배로 받기 클릭 => 안내 메세지 띄우고 판매자에게 택배회사 주소가 담긴 버튼 보여주기(안내메세지 판별해 버튼 보여주기)
-				chatMessage = '-&안내' + '${member_id}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
-				setOrderSecondhand("택배", price);
+				chatMessage = '&-안내' + ' ${chatRoom.buyer_id}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
+				chatMessage += '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>'
+// 				setOrderSecondhand("택배", price);
 				
 				break;
 				
 		}	// switch문 끝
 		// 메세지 보내기
-		sendMessage(chatMessage);
+		sendMessage('notice@test.com');
 		
 		// 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화
-				
 				
 	}	// 거래버튼 시 실행 함수 끝
 	
@@ -503,7 +509,21 @@
 		
 	}	// setOrderSecondhand() 끝
 	
-	
+	function reservationNext(type) {
+		// 전역변수
+		
+		switch(type) {
+			case '약속잡기' :
+			
+				break;
+			case '송금하기' :
+				
+				break;
+			case '후기쓰기' :
+				break;
+		}
+		// switch문 끝
+	}
 	
 </script>
 	

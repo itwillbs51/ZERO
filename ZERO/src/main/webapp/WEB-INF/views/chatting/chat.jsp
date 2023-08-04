@@ -457,11 +457,9 @@
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
 				chatMessage = '&-안내' + ' ${chatRoom.buyer_id}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!';
-// 				chatMessage += '<c:if test="${secondhandInfo.secondhand_deal_status neq \'예약중\' }">'	// 나중에 폼에 다 저장해서 호출하기 성공 시 disabled 넣어주기
 				chatMessage += '<button class="btn btn-dark" onclick="window.open("chatToZ","newWindow",
 																						"width=300, height=300, left=600, top=400");">'
 				chatMessage += 'Z맨 호출 접수</button>'
-// 				chatMessage += '</c:if>'
 // 				setOrderSecondhand("Z맨", price);
 				
 				break;
