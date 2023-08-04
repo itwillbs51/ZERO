@@ -19,6 +19,20 @@
 /* } */
 
 
+/* 사이드바 사라졌을 때 생기는 햄버거 메뉴 */
+.hidden_nav {
+	display: flex;
+	outline: none!important;
+}
+.hidden_nav:active {
+	outline: none!important;
+}
+@media only screen and (min-width: 768px) {
+	.hidden_nav {
+		display: none;
+	}
+}
+
 .content_title.border {
    padding-bottom: 16px;
    border-bottom: 3px solid #222!important;
