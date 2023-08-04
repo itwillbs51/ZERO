@@ -117,7 +117,15 @@
 										<tr>
 											<th>배송 방법</th>
 											<td colspan="2">
-												${secondhandManagingDetail.secondhand_deliveryType_ptp }
+<%-- 												<c:choose> --%>
+<%-- 													<c:when test="${secondhandManagingDetail.secondhand_deal_status eq '거래완료'  --%>
+<%-- 																	and secondhandManagingDetail.secondhand_deliveryType_ptp eq 'ZMAN'}"> --%>
+<%-- 														${secondhandManagingDetail.secondhand_deliveryType_ptp } --%>
+<%-- 													</c:when> --%>
+<%-- 													<c:otherwise> --%>
+														${secondhandManagingDetail.secondhand_deliveryType_ptp }
+<%-- 													</c:otherwise> --%>
+<%-- 												</c:choose> --%>
 											</td>
 										</tr>
 										<tr>
