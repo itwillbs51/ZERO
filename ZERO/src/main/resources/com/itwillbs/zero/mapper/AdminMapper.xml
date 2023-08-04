@@ -123,11 +123,12 @@
 	
 	<!--  zman 관리 - zman 배달 내역 상세 조회 - SELECT -->
 	<select id="selectDeliveryDetail" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
-				SELECT
+		SELECT
 				zd.*
 				, os.order_secondhand_product 
 				, z.zman_name
-			FROM ZMAN_DELIVERY zd 
+			FROM
+				ZMAN_DELIVERY zd 
 			JOIN 
 				ORDER_SECONDHAND os 
 				ON

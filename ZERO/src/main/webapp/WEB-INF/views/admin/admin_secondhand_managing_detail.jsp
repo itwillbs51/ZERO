@@ -32,31 +32,6 @@
 
 </style>
 <script type="text/javascript">
-
-	function getFormatDate(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
-		let targetDate = /(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d)/g;
-		let formatDate = "$1-$2-$3 $4:$5:00";
-		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
-	}
-
-	function getFormatDate2(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
-		let targetDate = /(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)/g;
-		let formatDate = "$1-$2-$3";
-		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
-	}
-	
-	function getFormatDate3(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
-		let targetDate = /(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d)/g;
-		let formatDate = "$1-$2-$3";
-		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
-	}
-
-	function getFormatDate4(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
-		let targetDate = /(\d\d\d\d)-(\d\d)-(\d\d)/g;
-		let formatDate = "$1-$2-$3 00:00:00";
-		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
-	}
-
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -68,7 +43,7 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">중고거래 상품 상세보기</h1>
+					<h1 class="mt-4">중고거래 등록상품 상세보기</h1>
 					<ol class="breadcrumb">
 					</ol>
 					

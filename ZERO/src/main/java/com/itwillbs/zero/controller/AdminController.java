@@ -306,10 +306,12 @@ public class AdminController {
 	@GetMapping("admin_secondhand_managing_detail")
 	public String adminSecondhandManagingDetail(HttpSession session, Model model, int secondhand_idx) {
 		System.out.println("AdminController - admin_secondhand_managing_detail");
-		
+
+		// 중고 상품 목록 가져오기
 		Map<String, String> secondhandManagingDetail = service.getsecondhandManagingDetail(secondhand_idx);
 		model.addAttribute("secondhandManagingDetail", secondhandManagingDetail);
-		System.out.println("secondhandManagingDetail - " + secondhandManagingDetail);
+		
+		// 
 		
 		return "admin/admin_secondhand_managing_detail";
 	}

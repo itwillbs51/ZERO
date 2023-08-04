@@ -33,7 +33,7 @@
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">중고거래 관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">중고거래 상품목록</li>
+						<li class="breadcrumb-item active">중고거래 등록상품 목록</li>
 					</ol>
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
