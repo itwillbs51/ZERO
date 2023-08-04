@@ -174,7 +174,8 @@
 	margin: auto;
 	padding: 10px;
 }
-.noticeMsg span {
+.noticeMsg div {
+	display: inline-block;
 	vertical-align: middle;
 	display: flex;
     flex-basis: 100%;
@@ -183,8 +184,8 @@
     font-size: 14px;
     margin: 8px 0px;
 }
-.noticeMsg span::before,
-.noticeMsg span::after {
+.noticeMsg div::before,
+.noticeMsg div::after {
 	content:"";
 	flex-grow:1;
 	margin:0px 16px;
