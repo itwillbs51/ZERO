@@ -49,31 +49,31 @@
 <script type="text/javascript">
 
 	$(function() {
-		
-		let balance = ${zpay_balance };		
-		$(".balanceArea .balance").html(comma(balance) + "원");
-		amountColor();
-		
-	});
-
+		let selectedSearchType = null;
+		let selectedStartDate = null;
+		let selectedEndDate = null;
 	
-	$(function() {
-		
-		$(".dealType").on("click", function() {
-			$(".dealType").removeClass("active");
-			$(this).addClass("active");
+		function updateTransactionHistory() {
+			let requestData = {};
 			
-			let searchType = $(this).val();
-			
+			if (selectedSearchType) {
+			    requestData.searchType = selectedSearchType;
+			}
+			if (selectedStartDate && selectedEndDate) {
+			    requestData.startDate = selectedStartDate.format('YYYY-MM-DD 00:00:00');
+			    requestData.endDate = selectedEndDate.format('YYYY-MM-DD 23:59:59');
+			}
+	
+				
 			$.ajax({
 				type : "GET", 
 				url : "zpay_main_ajax", 
-				data : {searchType : searchType}, 
+				data : requestData, 
 				dataType : "JSON", 
 				success : function(data) {
 					
 					let res = "";
-
+	
 					for(let zpayHistory of data.zpayHistoryList) {
 						res += "<li>" + 
 									"<div class='zpayHistoryItem'>" + 
@@ -109,55 +109,20 @@
 				error : function() {
 					alert("요청실패");
 				}
-				
-			}); // AJAX 끝
+			});	// AJAX 끝
+		}	// updateTransactionHistory 끝
+		
+		
+		// dealType 타입 선택 시 updateTransactionHistory() 함수 실행
+		$(".dealType").on("click", function() {
+			$(".dealType").removeClass("active");
+			$(this).addClass("active");
 			
-			
-		});	//  onclick 끝
-		
-		
-	});
-	
-	// 금액 형식 지정 함수
-	function comma(str) {
-		str = String(str);
-		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-	}
-	
-	
-	// 날짜 형식 지정 함수
-	function getFormatDate(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
-		let targetDate = /(\d\d)(\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d).(\d)/g;
-		let formatDate = "$3.$4";
-		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
-	}
-
-	// 시간 형식 지정 함수
-	function getFormatTime(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
-		let targetDate = /(\d\d)(\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d).(\d)/g;
-		let formatDate = "$5:$6";
-		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
-	}
-	
-	// 거래타입 별 색, +- 표시 함수
-	function amountColor(){
-		$("strong.zpayHistoryItem_amount").each(function() {
-
-			let zpayDealType = $(this).attr("data-dealType");
-		
-			if (zpayDealType == "충전" || zpayDealType == "중고입금" || zpayDealType == "경매입금") {
-				$(this).css("color", "#09aa5c");
-				$(this).prepend("+ ");
-			} else if (zpayDealType == "환급" || zpayDealType == "중고출금" || zpayDealType == "경매출금") {
-				$(this).prepend("- ");
-			}
+			selectedSearchType = $(this).val();
+			updateTransactionHistory();
 		});
-		
-	}
 	
-
-	$(function() {
-		
+		// 날짜 선택 시 updateTransactionHistory() 함수 실행
 		$('input[name="datetimes"]').daterangepicker({
 		    "showWeekNumbers": true,
 		    "showDropdowns": true,
@@ -202,12 +167,57 @@
 		    "drops": "auto",
 		    "applyButtonClasses": "btn-dark"
 		}, function(start, end, label) {
-			console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-			$(".startDate").html(start.format('YYYY.MM.DD') + " ~ ");
-			$(".endDate").html(end.format('YYYY.MM.DD'));
+			selectedStartDate = start;
+			selectedEndDate = end;
+			updateTransactionHistory();
 		});
-// 		$(".listPeriod").html($('input[name="datetimes"]').val());
+		updateTransactionHistory();
 	});
+		
+	
+	// 처음 zpay_main 요청 시 목록 불러 오면서 balance 형식 지정
+	$(function() {
+		let balance = ${zpay_balance };		
+		$(".balanceArea .balance").html(comma(balance) + "원");
+		amountColor();
+	});
+	
+	// 금액 형식 지정 함수
+	function comma(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+	
+	
+	// 날짜 형식 지정 함수
+	function getFormatDate(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
+		let targetDate = /(\d\d)(\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d).(\d)/g;
+		let formatDate = "$3.$4";
+		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
+	}
+
+	// 시간 형식 지정 함수
+	function getFormatTime(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
+		let targetDate = /(\d\d)(\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d).(\d)/g;
+		let formatDate = "$5:$6";
+		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
+	}
+	
+	// 거래타입 별 색, +- 표시 함수
+	function amountColor(){
+		$("strong.zpayHistoryItem_amount").each(function() {
+
+			let zpayDealType = $(this).attr("data-dealType");
+		
+			if (zpayDealType == "충전" || zpayDealType == "중고입금" || zpayDealType == "경매입금") {
+				$(this).css("color", "#09aa5c");
+				$(this).prepend("+ ");
+			} else if (zpayDealType == "환급" || zpayDealType == "중고출금" || zpayDealType == "경매출금") {
+				$(this).prepend("- ");
+			}
+		});
+		
+	}
 		
 </script>
 </head>
