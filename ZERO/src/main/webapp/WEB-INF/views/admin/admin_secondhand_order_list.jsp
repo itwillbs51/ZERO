@@ -61,7 +61,23 @@
 										<td>${orderSecondhandList.order_secondhand_product }</td>
 										<td>${orderSecondhandList.order_secondhand_price }</td>
 										<td>${orderSecondhandList.order_secondhand_type }</td>
-										<td><a class="btn btn-sm btn-outline-dark" href="admin_secondhand_order_detail?secondhand_idx=${orderSecondhandList.order_secondhand_idx }">상세보기</a></td>
+										
+<%-- 										<c:choose> --%>
+<%-- 											거래 방법이 ZMAN 일 경우 --%>
+<%-- 											<c:when test="${orderSecondhandList.order_secondhand_type eq 'ZMAN'}"> --%>
+												<td>
+<!-- 													<a class="btn btn-sm btn-outline-dark" -->
+<%-- 													href="admin_secondhand_order_detail?secondhand_idx=${orderSecondhandList.order_secondhand_idx }&zman_delivery_idx=${orderSecondhandList.zman_delivery_idx}">상세보기</a> --%>
+<!-- 												</td> -->
+<%-- 											</c:when> --%>
+<%-- 											거래 방법이 ZMAN 이 아닐 경우 --%>
+<%-- 											<c:otherwise> --%>
+<!-- 												<td> -->
+													<a class="btn btn-sm btn-outline-dark" href="admin_secondhand_order_detail?secondhand_idx=${orderSecondhandList.order_secondhand_idx }">상세보기</a>
+												</td>
+<%-- 											</c:otherwise> --%>
+<%-- 										</c:choose> --%>
+										
 									</tr>
 									</c:forEach>
 								</tbody>

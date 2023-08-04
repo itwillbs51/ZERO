@@ -210,9 +210,7 @@
 	<select id="selectOrderSecondhandDetail">
 		SELECT *
 			FROM
-				ORDER_SECONDHAND
-			WHERE
-				order_secondhand_idx = #{order_secondhand_idx};
+				ORDER_SECONDHAND os;
 	</select>
 	
 	<!-- 경매관리 - 경매예정 상품 목록 조회 -->
