@@ -59,7 +59,9 @@
 										<td>${orderSecondhandList.order_secondhand_idx }</td>
 										<td>${orderSecondhandList.order_secondhand_date }</td>
 										<td>${orderSecondhandList.order_secondhand_product }</td>
-										<td>${orderSecondhandList.order_secondhand_price }</td>
+										<td>
+											<fmt:formatNumber value="${orderSecondhandList.order_secondhand_price }" pattern="#,##0"/>원
+										</td>
 										<td>${orderSecondhandList.order_secondhand_type }</td>
 										
 <%-- 										<c:choose> --%>

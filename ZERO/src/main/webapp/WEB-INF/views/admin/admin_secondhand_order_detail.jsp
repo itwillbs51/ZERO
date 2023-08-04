@@ -92,7 +92,7 @@
 										<tr>
 											<th>거래 가격</th>
 											<td colspan="2">
-												${secondhandOrderDetail.order_secondhand_price }
+												<fmt:formatNumber value="${secondhandOrderDetail.order_secondhand_price }" pattern="#,##0"/>원
 											</td>
 										</tr>
 										<tr>
