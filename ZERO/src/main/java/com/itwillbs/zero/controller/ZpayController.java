@@ -46,67 +46,12 @@ public class ZpayController {
 	
 	// zpay_main.jsp 페이지로 디스페치
 	// ZPAY 사용 내역(목록) 조회
-	// ZPAY 잔액 조회
-	
-	
-	
-//	@GetMapping("zpay_main")
-//	public String zpayMain(
-//			@RequestParam(defaultValue = "") String searchType, 
-////			@RequestParam(defaultValue = "") String searchKeyword, 
-//			@RequestParam(defaultValue = "1") int pageNum, 
-//			Model model, HttpSession session) {
-//		System.out.println("ZpayController - zpayMain()");
-//		
-//		String member_id = (String)session.getAttribute("member_id");
-//		MemberVO member = memberService.getMember(member_id);
-//		
-//		// 토큰 정보 조회 => 세션에 저장
-//		ResponseTokenVO token = bankService.getTokenForBankAuth(member_id);	
-//		if(token != null) {
-//			session.setAttribute("access_token", token.getAccess_token());
-//			session.setAttribute("user_seq_no", token.getUser_seq_no());
-//		}		
-//		
-//		// ZPAY 사용자 여부 조회 = > 미사용자인 경우 ZPAY 등록 폼으로 이동
-//		ZpayVO zpay = service.isZpayUser(member_id);
-//		if(zpay == null) {
-//			model.addAttribute("member", member);	
-//			return "zpay/zpay_regist_form";
-//		}
-//		
-//		
-//		// ------------------------------------------------------------------------------------------
-//		int listLimit = 10; //한페이지 표시 목록갯수
-//		int startRow = (pageNum - 1) * listLimit; //조회시작 행번호
-//		
-//		//페이징 계산작업
-//		//1.전체게시물 수 조회 작업 요청
-//		int listCount = service.getZpayHistoryListCount(member_id, searchType);
-//		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
-//		
-//		// -----------------------------------------------------------------------------------------
-//		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
-//		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistoryList(member_id, searchType);
-//		
-//		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
-////		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistory(member_id);
-//		System.out.println(zpayHistoryList);
-//		System.out.println(member_id);
-//		
-//		Integer zpay_balance = service.getZpayBalance(member_id);
-//		System.out.println(zpay_balance);
-//		
-//		model.addAttribute("zpayHistoryList", zpayHistoryList);
-//		model.addAttribute("zpay_balance", zpay_balance);
-//		
-//		return "zpay/zpay_main";
-//	}
-	
+	// ZPAY 잔액 조회	
 	@GetMapping("zpay_main")
 	public String zpayMain(
 			@RequestParam(defaultValue = "") String searchType, 
-			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "") String startDate, 
+			@RequestParam(defaultValue = "") String endDate, 
 			@RequestParam(defaultValue = "1") int pageNum, 
 			Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayMain()");
@@ -134,7 +79,7 @@ public class ZpayController {
 		
 		//페이징 계산작업
 		//1.전체게시물 수 조회 작업 요청
-		int listCount = service.getZpayHistoryListCount(member_id, searchType, searchKeyword);
+		int listCount = service.getZpayHistoryListCount(member_id, searchType, startDate, endDate);
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 		
 		// -----------------------------------------------------------------------------------------
@@ -158,7 +103,8 @@ public class ZpayController {
 	@GetMapping("zpay_main_ajax")
 	public String zpayMainAjax(
 			@RequestParam(defaultValue = "") String searchType, 
-			@RequestParam(defaultValue = "") String searchKeyword, 
+			@RequestParam(defaultValue = "") String startDate, 
+			@RequestParam(defaultValue = "") String endDate, 
 			@RequestParam(defaultValue = "1") int pageNum, 
 			Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayMain()");
@@ -187,12 +133,12 @@ public class ZpayController {
 		
 		//페이징 계산작업
 		//1.전체게시물 수 조회 작업 요청
-		int listCount = service.getZpayHistoryListCount(member_id, searchType, searchKeyword);
+		int listCount = service.getZpayHistoryListCount(member_id, searchType, startDate, endDate);
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 		
 		// -----------------------------------------------------------------------------------------
 		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
-		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistoryList(member_id, searchType, searchKeyword, startRow, listLimit);
+		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistoryList(member_id, searchType, startDate, endDate, startRow, listLimit);
 		System.out.println(zpayHistoryList);
 		System.out.println(member_id);
 		

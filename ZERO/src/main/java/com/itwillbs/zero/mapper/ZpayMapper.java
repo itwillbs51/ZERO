@@ -25,6 +25,20 @@ public interface ZpayMapper {
 
 	// ZPAY 사용 내역(목록) 조회
 	List<ZpayHistoryVO> selectZpayHistory(String member_id);
+	
+	// ZPAY 사용 내역(목록) 개수 조회
+	int selectZpayHistoryListCount(@Param("member_id") String member_id, 
+								@Param("searchType") String searchType, 
+								@Param("startDate") String startDate, 
+								@Param("endDate") String endDate);
+	
+	// ZPAY 사용 내역(목록) 조회 - 필터링 적용
+	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, 
+											@Param("searchType") String searchType, 
+											@Param("startDate") String startDate, 
+											@Param("endDate") String endDate, 
+											@Param("startRow") int startRow,
+											@Param("listLimit") int listLimit);
 
 	// ZPAY 번호 조회
 	int selectZpayIdx(String member_id);
@@ -48,15 +62,8 @@ public interface ZpayMapper {
 	
 	// ========================================================================
 	SecondhandVO selectSecondhand(int secondhand_idx);
-
-//	int selectZpayHistoryListCount(@Param("member_id") String member_id, @Param("searchType") String searchType);
-//
-//	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, @Param("searchType") String searchType);
 	
-	int selectZpayHistoryListCount(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
 	
-	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword, @Param("startRow") int startRow,
-			@Param("listLimit") int listLimit);
 	
 }
 

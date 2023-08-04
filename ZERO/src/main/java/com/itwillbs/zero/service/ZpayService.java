@@ -30,19 +30,27 @@ public class ZpayService {
 	
 	// ZPAY 잔액 조회
 	public Integer getZpayBalance(String member_id) {
-//	public ZpayHistoryVO getZpayBalance(String member_id) {
 		
 		Integer zpay_balance = mapper.selectZpayBalance(member_id);
 		
 		return zpay_balance != null ? zpay_balance : 0;
-//		return mapper.selectZpayBalance(member_id);
 	}
 	
 	// ZPAY 사용 내역(목록) 조회
 	public List<ZpayHistoryVO> getZpayHistory(String member_id) {
 		return mapper.selectZpayHistory(member_id);
 	}
-
+	
+	// ZPAY 사용 내역(목록) 개수 조회
+	public int getZpayHistoryListCount(String member_id, String searchType, String startDate, String endDate) {
+		return mapper.selectZpayHistoryListCount(member_id, searchType, startDate, endDate);
+	}
+	
+	// ZPAY 사용 내역(목록) 조회 - 필터링 적용
+	public List<ZpayHistoryVO> getZpayHistoryList(String member_id, String searchType, String startDate, String endDate,
+			int startRow, int listLimit) {
+		return mapper.selectZpayHistoryList(member_id, searchType, startDate, endDate, startRow, listLimit);
+	}
 
 	// ZPAY 번호 조회
 	public int getZpayIdx(String member_id) {
@@ -92,20 +100,6 @@ public class ZpayService {
 
 	
 	
-//	public int getZpayHistoryListCount(String member_id, String searchType) {
-//		return mapper.selectZpayHistoryListCount(member_id, searchType);
-//	}
-//
-//	public List<ZpayHistoryVO> getZpayHistoryList(String member_id, String searchType) {
-//		return mapper.selectZpayHistoryList(member_id, searchType);
-//	}
-	public int getZpayHistoryListCount(String member_id, String searchType, String searchKeyword) {
-		return mapper.selectZpayHistoryListCount(member_id, searchType, searchKeyword);
-	}
 	
-	public List<ZpayHistoryVO> getZpayHistoryList(String member_id, String searchType, String searchKeyword,
-			int startRow, int listLimit) {
-		return mapper.selectZpayHistoryList(member_id, searchType, searchKeyword, startRow, listLimit);
-	}
 
 }
