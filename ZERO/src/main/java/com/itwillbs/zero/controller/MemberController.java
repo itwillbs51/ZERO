@@ -295,61 +295,113 @@ public class MemberController {
 		return "member/member_Info";
 	}
 	
-	// 멤버 마케팅 수신 동의 변경
-//	@PostMapping("ajax/chgMarketing1")
-//	@RequestMapping
-//	public String chgMarketing(HttpSession session
+//	// 멤버 마케팅 수신 동의 변경
+//	@PostMapping("ajax/chgMarketing")
+//	@ResponseBody
+//	public JSONObject chgMarketing(HttpSession session
 //			, Model model
 //			, @RequestParam Map<String, String> map
 //			) {
-//		System.out.println("/ajax/chgMarketing1" + map);
+//		System.out.println("/ajax/chgMarketing" + map);
+//		// 조건 파라미터 - 아이디
+//		String column1 = "member_id";
+//		String member_id = (String)session.getAttribute("member_id");
+//		  
+//		// 변경할 컬럼( member_agreement_marketing)
+//		String column2 = map.get("column");
+//		String value2 = map.get("value");
+//		int updateCount = service.updateMember(column1, member_id, column2, value2);
 //		
-//		return "ajax 끝";
+//		JSONObject jo = new JSONObject();
+//		jo.put(column2, value2);
+//		
+//		return jo;
 //	}
 	
-	// 멤버 마케팅 수신 동의 변경
-//	@PostMapping("/ajax/chgMarketing")
-//	@RequestMapping
-//	public String chgMarketing2(HttpSession session
-//			, Model model
-//			, @RequestParam Map<String, String> map
-//			) {
-//		System.out.println("/ajax/chgMarketing2" + map);
-//		
-//		return "ajax 끝";
-//	}
+	// 패스워드 일치여부 확인
+	public String checkPasswd(String column,String member_id, String column1,String value1) {
+		System.out.println("checkPasswd");
+
+		
+		// 회원정보 가져오기
+		Map<String, String> member = service.isMemberCheck(column, member_id);
+		
+//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+//		String securePasswd = member.get("member_passwd");
+		
+//		if (member.get("member_passwd") ==  null || !passwordEncoder.matches(member_passwd, member.get("member_passwd"))) {
+		
+		if(!passwordEncoder.isSameCryptoPassword(value1, member.get("member_passwd"))) {
+			System.out.println("비밀번호 불일치");
+			// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
+//			model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다. "
+//					+ "입력하신 내용을 다시 확인해주세요.");
+			return "false"; // 회원정보 불일치
+		}
+			return "true"; // 회원정보 일치
+			
+		
 	
-	// 멤버 마케팅 수신 동의 변경
-	@PostMapping("ajax/chgMarketing")
+	}
+	
+	// 멤버 패스워드, 폰번호 변경
+	@PostMapping("ajax/chgInfo")
 	@ResponseBody
-	public JSONObject chgMarketing(HttpSession session
+	public String chgInfo(HttpSession session
 			, Model model
 			, @RequestParam Map<String, String> map
 			) {
-		System.out.println("/ajax/chgMarketing" + map);
-		// 조건 파라미터 - 아이디
-		String column1 = "member_id";
+		System.out.println("ajax/chgInfo:" + map + ", session");
+		
+		String column = "member_id";
 		String member_id = (String)session.getAttribute("member_id");
-		  
-		// 변경할 컬럼( member_agreement_marketing_sms 또는 member_agreement_marketing_email)
-		String column2 = map.get("column");
-		String value2 = map.get("value");
-		int updateCount = service.updateMember(column1, member_id, column2, value2);
 		
-		JSONObject jo = new JSONObject();
-		jo.put(column2, value2);
+		String column1 = map.get("column"); // 변경할 정보 컬럼
+		String value1 = map.get("value"); // 변경할 정보 값
 		
-		return jo;
+		String column2 = map.get("column2"); // 이전 패스워드
+		String value2 = map.get("value2"); // 이전 패스워드 값
+		
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		
+		System.out.println(column + "," + member_id + "," + column1 + "," + value1);
+		
+		System.out.println("암호화 : " + column1.equals("member_passwd2"));
+		if(column1.equals("member_passwd2")) { // 비밀번호 변경 시 암호화
+			
+			// 1. 이전 비밀번호 일치 여부 확인
+			String result = checkPasswd(column, member_id, column2, value2);
+			if(result.equals("false")) { // 비밀번호 불일치 시
+				return "false";
+			}
+			
+			// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+			String securePasswd = passwordEncoder.getCryptoPassword(value1);
+			System.out.println("암호화된 비밀번호 : " + securePasswd);
+			// 3. 리턴받은 암호문을 value1 덮어쓰기
+			value1 = securePasswd;
+			column1 = "member_passwd";
+			System.out.println("value1:" + value1);
+		}
+		
+		int updateCount = service.updateMember(column, member_id, column1, value1);
+		
+		return column1;
 	}
 	
-//	// 멤버 마케팅 수신 동의 변경
-//	@PostMapping("/zero/ajax/chgMarketing")
-//	@RequestMapping
-//	public String chgMarketing4(HttpSession session
+	// 멤버 패스워드, 폰번호 변경
+//	@PostMapping("zero/ajax/chgInfo")
+//	@ResponseBody
+//	public String chgInfo2(HttpSession session
 //			, Model model
 //			, @RequestParam Map<String, String> map
 //			) {
-//		System.out.println("/ajax/chgMarketing4" + map);
+//		System.out.println("ajax/chgInfo2" + map);
+//		
+//		
 //		
 //		return "ajax 끝";
 //	}
