@@ -237,9 +237,21 @@ a {
 				<%-- 1-1. 수정하기, 삭제하기, 끌어올리기 영역 노출 --%>
 				<c:when test="${not empty sessionScope.member_id && sessionScope.member_id eq secondhandProduct.member_id}">
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 수정하기 </button>
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandDelete?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 삭제하기 </button>
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhand_idx}&pageNum=${param.pageNum}'"> 끌어올리기 </button>
+
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
+						onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&pageNum=${param.pageNum}'"> 
+						수정하기 
+					</button>
+	
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
+						onclick="location.href='secondhandDelete?secondhand_idx=${secondhandProduct.secondhand_idx}&pageNum=${param.pageNum}'">
+						 삭제하기 
+					 </button>
+	
+					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
+						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&pageNum=${param.pageNum}'"> 
+						끌어올리기 
+					</button>
 
 					<%--1-2.셀렉트박스로 거래상태변경가능 --%>
 					<select class="changeDealStatus" aria-label="Default select example">

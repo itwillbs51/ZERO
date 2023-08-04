@@ -166,7 +166,7 @@ public class CsController {
 				e.printStackTrace();
 			}
 			
-			return "redirect:/admin_cs_faq_list";
+			return "cs/cs_main";
 		} else { // 글쓰기 실패 
 			model.addAttribute("msg", "문의 글이 등록되지 않았습니다!");
 

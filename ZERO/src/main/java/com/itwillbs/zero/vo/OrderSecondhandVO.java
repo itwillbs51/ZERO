@@ -1,6 +1,9 @@
 package com.itwillbs.zero.vo;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 import java.sql.Timestamp;
 
 import lombok.Data;
@@ -14,7 +17,10 @@ public class OrderSecondhandVO {
 	private String order_secondhand_seller;
 	private int secondhand_idx;
 	private String order_secondhand_status;
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 	
 	private Timestamp order_secondhand_date;
 	private String order_secondhand_product;

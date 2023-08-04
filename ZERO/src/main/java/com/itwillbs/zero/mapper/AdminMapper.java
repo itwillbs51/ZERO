@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
@@ -76,7 +77,13 @@ public interface AdminMapper {
 	
 	// 중고거래관리 - 중고거래 등록 상품 삭제 
 	int deleteSecondhandItem(int secondhand_idx);
-	
+
+	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
+	List<SecondhandVO> selectOrderSecondhandList();
+
+	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
+	Map<String, String> selectOrderSecondhandDetail(int order_secondhand_idx);
+
 	// ========== ========== 경매 관리  ========== ==========
 	
 	// 경매관리 - 경매예정 상품 목록 조회
@@ -137,6 +144,7 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
+
 
 
 

@@ -35,6 +35,7 @@ public interface SecondhandMapper {
 
 	// 판매자의 판매물품 리스트 조회요청
 	List<HashMap<String, String>> selectSellerProductList(String member_id);
+
 	
 	
 	

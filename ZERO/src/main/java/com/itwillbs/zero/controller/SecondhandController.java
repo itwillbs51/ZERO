@@ -155,17 +155,13 @@ public class SecondhandController {
 			
 			
 			
-			
-			
 			//상세페이지의 판매자정보조회 
 			//- 파라미터로 전달받은 secondhand_idx의 member_id와 동일한 member정보 얻어옴
 			//  멤버테이블 필요정보 : member_profile, member_nickname, member_address1, member_address_deatil1
 			//- 리턴타입 : ,파라미터:상품번호, 멤버아이디
 			
-			
-			//주의!!!!!-> 파라미터 두개이상일경우 매퍼-(@Param)어노테이션필요! 
-			
-			// 맵?
+			//주의!!!!!-> 파라미터 두개이상일경우 매퍼-(@Param)어노테이션필요!
+
 			HashMap<String,String> sellerInfo = service.getSellerInfo(secondhand_idx, member_id);
 			System.out.println("&&&&&&&&&&&&&&&& 판매자정보 : " + sellerInfo);
 		
@@ -215,7 +211,7 @@ public class SecondhandController {
 			
 			
 			//판매자아이디저장
-//			secondhand.setMember_idx((String)session.getAttribute("member_idx"));
+			//secondhand.setMember_idx((String)session.getAttribute("member_idx"));
 			String member_id = (String)session.getAttribute("member_id");
 			System.out.println("#############" + member_id);
 			session.setAttribute("member_id", member_id);
@@ -367,13 +363,66 @@ public class SecondhandController {
 		
 		
 		
+		
+		
+		
 		//상품수정하기폼 이동
 		@GetMapping("secondhandModifyForm")
-		public String secondhandModifyForm() {
+		public String secondhandModifyForm(
+					SecondhandVO secondhand, 
+					HttpSession session, 
+					Model model,
+					@RequestParam int secondhand_idx) {
+			
+			String member_id = (String) session.getAttribute("member_id");
+			System.out.println("%&%&%&%&%&%& 수정 - 판매자아이디 : " + member_id);
+			System.out.println("%&%&%&%&%&%& 수정 - 상품번호 : " + secondhand_idx);
+			
+			
+			//중고 카테고리 값 전달(재사용) 
+			List<HashMap<String, String>> categorylist = service.getCategorylist();
+			model.addAttribute("categorylist", categorylist);
+			
+			
+			
+			//파라미터로 넘어온 상품번호의 상품정보 가져오기
+			//리턴타입: SecondhandVO 파라미터:상품번호
+			//디테일조회작업시 사용한 getSecondhandProduct() 재사용
+			
+			SecondhandVO secondhandProduct = service.getSecondhandProduct(secondhand_idx);
+			System.out.println("%&%&%&%&%&%& 수정 - 상품정보 : " + secondhandProduct);
+			model.addAttribute("secondhandProduct",secondhandProduct);
+			
+			String image1 = secondhandProduct.getSecondhand_image1();
+			String image2 = secondhandProduct.getSecondhand_image2();
+			String image3 = secondhandProduct.getSecondhand_image3();
+			
+			
+			
+			//받아온 정보 중 image1, image2, image3 List로
+//			List<SecondhandVO> image_list = new ArrayList<SecondhandVO>();
+//			image_list.add(secondhandProduct.getSecondhand_image1());
+//			image_list.add(secondhandProduct.getSecondhand_image2());
+//			image_list.add(secondhandProduct.getSecondhand_image3());
+			
+			//상품번호의 이미지=> List로 따로 만들기
+//			//상품번호에 해당하는 이미지정보만 받아오기
+//			List<SecondhandVO> image_list = service.getImageList(secondhand_idx);
+//			System.out.println("%&%&%&%&%&%& 수정 - 이미지정보 :" + image_list);
+			
+			
 			return "secondhand/secondhand_modify_form";
 		}
 		
+		
+		
+		
 		//상품수정 처리(UPDATE)
+//		@RequestMapping(value = "secondhandModifyPro", method = RequestMethod.POST)
+//		@ResponseBody
+//		public Map<String, String> product_modify(){
+//		}
+		
 		
 		
 		
