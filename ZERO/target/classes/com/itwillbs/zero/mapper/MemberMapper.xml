@@ -18,9 +18,9 @@
 				, now()                -- {member_date}
 				, #{member_phone}
 				, '활동'                -- {member_status}
-				, 0                    -- {member_agreement_marketing}
+				, #{member_agreement_marketing}  -- {member_agreement_marketing}
 				, '회원'                -- {member_type}
-				, 'N'                   -- {member_mail_auth}
+				, 'Y'                   -- {member_mail_auth}
 				, #{member_image} 
 				, #{member_address1}
 				, #{member_address_detail1}
