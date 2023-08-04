@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,32 @@
 <script type="text/javascript">
 
 
+
 $(function(){
+	$("#startPrice").html(comma($("#startPrice").html()));
+	$("#presentPrice").html(comma($("#presentPrice").html()));
+	$("#maxPrice").html(comma($("#maxPrice").html()));
+	$("#zpayBalance").html(comma($("#zpayBalance").html()));
+	for(let i=0; i<${fn:length(logList)}; i++){
+ 	$("#logBid"+i).html(comma($("#logBid"+i).html()));
+	}	
+	$("#bid_price").on("propertychange change keyup paste input", function() {
+		
+		
+		let checkPrice = $("#bid_price").val() ;
+				
+		/* 숫자 comma 찍는 함수 */
+		checkPrice = comma(checkPrice);
+		
+		
+		/* console.log(p_price); */
+		
+		$("#bidCheck").html(checkPrice+" 원");
+		if(checkPrice==""){
+		$("#bidCheck").html("");}
+		$("#bidCheck").css('color','red');
+
+	});
 	updateTime();
 	});
 
@@ -39,11 +65,27 @@ function padZero(num, size) {
 	  while (s.length < size) s = '0' + s;
 	  return s;
 	}
+	
+function comma(str) {
+    str = String(str);
+    
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    
+    if(regular_han.test(str)){
+    	alert('숫자만 입력하세요');
+    }
+    
+    return str.replace(/[^\d]+/g, '');
+}
 </script>
 
 
 <style type="text/css">
-
+	
 	#auction_log{
 		overflow: auto; 
 		width: 100%; 
@@ -52,7 +94,7 @@ function padZero(num, size) {
 		border:1px solid;
 		}
 	#bid_price{
-		width: 95px; 
+		width: 130px; 
 	}
 	
 
@@ -105,17 +147,19 @@ function padZero(num, size) {
                 	</div>
                 		<div id="auction_log">
                 		<div id="logArea" class="col">
-                		<c:forEach var="log" items="${logList}" >
+                		<c:forEach var="log" items="${logList}" varStatus="i">
                 		<c:if test="${log.member_id eq sessionScope.member_id}"><div class='alert alert-warning'></c:if>
                 		<c:if test="${log.member_id ne sessionScope.member_id}"><div class='alert alert-secondary'></c:if>
-                		<b>${log.member_id }님이 ${log.auction_log_bid }원 입찰!</b>
+                		<b>${log.member_id }님이 <span id="logBid${i.index}">${log.auction_log_bid }</span>원 입찰!</b>
                 		</div>
                 		</c:forEach>
                 		</div>
                 		<div id="msgArea" class="col">
                 		</div>
                 		</div>                	
+                		
                 </div>
+                
 				<!--우측 영역 -->
                 <div class="row col-md-8">
 						<!-- 이미지  -->
@@ -153,7 +197,7 @@ function padZero(num, size) {
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9 d-none d-md-block">    
-                	 		${product.auction_start_price }원
+                	 		<span id="startPrice">${product.auction_start_price }</span> 원
                 	 	</div>
                 	 </div>
                 	 
@@ -164,7 +208,7 @@ function padZero(num, size) {
                 	 		<br>
                 	 	</div>
                 	 	<div class="col-4 col-md-2">
-                	 		<input type="number" id="bid_price" class="bid" value=125000>원
+                	 		<input type="number" id="bid_price" class="bid" >원<br><span id=bidCheck ></span>
                 	 		
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
@@ -176,7 +220,7 @@ function padZero(num, size) {
                 	 		<br>
                 	 	</div>
                 	 	<div class="col-4 col-md-2">
-                	 		${product.auction_max_price }원
+                	 		<span id="maxPrice">${product.auction_max_price }</span> 원
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
                 	 		<button type="button" class="btn btn-dark  btn-block">즉시구매</button>
@@ -186,7 +230,7 @@ function padZero(num, size) {
                 	 		<h4><b>Z-PAY 잔액</b></h4>
                 	 	</div>
                 	 	<div class="col-4 col-md-2">
-                	 		15,0000원
+                	 		<span id="zpayBalance">150000</span> 원
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
                 	 		<button type="button" class="btn btn-primary  btn-block">충전하기</button>
@@ -195,6 +239,8 @@ function padZero(num, size) {
                 </div>
             </div>
 		</div>
+		<div class="col-12 col-md-4"><div class="row d-flex justify-content-center">현재 접속중 회원</div></div>
+		<div class="col-12 col-md-6" id="users"></div>
 	</section>
 	
 	<!-- footer -->
@@ -206,8 +252,31 @@ function padZero(num, size) {
 
 //전송 버튼 누르는 이벤트
 $("#button-send").on("click", function(e) {
-	sendMessage();
 	
+	if($("#bidCheck").html().length == 0){
+		alert("금액을 입력하세요");
+	}else{
+	  let result = confirm($("#bidCheck").html()+"을 입찰하시겠습니까?");
+
+      if(!result){return false;}
+
+      sendMessage();
+	}
+});
+//엔터키 누르는 이벤트
+$("#bid_price").on("keyup",function(key){
+    if(key.keyCode==13) {
+    	if($("#bidCheck").html().length == 0){
+    		alert("금액을 입력하세요");
+    	}else{
+    	let result = confirm($("#bidCheck").html()+"을 입찰하시겠습니까?");
+
+        if(!result){return false;}
+
+
+  	sendMessage();
+    }
+    }
 });
 
 var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?id=${param.id}');
@@ -245,29 +314,29 @@ function sendMessage() {
 }
 //서버에서 메시지를 받았을 때
 function onMessage(msg) {
-	
 	var data = msg.data;
 	var sessionId = null; //데이터를 보낸 사람
 	var message = null;
-	
+	var currentUsers=null;
 	var arr = data.split(":");
 	
-	for(var i=0; i<arr.length; i++){
-		console.log('arr[' + i + ']: ' + arr[i]);
-	}
+	
 	
 	var cur_session = '${sessionScope.member_id}'; //현재 세션에 로그인 한 사람
 	console.log("cur_session : " + cur_session);
 	
 	sessionId = arr[0];
-	message = arr[1];
+	message = comma(arr[1]);
+	currentUsers=arr[2];
 	
     //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
+    if(!message==""){
+    	
 	if(sessionId == cur_session){
 		
 		var str = "<div>";
 		str += "<div class='alert alert-warning'>";
-		str += "<b>" + sessionId + " : " + message + "원 입찰!</b>";
+		str += "<b>" + sessionId + "님이 " + message + "원 입찰!</b>";
 		str += "</div></div>";
 		
 		$("#msgArea").append(str);
@@ -276,12 +345,17 @@ function onMessage(msg) {
 		
 		var str = "<div>";
 		str += "<div class='alert alert-secondary'>";
-		str += "<b>" + sessionId + " : " + message + "원 입찰!</b>";
+		str += "<b>" + sessionId + "님이 " + message + "원 입찰!</b>";
 		str += "</div></div>";
 		
 		$("#msgArea").append(str);
 	}
 	$("#presentPrice").html(message);
+	
+    }else{
+    	$("#users").html(currentUsers.replace(/[\[\]']+/g, ''));
+    	
+    }
 }
 //채팅창에서 나갔을 때
 function onClose(evt) {
@@ -297,9 +371,9 @@ function onOpen(evt) {
 	var user = '${sessionScope.member_id}';
 	
 	var str = "<div>";
-	str += "<div class='alert alert-warning'>";
-	str += "<b>" + user + "님이 입장하셨습니다 </b>";
-	str += "</div></div>";
+	
+	str += "<b>" + user + "님 입장 </b>";
+	str += "</div>";
 	
 	$("#msgArea").append(str);
 	

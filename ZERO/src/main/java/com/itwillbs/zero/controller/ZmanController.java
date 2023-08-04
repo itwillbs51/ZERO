@@ -1,4 +1,4 @@
-package com.itwillbs.zero.controller;
+	package com.itwillbs.zero.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.itwillbs.zero.service.ZmanDeliveryService;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
+import com.itwillbs.zero.vo.ZmanVO;
 
 @Controller
 public class ZmanController {
@@ -18,7 +19,13 @@ public class ZmanController {
 	
 	// ZMAN 메인 페이지로 이동
 	@GetMapping("zman_main")
-	public String zmanMain() {
+	public String zmanMain(HttpSession session, Model model) {
+		System.out.println("ZmanController - zman_main");
+		
+		// 세션에 저장된 zman 아이디를 파라미터로 넘기
+//		ZmanVO zman = service.getZmanList();
+//		model.addAttribute("zman", zman);
+		
 		return "zman/zman_main";
 	}
 	

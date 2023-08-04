@@ -60,7 +60,10 @@
 										<td>${secondhandManagingList.secondhand_idx }</td>
 										<td>${secondhandManagingList.category_name }</td>
 										<td>${secondhandManagingList.secondhand_subject }</td>
-										<td>${secondhandManagingList.secondhand_price }</td>
+										<td>
+											<fmt:formatNumber value="${secondhandManagingList.secondhand_price }" pattern="#,##0"/>원
+<%-- 											${secondhandManagingList.secondhand_price } --%>
+										</td>
 										<td>${secondhandManagingList.secondhand_first_date }</td>
 										<td>${secondhandManagingList.secondhand_deal_status }</td>
 										<td><a class="btn btn-sm btn-outline-dark" href="admin_secondhand_managing_detail?secondhand_idx=${secondhandManagingList.secondhand_idx }">상세보기</a></td>
