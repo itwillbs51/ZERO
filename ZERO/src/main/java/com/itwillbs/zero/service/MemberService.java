@@ -58,5 +58,12 @@ public class MemberService {
 		return cnt;
 	}
 
+	// 회원가입 폼 - 닉네임 중복확인 메서드 
+	public int nickCheck(String member_nickname) {
+		int cnt = mapper.nickCheck(member_nickname);
+		System.out.println("cnt : " + cnt);
+		return cnt;
+	}
+
 	
 }

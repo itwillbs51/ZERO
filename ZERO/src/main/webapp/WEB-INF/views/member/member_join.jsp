@@ -151,25 +151,43 @@ $(function () {
 </script>
 
 <script type="text/javascript">
-// 닉네임 정규식
-	function validateNick() {
-	  var nickInput = document.getElementById("member_nickname");
-	  var nickMessage = document.getElementById("pass_nick");
-	  var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
+//닉네임 중복 검사 및 정규식 검사
+function checkNicknameDup() {
+  var nickname = $('#member_nickname').val();
+  var nickResult = document.getElementById("pass_nick");
+  var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
 
-	  if(nickInput.value.trim() === ""){
-		    nickMessage.innerHTML = "";
-		    return;
-		  }
-	  if (!regex.test(nickInput.value)) {
-	    nickMessage.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
-	    nickMessage.style.color = "red";
-	  } else {
-	    nickMessage.innerHTML = "올바른 형식입니다.";
-	    nickMessage.style.color = "green";
-	  }
-	}
+  if(nickname.trim() === ""){
+    nickResult.innerHTML = "";
+    return;
+  }
+
+  if (!regex.test(nickname)) {
+    nickResult.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
+    nickResult.style.color = "red";
+    return;
+  }
+
+  $.ajax({
+    url: './nickCheck',
+    type: 'post',
+    data: { nickname: nickname },
+    success: function (cnt) {
+      if (cnt == 0) {
+        nickResult.innerHTML = "사용 가능한 닉네임 입니다.";
+        nickResult.style.color = "green";
+      } else {
+        nickResult.innerHTML = "이미 사용 중인 닉네임입니다.";
+        nickResult.style.color = "red";
+      }
+    },
+    error: function (error) {
+      alert("error : " + JSON.stringify(error));
+    }
+  });
+}
 </script>
+
 
 <script type="text/javascript">
 // 생년월일 정규식
@@ -449,7 +467,7 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   onkeyup="validateNick()" 
+							   onkeyup="checkNicknameDup()" 
 							   required="required">
 					</div>
 					<div class="row mb-3">

@@ -34,5 +34,8 @@ int updateBankAuth(String member_id);
 
 	// 아이디 중복 체크 (카카오 로그인에서도 사용 - 값이 있으면 > 0)
 	int idCheck(String member_id);
+
+	// 닉네임 중복 체크 
+	int nickCheck(String member_nickname);
 	
 }

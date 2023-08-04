@@ -908,6 +908,14 @@ public class MemberController {
 		return cnt;
 	}
 	
+	// 회원가입 폼에서 닉네임 중복확인
+	@PostMapping("/nickCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int nickCheck(@RequestParam("nickname") String nickname) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.nickCheck(nickname);
+		return cnt;
+	}
+	
 	
 	// 회원가입 완료 이동
 	@GetMapping("join_complete")
