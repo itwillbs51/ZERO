@@ -41,13 +41,26 @@
 			let changedStatus = $("#zmanStatusSelect>option:selected").val();
 			$("#zmanStatus").empty();
 			$("#zmanStatus").html(changedStatus);
+			
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = String(now.getMonth() + 1).padStart(2, '0');
+			let day = String(now.getDate()).padStart(2, '0');
+			let zmanWithdrawal = year + "-" + month + "-" + day;
 
+			
 			if(changedStatus != "탈퇴"){
 				$("#zmanWithdrawal").empty();
 			} else {
-				$("#zmanWithdrawal").html('<input type="date" id="zman_withdrawal" name="zman_withdrawal" class="form-control datepicker">');
+				$("#zmanWithdrawal").html(zmanWithdrawal + '<input type="hidden" id="zman_withdrawal" name="zman_withdrawal" value="' + zmanWithdrawal + '">');
 			}
+			
+			$("#modifyButton").removeAttr("disabled");
 		});
+		
+		$(".zman_phone").on("click", function() {
+			$("#modifyButton").removeAttr("disabled");
+		})
 		
 	});
 	
@@ -104,7 +117,7 @@
 										<tr>
 											<th>전화번호</th>
 											<td colspan="2">
-												<input type="text" class="form-control" name="zman_phone" value="${zman.zman_phone }">
+												<input type="text" class="form-control zman_phone" name="zman_phone" value="${zman.zman_phone }">
 											</td>
 										</tr>
 										<tr>
@@ -188,7 +201,7 @@
 								</table>
 								<div class="text-center">
 									<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
-										<button type="button" class="btn btn-dark text-nowrap" onclick="modify()">변경저장</button>						
+										<button type="button" id="modifyButton" class="btn btn-dark text-nowrap" onclick="modify()" disabled="disabled">변경저장</button>						
 										<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteZman">
 											&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;
 										</button>						

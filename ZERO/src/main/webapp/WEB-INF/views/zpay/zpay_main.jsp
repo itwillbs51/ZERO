@@ -14,19 +14,46 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <meta charset="UTF-8">
 <title>ZERO</title>
 <style type="text/css">
 	.container {
 		padding-bottom: 0;
 	}
+	
+	.daterangepicker td.in-range {
+		background-color: #EBF4E9;
+		border-color: transparent;
+		color: #000;
+		border-radius: 0;
+	}
+	
+	.daterangepicker td.active, .daterangepicker td.active:hover {
+		background-color: #09aa5c;
+		border-color: transparent;
+		color: #fff;
+	}
+	
+	.daterangepicker td.end-date {
+		border-radius: 0 4px 4px 0;
+	}
+	
+	.daterangepicker td.start-date {
+		border-radius: 4px 0 0 4px;
+	}
 </style>
 <script type="text/javascript">
 
 	$(function() {
+		
 		let balance = ${zpay_balance };		
 		$(".balanceArea .balance").html(comma(balance) + "원");
 		amountColor();
+		
 	});
 
 	
@@ -127,6 +154,60 @@
 		});
 		
 	}
+	
+
+	$(function() {
+		
+		$('input[name="datetimes"]').daterangepicker({
+		    "showWeekNumbers": true,
+		    "showDropdowns": true,
+		    "locale": {
+		        "format": "YYYY.MM.DD",
+		        "separator": " ~ ",
+		        "applyLabel": "조회",
+		        "cancelLabel": "취소",
+		        "fromLabel": "From",
+		        "toLabel": "To",
+		        "customRangeLabel": "Custom",
+		        "weekLabel": "W",
+		        "daysOfWeek": [
+		            "일",
+		            "월",
+		            "화",
+		            "수",
+		            "목",
+		            "금",
+		            "토"
+		        ],
+		        "monthNames": [
+		            "1월",
+		            "2월",
+		            "3월",
+		            "4월",
+		            "5월",
+		            "6월",
+		            "7월",
+		            "8월",
+		            "9월",
+		            "10월",
+		            "11월",
+		            "12월"
+		        ],
+		        "firstDay": 1
+		    },
+		    "startDate": moment().startOf('date').add(-1, 'month'),	// 기본 선택 시작일
+		    "endDate": moment().startOf('date'),	// 기본 선택 마지막일
+		    "maxDate": new Date(),	// 선택할 수 있는 가장 마지막날
+		    "opens": "center",
+		    "drops": "auto",
+		    "applyButtonClasses": "btn-dark"
+		}, function(start, end, label) {
+			console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+			$(".startDate").html(start.format('YYYY.MM.DD') + " ~ ");
+			$(".endDate").html(end.format('YYYY.MM.DD'));
+		});
+// 		$(".listPeriod").html($('input[name="datetimes"]').val());
+	});
 		
 </script>
 </head>
@@ -184,24 +265,16 @@
 							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="환급">
 							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="사용">
 							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="수익">
-<!-- 							<a class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">충전</a> -->
-<!-- 							<a class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">환급</a> -->
-<!-- 							<a class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">사용</a> -->
-<!-- 							<a class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">수익</a> -->
-<!-- 							<a href="zpay_main?searchType='전체'" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1 active">전체</a> -->
-<!-- 							<a href="zpay_main?searchType='충전'" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">충전</a> -->
-<!-- 							<a href="zpay_main?searchType='환급'" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">환급</a> -->
-<!-- 							<a href="zpay_main?searchType='사용'" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">사용</a> -->
-<!-- 							<a href="zpay_main?searchType='수익'" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1">수익</a> -->
 						</div>
 					</div>
-					<div class="zpayHistoryDateSelect">
-						<input type="date" class="form-control datepicker">
+					<div class="zpayHistoryDateSelect" style="display: flex;">
+						<input type="text" name="datetimes"  class="form-control">
 					</div>
 					<div class="zpayHistoryPeriodArea">
 						총 <strong class="listCount">${listCount }</strong> 건
 						<span class="listPeriod">
-							2023.01.01 ~ 2023.07.29
+							<span class="startDate"></span>
+							<span class="endDate"></span>
 						</span>
 					</div>
 					<div class="zpayHistoryListArea">
@@ -230,7 +303,7 @@
 									</div>
 								</div>
 							</li>
-							<c:forEach var="zpayHistory" items="${zpayHistoryList }" varStatus="vs">
+							<c:forEach var="zpayHistory" items="${zpayHistoryList }">
 								<li>
 									<div class="zpayHistoryItem">
 										<div class="zpayHistoryItem_date">

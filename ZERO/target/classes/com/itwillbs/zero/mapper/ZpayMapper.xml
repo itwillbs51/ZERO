@@ -57,9 +57,9 @@
 			VALUES(
 				null
 				, #{zpay_idx}
-				, #{zpay_amount}
+				, #{zpay_amount} * 1.01
 				, now()
-				, #{zpay_balance} + #{zpay_amount}
+				, #{zpay_balance} + #{zpay_amount} * 1.01
 				, #{zpay_deal_type}
 				, #{member_id}
 			)		
