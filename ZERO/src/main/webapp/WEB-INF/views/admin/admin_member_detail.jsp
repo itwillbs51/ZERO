@@ -180,14 +180,6 @@
 											</td>
 										</tr>
 										<tr>
-											<th>마케팅 수신 동의 여부 - 이메일</th>
-											<td colspan="2">${member.member_agreement_marketing_email }</td>
-										</tr>
-										<tr>
-											<th>마케팅 수신 동의 여부 - sms</th>
-											<td colspan="2">${member.member_agreement_marketing_sms }</td>
-										</tr>
-										<tr>
 											<th>가입일</th>
 											<td colspan="2">${member.member_date }</td>
 										</tr>
