@@ -814,9 +814,6 @@ public class MemberController {
 		int insertCount = service.registMember(member);
 		
 		if(insertCount > 0) {
-			
-			
-			
 			return "redirect:/join_complete";
 		} else {
 			model.addAttribute("msg", "회원가입 실패 다시 작성해주세요");
@@ -913,6 +910,14 @@ public class MemberController {
 	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
 	public int nickCheck(@RequestParam("nickname") String nickname) { // id 값을 받아오기 위한 @RequestParam
 		int cnt = service.nickCheck(nickname);
+		return cnt;
+	}
+	
+	// 회원가입 폼에서 핸드폰 중복확인
+	@PostMapping("/phoneCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int phoneCheck(@RequestParam("phone") String phone) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.phoneCheck(phone);
 		return cnt;
 	}
 	

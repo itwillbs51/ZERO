@@ -65,5 +65,11 @@ public class MemberService {
 		return cnt;
 	}
 
+	// 회원가입 폼 - 핸드폰 중복확인 메서드 
+	public int phoneCheck(String member_phone) {
+		int cnt = mapper.phoneCheck(member_phone);
+		return cnt;
+	}
+
 	
 }
