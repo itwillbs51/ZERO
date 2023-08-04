@@ -11,6 +11,7 @@ import com.itwillbs.zero.vo.MemberVO;
 public interface MemberMapper {
 	// mapper 설정을 위해 임의로 만듦! - 지영
 
+	// 회원가입
 	int insertMember(MemberVO member);
 
 	// 조건에 따라 회원정보 조회 - 파라미터2개
@@ -37,5 +38,8 @@ int updateBankAuth(String member_id);
 
 	// 닉네임 중복 체크 
 	int nickCheck(String member_nickname);
+
+	// 핸드폰 중복 체크 
+	int phoneCheck(String member_phone);
 	
 }

@@ -44,8 +44,7 @@ public class MemberVO {
 	private Date member_date;	//Date : java.sqlDate 임포트함
 	private String member_phone;
 	private String member_status; // ENUM 타입 -> String 타입으로 바꿈
-	private int member_agreement_marketing_email;
-	private int member_agreement_marketing_sms;
+	private int member_agreement_marketing;
 	private Date member_withdrawal;	//Date : java.sql.Date 임포트함 XX-YY-MM // NULL
 	private String member_mail_auth;
 	private String member_type;
@@ -63,7 +62,9 @@ public class MemberVO {
 	private String member_zipcode2;
 	private String member_zipcode3;
 	private String member_intro;
-	
+	// 추가주소 번호 추가
+	private String member_address2_phone;
+	private String member_address3_phone;
 }
 
 

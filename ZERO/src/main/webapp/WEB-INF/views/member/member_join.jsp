@@ -214,7 +214,7 @@ function checkNicknameDup() {
 // 정규표현식으로 전화번호 판별
 function validatePhone() {
     var phoneInput = document.getElementById("member_phone");
-    var phoneMessage = document.getElementById("phone_check");
+    var phoneMessage = document.getElementById("phone_dup_result");
     var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
 
     if (phoneInput.value.trim() === "") {
@@ -415,7 +415,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipcode1, #member_phone, #phone_check, #member_id {
+#member_zipcode1, #member_phone, #phone_dup_result, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -488,7 +488,7 @@ input[type=checkbox] {
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6=""
 						   	   required="required">
-					   	   <button type="button" id="emailAuthButton" onclick="checkId()">인증번호 받기</button>
+					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
 						</div>
 					<!-- 이메일 중복 확인 일치 여부-->
 					<div class="row mb-3">
@@ -609,7 +609,7 @@ input[type=checkbox] {
 					<div class="row mb-3">
 		    			<label for="inputPhoneRegex_Result" class="col-sm-5 "></label>
 				    	<div class="col-sm-12">
-							<span id="phone_check"></span>
+							<span id="phone_dup_result"></span>
 				   		</div>
 					</div><br>
 				
@@ -884,6 +884,7 @@ input[type=checkbox] {
                   emailResult.style.color = "red";
                   alert("이미 가입된 아이디입니다. 아이디를 다시 입력해주세요!");
                   $('#member_id').val('');
+                  $('#member_id').focus();
               }
           },
           error: function (error) {
@@ -935,34 +936,64 @@ input[type=checkbox] {
 </script>
  
 <script type="text/javascript">
-//휴대폰 번호 인증
-	var code2 = "";
-	$("#phone_chk").click(function(){
-	    var phone = $("#member_phone").val();
-		if (!validatePhone()) {
-			alert("올바르게 입력해주세요.");
-		} else {
-			alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오."); 
-	        // 기존 인증번호 발송 코드는 여기에 배치
-	        var phone = $("#member_phone").val();
-	        $.ajax({
-	                type:"GET",
-	                url:"phoneCheck?phone=" + phone, // 이 부분을 수정하였습니다.
-	                cache : false,
-	                success:function(data){
-	                    if(data == "error"){
-	                        alert("휴대폰 번호가 올바르지 않습니다.")
-	                        $("#member_phone").attr("autofocus",true);
-	                    }else{                       
-	                        $("#member_phone2").attr("disabled",false);
-	                        $("#member_phone").attr("readonly",true);
-	                        code2 = data;
-	                    }
-	                }
-	            });
-	        // 기존 인증번호 발송 코드 종료
-		}
-	});
+
+// 휴대폰 인증 번호 요청 및 중복 검사
+function checkPhoneDupAndSend(callback) {
+  var phone = $('#member_phone').val();
+  var phoneResult = document.getElementById("phone_dup_result");
+  $.ajax({
+    url: './phoneCheck',
+    type: 'post',
+    data: { phone: phone },
+    success: function (cnt) {
+      if (cnt == 0) {
+    	phoneResult.innerHTML = "가입이 가능한 번호입니다.";
+        phoneResult.style.color = "green";
+        callback();
+      } else {
+    	phoneResult.innerHTML = "이미 등록된 번호 입니다.";
+        phoneResult.style.color = "red";
+        alert("이미 가입된 휴대폰 번호입니다. 다른 번호를 입력해주세요!");
+        $('#member_phone').val('');
+        $('#member_phone').focus();
+      }
+    },
+    error: function (error) {
+      alert("error : " + JSON.stringify(error));
+    }
+  });
+}
+
+// 기존 휴대폰 번호 인증 코드
+var code2 = "";
+$("#phone_chk").click(function () {
+  var phone = $("#member_phone").val();
+  if (!validatePhone()) {
+    alert("올바르게 입력해주세요.");
+  } else {
+	  checkPhoneDupAndSend(function () {
+      alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+      // 기존 인증번호 발송 코드는 여기에 배치
+      var phone = $("#member_phone").val();
+      $.ajax({
+        type: "GET",
+        url: "phoneCheck?phone=" + phone,
+        cache: false,
+        success: function (data) {
+          if (data == "error") {
+            alert("휴대폰 번호가 올바르지 않습니다.");
+            $("#member_phone").attr("autofocus", true);
+          } else {
+            $("#member_phone2").attr("disabled", false);
+            $("#member_phone").attr("readonly", true);
+            code2 = data;
+          }
+        }
+      });
+      // 기존 인증번호 발송 코드 종료
+    });
+  }
+});
 </script>
 
 <script type="text/javascript">
