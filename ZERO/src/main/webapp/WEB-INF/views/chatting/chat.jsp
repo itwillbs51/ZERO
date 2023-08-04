@@ -200,9 +200,9 @@
 			    <input type="number" id="finalPrice" value="${secondhandInfo.secondhand_price }" min="0" max="${secondhandInfo.secondhand_price }">원<br>
 		      </div>
 		      <div class="dealBtns">
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)">만나서 거래하기</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)">Z맨</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)">택배로 받기</button><br>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
 		      </div>
 	      </div>
 	      <div class="modal-footer justify-content-center">
@@ -279,59 +279,59 @@
 		
 		let chat_content_type = '일반';
 
-		if(formatDate(lastDatetime) != formatNow) {
-			formatNow = "&-안내" + formatNow;
-			sock.send(formatNow);
+// 		if(formatDate(lastDatetime) != formatNow) {
+// 			formatNow = "&-안내" + formatNow;
+// 			sock.send(formatNow);
 			
-			// 안내 내용을 DB에 저장하기
-			$.ajax({
-				data: {
-//	 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
-					'chat_content': formatNow,
-					'chat_content_type' : '안내',
-					'room_idx': "${param.room_idx}",
-					'member_id': "notice@test.com"
-				},
-				url: "chatRemember",
-				type: "POST",
-				success: function(data) {
-					console.log("DB 저장 성공");
+// 			// 안내 내용을 DB에 저장하기
+// 			$.ajax({
+// 				data: {
+// //	 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
+// 					'chat_content': formatNow,
+// 					'chat_content_type' : '안내',
+// 					'room_idx': "${param.room_idx}",
+// 					'member_id': "notice@test.com"
+// 				},
+// 				url: "chatRemember",
+// 				type: "POST",
+// 				success: function(data) {
+// // 					console.log("DB 저장 성공");
 					
-				},
-				error: function(request,status,error) {
-					alert("code:"+request.status+"\n"
-							+"message:"+request.responseText+"\n"
-							+"error:"+error);
-					console.log("DB 저장 실패");
-				}
-			});	// ajax 끝
-		} else if(sender == 'notice@test.com') {
-			// 안내메세지 관리
-			chat_content_type = '안내';
-// 			chatMessage = chatMessage.split("&-안내")[1];
-		}
+// 				},
+// 				error: function(request,status,error) {
+// 					alert("code:"+request.status+"\n"
+// 							+"message:"+request.responseText+"\n"
+// 							+"error:"+error);
+// // 					console.log("DB 저장 실패");
+// 				}
+// 			});	// ajax 끝
+// 		} else if(sender == 'notice@test.com') {
+// 			// 안내메세지 관리
+// 			chat_content_type = '안내';
+// // 			chatMessage = chatMessage.split("&-안내")[1];
+// 		}
 		
 		// 채팅 내용을 DB에 저장하기
-		$.ajax({
-			data: {
-// 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
-				'chat_content': chatMessage,
-				'chat_content_type' : chat_content_type,
-				'room_idx': "${param.room_idx}",
-				'member_id': sender
-			},
-			url: "chatRemember",
-			type: "POST",
-			success: function(data) {
-				console.log("DB 저장 성공");
-			},
-			error: function(request,status,error) {
-				alert("code:"+request.status+"\n"
-						+"message:"+request.responseText+"\n"
-						+"error:"+error);
-				console.log("DB 저장 실패");
-			}
-		});	// ajax 끝
+// 		$.ajax({
+// 			data: {
+// // 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
+// 				'chat_content': chatMessage,
+// 				'chat_content_type' : chat_content_type,
+// 				'room_idx': "${param.room_idx}",
+// 				'member_id': sender
+// 			},
+// 			url: "chatRemember",
+// 			type: "POST",
+// 			success: function(data) {
+// // 				console.log("DB 저장 성공");
+// 			},
+// 			error: function(request,status,error) {
+// 				alert("code:"+request.status+"\n"
+// 						+"message:"+request.responseText+"\n"
+// 						+"error:"+error);
+// // 				console.log("DB 저장 실패");
+// 			}
+// 		});	// ajax 끝
 		
 		// 각 이벤트 시 받는 메세지를 소켓으로 전달
 		sock.send(chatMessage);
@@ -441,11 +441,15 @@
 		});	// 버튼 클릭 시 호출되는 함수 끝
 	});	// 함수 호출 끝
 	
+	
 	// ================= 버튼들 기능 함수 =========================
+	// 거래를 위한 변수와 함수들
+	let finalPrice;
 	function dealNext(num) {
 		// 전역변수
-		let price = $("#finalPrice").val();
-		console.log("최종 금액 : " + price);
+		finalPrice = $("#finalPrice").val();
+		console.log("최종 금액 : " + finalPrice);
+		let chatMessageBtn;
 		
 		// 채팅내용 : chatMessage에 저장(안내니까 "-&안내" 붙이기)하고 sendMessage(sender) 실행시키기
 		switch(num) {
@@ -456,18 +460,21 @@
 				break;
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
-				chatMessage = '&-안내' + ' ${chatRoom.buyer_id}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!';
-				chatMessage += '<button class="btn btn-dark" onclick="window.open("chatToZ","newWindow", "width=300, height=300, left=600, top=400");">'
-				chatMessage += 'Z맨 호출 접수</button>'
+				chatMessage = '&-안내' + '${chatRoom.buyer_id}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
+				chatMessage += '<button class="btn btn-dark" onclick="toZ()">';
+				chatMessage += 'Z맨 호출 접수</button>';
 // 				setOrderSecondhand("Z맨", price);
 				
 				break;
 			case 3 :
 				// 1-3. 택배로 받기 클릭 => 안내 메세지 띄우고 판매자에게 택배회사 주소가 담긴 버튼 보여주기(안내메세지 판별해 버튼 보여주기)
-				chatMessage = '&-안내' + ' ${chatRoom.buyer_id}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
-				chatMessage += '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>'
+				chatMessage = '&-안내' + '${chatRoom.buyer_id}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!<br>';
+				chatMessageBtn = '<c:if test="${secondhandInfo.member_id eq sessionScope.member_id}">';
+				chatMessageBtn += '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
+				chatMessageBtn += '</c:if>';
 // 				setOrderSecondhand("택배", price);
-				
+				chatMessage += chatMessageBtn;
+// 				$("#msgArea").append(chatMessageBtn);
 				break;
 				
 		}	// switch문 끝
@@ -485,7 +492,7 @@
 		$.ajax({
 			data: {
 				"type": type,
-				"order_secondhand_price": price,
+				"order_secondhand_price": finalPrice,
 				"order_secondhand_seller": "${chatRoom.seller_id}",
 				"order_secondhand_buyer": "${chatRoom.buyer_id}",
 				"order_secondhand_product": "${secondhandInfo.secondhand_subject }",
@@ -505,6 +512,19 @@
 		});	// ajax끝
 		
 	}	// setOrderSecondhand() 끝
+	
+	// Z맨 호출 폼으로 이동하기 위함 함수
+	function toZ() {
+		let requestUrl = "chatToZ?"
+				+ "order_secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
+				+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
+				+ "&secondhand_price=" + finalPrice
+				+ "&seller_id=" + "${chatRoom.seller_id}"
+				+ "&buyer_id=" + "${chatRoom.seller_id}"
+				;
+				
+		window.open(requestUrl, "newWindow", "width=450, height=600, left=500, top=100");
+	}
 	
 	function reservationNext(type) {
 		// 전역변수
