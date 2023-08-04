@@ -10,6 +10,7 @@ import com.itwillbs.zero.mapper.AdminMapper;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
@@ -21,6 +22,7 @@ public class AdminService {
 	@Autowired
 	private AdminMapper mapper;
 
+//  ========== ========== 회원 관리  ========== ==========
 	// 회원관리 - 회원 목록 조회
 	public List<MemberVO> getMemebrList() {
 		return mapper.selectMemberList();
@@ -100,6 +102,32 @@ public class AdminService {
 	// zman관리 - zman 신고 상세 페이지로 이동
 	public ReportVO getZmanReportDetail(int report_idx) {
 		return mapper.selectZmanReportDetail(report_idx);
+	}
+	
+	//  ========== ========== 중고거래 관리  ========== ==========
+	// 중고거래관리 - 중고거래 목록 페이지로 이동
+	public List<SecondhandVO> getsecondhandManagingList() {
+		return mapper.selectSecondhandManagingList();
+	}
+
+	// 중고거래관리 - 중고 거래 상품 상세 보기 페이지로 이동
+	public Map<String, String> getsecondhandManagingDetail(int secondhand_idx) {
+		return mapper.selectSecondhandManagingDetail(secondhand_idx);
+	}
+	
+	// 중고거래관리 - 중고거래 등록 상품 삭제 
+	public int removeSecondhandItem(int secondhand_idx) {
+		return mapper.deleteSecondhandItem(secondhand_idx);
+	}
+	
+	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
+	public List<SecondhandVO> getOrderSecondhandList() {
+		return mapper.selectOrderSecondhandList();
+	}
+
+	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
+	public Map<String, String> getSecondhandOrderDetail(int order_secondhand_idx) {
+		return mapper.selectOrderSecondhandDetail(order_secondhand_idx);
 	}
 	
 	//  ========== ========== 경매 관리  ========== ==========
@@ -205,11 +233,10 @@ public class AdminService {
 		return mapper.deleteFaq(cs_idx);
 	}
 
-	//  ========== ========== 중고거래 관리  ========== ==========
-	// 중고거래관리 - 중고거래 목록 페이지로 이동
-//	public SecondhandVO getSecondHandList() {
-//		return mapper.selectSecondHandList();
-//	}
+
+
+
+
 
 
 

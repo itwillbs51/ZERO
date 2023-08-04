@@ -11,6 +11,7 @@ import com.itwillbs.zero.vo.MemberVO;
 public interface MemberMapper {
 	// mapper 설정을 위해 임의로 만듦! - 지영
 
+	// 회원가입
 	int insertMember(MemberVO member);
 
 	// 조건에 따라 회원정보 조회 - 파라미터2개
@@ -18,8 +19,8 @@ public interface MemberMapper {
 	
 	List<Map<String, String>> selectMemberCheckList(@Param("column") String column, @Param("value") String value);
 
-	// 세션 아이디와 동일한 회원의 프로필 이미지 변경
-	int updateMemberImage(@Param("column1")String column1, @Param("member_id")String member_id, @Param("column2")String column2, @Param("fileName1")String fileName1);
+	// 세션 아이디와 동일한 회원 정보 변경
+	int updateMemberImage(@Param("column1")String column1, @Param("member_id")String member_id, @Param("column2")String column2, @Param("value2")String value2);
 // 회원정보조회(혜진)
 MemberVO selectMember(String member_id);
 
@@ -34,5 +35,11 @@ int updateBankAuth(String member_id);
 
 	// 아이디 중복 체크 (카카오 로그인에서도 사용 - 값이 있으면 > 0)
 	int idCheck(String member_id);
+
+	// 닉네임 중복 체크 
+	int nickCheck(String member_nickname);
+
+	// 핸드폰 중복 체크 
+	int phoneCheck(String member_phone);
 	
 }

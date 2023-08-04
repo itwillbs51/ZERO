@@ -15,8 +15,20 @@
 <link href="${pageContext.request.contextPath }/resources/css/cs.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>ZERO</title>
-<script type="text/javascript">
-</script>
+<style type="text/css">
+.hidden_nav {
+	display: flex;
+	outline: none!important;
+}
+.hidden_nav:active {
+	outline: none!important;
+}
+@media only screen and (min-width: 768px) {
+	.hidden_nav {
+		display: none;
+	}
+}
+</style>
 </head>
 <body>
 	<header>
@@ -33,35 +45,13 @@
 						<div class="title">
 							고객센터
 						</div>
-						<div class="navbar-light" style="">
-							<button id="navToggle" class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#csCollapse" aria-controls="csCollapse" aria-expanded="false" aria-label="Toggle navigation">
+						<nav class="navbar navbar-light"><%-- 사이드바 사라졌을 때 햄버거 메뉴 --%>
+							<a class="navbar-brand" href="#"></a>
+							<button class="navbar-toggler collapsed border-0 hidden_nav" type="button" data-toggle="collapse" data-target="#csCollapse" aria-controls="csCollapse" aria-expanded="false" aria-label="Toggle navigation">
 								<span class="navbar-toggler-icon"></span>
 							</button>
-							<div class="collapse navbar-collapse" id="csCollapse">
-									<ul class="nav flex-column">
-							    		<li class="nav-item">
-							      			<a class="nav-link" href="cs_main">
-							        			고객센터홈<span class="sr-only">(current)</span>
-							      			</a>
-							    		</li>
-							    		<li class="nav-item">
-							      			<a class="nav-link" href="cs_notice">
-							        			공지사항
-							      			</a>
-							    		</li>
-								    	<li class="nav-item">
-							      			<a class="nav-link" href="cs_faq">
-							        			자주묻는질문
-							      			</a>
-							    		</li>
-							    		<li class="nav-item">
-							      			<a class="nav-link" href="cs_qna_form">
-							        			1:1문의
-							      			</a>
-							    		</li>
-							  		</ul>
-							</div>
-						</div>
+							<jsp:include page="/WEB-INF/views/inc/cs_sidebar_hidden.jsp"></jsp:include>
+						</nav>
 					</div>
 					<div class="content_main">
 						<div class="row">
