@@ -49,8 +49,12 @@ public interface ZpayMapper {
 	// ========================================================================
 	SecondhandVO selectSecondhand(int secondhand_idx);
 
+//	int selectZpayHistoryListCount(@Param("member_id") String member_id, @Param("searchType") String searchType);
+//
+//	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, @Param("searchType") String searchType);
+	
 	int selectZpayHistoryListCount(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
-
+	
 	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword, @Param("startRow") int startRow,
 			@Param("listLimit") int listLimit);
 	
