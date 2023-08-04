@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.mapper.MemberMapper;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 
 @Service
 public class MemberService {
@@ -69,6 +70,11 @@ public class MemberService {
 	public int phoneCheck(String member_phone) {
 		int cnt = mapper.phoneCheck(member_phone);
 		return cnt;
+	}
+
+	// 마이페이지 메인 - 중고상품구매내역 최신순 3개 가져오기
+	public List<OrderSecondhandVO> getMyOdShList(String member_id, int startRow, int listLimit) {
+		return mapper.selectMyOdShList(member_id, startRow, listLimit);
 	}
 
 	

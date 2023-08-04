@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,37 +85,6 @@
 						xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"></use></svg></a>
 		</div>
 		<div data-v-412d8616="" class="recent_purchase">
-			<div data-v-2cbb289b="" data-v-412d8616="" class="purchase_list_tab">
-				<div data-v-2cbb289b="" class="tab_item total">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">전체</dt>
-							<dd data-v-2cbb289b="" class="count">1</dd>
-						</dl></a>
-				</div>
-				<div data-v-2cbb289b="" class="tab_item tab_on">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">입찰 중</dt>
-							<dd data-v-2cbb289b="" class="count">0</dd>
-						</dl></a>
-				</div>
-				<div data-v-2cbb289b="" class="tab_item">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">진행 중</dt>
-							<dd data-v-2cbb289b="" class="count">0</dd>
-							<!---->
-						</dl></a>
-				</div>
-				<div data-v-2cbb289b="" class="tab_item">
-					<a data-v-2cbb289b="" href="#" class="tab_link"><dl
-							data-v-2cbb289b="" class="tab_box">
-							<dt data-v-2cbb289b="" class="title">종료</dt>
-							<dd data-v-2cbb289b="" class="count">1</dd>
-						</dl></a>
-				</div>
-			</div>
 			<div data-v-412d8616="">
 				<div data-v-7a02263e="" data-v-412d8616=""
 					class="purchase_list all bid">
@@ -133,10 +103,7 @@
 									</div>
 									<div data-v-e5d3a8ae="" class="list_item_title_wrap">
 										<!---->
-										<p data-v-e5d3a8ae="" class="list_item_title">Crocs
-											Bayaband Clog White Navy</p>
-										<p data-v-e5d3a8ae="" class="list_item_description">280(US
-											10)</p>
+										<p data-v-e5d3a8ae="" class="list_item_title">${myOdShList[0].order_secondhand_product}</p>
 									</div>
 								</div>
 								<div data-v-e5d3a8ae="" class="list_item_status">

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 
 @Mapper
 public interface MemberMapper {
@@ -19,8 +20,8 @@ public interface MemberMapper {
 	
 	List<Map<String, String>> selectMemberCheckList(@Param("column") String column, @Param("value") String value);
 
-	// 세션 아이디와 동일한 회원의 프로필 이미지 변경
-	int updateMemberImage(@Param("column1")String column1, @Param("member_id")String member_id, @Param("column2")String column2, @Param("fileName1")String fileName1);
+	// 세션 아이디와 동일한 회원 정보 변경
+	int updateMemberImage(@Param("column1")String column1, @Param("member_id")String member_id, @Param("column2")String column2, @Param("value2")String value2);
 // 회원정보조회(혜진)
 MemberVO selectMember(String member_id);
 
@@ -41,5 +42,10 @@ int updateBankAuth(String member_id);
 
 	// 핸드폰 중복 체크 
 	int phoneCheck(String member_phone);
+
+	// 중고 구매내역 3개 
+	List<OrderSecondhandVO> selectMyOdShList(@Param("member_id") String member_id
+			, @Param("startRow") int startRow
+			, @Param("listLimit") int listLimit);
 	
 }

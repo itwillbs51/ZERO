@@ -21,6 +21,7 @@
 		<typeAlias type="com.itwillbs.zero.vo.ChatVO" alias="Chat"/>
 		<typeAlias type="com.itwillbs.zero.vo.ChatRoomVO" alias="ChatRoom"/>
 		<typeAlias type="com.itwillbs.zero.vo.ChatRoomListVO" alias="ChatRoomList"/>
+		<typeAlias type="com.itwillbs.zero.vo.OrderSecondhandVO" alias="OrSh" /> <!-- 정의효 -->
 	</typeAliases>
 
 </configuration>
