@@ -1,19 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+<!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- daum API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- 제이쿼리 -->
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
-<meta charset="UTF-8">
-<%-- 반응형웹페이지위한 설정 --%>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!-- 반응형웹페이지위한 설정 --> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
 <script type="text/javascript">
 
 //<!-- 이미지 추가버튼 스크립트 -->--------------------
@@ -154,7 +157,6 @@
 			
 			/* 사용자에게 알려주고 */
 			alert('이미지 파일만 선택할 수 있습니다.');
-
 			/* 실제 업로드 되는 input태그 vlaue값 지우기 */
 			$('#sumimage').val('');
 			
@@ -567,7 +569,7 @@
 			formData.append('file3',$('#imageFile2')[0].files[0]);
 		}
 		
-		formData.append('member_idx', member_idx);				// 유저idx
+		formData.append('member_id', member_idx);				// 유저idx
 		formData.append('secondhand_subject',p_name);			// 상품명
 		formData.append('category_idx',c_idx);				// 카테고리번호
 // 		formData.append('p_location',p_location);	// 지역
@@ -1071,7 +1073,7 @@ body{
 				<!-- 거래지역 -->
 				<tr>
 					<td class="td1" align="left" style="vertical-align: top;"><span
-						class="pro_info">거래지역<span style="color: red">*</span></span></td>
+						class="pro_info"> 희망 거래지역 </span></td>
 					
 					<td align="left">
 						<input type="button" id="addrfind" value="주소찾기" onclick="addrFind();">
@@ -1202,14 +1204,10 @@ body{
 						<input class="btn btn-success" type="button" value="등록하기" onclick="proInfoSend();"> 
 						<input class="btn btn" type="button" value="취소하기" onclick="procancel()"></td>
 				</tr>
-
 			</table>
 
 		</div>
-	
 	<div style="min-height: 200px;"></div>
-	
 	</div>
-
 </body>
 </html>

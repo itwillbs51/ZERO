@@ -9,8 +9,15 @@
 	
 	// 요청 작업 실패 시 전달받은 오류 메세지 출력 후 이전페이지로 돌아가기
 	// msg만 전달하면 전달하는 msg만 달라지고 작업 같음
-	alert("${msg}");
-	history.back();
+	if("${msg}".trim() == '로그인이 필요한 작업입니다!'){
+		alert("${msg}");
+		location.href="../member_login";	
+	} else {
+		alert("${msg}");
+		history.back();	
+	}
+	
+	
 </script>
 </head>
 <body>
