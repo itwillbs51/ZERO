@@ -64,6 +64,11 @@ public class ZpayService {
 		return mapper.insertRefundHistory(zpayHistory);
 	}
 
+	// 중고거래 내역 조회
+	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
+		return mapper.selectOrderSecondhand(secondhand_idx);
+	}
+	
 	// ZPYA_HISTORY 테이블에 송금내역 추가
 	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
 		return mapper.insertSendHistory(zpayBuyerHistory);
@@ -85,11 +90,22 @@ public class ZpayService {
 		return mapper.selectSecondhand(secondhand_idx);
 	}
 
-	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
-		return mapper.selectOrderSecondhand(secondhand_idx);
-	}
-
-
 	
+	
+//	public int getZpayHistoryListCount(String member_id, String searchType) {
+//		return mapper.selectZpayHistoryListCount(member_id, searchType);
+//	}
+//
+//	public List<ZpayHistoryVO> getZpayHistoryList(String member_id, String searchType) {
+//		return mapper.selectZpayHistoryList(member_id, searchType);
+//	}
+	public int getZpayHistoryListCount(String member_id, String searchType, String searchKeyword) {
+		return mapper.selectZpayHistoryListCount(member_id, searchType, searchKeyword);
+	}
+	
+	public List<ZpayHistoryVO> getZpayHistoryList(String member_id, String searchType, String searchKeyword,
+			int startRow, int listLimit) {
+		return mapper.selectZpayHistoryList(member_id, searchType, searchKeyword, startRow, listLimit);
+	}
 
 }

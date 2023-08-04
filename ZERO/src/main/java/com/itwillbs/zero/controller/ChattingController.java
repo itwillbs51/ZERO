@@ -48,16 +48,24 @@ public class ChattingController {
 		return "chatting/chat_list";
 	}
 	
-	// 채팅방으로 연결
+	// 채팅창으로 연결
 	// 중고거래관련 가져올 정보
 	// 중고상품 번호, 사진, 상태, 가격 - secondhand_idx, secondhand_image1, secondhand_deal_status, secondhand_price
-//	@GetMapping("chatRoom")
 	@RequestMapping(value = "chatRoom", method = {RequestMethod.GET, RequestMethod.POST})
-	public String chatRoom(int chat_room_idx, HttpSession session, Model model) {
-		// 로그인 해야 들어갈 수 있음!
+	public String chatRoom(String room_idx, HttpSession session, Model model) {
 		String member_id = (String) session.getAttribute("member_id");
-		if(member_id == null) {
-			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
+		
+		// 채팅방 번호
+		int chat_room_idx = Integer.parseInt(room_idx.split("_")[1]);
+//		System.out.println("채팅방 번호 : " + chat_room_idx);
+		
+		// 채팅방 번호로 들어갈 수 있는 아이디 조회
+		ChatRoomVO chatRoom = service.selectChatRoom(chat_room_idx);
+		System.out.println("채팅방 정보 : " + chatRoom);
+		
+		// 채팅방에 저장된 판매자나 구매자가 아닐때는 접근 불가!
+		if(!member_id.equals(chatRoom.getBuyer_id()) && !member_id.equals(chatRoom.getSeller_id())) {
+			model.addAttribute("msg", "접근불가");
 			return "fail_back";
 		}
 		
@@ -66,14 +74,18 @@ public class ChattingController {
 		List<ChatVO> chatList = service.selectChatList(chat_room_idx);
 		logger.info("*** 채팅내역 : " + chatList);
 		
-		// 채팅방 번호로 중고상품 정보 조회
-		// 파라미터 : chat_room_idx		리턴타입 : int(secondhand_idx)
-		int secondhand_idx = service.getSecondhandIdx(chat_room_idx);
+		// 채팅방 번호로 중고상품 정보 조회(채팅방 조회로 받아온 값 중 중고상품 번호 받아오기)
+		int secondhand_idx = chatRoom.getSecondhand_idx();
 		
 		SecondhandVO secondhandInfo = secondhandService.getSecondhandProduct(secondhand_idx);
 		logger.info("*** 중고상품 정보 : " + secondhandInfo);
 		
+		// ORDER_SECONDHAND 테이블에 secondhand_idx와 
+		
+		
+		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
 		model.addAttribute("chatList", chatList);
+		model.addAttribute("chatRoom", chatRoom);
 		model.addAttribute("secondhandInfo", secondhandInfo);
 		
 		return "chatting/chat";
@@ -84,6 +96,18 @@ public class ChattingController {
 	@PostMapping("chatRemember")
 	public void chatRemember(@RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("*** 넘어온 파라미터들 : " + map.toString());
+		
+		// 채팅방 번호 String-> int로 바꾸기
+		String room_idx = map.remove("room_idx");
+		String chat_room_idx = room_idx.split("_")[1];
+		map.put("chat_room_idx", chat_room_idx);
+		
+		// 받아온 채팅내용이 만약 안내타입인 경우("&-안내"로 시작)
+		// 키워드를 때고 DB에 저장
+		String content = map.get("chat_content");
+		if(content.startsWith("&-안내")) {
+			map.replace("chat_content", content, content.split("&-안내")[1]);
+		}
 		
 		// 받아온 채팅내용(chat_content), 채팅방번호(chat_room_idx), 메세지보낸사람(member_id) 정보 넣기
 		// 파라미터 : map		리턴타입 : boolean(isInsert)
@@ -156,14 +180,37 @@ public class ChattingController {
 			int insertChatRoom = service.insertChatRoom(map, buyer_id);
 //			chat_room_idx = ??;
 		}
-	
+		
 		// 채팅방이 있으면
 		// => 채팅방으로 이동(채팅방 번호 : chat_room_idx)
 	
 		// 채팅방 번호 들고오기
-		return "redirect:/chatRoom?chat_room_idx=" + chat_room_idx;
+		return "redirect:/chatRoom?room_idx=chat_" + chat_room_idx;
 		
 	}
 	
+	// 채팅창에서 거래하기 클릭 시 모달창에서 받은 거래방법과 정보를 DB에 저장
+	@ResponseBody
+	@PostMapping("ChatDeal")
+	public void chatDeal (@RequestParam Map<String, String> map, HttpSession session) {
+		
+		// 거래정보를 ORDER_SECONDHAND에 저장하기
+		boolean isInsert = service.insertOrderInfo(map);
+		logger.info("*** 거래 정보 INSERT : " + isInsert);
+		
+		// 거래하기를 선택해서 거래방법을 누르면 상품 상태가 '판매중' 에서 '예약중'으로 변경
+		int updateStatus = service.updateDealStatus(map.get("secondhand_idx"));
+		logger.info("*** 상품 상태 UPDATE : " + updateStatus);
+		
+	}
+	
+	// Z맨 호출 접수하기 버튼 클릭 시 뜨는 창 매핑
+	@RequestMapping(value = "chatToZ", method = {RequestMethod.GET, RequestMethod.POST})
+	public String chatToZ(@RequestParam Map<String, String> map) {
+		
+		// ?
+		
+		return "chatting/chatToZ";
+	}
 	
 }

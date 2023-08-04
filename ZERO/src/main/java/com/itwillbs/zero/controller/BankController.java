@@ -1,5 +1,8 @@
 package com.itwillbs.zero.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,11 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.zero.vo.BankAccountDetailVO;
+import com.itwillbs.zero.vo.BankAccountVO;
 import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.ResponseUserInfoVO;
 import com.itwillbs.zero.vo.ResponseWithdrawVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
+import com.itwillbs.zero.vo.ZpayVO;
 import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
@@ -87,7 +92,54 @@ public class BankController {
 		model.addAttribute("isClose", isRegistSuccess); // true : 창 닫기, false : 창 닫기 X(이전페이지로 돌아가기)
 		
 		
-		return "success_forward";
+		// ---------------------------- 08.04(인증과 동시에 계좌 등록) ----------------------------------------------
+		String access_token = responseToken.getAccess_token();
+		String user_seq_no = responseToken.getUser_seq_no();
+		// BankApiService - requestUserInfo() 메서드 호출하여 핀테크 이용자 정보 조회
+		// => 파라미터 : 엑세스토큰, 사용자번호    리턴타입 : ResponseUserInfoVO(userInfo)
+		ResponseUserInfoVO userInfo = bankApiService.requestUserInfo(access_token, user_seq_no);
+		
+		LocalDateTime maxInquiryAgreeDtime = LocalDateTime.MIN;
+		int maxIndex = -1; // 최대값을 가지는 요소의 인덱스 초기화
+		
+		for(int i = 0; i < userInfo.getRes_list().size(); i++) {
+			BankAccountVO account = userInfo.getRes_list().get(i);
+			
+			// String 형태의 inquiry_agree_dtime 을 LocalDateTime으로 변환
+			String dateTimeString = account.getInquiry_agree_dtime();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+			LocalDateTime inquiryAgreeDtime = LocalDateTime.parse(dateTimeString, formatter);
+
+			// inquiry_agree_dtime 중 제일 최근에 인증한 날짜 찾기
+			if (inquiryAgreeDtime.compareTo(maxInquiryAgreeDtime) > 0) {
+				maxInquiryAgreeDtime = inquiryAgreeDtime;
+		        maxIndex = i;
+		    }
+		}
+		
+		// 제일 최근 인증한 계좌
+		BankAccountVO latestAgreeAcc = userInfo.getRes_list().get(maxIndex);
+		
+		// 제일 최근 인증한 계좌 정보 ZPAY 테이블에 등록
+		ZpayVO zpay = new ZpayVO();
+		zpay.setMember_id(member_id);
+		zpay.setZpay_bank_name(latestAgreeAcc.getBank_name());
+		zpay.setZpay_bank_account(latestAgreeAcc.getAccount_num_masked());
+		zpay.setAccess_token(access_token);
+		zpay.setFintech_use_num(latestAgreeAcc.getFintech_use_num());
+		
+		int insertCount = zpayService.registZpay(zpay);
+		
+		if(insertCount > 0) {
+			return "success_forward";
+		} else {
+			model.addAttribute("msg", "ZPAY 등록 실패");
+			return "bank_auth_fail_back";
+		}
+		
+		// ---------------------------------------------------------------------------------------------------------
+		
+//		return "success_forward";
 	}
 	
 	// 2.2. 사용자/계좌 관리 
@@ -115,7 +167,6 @@ public class BankController {
 		model.addAttribute("userInfo", userInfo);
 		
 //		return "zpay/bank_user_info";
-//		return "zpay/zpay_charge_form2";
 		return "zpay/zpay_bank_user_info";
 	}
 	
@@ -191,13 +242,11 @@ public class BankController {
 		if(insertCount > 0) {
 //			model.addAttribute("accountDetail", accountDetail);
 			return "zpay/zpay_charge_success";			
-//			return "zpay/zpay_charge_success2";			
 		} else {
 			model.addAttribute("msg", "ZPAY 충전 실패");
 			return "bank_auth_fail_back";
 		}
 		
-//		return "zpay/zpay_charge_success2";
 //		return "zpay/bank_withdraw_result";
 	}
 	
@@ -219,6 +268,35 @@ public class BankController {
 		
 		// Model 객체에 ResponseDepositVO 객체 저장
 		model.addAttribute("depositResult", depositResult);
+		
+		// -------------------------------------------------------------------------------
+//		// 출금이체한 금액을 ZPAY에 충전
+//		ZpayHistoryVO zpayHistory = new ZpayHistoryVO();
+//		String member_id = (String)session.getAttribute("member_id");
+//		
+//		// ZPAY 테이블에서 member_id에 일치하는 zpay_idx 조회
+//		int zpay_idx = zpayService.getZpayIdx(member_id);
+//		System.out.println(zpay_idx);
+//		
+//		// ZPAY_HISTORY 테이블에서 잔액조회
+//		Integer zpay_balance = zpayService.getZpayBalance(member_id);
+//		
+//		zpayHistory.setZpay_idx(zpay_idx);
+//		zpayHistory.setMember_id(member_id);
+//		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
+//		zpayHistory.setZpay_balance(zpay_balance);
+//		zpayHistory.setZpay_deal_type("충전");
+//		
+//		// ZPYA_HISTORY 테이블에 충전내역 추가
+//		int insertCount = zpayService.chargeZpay(zpayHistory);
+//		
+//		if(insertCount > 0) {
+////					model.addAttribute("accountDetail", accountDetail);
+//			return "zpay/zpay_charge_success2";			
+//		} else {
+//			model.addAttribute("msg", "ZPAY 충전 실패");
+//			return "bank_auth_fail_back";
+//		}
 		
 		return "zpay/bank_deposit_result";
 	}

@@ -168,16 +168,33 @@
 .noticeMsg {
 	color: gray;
 	text-align: center;
-	background-color: #eee;
 	min-width: 300px;
-	max-width: 500px;
+	max-width: 700px;
 	min-height: 40px;
 	margin: auto;
 	padding: 10px;
 }
-.noticeMsg span {
+.noticeMsg div {
+	display: inline-block;
 	vertical-align: middle;
+	display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.35);
+    font-size: 14px;
+    margin: 8px 0px;
 }
+.noticeMsg div::before,
+.noticeMsg div::after {
+	content:"";
+	flex-grow:1;
+	margin:0px 16px;
+	background:rgba(0,0,0,0.35);
+	height:1px;
+	font-size:0px;
+	line-height: 0px;
+}
+
 .msgRight {
 	text-align: right;
 	margin-right: 10px;
@@ -278,6 +295,31 @@
 	text-align: center;
 }
 
+
+
+/* 거래 모달창 */
+.modal {
+	min-width: 350px;
+	font-size: 14px;
+}
+.modal-price {
+	 margin: 10px auto 10px;
+}
+
+.modal input {
+	width: 80px;
+}
+.modal input[type="number"] {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
+	appearance: textfield;
+	margin: 0;
+}
+.modal .btn {
+	font-weight: 300;
+	font-size: 15px;
+	margin: 0 5px 0;
+}
 /* ------------------------------------------------- */
 @media only screen and (max-width: 768px) {	
 	

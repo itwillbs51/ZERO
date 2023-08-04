@@ -31,45 +31,60 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">ZMAN 관리</h1>
+					<h1 class="mt-4">중고거래 관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">ZMAN 목록</li>
+						<li class="breadcrumb-item active">중고거래 거래(ORDER) 목록</li>
 					</ol>
-						<%-- main 내용 작성 영역 --%>
-						<div class="card mb-4">
-							<div class="card-header">
-								<i class="fas fa-table me-1"></i>
-								ZMAN 목록
-							</div>
-							<div class="card-body">
-								<table id="datatablesSimple">
-									<thead>
-										<tr>
-											<th>이름</th>
-											<th>아이디</th>
-											<th>생년월일</th>
-											<th>탈퇴여부</th>
-											<th>상세보기</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="zman" items="${zmanList }" varStatus="vs">
-											<tr>
-												<td>${zman.zman_name }</td>
-												<td>${zman.zman_id }</td>
-												<td>${zman.zman_birth }</td>
-												<td>${zman.zman_status }</td>
-	<%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
-												<td>
-													<a class="btn btn-sm btn-outline-dark" href="admin_zman_detail?zman_idx=${zman.zman_idx }">상세보기</a>
-												</td>
-											</tr>
-									</c:forEach>
-									</tbody>
-								</table>
-							</div>
+					<%-- main 내용 작성 영역 --%>
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i>
+							거래(ORDER) 목록
 						</div>
-					<%--  메인 영역 끝 --%>
+						<div class="card-body">
+							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>거래 번호</th>
+										<th>거래 일시</th>
+										<th>상품 이름</th>
+										<th>거래 가격</th>
+										<th>거래 상태</th>
+										<th>상세보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="orderSecondhandList" items="${orderSecondhandList}" varStatus="vs">
+									<tr>
+										<td>${orderSecondhandList.order_secondhand_idx }</td>
+										<td>${orderSecondhandList.order_secondhand_date }</td>
+										<td>${orderSecondhandList.order_secondhand_product }</td>
+										<td>${orderSecondhandList.order_secondhand_price }</td>
+										<td>${orderSecondhandList.order_secondhand_type }</td>
+										
+<%-- 										<c:choose> --%>
+<%-- 											거래 방법이 ZMAN 일 경우 --%>
+<%-- 											<c:when test="${orderSecondhandList.order_secondhand_type eq 'ZMAN'}"> --%>
+												<td>
+<!-- 													<a class="btn btn-sm btn-outline-dark" -->
+<%-- 													href="admin_secondhand_order_detail?secondhand_idx=${orderSecondhandList.order_secondhand_idx }&zman_delivery_idx=${orderSecondhandList.zman_delivery_idx}">상세보기</a> --%>
+<!-- 												</td> -->
+<%-- 											</c:when> --%>
+<%-- 											거래 방법이 ZMAN 이 아닐 경우 --%>
+<%-- 											<c:otherwise> --%>
+<!-- 												<td> -->
+													<a class="btn btn-sm btn-outline-dark" href="admin_secondhand_order_detail?secondhand_idx=${orderSecondhandList.order_secondhand_idx }">상세보기</a>
+												</td>
+<%-- 											</c:otherwise> --%>
+<%-- 										</c:choose> --%>
+										
+									</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div> <%-- 메인 영역 끝 --%>
+					
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

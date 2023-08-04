@@ -31,11 +31,55 @@ public class AuctionController2 {
 	
 	// 경매 상세 페이지로 이동
 	@GetMapping("auction_detail")
-	public String auction_detail(Model model) {
-		
-		
+	public String auction_detail(Model model, int id) {
+		HashMap<String, String> product= service.getAuctionProduct(id);
+		List<HashMap<String, String>> logList=service.getAuctionLog(id);
+		System.out.println(logList);
+		model.addAttribute("product", product);
+		model.addAttribute("logList", logList);
 		
 		return "auction/auction_detail";
+	}
+	@ResponseBody
+	@PostMapping("logHistory")
+	public String logHistory(@RequestParam Map<String, String> map, HttpSession session) {
+		HashMap<String, String> product= service.getAuctionProduct(Integer.parseInt(map.get("auction_idx")));
+		int maxBidPrice=service.getMaxPrice(map);
+	
+		map.put("member_id", (String) session.getAttribute("member_id"));
+		int startPrice=Integer.parseInt(String.valueOf(product.get("auction_start_price")));
+		int maxPrice=Integer.parseInt(String.valueOf(product.get("auction_max_price")));
+		
+		long currentBid=Long.parseLong(map.get("auction_log_bid"));
+		
+		if(maxPrice<currentBid) {
+			System.out.println("즉시구매");
+			return "false";
+		}
+		
+		if(maxBidPrice == 0) {
+			if(startPrice<=currentBid) {
+				System.out.println("입찰성공");
+				service.registLog(map);
+				return "true";
+			}else {
+				System.out.println("입찰불가");
+				return "false";
+			}
+			
+		}else{
+			if(maxBidPrice<currentBid) {
+				System.out.println("입찰성공2");
+				service.registLog(map);
+				return "true";
+			}else {
+				System.out.println("입찰불가2");
+				return "false";
+			}
+			
+		}
+		
+		
 	}
 	
 	// 경매 예정 상세 페이지로 이동

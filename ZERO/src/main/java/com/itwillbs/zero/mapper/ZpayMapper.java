@@ -3,6 +3,7 @@ package com.itwillbs.zero.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -33,6 +34,9 @@ public interface ZpayMapper {
 
 	// ZPYA_HISTORY 테이블에 환급내역 추가
 	int insertRefundHistory(ZpayHistoryVO zpayHistory);
+	
+	// 중고거래 내역 조회
+	OrderSecondhandVO selectOrderSecondhand(int secondhand_idx);
 
 	// ZPYA_HISTORY 테이블에 송금내역 추가
 	int insertSendHistory(ZpayHistoryVO zpayBuyerHistory);
@@ -40,24 +44,19 @@ public interface ZpayMapper {
 	// ZPYA_HISTORY 테이블에 수취내역 추가
 	int insertReceiveHistory(ZpayHistoryVO zpaySellerHistory);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	// ========================================================================
 	SecondhandVO selectSecondhand(int secondhand_idx);
 
-	OrderSecondhandVO selectOrderSecondhand(int secondhand_idx);
-
-
-
-
+//	int selectZpayHistoryListCount(@Param("member_id") String member_id, @Param("searchType") String searchType);
+//
+//	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, @Param("searchType") String searchType);
+	
+	int selectZpayHistoryListCount(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword);
+	
+	List<ZpayHistoryVO> selectZpayHistoryList(@Param("member_id") String member_id, @Param("searchType") String searchType, @Param("searchKeyword") String searchKeyword, @Param("startRow") int startRow,
+			@Param("listLimit") int listLimit);
 	
 }
 

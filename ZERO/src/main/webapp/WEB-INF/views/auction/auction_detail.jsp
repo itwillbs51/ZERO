@@ -99,11 +99,19 @@ function padZero(num, size) {
 				<!-- 좌측 영역 -->
                 <div class="col-md-4">
                 	<div class="row d-flex justify-content-center">
-                	<div class="col-4 col-md-3"><h3>남은시간</h3></div>	<div class="col-3 col-md-3" id="clock"></div>
+                	<div class="col-4 col-md-4"><h3>남은시간</h3></div>	<div class="col-3 col-md-3" id="clock"></div>
 
 <!--                 		<h2>03 : 23 : 01</h2> -->
                 	</div>
                 		<div id="auction_log">
+                		<div id="logArea" class="col">
+                		<c:forEach var="log" items="${logList}" >
+                		<c:if test="${log.member_id eq sessionScope.member_id}"><div class='alert alert-warning'></c:if>
+                		<c:if test="${log.member_id ne sessionScope.member_id}"><div class='alert alert-secondary'></c:if>
+                		<b>${log.member_id }님이 ${log.auction_log_bid }원 입찰!</b>
+                		</div>
+                		</c:forEach>
+                		</div>
                 		<div id="msgArea" class="col">
                 		</div>
                 		</div>                	
@@ -112,12 +120,12 @@ function padZero(num, size) {
                 <div class="row col-md-8">
 						<!-- 이미지  -->
                 	 <div class="col-md-4 d-none d-md-block">
-                	 	<img alt="조던" class="img-fluid" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp">
+                	 	<img alt="상품이미지" class="img-fluid" src="${pageContext.request.contextPath }/resources/upload/${product.auction_image1 }">
                 	 </div>
 						<!--상품명 -->								
                 	 <div class="row col-md-8" style=" text-align: center;">  
                 	               	 	
-                	 	<h3>조던 1 x 트래비스 스캇 x 프라그먼트 레트로 로우 OG SP 밀리터리 블루</h3>
+                	 	<div class="col-12 col-md-12"><h3>${product.auction_title }</h3></div>
                 	 	
                 	 	<div class="col-6 col-md-3 d-none d-md-block"> 
                 	 		<h4><b>경매날짜</b></h4>
@@ -131,14 +139,21 @@ function padZero(num, size) {
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9">    
-                	 		120,000원
+                	 		<span id="presentPrice">
+                	 		<c:if test="${empty logList  }">
+								${product.auction_start_price }
+							</c:if>
+                	 		<c:forEach var="log" items="${logList}"  varStatus="index">
+                	 			   <c:if test="${index.last}">${log.auction_log_bid}</c:if>
+                	 		</c:forEach>
+                	 		</span> 원
                 	 	</div>
                 	 	<div class="col-6 col-md-3 d-none d-md-block"> 
                 	 		<h4><b>시작가격</b></h4>
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9 d-none d-md-block">    
-                	 		100,000원
+                	 		${product.auction_start_price }원
                 	 	</div>
                 	 </div>
                 	 
@@ -161,7 +176,7 @@ function padZero(num, size) {
                 	 		<br>
                 	 	</div>
                 	 	<div class="col-4 col-md-2">
-                	 		15,0000원
+                	 		${product.auction_max_price }원
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
                 	 		<button type="button" class="btn btn-dark  btn-block">즉시구매</button>
@@ -201,7 +216,32 @@ sock.onclose = onClose;
 sock.onopen = onOpen;
 
 function sendMessage() {
-	sock.send($("#bid_price").val());
+	let bid_price=$("#bid_price").val();
+	
+// 	if(bid_price<=presentPrice){
+// 		alert("현재 가격 보다 높은 금액으로 입찰 가능합니다.")
+// 	}
+	;
+	$.ajax({
+		data: {
+			'auction_idx':"${param.id}",
+			'auction_log_bid': bid_price,
+		},
+		url: "logHistory",
+		type: "POST",
+		success: function(result) {
+			if(result == "true") {
+				sock.send(bid_price)
+			} else {
+				alert("실패!");
+			}
+		},
+		fail: function() {
+			alert("실패!");
+		}	
+		
+	});
+	
 }
 //서버에서 메시지를 받았을 때
 function onMessage(msg) {
@@ -227,7 +267,7 @@ function onMessage(msg) {
 		
 		var str = "<div>";
 		str += "<div class='alert alert-warning'>";
-		str += "<b>" + sessionId + " : " + message + "</b>";
+		str += "<b>" + sessionId + " : " + message + "원 입찰!</b>";
 		str += "</div></div>";
 		
 		$("#msgArea").append(str);
@@ -236,12 +276,12 @@ function onMessage(msg) {
 		
 		var str = "<div>";
 		str += "<div class='alert alert-secondary'>";
-		str += "<b>" + sessionId + " : " + message + "</b>";
+		str += "<b>" + sessionId + " : " + message + "원 입찰!</b>";
 		str += "</div></div>";
 		
 		$("#msgArea").append(str);
 	}
-	
+	$("#presentPrice").html(message);
 }
 //채팅창에서 나갔을 때
 function onClose(evt) {
@@ -256,7 +296,13 @@ function onOpen(evt) {
 	
 	var user = '${sessionScope.member_id}';
 	
-	sock.send("님이 입장하셨습니다.");
+	var str = "<div>";
+	str += "<div class='alert alert-warning'>";
+	str += "<b>" + user + "님이 입장하셨습니다 </b>";
+	str += "</div></div>";
+	
+	$("#msgArea").append(str);
+	
 	
 }
 

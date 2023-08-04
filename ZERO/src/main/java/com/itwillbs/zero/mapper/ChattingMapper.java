@@ -24,7 +24,13 @@ public interface ChattingMapper {
 	// 채팅방 생성하기
 	int insertChatRoom(@Param("map") Map<String, String> map, @Param("buyer_id") String buyer_id);
 	
-	// 
-	int selectSecondhandIdx(int chat_room_idx);
+	// 채팅방에 대한 정보 조회
+	ChatRoomVO selectChatRoom(int chat_room_idx);
+	
+	// 거래정보를 ORDER_SECONDHAND에 저장
+	int insertOrderInfo(Map<String, String> map);
+	
+	// 거래상태 변경 '판매중' -> '예약중'
+	int updateDealStatuse(String secondhand_idx);
 	
 }

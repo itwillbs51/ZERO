@@ -51,5 +51,25 @@ public class MemberService {
 		return mapper.selectMemberJoin(column, member_id);
 	}
 
+	// 회원가입 폼 - 아이디 중복확인 메서드 
+	public int idCheck(String member_id) {
+		int cnt = mapper.idCheck(member_id);
+		System.out.println("cnt : " + cnt);
+		return cnt;
+	}
+
+	// 회원가입 폼 - 닉네임 중복확인 메서드 
+	public int nickCheck(String member_nickname) {
+		int cnt = mapper.nickCheck(member_nickname);
+		System.out.println("cnt : " + cnt);
+		return cnt;
+	}
+
+	// 회원가입 폼 - 핸드폰 중복확인 메서드 
+	public int phoneCheck(String member_phone) {
+		int cnt = mapper.phoneCheck(member_phone);
+		return cnt;
+	}
+
 	
 }

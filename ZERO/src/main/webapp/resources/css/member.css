@@ -851,3 +851,47 @@ input[type=checkbox] {
     height: 1px!important;
     margin: -1px!important;
 }
+
+/* 메일 인증 */
+.help_area {
+    margin: 0 auto;
+    padding: 60px 0 160px;
+    width: 400px;
+}
+
+.help-social {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 13px;
+    left: 15px;
+}
+
+.help_title {
+    padding-bottom: 41px;
+    text-align: center;
+    font-size: 32px;
+    letter-spacing: -.48px;
+    color: #000;
+    border-bottom: 2px solid #000;
+}
+
+.help_notice {
+    padding: 40px 0 30px;
+}
+.help_notice .notice_txt {
+    font-size: 14px;
+    letter-spacing: -.21px;
+}
+
+.help_btn_box {
+    padding-top: 44px;
+}
+
+.help_btn_box>.btn {
+    margin-bottom: 8px;
+}
+
+.display {
+	display:inline!important;
+}

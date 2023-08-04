@@ -138,4 +138,61 @@
 			)		
 	</insert>
 	
+	
+	<!--  -->
+	<select id="selectZpayHistoryListCount" resultType="int">
+		SELECT COUNT(*)
+			FROM ZPAY_HISTORY
+				WHERE
+					member_id = #{member_id}
+<!-- 					<if test="!searchKeyword.equals('')"> -->
+<!-- 						AND -->
+<!-- 						<choose> -->
+<!-- 							<when test="searchType.equals('subject')"> -->
+<!-- 								board_subject LIKE CONCAT('%', #{searchKeyword} ,'%') -->
+<!-- 							</when> -->
+<!-- 							<when test="searchType.equals('content')"> -->
+<!-- 								board_content LIKE CONCAT('%', #{searchKeyword} ,'%') -->
+<!-- 							</when> -->
+<!-- 							<when test="searchType.equals('subject_content')"> -->
+<!-- 								board_subject LIKE CONCAT('%', #{searchKeyword} ,'%')  -->
+<!-- 								OR board_content LIKE CONCAT('%', #{searchKeyword} ,'%')  -->
+<!-- 							</when> -->
+<!-- 							<when test="searchType.equals('name')"> -->
+<!-- 								board_name LIKE CONCAT('%', #{searchKeyword} ,'%') -->
+<!-- 							</when> -->
+<!-- 						</choose> -->
+<!-- 					</if> -->
+	</select>
+	
+	<select id="selectZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT *
+			FROM ZPAY_HISTORY
+				WHERE
+					member_id = #{member_id}
+				<if test="!searchType.equals('')">
+					<choose>
+						<when test="searchType.equals('충전')">
+							AND zpay_deal_type = '충전'
+						</when>
+						<when test="searchType.equals('환급')">
+							AND zpay_deal_type = '환급'
+						</when>
+						<when test="searchType.equals('사용')">
+							AND zpay_deal_type = '중고출금'
+							OR zpay_deal_type = '경매출금'
+						</when>
+						<when test="searchType.equals('수익')">
+							AND zpay_deal_type = '중고입금'
+							OR zpay_deal_type = '경매입금'
+						</when>
+					</choose>
+				</if>
+			ORDER BY 
+				zpay_time DESC
+<!-- 			LIMIT -->
+<!-- 				#{startRow} -->
+<!-- 				, #{listLimit} -->
+	</select>
+	
 </mapper>

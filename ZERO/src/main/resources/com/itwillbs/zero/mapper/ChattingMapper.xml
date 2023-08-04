@@ -2,27 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.zero.mapper.ChattingMapper">
 	
-	
 	<!-- 채팅방 조회 -  SELECT -->
 	<!-- 세션아이디로 조회해서 현재 열려있는 채팅방을 List로 반환받기 -->
 	<select id="selectChatRoomList" resultType="ChatRoomList">
-		SELECT
-			chat_room_idx
-			, buyer_id
-			, seller_id
-			, secondhand_idx
-			, secondhand_image1
-			, buyer_nickname
-			, buyer_image
-			, seller_nickname
-			, seller_image
-			, chat_content
-			, chat_time_fromNow
+		SELECT *
 			FROM
 				CHATROOMLIST
 			WHERE
 				seller_id = #{member_id}
 				OR buyer_id = #{member_id}
+			ORDER BY
+				chat_datetime DESC
 	</select>
 		<!-- 나중에 페이징처리하기(무한 스크롤) -->	
 	
@@ -37,7 +27,8 @@
 						chat_room_idx = #{chat_room_idx}
 					ORDER BY
 						chat_idx DESC
-					LIMIT 15
+					LIMIT
+						20
 					) AS SUB
 			ORDER BY
 				chat_idx
@@ -87,15 +78,45 @@
 				)
 	</insert>
 	
-	<!--  -->
-	<select id="selectSecondhandIdx" resultType="int">
+	<!-- 채팅번호로 채팅방 정보조회하기 -->
+	<select id="selectChatRoom" resultType="ChatRoom">
 		SELECT
-			secondhand_idx
+			*
 			FROM
 				CHAT_ROOM
 			WHERE
 				chat_room_idx = #{chat_room_idx}
 	</select>
 	
+	<!-- 나중에 다른 곳으로 옮길지 고민 - ORDER_SECONDHAND -->
+	<!-- 거래정보를 ORDER_SECONDHAND에 저장 -->
+	<insert id="insertOrderInfo">
+		INSERT INTO
+			ORDER_SECONDHAND
+			VALUES
+				(
+				NULL	-- order_secondhand_idx
+				, now()	-- order_secondhand_date 
+				, #{order_secondhand_product}	-- order_secondhand_product
+				, #{order_secondhand_price}		-- order_secondhand_price 
+				, #{type}						-- order_secondhand_type
+				, 'N'							-- order_secondhand_iszpay
+				, #{order_secondhand_seller}
+				, #{order_secondhand_buyer}
+				, #{secondhand_idx}				-- secondhand_idx
+				, NULL	-- zman_delivery_idx
+				, '거래진행중'	-- order_secondhand_status
+				)
+	</insert>
+	
+	<!-- 거래상태 변경 '판매중' -> '예약중' -->
+	<update id="updateDealStatuse">
+		UPDATE
+			SECONDHAND 
+			SET
+				secondhand_deal_status = "예약중"
+			WHERE
+				secondhand_idx = #{secondhand_idx};
+	</update>
 	
 </mapper>

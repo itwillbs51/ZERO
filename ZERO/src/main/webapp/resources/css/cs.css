@@ -18,6 +18,21 @@
 /* 	overflow: hidden; */
 /* } */
 
+
+/* 사이드바 사라졌을 때 생기는 햄버거 메뉴 */
+.hidden_nav {
+	display: flex;
+	outline: none!important;
+}
+.hidden_nav:active {
+	outline: none!important;
+}
+@media only screen and (min-width: 768px) {
+	.hidden_nav {
+		display: none;
+	}
+}
+
 .content_title.border {
    padding-bottom: 16px;
    border-bottom: 3px solid #222!important;
@@ -30,8 +45,21 @@
 	display: flex;
 	padding: 5px 0 6px;
 }
+
+.bottomRow {
+	margin-top: 30px;
+	border-top: 3px solid #222!important;
+}
+
+.noticeTitleArea {
+	display: flex;
+	padding: 20px 0;
+	border-bottom: 1px solid #ebebeb;
+}
+
 .title {
-	font-size: 24px;
+	flex: 1 1;
+	font-size: 17px;
 	letter-spacing: -.36px;
 	font-weight: bold;
 }

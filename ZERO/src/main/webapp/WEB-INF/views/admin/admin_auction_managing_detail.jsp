@@ -37,25 +37,61 @@
 
 		let auction_regist_date = "${auctionManaging.auction_regist_date}";
 		let auction_manage_check_date = "${auctionManaging.auction_manage_check_date}";
+		let auction_start_datetime = "${auctionManaging.auction_start_datetime}";
 		
 		// 변환된 변수를 사용하여 날짜 데이터를 HTML 요소에 추가
 		$("#auctionRegistDate").html(getFormatDate2(auction_regist_date));
-		$("#auctionManageCheckDate").html(getFormatDate3(auction_manage_check_date));
+		$("#auctionManageCheckDate").html(getFormatDate2(auction_manage_check_date));
+		$("#auctionStartDatetime").html(getFormatDate3(auction_start_datetime));
 		
+		
+		// 검수 상태가 변경될 때
 		$("#auctionManageCheckStatusSelect").on("change", function() {
 			let changedStatus = $("#auctionManageCheckStatusSelect>option:selected").val();
 			$("#auctionManageCheckStatus").empty();
 			$("#auctionManageCheckStatus").html(changedStatus);
 
+			// 검수 완료일과 경매 시작일 계산
+			// Timestampe 형식으로 변환
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = String(now.getMonth() + 1).padStart(2, '0');
+			let day = String(now.getDate()).padStart(2, '0');
+			let auctionManageCheckDate = year + "-" + month + "-" + day;
+			let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate() + 4).padStart(2, '0');
+
+			// 등록, 검수중 상태로 변경될 경우
+			// 검수완료일, 경매시작일 지정X
 			if(changedStatus != "검수완료" && changedStatus != "경매불가"){
 				$("#auctionManageCheckDate").empty();
-			} else {
-				$("#auctionManageCheckDate").html(
-						'<input type="datetime-local" id="auction_manage_check_date" class="form-control datepicker">'
-						 + '<input type="hidden" name="auction_manage_check_date" value="">'
-				);
+				$("#auctionStartDatetime").empty();
 				
+			} else if(changedStatus == "검수완료") {
+				// 검수완료 상태로 변경될 경우
+				// 검수완료일, 경매시작일 지정O
+				$("#auctionManageCheckDate").html(auctionManageCheckDate);
+				$("#auctionStartDatetime").html(auctionStartDatetime);
+				
+				// Controller에 hidden 타입으로 검수완료일, 경매시작일 전송
+				$(".hiddenArea").append(
+						'<input type="hidden" name="auction_manage_check_date" value="">'
+						+ '<input type="hidden" name="auction_start_datetime" value="">'
+				);
+				$("input[name=auction_manage_check_date]").val(auctionManageCheckDate + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
+				$("input[name=auction_start_datetime]").val(getFormatDate4(auctionStartDatetime))
+				
+			} else if(changedStatus == "경매불가") {
+				// 경매불가 상태로 변경될 경우
+				// 검수완료일 지정O, 경매시작일 지정X
+				$("#auctionManageCheckDate").html(auctionManageCheckDate);
+				
+				// Controller에 hidden 타입으로 검수완료일 전송
+				$(".hiddenArea").append(
+						'<input type="hidden" name="auction_manage_check_date" value="">'
+				);
+				$("input[name=auction_manage_check_date]").val(auctionManageCheckDate + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
 			}
+			
 			
 			$("#modifyButton").removeAttr("disabled");
 		});
@@ -79,18 +115,21 @@
 		let formatDate = "$1-$2-$3";
 		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
 	}
+
+	function getFormatDate4(date){	// 문자열로 된 날짜 및 시각 데이터 전달받기
+		let targetDate = /(\d\d\d\d)-(\d\d)-(\d\d)/g;
+		let formatDate = "$1-$2-$3 00:00:00";
+		return date.replace(targetDate, formatDate);	// 전달받은 날짜 및 시각을 지정된 형식으로 변환하여 리턴
+	}
 	
 	function modify(){
-		
-		if($("#auctionManageCheckStatus").text() == "검수완료" || $("#auctionManageCheckStatus").text() == "경매불가"){			
-			$("input[name=auction_manage_check_date]").val(getFormatDate($("#auction_manage_check_date").val()));
-		}
-		
+				
 		if($("#auctionManageCheckStatus").text() == "검수완료" && $("input[name=auction_manage_check_date]").val() == ""){
 			alert("검수완료일을 지정해주세요");
 		} else if($("#auctionManageCheckStatus").text() == "경매불가" && $("input[name=auction_manage_check_date]").val() == "") {
 			alert("검수완료일을 지정해주세요");
 		} else {
+			
 			$("form").submit();
 		}
 	}
@@ -119,7 +158,9 @@
 						</div>
 						<div class="card-body">
 							<form action="admin_auction_mangaing_modify" method="post" id="auction_mangaing_modify_form">
-								<input type="hidden" name="auction_managing_idx" value="${auctionManaging.auction_managing_idx }">
+								<div class="hiddenArea" style="overflow: hidden;"> 
+									<input type="hidden" name="auction_managing_idx" value="${auctionManaging.auction_managing_idx }">
+								</div>
 								<table id="memberDetailInfo" class="table table-border">
 									<tbody>
 										<tr>
@@ -199,7 +240,18 @@
 										<tr>
 											<th>검수완료일</th>
 											<td colspan="2" id="auctionManageCheckDate">
-<%-- 												${auctionManaging.auction_manage_check_date } --%>
+											</td>
+										</tr>
+										<tr>
+											<th>경매시작일</th>
+											<td colspan="2" id="auctionStartDatetime">
+<%-- 												${auctionManaging.auction_start_datetime } --%>
+											</td>
+										</tr>
+										<tr>
+											<th>경매종료일</th>
+											<td colspan="2" id="auctionEndDatetime">
+												${auctionManaging.auction_end_datetime }
 											</td>
 										</tr>
 										<tr>

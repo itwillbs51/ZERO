@@ -38,6 +38,7 @@
 	
 	});
 	
+	// 주소 추가버튼
 	function btnAddress(event) {
 
 // 		event.preventDefault();
@@ -54,7 +55,8 @@
 		
 	}
 	
-	function closeModal(event) {
+	// 주소 삭제버튼
+	function deleteAddress(event) {
 
 // 		event.preventDefault();
 
@@ -62,12 +64,18 @@
 		const target = event.target;
 		console.log('클릭한 링크의 class 값:', target.className);
 		console.log('클릭한 링크의 name 값:', target.name);
-		console.log('hidden 값 상태:', $('div[name="modal"]').attr('hidden'));
+// 		console.log('hidden 값 상태:', $('div[name="modal"]').attr('hidden'));
 // 		if(){
 			
 // 		}
-		$('div[name="modal"]').attr('hidden','');
+		$('div[name="modal"]').removeAttr('hidden');
 		
+	}
+
+	
+	function modal(pop) {
+		console.log(pop)
+		$('#' + pop).toggleClass('blind');
 	}
 
 </script>
@@ -103,7 +111,7 @@
 							<h3 data-v-88eb18f6="">주소록</h3>
 						</div>
 						<div data-v-88eb18f6="" class="btn_box">
-							<a data-v-43813796="" data-v-88eb18f6="" name="insert" class="btn btn_add insert" onclick="btnAddress(event)">
+							<a data-v-43813796="" data-v-88eb18f6="" name="insert" class="btn btn_add insert" onclick="modal('modal1')">
 								+ 새 배송지 추가
 							</a>
 						</div>
@@ -122,14 +130,14 @@
 											</div>
 											<p data-v-be4e2246="" class="phone"></p>
 											<div data-v-be4e2246="" class="address_box">
-												<span data-v-be4e2246="" class="zipcode">(${member.member_zipcode })</span>
+												<span data-v-be4e2246="" class="zipcode">(${member.member_zipcode1 })</span>
 												<span data-v-be4e2246="" class="address">${member.member_address1 } ${member.member_address_detail1 }</span>
 											</div>
 										</div>
 									</div>
 									<div data-v-7d49a47c="" class="btn_bind">
-										<a data-v-43813796="" data-v-7d49a47c="" name="update" class="btn outlinegrey small update" onclick="btnAddress(event)"> 수정 </a>
-										<a data-v-43813796="" data-v-7d49a47c="" name="delete" class="btn outlinegrey small delete" onclick="btnAddress(event)"> 삭제 </a>
+										<a data-v-43813796="" data-v-7d49a47c="" name="update" class="btn solid small update" onclick="modal('modal2')"> 수정 </a>
+										<a data-v-43813796="" data-v-7d49a47c="" name="delete1" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
 									</div>
 								</div>
 							</div>
@@ -140,73 +148,137 @@
 
 					</div>
 					
-					<%-- 모달 --%>
-					<div data-v-78455e2e="" data-v-71b8d4b9="" data-v-2e8df47b="" class="layer_delivery layer lg" modal="" name="modal" hidden>
-					<div data-v-78455e2e="" class="layer_container" data-v-0fdfe010="" modal="">
-						<a data-v-71b8d4b9="" data-v-78455e2e="" href="#" class="btn_layer_close" modal="">
-							<div data-v-71b8d4b9="" data-v-78455e2e="">
-								<button>X</button>
-							</div>
-						</a>
-						<div data-v-78455e2e="" class="layer_content" modal="">
-							<div data-v-78455e2e="" class="layer_header" modal="">
-								<h2 data-v-71b8d4b9="" data-v-78455e2e="" class="title" modal=""> 새 주소 추가 </h2>
-							</div>
-							<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_bind" modal="">
-								<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_input" modal="">
-									<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box has_error" data-v-78455e2e="" modal="">
-										<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">이름</h4>
-										<div data-v-4e1fd2e6="" class="input_item" modal="">
-											<input data-v-4e1fd2e6="" type="text" placeholder="수령인의 이름" autocomplete="off" class="input_txt" modal="">
+					<%-- 모달1 --%>
+					<div data-v-78455e2e="" data-v-71b8d4b9="" data-v-2e8df47b="" class="layer_delivery layer lg blind" modal="" id="modal1">
+						<div data-v-78455e2e="" class="layer_container" data-v-0fdfe010="" modal="">
+							<a data-v-71b8d4b9="" data-v-78455e2e="" href="#" class="btn_layer_close" modal="">
+								<div data-v-71b8d4b9="" data-v-78455e2e="">
+									<button>X</button>
+								</div>
+							</a>
+							<div data-v-78455e2e="" class="layer_content" modal="">
+								<div data-v-78455e2e="" class="layer_header" modal="">
+									<h2 data-v-71b8d4b9="" data-v-78455e2e="" class="title" modal=""> 새 주소 추가 </h2>
+								</div>
+								<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_bind" modal="">
+									<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_input" modal="">
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box has_error" data-v-78455e2e="" modal="">
+											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">이름</h4>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="text" placeholder="수령인의 이름" autocomplete="off" class="input_txt" modal="">
+											</div>
+											<p data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_error" modal="">올바른 이름을 입력해주세요. (2 - 50자)</p>
 										</div>
-										<p data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_error" modal="">올바른 이름을 입력해주세요. (2 - 50자)</p>
-									</div>
-									<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
-										<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">휴대폰 번호</h4>
-										<div data-v-4e1fd2e6="" class="input_item" modal="">
-											<input data-v-4e1fd2e6="" type="tel" placeholder="- 없이 입력" autocomplete="off" class="input_txt" modal="">
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">휴대폰 번호</h4>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="tel" placeholder="- 없이 입력" autocomplete="off" class="input_txt" modal="">
+											</div>
+											<p data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_error" modal="">정확한 휴대폰 번호를 입력해주세요.</p>
 										</div>
-										<p data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_error" modal="">정확한 휴대폰 번호를 입력해주세요.</p>
-									</div>
-									<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
 											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">우편번호</h4>
 											<div data-v-4e1fd2e6="" class="input_item" modal="">
 												<input data-v-4e1fd2e6="" type="text" placeholder="우편 번호를 검색하세요" readonly="readonly" autocomplete="off" class="input_txt" modal="">
-													<a data-v-43813796="" data-v-71b8d4b9="" href="#" class="btn btn_zipcode outline small" data-v-4e1fd2e6="" modal=""> 우편번호 </a>
+												<a data-v-43813796="" data-v-71b8d4b9="" href="#" class="btn btn_zipcode outline small" data-v-4e1fd2e6="" modal=""> 우편번호 </a>
 											</div>
-									</div>
-									<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+										</div>
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
 											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">주소</h4>
-										<div data-v-4e1fd2e6="" class="input_item" modal="">
-											<input data-v-4e1fd2e6="" type="text" placeholder="우편 번호 검색 후, 자동입력 됩니다" readonly="readonly" autocomplete="off" class="input_txt" modal=""></div>
-									</div>
-									<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="text" placeholder="우편 번호 검색 후, 자동입력 됩니다" readonly="readonly" autocomplete="off" class="input_txt" modal=""></div>
+										</div>
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
 											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">상세 주소</h4>
 											<div data-v-4e1fd2e6="" class="input_item" modal="">
 												<input data-v-4e1fd2e6="" type="text" placeholder="건물, 아파트, 동/호수 입력" autocomplete="off" class="input_txt" modal="">
 											</div>
+										</div>
+									</div>
+									<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_check" modal="">
+										<div data-v-4c714e9f="" data-v-71b8d4b9="" class="checkbox_item" data-v-78455e2e="" modal="">
+											<label data-v-4c714e9f="" for="check1" class="check_label" modal="">
+												<input data-v-4c714e9f="" id="check1" type="checkbox" name="" class="" modal="">
+												<span data-v-4c714e9f="" class="label_txt" modal="">기본 배송지로 설정</span>
+											</label>
+										</div>
 									</div>
 								</div>
-								<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_check" modal="">
-									<div data-v-4c714e9f="" data-v-71b8d4b9="" class="checkbox_item" data-v-78455e2e="" modal="">
-										<input data-v-4c714e9f="" id="check1" type="checkbox" name="" class="blind" modal="">
-										<label data-v-4c714e9f="" for="check1" class="check_label" modal="">
-<!-- 											<svg data-v-4c714e9f="" xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons ico-check-inactive"> -->
-<!-- 												<use data-v-4c714e9f="" href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-check-inactive" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-ico-check-inactive"></use> -->
-<!-- 											</svg> -->
-											<span data-v-4c714e9f="" class="label_txt" modal="">기본 배송지로 설정</span>
-										</label>
-									</div>
+								<div data-v-71b8d4b9="" data-v-78455e2e="" class="layer_btn" modal="">
+									<a data-v-43813796="" data-v-71b8d4b9="" name="closeModal" class="btn btn_delete outlinegrey medium" data-v-78455e2e="" modal="" onclick="modal('modal1')"> 취소 </a>
+	<!-- 								<a data-v-43813796="" data-v-71b8d4b9="" disabled="disabled" href="#" class="btn btn_save solid medium disabled" data-v-78455e2e="" modal=""> 저장하기 </a> -->
+									<a data-v-43813796="" data-v-71b8d4b9="" name="saveModal" class="btn btn_save solid medium" data-v-78455e2e="" modal="" onclick="closeModal(event)"> 저장하기 </a>
 								</div>
-							</div>
-							<div data-v-71b8d4b9="" data-v-78455e2e="" class="layer_btn" modal="">
-								<a data-v-43813796="" data-v-71b8d4b9="" name="closeModal" class="btn btn_delete outlinegrey medium" data-v-78455e2e="" modal="" onclick="closeModal(event)"> 취소 </a>
-<!-- 								<a data-v-43813796="" data-v-71b8d4b9="" disabled="disabled" href="#" class="btn btn_save solid medium disabled" data-v-78455e2e="" modal=""> 저장하기 </a> -->
-								<a data-v-43813796="" data-v-71b8d4b9="" name="saveModal" class="btn btn_save solid medium" data-v-78455e2e="" modal="" onclick="closeModal(event)"> 저장하기 </a>
 							</div>
 						</div>
 					</div>
-				</div>
+					<%-- 모달2 --%>
+					<div data-v-78455e2e="" data-v-71b8d4b9="" data-v-2e8df47b="" class="layer_delivery layer lg blind" modal="" id="modal2">
+						<div data-v-78455e2e="" class="layer_container" data-v-0fdfe010="" modal="">
+							<a data-v-71b8d4b9="" data-v-78455e2e="" href="#" class="btn_layer_close" modal="">
+								<div data-v-71b8d4b9="" data-v-78455e2e="">
+									<button>X</button>
+								</div>
+							</a>
+							<div data-v-78455e2e="" class="layer_content" modal="">
+								<div data-v-78455e2e="" class="layer_header" modal="">
+									<h2 data-v-71b8d4b9="" data-v-78455e2e="" class="title" modal=""> 주소 변경 </h2>
+								</div>
+								<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_bind" modal="">
+									<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_input" modal="">
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box has_error" data-v-78455e2e="" modal="">
+											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">이름</h4>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="text" placeholder="수령인의 이름" autocomplete="off" class="input_txt" modal="">
+											</div>
+											<p data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_error" modal="">올바른 이름을 입력해주세요. (2 - 50자)</p>
+										</div>
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">휴대폰 번호</h4>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="tel" placeholder="- 없이 입력" autocomplete="off" class="input_txt" modal="">
+											</div>
+											<p data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_error" modal="">정확한 휴대폰 번호를 입력해주세요.</p>
+										</div>
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">우편번호</h4>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="text" placeholder="우편 번호를 검색하세요" readonly="readonly" autocomplete="off" class="input_txt" modal="">
+												<a data-v-43813796="" data-v-71b8d4b9="" href="#" class="btn btn_zipcode outline small" data-v-4e1fd2e6="" modal=""> 우편번호 </a>
+											</div>
+										</div>
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">주소</h4>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="text" placeholder="우편 번호 검색 후, 자동입력 됩니다" readonly="readonly" autocomplete="off" class="input_txt" modal=""></div>
+										</div>
+										<div data-v-4e1fd2e6="" data-v-71b8d4b9="" class="input_box" data-v-78455e2e="" modal="">
+											<h4 data-v-71b8d4b9="" data-v-4e1fd2e6="" class="input_title" modal="">상세 주소</h4>
+											<div data-v-4e1fd2e6="" class="input_item" modal="">
+												<input data-v-4e1fd2e6="" type="text" placeholder="건물, 아파트, 동/호수 입력" autocomplete="off" class="input_txt" modal="">
+											</div>
+										</div>
+									</div>
+									<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_check" modal="">
+										<div data-v-4c714e9f="" data-v-71b8d4b9="" class="checkbox_item" data-v-78455e2e="" modal="">
+											<label data-v-4c714e9f="" for="check1" class="check_label" modal="">
+												<input data-v-4c714e9f="" id="check1" type="checkbox" name="" class="" modal="">
+ㄴ												<span data-v-4c714e9f="" class="label_txt" modal="">기본 배송지로 설정</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div data-v-71b8d4b9="" data-v-78455e2e="" class="layer_btn" modal="">
+									<a data-v-43813796="" data-v-71b8d4b9="" name="closeModal" class="btn btn_delete outlinegrey medium" data-v-78455e2e="" modal="" onclick="modal('modal2')"> 취소 </a>
+	<!-- 								<a data-v-43813796="" data-v-71b8d4b9="" disabled="disabled" href="#" class="btn btn_save solid medium disabled" data-v-78455e2e="" modal=""> 저장하기 </a> -->
+									<a data-v-43813796="" data-v-71b8d4b9="" name="saveModa1" class="btn btn_save solid medium" data-v-78455e2e="" modal="" onclick="closeModal(event)"> 저장하기 </a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				
+				
 			</div>
 		</div>							
 	</div>

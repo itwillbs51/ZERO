@@ -32,7 +32,10 @@ import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
+import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 
 @Controller
@@ -52,6 +55,7 @@ public class AdminController {
 		return "admin/admin_main";
 	}
 	
+	// ============================= 회원관리 ==========================================================
 	// 회원관리 - 회원목록 페이지로 디스패치
 	@GetMapping("admin_member_list")
 	public String adminMemberList() {
@@ -174,6 +178,9 @@ public class AdminController {
 		return "admin/admin_member_review";
 	}
 	
+	
+	// ============================= ZMAN 관리 =======================================================================================
+	// ---------- ---------- zman 회원 정보 관련  ---------- ----------
 	// zman관리 - zman 목록 페이지로 디스패치
 	@GetMapping("admin_zman_list")
 	public String adminZmanList(Model model) {
@@ -219,7 +226,7 @@ public class AdminController {
 		}
 		
 	}
-
+	
 	// zman관리 - zman 정보 수정
 	@PostMapping("admin_zman_modify")
 	public String adminZmanModify(ZmanVO zman, Model model) {
@@ -232,34 +239,124 @@ public class AdminController {
 		} else {
 			model.addAttribute("msg", "zman 정보 수정 실패");
 			return "fail_back";
-		}
-		
+		}	
 	}
 	
-	// zman관리 - zman 배달 내역 페이지로 디스패치
+	// ---------- ---------- zman 배달 관련 ---------- ----------
+	// zman관리 - zman 배달 내역 페이지로 이동
 	@GetMapping("admin_zman_delivery_list")
-	public String adminZmanDeliveryList() {
+	public String adminZmanDeliveryList(HttpSession session, Model model) {
 		System.out.println("AdminController - adminZmanDeliveryList");
+		
+		ZmanDeliveryVO zmanDeliveryList = service.getDeliveryList();
+		model.addAttribute("zmanDeliveryList", zmanDeliveryList);
 		
 		return "admin/admin_zman_delivery_list";
 	}
 
-	// zman관리 - zman 신고 페이지로 디스패치
-	@GetMapping("admin_zman_report")
-	public String adminZmanReport() {
-		System.out.println("AdminController - adminZmanReport");
+	// zman 관리 - zman 배달 내역 상세 페이지로 이동
+	@GetMapping("admin_zman_delivery_detail")
+	public String adminZmanDeliveryListDetail(HttpSession session, Model model, @RequestParam int zman_delivery_idx) {
+		System.out.println("AdminController - admin_zman_delivery_detail");
 		
-		return "admin/admin_zman_report";
-	}
-
-	// 중고거래관리 - 중고거래 목록 페이지로 디스패치
-	@GetMapping("admin_secondhand_list")
-	public String adminSecondhandList() {
-		System.out.println("AdminController - adminSecondhandList");
+		ZmanDeliveryVO zmanDeliveryDetail = service.getDeliveryDetail(zman_delivery_idx);
+		model.addAttribute("zmanDeliveryDetail", zmanDeliveryDetail);
 		
-		return "admin/admin_secondhand_list";
+		return  "admin/admin_zman_delivery_detail";
 	}
 	
+	// ---------- ---------- zman 신고 관련 ---------- ----------
+	// zman관리 - zman 신고 페이지로 이동
+	@GetMapping("admin_zman_report_list")
+	public String adminZmanReport(HttpSession session, Model model) {
+		System.out.println("AdminController - adminZmanReport");
+		
+		List<ReportVO> report = service.getZmanReportList();
+		model.addAttribute("report", report);
+		
+		return "admin/admin_zman_report_list";
+	}
+	
+	// zman관리 - zman 신고 상세 페이지로 이동
+	@GetMapping("admin_zman_report_detail")
+	public String adminZmanReportDetail(HttpSession session, Model model, int report_idx) {
+		System.out.println("AdminController - adminZmanReport");
+		
+		ReportVO report = service.getZmanReportDetail(report_idx);
+		System.out.println(report);
+		model.addAttribute("report", report);
+		
+		return "admin/admin_zman_report_detail";
+	}
+
+	// ============================= 중고거래 관리 =======================================================================================
+	// 중고거래관리 - 중고거래 목록 페이지로 이동
+	@GetMapping("admin_secondhand_managing_list")
+	public String adminSecondhandManagingList(HttpSession session, Model model) {
+		System.out.println("AdminController - admin_secondhand_managing_list");
+		
+		List<SecondhandVO> secondhandManagingList = service.getsecondhandManagingList();
+		model.addAttribute("secondhandManagingList", secondhandManagingList);
+		
+		System.out.println("secondhandManagingList - " + secondhandManagingList);
+		
+		return "admin/admin_secondhand_managing_list";
+	}
+	
+	// 중고거래관리 - 중고 거래 상품 상세 보기 페이지로 이동
+	@GetMapping("admin_secondhand_managing_detail")
+	public String adminSecondhandManagingDetail(HttpSession session, Model model, int secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_managing_detail");
+
+		// 중고 상품 목록 가져오기
+		Map<String, String> secondhandManagingDetail = service.getsecondhandManagingDetail(secondhand_idx);
+		model.addAttribute("secondhandManagingDetail", secondhandManagingDetail);
+		
+		return "admin/admin_secondhand_managing_detail";
+	}
+	
+	// 중고거래관리 - 중고거래 등록 상품 삭제 
+	@GetMapping("admin_secondhand_managing_delete")
+	public String adminSecondhandManagingDelete(HttpSession session, Model model, int secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_managing_delete");
+		
+		int deleteCount = service.removeSecondhandItem(secondhand_idx);
+		
+		if(deleteCount > 0) {
+			return "redirect:/admin_secondhand_managing_list";	
+		} else {
+			model.addAttribute("msg", "중고거래 상품 삭제 실패!");
+			return "fail_back";
+		}
+	}
+	
+	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
+	@GetMapping("admin_secondhand_order_list")
+	public String adminSecondhandOrderList(HttpSession session, Model model) {
+		System.out.println("AdminController - admin_secondhand_order_list");
+		
+		List<SecondhandVO> orderSecondhandList = service.getOrderSecondhandList();
+		System.out.println("orderSecondhandList - " + orderSecondhandList);
+		model.addAttribute("orderSecondhandList", orderSecondhandList);
+		
+		return "admin/admin_secondhand_order_list";
+	}
+	
+	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
+	@GetMapping("admin_secondhand_order_detail")
+	public String amdinSecondhandOrderDetail(HttpSession session, Model model,@RequestParam(defaultValue = "1") int order_secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_order_detail");
+		
+		Map<String, String> secondhandOrderDetail = service.getSecondhandOrderDetail(order_secondhand_idx);
+		System.out.println("secondhandOrderDetail - " + secondhandOrderDetail);
+		model.addAttribute("secondhandOrderDetail", secondhandOrderDetail);
+		
+		return "admin/admin_secondhand_order_detail";
+	}
+	
+	
+	
+	// ============================= 경매 관리 =======================================================================================
 	// 경매관리 - 경매예정 상품 목록 페이지로 디스패치
 	@GetMapping("admin_auction_managing_list")
 	public String adminAuctionManagingList(Model model) {
@@ -318,6 +415,9 @@ public class AdminController {
 		return "admin/charts_ex";
 	}
 	
+	
+	//============================= 고객센터 관리 =======================================================================================
+
 	// 고객센터관리 - admin_cs_notice_list.jsp로 디스패치
 	@GetMapping("admin_cs_notice_list")
 	public String adminCsNoticeList(Model model) {
@@ -413,7 +513,6 @@ public class AdminController {
 //		return "admin/admin_cs_notice_list";
 		
 	}
-	
 	
 	// 고객센터관리 - admin_cs_notice_modify_form.jsp로 디스패치
 	@GetMapping("admin_cs_notice_modify_form")
@@ -518,7 +617,6 @@ public class AdminController {
 		
 //		// DB 생성전까지 오류를 방지하기 위함(나중에 없앨 예정)
 //		return "admin/admin_cs_notice_list";
-		
 		
 	}
 	

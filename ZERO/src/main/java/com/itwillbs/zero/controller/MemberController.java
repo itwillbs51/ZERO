@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -179,7 +180,7 @@ public class MemberController {
 	
 	
 	// 네이버 정보 전달
-	@PostMapping("ajax/checkUserNaver")
+	@PostMapping("/ajax/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
 	public String checkUserNaver(HttpSession session
 							, Model model
@@ -294,6 +295,116 @@ public class MemberController {
 		return "member/member_Info";
 	}
 	
+//	// 멤버 마케팅 수신 동의 변경
+//	@PostMapping("ajax/chgMarketing")
+//	@ResponseBody
+//	public JSONObject chgMarketing(HttpSession session
+//			, Model model
+//			, @RequestParam Map<String, String> map
+//			) {
+//		System.out.println("/ajax/chgMarketing" + map);
+//		// 조건 파라미터 - 아이디
+//		String column1 = "member_id";
+//		String member_id = (String)session.getAttribute("member_id");
+//		  
+//		// 변경할 컬럼( member_agreement_marketing)
+//		String column2 = map.get("column");
+//		String value2 = map.get("value");
+//		int updateCount = service.updateMember(column1, member_id, column2, value2);
+//		
+//		JSONObject jo = new JSONObject();
+//		jo.put(column2, value2);
+//		
+//		return jo;
+//	}
+	
+	// 패스워드 일치여부 확인
+	public String checkPasswd(String column,String member_id, String column1,String value1) {
+		System.out.println("checkPasswd");
+
+		
+		// 회원정보 가져오기
+		Map<String, String> member = service.isMemberCheck(column, member_id);
+		
+//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+//		String securePasswd = member.get("member_passwd");
+		
+//		if (member.get("member_passwd") ==  null || !passwordEncoder.matches(member_passwd, member.get("member_passwd"))) {
+		
+		if(!passwordEncoder.isSameCryptoPassword(value1, member.get("member_passwd"))) {
+			System.out.println("비밀번호 불일치");
+			// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
+//			model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다. "
+//					+ "입력하신 내용을 다시 확인해주세요.");
+			return "false"; // 회원정보 불일치
+		}
+			return "true"; // 회원정보 일치
+			
+		
+	
+	}
+	
+	// 멤버 패스워드, 폰번호 변경
+	@PostMapping("ajax/chgInfo")
+	@ResponseBody
+	public String chgInfo(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		System.out.println("ajax/chgInfo:" + map + ", session");
+		
+		String column = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		
+		String column1 = map.get("column"); // 변경할 정보 컬럼
+		String value1 = map.get("value"); // 변경할 정보 값
+		
+		String column2 = map.get("column2"); // 이전 패스워드
+		String value2 = map.get("value2"); // 이전 패스워드 값
+		
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		
+		System.out.println(column + "," + member_id + "," + column1 + "," + value1);
+		
+		System.out.println("암호화 : " + column1.equals("member_passwd2"));
+		if(column1.equals("member_passwd2")) { // 비밀번호 변경 시 암호화
+			
+			// 1. 이전 비밀번호 일치 여부 확인
+			String result = checkPasswd(column, member_id, column2, value2);
+			if(result.equals("false")) { // 비밀번호 불일치 시
+				return "false";
+			}
+			
+			// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+			String securePasswd = passwordEncoder.getCryptoPassword(value1);
+			System.out.println("암호화된 비밀번호 : " + securePasswd);
+			// 3. 리턴받은 암호문을 value1 덮어쓰기
+			value1 = securePasswd;
+			column1 = "member_passwd";
+			System.out.println("value1:" + value1);
+		}
+		
+		int updateCount = service.updateMember(column, member_id, column1, value1);
+		
+		return column1;
+	}
+	
+	// 멤버 패스워드, 폰번호 변경
+//	@PostMapping("zero/ajax/chgInfo")
+//	@ResponseBody
+//	public String chgInfo2(HttpSession session
+//			, Model model
+//			, @RequestParam Map<String, String> map
+//			) {
+//		System.out.println("ajax/chgInfo2" + map);
+//		
+//		
+//		
+//		return "ajax 끝";
+//	}
 	
 	// 멤버 주소 등록
 	@GetMapping("member_address")
@@ -398,6 +509,7 @@ public class MemberController {
 		  
 		  // 변경할 컬럼
 		  String column2 = "member_image";
+		  
 		  // 임시 고정값 설정 
 //		  Iterator<String> iterator = map.keySet().iterator();
 //		  String column = iterator.next();
@@ -534,9 +646,23 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
+	// 회원 탈퇴 확인 페이지 이동
+	@GetMapping("member_find_emailAuth")
+	public String memberFindEmailAuth(HttpSession session
+			, Model model
+			, @RequestParam Map<String, String> map
+			) {
+		
+		System.out.println("memberWithdrawal:" + map);
+	
+		return "member/member_find_emailAuth";
+	}
+	
+	
+	
 	// 멤버 이메일 인증 요청 - 작업중
 	@PostMapping("request_authMail_find_passwd")
-	public String memberFindEmailAuth(HttpSession session
+	public String memberFindEmailAuthPro(HttpSession session
 			, Map<String, String> map
 			, Model model) {
 		System.out.println("MemberController - memberFindEmailAuth");
@@ -752,9 +878,6 @@ public class MemberController {
 		int insertCount = service.registMember(member);
 		
 		if(insertCount > 0) {
-			
-			
-			
 			return "redirect:/join_complete";
 		} else {
 			model.addAttribute("msg", "회원가입 실패 다시 작성해주세요");
@@ -836,6 +959,30 @@ public class MemberController {
 		
 		return Integer.toString(randomNumber);
 		
+	}
+	
+	// 회원가입 폼에서 아이디 중복확인
+	@PostMapping("/idCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int idCheck(@RequestParam("id") String id) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.idCheck(id);
+		return cnt;
+	}
+	
+	// 회원가입 폼에서 닉네임 중복확인
+	@PostMapping("/nickCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int nickCheck(@RequestParam("nickname") String nickname) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.nickCheck(nickname);
+		return cnt;
+	}
+	
+	// 회원가입 폼에서 핸드폰 중복확인
+	@PostMapping("/phoneCheck")
+	@ResponseBody // json 값을 가져오기 위한 어노테이션 @ResponseBody
+	public int phoneCheck(@RequestParam("phone") String phone) { // id 값을 받아오기 위한 @RequestParam
+		int cnt = service.phoneCheck(phone);
+		return cnt;
 	}
 	
 	
