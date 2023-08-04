@@ -18,8 +18,8 @@ public interface MemberMapper {
 	
 	List<Map<String, String>> selectMemberCheckList(@Param("column") String column, @Param("value") String value);
 
-	// 세션 아이디와 동일한 회원의 프로필 이미지 변경
-	int updateMemberImage(@Param("column1")String column1, @Param("member_id")String member_id, @Param("column2")String column2, @Param("fileName1")String fileName1);
+	// 세션 아이디와 동일한 회원 정보 변경
+	int updateMemberImage(@Param("column1")String column1, @Param("member_id")String member_id, @Param("column2")String column2, @Param("value2")String value2);
 // 회원정보조회(혜진)
 MemberVO selectMember(String member_id);
 
