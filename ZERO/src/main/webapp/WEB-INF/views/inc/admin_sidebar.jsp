@@ -43,7 +43,7 @@
 					<div class="collapse" id="secondhandManagement" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="admin_secondhand_managing_list">등록 상품</a>
-							<a class="nav-link" href="#">중고 거래 내역</a>
+							<a class="nav-link" href="admin_secondhand_order_list">중고 거래 내역</a>
 							<a class="nav-link" href="#">금지 품목</a> <%-- 금지 품목과 상품신고 비슷한 내역 --%>
 							<a class="nav-link" href="#">상품 신고</a>
 						</nav>

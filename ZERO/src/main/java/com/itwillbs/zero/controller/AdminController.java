@@ -32,6 +32,7 @@ import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
@@ -327,8 +328,33 @@ public class AdminController {
 			model.addAttribute("msg", "중고거래 상품 삭제 실패!");
 			return "fail_back";
 		}
-
 	}
+	
+	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
+	@GetMapping("admin_secondhand_order_list")
+	public String adminSecondhandOrderList(HttpSession session, Model model) {
+		System.out.println("AdminController - admin_secondhand_order_list");
+		
+		List<SecondhandVO> orderSecondhandList = service.getOrderSecondhandList();
+		System.out.println("orderSecondhandList - " + orderSecondhandList);
+		model.addAttribute("orderSecondhandList", orderSecondhandList);
+		
+		return "admin/admin_secondhand_order_list";
+	}
+	
+	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
+	@GetMapping("admin_secondhand_order_detail")
+	public String amdinSecondhandOrderDetail(HttpSession session, Model model, int order_secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_order_detail");
+		
+		Map<String, String> secondhandOrderDetail = service.getSecondhandOrderDetail(order_secondhand_idx);
+		System.out.println("secondhandOrderDetail - " + secondhandOrderDetail);
+		model.addAttribute("secondhandOrderDetail", secondhandOrderDetail);
+		
+		return "admin/admin_secondhand_order_detail";
+	}
+	
+	
 	
 	// ============================= 경매 관리 =======================================================================================
 	// 경매관리 - 경매예정 상품 목록 페이지로 디스패치

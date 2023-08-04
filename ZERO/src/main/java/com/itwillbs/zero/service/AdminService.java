@@ -10,6 +10,7 @@ import com.itwillbs.zero.mapper.AdminMapper;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
@@ -119,6 +120,16 @@ public class AdminService {
 		return mapper.deleteSecondhandItem(secondhand_idx);
 	}
 	
+	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
+	public List<SecondhandVO> getOrderSecondhandList() {
+		return mapper.selectOrderSecondhandList();
+	}
+
+	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
+	public Map<String, String> getSecondhandOrderDetail(int order_secondhand_idx) {
+		return mapper.selectOrderSecondhandDetail(order_secondhand_idx);
+	}
+	
 	//  ========== ========== 경매 관리  ========== ==========
 	// 경매관리 - 경매예정 상품 목록 조회
 	public List<AuctionManagingVO> getAuctionManagingList() {
@@ -221,6 +232,8 @@ public class AdminService {
 	public int removeCsFaq(int cs_idx) {
 		return mapper.deleteFaq(cs_idx);
 	}
+
+
 
 
 
