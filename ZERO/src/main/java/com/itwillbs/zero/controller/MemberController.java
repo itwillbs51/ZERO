@@ -345,6 +345,18 @@ public class MemberController {
 			, Model model) {
 		System.out.println("MemberController - memberMyStore");
 		
+		String column = "member_id";
+		String member_id = (String)session.getAttribute("member_id");
+		  // 임시 고정값 설정 
+		  
+		  System.out.println(column);
+		  System.out.println(member_id);
+		  // 회원정보 가져오기
+		  Map<String, String> member = service.isMemberCheck(column, member_id);
+		  System.out.println(member);
+		
+		  model.addAttribute("member", member);
+		
 		return "member/member_mystore";
 	}
 	
