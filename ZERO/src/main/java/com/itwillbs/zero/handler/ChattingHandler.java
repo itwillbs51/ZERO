@@ -69,11 +69,13 @@ public class ChattingHandler extends TextWebSocketHandler{
 		logger.info(roomUsers.toString());
 		
 		logger.info(userId + "님이 입장하셨습니다.");
+		logger.info(roomUsers.get(roomNum).keySet().toString());
 		
+		if(!roomNum.contains("chat")) {//채팅방에는 전송안함
 		for ( String key : (roomUsers.get(roomNum).keySet())) {
 			WebSocketSession s=roomUsers.get(roomNum).get(key);
 			s.sendMessage(new TextMessage(userId + ":" + ""+":"+roomUsers.get(roomNum).keySet()));
-			
+		}
 			
 		}
 //		sessionList.add(session);
@@ -126,12 +128,14 @@ public class ChattingHandler extends TextWebSocketHandler{
 		 logger.info(roomUsers.toString());
 		
 		 logger.info(userId + "님이 퇴장하셨습니다.");
+		
+		 if(!roomNum.contains("chat")) {//채팅방에는 전송안함
 		 for ( String key : (roomUsers.get(roomNum).keySet())) {
 				WebSocketSession s=roomUsers.get(roomNum).get(key);
 				s.sendMessage(new TextMessage(userId + ":" +""+":"+roomUsers.get(roomNum).keySet()));
 				
-				
-			}
+				}
+		 }
 		
 	}
 }
