@@ -81,9 +81,18 @@
 	<!-- 채팅번호로 채팅방 정보조회하기 -->
 	<select id="selectChatRoom" resultType="ChatRoom">
 		SELECT
-			*
+			chat_room_idx
+			, seller_id
+			, buyer_id
+			, secondhand_idx
+			, M1.member_nickname AS buyer_nickname
+			, M2.member_nickname AS seller_nickname
 			FROM
-				CHAT_ROOM
+				CHAT_ROOM CR
+				JOIN 
+					MEMBER M1 ON M1.member_id = CR.buyer_id
+				JOIN
+					MEMBER M2 ON M2.member_id = CR.seller_id
 			WHERE
 				chat_room_idx = #{chat_room_idx}
 	</select>
@@ -118,5 +127,60 @@
 			WHERE
 				secondhand_idx = #{secondhand_idx};
 	</update>
+	
+	<!-- 나중에 다른 곳으로 옮길지 고민 - ZMAN_DELIVERY -->
+	<!-- 신청폼 들어올 때 값 넣기, 중복된 값이면 업데이트만 하기 - INSERT -->
+	<insert id="insertZmanOrderInfo">
+		INSERT
+			INTO ZMAN_DELIVERY
+				(
+				zman_delivery_startspot
+				, zman_delivery_endspot
+				, zman_delivery_commission
+				, zman_delivery_status
+				, seller_id
+				, buyer_id
+				, order_secondhand_idx
+				)
+			VALUES
+				(
+				NULL			-- zman_delivery_startspot 판매자가 넣기
+				, NULL			-- zman_delivery_endspot	구매자가 넣기
+				, 3000			-- zman_delivery_commission(default)
+				, "배달 예정"		-- zman_delivery_status
+				, #{seller_id}	-- seller_id 판매자id
+				, #{buyer_id}		-- buyer_id 구매자id
+				, #{order_secondhand_idx}		-- order_secondhand_idx
+				)
+	</insert>
+	
+	<!-- 주소 업데이트하기 -->
+	<update id="updateZmanOrderInfo">
+		UPDATE ZMAN_DELIVERY
+			SET
+			zman_delivery_startspot = #{map.zman_delivery_startspot}
+			, zman_delivery_endspot = #{map.zman_delivery_endspot}
+			WHERE
+				zman_delivery_idx = #{zman_delivery_idx}
+	</update>
+	
+	<!-- z맨 호출신청 폼에 필요한 order_secondhand_idx 조회하기 -->
+	<select id="selectOrderSecondhandIdx" resultType="int">
+		SELECT order_secondhand_idx
+			FROM
+				ORDER_SECONDHAND
+			WHERE
+				secondhand_idx = #{secondhand_idx}
+	</select>
+	<!-- z맨 호출신청 폼에 필요한 주소 등 데이터 조회 - SELECT -->
+	<select id="selectZmanOrderInfo" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
+		SELECT *
+			FROM
+				ZMAN_DELIVERY
+			WHERE
+				order_secondhand_idx = #{order_secondhand_idx}
+	</select>
+	
+	
 	
 </mapper>

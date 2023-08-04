@@ -16,6 +16,8 @@ public class ChatRoomVO {
 	private int secondhand_idx;
 	private String seller_id;	// 구매자 아이디
 	private String buyer_id;	// 판매자 아이디
+	private String seller_nickname;	// 닉네임(DB에서 받아올 때 AS 로 둘을 구별하기)
+	private String buyer_nickname;
 	
 //	// 세션을 관리할 객체 생성
 //	private Set<WebSocketSession> sessions = new HashSet<WebSocketSession>();

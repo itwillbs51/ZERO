@@ -279,59 +279,59 @@
 		
 		let chat_content_type = '일반';
 
-// 		if(formatDate(lastDatetime) != formatNow) {
-// 			formatNow = "&-안내" + formatNow;
-// 			sock.send(formatNow);
+		if(formatDate(lastDatetime) != formatNow) {
+			formatNow = "&-안내" + formatNow;
+			sock.send(formatNow);
 			
-// 			// 안내 내용을 DB에 저장하기
-// 			$.ajax({
-// 				data: {
-// //	 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
-// 					'chat_content': formatNow,
-// 					'chat_content_type' : '안내',
-// 					'room_idx': "${param.room_idx}",
-// 					'member_id': "notice@test.com"
-// 				},
-// 				url: "chatRemember",
-// 				type: "POST",
-// 				success: function(data) {
-// // 					console.log("DB 저장 성공");
+			// 안내 내용을 DB에 저장하기
+			$.ajax({
+				data: {
+//	 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
+					'chat_content': formatNow,
+					'chat_content_type' : '안내',
+					'room_idx': "${param.room_idx}",
+					'member_id': "notice@test.com"
+				},
+				url: "chatRemember",
+				type: "POST",
+				success: function(data) {
+// 					console.log("DB 저장 성공");
 					
-// 				},
-// 				error: function(request,status,error) {
-// 					alert("code:"+request.status+"\n"
-// 							+"message:"+request.responseText+"\n"
-// 							+"error:"+error);
-// // 					console.log("DB 저장 실패");
-// 				}
-// 			});	// ajax 끝
-// 		} else if(sender == 'notice@test.com') {
-// 			// 안내메세지 관리
-// 			chat_content_type = '안내';
-// // 			chatMessage = chatMessage.split("&-안내")[1];
-// 		}
+				},
+				error: function(request,status,error) {
+					alert("code:"+request.status+"\n"
+							+"message:"+request.responseText+"\n"
+							+"error:"+error);
+// 					console.log("DB 저장 실패");
+				}
+			});	// ajax 끝
+		} else if(sender == 'notice@test.com') {
+			// 안내메세지 관리
+			chat_content_type = '안내';
+// 			chatMessage = chatMessage.split("&-안내")[1];
+		}
 		
 		// 채팅 내용을 DB에 저장하기
-// 		$.ajax({
-// 			data: {
-// // 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
-// 				'chat_content': chatMessage,
-// 				'chat_content_type' : chat_content_type,
-// 				'room_idx': "${param.room_idx}",
-// 				'member_id': sender
-// 			},
-// 			url: "chatRemember",
-// 			type: "POST",
-// 			success: function(data) {
-// // 				console.log("DB 저장 성공");
-// 			},
-// 			error: function(request,status,error) {
-// 				alert("code:"+request.status+"\n"
-// 						+"message:"+request.responseText+"\n"
-// 						+"error:"+error);
-// // 				console.log("DB 저장 실패");
-// 			}
-// 		});	// ajax 끝
+		$.ajax({
+			data: {
+// 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
+				'chat_content': chatMessage,
+				'chat_content_type' : chat_content_type,
+				'room_idx': "${param.room_idx}",
+				'member_id': sender
+			},
+			url: "chatRemember",
+			type: "POST",
+			success: function(data) {
+// 				console.log("DB 저장 성공");
+			},
+			error: function(request,status,error) {
+				alert("code:"+request.status+"\n"
+						+"message:"+request.responseText+"\n"
+						+"error:"+error);
+// 				console.log("DB 저장 실패");
+			}
+		});	// ajax 끝
 		
 		// 각 이벤트 시 받는 메세지를 소켓으로 전달
 		sock.send(chatMessage);
@@ -360,8 +360,7 @@
 		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
 		
 		if(message.startsWith("&-안내")) {	// 안내메세지인 경우
-		let noticeMessage = message.split("&-안내")[1];
-			
+			let noticeMessage = message.split("&-안내")[1];
 			var str = '<div class="noticeMsg">';
 // 			str += '<div>';
 			str += noticeMessage;
@@ -455,26 +454,28 @@
 		switch(num) {
 			case 1 :
 				// 1-1. 만나서 거래하기 클릭 => 안내 메세지 띄우기
-				chatMessage = '&-안내' + '${chatRoom.buyer_id}' + '님이 <b>만나서 거래하기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
-				setOrderSecondhand("직거래", price);
+				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>만나서 거래하기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
+				setOrderSecondhand("직거래");
 				break;
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
-				chatMessage = '&-안내' + '${chatRoom.buyer_id}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
+				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
 				chatMessage += '<button class="btn btn-dark" onclick="toZ()">';
 				chatMessage += 'Z맨 호출 접수</button>';
-// 				setOrderSecondhand("Z맨", price);
+				setOrderSecondhand("Z맨");
 				
 				break;
 			case 3 :
 				// 1-3. 택배로 받기 클릭 => 안내 메세지 띄우고 판매자에게 택배회사 주소가 담긴 버튼 보여주기(안내메세지 판별해 버튼 보여주기)
-				chatMessage = '&-안내' + '${chatRoom.buyer_id}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!<br>';
-				chatMessageBtn = '<c:if test="${secondhandInfo.member_id eq sessionScope.member_id}">';
-				chatMessageBtn += '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
-				chatMessageBtn += '</c:if>';
-// 				setOrderSecondhand("택배", price);
-				chatMessage += chatMessageBtn;
-// 				$("#msgArea").append(chatMessageBtn);
+				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!<br>';
+				chatMessageBtn1 = '<c:if test="${secondhandInfo.member_id eq sessionScope.member_id}">';
+				chatMessageBtn2 = '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
+				chatMessageBtn3 = '</c:if>';
+				setOrderSecondhand("택배");
+				// 세션에 따라 보이는 값 달리하기 위한 변수들 합쳐서 DB에 저장하기
+				chatMessage += chatMessageBtn1 + chatMessageBtn2 + chatMessageBtn3;
+				// 일시적으로 보이게 하기(DB저장은 아님)
+				$("#msgArea").append(chatMessageBtn2);
 				break;
 				
 		}	// switch문 끝
@@ -487,7 +488,7 @@
 	
 	// 받은 거래타입과 금액, 채팅방에 있는 정보(buyer_id, seller_id, secondhand_idx, secondhand_product)를
 	// DB ORDER_SECONDHAND에 저장
-	function setOrderSecondhand(type, price) {
+	function setOrderSecondhand(type) {
 		
 		$.ajax({
 			data: {
@@ -516,14 +517,21 @@
 	// Z맨 호출 폼으로 이동하기 위함 함수
 	function toZ() {
 		let requestUrl = "chatToZ?"
-				+ "order_secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
+// 				+ "order_secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
+				+ "secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
 				+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
 				+ "&secondhand_price=" + finalPrice
 				+ "&seller_id=" + "${chatRoom.seller_id}"
-				+ "&buyer_id=" + "${chatRoom.seller_id}"
+				+ "&buyer_id=" + "${chatRoom.buyer_id}"
 				;
 				
 		window.open(requestUrl, "newWindow", "width=450, height=600, left=500, top=100");
+	}
+	
+	// 새 창에서 Z맨 호출하기를 누르면 실행되는 함수(채팅)
+	function callZ(call) {
+		chatMessage = "&-안내" + call;
+		sendMessage('notice@test.com');
 	}
 	
 	function reservationNext(type) {

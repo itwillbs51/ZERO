@@ -63,6 +63,25 @@ public class ChattingService {
 		return mapper.updateDealStatuse(secondhand_idx);
 	}
 	
+	// --- 나중에 옮기기 ---
+	// 신청폼 들어올 때 값 넣기
+	public int setZmanOrderInfo(Map<String, String> map) {
+		return mapper.insertZmanOrderInfo(map);
+	}
+	
+	// z맨 호출신청 폼에 필요한 order_secondhand_idx 조회하기
+	public int getOrderSecondhandIdx(String secondhand_idx) {
+		return mapper.selectOrderSecondhandIdx(secondhand_idx);
+	}
+	// z맨 호출신청 폼에 필요한 주소 등 데이터 가져오기
+	public ZmanDeliveryVO getZmanOrderInfo(int order_secondhand_idx) {
+		return mapper.selectZmanOrderInfo(order_secondhand_idx);
+	}
+	// 주소 받아 DB에 업데이트
+	public int updateZmanOrderInfo(Map<String, String> map, int zman_delivery_idx) {
+		return mapper.updateZmanOrderInfo(map, zman_delivery_idx);
+	}
+
 	
 	
 }
