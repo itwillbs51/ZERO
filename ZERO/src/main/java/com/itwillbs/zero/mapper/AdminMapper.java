@@ -74,6 +74,9 @@ public interface AdminMapper {
 	// 중고거래관리 - 중고 거래 상품 상세 보기 페이지로 이동
 	Map<String, String> selectSecondhandManagingDetail(int secondhand_idx);
 	
+	// 중고거래관리 - 중고거래 등록 상품 삭제 
+	int deleteSecondhandItem(int secondhand_idx);
+	
 	// ========== ========== 경매 관리  ========== ==========
 	
 	// 경매관리 - 경매예정 상품 목록 조회
@@ -134,6 +137,8 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
+
+
 
 
 

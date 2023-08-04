@@ -114,6 +114,10 @@ public class AdminService {
 		return mapper.selectSecondhandManagingDetail(secondhand_idx);
 	}
 	
+	// 중고거래관리 - 중고거래 등록 상품 삭제 
+	public int removeSecondhandItem(int secondhand_idx) {
+		return mapper.deleteSecondhandItem(secondhand_idx);
+	}
 	
 	//  ========== ========== 경매 관리  ========== ==========
 	// 경매관리 - 경매예정 상품 목록 조회
@@ -217,6 +221,7 @@ public class AdminService {
 	public int removeCsFaq(int cs_idx) {
 		return mapper.deleteFaq(cs_idx);
 	}
+
 
 
 

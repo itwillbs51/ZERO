@@ -191,6 +191,14 @@
 				secondhand_idx = #{secondhand_idx};
 	</select>
 	
+	<!-- 중고거래관리 - 중고거래 등록 상품 삭제  -->
+	<delete id="deleteSecondhandItem">
+		DELETE FROM 
+				SECONDHAND
+			WHERE
+				secondhand_idx = #{secondhand_idx}
+	</delete>
+	
 	<!-- 경매관리 - 경매예정 상품 목록 조회 -->
 	<select id="selectAuctionManagingList" resultType="map">
 		SELECT * 

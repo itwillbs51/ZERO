@@ -311,9 +311,23 @@ public class AdminController {
 		Map<String, String> secondhandManagingDetail = service.getsecondhandManagingDetail(secondhand_idx);
 		model.addAttribute("secondhandManagingDetail", secondhandManagingDetail);
 		
-		// 
-		
 		return "admin/admin_secondhand_managing_detail";
+	}
+	
+	// 중고거래관리 - 중고거래 등록 상품 삭제 
+	@GetMapping("admin_secondhand_managing_delete")
+	public String adminSecondhandManagingDelete(HttpSession session, Model model, int secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_managing_delete");
+		
+		int deleteCount = service.removeSecondhandItem(secondhand_idx);
+		
+		if(deleteCount > 0) {
+			return "redirect:/admin_secondhand_managing_list";	
+		} else {
+			model.addAttribute("msg", "중고거래 상품 삭제 실패!");
+			return "fail_back";
+		}
+
 	}
 	
 	// ============================= 경매 관리 =======================================================================================
