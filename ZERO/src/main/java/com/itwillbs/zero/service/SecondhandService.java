@@ -48,6 +48,7 @@ public class SecondhandService {
 //	}
 	
 	//상세페이지 - 상품번호에 해당하는 상품정보 조회
+	//수정페이지에서도 재사용
 	public SecondhandVO getSecondhandProduct(int secondhand_idx) {
 		return mapper.selectProduct(secondhand_idx);
 	}
@@ -69,6 +70,15 @@ public class SecondhandService {
 		
 		return mapper.selectSellerProductList(member_id);
 	}
+
+
+
+//	// 수정페이지 - 상품번호에 해당하는 이미지정보 받아오기
+//	public Map<String, String> getImageList(int secondhand_idx) {
+//		
+//		return null;
+//	}
+
 
 	    
 

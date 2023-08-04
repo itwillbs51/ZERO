@@ -1,5 +1,7 @@
 package com.itwillbs.zero.vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.*;
 
 import lombok.*;
@@ -41,7 +43,7 @@ public class SecondhandVO {
 	private String category_name;
 	private String category_type;
 
-	
+	List<SecondhandVO> image_list;
 	
 
 }
