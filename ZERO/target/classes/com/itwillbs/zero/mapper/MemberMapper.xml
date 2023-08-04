@@ -18,10 +18,9 @@
 				, now()                -- {member_date}
 				, #{member_phone}
 				, '활동'                -- {member_status}
-				, 0                    -- {member_agreement_marketing_email}
-				, 0                    -- {member_agreement_marketing_sms}
+				, #{member_agreement_marketing}  -- {member_agreement_marketing}
 				, '회원'                -- {member_type}
-				, 'N'                   -- {member_mail_auth}
+				, 'Y'                   -- {member_mail_auth}
 				, #{member_image} 
 				, #{member_address1}
 				, #{member_address_detail1}
@@ -36,6 +35,8 @@
 				, #{member_zipcode2}
 				, #{member_zipcode3}
 				, #{member_intro}
+				, #{member_address2_phone}
+				, #{member_address3_phone}
 			)
 	
 	</insert>
@@ -43,6 +44,16 @@
 	<!-- 아이디 중복 확인 -->
 	<select id="idCheck" parameterType="String" resultType="int">
 		SELECT COUNT(member_id) FROM MEMBER WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 닉네임 중복 확인 -->
+	<select id="nickCheck" parameterType="String" resultType="int">
+		SELECT COUNT(member_nickname) FROM MEMBER WHERE member_nickname = #{member_nickname}
+	</select>
+	
+	<!-- 핸드폰 중복 확인 -->
+	<select id="phoneCheck" parameterType="String" resultType="int">
+		SELECT COUNT(member_phone) FROM MEMBER WHERE member_phone = #{member_phone}
 	</select>
 	
 	<!-- 특정 컬럼으로 회원정보 조회 -->

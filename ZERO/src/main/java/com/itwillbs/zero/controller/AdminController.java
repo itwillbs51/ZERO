@@ -32,6 +32,7 @@ import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
@@ -290,15 +291,70 @@ public class AdminController {
 
 	// ============================= 중고거래 관리 =======================================================================================
 	// 중고거래관리 - 중고거래 목록 페이지로 이동
-//	@GetMapping("admin_secondhand_list")
-//	public String adminSecondhandList(HttpSession session, Model model) {
-//		System.out.println("AdminController - adminSecondhandList");
-//		
-//		SecondhandVO shList = service.getSecondHandList();
-//		model.addAttribute("shList", shList);
-//		
-//		return "admin/admin_secondhand_list";
-//	}
+	@GetMapping("admin_secondhand_managing_list")
+	public String adminSecondhandManagingList(HttpSession session, Model model) {
+		System.out.println("AdminController - admin_secondhand_managing_list");
+		
+		List<SecondhandVO> secondhandManagingList = service.getsecondhandManagingList();
+		model.addAttribute("secondhandManagingList", secondhandManagingList);
+		
+		System.out.println("secondhandManagingList - " + secondhandManagingList);
+		
+		return "admin/admin_secondhand_managing_list";
+	}
+	
+	// 중고거래관리 - 중고 거래 상품 상세 보기 페이지로 이동
+	@GetMapping("admin_secondhand_managing_detail")
+	public String adminSecondhandManagingDetail(HttpSession session, Model model, int secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_managing_detail");
+
+		// 중고 상품 목록 가져오기
+		Map<String, String> secondhandManagingDetail = service.getsecondhandManagingDetail(secondhand_idx);
+		model.addAttribute("secondhandManagingDetail", secondhandManagingDetail);
+		
+		return "admin/admin_secondhand_managing_detail";
+	}
+	
+	// 중고거래관리 - 중고거래 등록 상품 삭제 
+	@GetMapping("admin_secondhand_managing_delete")
+	public String adminSecondhandManagingDelete(HttpSession session, Model model, int secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_managing_delete");
+		
+		int deleteCount = service.removeSecondhandItem(secondhand_idx);
+		
+		if(deleteCount > 0) {
+			return "redirect:/admin_secondhand_managing_list";	
+		} else {
+			model.addAttribute("msg", "중고거래 상품 삭제 실패!");
+			return "fail_back";
+		}
+	}
+	
+	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
+	@GetMapping("admin_secondhand_order_list")
+	public String adminSecondhandOrderList(HttpSession session, Model model) {
+		System.out.println("AdminController - admin_secondhand_order_list");
+		
+		List<SecondhandVO> orderSecondhandList = service.getOrderSecondhandList();
+		System.out.println("orderSecondhandList - " + orderSecondhandList);
+		model.addAttribute("orderSecondhandList", orderSecondhandList);
+		
+		return "admin/admin_secondhand_order_list";
+	}
+	
+	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
+	@GetMapping("admin_secondhand_order_detail")
+	public String amdinSecondhandOrderDetail(HttpSession session, Model model, int order_secondhand_idx) {
+		System.out.println("AdminController - admin_secondhand_order_detail");
+		
+		Map<String, String> secondhandOrderDetail = service.getSecondhandOrderDetail(order_secondhand_idx);
+		System.out.println("secondhandOrderDetail - " + secondhandOrderDetail);
+		model.addAttribute("secondhandOrderDetail", secondhandOrderDetail);
+		
+		return "admin/admin_secondhand_order_detail";
+	}
+	
+	
 	
 	// ============================= 경매 관리 =======================================================================================
 	// 경매관리 - 경매예정 상품 목록 페이지로 디스패치
