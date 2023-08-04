@@ -301,6 +301,13 @@ $(document).on("change", ".checkbox", function() {
 						<div class="title">
 							자주묻는질문
 						</div>
+						<nav class="navbar navbar-light"><%-- 사이드바 사라졌을 때 햄버거 메뉴 --%>
+							<a class="navbar-brand" href="#"></a>
+							<button class="navbar-toggler collapsed border-0 hidden_nav" type="button" data-toggle="collapse" data-target="#csCollapse" aria-controls="csCollapse" aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+							<jsp:include page="/WEB-INF/views/inc/cs_sidebar_hidden.jsp"></jsp:include>
+						</nav>
 					</div>
 					
 					<%-- 검색 영역 --%>

@@ -56,8 +56,8 @@
 <%-- 우편번호찾기 Daum api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-    function DaumPostcode() {
-    	event.preventDefault();
+	function DaumPostcode() {
+		event.preventDefault();
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -113,90 +113,108 @@
 $(function () {
     // 모든 modal-trigger에 클릭 이벤트를 바인딩
     $(".modal-trigger").on("click", function () {
-      // data-* 속성에서 데이터를 가져온다.
-      var source = $(this).data("source");
-      var modalId = $(this).data("modal-id");
-      var $targetModal = $("#" + modalId);
+        // data-* 속성에서 데이터를 가져온다.
+		var source = $(this).data("source");
+		var modalId = $(this).data("modal-id");
+        var $targetModal = $("#" + modalId);
 
-      // 내용을 불러온 후 모달을 표시한다.
-      $.get(source, function (data) {
-        $targetModal.find(".modal-body").html(data);
-        $targetModal.modal("show");
-      });
-
-      return false;
+        // 내용을 불러온 후 모달을 표시한다.
+        $.get(source, function (data) {
+        	$targetModal.find(".modal-body").html(data);
+        	$targetModal.modal("show");
+		});
+        return false;
     });
-  });
+});
 </script>
 
 <script type="text/javascript">
 // 이름 정규식
-	function validateName() {
-	  var nameInput = document.getElementById("member_name");
-	  var nameMessage = document.getElementById("pass_name");
-	  var regex = /^[A-Za-z가-힣]{2,15}$/;
+function validateName() {
+	var nameInput = document.getElementById("member_name");
+	var nameMessage = document.getElementById("pass_name");
+	var regex = /^[A-Za-z가-힣]{2,15}$/;
 	
-	  if(nameInput.value.trim() === ""){
-		    nameMessage.innerHTML = "";
-		    return;
-		  }
-	  if (!regex.test(nameInput.value)) {
-	    nameMessage.innerHTML = "이름을 한글 또는 영어로 입력해주세요";
+	if(nameInput.value.trim() === ""){
+		nameMessage.innerHTML = "";
+		return;
+	}
+	
+	if (!regex.test(nameInput.value)) {
+		nameMessage.innerHTML = "이름을 한글 또는 영어로 입력해주세요";
 	    nameMessage.style.color = "red";
-	  } else {
+	} else {
 	    nameMessage.innerHTML = "올바른 형식입니다.";
 	    nameMessage.style.color = "green";
 	  }
-	}
+}
 </script>
 
 <script type="text/javascript">
-// 닉네임 정규식
-	function validateNick() {
-	  var nickInput = document.getElementById("member_nickname");
-	  var nickMessage = document.getElementById("pass_nick");
-	  var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
+//닉네임 중복 검사 및 정규식 검사
+function checkNicknameDup() {
+	var nickname = $('#member_nickname').val();
+	var nickResult = document.getElementById("pass_nick");
+	var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
 
-	  if(nickInput.value.trim() === ""){
-		    nickMessage.innerHTML = "";
-		    return;
-		  }
-	  if (!regex.test(nickInput.value)) {
-	    nickMessage.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
-	    nickMessage.style.color = "red";
-	  } else {
-	    nickMessage.innerHTML = "올바른 형식입니다.";
-	    nickMessage.style.color = "green";
-	  }
+	if(nickname.trim() === ""){
+		nickResult.innerHTML = "";
+   	 	return;
+    }
+
+	if (!regex.test(nickname)) {
+	    nickResult.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
+	    nickResult.style.color = "red";
+	    return;
 	}
+
+	$.ajax({
+		url: './nickCheck',
+   		type: 'post',
+    	data: { nickname: nickname },
+    	success: function (cnt) {
+        if (cnt == 0) {
+	        nickResult.innerHTML = "사용 가능한 닉네임 입니다.";
+	        nickResult.style.color = "green";
+      	} else {
+	        nickResult.innerHTML = "이미 사용 중인 닉네임입니다.";
+	        nickResult.style.color = "red";
+	      }
+   		},
+    	error: function (error) {
+        	alert("error : " + JSON.stringify(error));
+    	}
+	});
+}
 </script>
+
 
 <script type="text/javascript">
 // 생년월일 정규식
-	function validateBirth() {
-		  var birthInput = document.getElementById("member_birth");
-		  var birthMessage = document.getElementById("birth_check");
-		  var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+function validateBirth() {
+	var birthInput = document.getElementById("member_birth");
+	var birthMessage = document.getElementById("birth_check");
+	var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
 
-		  if(birthInput.value.trim() === ""){
-			    birthMessage.innerHTML = "";
-			    return;
-			  }
-		  if (!regex.test(birthInput.value)) {
-			  birthMessage.innerHTML = "생년월일 8자리를 입력해주세요";
-			  birthMessage.style.color = "red";
-		  } else {
-			  birthMessage.innerHTML = "올바른 형식입니다.";
-			  birthMessage.style.color = "green";
-		  }
-		}
+	if(birthInput.value.trim() === ""){
+		birthMessage.innerHTML = "";
+		return;
+	}
+	if (!regex.test(birthInput.value)) {
+		birthMessage.innerHTML = "생년월일 8자리를 입력해주세요";
+		birthMessage.style.color = "red";
+	} else {
+		birthMessage.innerHTML = "올바른 형식입니다.";
+		birthMessage.style.color = "green";
+	   }
+}
 </script>
 
 <script type="text/javascript">
 // 정규표현식으로 전화번호 판별
 function validatePhone() {
     var phoneInput = document.getElementById("member_phone");
-    var phoneMessage = document.getElementById("phone_check");
+    var phoneMessage = document.getElementById("phone_dup_result");
     var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
 
     if (phoneInput.value.trim() === "") {
@@ -397,7 +415,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipcode1, #member_phone, #phone_check, #member_id {
+#member_zipcode1, #member_phone, #phone_dup_result, #member_id {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -449,7 +467,7 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   onkeyup="validateNick()" 
+							   onkeyup="checkNicknameDup()" 
 							   required="required">
 					</div>
 					<div class="row mb-3">
@@ -470,7 +488,7 @@ input[type=checkbox] {
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6=""
 						   	   required="required">
-					   	   <button type="button" id="emailAuthButton" onclick="checkId()">인증번호 받기</button>
+					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
 						</div>
 					<!-- 이메일 중복 확인 일치 여부-->
 					<div class="row mb-3">
@@ -591,7 +609,7 @@ input[type=checkbox] {
 					<div class="row mb-3">
 		    			<label for="inputPhoneRegex_Result" class="col-sm-5 "></label>
 				    	<div class="col-sm-12">
-							<span id="phone_check"></span>
+							<span id="phone_dup_result"></span>
 				   		</div>
 					</div><br>
 				
@@ -690,9 +708,13 @@ input[type=checkbox] {
 					    </div>
 					</div>
 					
+					<!-- 이벤트, 혜택정보 수신동의 여부 -->
+					<input type="hidden" name="member_agreement_marketing" id="member_agreement_marketing" value="">
+
+					
 					<div data-v-2b15bea4="" class="login_btn_box">
 <!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled> 회원가입 </button>
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled="disabled"> 회원가입 </button>
 					</div>
 				</form>
 
@@ -866,6 +888,7 @@ input[type=checkbox] {
                   emailResult.style.color = "red";
                   alert("이미 가입된 아이디입니다. 아이디를 다시 입력해주세요!");
                   $('#member_id').val('');
+                  $('#member_id').focus();
               }
           },
           error: function (error) {
@@ -917,34 +940,64 @@ input[type=checkbox] {
 </script>
  
 <script type="text/javascript">
-//휴대폰 번호 인증
-	var code2 = "";
-	$("#phone_chk").click(function(){
-	    var phone = $("#member_phone").val();
-		if (!validatePhone()) {
-			alert("올바르게 입력해주세요.");
-		} else {
-			alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오."); 
-	        // 기존 인증번호 발송 코드는 여기에 배치
-	        var phone = $("#member_phone").val();
-	        $.ajax({
-	                type:"GET",
-	                url:"phoneCheck?phone=" + phone, // 이 부분을 수정하였습니다.
-	                cache : false,
-	                success:function(data){
-	                    if(data == "error"){
-	                        alert("휴대폰 번호가 올바르지 않습니다.")
-	                        $("#member_phone").attr("autofocus",true);
-	                    }else{                       
-	                        $("#member_phone2").attr("disabled",false);
-	                        $("#member_phone").attr("readonly",true);
-	                        code2 = data;
-	                    }
-	                }
-	            });
-	        // 기존 인증번호 발송 코드 종료
-		}
-	});
+
+// 휴대폰 인증 번호 요청 및 중복 검사
+function checkPhoneDupAndSend(callback) {
+  var phone = $('#member_phone').val();
+  var phoneResult = document.getElementById("phone_dup_result");
+  $.ajax({
+    url: './phoneCheck',
+    type: 'post',
+    data: { phone: phone },
+    success: function (cnt) {
+      if (cnt == 0) {
+    	phoneResult.innerHTML = "가입이 가능한 번호입니다.";
+        phoneResult.style.color = "green";
+        callback();
+      } else {
+    	phoneResult.innerHTML = "이미 등록된 번호 입니다.";
+        phoneResult.style.color = "red";
+        alert("이미 가입된 휴대폰 번호입니다. 다른 번호를 입력해주세요!");
+        $('#member_phone').val('');
+        $('#member_phone').focus();
+      }
+    },
+    error: function (error) {
+      alert("error : " + JSON.stringify(error));
+    }
+  });
+}
+
+// 기존 휴대폰 번호 인증 코드
+var code2 = "";
+$("#phone_chk").click(function () {
+  var phone = $("#member_phone").val();
+  if (!validatePhone()) {
+    alert("올바르게 입력해주세요.");
+  } else {
+	  checkPhoneDupAndSend(function () {
+      alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+      // 기존 인증번호 발송 코드는 여기에 배치
+      var phone = $("#member_phone").val();
+      $.ajax({
+        type: "GET",
+        url: "phoneCheck?phone=" + phone,
+        cache: false,
+        success: function (data) {
+          if (data == "error") {
+            alert("휴대폰 번호가 올바르지 않습니다.");
+            $("#member_phone").attr("autofocus", true);
+          } else {
+            $("#member_phone2").attr("disabled", false);
+            $("#member_phone").attr("readonly", true);
+            code2 = data;
+          }
+        }
+      });
+      // 기존 인증번호 발송 코드 종료
+    });
+  }
+});
 </script>
 
 <script type="text/javascript">
@@ -1012,35 +1065,48 @@ input[type=checkbox] {
 </script>
  
 <script type="text/javascript">
-	$(document).ready(function () {
-	    // 회원가입 폼 제출 시 유효성 검사
-	    $("#joinForm").on("submit", function (e) {
-	      const agree1 = $("#agree1").prop("checked");
-	      const agree2 = $("#agree2").prop("checked");
-	
-	      // 필수 체크박스가 체크되지 않은 경우
-	      if (!agree1 || !agree2) {
-	        e.preventDefault();
-	        alert("필수 체크박스를 체크해주세요.");
-	      }
-	    });
-	  });
+// 마케팅 동의 체크 여부에 따라 입력할 값
+function getMarketingAgreementValue() {
+    var agreementCheckbox = document.querySelector('input[name="agree"]:checked');
+    return agreementCheckbox ? 1 : 0;
+  }
+
+  $(document).ready(function () {
+    // 회원가입 폼 제출 시 유효성 검사
+    $("#joinForm").on("submit", function (e) {
+      const agree1 = $("#agree1").prop("checked");
+      const agree2 = $("#agree2").prop("checked");
+
+      // 필수 체크박스가 체크되지 않은 경우
+      if (!agree1 || !agree2) {
+        e.preventDefault();
+        alert("필수 체크박스를 체크해주세요.");
+      } else {
+        // 이벤트, 혜택정보 수신동의 값을 가져와 숨겨진 입력 필드에 설정합니다.
+        $('#member_agreement_marketing').val(getMarketingAgreementValue());
+
+        // 폼을 전송합니다.
+        this.submit();
+      }
+    });
+  });
 </script>
 
 <script type="text/javascript">
-//인증 성공 여부를 저장할 변수 추가
+//인증 성공 여부를 저장할 변수 추가 
 let phoneAuthSuccess = false;
 let emailAuthSuccess = false;
 
-// 회원가입 버튼 활성화 확인 함수 추가
-function checkAuthSuccess() {
-    // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화
-    if (phoneAuthSuccess && emailAuthSuccess) {
-        $("#registerButton").prop("disabled", false);
-    } else {
-        $("#registerButton").prop("disabled", true);
-    }
-}
-</script>
+// 회원가입 버튼 활성화 확인 함수 추가 
+ function checkAuthSuccess() { 
+     // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화
+     if (phoneAuthSuccess && emailAuthSuccess) { 
+         $("#registerButton").prop("disabled", false); 
+     } else { 
+         $("#registerButton").prop("disabled", true); 
+     } 
+ }
+</script> 
+ 
  
 </body>

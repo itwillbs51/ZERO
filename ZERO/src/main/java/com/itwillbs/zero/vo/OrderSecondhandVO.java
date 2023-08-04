@@ -1,5 +1,7 @@
 package com.itwillbs.zero.vo;
 
+import java.sql.Timestamp;
+
 import lombok.Data;
 
 @Data
@@ -11,4 +13,8 @@ public class OrderSecondhandVO {
 	private String order_secondhand_seller;
 	private int secondhand_idx;
 	private String order_secondhand_status;
+	
+	private Timestamp order_secondhand_date;
+	private String order_secondhand_product;
+	private String order_secondhand_type;
 }

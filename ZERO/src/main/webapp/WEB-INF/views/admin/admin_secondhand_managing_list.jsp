@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +33,7 @@
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">중고거래 관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">중고거래 상품목록</li>
+						<li class="breadcrumb-item active">중고거래 등록상품 목록</li>
 					</ol>
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
@@ -41,19 +45,31 @@
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>${shList.member_id }</th>
+										<th>중고상품 번호</th>
+										<th>카테고리</th>
+										<th>상품 이름</th>
+										<th>가격</th>
+										<th>등록일</th>
+										<th>거래 상태</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
 								<tbody>
+									<c:forEach var="secondhandManagingList" items="${secondhandManagingList}" varStatus="vs">
 									<tr>
-										<td></td>
-										<td><a class="btn btn-sm btn-outline-dark" href="#">상세보기</a></td>
+										<td>${secondhandManagingList.secondhand_idx }</td>
+										<td>${secondhandManagingList.category_name }</td>
+										<td>${secondhandManagingList.secondhand_subject }</td>
+										<td>${secondhandManagingList.secondhand_price }</td>
+										<td>${secondhandManagingList.secondhand_first_date }</td>
+										<td>${secondhandManagingList.secondhand_deal_status }</td>
+										<td><a class="btn btn-sm btn-outline-dark" href="admin_secondhand_managing_detail?secondhand_idx=${secondhandManagingList.secondhand_idx }">상세보기</a></td>
 									</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
-					</div>
+					</div> <%-- 메인 영역 끝 --%>
 					
 				</div>
 			</main>
