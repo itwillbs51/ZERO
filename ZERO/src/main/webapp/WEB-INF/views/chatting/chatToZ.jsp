@@ -64,17 +64,26 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 	
+	// 수정 시 값이 있는 것만 받아서 ajax로 전달하기 위한 변수
+	let addInfo;	
 	let inputStart = "${zmanOrderInfo.zman_delivery_startspot}";
 	let inputEnd = "${zmanOrderInfo.zman_delivery_endspot}";
+	console.log("inputStart : " + inputStart);
+	console.log("inputEnd : " + inputEnd);
 	
-	if(inputStart != null) {
-		$("#member_zipcode1").val(inputStart.split(",")[0]);
-		$("#zman_delivery_startspot").val(inputStart.split(",")[1]);
-	}
-	if(inputEnd != null) {
-		$("#member_zipcode2").val(inputEnd.split(",")[0]);
-		$("#zman_delivery_endspot").val(inputEnd.split(",")[1]);
-	}
+	$(function() {
+		if(inputStart != "") {
+			$("#member_zipcode1").attr('value', inputEnd.split(",")[0]);
+			$("#zman_delivery_startspot").attr('value', inputEnd.split(",")[1]);
+			console.log("inputStart : " + inputStart.split(",")[0] + ":" + inputStart.split(",")[1]);
+		}
+		if(inputEnd != "") {
+			$("#member_zipcode2").attr('value', inputEnd.split(",")[0]);
+			$("#zman_delivery_endspot").attr('value', inputEnd.split(",")[1]);
+			console.log("inputEnd : " + inputEnd.split(",")[0] + ":" + inputEnd.split(",")[1]);
+		}
+		
+	});
 	
 	function DaumPostcode(event, num) {
 		event.preventDefault();
@@ -131,28 +140,48 @@
         }).open();
     }
 	// ------ 우편번호 찾기 끝
-	
+	let start;
+	let end;
 	// 수정하기, 호출하기 버튼 클릭 시 실행되는 함수
 	function submitBtn(type) {
-		if($("#member_zipcode1").val() != null) {
-			let start = $("#member_zipcode1").val() + "," + $("#zman_delivery_startspot").val();
+		if($("#member_zipcode1").val() != "") {
+			start = $("#member_zipcode1").val() + "," + $("#zman_delivery_startspot").val();
 			console.log(start);
 		}
-		if($("#member_zipcode2").val() != null) {
-			let end = $("#member_zipcode2").val() + "," + $("#zman_delivery_endspot").val();
+		if($("#member_zipcode2").val() != "") {
+			end = $("#member_zipcode2").val() + "," + $("#zman_delivery_endspot").val();
 			console.log(end);
 		}
+		addInfo += "&zman_delivery_startspot=" + start;
+		addInfo += "&zman_delivery_endspot=" + end;
 		
 		switch(type) {
 			case 1:
-				let url = "chatToZ?"
-					+ "secondhand_idx=" + "${param.secondhand_idx }"
-					+ "&seller_id=" + "${param.seller_id}"
-					+ "&buyer_id=" + "${param.buyer_id}"
-					+ "&zman_delivery_startspot=" + start
-					+ "&zman_delivery_endspot=" + end
-					;
-				location.href = url;
+				if(addInfo == "") {	// 입력된 값이 없으면 처리 안함
+					alert("수정할 정보가 없습니다!");
+				} else {
+					let url = "chatToZ?"
+						+ "secondhand_idx=" + "${param.secondhand_idx }"
+						+ "&seller_id=" + "${param.seller_id}"
+						+ "&buyer_id=" + "${param.buyer_id}"
+						+ "&type=" + '수정'
+						+ addInfo
+						;
+					
+					$.ajax({
+						url: url,
+						type: "GET",
+						success: function(data) {
+							console.log("DB 저장 성공");
+							console.log(url);
+						},
+						error: function(request,status,error) {
+							console.log(url);
+							console.log("DB 저장 실패");
+						}
+					});
+					window.close();
+				}
 				break;
 			case 2:
 				if(start == "" || end == "") {
@@ -162,29 +191,26 @@
 					$.ajax({
 						data: {
 							"order_secondhand_idx": ${param.secondhand_idx }
-							, "seller_id": "${param.seller_id}"
-							, "buyer_id": "${param.buyer_id}"
-							, "zman_delivery_startspot": start
-							, "zman_delivery_endspot": end
+// 							, "seller_id": "${param.seller_id}"
+// 							, "buyer_id": "${param.buyer_id}"
+// 							, "zman_delivery_startspot": start
+// 							, "zman_delivery_endspot": end
 							, "zman_delivery_idx": ${zmanOrderInfo.zman_delivery_idx}
 						},
 						url: "callZ",
 						type: "POST",
 						success: function(data) {
 							console.log("DB 저장 성공");
+							let call = '출발지와 도착지 입력완료!<br>Z맨 호출중입니다!';
+							// 부모창인 채팅창에 메시지 함수 호출
+							window.opener.callZ(call);
+							window.close();
 						},
 						error: function(request,status,error) {
-							alert("code:"+request.status+"\n"
-									+"message:"+request.responseText+"\n"
-									+"error:"+error);
 							console.log("DB 저장 실패");
 						}
 					});
 					
-					let call = '출발지와 도착지 입력완료!<br>Z맨 호출중입니다!';
-					// 부모창인 채팅창에 메시지 함수 호출
-					window.opener.callZ(call);
-					window.close();
 					break;
 				}
 		}	// switch문 끝
@@ -212,6 +238,7 @@
 							<div class="withdrawalAccountArea">
 								<div class="title">
 									출발지(판매자) 
+									2. ${param.seller_id }
 									<%-- 판매자만 수정 가능 --%>
 									<c:if test="${sessionScope.member_id eq param.seller_id }">
 										<button class="btn btn-outline-dark" onclick="DaumPostcode(event, 1)">우편번호 찾기</button>
@@ -219,13 +246,15 @@
 								</div>
 								<div class="withdrawalAccount_info">
 									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6=""
-										id="member_zipcode1" name="member_zipcode1" required="required" disabled>
+										id="member_zipcode1" name="member_zipcode1" required="required" readonly>
 <!-- 									<button class="btn btn-outline-dark" onclick="DaumPostcode(event)">우편번호 찾기</button> -->
 									<input type="text" class="input_txt2" placeholder="도로명주소" autocomplete="off" data-v-4e1fd2e6=""
-										   id="zman_delivery_startspot" name="zman_delivery_startspot" required="required" disabled>
+										   id="zman_delivery_startspot" name="zman_delivery_startspot" required="required" readonly>
 								</div>
 								<div class="title">
 									도착지(구매자) 
+									1. ${sessionScope.member_id }
+									2. ${param.buyer_id }
 									<%-- 구매자만 수정 가능 --%>
 									<c:if test="${sessionScope.member_id eq param.buyer_id }">
 										<button class="btn btn-outline-dark" onclick="DaumPostcode(event, 2)">우편번호 찾기</button>
@@ -233,10 +262,10 @@
 								</div>
 								<div class="withdrawalAccount_info">
 									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6=""
-										id="member_zipcode2" name="member_zipcode2" required="required" disabled>
+										id="member_zipcode2" name="member_zipcode2" required="required" readonly>
 <!-- 									<button class="btn btn-outline-dark" onclick="DaumPostcode(event)">우편번호 찾기</button> -->
 									<input type="text" class="input_txt2" placeholder="도로명주소" autocomplete="off" data-v-4e1fd2e6=""
-										   id="zman_delivery_endspot" name="zman_delivery_endspot" required="required" disabled>
+										   id="zman_delivery_endspot" name="zman_delivery_endspot" required="required" readonly>
 								</div>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 							
@@ -245,8 +274,8 @@
 									총금액
 								</div>
 								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">36,000</div>
-									<div class="withdrawalAccountNum">33,000(상품가격) + 3,000(배달비)</div>
+									<div class="withdrawalBankName">36,000원 </div>
+									<div class="withdrawalAccountNum">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div>
 <%-- 									<div class="withdrawalBankName">${orderInfo.secondhand_price + 3000 }</div> --%>
 <%-- 									<div class="withdrawalAccountNum">${orderInfo.secondhand_price }(상품가격) + 3,000(배달비)</div> --%>
 								</div>

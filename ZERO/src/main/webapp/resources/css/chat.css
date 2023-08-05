@@ -17,7 +17,8 @@
 
 /* 채팅목록 */
 #chatListArea {
-	width: 400px;
+	min-width: 450px;
+	max-width: 600px;
 /* 	min-height: 600px; */
 }
 
@@ -28,7 +29,9 @@
 }
 
 #chatList {
-	width: 400px;
+	min-width: 450px;
+	max-width: 500px;
+	margin: auto;
 /* 	list-style : none; */
 }
 
@@ -37,9 +40,12 @@
 	width: 100px;
 	height: 100px;
 }
-
-.chatRoomShort {
-	width: 300px;
+.listImg img{
+	margin: auto;
+}
+.chatRoomShort, .shortChatMsg {
+	width: 250px;
+	padding-left: 10px;
 }
 
 /* 상대방 이름 */
@@ -56,6 +62,12 @@
 .shortChatMsg {
 	font-size: 14px;
 	color: gray;
+}
+.shortChatMsg div {
+	display: inline-block;
+	min-width: 450px;
+	max-width: 600px;
+	height: 20px;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
