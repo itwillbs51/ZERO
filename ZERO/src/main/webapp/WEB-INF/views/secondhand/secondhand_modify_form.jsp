@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- 길이체크위한 태그라이브러리 -->
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +23,14 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 
+var image_list = [${secondhandProduct.secondhand_image1}, ${secondhandProduct.secondhand_image2}, ${secondhandProduct.secondhand_image3}];
 var preview_array  = [false, false, false];
 var change_image = ["0","0","0","0","0","0","0","0","0"];
 
 // for(var y=0; y<${ fn:length(vo.image_list) }; y++){
 // 	preview_array[y] = true;
 // }
-for(var y=0; y<4; y++){
+for(var y=0; y < image_list.length(); y++){
 	preview_array[y] = true;
 }
 
@@ -75,8 +78,7 @@ function img_preview() {
 
 
 <script type="text/javascript">
-//<!-- 이미지 미리보기 -->-----------------------------------
-
+//<!-- 이미지 미리보기 -->------------------------------------------------------
 
 	// 1. 썸네일사진
 	function send_0() {
@@ -120,9 +122,10 @@ function img_preview() {
 		        $('#imgup_sum').attr('src', e.target.result);
 		        	
 				/* 수정한 사진이면.. */
-		        if('${ not empty vo.image_list[0].i_idx}' == 'true'){
-		        	change_image[0] = '${vo.image_list[0].i_idx}';
-		        }else{
+// 		        if('${ not empty vo.image_list[0].i_idx}' == 'true'){
+		        if('${ not empty secondhandProduct.secondhand_image1}' == 'true'){
+		        	change_image[0] = '${secondhandProduct.secondhand_image1}';
+		        } else{
 		        	/* 추가한 사진이면.. */
 		        	change_image[0] = "changePhoto";
 		        }
@@ -185,8 +188,8 @@ function img_preview() {
 	        	$('#imgup_1').attr('src', e.target.result);
 	        	
 	        	/* 수정한 사진이면.. */
-	        	if('${ not empty vo.image_list[1].i_idx}' == 'true'){
-	        		change_image[2] = '${vo.image_list[1].i_idx}';
+	        	if('${ not empty secondhandProduct.secondhand_image2}' == 'true'){
+	        		change_image[2] = '${secondhandProduct.secondhand_image2}';
 	        	}else{
 	        		/* 추가한 사진이면.. */
 	        		change_image[2] = "changePhoto";
@@ -250,9 +253,9 @@ function img_preview() {
 				$('#imgup_2').attr('src', e.target.result);
 				
 	        	/* 수정한 사진이면.. */
-	        	if('${ not empty vo.image_list[2].i_idx}' == 'true'){
-	        		change_image[4] = '${vo.image_list[2].i_idx}';
-	        	}else{
+	        	if('${ not empty secondhandProduct.secondhand_image3}' == 'true'){
+	        		change_image[4] = '${secondhandProduct.secondhand_image3}';
+	        	} else{
 	        		/* 추가한 사진이면.. */
 	        		change_image[4] = "changePhoto";
 	        	}
@@ -269,14 +272,14 @@ function img_preview() {
 	        reader.readAsDataURL(input.files[0]);
 	    }
 	}
-//-----------------------------------------------------------
+//------------------------------------------------------------------------------
 </script>
 
 <script type="text/javascript">
-//<!-- 이미지미리보기삭제 -->--------------------------------
+//<!-- 이미지미리보기삭제 -->---------------------------------------------------
 	
 	function del_sum() {
-		/* alert('썸네일이미지 지움'); */
+		alert('썸네일이미지 지움');
 		
 		/* 실제 DB에 들어가는 input value 지움 */
 		$('#sumimage').val('');
@@ -287,8 +290,6 @@ function img_preview() {
 		
 		/* 썸네일 비움 */
 		preview_array[0] = false;
-		
-		
 		/* 이미지 넘버변경 */
 		img_num();
 		
@@ -297,8 +298,7 @@ function img_preview() {
 	
 	
 	function del_img1() {
-		/* alert('1번이미지 지움'); */
-		
+		alert('1번이미지 지움');	
 		$('#imageFile1').val('');
 		
 		$("#img_preview1").css("display","none");
@@ -309,12 +309,10 @@ function img_preview() {
 		preview_array[1] = false;
 		
 		/* 삭제한 사진이면.. */
-        if('${ not empty vo.image_list[1].i_idx}' == 'true'){
-        	change_image[2] = '${vo.image_list[1].i_idx}';
+        if('${ not empty secondhandProduct.secondhand_image2}' == 'true'){
+        	change_image[2] = '${secondhandProduct.secondhand_image2}';
         	change_image[3] = "delPhoto";
         }
-		
-		
 		
 		/* 이미지 넘버변경 */
 		img_num();
@@ -335,8 +333,8 @@ function img_preview() {
 		preview_array[2] = false;
 		
 		/* 삭제한 사진이면.. */
-        if('${ not empty vo.image_list[2].i_idx}' == 'true'){
-        	change_image[4] = '${vo.image_list[2].i_idx}';
+        if('${ not empty secondhandProduct.secondhand_image3}' == 'true'){
+        	change_image[4] = '${secondhandProduct.secondhand_image3}';
         	change_image[5] = "delPhoto";
         }
 		
@@ -346,74 +344,30 @@ function img_preview() {
 		return;
 	}
 	
-	function del_img3() {
-		/* alert('3번이미지 지움'); */
+// 	function del_img3() {
+// 		/* alert('3번이미지 지움'); */
 		
-		$('#imageFile3').val('');
-		$("#img_preview3").css("display","none");
-		$('#imgup_3').hide();
-		$("#del_img3").hide(); 
+// 		$('#imageFile3').val('');
+// 		$("#img_preview3").css("display","none");
+// 		$('#imgup_3').hide();
+// 		$("#del_img3").hide(); 
 		
-		/* 3번사진 비움 */
-		preview_array[3] = false;
+// 		/* 3번사진 비움 */
+// 		preview_array[3] = false;
 		
-		/* 삭제한 사진이면.. */
-        if('${ not empty vo.image_list[3].i_idx}' == 'true'){
-        	change_image[6] = '${vo.image_list[3].i_idx}';
-        	change_image[7] = "delPhoto";
-        }
+// 		/* 삭제한 사진이면.. */
+//         if('${ not empty vo.image_list[3].i_idx}' == 'true'){
+//         	change_image[6] = '${vo.image_list[3].i_idx}';
+//         	change_image[7] = "delPhoto";
+//         }
 		
 		
-		/* 이미지 넘버변경 */
-		img_num();
+// 		/* 이미지 넘버변경 */
+// 		img_num();
 		 
-		return;
-	}
-	function del_img4() {
-		/* alert('4번이미지 지움'); */
-		
-		$('#imageFile4').val('');
-		$("#img_preview4").css("display","none");
-		$('#imgup_4').hide();
-		$("#del_img4").hide();
-		
-		/* 4번사진 비움 */
-		preview_array[4] = false;
-		
-		/* 삭제한 사진이면.. */
-        if('${ not empty vo.image_list[4].i_idx}' == 'true'){
-        	change_image[8] = '${vo.image_list[4].i_idx}';
-        	change_image[9] = "delPhoto";
-        }else{
-        }
-		
-		/* 이미지 넘버변경 */
-		img_num();
-	
-		return;
-	}
-	
-	function del_img5() {
-		/* alert('5번이미지 지움'); */
-		
-		$('#imageFile5').val('');
-		$("#img_preview5").css("display","none");
-		$('#imgup_5').hide();
-		$("#del_img5").hide(); 
-		
-		/* 5번사진 비움 */
-		preview_array[5] = false;
-		
-        if('${ not empty vo.image_list[5].i_idx}' == 'true'){
-        	change_image[10] = '${vo.image_list[5].i_idx}';
-        	change_image[11] = "delPhoto";
-        }
-		
-		/* 이미지 넘버변경 */
-		img_num();
-		
-		return;
-	}
+// 		return;
+// 	}
+
 </script>
 
 
@@ -430,9 +384,12 @@ body{
 	
 	/* 실제 전체 div */
 	#modify_box {
+		width: 1020px;
 		margin: auto;
 		padding-top : 160px;
 		/* 		background: gray; */
+		min-height: 1000px;
+		text-align: center;
 	}
 	
 	/* 인클루드 한 메인프레임 */
@@ -540,6 +497,7 @@ body{
 	}
 	
 	
+	
 	/* 제품설명 textarea css */
 	#p_exp {
 		padding: 15px;
@@ -550,23 +508,33 @@ body{
 	
 	/* 주소버튼 */
 	#addrfind, #myaddr{
+		
 		background: white;
 		cursor: pointer;
 		border: 1px solid black;
 		width: 90px;
 		height: 40px;
+		
 	}
 	
+	/* 상품 상태 */
+/* 	#p_condition { */
+/* 		width: 15px; */
+/* 		height: 15px; */
+/* 	} */
+	
 	/* 거래 방법*/
-	#p_deliveryType1, p_deliveryType2, p_deliveryType3{
+	#p_delivery_type {
 		width: 15px;
 		height: 15px;
 	}
-	/* 결제 방법*/
-	#p_paymentType, p_paymentType2 {
+	
+	/* 결제방법 */
+	#p_paymentType {
 		width: 15px;
 		height: 15px;
 	}
+	
 	
 	input {
 		accent-color: red;
@@ -595,14 +563,17 @@ body{
 		margin-bottom: 50px;
 	}
 	#img_intro{
+		
 		font-size:16px;
 		color : skyblue;
+		/* background-color: #ccffcc; */
 		margin: auto; 
 		width: 65%; 
 		min-height: 50px;
 	}
 
 </style>
+<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/product_modify.js"></script>
 
 <title>Insert title here</title>
 </head>
@@ -618,6 +589,8 @@ body{
 
 	<div id="root">
 		<input type="hidden" id="member_id" value="${sessionScope.member_id }">
+		<input type="hidden" id="secondhand_idx" value="${secondhandProduct.secondhand_idx }">
+		<input type="hidden" id="pageNum" value="${param.pageNum }">
 		
 		<div id="modify_box">
 			<span id="title">상품수정</span>
@@ -637,14 +610,13 @@ body{
 				<tr>
 					<td class="td1" align="left" ><span
 						class="pro_info">상품이미지</span> 
-						<span class="pro_info" id="img_number">(${ fn:length(secondhand.) }/3)</span>
+						<!-- 이미지 데이터 존재하는 개수 반환 -->
+						<span class="pro_info" id="img_number">(${ fn:length(image_list) }/3)</span>
 						<span style="color: red">*</span>
 						<input type="image" id="imgup" onclick="img_preview();"
 								src="${ pageContext.request.contextPath }/resources/image/image_upload.png" width="150px" height="150px">
 						</td>
 					<td class="td2" align="left">
-					
-					
 					
 					
 					
@@ -711,9 +683,7 @@ body{
 					</td>
 				</tr>
 
-				<tr>
-					<td colspan="2"><hr></td>
-				</tr>
+				<tr><td colspan="2"><hr></td></tr>
 				
 				<!-- 제목  -->
 				<tr>
@@ -836,16 +806,20 @@ body{
 				<tr>
 					<td class="td1" align="left" style="vertical-align: top;">
 						<span class="pro_info">
-							가격 <span style="color: red">*</span>
+							가격
+							<span style="color: red">*</span>
 						</span>
 					</td>
+					
 					<td class="td2" align="left">
 						<input type="text" id="p_price"
 							maxlength="11" name="p_price" class="input-tag" placeholder="가격"
-							value="<fmt:formatNumber pattern="#,###" 
-							value="${ secondhandProduct.secondhand_price }"/>" oninput="numberMaxLength(this);" style="width: 30%;">
-						&nbsp; 
-						<span class="pro_info"> 원 </span> <br> 
+							oninput="numberMaxLength(this);" style="width: 30%;"
+<%-- 						value="<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>" --%>
+							<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>
+							> &nbsp; 
+						<span class="pro_info"> 원
+						</span> <br> 
 						<span class="pro_info" id="price_under"></span>
 					</td>
 				</tr>
@@ -879,7 +853,7 @@ body{
 				<!-- 등록 취소버튼 -->
 				<tr>
 					<td colspan="2">
-						<input class="btn btn-success" type="button" value="수정하기" onclick="proInfoSend();"> 
+						<input class="btn btn-success" type="button" value="수정하기" onclick="proInfoModify();"> 
 						<input class="btn btn" type="button" value="취소하기" onclick="procancel()"></td>
 				</tr>
 				

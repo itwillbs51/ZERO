@@ -569,7 +569,7 @@
 			formData.append('file3',$('#imageFile2')[0].files[0]);
 		}
 		
-		formData.append('member_id', member_idx);				// 유저idx
+		formData.append('member_id', member_id);				// 유저idx
 		formData.append('secondhand_subject',p_name);			// 상품명
 		formData.append('category_idx',c_idx);				// 카테고리번호
 // 		formData.append('p_location',p_location);	// 지역

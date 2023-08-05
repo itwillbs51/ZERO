@@ -210,6 +210,12 @@ public class SecondhandController {
 		public String secondhandRegistPro(SecondhandVO secondhand, HttpSession session, Model model, HttpServletRequest request) {
 			
 			
+			
+			//상품설명 줄바꿈 하기
+			//p_exp = p_exp.replaceAll("\r\n", "<br>");
+			secondhand.setSecondhand_content(secondhand.getSecondhand_content().replaceAll("\r\n", "<br>"));
+			
+			
 			//판매자아이디저장
 			//secondhand.setMember_idx((String)session.getAttribute("member_idx"));
 			String member_id = (String)session.getAttribute("member_id");
@@ -224,6 +230,9 @@ public class SecondhandController {
 			
 			//임시
 			//secondhand.setMember_id("test3@test.com");
+			
+			
+			
 			
 			
 			//이미지파일업로드==========================================================================
@@ -391,13 +400,15 @@ public class SecondhandController {
 			
 			SecondhandVO secondhandProduct = service.getSecondhandProduct(secondhand_idx);
 			System.out.println("%&%&%&%&%&%& 수정 - 상품정보 : " + secondhandProduct);
+			// 상품설명 줄바꿈처리
+			secondhandProduct.setSecondhand_content(secondhandProduct.getSecondhand_content().replaceAll("<br>", "\r\n"));
+			
+			
 			model.addAttribute("secondhandProduct",secondhandProduct);
 			
-			String image1 = secondhandProduct.getSecondhand_image1();
-			String image2 = secondhandProduct.getSecondhand_image2();
-			String image3 = secondhandProduct.getSecondhand_image3();
-			
-			
+//			String image1 = secondhandProduct.getSecondhand_image1();
+//			String image2 = secondhandProduct.getSecondhand_image2();
+//			String image3 = secondhandProduct.getSecondhand_image3();
 			
 			//받아온 정보 중 image1, image2, image3 List로
 //			List<SecondhandVO> image_list = new ArrayList<SecondhandVO>();

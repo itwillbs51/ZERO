@@ -21,7 +21,6 @@ public class SecondhandService {
 	// 중고상품 등록 폼 - 중고 카테고리 목록
 	public List<HashMap<String, String>> getCategorylist() {
 		return mapper.selectCategoryList();
-
 	}
 	 
 	// 중고 상품 등록작업 요청

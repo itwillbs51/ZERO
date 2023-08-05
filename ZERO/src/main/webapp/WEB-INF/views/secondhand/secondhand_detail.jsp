@@ -239,17 +239,17 @@ a {
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-						onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&pageNum=${param.pageNum}'"> 
+						onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }&pageNum=${param.pageNum}'"> 
 						수정하기 
 					</button>
 	
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-						onclick="location.href='secondhandDelete?secondhand_idx=${secondhandProduct.secondhand_idx}&pageNum=${param.pageNum}'">
+						onclick="location.href='secondhandDelete?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }&pageNum=${param.pageNum}'">
 						 삭제하기 
 					 </button>
 	
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&pageNum=${param.pageNum}'"> 
+						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }&pageNum=${param.pageNum}'"> 
 						끌어올리기 
 					</button>
 
