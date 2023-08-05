@@ -10,6 +10,7 @@
 			, brand_name
 			, auction_title
 			, auction_manage_check_date
+<!-- 			, CONCAT( DATE(auction_manage_check_date), " ", TIME(auction_manage_check_date) ) AS check_date -->
 			, auction_start_date
 			, auction_start_price
 			, auction_max_price
