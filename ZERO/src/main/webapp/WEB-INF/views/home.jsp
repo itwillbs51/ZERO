@@ -31,10 +31,12 @@
 				</ol>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="d-block w-100" alt="...">
+<%-- 						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="d-block w-100" alt="..."> --%>
+						<img src="${pageContext.request.contextPath }/resources/img/2023-08-05 232415.png" class="d-block w-100" alt="...">
 					</div>
 					<div class="carousel-item">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" class="d-block w-100" alt="...">
+<%-- 						<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" class="d-block w-100" alt="..."> --%>
+						<img src="${pageContext.request.contextPath }/resources/img/2023-08-05 232316.png" class="d-block w-100" alt="...">
 					</div>
 					<div class="carousel-item">
 						<img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" class="d-block w-100" alt="...">
