@@ -202,8 +202,8 @@
 						success: function(data) {
 							console.log("DB 저장 성공");
 							let call = '출발지와 도착지 입력완료!<br>Z맨 호출중입니다!';
-							// 부모창인 채팅창에 메시지 함수 호출
-							window.opener.callZ(call);
+							// 부모창인 채팅창에 메시지 함수 호출 subNotice(type, typeMsg)
+							window.opener.subNotice('call', call);
 							window.close();
 						},
 						error: function(request,status,error) {

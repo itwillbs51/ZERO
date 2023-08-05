@@ -72,7 +72,7 @@ public class AuctionController {
 		// AUCTION_MANAGING 에서 검수상태가 '검수완료'이고 검수일자컬럼의 다음날부터 그 다음 3일날까지인 상품 보여주기
 		// 파라미터 없음(페이징?)		리턴타입 List<AuctionProductVO>(preAuctionList)
 		List<HashMap<String, String>> preAuctionList =  service.selectPreAuctionList(pageNum, category, sort, startRow, listLimit);
-//		logger.info(preAuctionList.toString());
+		logger.info(preAuctionList.toString());
 		// -------------------------------------------------------------------------
 		// 페이징 처리를 위한 계산 작업
 		// 한 페이지에서 표시할 페이지 목록(번호) 계산

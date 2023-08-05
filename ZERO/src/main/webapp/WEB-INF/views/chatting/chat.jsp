@@ -76,12 +76,24 @@
 							</c:if>
 							<%-- 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화 --%>
 							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' }">
-								<button onclick="reservationNext(this.text)"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
-								<button onclick="reservationNext(this.text)"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
-								<button onclick="reservationNext(this.text)"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
+								<button onclick="reservationNext('time')"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
+								<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
+								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
 							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
-
+							<form id="openZform" method="post" action="ZpayForm" target="_blank">
+							<c:if test="${not empty orderSecondhandInfo }">
+							    <input type="hidden" name="order_secondhand_idx" value="${orderSecondhandInfo.order_secondhand_idx }">
+							    <input type="hidden" name="secondhand_subject" value="${secondhandInfo.secondhand_subject }">
+							    <input type="hidden" name="order_secondhand_price" id="order_secondhand_price" value=${orderSecondhandInfo.order_secondhand_price }>
+							    <input type="hidden" name="seller_id" value="${chatRoom.seller_id}">
+							    <input type="hidden" name="buyer_id" value="${chatRoom.buyer_id}">
+							    <input type="hidden" name="seller_nickname" value="${chatRoom.seller_nickname}">
+							    <input type="hidden" name="buyer_nickname" value="${chatRoom.buyer_nickname}">
+							    <input type="hidden" name="secondhand_idx" value="${secondhandInfo.secondhand_idx }">
+							</c:if>
+							</form>
+							
 						</div>
 					</div>
 					<hr>
@@ -196,7 +208,7 @@
 		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
 		      <div class="modal-price">
 		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" value="${secondhandInfo.secondhand_price }" min="0" max="${secondhandInfo.secondhand_price }">원<br>
+			    <input type="number" id="finalPrice" placeholder="${secondhandInfo.secondhand_price }" min="0" max="${secondhandInfo.secondhand_price }">원<br>
 		      </div>
 		      <div class="dealBtns">
 	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
@@ -452,6 +464,8 @@
 	function dealNext(num) {
 		// 전역변수
 		finalPrice = $("#finalPrice").val();
+		$("#order_secondhand_price").attr("value", finalPrice);
+		
 		console.log("최종 금액 : " + finalPrice);
 		let chatMessageBtn;
 		
@@ -537,11 +551,21 @@
 		window.open(requestUrl, "newWindow", "width=450, height=600, left=500, top=100");
 	}
 	
-	// 새 창에서 Z맨 호출하기를 누르면 실행되는 함수(채팅)
-	function callZ(call) {
-		chatMessage = "&-안내" + call;
-		sendMessage('notice@test.com');
-		$(".callZBtn").attr("disabled", true);
+	// 새 창에서 받아와서 안내채팅치기
+	// Z맨 호출하기를 누르면 실행되는 함수(채팅)
+	function subNotice(type, typeMsg) {
+		switch(type) {
+			case 'call':
+				chatMessage = "&-안내" + typeMsg;
+				sendMessage('notice@test.com');
+				$(".callZBtn").attr("disabled", true);
+				break;
+			case 'zpay':
+				chatMessage = "&-안내" + typeMsg;
+				sendMessage('notice@test.com');
+				$("#sendZpayBtn").hide();
+				break;
+		}
 	}
 	
 	
@@ -549,23 +573,26 @@
 		// 전역변수
 		let reservUrl;
 		switch(type) {
-			case '약속잡기' :
+			case 'time' :
 // 				reservUrl = ;
 				break;
-			case '송금하기' :
+			case 'zpay' :
 				console.log("송금할 최종 가격 : " + payPrice);
-				reservUrl= "ZpayForm?"
-		// 				+ "order_secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
-						+ "secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
-						+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
-						+ "&order_secondhand_price=" + payPrice
-						+ "&seller_id=" + "${chatRoom.seller_id}"
-						+ "&buyer_id=" + "${chatRoom.buyer_id}"
-						;
-						
-				window.open(reservUrl, "newWindow", "width=450, height=600, left=500, top=100");
+// 				reservUrl= "ZpayForm?"
+// 						+ "order_secondhand_idx=" + "${orderSecondhandInfo.order_secondhand_idx }"
+// 						+ "&secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
+// 						+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
+// 						+ "&order_secondhand_price=" + payPrice
+// 						+ "&seller_id=" + "${chatRoom.seller_id}"
+// 						+ "&buyer_id=" + "${chatRoom.buyer_id}"
+// 						;
+// 				window.open(reservUrl, "newWindow", "width=450, height=600, left=500, top=100");
+				// form을 자동으로 제출
+		        var form = document.getElementById("openZform");
+		        form.submit();
+				
 				break;
-			case '후기쓰기' :
+			case 'review' :
 // 				reservUrl = ;
 				break;
 		}

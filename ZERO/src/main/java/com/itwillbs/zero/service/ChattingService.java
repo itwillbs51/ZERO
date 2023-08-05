@@ -90,6 +90,11 @@ public class ChattingService {
 		}
 		return false;
 	}
+	
+	// 중고거래 정보 조회 - Z페이
+	public OrderSecondhandVO getOrderSecondhandInfo(int secondhand_idx) {
+		return mapper.selectOrderSecondhandInfo(secondhand_idx);
+	}
 
 	
 	

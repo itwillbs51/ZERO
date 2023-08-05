@@ -87,6 +87,11 @@ public class ChattingController {
 		}
 		
 		// ORDER_SECONDHAND 테이블에 order_secondhand_idx 등의 정보 들고와야할듯
+		OrderSecondhandVO orderSecondhandInfo = service.getOrderSecondhandInfo(secondhand_idx);
+		if(orderSecondhandInfo != null) {
+			model.addAttribute("orderSecondhandInfo", orderSecondhandInfo);
+			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
+		}
 		
 		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
 		model.addAttribute("chatList", chatList);
@@ -250,11 +255,17 @@ public class ChattingController {
 	}
 	
 	// ----------- 거래하기 관련(송금, 약속, 후기) ---------------
-	// Z페이 송금하기
+	// Z페이 송금하기 폼으로 이동
 	@RequestMapping(value = "ZpayForm", method = {RequestMethod.GET, RequestMethod.POST})
 	public String  ZpayForm(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		// 받은 값 그대로 전달
+		model.addAttribute("map", map);
+		logger.info("*** 이동하는 파라미터 : " + map);
 		
 		return "chatting/chat_deal_zpay";
 	}
+	
+	// z페이 송금하기
+	
 	
 }

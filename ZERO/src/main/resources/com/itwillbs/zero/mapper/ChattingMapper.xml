@@ -201,4 +201,15 @@
 				zman_delivery_idx = #{zman_delivery_idx}
 	</update>
 	
+	
+	<!-- 중고거래 정보 조회 - Z페이 - SELECT -->
+	<select id="selectOrderSecondhandInfo" resultType="OrSh">
+		SELECT *
+			FROM
+				ORDER_SECONDHAND
+			WHERE
+				secondhand_idx = #{secondhand_idx}
+	</select>
+	
+	
 </mapper>
