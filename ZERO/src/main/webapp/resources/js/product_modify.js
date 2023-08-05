@@ -74,7 +74,7 @@
 		var p_paymentType2 = $("input:checkbox[id=p_paymentType2]:checked").val();
 		
 		var p_location = $("#p_location").val().trim();
-		var p_location_detail = $("#p_location_detail").val().trim();
+//		var p_location_detail = $("#p_location_detail").val().trim();
 		
 		var p_price = $("#p_price").val().trim();
 		var p_exp = $("#p_exp").val().trim();
@@ -268,7 +268,7 @@
 			dataType : 'json',
 			success  : function(res){
 				
-				if(res.res==true){
+				if(res.res.trim() == 'true'){
 					alert('상품수정 성공!');
 // 					location.href='../mainpage/list.do';
 // 					location.href='../secondhand/secondhand_regist_form';

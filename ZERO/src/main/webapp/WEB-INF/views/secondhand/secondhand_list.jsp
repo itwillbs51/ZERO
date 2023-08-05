@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- -->
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%> 
 <!DOCTYPE html>
@@ -156,6 +157,9 @@
 	
 			$(this).addClass('current');
 			$("#"+tab_id).addClass('current');
+			
+			})
+			
 		})
 	
 	});
@@ -326,7 +330,8 @@ row{
 										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px">
 									</a>
 								</div>
-								<p>${secondhand.secondhand_price } 원</p>
+								<p><fmt:formatNumber pattern="#,###" value="${secondhand.secondhand_price }"/>원</p>
+								
 								<p>${secondhand.secondhand_first_date }</p>
 							</div><!-- cardbody끝 -->
 						</div><!-- card끝 -->

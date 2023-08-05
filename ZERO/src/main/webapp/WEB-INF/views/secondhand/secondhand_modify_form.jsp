@@ -614,7 +614,7 @@ body{
 						<span class="pro_info" id="img_number">(${ fn:length(image_list) }/3)</span>
 						<span style="color: red">*</span>
 						<input type="image" id="imgup" onclick="img_preview();"
-								src="${ pageContext.request.contextPath }/resources/image/image_upload.png" width="150px" height="150px">
+								src="${ pageContext.request.contextPath }/resources/img/image_upload.png" width="150px" height="150px">
 						</td>
 					<td class="td2" align="left">
 					
@@ -624,24 +624,23 @@ body{
 						<div id="img_zone">
 							<div id="img_preview0" >
 								<input type="image" id="imgup_sum" onclick="send_0();"
-									src="${ pageContext.request.contextPath }/resources/image/${secondhandProduct.secondhand_image1 }" width="150px" height="150px">
+									src="${ pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image1 }" width="150px" height="150px">
 								<span id="sum_style" >대표 이미지</span>
 								<!-- 삭제버튼 -->
 								<span id="del_sum" class="chk_style"  onclick="del_sum();">x</span>
 							</div>
 							
 							<!-- 1번이미지 데이터가 있으면 -->	
-							<c:if test="${ not empty secondhandProduct.secondhand_image1}">
+							<c:if test="${ not empty secondhandProduct.secondhand_image2}">
 								<div id="img_preview1" >
 									<input type="image" id="imgup_1" onclick="send_1();"
-										src="${ pageContext.request.contextPath }/resources/image/${secondhandProduct.secondhand_image2 }" width="150px" height="150px">
+										src="${ pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image2 }" width="150px" height="150px">
 									<!-- 삭제버튼 -->
 									<span id="del_img1" class="chk_style" onclick="del_img1();">x</span>
 								</div>
-							</c:if>	
-							
+							</c:if>
 							<!-- 1번이미지 데이터 없으면  -->
-							<c:if test="${ empty secondhandProduct.secondhand_image1}">
+							<c:if test="${ empty secondhandProduct.secondhand_image2}">
 								<div id="img_preview1" style="display: none;">
 									<input type="image" id="imgup_1"  style="display: none;" onclick="send_1();"
 										src="" width="150px" height="150px">
@@ -652,10 +651,10 @@ body{
 							
 							
 							<!-- 2번이미지 데이터가 있으면 -->	
-							<c:if test="${ not empty secondhandProduct.secondhand_image2}">
-								<div id="img_preview2">
+							<c:if test="${ not empty secondhandProduct.secondhand_image3}">
+								<div id="img_preview3">
 									<input type="image" id="imgup_2" onclick="send_2();"
-										src="${ pageContext.request.contextPath }/resources/image/${secondhandProduct.secondhand_image3 }" width="150px" height="150px">
+										src="${ pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image3 }" width="150px" height="150px">
 									<!-- 삭제버튼 -->
 									<span id="del_img2" class="chk_style" onclick="del_img2();">x</span>
 								</div>
@@ -663,7 +662,7 @@ body{
 							
 							
 							<!-- 2번이미지 데이터가 없으면 -->	
-							<c:if test="${empty secondhandProduct.secondhand_image2}">
+							<c:if test="${empty secondhandProduct.secondhand_image3}">
 								<div id="img_preview2" style="display: none;">
 									<input type="image" id="imgup_2" style="display: none;" onclick="send_2();"
 										src="" width="150px" height="150px">

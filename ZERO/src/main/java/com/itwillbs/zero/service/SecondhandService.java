@@ -70,6 +70,12 @@ public class SecondhandService {
 		return mapper.selectSellerProductList(member_id);
 	}
 
+	//상품수정작업 
+	public int modifySecondhand(SecondhandVO secondhand) {
+		return mapper.updateSecondhand(secondhand);
+	}
+
+
 
 
 //	// 수정페이지 - 상품번호에 해당하는 이미지정보 받아오기

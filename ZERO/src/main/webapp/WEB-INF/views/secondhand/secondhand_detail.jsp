@@ -223,6 +223,7 @@ a {
 				<hr>
 				<p>${secondhandProduct.secondhand_content }</p>
 				<br>
+				<hr>
 				
 				<%-- 
 					sessionId 일치하는경우 (판매자본인일경우) - 수정하기 / 삭제하기 버튼 활성화 
@@ -254,12 +255,12 @@ a {
 					</button>
 
 					<%--1-2.셀렉트박스로 거래상태변경가능 --%>
-					<select class="changeDealStatus" aria-label="Default select example">
-					  <option selected> 거래중 </option>
-					  <option value="1"> 거래완료 </option>
-					  <option value="2"> 끌어올리기 </option>
-					</select>
-					<hr>
+<!-- 					<select class="changeDealStatus" aria-label="Default select example"> -->
+<!-- 					  <option selected> 거래중 </option> -->
+<!-- 					  <option value="1"> 거래완료 </option> -->
+<!-- 					  <option value="2"> 끌어올리기 </option> -->
+<!-- 					</select> -->
+				
 				</c:when>					
 				
 				

@@ -11,7 +11,7 @@
 	// msg만 전달하면 전달하는 msg만 달라지고 작업 같음
 	if("${msg}".trim() == '로그인이 필요한 작업입니다!'){
 		alert("${msg}");
-		location.href="../member_login";	
+		location.href="${pageContext.request.contextPath }/member_login";	
 	} else {
 		alert("${msg}");
 		history.back();	

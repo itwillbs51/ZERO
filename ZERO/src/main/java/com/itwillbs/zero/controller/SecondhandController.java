@@ -361,8 +361,8 @@ public class SecondhandController {
 				}
 				// -----------------------------------------------------------------
 				
-				// 글쓰기 작업 성공 시 글목록(BoardList)으로 리다이렉트
-				return "redirect:/BoardList";
+				// 글쓰기 작업 성공 시 글목록(secondhand_list)으로 리다이렉트
+				return "redirect:/secondhand_list";
 				
 			} else { // 실패
 				model.addAttribute("msg", "글 쓰기 실패!");
@@ -380,10 +380,18 @@ public class SecondhandController {
 		public String secondhandModifyForm(
 					SecondhandVO secondhand, 
 					HttpSession session, 
+					@RequestParam(defaultValue = "1") int pageNum,
+					
 					Model model,
 					@RequestParam int secondhand_idx) {
 			
 			String member_id = (String) session.getAttribute("member_id");
+			// 세션 아이디가 존재하지 않으면(미로그인) "잘못된 접근입니다!" 출력 후 이전 페이지 돌아가기 처리
+		
+			if(member_id == null) {
+				model.addAttribute("msg", "잘못된 접근입니다!");
+				return "fail_back";
+			}
 			System.out.println("%&%&%&%&%&%& 수정 - 판매자아이디 : " + member_id);
 			System.out.println("%&%&%&%&%&%& 수정 - 상품번호 : " + secondhand_idx);
 			
@@ -393,18 +401,16 @@ public class SecondhandController {
 			model.addAttribute("categorylist", categorylist);
 			
 			
-			
 			//파라미터로 넘어온 상품번호의 상품정보 가져오기
-			//리턴타입: SecondhandVO 파라미터:상품번호
 			//디테일조회작업시 사용한 getSecondhandProduct() 재사용
-			
 			SecondhandVO secondhandProduct = service.getSecondhandProduct(secondhand_idx);
 			System.out.println("%&%&%&%&%&%& 수정 - 상품정보 : " + secondhandProduct);
+			
+			
 			// 상품설명 줄바꿈처리
 			secondhandProduct.setSecondhand_content(secondhandProduct.getSecondhand_content().replaceAll("<br>", "\r\n"));
-			
-			
 			model.addAttribute("secondhandProduct",secondhandProduct);
+			
 			
 //			String image1 = secondhandProduct.getSecondhand_image1();
 //			String image2 = secondhandProduct.getSecondhand_image2();
@@ -420,7 +426,8 @@ public class SecondhandController {
 //			//상품번호에 해당하는 이미지정보만 받아오기
 //			List<SecondhandVO> image_list = service.getImageList(secondhand_idx);
 //			System.out.println("%&%&%&%&%&%& 수정 - 이미지정보 :" + image_list);
-			
+		
+
 			
 			return "secondhand/secondhand_modify_form";
 		}
@@ -429,10 +436,132 @@ public class SecondhandController {
 		
 		
 		//상품수정 처리(UPDATE)
-//		@RequestMapping(value = "secondhandModifyPro", method = RequestMethod.POST)
-//		@ResponseBody
-//		public Map<String, String> product_modify(){
-//		}
+		@RequestMapping(value = "secondhandModifyPro", method = RequestMethod.POST)
+		@ResponseBody
+		public String secondhandModifyPro(
+					SecondhandVO secondhand,
+					HttpSession session, 
+					Model model,
+					@RequestParam(defaultValue = "1") int pageNum){
+		
+		
+	
+		// 파일(이미지)저장작업 
+		String uploadDir = "/resources/upload"; 
+		String saveDir = session.getServletContext().getRealPath(uploadDir);
+		String subDir = ""; // 서브디렉토리(날짜 구분)
+		
+		try {
+			Date date = new Date(); // Mon Jun 19 11:26:52 KST 2023
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			subDir = sdf.format(date);
+			saveDir += "/" + subDir;
+			// --------------------------------------------------------------
+			Path path = Paths.get(saveDir);
+			Files.createDirectories(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// VO 객체에 전달된 MultipartFile 객체 꺼내기
+		MultipartFile mFile1 = secondhand.getFile1();
+		MultipartFile mFile2 = secondhand.getFile2();
+		MultipartFile mFile3 = secondhand.getFile3();
+		System.out.println("원본파일명1 : " + mFile1.getOriginalFilename());
+		System.out.println("원본파일명2 : " + mFile2.getOriginalFilename());
+		System.out.println("원본파일명3 : " + mFile3.getOriginalFilename());
+		
+		// 파일명 중복 방지
+		// 현재 시스템(서버)에서 랜덤ID 값을 추출하여 파일명 앞에 붙여서
+		// "랜덤ID값_파일명.확장자" 형식으로 중복 파일명 처리
+		// => 랜덤ID 생성은 java.util.UUID 클래스 활용(UUID = 범용 고유 식별자)
+		String uuid = UUID.randomUUID().toString();
+		System.out.println("uuid : " + uuid);
+		
+		// 생성된 UUID 값을 원본 파일명 앞에 결합(파일명과 구분을 위해 _ 기호 추가)
+		// => 나중에 사용자 다운로드 시 원본 파일명 표시를 위해 분리할 때 구분자로 사용
+		//    (가장 먼저 만나는 _ 기호를 기준으로 문자열 분리하여 처리)
+		// => 단, 파일명 길이 조절을 위해 임의로 UUID 중 맨 앞자리 8자리 문자열만 활용
+//		System.out.println(uuid.substring(0, 8));
+		// 생성된 UUID 값(8자리 추출)과 업로드 파일명을 결합하여 BoardVO 객체에 저장(구분자로 _ 기호 추가)
+		// => 단, 파일명이 존재하는 경우에만 파일명 생성(없을 경우를 대비하여 기본 파일명 널스트링으로 처리)
+		secondhand.setSecondhand_image1("");
+		secondhand.setSecondhand_image2("");
+		secondhand.setSecondhand_image3("");
+
+
+		// 파일명을 저장할 변수 선언
+		String fileName1 = null;
+		String fileName2 = null;
+		String fileName3 = null;
+		
+		// 업로드 된 파일 존재시 fileNameN 변수에 
+		if(mFile1 != null) {
+			fileName1 = uuid.substring(0, 8) + "_" + mFile1.getOriginalFilename();
+			secondhand.setSecondhand_image1(subDir + "/" + fileName1);
+		}
+		if(mFile2 != null) {
+			fileName2 = uuid.substring(0, 8) + "_" + mFile2.getOriginalFilename();
+			secondhand.setSecondhand_image2(subDir + "/" + fileName2);
+		}
+		if(mFile3 != null) {
+			fileName3 = uuid.substring(0, 8) + "_" + mFile1.getOriginalFilename();
+			secondhand.setSecondhand_image1(subDir + "/" + fileName3);
+		}
+		System.out.println("실제 업로드 파일명1 : " + secondhand.getSecondhand_image1());
+		System.out.println("실제 업로드 파일명2 : " + secondhand.getSecondhand_image2());
+		System.out.println("실제 업로드 파일명3 : " + secondhand.getSecondhand_image3());
+
+		
+		//=====================================================================================
+		// 글 수정 작업 요청
+		// SecondhandService.modifySecondhand() -리턴타입:int(uptdateCount), 파라미터:SecondhandVO객체
+		int updateCount = service.modifySecondhand(secondhand);
+		
+		//JsonConverter 사용하기 위한 Map생성
+		Map<String,String> map = new HashMap<>();
+		//기본 리턴값 false
+		String bResult = "false";		
+		
+		
+		//상품 수정 작업
+		//성공시 업로드 파일을 실제 디렉토리로 이동 => BoardList 서블릿으로 리다이렉트
+		//실패시 "글쓰기 실패" 메시지 출력 후 이전페이지 돌아가기 처리
+		if(updateCount > 0) {
+			
+			try {
+				if(!mFile1.getOriginalFilename().equals("")) {
+					mFile1.transferTo(new File(saveDir, fileName1));
+				}
+				
+				if(!mFile2.getOriginalFilename().equals("")) {
+					mFile2.transferTo(new File(saveDir, fileName2));
+				}
+				
+				if(!mFile3.getOriginalFilename().equals("")) {
+					mFile3.transferTo(new File(saveDir, fileName3));
+				}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
+			//리턴값 true 로 변경
+			bResult = "true";
+			
+			//맵에 result값 넣기
+			map.put("res", bResult);
+			//String 받을경우 웬만하면 trim()처리->공백조심
+			model.addAttribute("map", map);
+			
+			//수정성공시 글목록페이지로 리다이렉트(상품번호,페이지번호)
+			return "redirect:/secondhand_list?secondhand_idx=" + secondhand.getSecondhand_idx() + "&pageNum=" + pageNum;
+		} else { // 실패
+			model.addAttribute("msg", "글 수정 실패!");
+			return "fail_back";
+		}
+		
+		}
 		
 		
 		
