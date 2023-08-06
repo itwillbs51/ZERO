@@ -96,6 +96,11 @@ public class ZpayService {
 	public int insertSendReceiveHistory(ZpayHistoryVO zpayHistory) {
 		return mapper.insertSendReceiveHistory(zpayHistory);
 	}
+
+	// ORDER_SECONDHAND 테이블의 order_secondhand_status 변경
+	public int modifyOrderSecondhandStatus(int order_secondhand_idx) {
+		return mapper.updateOrderSecondhandStatus(order_secondhand_idx);
+	}
 	
 
 	

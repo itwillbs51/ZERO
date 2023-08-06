@@ -258,6 +258,12 @@
 				</if>
 			)		
 	</insert>
+	
+	<update id="updateOrderSecondhandStatus">
+		UPDATE ORDER_SECONDHAND
+		SET order_secondhand_status = '결제완료'
+		WHERE order_secondhand_idx = #{order_secondhand_idx}
+	</update>
 
 	
 </mapper>

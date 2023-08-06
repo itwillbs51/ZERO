@@ -201,11 +201,14 @@ public class ZpayController {
 								Map<String, String> map,
 								Model model) {
 		System.out.println("ZpayController - zpayChargePro()");
+		System.out.println(zpayAmount);
 		
 		// 출금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
 		ZpayVO zpay = service.getZpay(member_id);
 		map.put("access_token", zpay.getAccess_token());
 		map.put("fintech_use_num", zpay.getFintech_use_num());
+		// 금결원 테스트데이터 등록 후
+		map.put("zpayAmount", zpayAmount);
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
@@ -266,6 +269,8 @@ public class ZpayController {
 		ZpayVO zpay = service.getZpay(member_id);
 		map.put("access_token", zpay.getAccess_token());
 		map.put("fintech_use_num", zpay.getFintech_use_num());
+		// 금결원 테스트데이터 등록 후
+		map.put("zpayAmount", zpayAmount);
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
@@ -397,13 +402,22 @@ public class ZpayController {
 		// ==================================================================================
 		
 		if(insertSendCount > 0 && insertReceiveCount >0) {
-			buyer_zpay_balance = service.getZpayBalance(buyer_id);
+			// 중고상품 결제 완료 시 
+			int updateOrderSecondhandStatusCount = service.modifyOrderSecondhandStatus(order_secondhand_idx);
 			
-			model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
-			model.addAttribute("seller_id", seller_id);
-			model.addAttribute("buyer_zpay", buyer_zpay);
-			model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
-			return "zpay/zpay_send_success";			
+			if(updateOrderSecondhandStatusCount > 0) {
+				buyer_zpay_balance = service.getZpayBalance(buyer_id);
+				
+				model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
+				model.addAttribute("seller_id", seller_id);
+				model.addAttribute("buyer_zpay", buyer_zpay);
+				model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
+				
+				return "zpay/zpay_send_success";							
+			} else {
+				model.addAttribute("msg", "중고상품 구매완료 상태변경 실패");
+				return "fail_back";
+			}
 		} else {
 			model.addAttribute("msg", "ZPAY 송금 실패");
 			return "fail_back";

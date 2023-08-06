@@ -64,6 +64,9 @@ public interface ZpayMapper {
 
 	// ZPYA_HISTORY 테이블에 송금/수취 내역 추가
 	int insertSendReceiveHistory(ZpayHistoryVO zpayHistory);
+
+	// ORDER_SECONDHAND 테이블의 order_secondhand_status 변경
+	int updateOrderSecondhandStatus(int order_secondhand_idx);
 	
 
 

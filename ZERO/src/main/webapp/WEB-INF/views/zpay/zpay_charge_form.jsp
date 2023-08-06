@@ -93,7 +93,7 @@
 
 	$(function() {
 		$("form").submit(function() {
-			let zpayAmount = $("#amountInput").val().replace(",", "");
+			let zpayAmount = $("#amountInput").val().replaceAll(",", "");
 			$("input[name=zpayAmount]").val(zpayAmount);
 		});
 		
@@ -115,9 +115,7 @@
 			<div class="contentArea">
 			<%-- 메인영역 --%>
 				<form action="zpay_charge_pro" method="post">
-<%-- 					<input type="hidden" name="zpay_idx" value="${zpay.zpay_idx }"> --%>
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
-<%-- 					<input type="hidden" name="zpay_balance" value="${zpay_balance }"> --%>
 					<input type="hidden" name="zpayAmount" value="">
 					<input type="hidden" name="zpay_deal_type" value="충전">
 					<div class="chargeContentArea">

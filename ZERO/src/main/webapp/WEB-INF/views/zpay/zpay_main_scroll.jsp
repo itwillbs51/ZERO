@@ -165,9 +165,13 @@
 			success : function(data) {
 				maxPage = data.maxPage;	// 무한스크롤 다음 페이지 로딩 과정에서 페이지번호와 비교 시 활용
 				console.log(maxPage);
+						
+				if(data.zpayHistoryList == ""){
+					$(".zpayHistoryListArea").html("<div class='noHistory'>ZPAY 사용 내역이 존재하지 않습니다.</div>")
+				}
 				
-				let res = "";
-
+				let res = ""; 
+				
 				for(let zpayHistory of data.zpayHistoryList) {
 					res += "<li>" + 
 								"<div class='zpayHistoryItem'>" + 
