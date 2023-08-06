@@ -148,8 +148,8 @@ function uncomma(str) {
                 		<div id="auction_log">
                 		<div id="logArea" class="col">
                 		<c:forEach var="log" items="${logList}" varStatus="i">
-                		<c:if test="${log.member_id eq sessionScope.member_id}"><div class='alert alert-warning'></c:if>
-                		<c:if test="${log.member_id ne sessionScope.member_id}"><div class='alert alert-secondary'></c:if>
+                		<c:if test="${log.member_id eq sessionScope.member_id}"><div class='alert alert-warning' style=' text-align: center;'></c:if>
+                		<c:if test="${log.member_id ne sessionScope.member_id}"><div class='alert alert-secondary' style=' text-align: center;'></c:if>
                 		<b>${log.member_id }님이 <span id="logBid${i.index}">${log.auction_log_bid }</span>원 입찰!</b>
                 		</div>
                 		</c:forEach>
@@ -239,8 +239,8 @@ function uncomma(str) {
                 </div>
             </div>
 		</div>
-		<div class="col-12 col-md-4"><div class="row d-flex justify-content-center">현재 접속중 회원</div></div>
-		<div class="col-12 col-md-6" id="users"></div>
+		<div class="col-12 col-md-4"><div class="row d-flex justify-content-center">현재 접속중 회원&nbsp;<span id=currentUsersSum></span>명</div></div>
+		<div class="col-12 col-md-4" id="users"></div>
 	</section>
 	
 	<!-- footer -->
@@ -335,7 +335,7 @@ function onMessage(msg) {
 	if(sessionId == cur_session){
 		
 		var str = "<div>";
-		str += "<div class='alert alert-warning'>";
+		str += "<div class='alert alert-warning' style=' text-align: center;'>";
 		str += "<b>" + sessionId + "님이 " + message + "원 입찰!</b>";
 		str += "</div></div>";
 		
@@ -344,16 +344,18 @@ function onMessage(msg) {
 	else{
 		
 		var str = "<div>";
-		str += "<div class='alert alert-secondary'>";
+		str += "<div class='alert alert-secondary' style=' text-align: center;'>";
 		str += "<b>" + sessionId + "님이 " + message + "원 입찰!</b>";
 		str += "</div></div>";
 		
 		$("#msgArea").append(str);
 	}
 	$("#presentPrice").html(message);
+	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
 	
     }else{
     	$("#users").html(currentUsers.replace(/[\[\]']+/g, ''));
+    	$("#currentUsersSum").html("<b>"+currentUsers.split(",").length+"</b>");
     	
     }
 }
@@ -370,13 +372,13 @@ function onOpen(evt) {
 	
 	var user = '${sessionScope.member_id}';
 	
-	var str = "<div>";
+	var str = "<div  style=' text-align: center;'>";
 	
-	str += "<b>" + user + "님 입장 </b>";
+	str += "<b>" + user + "님 많이 따세요~ </b>";
 	str += "</div>";
 	
 	$("#msgArea").append(str);
-	
+	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
 	
 }
 

@@ -126,13 +126,13 @@ function comma(str) {
 					</ol>
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image1}"  class="d-block w-100"alt="상품사진">
+							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image1}" alt="상품사진">
 						</div> 
 						<div class="carousel-item">
-							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image2}" class="d-block w-100" alt="상품사진">
+							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image2}" alt="상품사진">
 						</div>
 						<div class="carousel-item">
-							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image3}" class="d-block w-100" alt="상품사진">
+							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image3}" alt="상품사진">
 						</div>
 					</div>
 					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
