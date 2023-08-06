@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.zero.vo.BankAccountDetailVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.ResponseUserInfoVO;
 import com.itwillbs.zero.vo.ResponseWithdrawVO;
@@ -49,10 +50,10 @@ public class ZpayController {
 	// ZPAY 잔액 조회	
 	@GetMapping("zpay_main")
 	public String zpayMain(
-			@RequestParam(defaultValue = "") String searchType, 
-			@RequestParam(defaultValue = "") String startDate, 
-			@RequestParam(defaultValue = "") String endDate, 
-			@RequestParam(defaultValue = "1") int pageNum, 
+//			@RequestParam(defaultValue = "") String searchType, 
+//			@RequestParam(defaultValue = "") String startDate, 
+//			@RequestParam(defaultValue = "") String endDate, 
+//			@RequestParam(defaultValue = "1") int pageNum, 
 			Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayMain()");
 		
@@ -74,29 +75,29 @@ public class ZpayController {
 		}
 		
 		// ------------------------------------------------------------------------------------------
-		int listLimit = 10; //한페이지 표시 목록갯수
-		int startRow = (pageNum - 1) * listLimit; //조회시작 행번호
+//		int listLimit = 5; //한페이지 표시 목록갯수
+//		int startRow = (pageNum - 1) * listLimit; //조회시작 행번호
+//		
+//		//페이징 계산작업
+//		//1.전체게시물 수 조회 작업 요청
+//		int listCount = service.getZpayHistoryListCount(member_id, searchType, startDate, endDate);
+//		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
+//		
+//		// -----------------------------------------------------------------------------------------
+//		
+//		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
+//		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistory(member_id);
+//		System.out.println(zpayHistoryList);
+//		System.out.println(member_id);
+//		
+//		Integer zpay_balance = service.getZpayBalance(member_id);
+//		System.out.println(zpay_balance);
+//		
+//		model.addAttribute("zpayHistoryList", zpayHistoryList);
+//		model.addAttribute("zpay_balance", zpay_balance);
+//		model.addAttribute("listCount", listCount);
 		
-		//페이징 계산작업
-		//1.전체게시물 수 조회 작업 요청
-		int listCount = service.getZpayHistoryListCount(member_id, searchType, startDate, endDate);
-		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
-		
-		// -----------------------------------------------------------------------------------------
-		
-		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
-		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistory(member_id);
-		System.out.println(zpayHistoryList);
-		System.out.println(member_id);
-		
-		Integer zpay_balance = service.getZpayBalance(member_id);
-		System.out.println(zpay_balance);
-		
-		model.addAttribute("zpayHistoryList", zpayHistoryList);
-		model.addAttribute("zpay_balance", zpay_balance);
-		model.addAttribute("listCount", listCount);
-		
-		return "zpay/zpay_main";
+		return "zpay/zpay_main_scroll";
 	}
 	
 	@ResponseBody
@@ -107,28 +108,13 @@ public class ZpayController {
 			@RequestParam(defaultValue = "") String endDate, 
 			@RequestParam(defaultValue = "1") int pageNum, 
 			Model model, HttpSession session) {
-		System.out.println("ZpayController - zpayMain()");
+		System.out.println("ZpayController - zpayMainAjax()");
 		
 		String member_id = (String)session.getAttribute("member_id");
 		MemberVO member = memberService.getMember(member_id);
 		
-		// 토큰 정보 조회 => 세션에 저장
-		ResponseTokenVO token = bankService.getTokenForBankAuth(member_id);	
-		if(token != null) {
-			session.setAttribute("access_token", token.getAccess_token());
-			session.setAttribute("user_seq_no", token.getUser_seq_no());
-		}		
-
-		// ZPAY 사용자 여부 조회 = > 미사용자인 경우 ZPAY 등록 폼으로 이동
-		ZpayVO zpay = service.isZpayUser(member_id);
-		if(zpay == null) {
-			model.addAttribute("member", member);	
-			return "zpay/zpay_regist_form";
-		}
-		
-		
-		// ------------------------------------------------------------------------------------------
-		int listLimit = 10; //한페이지 표시 목록갯수
+		// ------------------------------------------------------------------------------------------------------
+		int listLimit = 5; //한페이지 표시 목록갯수
 		int startRow = (pageNum - 1) * listLimit; //조회시작 행번호
 		
 		//페이징 계산작업
@@ -136,7 +122,7 @@ public class ZpayController {
 		int listCount = service.getZpayHistoryListCount(member_id, searchType, startDate, endDate);
 		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0); //3. 전체 페이지 목록갯수
 		
-		// -----------------------------------------------------------------------------------------
+		// ------------------------------------------------------------------------------------------------------
 		// ZPAY 사용자일 경우 ZPAY 이용 내역 정보 조회 후 zpay_main 페이지로 이동
 		List<ZpayHistoryVO> zpayHistoryList = service.getZpayHistoryList(member_id, searchType, startDate, endDate, startRow, listLimit);
 		System.out.println(zpayHistoryList);
@@ -150,7 +136,7 @@ public class ZpayController {
 		jsonObject.put("zpayHistoryList", zpayHistoryList);
 		jsonObject.put("maxPage", maxPage);
 		jsonObject.put("zpay_balance", zpay_balance);
-		jsonObject.put("listCount", zpayHistoryList.size());
+		jsonObject.put("listCount", listCount);
 		System.out.println(jsonObject.toString());
 		
 		return jsonObject.toString();
@@ -318,7 +304,9 @@ public class ZpayController {
 
 	// zpay_send_form.jsp 페이지로 디스페치
 	@GetMapping("zpay_send_form")
-	public String zpaySendForm(@RequestParam int order_secondhand_idx, Model model) {
+	public String zpaySendForm(@RequestParam(defaultValue = "0") int order_secondhand_idx, 
+							@RequestParam(defaultValue = "0") int order_auction_idx, 
+							Model model) {
 		System.out.println("ZpayController - zpaySendForm()");
 		
 		OrderSecondhandVO order_secondhand = service.getOrderSecondhand(order_secondhand_idx);
@@ -332,21 +320,35 @@ public class ZpayController {
 	
 	// 송금 및 수취
 	@PostMapping("zpay_send_pro")
-	public String zpaySendPro(@RequestParam int order_secondhand_idx, Model model) {
+	public String zpaySendPro(@RequestParam(defaultValue = "0") int order_secondhand_idx, 
+							@RequestParam(defaultValue = "0") int order_auction_idx, 
+							Model model) {
 		System.out.println("ZpayController - zpaySendPro()");
 		
-		OrderSecondhandVO order_secondhand = service.getOrderSecondhand(order_secondhand_idx);
+		String seller_id = "";
+		String buyer_id = "";
+		long zpay_amount = 0;
 		
-		String seller_id = order_secondhand.getOrder_secondhand_seller();
-		String buyer_id = order_secondhand.getOrder_secondhand_buyer();
-		long zpay_amount = order_secondhand.getOrder_secondhand_price();
+		if(order_secondhand_idx != 0) {	// 중고주문의 경우
+			OrderSecondhandVO order_secondhand = service.getOrderSecondhand(order_secondhand_idx);
+			seller_id = order_secondhand.getOrder_secondhand_seller();
+			buyer_id = order_secondhand.getOrder_secondhand_buyer();
+			zpay_amount = order_secondhand.getOrder_secondhand_price();
+			
+		} else if(order_auction_idx != 0) {	// 경매주문의 경우
+			OrderAuctionVO order_auction = service.getOrderAuction(order_auction_idx);
+			seller_id = order_auction.getOrder_auction_seller();
+			buyer_id = order_auction.getOrder_auction_buyer();
+			zpay_amount = order_auction.getOrder_auction_price();
+		}		
 		
+		
+		// ----------------------- buyer의 ZPAY_HISTORY 추가 --------------------------------
 		// ZPAY 테이블에서 buyer_id에 일치하는 zpay_idx 조회
 		int buyer_zpay_idx = service.getZpayIdx(buyer_id);
 		ZpayVO buyer_zpay = service.getZpay(buyer_id);
 		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
 		Integer buyer_zpay_balance = service.getZpayBalance(buyer_id);
-		
 		
 		// zpaySellerHistory 객체에 저장
 		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
@@ -354,14 +356,18 @@ public class ZpayController {
 		zpayBuyerHistory.setMember_id(buyer_id);
 		zpayBuyerHistory.setZpay_amount(zpay_amount);
 		zpayBuyerHistory.setZpay_balance(buyer_zpay_balance);
-		zpayBuyerHistory.setZpay_deal_type("중고출금");
+		if(order_secondhand_idx != 0) {
+			zpayBuyerHistory.setZpay_deal_type("중고출금");			
+		} else if(order_auction_idx != 0) {
+			zpayBuyerHistory.setZpay_deal_type("경매출금");
+		}
 
 		// ZPYA_HISTORY 테이블에 송금내역 추가
-		int insertSendCount = service.sendZpay(zpayBuyerHistory);
+		int insertSendCount = service.insertSendReceiveHistory(zpayBuyerHistory);
+//		int insertSendCount = service.sendZpay(zpayBuyerHistory);
 		
-		// -----------------------------------------------------------------
 		
-		
+		// ----------------------- seller의 ZPAY_HISTORY 추가 --------------------------------
 		// ZPAY 테이블에서 seller_id에 일치하는 zpay_idx 조회
 		int seller_zpay_idx = service.getZpayIdx(seller_id);
 		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
@@ -373,12 +379,17 @@ public class ZpayController {
 		zpaySellerHistory.setMember_id(seller_id);
 		zpaySellerHistory.setZpay_amount(zpay_amount);
 		zpaySellerHistory.setZpay_balance(seller_zpay_balance);
-		zpaySellerHistory.setZpay_deal_type("중고입금");
+		if(order_secondhand_idx != 0) {
+			zpaySellerHistory.setZpay_deal_type("중고입금");
+		} else if(order_auction_idx != 0) {
+			zpaySellerHistory.setZpay_deal_type("경매입금");
+		}
 				
 		// ZPYA_HISTORY 테이블에 수취내역 추가
-		int insertReceiveCount = service.receiveZpay(zpaySellerHistory);
+		int insertReceiveCount = service.insertSendReceiveHistory(zpaySellerHistory);
+//		int insertReceiveCount = service.receiveZpay(zpaySellerHistory);
 		
-		// -------------------------------------------------------------------
+		// ==================================================================================
 		
 		if(insertSendCount > 0 && insertReceiveCount >0) {
 			buyer_zpay_balance = service.getZpayBalance(buyer_id);
@@ -387,7 +398,6 @@ public class ZpayController {
 			model.addAttribute("seller_id", seller_id);
 			model.addAttribute("buyer_zpay", buyer_zpay);
 			model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
-//			return "zpay/zpay_main";			
 			return "zpay/zpay_send_success";			
 		} else {
 			model.addAttribute("msg", "ZPAY 송금 실패");
@@ -397,14 +407,3 @@ public class ZpayController {
 	}
 }
 	
-	// ================================================================================================
-//	@GetMapping("secondhand_detail")
-//	public String secondhandDetail(Model model) {
-//		int secondhand_idx = 1;
-//		
-//		SecondhandVO secondhand = service.getSecondhand(secondhand_idx);
-//		
-//		model.addAttribute("secondhand", secondhand);
-//		
-//		return "secondhand_detail";
-//	}

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
+import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
-import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
 
@@ -73,30 +73,37 @@ public class ZpayService {
 	}
 
 	// 중고거래 내역 조회
-	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
-		return mapper.selectOrderSecondhand(secondhand_idx);
+	public OrderSecondhandVO getOrderSecondhand(int order_secondhand_idx) {
+		return mapper.selectOrderSecondhand(order_secondhand_idx);
 	}
 	
-	// ZPYA_HISTORY 테이블에 송금내역 추가
-	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
-		return mapper.insertSendHistory(zpayBuyerHistory);
+	// 경매거래 내역 조회
+	public OrderAuctionVO getOrderAuction(int order_auction_idx) {
+		return mapper.selectOrderAuction(order_auction_idx);
 	}
+	
+//	// ZPYA_HISTORY 테이블에 송금내역 추가
+//	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
+//		return mapper.insertSendHistory(zpayBuyerHistory);
+//	}
+//
+//	// ZPYA_HISTORY 테이블에 수취내역 추가
+//	public int receiveZpay(ZpayHistoryVO zpaySellerHistory) {
+//		return mapper.insertReceiveHistory(zpaySellerHistory);
+//	}
 
-	// ZPYA_HISTORY 테이블에 수취내역 추가
-	public int receiveZpay(ZpayHistoryVO zpaySellerHistory) {
-		return mapper.insertReceiveHistory(zpaySellerHistory);
+	// ZPYA_HISTORY 테이블에 송금/수취 내역 추가
+	public int insertSendReceiveHistory(ZpayHistoryVO zpayHistory) {
+		return mapper.insertSendReceiveHistory(zpayHistory);
 	}
+	
 
 	
 	
 	
+
+
 	
-	
-	
-	// ===================================================================
-	public SecondhandVO getSecondhand(int secondhand_idx) {
-		return mapper.selectSecondhand(secondhand_idx);
-	}
 
 	
 	
