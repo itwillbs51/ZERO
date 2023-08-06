@@ -142,7 +142,7 @@
 			
 		});	// daterangepicker() 끝
 		
-		updateTransactionHistory();
+// 		updateTransactionHistory();
 	});
 			
 	function updateTransactionHistory() {	
@@ -175,9 +175,16 @@
 										getFormatDate(zpayHistory.zpay_time) + 
 									"</div>" + 
 									"<div class='zpayHistoryItem_infoArea'>" +
-										"<div class='zpayHistoryItem_info'>" + 
-											"<a href='#' class='itemTitle itemLink'>" + zpayHistory.zpay_deal_type + "</a>" +
-											"<div class='zpayHistoryItem_info_sub'>" +
+										"<div class='zpayHistoryItem_info'>"
+											if(zpayHistory.zpay_deal_type == '충전' || zpayHistory.zpay_deal_type == '환급') {
+												res += "<a class='itemTitle itemLink'>" + zpayHistory.zpay_deal_type + "</a>"
+											} else if(zpayHistory.zpay_deal_type == '중고입금' || zpayHistory.zpay_deal_type == '중고출금') {
+												res += "<a href='#' class='itemTitle itemLink'>" + zpayHistory.order_secondhand_product + "</a>"
+											} else if(zpayHistory.zpay_deal_type == '경매입금' || zpayHistory.zpay_deal_type == '경매출금') {
+												res += "<a href='#' class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
+											}
+											
+									res +=	"<div class='zpayHistoryItem_info_sub'>" +
 												"<span class='payTime'>" + getFormatTime(zpayHistory.zpay_time) + "</span>" +
 												"<span class='paymentType'>" + zpayHistory.zpay_deal_type + "</span>" +
 											"</div>" +

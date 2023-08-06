@@ -109,6 +109,7 @@ public class ZpayController {
 			@RequestParam(defaultValue = "1") int pageNum, 
 			Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayMainAjax()");
+		System.out.println(pageNum);
 		
 		String member_id = (String)session.getAttribute("member_id");
 		MemberVO member = memberService.getMember(member_id);
@@ -320,8 +321,8 @@ public class ZpayController {
 	
 	// 송금 및 수취
 	@PostMapping("zpay_send_pro")
-	public String zpaySendPro(@RequestParam(defaultValue = "0") int order_secondhand_idx, 
-							@RequestParam(defaultValue = "0") int order_auction_idx, 
+	public String zpaySendPro(@RequestParam(required = false) int order_secondhand_idx, 
+							@RequestParam(required = false) int order_auction_idx, 
 							Model model) {
 		System.out.println("ZpayController - zpaySendPro()");
 		
@@ -357,9 +358,11 @@ public class ZpayController {
 		zpayBuyerHistory.setZpay_amount(zpay_amount);
 		zpayBuyerHistory.setZpay_balance(buyer_zpay_balance);
 		if(order_secondhand_idx != 0) {
-			zpayBuyerHistory.setZpay_deal_type("중고출금");			
+			zpayBuyerHistory.setZpay_deal_type("중고출금");	
+			zpayBuyerHistory.setOrder_secondhand_idx(order_secondhand_idx);
 		} else if(order_auction_idx != 0) {
 			zpayBuyerHistory.setZpay_deal_type("경매출금");
+			zpayBuyerHistory.setOrder_auction_idx(order_auction_idx);
 		}
 
 		// ZPYA_HISTORY 테이블에 송금내역 추가
@@ -381,8 +384,10 @@ public class ZpayController {
 		zpaySellerHistory.setZpay_balance(seller_zpay_balance);
 		if(order_secondhand_idx != 0) {
 			zpaySellerHistory.setZpay_deal_type("중고입금");
+			zpaySellerHistory.setOrder_secondhand_idx(order_secondhand_idx);
 		} else if(order_auction_idx != 0) {
 			zpaySellerHistory.setZpay_deal_type("경매입금");
+			zpaySellerHistory.setOrder_auction_idx(order_auction_idx);
 		}
 				
 		// ZPYA_HISTORY 테이블에 수취내역 추가
