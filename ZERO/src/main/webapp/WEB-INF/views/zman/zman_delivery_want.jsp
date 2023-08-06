@@ -232,7 +232,7 @@
 									<table class="table">
 										<thead>
 											<tr>
-										    	<th scope="col">ZMAN 배달 번호</th>
+										    	<th scope="col">배달 번호</th>
 										        <th scope="col">상품 이름</th>
 										        <th scope="col">출발지</th>
 										        <th scope="col">도착지</th>

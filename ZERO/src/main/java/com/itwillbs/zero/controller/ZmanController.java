@@ -63,8 +63,17 @@ public class ZmanController {
 	@GetMapping("zman_test_location")
 	public String zman_test_location(Model model) {
 		
-		model.addAttribute("depart", " 부산광역시 부산진구 중앙대로 658"); // zman_delivery_startspot 
-		model.addAttribute("arrive", "부산광역시 부산진구 범전로5번길 13"); // zman_delivery_endspot
+		System.out.println("Zmancontroller -zman_test_location ");
+		
+		// DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx
+		ZmanDeliveryVO zd = service.getDeliveryLocation();
+		System.out.println("zd - " + zd);
+		
+		model.addAttribute("depart", zd.getZman_delivery_startspot());
+		model.addAttribute("arrive", zd.getZman_delivery_endspot());
+		
+//		model.addAttribute("depart", " 부산광역시 부산진구 중앙대로 658"); // zman_delivery_startspot 
+//		model.addAttribute("arrive", "부산광역시 부산진구 범전로5번길 13"); // zman_delivery_endspot
 		
 		return "zman/zman_test_location";
 	}
