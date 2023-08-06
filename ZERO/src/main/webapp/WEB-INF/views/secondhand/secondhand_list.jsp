@@ -25,9 +25,11 @@
 <script type="text/javascript">
 
 	//전역변수 pageNum, maxPage 미리저장
-	let pageNum = 1;
-	let maxPage = 1;
+	let pageNum = 1;	// 임의로 설정
+	let maxPage = 1;	// 최대 페이지 번호 미리 저장
 
+	
+	
 	
 	//상품번호넘기기 -- 반복문()
 // 	$(function(){
@@ -52,15 +54,12 @@
 // 	});//window.onload함수끝
 	
 	
-	
-	
-	
-	
-	
-	
-	$(function(){
 		
-		//목록조회 처음수행위해 문서 로딩시 loadList호출
+		
+		
+		
+		
+		
 		let searchType = $("#searchType").val();
 		let searchKeyword= $("#searchKeyword").val();
 // 		loadList(searchType, searchKeyword);
@@ -91,6 +90,17 @@
 			}
 		});//무한스크롤 이벤트처리 끝
 	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -291,6 +301,19 @@ row{
      			 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
       			<label class="form-check-label" for="flexSwitchCheckDefault"> 거래가능 상품만 보기 </label>
     		</div>
+			
+			
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 
 		<hr>

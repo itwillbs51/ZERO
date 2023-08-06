@@ -314,7 +314,7 @@ public class SecondhandController {
 				secondhand.setSecondhand_image2(subDir + "/" + fileName2);
 			}
 			if(mFile3 != null) {
-				fileName3 = uuid.substring(0, 8) + "_" + mFile1.getOriginalFilename();
+				fileName3 = uuid.substring(0, 8) + "_" + mFile3.getOriginalFilename();
 				secondhand.setSecondhand_image1(subDir + "/" + fileName3);
 			}
 			System.out.println("실제 업로드 파일명1 : " + secondhand.getSecondhand_image1());
@@ -505,7 +505,7 @@ public class SecondhandController {
 			secondhand.setSecondhand_image2(subDir + "/" + fileName2);
 		}
 		if(mFile3 != null) {
-			fileName3 = uuid.substring(0, 8) + "_" + mFile1.getOriginalFilename();
+			fileName3 = uuid.substring(0, 8) + "_" + mFile3.getOriginalFilename();
 			secondhand.setSecondhand_image1(subDir + "/" + fileName3);
 		}
 		System.out.println("실제 업로드 파일명1 : " + secondhand.getSecondhand_image1());
