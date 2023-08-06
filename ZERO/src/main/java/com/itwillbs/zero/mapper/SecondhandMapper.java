@@ -39,6 +39,12 @@ public interface SecondhandMapper {
 	// 상품수정작업 (update)
 	int updateSecondhand(SecondhandVO secondhand);
 
+	// 상품삭제작업 (delete)
+	int deleteSecondhand(int secondhand_idx);
+
+	// 상품 상세정보 조회 -> 조회수증가작업 (update)
+	void updateReadCount(SecondhandVO secondhand);
+
 	
 	
 	

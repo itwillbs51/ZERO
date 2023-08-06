@@ -146,7 +146,7 @@
 				<if test="!file2.equals('')">
 					, secondhand_image2 = #{secondhand_image2}
 				</if>
-				<if test="!bfile3.equals('')">
+				<if test="!file3.equals('')">
 					, secondhand_image3 = #{secondhand_image3}
 				</if>
 							
@@ -159,10 +159,23 @@
 			secondhand_idx = #{secondhand_idx}
 	</update>
 	
+	<!-- 글 삭제작업 -->
+	<!-- 전달받은 상품번호와 일치하는 레코드 삭제 -->
+	<delete id="deleteSecondhand">
+		DELETE
+			FROM SECONDHAND
+			WHERE
+				secondhand_idx = #{secondhand_idx}
+	</delete>
 
 
-
-
+	<!-- 글 상세정보 조회 - 조회수 증가 작업 -->
+	<update id="updateReadCount">
+		UPDATE SECONDHAND
+		SET secondhand_readcount = secondhand_readcount + 1
+		WHERE 
+			secondhand_idx = #{secondhand_idx}
+	</update>
 	
 	
 	<!-- 끌어올리기 작업 시 업데이트 처리 (등록날짜)-->

@@ -190,14 +190,26 @@ a {
 .photoDiv {
 	position: relative;
 }
-/* 거래상태 버튼 */
-.dealStatus{
+/* 찜하기 버튼 (이미지 오버) */
+.likebtn { 
 		font-size: 1.0rem;
 		position: absolute;
 		top: 263px;
-		right: 0px;
-		border-radius: 30%;
+		left: 10px;
+		border-radius: 10%;
+/* 		background-color:white; */
+		
+
 }
+/* 거래상태 버튼(이미지 오버) */
+.dealStatus {
+		font-size: 0.7rem;
+		position: absolute;
+		top: 263px;
+		right: 0px;
+		border-radius: 40%;
+}
+
 .card-text{
 	text-align: center;
 	margin-top: 5px;
@@ -302,41 +314,52 @@ row{
       			<label class="form-check-label" for="flexSwitchCheckDefault"> 거래가능 상품만 보기 </label>
     		</div>
 			
+			<hr>
+			<!-- 상품개수표시 -->
+			<div class="Secondhandcount"> 상품 개수 개</div>
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-
-		<hr>
+		
 		<div class="row" align="left">
 		<c:forEach var="secondhand" items="${secondhandList }">
 			
 			<div class="col-lg-3 col-mid-4">
-						<div class="card border-0 shadow-sm" >
+						<div class="card border-0" >
 						
 							<!-- 썸네일이미지 - 서버 업로드시 경로 재설정 필요할수도 -->
 							<div class="photoDiv">	
-								
 								<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
-								
 									<%--<img src="${image1 }" class="card-img-top" > --%>
 									<%-- <img src="<spring:url value='${secondhand.secondhand_image1}'/>" class="card-img-top"/> --%>
 									<img src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" >
 									<%-- <img src="<%= request.getContextPath()%> + ${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1} "/> --%>									
 									<%-- <img src="http://localhost:8089/zero/${secondhand.secondhand_image1}" class="card-img-top" > --%>
 								</a>
+								
+								<!-- 찜하기 버튼 -->
+								<span class="likebtn">
+									<a href="#" style="align:right;">
+										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="30px" height="30px">
+									</a>
+								</span>
+
 								<!-- 거래상태 버튼 -->
-								<span class="dealStatus"><button class="btn btn-danger">${secondhand.secondhand_deal_status}</button></span>
+								<span class="dealStatus"><button class="btn btn-dark">${secondhand.secondhand_deal_status}</button></span>
 							</div>
+							
+							
+							
 							<div class="card-body">
 								<!-- 카테고리 가져오기 -->
 								<%-- <input type="hidden" id="seoncdhand_idx" value="${secondhand.secondhand_idx}"> --%>
@@ -348,10 +371,10 @@ row{
 										${secondhand.secondhand_subject}
 									</a>
 									<!-- 찜하기 버튼 -->
-									<br>
-									<a href="#" style="align:right;">
-										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px">
-									</a>
+<!-- 									<br> -->
+<!-- 									<a href="#" style="align:right;"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"> --%>
+<!-- 									</a> -->
 								</div>
 								<p><fmt:formatNumber pattern="#,###" value="${secondhand.secondhand_price }"/>원</p>
 								

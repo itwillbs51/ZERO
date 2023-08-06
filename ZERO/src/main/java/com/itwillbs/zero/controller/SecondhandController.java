@@ -86,13 +86,19 @@ public class SecondhandController {
 			
 			return "secondhand/secondhand_list";
 		}
-		@ResponseBody
-		@GetMapping("secondhandList_Json")
-		public String secondhandList_Json(@RequestParam(defaultValue = "1") int secondhand_idx) {
-			
-			System.out.println(secondhand_idx);
-			return "";
-		}
+		
+		
+		
+		
+		
+		
+//		@ResponseBody
+//		@GetMapping("secondhandList_Json")
+//		public String secondhandList_Json(@RequestParam(defaultValue = "1") int secondhand_idx) {
+//			
+//			System.out.println(secondhand_idx);
+//			return "";
+//		}
 		
 		
 		//ajax 요청 통한 글목록조회
@@ -137,6 +143,7 @@ public class SecondhandController {
 		
 		
 		//중고 상세정보페이지
+		//조회성공시 조회수 증가
 		@GetMapping("secondhand_detail")
 		public String secondhand_detail(
 							@RequestParam int secondhand_idx,
@@ -164,8 +171,6 @@ public class SecondhandController {
 
 			HashMap<String,String> sellerInfo = service.getSellerInfo(secondhand_idx, member_id);
 			System.out.println("&&&&&&&&&&&&&&&& 판매자정보 : " + sellerInfo);
-		
-			
 			model.addAttribute("seller",sellerInfo);
 			
 			//판매자의 판매상품 개수 조회
@@ -209,7 +214,10 @@ public class SecondhandController {
 		@PostMapping("secondhandRegistPro")
 		public String secondhandRegistPro(SecondhandVO secondhand, HttpSession session, Model model, HttpServletRequest request) {
 			
-			
+			//JsonConverter 사용하기 위한 Map생성
+			Map<String,String> map = new HashMap<>();
+			//기본 리턴값 false
+			String bResult = "false";		
 			
 			//상품설명 줄바꿈 하기
 			//p_exp = p_exp.replaceAll("\r\n", "<br>");
@@ -315,7 +323,7 @@ public class SecondhandController {
 			}
 			if(mFile3 != null) {
 				fileName3 = uuid.substring(0, 8) + "_" + mFile3.getOriginalFilename();
-				secondhand.setSecondhand_image1(subDir + "/" + fileName3);
+				secondhand.setSecondhand_image3(subDir + "/" + fileName3);
 			}
 			System.out.println("실제 업로드 파일명1 : " + secondhand.getSecondhand_image1());
 			System.out.println("실제 업로드 파일명2 : " + secondhand.getSecondhand_image2());
@@ -354,6 +362,9 @@ public class SecondhandController {
 					if(!mFile3.getOriginalFilename().equals("")) {
 						mFile3.transferTo(new File(saveDir, fileName3));
 					}
+					bResult = "true";
+					model.addAttribute("res", bResult);
+					
 				} catch (IllegalStateException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -577,11 +588,15 @@ public class SecondhandController {
 		
 		
 		
+		
+		
+		
 		//상품삭제 처리(DELETE)
 		@GetMapping("secondhandDelete")
 		public String secondhandDelete(
 				@RequestParam int secondhand_idx, 
-//				@RequestParam(defaultValue = "1") int pageNum, 
+				@RequestParam(defaultValue = "1") int pageNum,
+//				@RequestParam String member_id,
 				SecondhandVO secondhand,
 				HttpSession session, Model model
 				) {
@@ -597,35 +612,41 @@ public class SecondhandController {
 			}
 			
 			// 작성자 확인 작업 ---------------------------------------------
-			 //SecondhandService - isProductRegister()작성자 판별요청
+			 //SecondhandService - isSeller()작성자 판별요청
 			// 파라미터:상품번호(secondhand_idx), 세션아이디 리턴타입:boolean(isProductRegister)
 			// 단, 세션아이디가 "admin@gmail.com" 아닐 경우에만 수행
 			System.out.println(secondhand.getSecondhand_idx());
 			
-//			if(!member_id.equals("admin@gmail.com")) {
-//				boolean isBoardWriter = service.isBoardWriter(secondhand.getSecondhand_idx(), member_id);
-//				
-//				if(!isBoardWriter) {
-//					model.addAttribute("msg", "권한이 없습니다!");
-//					return "fail_back";
-//				}
-//			}
+			if(!member_id.equals("admin@gmail.com")) {
+				boolean isBoardWriter = service.isBoardWriter(secondhand_idx, member_id);
+				
+				if(!isBoardWriter) {
+					model.addAttribute("msg", "권한이 없습니다!");
+					return "fail_back";
+				}
+			}
 			
 			// 글삭제작업 ----------------------------------------------------
-			// SecondhandService - removeProduct() 호출하여 글 삭제요청
+			// SecondhandService - removeBoard() 호출하여 글 삭제요청
 			// 파라미터 : 글번호, 리턴타입 : int(deleteCount)
+			int deleteCount = service.removeSecondhand(secondhand_idx);
 //			int deleteCount = service.removeBoard(board_num);
 			
 			// 삭제 실패 시 "삭제 실패!" 처리 후 이전페이지 이동
-			// 아니면, BoardList 서블릿 요청(파라미터 : 페이지번호)
+			// 아니면(삭제성공시), secondhand_list 서블릿 요청(파라미터 : 페이지번호)
+			if(deleteCount == 0) {
+				model.addAttribute("msg", "삭제 실패!");
+				return "fail_back";	
+			}
 			
+			return "redirect:/secondhand_list?pageNum=" + pageNum;
 			
-			
-			// 서블릿 => 서블릿 : redirect
-//			return "redirect:/secondhand_list?pageNum=" + pageNum;
-			
-			return "";
 		}
+		
+		
+		
+		
+		
 		
 		
 		//판매자페이지

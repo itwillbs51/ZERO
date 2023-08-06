@@ -54,6 +54,29 @@ function showSlides(n) {
 
 
 
+
+
+
+// 신고사유 셀렉트 박스
+function categoryChange(e) {
+    var report_member = ["도배 행위", "사기 행위", "욕설", "비매너"];
+    var report_zman = ["불친절", "배달 누락"];
+    var report_goods = ["주류, 담배", "전문 의약품, 의료기기", "위조상품"];
+    var target = document.getElementById("report");
+ 
+    if(e.value == "member") var d = report_member;
+    else if(e.value == "zman") var d = report_zman;
+    else if(e.value == "goods") var d = report_goods;
+ 
+    target.options.length = 0;
+ 
+    for (x in d) {
+        var opt = document.createElement("option");
+        opt.value = d[x];
+        opt.innerHTML = d[x];
+        target.appendChild(opt);
+    }    
+}
 </script>
 <style>
 article {
@@ -131,6 +154,32 @@ a {
 	margin-left:40px;
 	 
 }
+
+
+
+/* 신고 - 모달영역 */
+.modal-title{
+ font-size: 17px;
+ text-align:left;
+ font-weight: bold;
+}
+.modal_table{
+  width:100%;
+}
+#modal_userImg{
+  width:50px;
+  height:50px;
+  border-radius: 75%;
+}
+#modal_userId{
+  width:200px;
+}
+#modal_userFollow{
+  margin:10px;
+  text-align: right;
+}
+
+
 </style>
 </head>
 <body>
@@ -212,13 +261,80 @@ a {
 				<!-- 거래상태 -->
 				<button class="btn btn-dark" style="margine-bottom:10px;">${secondhandProduct.secondhand_deal_status }</button>
 				<span class="icon">
-					<a href="reportPopup"><img src="${pageContext.request.contextPath }/resources/img/report_icon.png" width="30px" height="30px"></a>
+<%-- 					<a href="reportPopup"><img src="${pageContext.request.contextPath }/resources/img/report_icon.png" width="30px" height="30px"></a> --%>
+					
+				
+				
+				
+				<%-- 신고 모달로 해보기 --%>
+				<%-- 모달 출력 버튼 --%>
+				<button class="btn btn-default" data-target="#layerpop" data-toggle="modal">
+					<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
+					 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
+				</button>
+				<%-- 공유하기버튼 --%>
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
 				</span>
+
+
+				<div class="modal fade" id="layerpop" >
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<!-- header -->
+							<div class="modal-header">
+								<!-- header title -->
+								<h4 class="modal-title">header</h4>
+							</div>
+							
+							<!-- body -->
+							<form action="zero_report" method="POST" name="fr">								
+								<div class="modal-body">
+								    <%-- 신고하려는 내용 알려주기 --%>
+									<div class="1st_report">
+										<dl class="report_area">
+											<h2>신고 제목</h2>
+									</div>
+									
+									<%-- 신고 이유 선택하기 --%>				
+									<div class="reportReason">
+										<h4>사유선택</h4>
+										<div>
+											<select onchange="categoryChange(this)">
+											    <option>신고 타입을 선택해주세요</option>
+											    <option value="member">회원</option>
+											    <option value="zman">ZMAN</option>
+											    <option value="goods">상품</option>
+											</select>
+					 					</div>
+					 					
+					 					<div>
+											<select id="report">
+												<option>사유 선택</option>
+											</select>
+										</div>
+									</div>
+								</div> <%-- <div class="modal-body"> --%>
+								
+								<!-- Footer -->
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-default" data-dismiss="modal">신고하기</button>
+								</div>
+							</form>
+						</div> <%-- <div class="modal-content"> --%>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
 					
 				<h3>${secondhandProduct.secondhand_subject }</h3>
 				<h5>${secondhandProduct.secondhand_price }<b>원</b></h5>
-				<span class="readcount">조회수 ${secondhandProduct.secondhand_read_count } </span>
+				<span class="readcount">조회수 ${secondhandProduct.secondhand_readcount } </span>
 				<span class="registDate">등록일 ${secondhandProduct.secondhand_first_date }</span>
 				<hr>
 				<p>${secondhandProduct.secondhand_content }</p>
@@ -240,20 +356,19 @@ a {
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-						onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }&pageNum=${param.pageNum}'"> 
+							onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						수정하기 
 					</button>
 	
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-						onclick="location.href='secondhandDelete?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }&pageNum=${param.pageNum}'">
+							onclick="location.href='secondhandDelete?secondhand_idx=${secondhandProduct.secondhand_idx}'">
 						 삭제하기 
 					 </button>
 	
 					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }&pageNum=${param.pageNum}'"> 
+						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						끌어올리기 
 					</button>
-
 					<%--1-2.셀렉트박스로 거래상태변경가능 --%>
 <!-- 					<select class="changeDealStatus" aria-label="Default select example"> -->
 <!-- 					  <option selected> 거래중 </option> -->
@@ -264,26 +379,38 @@ a {
 				</c:when>					
 				
 				
+				
+				
 				<%-- 2.판매자 본인 아닐경우 - 채팅하기 가능 --%>
 				<c:otherwise>
+				
 					<%-- 2-1.세션아이디 없을경우(미로그인) -> 로그인알람창띄우고 로그인페이지로 이동 --%>
 					<c:if test="${empty sessionScope.member_id }">
 						<%--<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button> --%>
-						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
-						<button class="btn btn-primary btn-lg" id="chatting" data-toggle="modal" data-target="#needLogin" style="font-size:1em; margin:10px 10px">
+						<a href="#">
+							<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
+						</a>
+						<button class="btn btn-primary btn-lg" id="chatting" 
+								data-toggle="modal" data-target="#needLogin" 
+								style="font-size:1em; margin:10px 10px">
 							채팅하기
 						</button>
 					</c:if>
+				
 					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
 					<c:if test="${not empty sessionScope.member_id && sessionScope.member_id ne secondhandProduct.member_id }">
-						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
-						<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button>
-						
-						<form action="doChat" method="POST">
-							<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
-							<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
-							<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
-						</form>
+						<span>
+							<a href="#">
+								<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
+							</a>
+							<!-- <button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button> -->
+							
+							<form action="doChat" method="POST">
+								<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
+								<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
+								<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
+							</form>
+						</span>
 						
 					</c:if>
 				</c:otherwise>
@@ -376,7 +503,7 @@ a {
 				  	<c:forEach var="sellerProductList" items="${sellerProductList }" varStatus="loop">
 				  		<c:if test="${loop.index lt 4}">
 						<%--판매자의 첫번째상품의 첫번째이미지(썸네일이미지)만 보여줌 --> 판매상품여러개일수도 -> 리스트로 받아옴 --%>
-						<%--네개까지만 받아오는 방법.. --%>
+						<%--네개까지만 받아오기 --%>
 						<%--각이미지마다 상품 상세페이지로 이동하는 하이퍼링크 --%>
 						<span class="sumnail">						
 							<a href="secondhand_detail?secondhand_idx=${sellerProductList.secondhand_idx }&member_id=${sellerProductList.member_id}">		

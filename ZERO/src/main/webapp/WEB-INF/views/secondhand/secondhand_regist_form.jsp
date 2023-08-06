@@ -531,34 +531,34 @@
 		
 		
 		// -----------------------------------------
-		// 체크박스 감지 이벤트
-		$(function() {
+// 		// 체크박스 감지 이벤트
+// 		$(function() {
 
-			// 전체선택 체크박스 상태 변화 감지 이벤트
-			$(".allCheck").on("change", function() {
-				// 전체선택 체크 시 모든 체크박스 체크, 체크 해제 시 모두 해제
-			 			if($(".allCheck").prop("checked")) { // 체크 시
-			 				alert("체크!");
-			 			} else { // 체크해제 시
-			 				alert("체크해제!");
-			 			}
+// 			// 전체선택 체크박스 상태 변화 감지 이벤트
+// 			$(".allCheck").on("change", function() {
+// 				// 전체선택 체크 시 모든 체크박스 체크, 체크 해제 시 모두 해제
+// 			 			if($(".allCheck").prop("checked")) { // 체크 시
+// 			 				alert("체크!");
+// 			 			} else { // 체크해제 시
+// 			 				alert("체크해제!");
+// 			 			}
 				
-				if($(".allCheck").is(":checked")) { // 체크 시
-					// 체크박스들의 checked 속성값을 체크 상태(true)로 변경 - prop() 활용
-					// => input[type=checkbox] 대신 가상선택자 :checkbox 사용 가능
-					// => prop() 메서드 파라미터로 속성명, 속성값 전달 시 속성 변경 가능
-					$(":checkbox").prop("checked", true); // 체크 상태를 체크(true)로 변경
+// 				if($(".allCheck").is(":checked")) { // 체크 시
+// 					// 체크박스들의 checked 속성값을 체크 상태(true)로 변경 - prop() 활용
+// 					// => input[type=checkbox] 대신 가상선택자 :checkbox 사용 가능
+// 					// => prop() 메서드 파라미터로 속성명, 속성값 전달 시 속성 변경 가능
+// 					$(":checkbox").prop("checked", true); // 체크 상태를 체크(true)로 변경
 
-					// each() 메서드를 통해 체크박스 반복으로 각 요소의 상태 변경도 가능함
-					$(":checkbox").each(function(index, item) {
-						$(item).prop("checked", true);
-							$(this).prop("checked", true);
-		 			});
-				} else { // 체크해제 시
-					$(":checkbox").prop("checked", false); // 체크 상태를 체크해제(false)로 변경
-				}
-			});
-		});
+// 					// each() 메서드를 통해 체크박스 반복으로 각 요소의 상태 변경도 가능함
+// 					$(":checkbox").each(function(index, item) {
+// 						$(item).prop("checked", true);
+// 							$(this).prop("checked", true);
+// 		 			});
+// 				} else { // 체크해제 시
+// 					$(":checkbox").prop("checked", false); // 체크 상태를 체크해제(false)로 변경
+// 				}
+// 			});
+// 		});
 		// -----------------------------------------
 		
 		
@@ -624,7 +624,7 @@
 			dataType : 'json',
 			success  : function(res){
 				
-				if(res.res==true){
+				if(res."${res}".trim()=="true"){
 					alert('물품등록 성공!');
 // 					location.href='../mainpage/list.do';
 // 					location.href='../secondhand/secondhand_regist_form';

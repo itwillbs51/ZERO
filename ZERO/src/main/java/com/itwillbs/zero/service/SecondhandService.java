@@ -46,10 +46,24 @@ public class SecondhandService {
 //		return mapper.selectCategory(secondhand_idx);
 //	}
 	
+	
 	//상세페이지 - 상품번호에 해당하는 상품정보 조회
-	//수정페이지에서도 재사용
+	//수정페이지, 삭제페이지(작성자확인)에서도 재사용
+	
+	//조회성공시 조회수 증가
 	public SecondhandVO getSecondhandProduct(int secondhand_idx) {
-		return mapper.selectProduct(secondhand_idx);
+		
+		SecondhandVO secondhand = mapper.selectProduct(secondhand_idx);
+		
+		//조회결과 있을경우(조회성공시 -> 조회수 증가작업요청 -> updateReadCount()
+		if(secondhand != null) {
+			// secondhandVO에 secondhand_idx 포함되어있으므로
+			// 파라미터로 secondahndVO객체 전달시 -> 값변경되면 별도리턴없어도 주소값변경O
+			//=> 사용된VO객체의 변경된 값 함께 공유!
+			mapper.updateReadCount(secondhand);
+		}
+		
+		return secondhand;
 	}
 
 	//상세페이지(판매자영역) - 판매자 정보 조회
@@ -73,6 +87,19 @@ public class SecondhandService {
 	//상품수정작업 
 	public int modifySecondhand(SecondhandVO secondhand) {
 		return mapper.updateSecondhand(secondhand);
+	}
+
+	//글삭제 - 1. 작성자 확인 작업
+	public boolean isBoardWriter(int secondhand_idx, String member_id) {
+		//글번호에 해당하는 작성자확인 -> 상세정보조회의 selectProduct()재사용
+		//-조회된결과의 작성자id(secondhand.getMember_id()) 와, 전달받은 세션아이디 비교결과 리턴
+		SecondhandVO secondhand = mapper.selectProduct(secondhand_idx);
+		return secondhand.getMember_id().equals(member_id);
+	}
+
+	//글삭제 - 2. 글삭제작업
+	public int removeSecondhand(int secondhand_idx) {
+		return mapper.deleteSecondhand(secondhand_idx);
 	}
 
 
