@@ -52,38 +52,12 @@
 							AND zpay_deal_type = '환급'
 						</when>
 						<when test="searchType.equals('사용')">
-							AND zpay_deal_type = '중고출금'
-							OR zpay_deal_type = '경매출금'
+							AND (zpay_deal_type = '중고출금'
+							OR zpay_deal_type = '경매출금')
 						</when>
 						<when test="searchType.equals('수익')">
-							AND zpay_deal_type = '중고입금'
-							OR zpay_deal_type = '경매입금'
-						</when>
-					</choose>
-				</if>
-	</select>
-	
-	<!-- ZPAY 사용 내역(목록) 조회 - 필터링 적용 -->
-	<select id="selectZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
-		SELECT *
-			FROM ZPAY_HISTORY
-				WHERE
-					member_id = #{member_id}
-				<if test="!searchType.equals('')">
-					<choose>
-						<when test="searchType.equals('충전')">
-							AND zpay_deal_type = '충전'
-						</when>
-						<when test="searchType.equals('환급')">
-							AND zpay_deal_type = '환급'
-						</when>
-						<when test="searchType.equals('사용')">
-							AND zpay_deal_type = '중고출금'
-							OR zpay_deal_type = '경매출금'
-						</when>
-						<when test="searchType.equals('수익')">
-							AND zpay_deal_type = '중고입금'
-							OR zpay_deal_type = '경매입금'
+							AND (zpay_deal_type = '중고입금'
+							OR zpay_deal_type = '경매입금')
 						</when>
 					</choose>
 				</if>
@@ -93,9 +67,49 @@
 				</if>
 			ORDER BY 
 				zpay_time DESC
-<!-- 			LIMIT -->
-<!-- 				#{startRow} -->
-<!-- 				, #{listLimit} -->
+	</select>
+	
+	<!-- ZPAY 사용 내역(목록) 조회 - 필터링 적용 -->
+	<select id="selectZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT zh.*, ap.auction_title, os.order_secondhand_product
+			FROM ZPAY_HISTORY zh
+				LEFT JOIN ORDER_SECONDHAND os 
+					ON zh.order_secondhand_idx = os.order_secondhand_idx
+				LEFT JOIN ORDER_AUCTION oa 
+					ON zh.order_auction_idx = oa.order_auction_idx
+				LEFT JOIN AUCTION_PRODUCT ap
+					ON ap.auction_idx = oa.auction_idx
+			WHERE
+				member_id = #{member_id}
+			<if test="!searchType.equals('')">
+				<choose>
+					<when test="searchType.equals('충전')">
+						AND zpay_deal_type = '충전'
+					</when>
+					<when test="searchType.equals('환급')">
+						AND zpay_deal_type = '환급'
+					</when>
+					<when test="searchType.equals('사용')">
+						AND (zpay_deal_type = '중고출금'
+						OR zpay_deal_type = '경매출금')
+					</when>
+					<when test="searchType.equals('수익')">
+						AND (zpay_deal_type = '중고입금'
+						OR zpay_deal_type = '경매입금')
+					</when>
+				</choose>
+			</if>
+			<if test="!startDate.equals('') and !endDate.equals('')">
+				AND zpay_time >= #{startDate}
+				AND #{endDate} >= zpay_time
+			</if>
+		ORDER BY 
+			zpay_time DESC
+		<if test="!startRow.equals('') and !listLimit.equals('') ">
+			LIMIT
+				#{startRow}
+				, #{listLimit}
+		</if>
 	</select>
 	
 	<!-- ZPAY 번호 조회 -->
@@ -143,7 +157,7 @@
 				, #{zpay_amount}
 				, now()
 				, #{zpay_balance} - #{zpay_amount}
-				, "환급"
+				, #{zpay_deal_type}
 				, #{member_id}
 			)		
 	</insert>
@@ -154,31 +168,58 @@
 		WHERE order_secondhand_idx = #{order_secondhand_idx}
 		AND order_secondhand_iszpay = 'Y'
 	</select>
+
+	<!-- 경매거래 내역 조회 -->
+	<select id="selectOrderAuction" resultType="com.itwillbs.zero.vo.OrderAuctionVO">
+		SELECT * FROM ORDER_AUCTION
+		WHERE order_auction_idx = #{order_auction_idx}
+	</select>
 	
 	<!-- ZPYA_HISTORY 테이블에 송금내역 추가 -->
-	<insert id="insertSendHistory">
-		INSERT INTO 
-			ZPAY_HISTORY(
-				zpay_history_idx
-				, zpay_idx
-				, zpay_amount
-				, zpay_time
-				, zpay_balance
-				, zpay_deal_type
-				, member_id)
-			VALUES(
-				null
-				, #{zpay_idx}
-				, #{zpay_amount}
-				, now()
-				, #{zpay_balance} - #{zpay_amount}
-				, '중고출금'
-				, #{member_id}
-			)		
-	</insert>
-
+<!-- 	<insert id="insertSendHistory"> -->
+<!-- 		INSERT INTO  -->
+<!-- 			ZPAY_HISTORY( -->
+<!-- 				zpay_history_idx -->
+<!-- 				, zpay_idx -->
+<!-- 				, zpay_amount -->
+<!-- 				, zpay_time -->
+<!-- 				, zpay_balance -->
+<!-- 				, zpay_deal_type -->
+<!-- 				, member_id) -->
+<!-- 			VALUES( -->
+<!-- 				null -->
+<!-- 				, #{zpay_idx} -->
+<!-- 				, #{zpay_amount} -->
+<!-- 				, now() -->
+<!-- 				, #{zpay_balance} - #{zpay_amount} -->
+<!-- 				, #{zpay_deal_type} -->
+<!-- 				, #{member_id} -->
+<!-- 			)		 -->
+<!-- 	</insert> -->
 	<!-- ZPYA_HISTORY 테이블에 수취내역 추가 -->
-	<insert id="insertReceiveHistory">
+<!-- 	<insert id="insertReceiveHistory"> -->
+<!-- 		INSERT INTO  -->
+<!-- 			ZPAY_HISTORY( -->
+<!-- 				zpay_history_idx -->
+<!-- 				, zpay_idx -->
+<!-- 				, zpay_amount -->
+<!-- 				, zpay_time -->
+<!-- 				, zpay_balance -->
+<!-- 				, zpay_deal_type -->
+<!-- 				, member_id) -->
+<!-- 			VALUES( -->
+<!-- 				null -->
+<!-- 				, #{zpay_idx} -->
+<!-- 				, #{zpay_amount} -->
+<!-- 				, now() -->
+<!-- 				, #{zpay_balance} + #{zpay_amount} -->
+<!-- 				, #{zpay_deal_type} -->
+<!-- 				, #{member_id} -->
+<!-- 			)		 -->
+<!-- 	</insert> -->
+
+	<!-- ZPYA_HISTORY 테이블에 송금/수취내역 추가 -->
+	<insert id="insertSendReceiveHistory">
 		INSERT INTO 
 			ZPAY_HISTORY(
 				zpay_history_idx
@@ -187,19 +228,42 @@
 				, zpay_time
 				, zpay_balance
 				, zpay_deal_type
-				, member_id)
+				, member_id
+				<if test="order_auction_idx != 0">
+					, order_auction_idx)
+				</if>
+				<if test="order_secondhand_idx != 0">
+					, order_secondhand_idx)
+				</if>
 			VALUES(
 				null
 				, #{zpay_idx}
 				, #{zpay_amount}
 				, now()
-				, #{zpay_balance} + #{zpay_amount}
-				, "중고입금"
+				<choose>
+					<when test="zpay_deal_type.equals('중고입금') or zpay_deal_type.equals('경매입금')">
+						, #{zpay_balance} + #{zpay_amount}						
+					</when>
+					<when test="zpay_deal_type.equals('중고출금') or zpay_deal_type.equals('경매출금')">
+						, #{zpay_balance} - #{zpay_amount}
+					</when>				
+				</choose>
+				, #{zpay_deal_type}
 				, #{member_id}
+				<if test="order_auction_idx != 0">
+					, #{order_auction_idx}
+				</if>
+				<if test="order_secondhand_idx != 0">
+					, #{order_secondhand_idx}
+				</if>
 			)		
 	</insert>
 	
-	
-	
+	<update id="updateOrderSecondhandStatus">
+		UPDATE ORDER_SECONDHAND
+		SET order_secondhand_status = '결제완료'
+		WHERE order_secondhand_idx = #{order_secondhand_idx}
+	</update>
+
 	
 </mapper>

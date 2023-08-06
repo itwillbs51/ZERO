@@ -46,7 +46,9 @@
 						</div>
 						<p class="targetMessage">
 							<strong>${zpay.zpay_bank_name } ${zpay.zpay_bank_account }  </strong>로<br>
-							<em class="amount">${zpayHistory.zpay_amount }원 환급완료</em>
+							<em class="amount">
+								<fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원 환급완료
+							</em>
 						</p>
 						<p class="targetAccountInfo">
 							${zpay.zpay_bank_name } ${zpay.zpay_bank_account }
@@ -58,7 +60,7 @@
 								ZPAY 잔액
 							</div>
 							<strong class="balanceArea_balance">
-								${zpay_balance }원
+								<fmt:formatNumber value="${zpay_balance}" pattern="#,##0"/>원
 							</strong>	
 						</div>
 						<div class="accountInfoArea">

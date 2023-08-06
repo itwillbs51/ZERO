@@ -186,16 +186,18 @@ public class BankApiClient {
 		jo.put("bank_tran_id", valueGenerator.getBankTranId());
 		jo.put("cntr_account_type", "N"); // 약정 계좌/계정 구분(N:계좌, C:계정 => N 고정)
 		jo.put("cntr_account_num", "50000012"); // 약정계좌 계좌번호
-		jo.put("dps_print_content", "ZERO 충전테스트");	// 입금계좌 인자내역 : 핀테크 기관 입장에서 입금해주는 것!
+		jo.put("dps_print_content", "ZERO충전테스트");	// 입금계좌 인자내역 : 핀테크 기관 입장에서 입금해주는 것!
 		jo.put("fintech_use_num", map.get("fintech_use_num")); // 출금계좌 핀테크이용번호(전달받은 값)
-		jo.put("tran_amt", "10000");	// 거래금액
+		jo.put("tran_amt", map.get("zpayAmount"));	// 거래금액
+//		jo.put("tran_amt", "50000");	// 거래금액
 		jo.put("tran_dtime", valueGenerator.getTranDTime());	// 거래 요청 일시
-		jo.put("req_client_name", "신혜진");
+//		jo.put("req_client_name", "이수정");	// 송금인 실명
+		jo.put("req_client_name", "신혜진");	// 송금인 실명
 		jo.put("req_client_fintech_use_num", map.get("fintech_use_num"));
 		jo.put("req_client_num", "1");
 		jo.put("transfer_purpose", "TR");	// 이체 용도(TR : 송금)
 		// 아래 3개 정보는 피싱 등의 사고 발생 시 지급 정지를 위한 정보(검증을 수행하지 않음)
-		jo.put("recv_client_name", "신혜진");
+		jo.put("recv_client_name", "제로");	// 수취인 실명
 		jo.put("recv_client_bank_code", "002");
 		jo.put("recv_client_account_num", "123123123");
 		logger.info("□□□□□□ 출금이체 요청 JSON 데이터 : " + jo.toString());
@@ -233,8 +235,9 @@ public class BankApiClient {
 		joReq.put("bank_tran_id", valueGenerator.getBankTranId());
 		joReq.put("fintech_use_num", map.get("fintech_use_num")); // 입금계좌 핀테크이용번호(전달받은 값)
 		joReq.put("print_content", "ZERO 환급테스트"); // 입금계좌 인자내역(테스트 데이터 등록)
-		joReq.put("tran_amt", "1000"); // 거래금액(테스트 데이터 등록)
-		joReq.put("req_client_name", "신혜진"); // 거래를 요청한 사용자 이름
+		joReq.put("tran_amt",  map.get("zpayAmount")); // 거래금액(테스트 데이터 등록)
+//		joReq.put("tran_amt", "1000"); // 거래금액(테스트 데이터 등록)
+		joReq.put("req_client_name", "제로"); // 거래를 요청한 사용자 이름(송금인)
 //		joReq.put("req_client_bank_code", "002"); // 
 		joReq.put("req_client_fintech_use_num", map.get("fintech_use_num")); // 거래를 요청한 사용자 핀테크번호
 		joReq.put("req_client_num", "1"); //  // 거래를 요청한 사용자 번호(아이디처럼 사용되는 번호, 임의부여)
@@ -247,9 +250,10 @@ public class BankApiClient {
 		// 요청 파라미터를 JSON 형식으로 생성하기 - org.json 패키지 클래스 활용
 		JSONObject jo = new JSONObject();
 		jo.put("cntr_account_type", "N"); // 약정 계좌/계정 구분(N:계좌, C:계정 => N 고정)
-		jo.put("cntr_account_num", "70667066"); // 약정계좌 계좌번호(테스트데이터 출금계좌 항목에 등록할 계좌번호)
+		jo.put("cntr_account_num", "50000012"); // 약정계좌 계좌번호(테스트데이터 출금계좌 항목에 등록할 계좌번호)
 		jo.put("wd_pass_phrase", "NONE"); // 테스트용은 "NONE" 값 고정
-		jo.put("wd_print_content", "이연태고객송금"); // 출금계좌인자내역
+		jo.put("wd_print_content", "신혜진고객환급"); // 출금계좌인자내역
+//		jo.put("wd_print_content", map.get("req_client_name") + "고객환급"); // 출금계좌인자내역
 		jo.put("name_check_option", "on"); // 수취인성명 검증 여부(on:검증함) - 생략 시 기본값 on
 		jo.put("tran_dtime", valueGenerator.getTranDTime()); // 거래요청일시
 		jo.put("req_cnt", "1"); // 입금요청건수("1" 고정)
