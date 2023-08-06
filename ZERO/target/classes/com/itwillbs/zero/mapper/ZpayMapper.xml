@@ -140,7 +140,42 @@
 			)		
 	</insert>
 
-	<!-- ZPYA_HISTORY 테이블에 충전내역 추가 -->
+	<!-- 추가한 ZPAY_HISTORY 내역의 idx 찾기 -->
+	<select id="selectzpayHistoryInserted" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT * FROM ZPAY_HISTORY	
+			WHERE zpay_history_idx = 
+					(SELECT MAX(zpay_history_idx) FROM ZPAY_HISTORY)
+	</select>
+	
+	<!-- ZERO_ACCOUNT_HISTORY 잔액 조회 -->
+	<select id="selectZeroAccountBalance" resultType="Integer">
+		SELECT IFNULL(zero_account_balance, 0) 
+			FROM ZERO_ACCOUNT_HISTORY
+			WHERE zero_account_history_idx 
+					= (SELECT MAX(zero_account_history_idx) FROM ZERO_ACCOUNT_HISTORY)
+	</select>
+	
+	<!-- ZERO_ACCOUNT_HISTORY 테이블에 입금내역 추가 -->
+	<insert id="insertZeroAccountDepositHistory">
+		INSERT INTO 
+			ZERO_ACCOUNT_HISTORY(
+				zero_account_history_idx
+				, member_id
+				, zpay_history_idx
+				, zero_account_balance
+				, zero_account_amount
+				, zero_account_time)
+			VALUES(
+				null
+				, #{member_id}
+				, #{zpay_history_idx}
+				, #{zero_account_balance} + #{zero_account_amount} * 0.99
+				, #{zero_account_amount} * 0.99
+				, now()
+			)		
+	</insert>
+
+	<!-- ZPYA_HISTORY 테이블에 환급내역 추가 -->
 	<insert id="insertRefundHistory">
 		INSERT INTO 
 			ZPAY_HISTORY(

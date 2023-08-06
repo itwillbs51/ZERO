@@ -9,6 +9,7 @@ import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
 
@@ -102,6 +103,28 @@ public class ZpayService {
 		return mapper.updateOrderSecondhandStatus(order_secondhand_idx);
 	}
 	
+	// 추가한 ZPAY_HISTORY 내역의 idx 찾기
+	public ZpayHistoryVO getzpayHistoryInserted() {
+		return mapper.selectzpayHistoryInserted();
+	}
+	
+	// ZERO_ACCOUNT_HISTORY 잔액조회
+	public Integer getZeroAccountBalance() {
+		
+		Integer zero_account_balance = mapper.selectZeroAccountBalance();
+		
+		return zero_account_balance != null ? zero_account_balance : 0;
+	}
+	
+	// ZERO_ACCOUNT_HISTORY 입금내역 추가
+	public int depositZeroAccount(ZeroAccountHistoryVO zeroAccount) {
+		return mapper.insertZeroAccountDepositHistory(zeroAccount);
+	}
+	
+	// ZERO_ACCOUNT_HISTORY 출금내역 추가
+	public int withdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
+		return mapper.insertZeroAccountWithdrawHistory(zeroAccount);
+	}
 
 	
 	

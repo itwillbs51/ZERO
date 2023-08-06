@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
@@ -68,8 +69,18 @@ public interface ZpayMapper {
 	// ORDER_SECONDHAND 테이블의 order_secondhand_status 변경
 	int updateOrderSecondhandStatus(int order_secondhand_idx);
 	
+	// 추가한 ZPAY_HISTORY 내역의 idx 찾기
+	ZpayHistoryVO selectzpayHistoryInserted();
+	
+	// ZERO_ACCOUNT_HISTORY 잔액조회
+	Integer selectZeroAccountBalance();
+	
+	// ZERO_ACCOUNT_HISTORY 입금내역 추가
+	int insertZeroAccountDepositHistory(ZeroAccountHistoryVO zeroAccount);
 
-
+	// ZERO_ACCOUNT_HISTORY 출금내역 추가
+	int insertZeroAccountWithdrawHistory(ZeroAccountHistoryVO zeroAccount);
+	
 
 	
 	
