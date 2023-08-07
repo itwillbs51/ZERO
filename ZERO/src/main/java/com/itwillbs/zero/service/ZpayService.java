@@ -1,6 +1,7 @@
 package com.itwillbs.zero.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,6 +125,11 @@ public class ZpayService {
 	// ZERO_ACCOUNT_HISTORY 출금내역 추가
 	public int withdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
 		return mapper.insertZeroAccountWithdrawHistory(zeroAccount);
+	}
+
+	//  현재 참여하고 있는 경매 입찰이 있는 지 확인
+	public List<Map<String, Object>> isAuctionParticipant(String member_id) {
+		return mapper.selectAuctionParticipant(member_id);
 	}
 
 	

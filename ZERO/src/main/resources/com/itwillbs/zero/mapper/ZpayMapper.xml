@@ -175,6 +175,21 @@
 			)		
 	</insert>
 
+	<!-- 현재 참여하고 있는 경매 입찰이 있는 지 확인 -->
+	<select id="selectAuctionParticipant" resultType="map">
+		SELECT auction_idx, Max(auction_log_bid) AS max_auction_log_bid
+			FROM 
+				AUCTION_LOG_ROOM
+			WHERE 
+				auction_log_datetime >= CURDATE()
+			AND 
+				CURDATE() + INTERVAL 1 DAY > auction_log_datetime
+			AND 
+				MEMBER_id = #{member_id}
+			GROUP BY 
+				auction_idx;
+	</select>
+
 	<!-- ZPYA_HISTORY 테이블에 환급내역 추가 -->
 	<insert id="insertRefundHistory">
 		INSERT INTO 

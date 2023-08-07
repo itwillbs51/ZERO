@@ -80,6 +80,9 @@ public interface ZpayMapper {
 
 	// ZERO_ACCOUNT_HISTORY 출금내역 추가
 	int insertZeroAccountWithdrawHistory(ZeroAccountHistoryVO zeroAccount);
+
+	// 현재 참여하고 있는 경매 입찰이 있는 지 확인
+	List<Map<String, Object>> selectAuctionParticipant(String member_id);
 	
 
 	

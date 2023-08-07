@@ -1,6 +1,8 @@
 package com.itwillbs.zero.controller;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -292,15 +294,43 @@ public class ZpayController {
 			Model model) {
 		System.out.println("ZpayController - zpayRefundPro()");
 		
-		// 잔액을 초과할 경우 환급 진행 불가
+		// 잔액을 초과할 경우 환급 진행 불가 -----------------------------------------------------------------------------------------
 		if(zpay_balance < Integer.parseInt(zpayAmount)) {
 			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n금액을 다시 입력해주세요.");
 			return "fail_back";
 		}
 
-		// 경매입찰 중일 경우 입찰한 금액 빼고 환급 가능
-		
-		
+		// 경매입찰 중일 경우 입찰한 금액 빼고 환급 가능 ----------------------------------------------------------------------------
+		// 현재 참여하고 있는 경매 입찰이 있는 지 확인
+		List<Map<String, Object>> isAuctionParticipant = service.isAuctionParticipant(member_id);
+		// 현재 참여하고 있는 경매 입찰이 있을 경우 
+		// (balance - 입찰한 금액의 합)과 zpayAmount를 비교하여 
+		// (balance - 입찰한 금액의 합) < zpayAmount 일 경우 환급 불가
+		if(isAuctionParticipant.size() > 0) {
+			
+			long auction_log_bid_sum = 0;
+			for (Map<String, Object> participant : isAuctionParticipant) {
+			    Integer maxBid = (Integer) participant.get("max_auction_log_bid");
+			    auction_log_bid_sum += maxBid;
+			}
+			
+			if(zpay_balance - auction_log_bid_sum < Integer.parseInt(zpayAmount)) {
+				
+				Locale koreanLocale = new Locale("ko", "KR");
+		        NumberFormat koreanFormat = NumberFormat.getInstance(koreanLocale);
+		        
+		        String auctionLogBidSum = koreanFormat.format(auction_log_bid_sum);
+		        String availableBalance = koreanFormat.format(zpay_balance - auction_log_bid_sum < 0 ? 0 : zpay_balance - auction_log_bid_sum);
+		        
+				model.addAttribute("msg", "출금 가능한 금액을 초과하였습니다.\\n입찰금액 합 : " 
+											+ auctionLogBidSum + "원\\n출금가능 금액 : "
+											+ availableBalance + "원");
+				return "fail_back";
+			}
+			
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------
 		// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
 		ZpayVO zpay = service.getZpay(member_id);
 		map.put("access_token", zpay.getAccess_token());
@@ -401,7 +431,7 @@ public class ZpayController {
 			return "fail_location";
 		}
 
-		// 경매입찰 중일 경우 입찰한 금액 빼고 환급 가능
+		// 경매입찰 중일 경우 입찰한 금액 빼고 송금 가능
 		
 		// zpaySellerHistory 객체에 저장
 		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
