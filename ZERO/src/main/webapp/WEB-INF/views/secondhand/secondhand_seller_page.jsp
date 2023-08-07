@@ -120,11 +120,34 @@ h3, h5, button {
 		<div class="row row-cols-2">
 			<!-- 왼쪽섹션 - 회원프로필 -->
 			<div class="col-3">
-					<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="margin:20px;">
-					<h3><a href="secondhandSeller"> 김커피입니다</a></h3>
-					<button class="btn btn-primary btn-lg" style="font-size:1em;" > 채팅하기 </button>
-					<h5> 부산 진구 부전동(주소) </h5>
-					<p>판매상품 nn개</p>
+					<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px;">
+					<h3><a href="secondhandSeller"> ${seller.member_nickname }</a></h3>
+					<!--<button class="btn btn-primary btn-lg" style="font-size:1em;" > 채팅하기 </button> -->
+					
+					<%-- 2-1.세션아이디 없을경우(미로그인) -> 로그인알람창띄우고 로그인페이지로 이동 --%>
+					<c:if test="${empty sessionScope.member_id }">
+						<%--<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button> --%>
+						<button class="btn btn-primary btn-lg" id="chatting" 
+								data-toggle="modal" data-target="#needLogin" 
+								style="font-size:1em; margin:10px 10px">
+							채팅하기
+						</button>
+					</c:if>
+				
+					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
+					<c:if test="${not empty sessionScope.member_id && sessionScope.member_id ne seller.member_id }">
+							<!-- <button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button> -->
+							<form action="doChat" method="POST">
+								<input type="hidden" value="${seller.member_id }" name="seller_id">
+								<%--<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx"> --%>
+								<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
+							</form>
+					</c:if>
+					
+					
+					
+					<h5> ${seller.member_address1 } </h5>
+					<p> 판매상품 ${sellereProduct }개 </p>
 			</div>
 			
 			
@@ -135,8 +158,16 @@ h3, h5, button {
 				  <button class="tablinks" onclick="openTab(event, 'dealEndTab')">거래 완료 상품</button>
 				  <button class="tablinks" onclick="openTab(event, 'reviewTab')">받은 후기</button>
 				</div>
-				<div id="dealingTab" class="tabcontent">
-					<p> 거래중 상품 nn개 </p>
+				<div id="dealingTab" class="tabcontent active">
+					
+					<!-- 
+						거래상태(secondhand_deal_status)가 '판매중'일 경우 && '예약중'일 경우
+						거래상태(secondhand_deal_status)가 '판매완료'일 경우
+						 
+					 -->
+<%-- 					<c:if test="${sellerInfo.secondhand_deal_status eq '판매중' or sellerInfo.secondhand_deal_status eq '예약중' }"> --%>
+<%-- 						<p> 거래중 상품 ${sellerProduct_ }개 </p> --%>
+<%-- 					</c:if> --%>
 					
 						<div class="row row-cols-1 row-cols-md-3 g-4">
 						  <div class="col">
