@@ -42,5 +42,9 @@ public interface ChattingMapper {
 	ZmanDeliveryVO selectZmanOrderInfo(int order_secondhand_idx);
 	// 주소 받아 DB에 업데이트
 	int updateZmanOrderInfo(@Param("map") Map<String, String> map, @Param("zman_delivery_idx") int zman_delivery_idx);
+	// Z맨 최종 호출
+	int updateZDelivery(String zman_delivery_idx);
+	// 중고거래 정보 조회 - Z페이
+	OrderSecondhandVO selectOrderSecondhandInfo(int secondhand_idx);
 	
 }

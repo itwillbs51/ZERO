@@ -81,6 +81,20 @@ public class ChattingService {
 	public int updateZmanOrderInfo(Map<String, String> map, int zman_delivery_idx) {
 		return mapper.updateZmanOrderInfo(map, zman_delivery_idx);
 	}
+	
+	// Z맨 최종 호출
+	public boolean callZman(String zman_delivery_idx) {
+		int updateCount = mapper.updateZDelivery(zman_delivery_idx);
+		if(updateCount > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	// 중고거래 정보 조회 - Z페이
+	public OrderSecondhandVO getOrderSecondhandInfo(int secondhand_idx) {
+		return mapper.selectOrderSecondhandInfo(secondhand_idx);
+	}
 
 	
 	

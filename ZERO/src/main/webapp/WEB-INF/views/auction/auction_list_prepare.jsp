@@ -179,7 +179,7 @@
 							+ '				즉시구매가'
 							+ '			</div>'
 							+ '			<div class="col-7 colRight">'
-							+ '				<span>' + formatted_start_price  + '원</span>'
+							+ '				<span>' + formatted_start_price  + '원</span><br>'
 							+ '				<span>' + formatted_max_price + '원</span>'
 							+ '			</div>'
 							+ '		</div>'

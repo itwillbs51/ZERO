@@ -5,8 +5,21 @@
 	<!-- 배달 예정 목록 조회 - SELECT -->
 	<!-- 중고물품 오더 테이블과 JOIN 필요 -->
 	<select id="selectDeliveryYetList" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
+		SELECT
+			zd.*, os.order_secondhand_product
+		FROM
+			ZMAN_DELIVERY zd 
+		JOIN
+			ORDER_SECONDHAND os
+			ON 
+				zd.order_secondhand_idx = os.order_secondhand_idx
+		WHERE zman_delivery_status = "배달 예정"
+	</select>
+	
+	<!-- DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx -->
+	<select id="selectDeliveryLocation">
 		SELECT *
 			FROM ZMAN_DELIVERY
-			WHERE zman_delivery_status = "배달 예정"
+			WHERE zman_delivery_idx = 15;
 	</select>
 </mapper>

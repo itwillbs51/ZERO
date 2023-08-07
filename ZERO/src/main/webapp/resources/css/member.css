@@ -895,3 +895,9 @@ input[type=checkbox] {
 .display {
 	display:inline!important;
 }
+
+.readonly {
+	pointer-events: none; /* 사용자 입력 이벤트 무시 */
+	background-color: #f2f2f2; /* 배경색 변경 (선택사항) */
+	color: #777; /* 글자 색 변경 (선택사항) */
+}

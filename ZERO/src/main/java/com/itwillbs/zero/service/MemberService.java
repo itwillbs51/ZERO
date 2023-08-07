@@ -75,7 +75,6 @@ public class MemberService {
 	}
 
 
-	 // 마이페이지 메인 - 중고상품구매내역 최신순 3개 가져오기
 	// 중고 거래 목록 가져오기
 	public List<Map<String, String>> selectSecondhandList(String member_id) {
 		return mapper.selectSecondhandList(member_id);

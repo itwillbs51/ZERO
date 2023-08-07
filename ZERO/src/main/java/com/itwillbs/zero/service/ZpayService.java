@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
+import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
-import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
 
@@ -73,30 +74,64 @@ public class ZpayService {
 	}
 
 	// 중고거래 내역 조회
-	public OrderSecondhandVO getOrderSecondhand(int secondhand_idx) {
-		return mapper.selectOrderSecondhand(secondhand_idx);
+	public OrderSecondhandVO getOrderSecondhand(int order_secondhand_idx) {
+		return mapper.selectOrderSecondhand(order_secondhand_idx);
 	}
 	
-	// ZPYA_HISTORY 테이블에 송금내역 추가
-	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
-		return mapper.insertSendHistory(zpayBuyerHistory);
+	// 경매거래 내역 조회
+	public OrderAuctionVO getOrderAuction(int order_auction_idx) {
+		return mapper.selectOrderAuction(order_auction_idx);
+	}
+	
+//	// ZPYA_HISTORY 테이블에 송금내역 추가
+//	public int sendZpay(ZpayHistoryVO zpayBuyerHistory) {
+//		return mapper.insertSendHistory(zpayBuyerHistory);
+//	}
+//
+//	// ZPYA_HISTORY 테이블에 수취내역 추가
+//	public int receiveZpay(ZpayHistoryVO zpaySellerHistory) {
+//		return mapper.insertReceiveHistory(zpaySellerHistory);
+//	}
+
+	// ZPYA_HISTORY 테이블에 송금/수취 내역 추가
+	public int insertSendReceiveHistory(ZpayHistoryVO zpayHistory) {
+		return mapper.insertSendReceiveHistory(zpayHistory);
 	}
 
-	// ZPYA_HISTORY 테이블에 수취내역 추가
-	public int receiveZpay(ZpayHistoryVO zpaySellerHistory) {
-		return mapper.insertReceiveHistory(zpaySellerHistory);
+	// ORDER_SECONDHAND 테이블의 order_secondhand_status 변경
+	public int modifyOrderSecondhandStatus(int order_secondhand_idx) {
+		return mapper.updateOrderSecondhandStatus(order_secondhand_idx);
+	}
+	
+	// 추가한 ZPAY_HISTORY 내역의 idx 찾기
+	public ZpayHistoryVO getzpayHistoryInserted() {
+		return mapper.selectzpayHistoryInserted();
+	}
+	
+	// ZERO_ACCOUNT_HISTORY 잔액조회
+	public Integer getZeroAccountBalance() {
+		
+		Integer zero_account_balance = mapper.selectZeroAccountBalance();
+		
+		return zero_account_balance != null ? zero_account_balance : 0;
+	}
+	
+	// ZERO_ACCOUNT_HISTORY 입금내역 추가
+	public int depositZeroAccount(ZeroAccountHistoryVO zeroAccount) {
+		return mapper.insertZeroAccountDepositHistory(zeroAccount);
+	}
+	
+	// ZERO_ACCOUNT_HISTORY 출금내역 추가
+	public int withdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
+		return mapper.insertZeroAccountWithdrawHistory(zeroAccount);
 	}
 
 	
 	
 	
+
+
 	
-	
-	
-	// ===================================================================
-	public SecondhandVO getSecondhand(int secondhand_idx) {
-		return mapper.selectSecondhand(secondhand_idx);
-	}
 
 	
 	
