@@ -21,13 +21,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.zero.service.AuctionService2;
+import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.AuctionProductVO;
 
 @Controller
 public class AuctionController2 {
 	@Autowired
 	private AuctionService2 service;
-	
+	@Autowired
+	private ZpayService service2;
 	
 	// 경매 상세 페이지로 이동
 	@GetMapping("auction_detail")
@@ -39,9 +41,13 @@ public class AuctionController2 {
 		}
 		HashMap<String, String> product= service.getAuctionProduct(id);
 		List<HashMap<String, String>> logList=service.getAuctionLog(id);
-		System.out.println(logList);
+		int balance=service2.getZpayBalance(member_id); 
+		int bidedZpay=service.getBidedZpay(member_id);
+		System.out.println(bidedZpay);
 		model.addAttribute("product", product);
 		model.addAttribute("logList", logList);
+		model.addAttribute("balance", balance);
+		model.addAttribute("bidedZpay", bidedZpay);
 		
 		return "auction/auction_detail";
 	}
@@ -54,11 +60,17 @@ public class AuctionController2 {
 		map.put("member_id", (String) session.getAttribute("member_id"));
 		int startPrice=Integer.parseInt(String.valueOf(product.get("auction_start_price")));
 		int maxPrice=Integer.parseInt(String.valueOf(product.get("auction_max_price")));
+		int balance=service2.getZpayBalance((String) session.getAttribute("member_id")); 
+		int bidedZpay=service.getBidedZpay((String) session.getAttribute("member_id"));
+		int possibleZpay=balance-bidedZpay;
 		
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
-		
+		if(possibleZpay<currentBid) {
+			System.out.println("입찰가능금액보다 높게 입찰 불가");
+			return "false";
+		}
 		if(maxPrice<currentBid) {
-			System.out.println("즉시구매");
+			System.out.println("즉시낙찰");
 			return "false";
 		}
 		

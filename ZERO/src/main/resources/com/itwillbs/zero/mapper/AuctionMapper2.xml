@@ -100,4 +100,14 @@
 		UPDATE AUCTION_MANAGING SET member_id =#{member_id} WHERE auction_idx =#{auction_idx} 
 	</update>
 	
+	<select id="selectBidedZpay" resultType="int">
+		SELECT IFNULL(SUM(max_bid),0)
+		FROM (
+		  SELECT MAX(auction_log_bid) AS max_bid
+		  FROM AUCTION_LOG_ROOM
+		  WHERE member_id = #{member_id}
+		  AND DATE(auction_log_datetime) = CURDATE()
+		  GROUP BY auction_idx
+		)as t
+	</select>
 </mapper>

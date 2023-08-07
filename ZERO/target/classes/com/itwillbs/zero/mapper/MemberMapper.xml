@@ -68,6 +68,7 @@
 			, order_secondhand_type
 			, order_secondhand_status
 			, secondhand_image1
+			, SECONDHAND.secondhand_idx
 		FROM
 			ORDER_SECONDHAND
 		JOIN
@@ -92,6 +93,7 @@
 			, secondhand_first_date
 			, secondhand_deal_status
 			, MEMBER.member_id
+			, secondhand_idx
 		FROM
 			SECONDHAND 
 		JOIN
