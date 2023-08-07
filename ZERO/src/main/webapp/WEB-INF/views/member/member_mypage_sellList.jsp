@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>	
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,13 +56,13 @@
 		<div class="my_purchase">
 			<div class="content_title" data-v-88eb18f6="">
 				<div class="title" data-v-88eb18f6="">
-					<h3 data-v-88eb18f6="">상품구매 내역</h3>
+					<h3 data-v-88eb18f6="">상품판매 내역</h3>
 					<!---->
 				</div>
 				<!---->
 			</div>
 	<!-- 거래내역 없을때 -->
-		<c:if test="${empty myOdShList }">
+		<c:if test="${empty myShList }">
 		<div data-v-412d8616="" class="recent_purchase">
 			<div data-v-412d8616="">
 				<div data-v-7a02263e="" data-v-412d8616=""
@@ -79,8 +79,8 @@
 		</div>
 		</c:if>
 		
-		<!-- 거래내역 있을때 -->
-		<c:if test="${not empty myOdShList }">
+		<!-- 판매내역 있을때 -->
+		<c:if test="${not empty myShList }">
 			<div data-v-412d8616="" class="recent_purchase">
 				<div data-v-412d8616="">
 					<div data-v-7a02263e="" data-v-412d8616=""
@@ -88,22 +88,22 @@
 						<!---->
 						<div data-v-7a02263e="">
 							<div data-v-e5d3a8ae="" data-v-7a02263e="">
-								<c:forEach var="myOdShList" items="${myOdShList }">
+								<c:forEach var="myShList" items="${myShList }">
 								<div data-v-e5d3a8ae="" 
 									 class="purchase_list_display_item"
 									 style="background-color: rgb(255, 255, 255);"
-									 onclick="location.href='secondhand_detail?secondhand_idx=${myOdShList.secondhand_idx}&member_id=${myOdShList.order_secondhand_seller}'">
+									 onclick="location.href='secondhand_detail?secondhand_idx=${myShList.secondhand_idx}&member_id=${myShList.member_id}'">
 										<div data-v-e5d3a8ae="" class="purchase_list_product">
 											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
-												<img data-v-e5d3a8ae="" alt="myOdShList_image"
-													src="${pageContext.request.contextPath }/resources/upload/' + myOdShList.secondhand_image1 + '"
+												<img data-v-e5d3a8ae="" alt="myShList_image"
+													src="${pageContext.request.contextPath }/resources/upload/' + myShList.secondhand_image1 + '"
 													class="list_item_img"
 													style="background-color: rgb(244, 244, 244);">
 												<!---->
 											</div>
 											<div data-v-e5d3a8ae="" class="list_item_title_wrap">
 												<!---->
-												<p data-v-e5d3a8ae="" class="list_item_title">${myOdShList.order_secondhand_product}</p>
+												<p data-v-e5d3a8ae="" class="list_item_title">${myShList.secondhand_subject}</p>
 											</div>
 										</div>
 										<div data-v-e5d3a8ae="" class="list_item_status">
@@ -111,12 +111,12 @@
 												class="list_item_column column_secondary">
 												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
 													class="secondary_title display_paragraph"
-													style="color: rgba(34, 34, 34, 0.5);">${myOdShList.order_secondhand_date }</p>
+													style="color: rgba(34, 34, 34, 0.5);">${myShList.secondhand_first_date }</p>
 											</div>
 											<div data-v-e5d3a8ae="" class="list_item_column column_last">
 												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
 													class="last_title display_paragraph"
-													style="color: rgb(34, 34, 34);">${myOdShList.order_secondhand_status }</p>
+													style="color: rgb(34, 34, 34);">${myShList.secondhand_deal_status }</p>
 											</div>
 										</div>
 								</div>

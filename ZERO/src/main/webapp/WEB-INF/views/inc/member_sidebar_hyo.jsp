@@ -34,8 +34,14 @@ $(document).ready(function(){
     </li>
     <hr>
     <li class="nav-item">
+      <a class="nav-link" href="member_mypage_sellList">
+        상품판매내역
+      </a>
+    </li>
+    <hr>
+    <li class="nav-item">
       <a class="nav-link" href="member_mypage_auctionList">
-        경매구매내역
+        경매내역
       </a>
     </li>
     <hr>
