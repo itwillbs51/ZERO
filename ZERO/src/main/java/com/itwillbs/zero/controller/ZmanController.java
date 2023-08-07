@@ -85,4 +85,11 @@ public class ZmanController {
 		return "zero_report_form";
 	}
 	
+	// 정의효 - Z-MAN관련
+	// Z-MAN 신청폼
+	@GetMapping("zman_join_form")
+	public String zmanJoinPro() {
+		return "member/member_zman_join_form";
+	}
+	
 }

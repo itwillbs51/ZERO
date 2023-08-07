@@ -330,7 +330,7 @@ input[type=checkbox] {
 					<p class="item-description">배달 용품 구입 가능해요!<br> 배민커넥트 온라인 몰에서 배달 가방과 경량헬멧을 저렴하게 구입할 수 있습니다.</p></div>
 				
 				<div data-v-2b15bea4="" class="login_btn_box">
-					<a data-v-43813796="" data-v-2b15bea4="" class="btn full solid" onclick=""> 신청하러 가기 </a>
+					<a data-v-43813796="" data-v-2b15bea4="" class="btn full solid" onclick="location.href='zman_join_form'"> 신청하러 가기 </a>
 				</div>
 
 			</div>
