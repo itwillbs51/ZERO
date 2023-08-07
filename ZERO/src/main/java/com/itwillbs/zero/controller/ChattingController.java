@@ -23,6 +23,8 @@ public class ChattingController {
 	
 	@Autowired
 	private ChattingService service;
+	@Autowired
+	private ZpayService zpayService;
 	
 	@Autowired
 	private SecondhandService secondhandService;
@@ -312,6 +314,16 @@ public class ChattingController {
 	// Z페이 송금하기 폼으로 이동
 	@RequestMapping(value = "ZpayForm", method = {RequestMethod.GET, RequestMethod.POST})
 	public String  ZpayForm(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		// 구매자가 z페이 사용자가 아닐 때 zpay페이지로 이동하기
+		String buyer_id = map.get("buyer_id");
+		logger.info("*** 구매자 아이디 : " + buyer_id);
+		ZpayVO zpay = zpayService.isZpayUser(buyer_id);
+		if(zpay == null) {
+			model.addAttribute("msg", "현재 Z페이 이용자가 아닙니다!");	
+			model.addAttribute("isClose", "true");	
+			return "fail_back";
+		}
+		
 		// 받은 값 그대로 전달
 		model.addAttribute("map", map);
 		logger.info("*** 이동하는 파라미터 : " + map);
