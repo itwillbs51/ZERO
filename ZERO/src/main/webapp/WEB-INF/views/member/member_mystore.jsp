@@ -629,19 +629,19 @@ row{
 							<div class="sc-cNnxps cdXYEZ">
 								<div class="sc-eMRERa ebVkwH">
 									<div class="sc-RbTVP kcRaQl">
-										<a class="sc-hMrMfs JoOgK" href="/ajax/sell_secondhandList">중고 
+										<a class="sc-hMrMfs JoOgK" href="/ajax/sell_secondhandList">중고 판매
 											<span class="sc-bIqbHp gtokyO">1</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_secondhand_reviews">판매후기 
+										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_secondhand_reviews">판매 후기 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList">경매
+										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList">경매 판매
 											<span class="sc-bIqbHp gtokyO">3</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList_reviews">경매후기 
-											<span class="sc-bIqbHp gtokyO">0</span>
-										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/myLikeList">찜 
+<!-- 										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList_reviews">경매후기  -->
+<!-- 											<span class="sc-bIqbHp gtokyO">0</span> -->
+<!-- 										</a> -->
+										<a class="sc-hMrMfs eXINrs" href="/ajax/myLikeList">찜 목록
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
 									</div>
@@ -650,7 +650,7 @@ row{
 								<%-- 상품 목록 --%>
 									<div class=" ljwWRl">
 										<div class=" khHtgc">
-											<div>상품&nbsp;
+											<div>중고 판매&nbsp;
 												<span class=" kmGPmj">1</span>
 											</div>
 											<div class="inRpvj">
@@ -672,12 +672,11 @@ row{
 <!-- 											</div> -->
 											</div>
 										</div>
-										<div class=" ">
+										<%-- 중고 판매 목록 리스트 --%>
+										<div class="sellList">
 											<div class=" ">
-<%-- 											${sellList } --%>
 												<br>
 											</div>
-<!-- 											<div class="sc-hwcHae fQrqBm"> -->
 											<div class="row">
 												<c:forEach var="sell" items="${sellList }">
 													<div class=" col col-sm-6 col-lg-3">
@@ -686,11 +685,6 @@ row{
 <!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
 																<div class="photoDiv">
 																	<img src="${pageContext.request.contextPath }/resources/upload/${sell.secondhand_image1}" alt="상품 이미지" class="card-img-top">
-		<!-- 															<div class="styled__BadgeArea-sc-3zkh6z-0 dwFxLs"> -->
-		<!-- 																<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDM1IDE2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGc+CiAgICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC05NTguMDAwMDAwLCAtODQ2LjAwMDAwMCkgdHJhbnNsYXRlKDk1OC4wMDAwMDAsIDg0Ni4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxyZWN0IHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgZmlsbD0iI0Q4MEMxOCIgcng9IjIiLz4KICAgICAgICAgICAgICAgIDxwYXRoIGZpbGw9IiNGRkYiIGQ9Ik05LjIyNiAzLjAwM2wtLjU2IDQuNTYzaDIuMzI1Yy4wNDMgMCAuMDY2LjA1Mi4wMzYuMDgzbC01LjAyNCA1LjM4OGMtLjAzMy4wMzUtLjA5MS4wMDgtLjA4NS0uMDRsLjU2LTQuNTYzSDQuMTUzYy0uMDQzIDAtLjA2Ni0uMDUyLS4wMzYtLjA4M0w5LjE0IDIuOTYzYy4wMzMtLjAzNS4wOTEtLjAwOC4wODUuMDR6bTExLjgwMy43MDZ2OC41OWgtMS4zMDZWMy43MWgxLjMwNnptOC40NDcgMHY4LjU5aC0xLjM0NVYzLjcxaDEuMzQ1em0tMTAuMjY1LjA0OHY4LjM4aC0xLjI4OFY4LjEzOGgtLjc3NlY2Ljg3NWguNzc2VjMuNzU3aDEuMjg4em01LjM5OC0uMDJjLjM1MyAwIC42NzcuMDUuOTcuMTQ5LjI5NC4wOTkuNTQ4LjI1Ljc2My40NTUuMjE0LjIwMy4zODUuNDU4LjUxMS43NjUuMTI2LjMwNi4xOTkuNjYzLjIxOCAxLjA3MS4wMTIuMjc0LjAyMi41MzcuMDI4Ljc5LjAwNi4yNTEuMDEuNS4wMS43NDUgMCAuMjQ2LS4wMDQuNDkzLS4wMS43NDJzLS4wMTYuNTA3LS4wMjguNzc1Yy0uMDIuNDE0LS4wOTIuNzczLS4yMTggMS4wNzYtLjEyNi4zMDMtLjI5Ny41NTctLjUxMS43Ni0uMjE1LjIwNC0uNDcuMzU2LS43NjIuNDU1LS4yOTQuMDk5LS42MTguMTQ4LS45NzEuMTQ4LS43MTQgMC0xLjI5MS0uMi0xLjczMy0uNjAyLS40NDItLjQwMi0uNjg1LTEuMDE1LS43My0xLjgzN2wtLjAzMy0uNzg1Yy0uMDEtLjI0OC0uMDE0LS40OTYtLjAxNC0uNzQgMC0uMjQ2LjAwNS0uNDk0LjAxNC0uNzQzLjAxLS4yNDguMDIxLS41MS4wMzQtLjc4NC4wNDQtLjgyMy4yODctMS40MzUuNzI5LTEuODM2LjQ0Mi0uNDAzIDEuMDItLjYwNCAxLjczMy0uNjA0em0tNy4wODQuMTgydjEuMTg3aC0uNTMxbC0uMDE2IDUuMDc1LjYxNC0uMDI0djEuMTY3bC00LjQ3LjE5MnYtMS4xODdsLjYyNC0uMDI0LS4wMTctNS4yaC0uNTMxVjMuOTJoNC4zMjd6bTcuMDg0IDEuMDA1Yy0uMTY1IDAtLjMxMi4wMjctLjQ0LjA4MS0uMTMuMDU0LS4yNDIuMTQ0LS4zMzcuMjY4LS4wOTUuMTI0LS4xNy4yODgtLjIyNy40OTItLjA1Ny4yMDUtLjA5NS40Ni0uMTE0Ljc2Ni0uMDI1LjM3Ni0uMDM4Ljc2Ny0uMDM4IDEuMTcyIDAgLjQwNS4wMTMuNzk2LjAzOCAxLjE3Mi4wMi4zMDYuMDU3LjU2MS4xMTQuNzY1LjA1Ny4yMDQuMTMyLjM2OC4yMjcuNDkzLjA5NS4xMjQuMjA3LjIxMy4zMzYuMjY4LjEzLjA1NC4yNzYuMDguNDQuMDguMTY1IDAgLjMxMi0uMDI2LjQ0LS4wOC4xMy0uMDU1LjI0My0uMTQ0LjMzNy0uMjY4LjA5NS0uMTI1LjE3LS4yODkuMjI4LS40OTMuMDU2LS4yMDQuMDk0LS40Ni4xMTMtLjc2NS4wMjUtLjM3Ni4wMzgtLjc2Ni4wMzgtMS4xNjcgMC0uNDAyLS4wMTMtLjc5NC0uMDM4LTEuMTc3LS4wMTktLjMwNi0uMDU3LS41NjEtLjExMy0uNzY2LS4wNTctLjIwNC0uMTMzLS4zNjgtLjIyOC0uNDkyLS4wOTQtLjEyNC0uMjA3LS4yMTQtLjMzNi0uMjY4LS4xMy0uMDU0LS4yNzYtLjA4MS0uNDQtLjA4MXptLTguODk0LjE4MmgtLjcwN2wuMDE2IDUuMTUuNjc1LS4wMjYuMDE2LTUuMTI0eiIvPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4K" alt="번개페이" class="styled__IconBadge-sc-3zkh6z-2 iDmRbz"> -->
-		<!-- 																<div class="styled__Badge-sc-3zkh6z-1 kpHfXu">배송비포함</div> -->
-		<!-- 															</div> -->
-		<!-- 															<div class="sc-cpmKsF drqQHd"></div> -->
 																</div>
 																<div class="  card-body">
 																	<div class=" ">${sell.secondhand_subject }</div>
@@ -712,7 +706,7 @@ row{
 									<%-- 판매 후기 --%>
 									<div class=" ">
 										<div class=" khHtgc">
-											<div>판매후기&nbsp;
+											<div>판매 후기&nbsp;
 												<span class="sc-keFjpB edhbau">0</span>
 											</div>
 										</div>
@@ -736,32 +730,61 @@ row{
 									<%-- 경매 목록 --%>
 									<div class=" ">
 										<div class=" khHtgc">
-											<div>경매&nbsp;
+											<div>경매 판매&nbsp;
 												<span class=" ">0</span>
 											</div>
 										</div>
 										<div class=" ">경매 내역이 없습니다.</div>
 									</div>
 									<%-- 경매후기 --%>
-									<div class=" ">
-										<div class="sc-OxbzP ">
-											<div class=" khHtgc">
-												<div>경매후기&nbsp;
-													<span class="sc-lnrBVv hIZyef">0</span>
-												</div>
-											</div>
-											<div class="sc-hvvHee cdYewf">등록된 경매후기가 없습니다.</div>
-										</div>
-									</div>
+<!-- 									<div class=" "> -->
+<!-- 										<div class="sc-OxbzP "> -->
+<!-- 											<div class=" khHtgc"> -->
+<!-- 												<div>경매후기&nbsp; -->
+<!-- 													<span class="sc-lnrBVv hIZyef">0</span> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 											<div class="sc-hvvHee cdYewf">등록된 경매후기가 없습니다.</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 									<%-- 찜 목록 --%>
-									<div class=" ">
+									<div class="likeList">
 										<div class=" ">
 											<div class=" khHtgc">
-												<div>찜&nbsp;
+												<div>찜 목록&nbsp;
 													<span class="sc-bOCYYb jGomlc">0</span>
 												</div>
 											</div>
-											<div class="sc-clBsIJ hLgItk">찜 목록이 없습니다</div>
+											<div class=" ">
+											<div class=" ">
+												<br>
+											</div>
+											<div class="row">
+												<c:forEach var="like" items="${likeList }">
+													<div class=" col col-sm-6 col-lg-3">
+														<div class="card border-0 shadow-sm">
+															<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${like.secondhand_idx }&member_id=${like.member_id}">
+<!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
+																<div class="photoDiv">
+																	<img src="${pageContext.request.contextPath }/resources/upload/${like.secondhand_image1}" alt="상품 이미지" class="card-img-top">
+																</div>
+																<div class="  card-body">
+																	<div class=" ">${like.secondhand_subject }</div>
+																	<div class=" ">
+																		<div class=" ">${like.secondhand_price}</div>
+																		<div class=" "><span>${like.secondhand_first_date}</span></div>
+																	</div>
+																</div>
+																<div class=" ">
+		<!-- 															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국 -->
+																</div>
+															</a>
+														</div>
+													</div>
+												</c:forEach>
+											</div>
+										</div>
+<!-- 											<div class="sc-clBsIJ hLgItk">찜 목록이 없습니다</div> -->
 										</div>
 									</div>
 								</div>

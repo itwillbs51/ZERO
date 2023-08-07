@@ -314,6 +314,11 @@ input[type=checkbox] {
     opacity: 1;
 }
 
+.input_box[data-v-4e1fd2e6] {
+    padding: 10px 0 14px;
+    position: relative;
+}
+
 /* 모달속성 */
 
 .layer[data-v-0fdfe010] , .layer[modal] {

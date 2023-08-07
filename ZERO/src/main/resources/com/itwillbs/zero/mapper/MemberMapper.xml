@@ -81,14 +81,14 @@
 	</select>
 	
 	
-	<!-- 특정 컬럼으로 회원정보 조회 -->
+	<!-- 특정 컬럼으로 회원정보 조회 -수정 -->
 	<select id="selectMemberCheck" resultType="map">
 		SELECT *
 			FROM MEMBER
 				WHERE ${column} = #{value}
 	</select>
 	
-	<!-- 세션 아이디가 동일한 회원 회원정보 변경 -->
+	<!-- 세션 아이디가 동일한 회원 회원정보 변경 -수정 -->
 	<update id="updateMemberImage">
 		UPDATE MEMBER
 			SET ${column2} = #{value2}
@@ -120,7 +120,7 @@
 					WHERE m.member_id = #{member_id}
 	</select>
 	
-	<!-- 회원 아이디로 옥션 판매 정보 조회 -->
+	<!-- 회원 아이디로 중고 판매 정보 조회 - 수정 -->
 	<select id = "selectSecondhandList" resultType="map">
 		SELECT * 
 			FROM MEMBER m
@@ -128,4 +128,15 @@
 				ON s.member_id = m.member_id
 				WHERE s.member_id = #{member_id}
 	</select>
+	
+	<!-- 찜 목록리스트 조회 - 수정 -->
+	<select id = "selectLikeList" resultType="map">
+		SELECT * FROM LIKES l 
+			JOIN `MEMBER` m 
+				ON l.member_id = m.member_id
+			JOIN SECONDHAND s 
+				ON l.secondhand_idx = s.secondhand_idx
+					WHERE member_id = #{member_id}
+	</select>
+	
 </mapper>

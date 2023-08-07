@@ -62,9 +62,8 @@ public class MemberController {
 	private TestService testService; 
 	
 	
-	//---------------------------------------------------- 수정 ----------------------------------------------------
 	
-	// 멤버 로그인
+	// 멤버 로그인 - 수정
 	@GetMapping("member_login")
 	public String memberLogin(HttpSession session
 			, Model model
@@ -74,7 +73,7 @@ public class MemberController {
 		return "member/member_login";
 	}
 	
-	// 멤버 로그인 프로
+	// 멤버 로그인 프로  - 수정
 	@PostMapping("member_login_pro")
 	public String memberLoginPro(HttpSession session
 			, Model model
@@ -88,11 +87,15 @@ public class MemberController {
 		System.out.println(member_id);
 		System.out.println(member_passwd);
 		
-		// DB 조회할 컬럼명
-		String column = "member_id";
 		
-		Map<String, String> member = service.isMemberCheck(column, member_id);
+		Map<String, String> member = service.isMemberCheck("member_id", member_id);
 		System.out.println(member);
+		
+		if(member == null) {
+			model.addAttribute("msg", "등록되지 않은 아이디 입니다. "
+					+ "입력하신 내용을 다시 확인해주세요.");
+			return "fail_back";
+		}
 	
 		// 2. BcryptPasswordEncoder 객체 생성
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -114,12 +117,7 @@ public class MemberController {
 //		System.out.println("member_passwd:" + member_passwd);
 //		System.out.println(passwordEncoder.matches(member_passwd, member.get("member_passwd").trim()));
 		
-		if(member.isEmpty()) {		
-//			// 아이디로 조회 시 없는 아이디일 때
-			model.addAttribute("msg", "없는 아이디 입니다. "
-					+ "입력하신 내용을 다시 확인해주세요.");
-			return "fail_back";
-		} else if (member.get("member_passwd") ==  null || !passwordEncoder.matches(member_passwd, member.get("member_passwd"))) {
+		if (member.get("member_passwd") ==  null || !passwordEncoder.matches(member_passwd, member.get("member_passwd"))) {
 //			// 패스워드가 member.getPasswd와 다를 때(비밀번호가 틀림)
 			model.addAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다. "
 					+ "입력하신 내용을 다시 확인해주세요.");
@@ -161,7 +159,7 @@ public class MemberController {
 	}
 
 	
-	// 로그아웃 작업 후 메인으로 돌아가기
+	// 로그아웃 작업 후 메인으로 돌아가기  - 수정
 	@GetMapping("member_logout")
 	public String member_logout(HttpSession session
 			, Model model
@@ -173,7 +171,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	// 네이버 로그인 콜백 
+	// 네이버 로그인 콜백  - 수정
 	@GetMapping("callback_login_naver")
 	public String callbackLoginNaver(HttpSession session
 			, Model model) {
@@ -182,8 +180,8 @@ public class MemberController {
 		return "member/member_callback_naver";
 	}
 	
-	
-	// 네이버 정보 전달
+	 
+	// 네이버 정보 전달  - 수정
 	@PostMapping("/ajax/checkUserNaver")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
 	public String checkUserNaver(HttpSession session
@@ -225,7 +223,7 @@ public class MemberController {
 		
 	}
 
-	// 구글 로그인 콜백 
+	// 구글 로그인 콜백  - 수정
 	@GetMapping("callback_login_google")
 	public String callbackLoginGoogle(HttpSession session
 			, Model model
@@ -236,7 +234,7 @@ public class MemberController {
 		return "member/member_callback";
 	}
 	
-	// ajax로 로그인 정보 가져오기
+	// ajax로 로그인 정보 가져오기  - 수정
 	@PostMapping("ajax/checkUser")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
 	public String checkUser(HttpSession session
@@ -277,7 +275,7 @@ public class MemberController {
 		
 	}
 	
-	// 멤버 로그인정보
+	// 멤버 로그인정보  - 수정
 	@GetMapping("member_Info")
 	public String memberLoginInfo(HttpSession session
 			, Model model) {
@@ -322,7 +320,7 @@ public class MemberController {
 //		return jo;
 //	}
 	
-	// 패스워드 일치여부 확인
+	// 패스워드 일치여부 확인  - 수정
 	public String checkPasswd(String column,String member_id, String column1,String value1) {
 		System.out.println("checkPasswd");
 
@@ -351,7 +349,7 @@ public class MemberController {
 	
 	}
 	
-	// 멤버 패스워드, 폰번호 변경
+	// 멤버 패스워드, 폰번호 변경  - 수정
 	@PostMapping("ajax/chgInfo")
 	@ResponseBody
 	public String chgInfo(HttpSession session
@@ -410,7 +408,7 @@ public class MemberController {
 //		return "ajax 끝";
 //	}
 	
-	// 멤버 주소 등록
+	// 멤버 주소 등록  - 수정
 	@GetMapping("member_address")
 	public String memberAddress(HttpSession session
 			, Model model) {
@@ -452,7 +450,7 @@ public class MemberController {
 		return "member/member_account";
 	}
 	
-	// 멤버 프로필
+	// 멤버 프로필  - 수정
 	@GetMapping("member_profile")
 	public String memberProfile(HttpSession session
 			, Model model) {
@@ -473,7 +471,7 @@ public class MemberController {
 		return "member/member_profile";
 	}
 	 
-	// ajax로 프로필 이미지 변경
+	// ajax로 프로필 이미지 변경 - 수정
 	@PostMapping("ajax/checkUserEmail")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
 	public String checkUserEmail(HttpSession session
@@ -501,7 +499,7 @@ public class MemberController {
 	
 	
 	
-	// ajax로 프로필 이미지 변경
+	// ajax로 프로필 이미지 변경  - 수정
 	@PostMapping("ajax/profileUpdate")
 	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
 	public String profileUpdate(HttpSession session
@@ -603,7 +601,7 @@ public class MemberController {
 		  
 	}
 	
-	// ajax로 프로필 정보 변경
+	// ajax로 프로필 정보 변경  - 수정
 	@ResponseBody
 	@PostMapping("/ajax/profileUpdateInfo")
 	public String profileUpdateInfo(HttpSession session
@@ -636,7 +634,7 @@ public class MemberController {
 		}
 	}
 	
-	// 멤버 아이디 찾기
+	// 멤버 아이디 찾기  - 수정
 	@GetMapping("member_find_id")
 	public String memberFindId(HttpSession session
 			, Model model) {
@@ -645,7 +643,7 @@ public class MemberController {
 		return "member/member_find_id";
 	}
 	
-	// 멤버 패스워드 찾기 폼
+	// 멤버 패스워드 찾기 폼  - 수정
 	@GetMapping("member_find_passwd")
 	public String memberFindPasswd(HttpSession session
 			, Model model) {
@@ -654,7 +652,7 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
-	// 회원 탈퇴 확인 페이지 이동
+	// 회원 탈퇴 확인 페이지 이동  - 수정
 	@GetMapping("member_find_emailAuth")
 	public String memberFindEmailAuth(HttpSession session
 			, Model model
@@ -707,7 +705,7 @@ public class MemberController {
 		return "member/member_find_emailAuth";
 	}
 	
-	// 회원 탈퇴 확인 페이지 이동
+	// 회원 탈퇴 확인 페이지 이동  - 수정
 	@GetMapping("member_withdrawal")
 	public String memberWithdrawal(HttpSession session
 			, Model model
@@ -719,7 +717,7 @@ public class MemberController {
 		return "member/member_withdrawal";
 	}
 	
-	// 회원 탈퇴 요청/ajax/checkWithrawal
+	// 회원 탈퇴 요청/ajax/checkWithrawal  - 수정
 	@GetMapping("/ajax/checkWithrawal")
 	@ResponseBody
 	public String checkWithrawal(HttpSession session
@@ -741,7 +739,7 @@ public class MemberController {
 		// 옥션 판매중이거나 낙찰진행중인 경우 탈퇴 불가
 		String column3 = "";
 		
-		if(false) { // 옥션 판매중이거나 낙찰 진행중인 경우(구현중)
+		if(false) { // 중고거래 z맨 호출중이거나 옥션 판매중이거나 입찰 진행중인 경우(구현중)
 			
 			return "false";
 		}
@@ -765,7 +763,7 @@ public class MemberController {
 	}
 	
 	
-	// 멤버 마이스토어
+	// 멤버 마이스토어 - 수정
 	@GetMapping("member_mystore")
 	public String memberMyStore(HttpSession session
 			, @RequestParam(required = false) String member_id
@@ -780,105 +778,156 @@ public class MemberController {
 		
 		System.out.println(column);
 		System.out.println(member_id);
-		// 회원정보 가져오기
+		//상단 프로필 회원정보 가져오기
 		Map<String, String> member = service.isMemberCheck(column, member_id);
 		System.out.println(member);
 		
 		model.addAttribute("member", member);
-		// 회원정보 가져오기
+		
+		// 중고 상품 회원정보 가져오기
 		List<Map<String, String>> sellList = service.selectSecondhandList(member_id);
-		System.out.println(sellList);
+		System.out.println("sellList:" + sellList);
 		model.addAttribute("sellList", sellList);
 		
 		return "member/member_mystore";
 	}
 
 	
-	// 등록한 중고 상품 리스트
+	// 등록한 중고 상품 리스트 - 수정
 	@ResponseBody
 	@GetMapping("/ajax/mySsecondhandList")
-	public JSONArray myStoreSecondHandList(HttpSession session
+	public JSONObject myStoreSecondHandList(HttpSession session
 							, Model model
+							, @RequestParam(required = false) String member_id
 							, @RequestParam Map<String, String> map
 							) {
+		System.out.println("/ajax/mySsecondhandList - myStoreSecondHandList ");
+		// 임시 고정값 설정 
+		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+			member_id = (String)session.getAttribute("member_id");
+		}  
+		System.out.println(member_id);
+
+		List<Map<String, String>> sellList = service.selectSecondhandList(member_id);
+		System.out.println("sellList:" + sellList);
+		JSONArray jsonArray = new JSONArray();
+
+		for (Map<String, String> item : sellList) {
+		    JSONObject jsonItem = new JSONObject(item);
+		    jsonArray.put(jsonItem);
+		}
+
+		JSONObject resultObject = new JSONObject();
+		resultObject.put("myStore", jsonArray);
 		
-		System.out.println();
-		JSONArray myStore = new JSONArray();
-		
-		return myStore;
+		return resultObject;
 	}
 	
-	// 등록한 중고 상품 리스트
-	@ResponseBody
-	@GetMapping("/ajax/sell_secondhandList")
-	public JSONArray sellSecondHandList(HttpSession session
-							, Model model
-							, @RequestParam Map<String, String> map
-							) {
-		
-		System.out.println();
-		JSONArray myStore = new JSONArray();
-		
-		return myStore;
-	}
+	// 등록한 중고 상품 후기 리스트 - 수정
+//	@ResponseBody
+//	@GetMapping("/ajax/sell_secondhand_reviews")
+//	public JSONObject sellSecondhand_reviews(HttpSession session
+//							, Model model
+//							, @RequestParam(required = false) String member_id
+//							, @RequestParam Map<String, String> map
+//							) {
+//		
+//		System.out.println();
+//		// 임시 고정값 설정 
+//		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+//			member_id = (String)session.getAttribute("member_id");
+//		}  
+//		System.out.println(member_id);
+//		
+//		List<Map<String, String>> sellReviewList = service.selectsellReviewList(member_id);
+//		System.out.println("sellReviewList:" + sellReviewList);
+//		JSONArray jsonArray = new JSONArray();
+//
+//		for (Map<String, String> item : sellReviewList) {
+//		    JSONObject jsonItem = new JSONObject(item);
+//		    jsonArray.put(jsonItem);
+//		}
+//
+//		JSONObject resultObject = new JSONObject();
+//		resultObject.put("myStore", jsonArray);
+//		
+//		return resultObject;
+//	}
 	
-	// 등록한 중고 상품 후기 리스트
-	@ResponseBody
-	@GetMapping("/ajax/sell_secondhand_reviews")
-	public JSONArray sellSecondhand_reviews(HttpSession session
-							, Model model
-							, @RequestParam Map<String, String> map
-							) {
-		
-		System.out.println();
-		JSONArray myStore = new JSONArray();
-		
-		return myStore;
-	}
+	// 등록한 경매 상품 리스트 - 수정
+//	@ResponseBody
+//	@GetMapping("/ajax/sell_auctionList")
+//	public JSONObject sellAuctionList(HttpSession session
+//							, Model model
+//							, @RequestParam(required = false) String member_id
+//							, @RequestParam Map<String, String> map
+//							) {
+//		
+//		System.out.println();
+//		
+//		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+//			member_id = (String)session.getAttribute("member_id");
+//		}  
+//		System.out.println(member_id);
+//
+//		List<Map<String, String>> auctionList = service.selectAuctionList(member_id);
+//		System.out.println("auctionList:" + auctionList);
+//		JSONArray jsonArray = new JSONArray();
+//
+//		for (Map<String, String> item : auctionList) {
+//		    JSONObject jsonItem = new JSONObject(item);
+//		    jsonArray.put(jsonItem);
+//		}
+//
+//		JSONObject resultObject = new JSONObject();
+//		resultObject.put("myStore", jsonArray);
+//		
+//		return resultObject;
+//	}
 	
-	// 등록한 경매 상품 리스트
-	@ResponseBody
-	@GetMapping("/ajax/sell_auctionList")
-	public JSONArray sellAuctionList(HttpSession session
-							, Model model
-							, @RequestParam Map<String, String> map
-							) {
-		
-		System.out.println();
-		JSONArray myStore = new JSONArray();
-		
-		return myStore;
-	}
-	
-	// 등록한 경매 상품 후기 리스트
-	@ResponseBody
-	@GetMapping("/ajax/sell_auctionList_reviews")
-	public JSONArray sellAuctionListReviews(HttpSession session
-							, Model model
-							, @RequestParam Map<String, String> map
-							) {
-		
-		System.out.println();
-		JSONArray myStore = new JSONArray();
-		
-		return myStore;
-	}
-	
-	// 등록한 경매 상품 후기 리스트
+	// 등록한 찜목록 리스트  - 수정
 	@ResponseBody
 	@GetMapping("/ajax/myLikeList")
-	public JSONArray myLikeList(HttpSession session
-			, Model model
-			, @RequestParam Map<String, String> map
-			) {
+	public JSONObject myLikeList(HttpSession session
+							, Model model
+							, @RequestParam(required = false) String member_id
+							, @RequestParam Map<String, String> map
+							) {
 		
 		System.out.println();
-		JSONArray myStore = new JSONArray();
+		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+			member_id = (String)session.getAttribute("member_id");
+		} 
+		System.out.println(member_id);
+
+		List<Map<String, String>> likeList = service.selectLikeList(member_id);
+		System.out.println("likeList:" + likeList);
+		JSONArray jsonArray = new JSONArray();
+
+		for (Map<String, String> item : likeList) {
+		    JSONObject jsonItem = new JSONObject(item);
+		    jsonArray.put(jsonItem);
+		}
+
+		JSONObject resultObject = new JSONObject();
+		resultObject.put("myStore", jsonArray);
 		
-		return myStore;
+		return resultObject;
 	}
 	
-	//---------------------------------------------------- 수정 ----------------------------------------------------
+	// 등록한 찜 삭제  - 수정
+//	@ResponseBody
+//	@GetMapping("/ajax/deleteMyLikeList")
+//	public String deleteMyLikeList(HttpSession session
+//			, Model model
+//			, @RequestParam Map<String, String> map
+//			) {
+//	
+//		System.out.println("/ajax/deleteMyLikeList");
+//
+//		
+//		return "선택학 찜 목록이 삭제되었습니다";
+//	}
 	
 	// 멤버 메인화면
 	@GetMapping("member_mypage_main")

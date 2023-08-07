@@ -116,7 +116,34 @@
 </script>
 <meta name ="google-signin-client_id" content="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com">
 <script type="text/javascript">
-	
+	<%-- 공백 입력 방지 --%>
+	$(function() {
+	    
+	 	// 이메일 함수
+		const emailCheck = document.getElementById("member_id");
+		// 이메일 형식 체크 함수
+		emailCheck.addEventListener("keyup",(e)=> {
+	        validEmail(e.target)
+	    });
+		
+		// 빈칸 입력시 로그인 금지
+		$("#loginForm").submit(function(e) {
+		      var memberId = $("#member_id").val().trim();
+		      var memberPasswd = $("#member_passwd").val().trim();
+		      
+		      if (/^\s*$/.test(memberId)) { // 스페이스바로만 이루어진 공백 감지
+		          e.preventDefault(); // 등록 방지
+		          
+		          alert("아이디를 입력해주세요.");
+		      } else if (/^\s*$/.test(memberPasswd)) { // 스페이스바로만 이루어진 공백 감지
+		    	  e.preventDefault(); // 등록 방지
+		    	  alert("비밀번호를 입력해주세요.");
+		      }
+		      
+		});
+		
+	    
+	});
 
 		
 	// 로그인 버튼 작동
@@ -124,6 +151,34 @@
 // 		alert('로그인 클릭됨');
 		$("#loginForm").submit();
 	}
+	
+
+	
+	// 이메일 형식 체크 정규식
+	function validEmail(obj){
+	    console.log(obj)
+	    if(validEmailCheck(obj)==false){ // 이메일 형식에 맞지 않을 때
+// 	    	alert('올바르지 않은 메일 형식입니다.')
+			$("#input_error_email").css({
+			    "display": "block",
+			});
+// 	        obj.value='';            // 형식에 맞지 않을 때 공백 처리
+	        obj.focus();
+	        return false;
+	    }else{
+	    	$("#input_error_email").css({
+			    "display": "none",
+			});
+	    }
+	}
+
+	// 이메일 정규식
+	function validEmailCheck(obj){
+//         var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,}$/i;
+        return (obj.value.match(pattern)!=null)
+       
+    }
 </script>
 
 
@@ -154,7 +209,7 @@
 			<div class="content lg" data-v-2b15bea4="">
 				<div class="login_area" data-v-2b15bea4="">
 				<h2 class="login_title" data-v-2b15bea4="">
-					<span class="blind" data-v-2b15bea4="">ZERO</span>
+					<span class="" data-v-2b15bea4="">ZERO</span>
 				</h2>
 				<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 					<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
@@ -166,13 +221,13 @@
 <!-- 							</svg> -->
 						</button>
 					</div>
-					<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소를 정확히 입력해주세요.</p>
+					<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4="" id="input_error_email">이메일 주소를 정확히 입력해주세요.</p>
 				</div>
 				<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
 				<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
 				<div class="input_item" data-v-4e1fd2e6="">
-				<input type="password" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="" id="member_passwd" name="member_passwd"></div>
-				<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4=""> 영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자) </p></div>
+					<input type="password" placeholder="" autocomplete="off" class="input_txt" data-v-4e1fd2e6="" id="member_passwd" name="member_passwd"></div>
+					<p class="input_error" data-v-4e1fd2e6="" data-v-2b15bea4=""> 영문, 숫자, 특수문자를 조합해서 입력해주세요. (8-16자) </p></div>
 				<%-- 이메일 주소& 비밀번호 주소 미입력시 --%>
 	<!-- 			<div class="login_btn_box" data-v-2b15bea4=""> -->
 	<!-- 				<a disabled="disabled" href="#" class="btn full solid disabled" data-v-43813796="" data-v-2b15bea4=""> 로그인 </a> -->
@@ -196,7 +251,7 @@
 		      	<input type="checkbox" class="input_check" name="remember_me" <c:if test="${not empty cookie.member_id.value }">checked</c:if>> 
 		      		<a class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">아이디 저장</a>
 		      	</label>
-				<div><a href="member_find_emailAuth" class="look_link" data-v-4e1fd2e6="" data-v-2b15bea4="">인증 메일이 오지 않아요</a></div>
+<!-- 				<div><a href="member_find_emailAuth" class="look_link" data-v-4e1fd2e6="" data-v-2b15bea4="">인증 메일이 오지 않아요</a></div> -->
 				<div class="social_login" data-v-2b15bea4="">
 					<button type="button" class="btn btn_login_naver full outline" data-v-43813796="" data-v-2b15bea4="" >
 						<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_naver.svg">
