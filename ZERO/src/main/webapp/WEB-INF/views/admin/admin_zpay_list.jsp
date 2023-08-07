@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+admin_form.jsp<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +9,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <title>ZERO</title>
 <style type="text/css">
@@ -30,53 +27,43 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">경매 관리</h1>
+					<h1 class="mt-4">ZPAY 관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">경매예정 상품목록</li>
+						<li class="breadcrumb-item active">충전환급관리</li>
 					</ol>
+					
+					<%-- main 내용 작성 영역 --%>
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
-							경매예정 상품목록
+							ZPAY 충전환급 목록
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>판매자</th>
-										<th>상품명</th>
-										<th>등록일</th>
-										<th>검수상태</th>
+										<th>아이디</th>
+										<th>생년월일</th>
+										<th>탈퇴여부</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="auctionProduct" items="${auctionManagingList }" varStatus="vs">
+									<c:forEach var="zman" items="${zmanList }" varStatus="vs">
 										<tr>
+											<td>${zman.zman_id }</td>
+											<td>${zman.zman_birth }</td>
+											<td>${zman.zman_status }</td>
 											<td>
-												${auctionProduct.auction_seller_id }
-											</td>
-											<td>
-												${auctionProduct.auction_title }
-											</td>
-											<td>
-												${auctionProduct.auction_regist_date }
-<%-- 												<fmt:formatDate value="${auctionProduct.auction_regist_date }" pattern="yy.MM.dd"/> --%>
-											</td>
-											<td>
-												${auctionProduct.auction_manage_check_status }
-											</td>
-											<td>
-												<a class="btn btn-sm btn-outline-dark" href="admin_auction_managing_detail?auction_idx=${auctionProduct.auction_idx }">상세보기</a>
+												<a class="btn btn-sm btn-outline-dark" href="admin_zman_detail?zman_idx=${zman.zman_idx }">상세보기</a>
 											</td>
 										</tr>
-									</c:forEach>
+								</c:forEach>
 								</tbody>
 							</table>
 						</div>
 					</div>
-					
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

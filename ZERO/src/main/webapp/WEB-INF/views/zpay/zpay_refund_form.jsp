@@ -118,10 +118,11 @@
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="">
 					<input type="hidden" name="zpay_deal_type" value="환급">
+					<input type="hidden" name="zpay_balance" value="${zpay_balance }">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
-								내 계좌로
+								ZPAY잔액&nbsp;&nbsp;<div class="zpay_balance"><fmt:formatNumber value="${zpay_balance }" pattern="#,##0"/></div>
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">

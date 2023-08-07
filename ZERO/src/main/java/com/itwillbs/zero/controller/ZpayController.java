@@ -272,9 +272,12 @@ public class ZpayController {
 	public String zpayRefundForm(Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayRefundForm()");
 		
+		// 환급받을 계좌 정보와 환급가능한 금액(zpay 잔액) 조회
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
-		model.addAttribute("zpay", zpay);
+		Integer zpay_balance = service.getZpayBalance((String)session.getAttribute("member_id"));
 				
+		model.addAttribute("zpay", zpay);
+		model.addAttribute("zpay_balance", zpay_balance);
 		return "zpay/zpay_refund_form";
 	}
 	
@@ -284,9 +287,19 @@ public class ZpayController {
 	public String zpayRefundPro(ZpayHistoryVO zpayHistory, 
 			@RequestParam String member_id, 
 			@RequestParam String zpayAmount, 
+			@RequestParam int zpay_balance, 
 			Map<String, String> map,
 			Model model) {
-		System.out.println("ZpayController - zpayRefundPro()");		
+		System.out.println("ZpayController - zpayRefundPro()");
+		
+		// 잔액을 초과할 경우 환급 진행 불가
+		if(zpay_balance < Integer.parseInt(zpayAmount)) {
+			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n금액을 다시 입력해주세요.");
+			return "fail_back";
+		}
+
+		// 경매입찰 중일 경우 입찰한 금액 빼고 환급 가능
+		
 		
 		// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
 		ZpayVO zpay = service.getZpay(member_id);
@@ -304,7 +317,7 @@ public class ZpayController {
 		
 		// ---------------------------------------------------------------------------------------------------------------
 		// ZPAY_HISTORY 테이블에서 잔액조회
-		Integer zpay_balance = service.getZpayBalance(member_id);
+//		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
 		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
@@ -378,6 +391,15 @@ public class ZpayController {
 		ZpayVO buyer_zpay = service.getZpay(buyer_id);
 		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
 		Integer buyer_zpay_balance = service.getZpayBalance(buyer_id);
+		
+		// 잔액을 초과할 경우 송금 진행 불가
+		if(buyer_zpay_balance < zpay_amount) {
+			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n추가 충전이 필요합니다");
+			model.addAttribute("targetURL", "zpay_charge_form");
+			return "fail_location";
+		}
+
+		// 경매입찰 중일 경우 입찰한 금액 빼고 환급 가능
 		
 		// zpaySellerHistory 객체에 저장
 		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
