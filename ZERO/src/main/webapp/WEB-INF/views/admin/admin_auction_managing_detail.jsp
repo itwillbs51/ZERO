@@ -38,11 +38,13 @@
 		let auction_regist_date = "${auctionManaging.auction_regist_date}";
 		let auction_manage_check_date = "${auctionManaging.auction_manage_check_date}";
 		let auction_start_datetime = "${auctionManaging.auction_start_datetime}";
+		let auction_end_datetime = "${auctionManaging.auction_end_datetime}";
 		
 		// 변환된 변수를 사용하여 날짜 데이터를 HTML 요소에 추가
 		$("#auctionRegistDate").html(getFormatDate2(auction_regist_date));
 		$("#auctionManageCheckDate").html(getFormatDate2(auction_manage_check_date));
 		$("#auctionStartDatetime").html(getFormatDate3(auction_start_datetime));
+		$("#auctionEndDatetime").html(getFormatDate3(auction_end_datetime));
 		
 		
 		// 검수 상태가 변경될 때
@@ -59,30 +61,35 @@
 			let day = String(now.getDate()).padStart(2, '0');
 			let auctionManageCheckDate = year + "-" + month + "-" + day;
 			let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate() + 4).padStart(2, '0');
+			let auctionEndDatetime = year + "-" + month + "-" + String(now.getDate() + 5).padStart(2, '0');
 
 			// 등록, 검수중 상태로 변경될 경우
-			// 검수완료일, 경매시작일 지정X
+			// 검수완료일, 경매시작일, 경매종료일 지정X
 			if(changedStatus != "검수완료" && changedStatus != "경매불가"){
 				$("#auctionManageCheckDate").empty();
 				$("#auctionStartDatetime").empty();
+				$("#auctionEndDatetime").empty();
 				
 			} else if(changedStatus == "검수완료") {
 				// 검수완료 상태로 변경될 경우
-				// 검수완료일, 경매시작일 지정O
+				// 검수완료일, 경매시작일, 경매종료일 지정O
 				$("#auctionManageCheckDate").html(auctionManageCheckDate);
 				$("#auctionStartDatetime").html(auctionStartDatetime);
+				$("#auctionEndDatetime").html(auctionEndDatetime);
 				
-				// Controller에 hidden 타입으로 검수완료일, 경매시작일 전송
+				// Controller에 hidden 타입으로 검수완료일, 경매시작일, 경매종료일 전송
 				$(".hiddenArea").append(
 						'<input type="hidden" name="auction_manage_check_date" value="">'
 						+ '<input type="hidden" name="auction_start_datetime" value="">'
+						+ '<input type="hidden" name="auction_end_datetime" value="">'
 				);
 				$("input[name=auction_manage_check_date]").val(auctionManageCheckDate + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
 				$("input[name=auction_start_datetime]").val(getFormatDate4(auctionStartDatetime))
+				$("input[name=auction_end_datetime]").val(getFormatDate4(auctionEndDatetime))
 				
 			} else if(changedStatus == "경매불가") {
 				// 경매불가 상태로 변경될 경우
-				// 검수완료일 지정O, 경매시작일 지정X
+				// 검수완료일 지정O, 경매시작일/경매종료일 지정X
 				$("#auctionManageCheckDate").html(auctionManageCheckDate);
 				
 				// Controller에 hidden 타입으로 검수완료일 전송
@@ -251,7 +258,7 @@
 										<tr>
 											<th>경매종료일</th>
 											<td colspan="2" id="auctionEndDatetime">
-												${auctionManaging.auction_end_datetime }
+<%-- 												${auctionManaging.auction_end_datetime } --%>
 											</td>
 										</tr>
 										<tr>

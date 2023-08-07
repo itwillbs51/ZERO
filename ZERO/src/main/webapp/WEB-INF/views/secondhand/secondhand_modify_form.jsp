@@ -9,21 +9,41 @@
 <html>
 <head>
 
-<!-- 부트스트랩 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<!-- daum API -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<!-- 제이쿼리 -->
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<!-- 반응형웹페이지위한 설정 --> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/zero/resources/js/jquery-3.7.0.js"></script>
+
+
+<!-- <!-- 부트스트랩 --> 
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+<!-- <!-- daum API --> 
+<!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
+<!-- <!-- 제이쿼리 --> 
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+<!-- <!-- 반응형웹페이지위한 설정 -->  
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 <script type="text/javascript">
 
-var image_list = [${secondhandProduct.secondhand_image1}, ${secondhandProduct.secondhand_image2}, ${secondhandProduct.secondhand_image3}];
+var image_list = [
+		
+		if(${secondhandProduct.secondhand_image1} != null){
+			${secondhandProduct.secondhand_image1}	
+			
+		} else if(${secondhandProduct.secondhand_image2} != null){
+			, ${secondhandProduct.secondhand_image2}
+			
+		} else if(){
+			,  ${secondhandProduct.secondhand_image3}	
+		}
+	];
 var preview_array  = [false, false, false];
 var change_image = ["0","0","0","0","0","0","0","0","0"];
 
@@ -813,10 +833,10 @@ body{
 					<td class="td2" align="left">
 						<input type="text" id="p_price"
 							maxlength="11" name="p_price" class="input-tag" placeholder="가격"
-							oninput="numberMaxLength(this);" style="width: 30%;"
+							oninput="numberMaxLength(this);" 
 <%-- 						value="<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>" --%>
-							<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>
-							> &nbsp; 
+							<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/> 
+							style="width: 30%;"> &nbsp; 
 						<span class="pro_info"> 원
 						</span> <br> 
 						<span class="pro_info" id="price_under"></span>

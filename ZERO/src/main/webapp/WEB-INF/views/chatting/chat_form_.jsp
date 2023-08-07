@@ -39,12 +39,6 @@
 		<div class="container">
 			<div class="contentArea">
 			<%-- 메인영역 --%>
-				<form action="zpay_charge_pro" method="post">
-<%-- 					<input type="hidden" name="zpay_idx" value="${zpay.zpay_idx }"> --%>
-					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
-<%-- 					<input type="hidden" name="zpay_balance" value="${zpay_balance }"> --%>
-					<input type="hidden" name="zpayAmount" value="">
-					<input type="hidden" name="zpay_deal_type" value="충전">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
@@ -99,7 +93,6 @@
 							<button type="submit" class="btn btn-dark btn-lg btn-block">충전하기</button>
 						</div><%-- chargeButtenArea 영역 끝 --%>
 					</div><%-- chargeContetnArea 영역 끝 --%>
-				</form>
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
 	</article>

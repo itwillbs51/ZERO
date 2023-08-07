@@ -215,7 +215,7 @@
 	
 	<!-- 경매관리 - 경매예정 상품 목록 조회 -->
 	<select id="selectAuctionManagingList" resultType="map">
-		SELECT * 
+		SELECT *
 			FROM 
 				AUCTION_MANAGING am 
 			LEFT JOIN 
@@ -245,14 +245,17 @@
 				<if test="!auction_manage_check_status.equals('검수완료') and !auction_manage_check_status.equals('경매불가')">
 					, auction_manage_check_date = null
 					, auction_start_datetime = null
+					, auction_end_datetime = null
 				</if>
 				<if test="auction_manage_check_status.equals('검수완료')">
 					, auction_manage_check_date = #{auction_manage_check_date}
 					, auction_start_datetime = #{auction_start_datetime}
+					, auction_end_datetime = #{auction_end_datetime}
 				</if>
 				<if test="auction_manage_check_status.equals('경매불가')">
 					, auction_manage_check_date = #{auction_manage_check_date}
 					, auction_start_datetime = null
+					, auction_end_datetime = null
 				</if>
 			WHERE auction_managing_idx = #{auction_managing_idx}
 	</update>

@@ -45,24 +45,6 @@
 // 			console.log("채팅 종료");
 		}); // <- 버튼 클릭 시 호출되는 함수 끝
 		
-		// 채팅목록 클릭 시 채팅 보이게하는 함수
-// 		$("#chatList tr").on("click", function() {
-			//  => 채팅방 열기(채팅방 입장) + (추후) 알람 삭제
-// 			$("#chatArea").css("display", "initial");
-			
-			// 웹소켓 연결 호출 함수
-// 			connectWs();
-			
-// 			if($("#chatArea").is(":hidden")) {
-// 			if($("#chatArea").is(":visible")) {
-				// 채팅 영역이 보이는 상태면
-// 			}
-			// 웹소켓 서버에서 메세지를 보내면 자동으로 실행됨
-// 		 	sock.onmessage = onMessage;
-			
-			
-// 		});	// 버튼 클릭 시 호출되는 함수 끝
-		
 	});	// 함수 호출 끝
 		
 	// 채팅방 클릭 시 채팅방 보여지면서 채팅방 연결하기
@@ -75,14 +57,6 @@
 		
 	} // 채팅방 클릭 시 함수 끝
 	
-	
-	
-	
-	//문서 시작 시 나올 것들
-// 	$(function() {
-		
-// 	});		// function() 끝
-	
 </script>
 </head>
 <body>
@@ -92,20 +66,23 @@
 	</header>
 	
 	<%-- 크기 조절을 위해 main에 다 넣음 --%>
-	<div id="main">
+	<div id="chatListMain">
 		<!-- nav - 메뉴영역 -->
-		<nav>
-			채팅
-		</nav>
-		<hr id="navLine">
+<!-- 		<nav id="chatListMain"> -->
+<!-- 			채팅 -->
+<!-- 		</nav> -->
+<!-- 		<hr id="navLine"> -->
 		
 		<!-- 채팅 목록, 채팅창 영역 -->
-		<div id="mainArea">
+		<div id="chatListMainArea">
 			<!-- 채팅목록 영역 -->
 			<aside id="chatListArea">
 				<table id="chatList">
+					<tr>
+						<td id="title">채팅</td>
+					</tr>
 					<c:forEach var="room" items="${chatRoomList}">
-							<tr onclick="openChatRoom(${room.chat_room_idx})">
+							<tr class="listTr" onclick="openChatRoom(${room.chat_room_idx})">
 								<c:choose>
 									<c:when test="${room.buyer_id eq sessionScope.member_id }">
 										<td class="listImg" rowspan="2">
@@ -115,7 +92,7 @@
 													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/img/profile.png">
 												</c:when>
 												<c:otherwise>
-													<img alt="프로필사진" src="${room.buyer_image }">
+													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.buyer_image }">
 												</c:otherwise>
 											</c:choose>
 										</td>
@@ -136,7 +113,7 @@
 													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/img/profile.png">
 												</c:when>
 												<c:otherwise>
-													<img alt="프로필사진" src="${room.seller_image }">
+													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.seller_image }">
 												</c:otherwise>
 											</c:choose>
 										</td>
@@ -150,6 +127,11 @@
 										</td>
 									</c:otherwise>
 								</c:choose>
+								<td class="productImg" rowspan="2">
+									<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/happy.jpg">
+<%-- 									<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${room.secondhand_image1 }"> --%>
+<%-- 									<a href="chatTest?room_idx=chat_${room.chat_room_idx}">채팅 테스트</a> --%>
+								</td>
 							</tr>
 							<tr onclick="openChatRoom(${room.chat_room_idx})">
 								<td class="shortChatMsg">
@@ -162,82 +144,6 @@
 			
 			</aside>
 			<!-- 채팅 영역 -->
-			<%-- 채팅목록에서 칸을 클릭 시 ajax를 사용하여 채팅창 나오게함 --%>
-			<section id="chatArea" style="display: none;"> <%-- style="display: none;" --%>
-<%-- 				<%@ include file="chat.jsp"%> --%>
-				<%-- 위에 상품정보와 약속잡기, 송금하기 등이 있는 영역 --%>
-				<article class="chatPage">
-					<i class="material-icons backBtn">arrow_back</i>
-					<hr>
-					<div class="art_firstRow">
-						<div class="product_photo co01">
-							<img alt="조던" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg">
-						</div>
-						<div class="co02">
-							<span class="co02-1">판매중</span>
-							<span class="co02-2">레인부츠 사이즈 xxx (상품명)</span><br>
-							<span class="co02-3">
-								30,000원
-							</span>
-						</div>
-						<div class="co03">
-							<button>
-								<i class="material-icons">sim_card_alert</i>신고하기
-							</button>
-						</div>
-					</div>
-					<div class="art_secondRow">
-						<div>
-							<button><i class="material-icons">access_time</i><span>약속잡기 </span></button>
-							<button><i class="material-icons">attach_money</i><span>송금하기 </span></button>
-							<%-- 판매자의 경우 거래하기 아이콘버튼 넣기--%>
-							<button><i class="material-icons">done</i><span>거래하기 </span></button>
-						</div>
-					</div>
-					<hr>
-				</article>
-				
-				<%-- 채팅창 영역 --%>
-				<div class="chatMsgInputArea">
-					<article id="chatMsgArea">
-						<%-- 나오는 채팅만큼 보여주고 위로 무한스크롤?
-						세션아이디와 비교해 세션아이디가 보낸 메세지는 오른쪽, 아닌 메세지는 왼쪽으로 정렬 --%>
-						<table class="chatZone">
-<!-- 							<tr> -->
-<!-- 								<td class="msgRight"> -->
-<!-- 									<div class="msgTime">오후1:37</div> -->
-<!-- 									<div class="msg">안녕하세요</div> -->
-<!-- 								</td> -->
-<!-- 							</tr> -->
-<!-- 							<tr> -->
-<!-- 								<td class="msgLeft"> -->
-<!-- 									<div class="msg">안녕하세요~</div> -->
-<!-- 									<div class="msgTime">오후1:52</div> -->
-<!-- 								</td> -->
-<!-- 							</tr> -->
-						</table>
-					</article>
-					
-					<%-- 채팅 입력 영역 --%>
-					<article class="inputArea">
-						<button class="listInfoBtn"><i class="material-icons">add</i></button>
-							<ul class="listSort" style="display: none;">
-								<li><i class="material-icons">photo</i>사진보내기</li>
-								<li><i class="material-icons">map</i>지도보내기</li>
-								<li><i class="material-icons">access_time</i>약속보내기</li>
-								<li><i class="material-icons">attach_money</i>송금보내기</li>
-								<li><i class="material-icons">location_on</i>나의 위치</li>
-							</ul>
-						<div class="inputTextBox">
-							<input type="text" id="inputText" placeholder="메세지를 입력하세요">
-						</div>
-						<button class="submitBtn">
-							<i class="material-icons">subdirectory_arrow_left</i>
-						</button>
-						
-					</article>
-				</div>
-			</section>
 		</div>
 	</div>
 	

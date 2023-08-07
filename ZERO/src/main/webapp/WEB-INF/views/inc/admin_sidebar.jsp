@@ -92,7 +92,7 @@
 					</a>
 					<div class="collapse" id="zpayManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="#">ZPAY 충전환급 관리</a>
+							<a class="nav-link" href="admin_zpay_list">ZPAY 충전환급 관리</a>
 							<a class="nav-link" href="#">ZPAY 수익지출 관리</a>
 						</nav>
 					</div>

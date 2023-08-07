@@ -99,9 +99,8 @@
 		ON 
 			m.member_id = s.member_id
 		WHERE
-			secondhand_idx = #{secondhand_idx}
-			AND s.member_id = #{member_id}
-			
+			s.member_id = #{member_id}
+			AND secondhand_idx = #{secondhand_idx}
 	</select>
 	
 	
@@ -126,9 +125,41 @@
 		ON 
 			m.member_id = s.member_id
 		WHERE
-			s.member_id = #{member_id} 	
-
+			s.member_id = #{member_id}
 	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 판매자페이지 - 판매자 정보 조회요청 -->
+	<select id="selectSellerInfo_sellerPage" resultType="com.itwillbs.zero.vo.MemberVO">
+		SELECT *
+		FROM MEMBER
+		WHERE member_id=#{member_id}
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<!-- 글 정보 수정작업 -->
 	<!-- 파일은 파일명이 전달되었을경우(널스트링아닐경우)에만 수정 -->

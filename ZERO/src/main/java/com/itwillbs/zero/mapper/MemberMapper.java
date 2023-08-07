@@ -1,12 +1,14 @@
 package com.itwillbs.zero.mapper;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 
 @Mapper
 public interface MemberMapper {
@@ -49,6 +51,15 @@ int updateBankAuth(String member_id);
 
 	// 중고 구매내역 3개 
 	List<OrderSecondhandVO> selectMyOdShList(@Param("member_id") String member_id
+			, @Param("startRow") int startRow
+			, @Param("listLimit") int listLimit);
+//	Map으로 하면 order_secondhand_date 값 = [unread] 다음에수정하기 
+//	List<Map<String, Object>> selectMyOdShList(@Param("member_id") String member_id
+//												, @Param("startRow") int startRow
+//												, @Param("listLimit") int listLimit);
+
+	// 중고 판매 3개
+	List<SecondhandVO> selectMyShList(@Param("member_id") String member_id
 			, @Param("startRow") int startRow
 			, @Param("listLimit") int listLimit);
 	

@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.spi.FileSystemProvider;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.TestService;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 
 @Controller
 public class MemberController {
@@ -893,18 +895,60 @@ public class MemberController {
 //			return "fail_location";
 //		}
 		
-		// 세션 아이디로 구매내역 받아오기(최근 세개만),(myOrderSecondhandList 줄임)
+		// 세션 아이디로 구매내역 받아오기(최근 세개),(myOrderSecondhandList 줄임)
 		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 3); 
+//		Map으로 하면 order_secondhand_date 값 = [unread] 다음에수정하기 
+//		List<Map<String, Object>> myOdShList = service.getMyOdShList(member_id, 0, 2);
+		
+		// 세션 아이디로 판매내역 받아오기(최근 두개)
+		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 3);
 		
 		model.addAttribute("myOdShList", myOdShList);
+		model.addAttribute("myShList", myShList);
 		
 		return "member/member_mypage_main";
 	}
 	
 	// 멤버 중고상품 구매내역
 	@GetMapping("member_mypage_buyList")
-	public String memberMypageBuyList() {
+	public String memberMypageBuyList(HttpSession session, Model model) {
+		
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+//				if(member_id == null) {
+//					model.addAttribute("msg", " 로그인이 필요합니다!");
+//					model.addAttribute("targetURL", "member_login_form");
+//					
+//					return "fail_location";
+//				}
+		
+		// 세션 아이디로 구매내역 받아오기(myOrderSecondhandList 줄임), 페이징처리해야됨
+		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 5);
+		
+		model.addAttribute("myOdShList", myOdShList);
+		
 		return "member/member_mypage_buyList";
+	}
+	
+	// 멤버 중고상품 판매내역
+	@GetMapping("member_mypage_sellList")
+	public String memberMypageSellList(HttpSession session, Model model) {
+		
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+//				if(member_id == null) {
+//					model.addAttribute("msg", " 로그인이 필요합니다!");
+//					model.addAttribute("targetURL", "member_login_form");
+//							
+//					return "fail_location";
+//				}
+		
+		// 세션 아이디로 판매내역 받아오기
+		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 5);
+		
+		model.addAttribute("myShList", myShList);
+		
+		return "member/member_mypage_sellList";
 	}
 	
 	// 멤버 경매 내역
