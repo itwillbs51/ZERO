@@ -294,7 +294,9 @@ public class ZpayController {
 			Model model) {
 		System.out.println("ZpayController - zpayRefundPro()");
 		
-		// 잔액을 초과할 경우 환급 진행 불가 -----------------------------------------------------------------------------------------
+		
+		// ============================================ 환급 불가 ===================================================================
+		// 잔액을 초과할 경우 환급 진행 불가 
 		if(zpay_balance < Integer.parseInt(zpayAmount)) {
 			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n금액을 다시 입력해주세요.");
 			return "fail_back";
@@ -330,7 +332,7 @@ public class ZpayController {
 			
 		}
 
-		// -------------------------------------------------------------------------------------------------------------------------
+		// =========================================================================================================================
 		// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
 		ZpayVO zpay = service.getZpay(member_id);
 		map.put("access_token", zpay.getAccess_token());
@@ -424,14 +426,45 @@ public class ZpayController {
 		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
 		Integer buyer_zpay_balance = service.getZpayBalance(buyer_id);
 		
+		
+		// ============================================ 송금 불가 ===================================================================		
 		// 잔액을 초과할 경우 송금 진행 불가
-		if(buyer_zpay_balance < product_price) {
+		if(buyer_zpay_balance < product_price + order_delivery_commission) {
 			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n추가 충전이 필요합니다");
 			model.addAttribute("targetURL", "zpay_charge_form");
 			return "fail_location";
 		}
 
-		// 경매입찰 중일 경우 입찰한 금액 빼고 송금 가능
+		// 경매입찰 중일 경우 입찰한 금액 빼고 송금 가능 ----------------------------------------------------------------------------
+		// 현재 참여하고 있는 경매 입찰이 있는 지 확인
+		List<Map<String, Object>> isAuctionParticipant = service.isAuctionParticipant(buyer_id);
+		// 현재 참여하고 있는 경매 입찰이 있을 경우 
+		// (balance - 입찰한 금액의 합)과 (product_price + order_delivery_commission)를 비교하여 
+		// (balance - 입찰한 금액의 합) < (product_price + order_delivery_commission) 일 경우 환급 불가
+		if(isAuctionParticipant.size() > 0) {
+			
+			long auction_log_bid_sum = 0;
+			for (Map<String, Object> participant : isAuctionParticipant) {
+			    Integer maxBid = (Integer) participant.get("max_auction_log_bid");
+			    auction_log_bid_sum += maxBid;
+			}
+			
+			if(buyer_zpay_balance - auction_log_bid_sum < product_price + order_delivery_commission) {
+				
+				Locale koreanLocale = new Locale("ko", "KR");
+		        NumberFormat koreanFormat = NumberFormat.getInstance(koreanLocale);
+		        
+		        String auctionLogBidSum = koreanFormat.format(auction_log_bid_sum);
+		        String availableBalance = koreanFormat.format(buyer_zpay_balance - auction_log_bid_sum < 0 ? 0 : buyer_zpay_balance - auction_log_bid_sum);
+		        
+				model.addAttribute("msg", "송금 가능한 금액을 초과하였습니다.\\n입찰금액 합 : " 
+											+ auctionLogBidSum + "원\\n송금가능 금액 : "
+											+ availableBalance + "원");
+				return "fail_back";
+			}
+			
+		}
+		// =========================================================================================================================
 		
 		// zpaySellerHistory 객체에 저장
 		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
