@@ -661,12 +661,21 @@ public class SecondhandController {
 		
 		//판매자페이지
 		@GetMapping("secondhandSeller")
-		public String secondhand_seller_page(HttpSession session, @RequestParam String member_id, Model model) {
-			System.out.println(member_id);
+		public String secondhand_seller_page(HttpSession session, 
+//				@RequestParam String member_id, 
+				Model model) {
 			
 			
-			session.setAttribute("member_id", session.getAttribute(member_id));
 			
+			String member_id = (String) session.getAttribute("member_id");
+			System.out.println("세션아이디 : (ㅑ)*)**)*)*)*)*)" + member_id);
+			
+//			String sId = (String) session.getAttribute("sId");
+//			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);
+//
+//			session.setAttribute("sId", session.getAttribute(sId));
+//			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);
+
 			//판매자의 정보 조회작업
 			//필요정보 - 판매자 프로필, 판매자 닉네임, 판매자 주소
 			//상세페이지의 sellerInfo재사용 -> xml에서 조건주기(파라미터값으로 secondhand_idx값 있을경우/없을경우 구분하는 동적쿼리)
