@@ -23,16 +23,6 @@
 	function img_preview() {
 
 		for(var i=0; i<preview_array.length; i++){
-
-// 			for(var i=0; i<preview_array.length; i++){
-// 				if(i=[i]){
-// 					if(preview_array[i]==false){
-// 						send_[i]();
-// 						return;
-// 					}
-// 				}
-// 			}
-			
 			
 			/* i가 0일때 */
 			if(i==0){

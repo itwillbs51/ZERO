@@ -47,71 +47,35 @@
 	}
 </style>
 <script type="text/javascript">
-
-	$(function() {
-		let selectedSearchType = null;
-		let selectedStartDate = null;
-		let selectedEndDate = null;
+	let pageNum = 1;	// 기본 페이지 번호 미리 저장 - 전역변수(함수 밖에 있음)
+	let maxPage = 1;	// 최대페이지 번호를 미리 저장
+	let selectedSearchType = null;
+	let selectedStartDate = null;
+	let selectedEndDate = null;
 	
-		function updateTransactionHistory() {
-			let requestData = {};
-			
-			if (selectedSearchType) {
-			    requestData.searchType = selectedSearchType;
-			}
-			if (selectedStartDate && selectedEndDate) {
-			    requestData.startDate = selectedStartDate.format('YYYY-MM-DD 00:00:00');
-			    requestData.endDate = selectedEndDate.format('YYYY-MM-DD 23:59:59');
-			}
-	
-				
-			$.ajax({
-				type : "GET", 
-				url : "zpay_main_ajax", 
-				data : requestData, 
-				dataType : "JSON", 
-				success : function(data) {
-					
-					let res = "";
-	
-					for(let zpayHistory of data.zpayHistoryList) {
-						res += "<li>" + 
-									"<div class='zpayHistoryItem'>" + 
-										"<div class='zpayHistoryItem_date'>" + 
-											getFormatDate(zpayHistory.zpay_time) + 
-										"</div>" + 
-										"<div class='zpayHistoryItem_infoArea'>" +
-											"<div class='zpayHistoryItem_info'>" + 
-												"<a href='#' class='itemTitle itemLink'>" + zpayHistory.zpay_deal_type + "</a>" +
-												"<div class='zpayHistoryItem_info_sub'>" +
-													"<span class='payTime'>" + getFormatTime(zpayHistory.zpay_time) + "</span>" +
-													"<span class='paymentType'>" + zpayHistory.zpay_deal_type + "</span>" +
-												"</div>" +
-											"</div>" + 
-											"<div class='zpayHistoryItem_amountArea'>" +
-												"<strong class='zpayHistoryItem_amount' data-dealType='" + zpayHistory.zpay_deal_type + "'>" +
-													comma(zpayHistory.zpay_amount) +  "원" +
-												"</strong>" +
-											"<div class='zpayBalance'>" +
-												comma(zpayHistory.zpay_balance) +  "원" +
-											"</div>" +
-										"</div>" +
-									"</div>" +
-								"</div>" +
-							"</li>"
-					}	// for문 끝
-					
-					$(".zpayHistoryListArea > ul").html(res);
-					$(".listCount").html(data.listCount);
-					amountColor();
-					
-				}, // success 끝
-				error : function() {
-					alert("요청실패");
-				}
-			});	// AJAX 끝
-		}	// updateTransactionHistory 끝
+	let requestData = {};	// ajax 요청 시 data를 넣을 객체
 		
+	$(function() {
+		updateTransactionHistory();
+		
+		// 무한스크롤 기능 추가
+		// 웹브라우저의 스크롤바가 바닥에 닿으면 다음 목록 조회를 위해 updateTransactionHistory() 함수 호출
+		$(window).on("scroll", function() {	// 스크롤 동작 시 이벤트 처리
+			let scrollTop = $(window).scrollTop();	// 스크롤바 현재 위치
+			let windowHeight = $(window).height();	// 브라우저 창의 높이
+			let documentHeight = $(document).height();	// 문서의 높이(창의 높이보다 크거나 같음)
+			
+			let x = 1;
+			if(scrollTop + windowHeight + x >= documentHeight){
+				if(pageNum < maxPage) {
+					pageNum++;
+					updateTransactionHistory();
+				}else{
+// 						alert("다음페이지가 없습니다");
+				}
+			}
+			
+		});	// 무한스크롤 끝
 		
 		// dealType 타입 선택 시 updateTransactionHistory() 함수 실행
 		$(".dealType").on("click", function() {
@@ -119,6 +83,8 @@
 			$(this).addClass("active");
 			
 			selectedSearchType = $(this).val();
+			pageNum = 1; // 거래 유형 변경 시 페이지 번호 초기화
+			$(".zpayHistoryListArea > ul").empty();
 			updateTransactionHistory();
 		});
 	
@@ -169,18 +135,88 @@
 		}, function(start, end, label) {
 			selectedStartDate = start;
 			selectedEndDate = end;
+			pageNum = 1; // 거래 유형 변경 시 페이지 번호 초기화
+			$(".zpayHistoryListArea > ul").empty();
+			
 			updateTransactionHistory();
-		});
-		updateTransactionHistory();
-	});
+			
+		});	// daterangepicker() 끝
 		
-	
-	// 처음 zpay_main 요청 시 목록 불러 오면서 balance 형식 지정
-	$(function() {
-		let balance = ${zpay_balance };		
-		$(".balanceArea .balance").html(comma(balance) + "원");
-		amountColor();
+// 		updateTransactionHistory();
 	});
+			
+	function updateTransactionHistory() {	
+		
+		requestData.pageNum = pageNum;
+		
+		if (selectedSearchType) {
+		    requestData.searchType = selectedSearchType;
+		}
+		if (selectedStartDate && selectedEndDate) {
+		    requestData.startDate = selectedStartDate.format('YYYY-MM-DD 00:00:00');
+		    requestData.endDate = selectedEndDate.format('YYYY-MM-DD 23:59:59');
+		}
+		
+		$.ajax({
+			type : "GET", 
+			url : "zpay_main_ajax", 
+			data : requestData, 
+			dataType : "JSON", 
+			success : function(data) {
+				maxPage = data.maxPage;	// 무한스크롤 다음 페이지 로딩 과정에서 페이지번호와 비교 시 활용
+				console.log(maxPage);
+						
+				if(data.zpayHistoryList == ""){
+					$(".zpayHistoryListArea").html("<div class='noHistory'>ZPAY 사용 내역이 존재하지 않습니다.</div>")
+				}
+				
+				let res = ""; 
+				
+				for(let zpayHistory of data.zpayHistoryList) {
+					res += "<li>" + 
+								"<div class='zpayHistoryItem'>" + 
+									"<div class='zpayHistoryItem_date'>" + 
+										getFormatDate(zpayHistory.zpay_time) + 
+									"</div>" + 
+									"<div class='zpayHistoryItem_infoArea'>" +
+										"<div class='zpayHistoryItem_info'>"
+											if(zpayHistory.zpay_deal_type == '충전' || zpayHistory.zpay_deal_type == '환급') {
+												res += "<a class='itemTitle itemLink'>" + zpayHistory.zpay_deal_type + "</a>"
+											} else if(zpayHistory.zpay_deal_type == '중고입금' || zpayHistory.zpay_deal_type == '중고출금') {
+												res += "<a href='#' class='itemTitle itemLink'>" + zpayHistory.order_secondhand_product + "</a>"
+											} else if(zpayHistory.zpay_deal_type == '경매입금' || zpayHistory.zpay_deal_type == '경매출금') {
+												res += "<a href='#' class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
+											}
+											
+									res +=	"<div class='zpayHistoryItem_info_sub'>" +
+												"<span class='payTime'>" + getFormatTime(zpayHistory.zpay_time) + "</span>" +
+												"<span class='paymentType'>" + zpayHistory.zpay_deal_type + "</span>" +
+											"</div>" +
+										"</div>" + 
+										"<div class='zpayHistoryItem_amountArea'>" +
+											"<strong class='zpayHistoryItem_amount' data-dealType='" + zpayHistory.zpay_deal_type + "'>" +
+												"<span></span>" + comma(zpayHistory.zpay_amount) +  "원" +
+											"</strong>" +
+										"<div class='zpayBalance'>" +
+											comma(zpayHistory.zpay_balance) +  "원" +
+										"</div>" +
+									"</div>" +
+								"</div>" +
+							"</div>" +
+						"</li>"
+				}	// for문 끝
+				
+				$(".zpayHistoryListArea > ul").append(res);
+				$(".listCount").html(data.listCount);
+				$(".balanceArea .balance").html(comma(data.zpay_balance) + "원");
+				amountColor();
+				
+			}, // success 끝
+			error : function() {
+				alert("요청실패");
+			}
+		});	// AJAX 끝
+	}	// updateTransactionHistory 끝
 	
 	// 금액 형식 지정 함수
 	function comma(str) {
@@ -211,9 +247,9 @@
 		
 			if (zpayDealType == "충전" || zpayDealType == "중고입금" || zpayDealType == "경매입금") {
 				$(this).css("color", "#09aa5c");
-				$(this).prepend("+ ");
+				$(this).children("span").html("+ ");
 			} else if (zpayDealType == "환급" || zpayDealType == "중고출금" || zpayDealType == "경매출금") {
-				$(this).prepend("- ");
+				$(this).children("span").html("- ");
 			}
 		});
 		
@@ -289,73 +325,6 @@
 					</div>
 					<div class="zpayHistoryListArea">
 						<ul>
-							<li>
-								<div class="zpayHistoryItem">
-									<div class="zpayHistoryItem_date">
-										07.29
-									</div>
-									<div class="zpayHistoryItem_infoArea">
-										<div class="zpayHistoryItem_info">
-											<a href="#" class="itemTitle itemLink">신발</a>
-											<div class="zpayHistoryItem_info_sub">
-												<span class="payTime">09:00</span>
-												<span class="paymentType">사용</span>
-											</div>
-										</div>
-										<div class="zpayHistoryItem_amountArea">
-											<strong class="zpayHistoryItem_amount">
-												- 10,000원
-											</strong>
-											<div class="zpayBalance">
-												50,000원
-											</div>
-										</div>
-									</div>
-								</div>
-							</li>
-							<c:forEach var="zpayHistory" items="${zpayHistoryList }">
-								<li>
-									<div class="zpayHistoryItem">
-										<div class="zpayHistoryItem_date">
-											<fmt:formatDate value="${zpayHistory.zpay_time }" pattern="MM.dd"/>
-										</div>
-										<div class="zpayHistoryItem_infoArea">
-											<div class="zpayHistoryItem_info">
-												<c:choose>
-													<c:when test="${zpayHistory.zpay_deal_type eq '충전' or zpayHistory.zpay_deal_type eq '환급' }">
-														<a class="itemTitle itemLink">${zpayHistory.zpay_deal_type }</a>
-													</c:when>
-													<c:otherwise>
-														<a href="#" class="itemTitle itemLink">${zpayHistory.zpay_deal_type }</a>
-													</c:otherwise>
-												</c:choose>
-												<div class="zpayHistoryItem_info_sub">
-													<span class="payTime">
-														<fmt:formatDate value="${zpayHistory.zpay_time }" pattern="HH:mm"/>
-													</span>
-													<span class="paymentType">${zpayHistory.zpay_deal_type }</span>
-												</div>
-											</div>
-											<div class="zpayHistoryItem_amountArea">
-												<strong class="zpayHistoryItem_amount" data-dealType="${zpayHistory.zpay_deal_type }">
-															 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원
-<%-- 													<c:choose> --%>
-<%-- 														<c:when test="${zpayHistory.zpay_deal_type eq '충전' or zpayHistory.zpay_deal_type eq '중고입금' or zpayHistory.zpay_deal_type eq '경매입금'}"> --%>
-<%-- 															 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="+ #,##0"/>원 --%>
-<%-- 														</c:when> --%>
-<%-- 														<c:otherwise> --%>
-<%-- 															 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="- #,##0"/>원 --%>
-<%-- 														</c:otherwise> --%>
-<%-- 													</c:choose> --%>
-												</strong>
-												<div class="zpayBalance">
-													 <fmt:formatNumber value="${zpayHistory.zpay_balance}" pattern="#,##0"/>원
-												</div>
-											</div>
-										</div>
-									</div>
-								</li>
-							</c:forEach>
 						</ul>
 					</div><%-- zpayHistoryListArea 영역 끝 --%>
 				</div><%-- zpayHistoryArea 영역 끝 --%>

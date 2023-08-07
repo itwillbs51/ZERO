@@ -76,12 +76,22 @@ public class ChattingController {
 		
 		// 채팅방 번호로 중고상품 정보 조회(채팅방 조회로 받아온 값 중 중고상품 번호 받아오기)
 		int secondhand_idx = chatRoom.getSecondhand_idx();
-		
 		SecondhandVO secondhandInfo = secondhandService.getSecondhandProduct(secondhand_idx);
 		logger.info("*** 중고상품 정보 : " + secondhandInfo);
 		
-		// ORDER_SECONDHAND 테이블에 secondhand_idx와 
+		// z맨 호출여부 등을 조회
+		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(secondhand_idx);
+		if(zmanCallInfo != null) {
+			model.addAttribute("zmanCallInfo", zmanCallInfo);
+			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
+		}
 		
+		// ORDER_SECONDHAND 테이블에 order_secondhand_idx 등의 정보 들고와야할듯
+		OrderSecondhandVO orderSecondhandInfo = service.getOrderSecondhandInfo(secondhand_idx);
+		if(orderSecondhandInfo != null) {
+			model.addAttribute("orderSecondhandInfo", orderSecondhandInfo);
+			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
+		}
 		
 		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
 		model.addAttribute("chatList", chatList);
@@ -206,11 +216,56 @@ public class ChattingController {
 	
 	// Z맨 호출 접수하기 버튼 클릭 시 뜨는 창 매핑
 	@RequestMapping(value = "chatToZ", method = {RequestMethod.GET, RequestMethod.POST})
-	public String chatToZ(@RequestParam Map<String, String> map) {
+	public String chatToZ(@RequestParam Map<String, String> map, HttpSession session, Model model) {
 		
-		// ?
+		int order_secondhand_idx = service.getOrderSecondhandIdx(map.get("secondhand_idx"));
+		map.put("order_secondhand_idx", String.valueOf(order_secondhand_idx));
+		
+		// z맨 호출신청 폼에 필요한 주소 등 데이터 가져오기
+		// ORDER_SECONDHAND 에서 입력한 판매자, 구매자 주소 들고오기
+		// order_secondhand_idx로 조회해서 zman_delivery_startspot, zman_delivery_endspot 가져오기
+		ZmanDeliveryVO zmanOrderInfo = service.getZmanOrderInfo(order_secondhand_idx);
+		logger.info("*** Z맨 거래 정보 zmanOrderInfo : " + zmanOrderInfo);
+
+		if(zmanOrderInfo == null) {
+//			// 가져올 z맨 호출신청 관련 데이터가 없으면 가져온 값을 DB에 넣기
+			int isInsert = service.setZmanOrderInfo(map);
+			logger.info("*** Z맨 거래 정보 INSERT : " + isInsert);
+		} else if (map.get("type") != null){
+			// z맨 호출신청 관련 데이터가 있으면 가져온 값을 DB에 업데이트 하기
+			// zmanOrderInfo 안의 zman_delivery_idx로 조회해 UPDATE 하기
+			int updateCount = service.updateZmanOrderInfo(map, zmanOrderInfo.getZman_delivery_idx());
+			logger.info("*** Z맨 거래 정보 UPDATE : " + updateCount);
+		}
+		
+		// 입력한 값들, 예전에 넣은 값들을 가져와서 폼으로 전달하기
+		model.addAttribute("zmanOrderInfo", zmanOrderInfo);
+		// 외에 앞 페이지에서 받은 값 그대로 들고가기(secondhand_subject, secondhand_price)
+		model.addAttribute("orderInfo", map);
 		
 		return "chatting/chatToZ";
 	}
+	
+	// Z맨 최종 호출(주소지 모두 입력)할 때 DB에 입력
+	@ResponseBody
+	@PostMapping("callZ")
+	public void callZ(@RequestParam Map<String, String> map) {
+		boolean isCall = service.callZman(map.get("zman_delivery_idx"));
+		logger.info("*** Z맨 호출 : " + isCall);
+	}
+	
+	// ----------- 거래하기 관련(송금, 약속, 후기) ---------------
+	// Z페이 송금하기 폼으로 이동
+	@RequestMapping(value = "ZpayForm", method = {RequestMethod.GET, RequestMethod.POST})
+	public String  ZpayForm(@RequestParam Map<String, String> map, HttpSession session, Model model) {
+		// 받은 값 그대로 전달
+		model.addAttribute("map", map);
+		logger.info("*** 이동하는 파라미터 : " + map);
+		
+		return "chatting/chat_deal_zpay";
+	}
+	
+	// z페이 송금하기
+	
 	
 }

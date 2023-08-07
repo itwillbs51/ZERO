@@ -9,6 +9,23 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <title> ZERO | 경매예정상세 </title>
+<script type="text/javascript">
+$(function() {				
+		$("#start_price").html(comma($("#start_price").html()));
+		$("#max_price").html(comma($("#max_price").html()));
+})
+
+
+/* 실제 입력값을 변경해주는 함수 */
+function comma(str) {
+    str = String(str);
+    
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+
+
+</script>
 <style type="text/css">
 
 	#center{
@@ -96,7 +113,7 @@
 	<section>
 		<div class="container-fluid">
 		
-			<div class="d-flex justify-content-center"><h2>조던 1 x 트래비스 스캇 x 프라그먼트 레트로 로우 OG SP 밀리터리 블루</h2></div>
+			<div class="d-flex justify-content-center"><h2>${product.auction_title}</h2></div>
 			
 			
 				<!-- 물품 이미지  -->
@@ -109,13 +126,13 @@
 					</ol>
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg"  class="d-block w-100"alt="...">
+							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image1}" alt="상품사진">
 						</div> 
 						<div class="carousel-item">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" class="d-block w-100" alt="...">
+							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image2}" alt="상품사진">
 						</div>
 						<div class="carousel-item">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" class="d-block w-100" alt="...">
+							<img src="${pageContext.request.contextPath }/resources/upload/${product.auction_image3}" alt="상품사진">
 						</div>
 					</div>
 					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -131,9 +148,9 @@
 				<div class=row>
 					<div class="col-6 col-md-6">
 						<br>
-						<h2 style="display:inline;">경매 시작 가격</h2>100,000원
+						<h2 style="display:inline;">경매 시작 가격</h2><span id="start_price">${product.auction_start_price}</span>원
 						<br><br>
-						<h2 style="display:inline;">즉시 구매 가격</h2>15,0000원
+						<h2 style="display:inline;">즉시 구매 가격</h2><span id="max_price">${product.auction_max_price}</span>원
 					</div>
 					<div class="row col-6 col-md-6">
 						<div class="column">
@@ -149,9 +166,7 @@
 					<br><br>
 					<h3>상세정보</h3>
 					<hr>
-					뜨고 열락의 새가 운다사랑의 풀이 없으면 인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 찾아다녀도 목숨이 있는
-					있는 것이다 석가는 무엇을 위하여 설산에서 고행을 하였으며 예수는 무엇을 위하여 광야에서 방황하였으며 공자는 무엇을 위하여 천하를 철환하였는가? 밥을 위하여서 옷을 위하여서 미인을 구하기 위하여서 그리하였는가? 아니다 그들은 커다란 이상 곧 만천하의 대중을 품에 안고 그들에게 밝은 길을 찾아 주며 그들을 행복스럽고
-					찾아 주며 그들을 행복스럽고 평화스러운 곳으로 인도하겠다는 커다란 이상을 품었기 때문이다 그러므로 그들은 길지 아니한 목숨을 사는가 싶이 살았으며 그들의 그림자는 천고에 사라지지 않는 것이다 이것은 현저하게 일월과
+					${product.auction_content  }
 					
 				</div>
 				

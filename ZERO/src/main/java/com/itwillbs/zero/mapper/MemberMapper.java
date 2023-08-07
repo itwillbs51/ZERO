@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 
 @Mapper
 public interface MemberMapper {
@@ -42,7 +43,13 @@ int updateBankAuth(String member_id);
 	// 핸드폰 중복 체크 
 	int phoneCheck(String member_phone);
 
+
 	// 회원정보 조인해서 중고 거래 목록 가져오기
 	List<Map<String, String>> selectSecondhandList(String member_id);
+
+	// 중고 구매내역 3개 
+	List<OrderSecondhandVO> selectMyOdShList(@Param("member_id") String member_id
+			, @Param("startRow") int startRow
+			, @Param("listLimit") int listLimit);
 	
 }

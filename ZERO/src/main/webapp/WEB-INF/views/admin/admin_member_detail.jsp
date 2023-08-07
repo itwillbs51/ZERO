@@ -38,10 +38,16 @@
 			$("#memberStatus").empty();
 			$("#memberStatus").html(changedStatus);
 
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = String(now.getMonth() + 1).padStart(2, '0');
+			let day = String(now.getDate()).padStart(2, '0');
+			let memberWithdrawal = year + "-" + month + "-" + day;
+			
 			if(changedStatus == "활동"){
 				$("#memberWithdrawal").empty();
 			} else {
-				$("#memberWithdrawal").html('<input type="date" id="member_withdrawal" name="member_withdrawal" class="form-control datepicker">');
+				$("#memberWithdrawal").html(memberWithdrawal + '<input type="hidden" id="member_withdrawal" name="member_withdrawal" value=' + memberWithdrawal + '>');
 			}
 		});
 		

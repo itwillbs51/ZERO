@@ -155,10 +155,14 @@ li, ul {
 }
 .product_info_name {
 	line-height: 16px;
+/* 	vertical-align: middle; */
+	display: flex;
+	align-items: center;
+	height: 32px;
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
+/*     display: -webkit-box; */
     -webkit-line-clamp: 2; /* 두 줄까지는 보이게 */
     -webkit-box-orient: vertical;
 /* 	white-space: nowrap; 영역보다 커도 줄 바꿈하지마라 */

@@ -153,7 +153,7 @@
 							</tr>
 							<tr onclick="openChatRoom(${room.chat_room_idx})">
 								<td class="shortChatMsg">
-									${room.chat_content }
+									<div>${room.chat_content }</div>
 								</td>
 							</tr>
 					</c:forEach>

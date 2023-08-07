@@ -156,7 +156,7 @@
 					$(".productListArea").append(
 							'<div class="product_card_wrap"> '
 							+ '	<div class="product_card">'
-							+ ' 	<a href="auction_prepare_detail?id='+product.auction_idx+'" class="item_inner">'
+							+ ' 	<a href="auction_prepare_detail?id=' + product.auction_idx + '" class="item_inner">'
 							+ '			<div class="item_img">'
 							+ '				<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/' + product.auction_image1 + '">'
 							+ '			</div>'
@@ -179,7 +179,7 @@
 							+ '				즉시구매가'
 							+ '			</div>'
 							+ '			<div class="col-7 colRight">'
-							+ '				<span>' + formatted_start_price  + '원</span>'
+							+ '				<span>' + formatted_start_price  + '원</span><br>'
 							+ '				<span>' + formatted_max_price + '원</span>'
 							+ '			</div>'
 							+ '		</div>'

@@ -44,5 +44,17 @@ public class AuctionService2  {
 		// TODO Auto-generated method stub
 		return mapper.selectMaxPrice(map);
 	}
+	public List<HashMap<String, String>> getWinner(String now) {
+		// TODO Auto-generated method stub
+		return mapper.selectWinnerList(now);
+	}
+	public int registWinner(HashMap<String, String> winner) {
+		// TODO Auto-generated method stub
+		return mapper.updateWinner(winner);
+	}
+	public int registEnd(String now) {
+		// TODO Auto-generated method stub
+		return mapper.updateEnd(now);
+	}
 
 }

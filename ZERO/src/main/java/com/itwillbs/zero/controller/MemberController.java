@@ -45,6 +45,7 @@ import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.TestService;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderSecondhandVO;
 
 @Controller
 public class MemberController {
@@ -52,9 +53,11 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
+	// 메일 인증을위한 Autowired
 	@Autowired
 	private ApplicationContext ctx;
 	
+	// 핸드폰 인증을 위한 Autowired
 	@Autowired
 	private TestService testService; 
 	
@@ -879,7 +882,22 @@ public class MemberController {
 	
 	// 멤버 메인화면
 	@GetMapping("member_mypage_main")
-	public String memberMypageHome() {
+	public String memberMypageHome(HttpSession session, Model model) {
+		
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+//		if(member_id == null) {
+//			model.addAttribute("msg", " 로그인이 필요합니다!");
+//			model.addAttribute("targetURL", "member_login_form");
+//			
+//			return "fail_location";
+//		}
+		
+		// 세션 아이디로 구매내역 받아오기(최근 세개만),(myOrderSecondhandList 줄임)
+		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 3); 
+		
+		model.addAttribute("myOdShList", myOdShList);
+		
 		return "member/member_mypage_main";
 	}
 	
@@ -1029,17 +1047,19 @@ public class MemberController {
 		return "member/member_zman_join_identification";
 	}
 	
+//	-------------------- ZMAN 컨트롤러 이동후 삭제예정 정의효 -----------------
 	// Z-MAN 신청폼
-	@GetMapping("zman_join_form")
-	public String zmanJoinPro() {
-		return "member/member_zman_join_form";
-	}
-	
-	// Z-MAN 신청완료
-	@PostMapping("zman_join_complete")
-	public String zmanJoinComplete() {
-		return "member/member_zman_join_complete";
-	}
+//	@GetMapping("zman_join_form")
+//	public String zmanJoinPro() {
+//		return "member/member_zman_join_form";
+//	}
+//	
+//	// Z-MAN 신청완료
+//	@PostMapping("zman_join_complete")
+//	public String zmanJoinComplete() {
+//		return "member/member_zman_join_complete";
+//	}
+//	-------------------- ZMAN 컨트롤러 이동후 삭제예정 정의효 -----------------
 	
 	// 마이페이지 작성한 후기
 	@GetMapping("member_mypage_write_review")

@@ -17,103 +17,205 @@
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
+<style type="text/css">
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+	 font-family: 'NanumSquareNeo-Variable';
+}
+/*  */
+.chargeContentArea .chargeInputArea .withdrawalAccountArea {
+    margin-top: 10px;
+}
+.title {
+	height: 25px;
+	font-size: 16px !important;
+	padding-right: 10px !important;
+	line-height: 24px !important;
+}
+.title button {
+	font-size: 15px;
+	padding: 0.2rem 0.5rem;
+	margin-left: 0.5rem;
+}
+/* 주소 받는 입력창 조절 */
+.input_txt1 {
+	width: 80px;
+	margin-bottom: 5px;
+}
+.input_txt2 {
+	width: 340px;
+}
+.redText {
+	color: red;
+}
+/* 밑에 버튼 영역 */
+.chargeButtonArea {
+	margin: auto;
+	padding-top: 10px;
+}
+
+</style>
+<%-- 우편번호찾기 Daum api --%>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 	
+	// 수정 시 값이 있는 것만 받아서 ajax로 전달하기 위한 변수
+	let addInfo;	
+	let inputStart = "${zmanOrderInfo.zman_delivery_startspot}";
+	let inputEnd = "${zmanOrderInfo.zman_delivery_endspot}";
+	console.log("inputStart : " + inputStart);
+	console.log("inputEnd : " + inputEnd);
+	
 	$(function() {
-		checkButtonStatus();
-	});
-
-	// 입력된 금액의 형태 지정하는 함수 ==================================================================================
-	function inputNumberFormat(obj) {
-		obj.value = comma(uncomma(obj.value));
-	}
-
-	// [^\d]+ : 숫자가 아닌 것이 1개 이상 반복되는 문자열 => 없애기
-	function uncomma(str) {
-		str = String(str);
-		return str.replace(/[^\d]+/g, '');
-	} 
-
-	// uncomma() 수행후 리턴된 숫자만 천단위로 ',(콤마)' 추가
-	// (?= ...) : 양의 전방 탐색. 현재 위치 뒤에 특정 패턴이 따라오는지 확인
-	// (?: ) : 이는 비캡처 그룹. 여러 요소를 하나로 묶지만, 캡처를 생성하지는 않음
-	// (\d{3}) : 숫자가 3번 반복되는 문자열
-	// (?!\d) : 부정적 전방 탐색. 현재 위치 뒤에 숫자가 오지 않아야 함
-	// (?:\d{3})+(?!\d) : ((숫자가 3번 반복되는 문자열)이 1번 이상 반복되는 문자열) 뒤에 더이상 숫자가 없는 문자열
-	function comma(str) {
-		str = String(str);
-		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-	}
-	
-	function inputOnlyNumberFormat(obj) {
-		obj.value = onlynumber(uncomma(obj.value));
-	}
-	
-	function onlynumber(str) {
-		str = String(str);
-		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
-	}
-
-	// [충전하기] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
-	function checkButtonStatus(){
-		let amountInput =  $("#amountInput").val();
-		let chargeButton = $(".chargeButtonArea>button");
-		
-		if(amountInput === ""){
-			chargeButton.attr("disabled", "disabled");
-		} else {
-			chargeButton.removeAttr("disabled");
+		if(inputStart != "") {
+			$("#member_zipcode1").attr('value', inputEnd.split(",")[0]);
+			$("#zman_delivery_startspot").attr('value', inputEnd.split(",")[1]);
+			console.log("inputStart : " + inputStart.split(",")[0] + ":" + inputStart.split(",")[1]);
 		}
-	}
-	
-	
-	$(function(){
-		// 금액이 선택될 경우 [금액입력] 란에 입력 및 [충전하기] 버튼 활성화 ================================================
-		$("input[name=options]").on("click", function() {
-// 			alert($(this).val());
-			$("#amountInput").val($(this).val());
-			checkButtonStatus();
-		});
+		if(inputEnd != "") {
+			$("#member_zipcode2").attr('value', inputEnd.split(",")[0]);
+			$("#zman_delivery_endspot").attr('value', inputEnd.split(",")[1]);
+			console.log("inputEnd : " + inputEnd.split(",")[0] + ":" + inputEnd.split(",")[1]);
+		}
 		
-		// 금액이 입력될 경우 [충전하기] 버튼 활성화 ========================================================================
-		$("#amountInput").on("input", function() {
-			checkButtonStatus();
-		});
 	});
 	
-	
-	// [금액입력] 란의 [x]버튼
-	// 클릭 시 [금액입력] 란의 내용 null로 바꾸고
-	// 선택된 금액의 active 클래스 해제
-	function amountReset() {
-		$("#amountInput").val(null);
-		$("input[name=options]").parent().removeClass("active");
-		checkButtonStatus();
-	}
+	function DaumPostcode(event, num) {
+		event.preventDefault();
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-	$(function() {
-		$("form").submit(function() {
-			let zpayAmount = $("#amountInput").val().replace(",", "");
-			$("input[name=zpayAmount]").val(zpayAmount);
-		});
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+//                     document.getElementById("member_extraAddress").value = extraAddr;
+                    addr = addr + " " + extraAddr;
+                
+                } else {
+//                     document.getElementById("member_extraAddress").value = '';
+					addr = addr;
+                }
+                
+                if(num == 1) {
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('member_zipcode1').value = data.zonecode;
+	                document.getElementById("zman_delivery_startspot").value = addr;
+                } else {
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('member_zipcode2').value = data.zonecode;
+	                document.getElementById("zman_delivery_endspot").value = addr;
+                }
+            }
+        }).open();
+    }
+	// ------ 우편번호 찾기 끝
+	let start;
+	let end;
+	// 수정하기, 호출하기 버튼 클릭 시 실행되는 함수
+	function submitBtn(type) {
+		if($("#member_zipcode1").val() != "") {
+			start = $("#member_zipcode1").val() + "," + $("#zman_delivery_startspot").val();
+			console.log(start);
+		}
+		if($("#member_zipcode2").val() != "") {
+			end = $("#member_zipcode2").val() + "," + $("#zman_delivery_endspot").val();
+			console.log(end);
+		}
+		addInfo += "&zman_delivery_startspot=" + start;
+		addInfo += "&zman_delivery_endspot=" + end;
 		
-	})
-	
-	$(function() {
-		$("#zpayBankAuthButton").on("click", function() {
-			// 새 창에서 사용자 인증 페이지 요청
-			// => 입금 이체 API 사용을 위해 scope 항목에 oob추가
-			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
-					+ "response_type=code"
-					+ "&client_id=4066d795-aa6e-4720-9383-931d1f60d1a9"
-					+ "&redirect_uri=http://localhost:8089/zero/callback"
-					+ "&scope=login inquiry transfer oob"
-					+ "&state=12345678901234567890123456789012"
-					+ "&auth_type=0";
-			
-			window.open(requestUri, "authWindow", "width=600, height=800");
-		});
-	});
+		switch(type) {
+			case 1:
+				if(addInfo == "") {	// 입력된 값이 없으면 처리 안함
+					alert("수정할 정보가 없습니다!");
+				} else {
+					let url = "chatToZ?"
+						+ "secondhand_idx=" + "${param.secondhand_idx }"
+						+ "&seller_id=" + "${param.seller_id}"
+						+ "&buyer_id=" + "${param.buyer_id}"
+						+ "&type=" + '수정'
+						+ addInfo
+						;
+					
+					$.ajax({
+						url: url,
+						type: "GET",
+						success: function(data) {
+							console.log("DB 저장 성공");
+							console.log(url);
+						},
+						error: function(request,status,error) {
+							console.log(url);
+							console.log("DB 저장 실패");
+						}
+					});
+					window.close();
+				}
+				break;
+			case 2:
+				if(start == "" || end == "") {
+					alert("출발지 또는 도착지 정보가 입력되지 않았습니다! 호출이 불가능합니다");
+				} else {
+					// 정보 모두 입력된 경우만 가능
+					$.ajax({
+						data: {
+							"order_secondhand_idx": ${param.secondhand_idx }
+// 							, "seller_id": "${param.seller_id}"
+// 							, "buyer_id": "${param.buyer_id}"
+// 							, "zman_delivery_startspot": start
+// 							, "zman_delivery_endspot": end
+							, "zman_delivery_idx": ${zmanOrderInfo.zman_delivery_idx}
+						},
+						url: "callZ",
+						type: "POST",
+						success: function(data) {
+							console.log("DB 저장 성공");
+							let call = '출발지와 도착지 입력완료!<br>Z맨 호출중입니다!';
+							// 부모창인 채팅창에 메시지 함수 호출 subNotice(type, typeMsg)
+							window.opener.subNotice('call', call);
+							window.close();
+						},
+						error: function(request,status,error) {
+							console.log("DB 저장 실패");
+						}
+					});
+					
+					break;
+				}
+		}	// switch문 끝
+	}
+	// submitBtn() 끝
 	
 </script>
 <style type="text/css">
@@ -123,93 +225,80 @@
 </style>
 </head>
 <body>
-	<header>
-		<%@ include file="../inc/header.jsp"%>
-	</header>
 	<article>
 		<div class="container">
 			<div class="contentArea">
 			<%-- 메인영역 --%>
-				<form action="zpay_charge_pro" method="post">
-<%-- 					<input type="hidden" name="zpay_idx" value="${zpay.zpay_idx }"> --%>
-					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
-<%-- 					<input type="hidden" name="zpay_balance" value="${zpay_balance }"> --%>
-					<input type="hidden" name="zpayAmount" value="">
-					<input type="hidden" name="zpay_deal_type" value="충전">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
+							<h3 class="input_title">ZMAN 접수</h3>
 							<div class="title">
-								ZPAY 로
+								주소지를 입력해주세요
 							</div>
-							<div class="amountArea">
-								<div class="amountInputArea">
-									<input type="text" id="amountInput" maxlength="10" onkeyup="inputNumberFormat(this);" placeholder="충전할 금액을 입력해 주세요">
-									<button type="button" class="btn" onclick="amountReset()">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-										</svg>
-									</button>							
-								</div>							
-								<div class="amountShortcutArea">
-									<div class="btn-group btn-group-toggle" data-toggle="buttons">
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option1" autocomplete="off" value="10,000">+1만원
-										</label>
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option2" autocomplete="off" value="50,000">+5만원
-										</label>
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option3" autocomplete="off" value="100,000">+10만원
-										</label>								
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option4" autocomplete="off" value="1,000,000">+100만원
-										</label>
-									</div>
-								</div>
-							</div><%-- amountArea 영역 끝 --%>
 							<div class="withdrawalAccountArea">
 								<div class="title">
-									출금 계좌
+									출발지(판매자) 
+									2. ${param.seller_id }
+									<%-- 판매자만 수정 가능 --%>
+									<c:if test="${sessionScope.member_id eq param.seller_id }">
+										<button class="btn btn-outline-dark" onclick="DaumPostcode(event, 1)">우편번호 찾기</button>
+									</c:if>
 								</div>
 								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">하나</div>
-									<div class="withdrawalAccountNum">123-456-789</div>
+									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6=""
+										id="member_zipcode1" name="member_zipcode1" required="required" readonly>
+<!-- 									<button class="btn btn-outline-dark" onclick="DaumPostcode(event)">우편번호 찾기</button> -->
+									<input type="text" class="input_txt2" placeholder="도로명주소" autocomplete="off" data-v-4e1fd2e6=""
+										   id="zman_delivery_startspot" name="zman_delivery_startspot" required="required" readonly>
 								</div>
-								<div class="dropdown withdrawalAccount_info">
-									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										출금계좌선택
-									</button>
-									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<c:choose>
-											<c:when test="${empty userInfo.res_list }">
-												<a class="btn dropdown-item" id="zpayBankAuthButton">계좌인증하기</a>
-											</c:when>
-											<c:otherwise>
-												<c:forEach var="account" items="${userInfo.res_list }">
-													<a class="dropdown-item withdrawalBankName" href="#">${account.bank_name } ${account.account_num_masked }
-														<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-														<form action="bankAccountDetail" method="post">
-															<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
-															<input type="hidden" name="user_name" value="${userInfo.user_name }">
-															<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
-															<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
-															<input type="submit" value="상세조회">
-														</form>
-													</a>
-												</c:forEach>
-											</c:otherwise>
-										</c:choose>
-									
-									</div>
+								<div class="title">
+									도착지(구매자) 
+									1. ${sessionScope.member_id }
+									2. ${param.buyer_id }
+									<%-- 구매자만 수정 가능 --%>
+									<c:if test="${sessionScope.member_id eq param.buyer_id }">
+										<button class="btn btn-outline-dark" onclick="DaumPostcode(event, 2)">우편번호 찾기</button>
+									</c:if>
 								</div>
-								
+								<div class="withdrawalAccount_info">
+									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6=""
+										id="member_zipcode2" name="member_zipcode2" required="required" readonly>
+<!-- 									<button class="btn btn-outline-dark" onclick="DaumPostcode(event)">우편번호 찾기</button> -->
+									<input type="text" class="input_txt2" placeholder="도로명주소" autocomplete="off" data-v-4e1fd2e6=""
+										   id="zman_delivery_endspot" name="zman_delivery_endspot" required="required" readonly>
+								</div>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
+							
+							<div class="withdrawalAccountArea">
+								<div class="title">
+									총금액
+								</div>
+								<div class="withdrawalAccount_info">
+									<div class="withdrawalBankName">36,000원 </div>
+									<div class="withdrawalAccountNum">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div>
+<%-- 									<div class="withdrawalBankName">${orderInfo.secondhand_price + 3000 }</div> --%>
+<%-- 									<div class="withdrawalAccountNum">${orderInfo.secondhand_price }(상품가격) + 3,000(배달비)</div> --%>
+								</div>
+								<div class="title">
+									희망배달시간
+								</div>
+								<div class="withdrawalAccount_info">
+									<div class="withdrawalBankName">2023년 00월 00일 00시(미정)</div>
+								</div>
+								<div class="title">
+									ZMAN 호출 후에는 <b class="redText">수정이 불가능</b>하오니 다시 한 번 확인 후<br>
+									호출하기 버튼을 눌러주세요<br>
+									(출발지, 도착지가 모두 입력되면 ZMAN 호출이 시작됩니다)
+								</div>
+							</div><%-- withdrawalAccountArea 영역 끝 --%>
+							
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
-							<button type="submit" class="btn btn-dark btn-lg btn-block">충전하기</button>
+							<button type="button" onclick="submitBtn(1)" class="btn btn-dark">수정저장하기</button>
+							<button type="button" onclick="submitBtn(2)" class="btn btn-dark">호출하기</button>
+							<button type="button" class="btn btn-dark" onclick="window.close()">취소</button>
 						</div><%-- chargeButtenArea 영역 끝 --%>
 					</div><%-- chargeContetnArea 영역 끝 --%>
-				</form>
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
 	</article>

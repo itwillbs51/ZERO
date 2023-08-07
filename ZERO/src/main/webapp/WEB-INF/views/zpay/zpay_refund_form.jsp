@@ -93,7 +93,7 @@
 
 	$(function() {
 		$("form").submit(function() {
-			let zpayAmount = $("#amountInput").val().replace(",", "");
+			let zpayAmount = $("#amountInput").val().replaceAll(",", "");
 			$("input[name=zpayAmount]").val(zpayAmount);
 		});
 		

@@ -1,4 +1,4 @@
-package com.itwillbs.zero.controller;
+	package com.itwillbs.zero.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.itwillbs.zero.service.ZmanDeliveryService;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
+import com.itwillbs.zero.vo.ZmanVO;
 
 @Controller
 public class ZmanController {
@@ -18,7 +19,13 @@ public class ZmanController {
 	
 	// ZMAN 메인 페이지로 이동
 	@GetMapping("zman_main")
-	public String zmanMain() {
+	public String zmanMain(HttpSession session, Model model) {
+		System.out.println("ZmanController - zman_main");
+		
+		// 세션에 저장된 zman 아이디를 파라미터로 넘기
+//		ZmanVO zman = service.getZmanList();
+//		model.addAttribute("zman", zman);
+		
 		return "zman/zman_main";
 	}
 	
@@ -55,6 +62,15 @@ public class ZmanController {
 	// ZMAN 지도 test 페이지로 이동하기
 	@GetMapping("zman_test_location")
 	public String zman_test_location(Model model) {
+		
+		System.out.println("Zmancontroller -zman_test_location ");
+		
+		// DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx
+//		ZmanDeliveryVO zd = service.getDeliveryLocation();
+//		System.out.println("zd - " + zd);
+		
+//		model.addAttribute("depart", zd.getZman_delivery_startspot());
+//		model.addAttribute("arrive", zd.getZman_delivery_endspot());
 		
 		model.addAttribute("depart", " 부산광역시 부산진구 중앙대로 658"); // zman_delivery_startspot 
 		model.addAttribute("arrive", "부산광역시 부산진구 범전로5번길 13"); // zman_delivery_endspot

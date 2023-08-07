@@ -80,35 +80,35 @@
 								<div class="user_thumb01" data-v-32a5de90="">
 									<h2>일주일 정산</h2>
 									<%-- 표로 만들자@ --%>
-									<table data-v-32a5de90="" data-v-412d8616="" border="1">
-										<tr height="45px">
-											<th width="200px"> 이번 주 정산 내역 </th>
-											<th width="200px" colspan="2"> 정산 확인 날짜 선택
-										</tr>
-										<tr height="75px">
-											<td rowspan="2">
-												<button class="btn btn-dark" onclick="">
-		 										23/07/17 ~ 23/07/23  <br>
-												87,000원
-												</button>
-											</td>
-											<td>
-												<input class="datepicker" placeholder="정산을 확인하고 싶은 날짜" data-v-32a5de90="">
-											</td>
-											<td>
-												<%--
-													날짜가 선택되었을 때
-													1. 해당 날짜의 배달 내역(정산 내역) 있다 -> 화면에 금액 알려주기
-													2. 없다 -> 정산 내역이 없어요 라고 알려주기 
-												--%>
-												<button class="btn btn-dark" onclick="">
-													27,800원
-												</button>
+<!-- 									<table data-v-32a5de90="" data-v-412d8616="" border="1"> -->
+<!-- 										<tr height="45px"> -->
+<!-- 											<th width="200px"> 이번 주 정산 내역 </th> -->
+<!-- 											<th width="200px" colspan="2"> 정산 확인 날짜 선택 -->
+<!-- 										</tr> -->
+<!-- 										<tr height="75px"> -->
+<!-- 											<td rowspan="2"> -->
+<!-- 												<button class="btn btn-dark" onclick=""> -->
+<!-- 		 										23/07/17 ~ 23/07/23  <br> -->
+<!-- 												87,000원 -->
+<!-- 												</button> -->
+<!-- 											</td> -->
+<!-- 											<td> -->
+<!-- 												<input class="datepicker" placeholder="정산을 확인하고 싶은 날짜" data-v-32a5de90=""> -->
+<!-- 											</td> -->
+<!-- 											<td> -->
+<%-- 												
+<%-- 													날짜가 선택되었을 때 --%>
+<%-- 													1. 해당 날짜의 배달 내역(정산 내역) 있다 -> 화면에 금액 알려주기 --%>
+<%-- 													2. 없다 -> 정산 내역이 없어요 라고 알려주기  --%>
+<%-- 												--%> --%>
+<!-- 												<button class="btn btn-dark" onclick=""> -->
+<!-- 													27,800원 -->
+<!-- 												</button> -->
 											
-											</td>
-										</tr>
+<!-- 											</td> -->
+<!-- 										</tr> -->
 									
-									</table>
+<!-- 									</table> -->
 		<!-- 							<strong class="name" data-v-32a5de90="">이번 주 정산 내역 -->
 		<!-- 								<button class="btn btn-dark" onclick=""> -->
 		<!-- <!-- 									2023 / 07 / 08 <br> --> 
