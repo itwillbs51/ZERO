@@ -64,6 +64,7 @@ public class SecondhandController {
 			
 			model.addAttribute("secondhandList",secondhandList);
 			model.addAttribute("maxPage", maxPage);
+			model.addAttribute("listCount", listCount);//전체게시물수
 			
 			
 			System.out.println("+++++++++++++ 리스트 :" + secondhandList);
@@ -71,6 +72,15 @@ public class SecondhandController {
 			//secondhand_idx값설정=> category_idx
 			//System.out.println("..................상품번호 : " + secondhand.getSecondhand_idx());
 	
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			//String uploadDir = "/resources/upload"; 
 			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
@@ -657,8 +667,6 @@ public class SecondhandController {
 			
 			session.setAttribute("member_id", session.getAttribute(member_id));
 			
-			
-			
 			//판매자의 정보 조회작업
 			//필요정보 - 판매자 프로필, 판매자 닉네임, 판매자 주소
 			//상세페이지의 sellerInfo재사용 -> xml에서 조건주기(파라미터값으로 secondhand_idx값 있을경우/없을경우 구분하는 동적쿼리)
@@ -676,18 +684,41 @@ public class SecondhandController {
 			//판매상태 판별 방법 2
 			//1. 뷰페이지에서 넘겨받기? -> 파라미터로 넘겨주고 xml에서 동적쿼리
 			//2. 뷰페이지에서 판별하기? -> 판매자의 전체 판매목록 넘겨받아, 뷰페이지에서 dealStatus가 '판매중'인 상품 목록만 표시하기
-//			List<HashMap<String, String>> sellerProductList = service.getSellerProductList(member_id);
-//			model.addAttribute("sellerProductList",sellerProductList);
-//			System.out.println(sellerProductList);
-//			
+			
+			
+			//기본(판매자의 판매 상품 전체목록조회)
+			List<HashMap<String, String>> sellerProductList = service.getSellerProductList(member_id);
+			model.addAttribute("sellerProductList",sellerProductList);
+			System.out.println(sellerProductList);
+			
+			//판매자의 판매중/예약중 상품목록 조회
+			List<HashMap<String, String>> dealProductList = service.getdealProductList(member_id);
+			model.addAttribute("dealProductList",dealProductList);
+			System.out.println(dealProductList);
+			//판매자의 판매완료 상품목록 조회
+			List<HashMap<String, String>> soldOutProductList = service.getsoldOutProductList(member_id);
+			model.addAttribute("soldOutProductList",soldOutProductList);
+			System.out.println(soldOutProductList);
+			
+			
+			
 			//판매자의 판매물품 개수 조회작업 (거래상태별) -  상세페이지의 getsellerProductListCount()재사용
 			//판매상태 판별 방법 2
 			//1. 뷰페이지에서 넘겨받기? -> 파라미터로 넘겨주고 xml에서 동적쿼리
 			//2. 뷰페이지에서 판별하기? -> 판매자의 전체 판매목록 넘겨받아, 뷰페이지에서 dealStatus가 '판매중'인 상품 목록만 표시하기
+			
+			//판매자의 전체 판매물품 개수
 			int sellerProduct = service.getSellerProductCount(member_id);
-//			
-			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&"+ sellerProduct);
 			model.addAttribute("sellerProduct", sellerProduct);
+			//판매자의 판매중,예약중 상품목록 개수
+			int dealProductCount = service.getdealProductCount(member_id);
+			model.addAttribute("dealProductCount", dealProductCount);
+			//판매자의 판매완료 상품목록 개수
+			int soldOutProductCount = service.getsoldOutProductCount(member_id);
+			model.addAttribute("soldOutProductCount", soldOutProductCount);
+			
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&"+ sellerProduct);
+
 //			
 			
 			

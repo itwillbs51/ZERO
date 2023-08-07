@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +16,21 @@
 <%-- 반응형웹페이지위한 설정 --%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ZERO</title>
-
+<%-- 제이쿼리 --%>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
 
 
+
 function openTab(evt, dealStatus) {
+	
+	  document.getElementById(dealStatus).style.display = "block";
+	  evt.currentTarget.className += " active";
+	
 	  var i, tabcontent, tablinks;
 	  tabcontent = document.getElementsByClassName("tabcontent");
+	  
+	  
 	  for (i = 0; i < tabcontent.length; i++) {
 	    tabcontent[i].style.display = "none";
 	  }
@@ -74,8 +83,8 @@ body {font-family: Arial;}
 /* Style the tab */
 .tab {
   overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+/*   border: 1px solid #ccc; */
+/*   background-color: #f1f1f1; */
 }
 
 /* Style the buttons inside the tab */
@@ -92,24 +101,87 @@ body {font-family: Arial;}
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  color:lightgray;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  color:darkgray;
 }
 
 /* Style the tab content */
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  border: 1px solid #ccc;
+/*   border: 1px solid #ccc; */
   border-top: none;
 }
 h3, h5, button {
 	margin-bottom:20px;
 } 
+
+
+#sellerAdderess {
+	color:gray;
+	font-size: 13px;
+}
+
+
+
+
+/* 찜하기 버튼 (이미지 오버) */
+.likebtn { 
+		font-size: 1.0rem;
+		position: absolute;
+		top: 263px;
+		left: 10px;
+		border-radius: 10%;
+/* 		background-color:white; */
+		
+
+}
+/* 거래상태 버튼(이미지 오버) */
+.dealStatus {
+		font-size: 0.7rem;
+		position: absolute;
+		top: 263px;
+		right: 0px;
+		border-radius: 40%;
+}
+
+.card-text{
+	text-align: center;
+	margin-top: 5px;
+}
+
+.card-body{
+	font-size:0.9rem;
+}
+
+
+/* 거래가능상품보기 라디오박스? */
+.form-check {
+	margin-bottom:10px;
+	margin-left:10px;
+}
+
+
+/* 목록 카드 css */
+.card-img-top{
+	width:250x;
+	height:300px;
+}
+row{
+	margin:20px;
+	padding:20px;
+}
+/* 카드 카테고리 */
+.category {
+	color:gray;
+	font: bold;
+/* 	background-color:lightgray; */
+}
+
 </style>
 </head>
 <body>
@@ -121,17 +193,19 @@ h3, h5, button {
 			<!-- 왼쪽섹션 - 회원프로필 -->
 			<div class="col-3">
 					<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px;">
-					<h3><a href="secondhandSeller"> ${seller.member_nickname }</a></h3>
+					<h5> ${seller.member_nickname } 님</h5>
 					<!--<button class="btn btn-primary btn-lg" style="font-size:1em;" > 채팅하기 </button> -->
 					
 					<%-- 2-1.세션아이디 없을경우(미로그인) -> 로그인알람창띄우고 로그인페이지로 이동 --%>
 					<c:if test="${empty sessionScope.member_id }">
 						<%--<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button> --%>
-						<button class="btn btn-primary btn-lg" id="chatting" 
-								data-toggle="modal" data-target="#needLogin" 
-								style="font-size:1em; margin:10px 10px">
-							채팅하기
-						</button>
+						<div class="d-grid gap-2">
+							<button class="btn btn-dark" id="chatting" 
+									data-toggle="modal" data-target="#needLogin" 
+									style="font-size:1em;">
+								채팅하기
+							</button>
+						</div>
 					</c:if>
 				
 					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
@@ -144,11 +218,11 @@ h3, h5, button {
 							</form>
 					</c:if>
 					
-					
-					
-					<h5> ${seller.member_address1 } </h5>
-					<p> 판매상품 ${sellereProduct }개 </p>
+					<div id="sellerAdderess"> ${seller.member_address1 } </div>
+					<div> 판매상품 ${sellerProduct }개 </div>
 			</div>
+			
+			
 			
 			
 			<!-- 오른쪽섹션  -->
@@ -158,176 +232,290 @@ h3, h5, button {
 				  <button class="tablinks" onclick="openTab(event, 'dealEndTab')">거래 완료 상품</button>
 				  <button class="tablinks" onclick="openTab(event, 'reviewTab')">받은 후기</button>
 				</div>
-				<div id="dealingTab" class="tabcontent active">
-					
+				
+				
+				<div id="dealingTab" class="tabcontent current">
 					<!-- 
 						거래상태(secondhand_deal_status)가 '판매중'일 경우 && '예약중'일 경우
 						거래상태(secondhand_deal_status)가 '판매완료'일 경우
-						 
+						판매자(member_id)가 session과 동일한 secondhand정보받아오기
+						=> 목록(List)
+						secondhand_deal_status ne '판매완료'
 					 -->
-<%-- 					<c:if test="${sellerInfo.secondhand_deal_status eq '판매중' or sellerInfo.secondhand_deal_status eq '예약중' }"> --%>
-<%-- 						<p> 거래중 상품 ${sellerProduct_ }개 </p> --%>
-<%-- 					</c:if> --%>
+<%-- 				<c:if test="${sellerProductList.secondhand_deal_status == '판매중' or sellerProductList.secondhand_deal_status == '예약중' }"> --%>
+					<p> 거래 중 상품 ${dealProductCount } 개 </p>
 					
-						<div class="row row-cols-1 row-cols-md-3 g-4">
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
-									</a>
-									<span class="dealStatus"><button>거래중</button></span>
-								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
+					<div class="row" align="left">
+						<!--  거래 중 상품이 존재하지 않을 경우 -->
+						<c:if test="${dealProductCount eq 0 }">
+								<div style="margin-left:20px; color:gray;"> 거래 완료된 상품이 존재하지 않습니다 </div>
+						</c:if>
+					
+						<c:forEach var="secondhand" items="${dealProductList }">			
+							<div class="col-lg-3 col-mid-4">
+								<div class="card border-0" >
+									<!-- 썸네일이미지 - 서버 업로드시 경로 재설정 필요할수도 -->
+									<div class="photoDiv">	
+										<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
+											<img src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" >
+											<%-- <img src="<%= request.getContextPath()%> + ${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1} "/> --%>									
+											<%-- <img src="http://localhost:8089/zero/${secondhand.secondhand_image1}" class="card-img-top" > --%>
+										</a>
+										
+										<!-- 찜하기 버튼 -->
+										<span class="likebtn">
+											<a href="#" style="align:right;">
+												<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="30px" height="30px">
+											</a>
+										</span>
+		
+										<!-- 거래상태 버튼 -->
+										<span class="dealStatus"><button class="btn btn-dark">${secondhand.secondhand_deal_status}</button></span>
+									</div>
+									
+									<div class="card-body">
+										<!-- 카테고리 가져오기 -->
+										<%-- <input type="hidden" id="seoncdhand_idx" value="${secondhand.secondhand_idx}"> --%>
+										<div class="category" style="font-size:0.8rem; ">
+											${secondhand.category_name }
+										</div>
+										
+										<div class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
+											<!-- 제목 링크 -->
+											<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
+												${secondhand.secondhand_subject}
+											</a>
+										</div>
+										<p><fmt:formatNumber pattern="#,###" value="${secondhand.secondhand_price }"/>원</p>								
+										<p>${secondhand.secondhand_first_date }</p>
+									</div><!-- cardbody끝 -->
+								</div><!-- card끝 -->
+							</div>
+						</c:forEach>
+					</div><%--row끝 --%>
+					
+<%-- 				</c:if> --%>
+					
+<!-- 						<div class="row row-cols-1 row-cols-md-3 g-4"> -->
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래중</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
 						  
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
-									</a>
-									<span class="dealStatus"><button>거래중</button></span>
-								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래중</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
 						  
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
-									</a>
-									<span class="dealStatus"><button>거래중</button></span>
-								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래중</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
 						  
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
-									</a>
-									<span class="dealStatus"><button>거래중</button></span>
-								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
-						</div>
-					</div><%-- 거래중 상품(dealingTab) 끝 --%>
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래중</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
+<!-- 						</div> -->
+					</div><!-- 거래중 상품(dealingTab) 끝 -->
+				
+				
+				
+				
 				
 				
 				<div id="dealEndTab" class="tabcontent">
-					<p>거래 완료상품 nn 개</p>
-						<div class="row row-cols-1 row-cols-md-3 g-4">
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
+					<p>거래 완료 상품  ${soldOutProductCount } 개</p>
+					
+					<div class="row" align="left">
+						<!--  거래완료된 상품이 존재하지 않을 경우 -->
+						<c:if test="${soldOutProductCount eq 0 }">
+							<div style="margin-left:20px; color:gray;"> 거래 완료된 상품이 존재하지 않습니다 </div>
+						</c:if>
+						<c:forEach var="secondhand" items="${soldOutProductList }">			
+						<div class="col-lg-3 col-mid-4">
+							<div class="card border-0" >
+								<!-- 썸네일이미지 - 서버 업로드시 경로 재설정 필요할수도 -->
+								<div class="photoDiv">	
+									<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
+										<img src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" >
+										<%-- <img src="<%= request.getContextPath()%> + ${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1} "/> --%>									
+										<%-- <img src="http://localhost:8089/zero/${secondhand.secondhand_image1}" class="card-img-top" > --%>
 									</a>
-									<span class="dealStatus"><button>거래완료</button></span>
+									
+									<!-- 찜하기 버튼 -->
+									<span class="likebtn">
+										<a href="#" style="align:right;">
+											<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="30px" height="30px">
+										</a>
+									</span>
+	
+									<!-- 거래상태 버튼 -->
+									<span class="dealStatus"><button class="btn btn-dark">${secondhand.secondhand_deal_status}</button></span>
 								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
-						  
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
-									</a>
-									<span class="dealStatus"><button>거래완료</button></span>
-								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
-						  
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
-									</a>
-									<span class="dealStatus"><button>거래완료</button></span>
-								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
-						  
-						  <div class="col">
-						    <div class="card h-100">
-						    	<div class="photoDiv">
-									<a href="secondhand_detail">
-										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." >
-									</a>
-									<span class="dealStatus"><button>거래완료</button></span>
-								</div>
-						      <div class="card-body">
-						        <h5 class="card-title">
-						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button>
-						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a>
-						        	<a href="#"> 제목 입니다 <br></a> 
-						        </h5>
-						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						      </div>
-						    </div>
-						  </div>
+								
+								<div class="card-body">
+									<!-- 카테고리 가져오기 -->
+									<%-- <input type="hidden" id="seoncdhand_idx" value="${secondhand.secondhand_idx}"> --%>
+									<div class="category" style="font-size:0.8rem; ">
+										${secondhand.category_name }
+									</div>
+									
+									<div class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
+										<!-- 제목 링크 -->
+										<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
+											${secondhand.secondhand_subject}
+										</a>
+									</div>
+									<p><fmt:formatNumber pattern="#,###" value="${secondhand.secondhand_price }"/>원</p>								
+									<p>${secondhand.secondhand_first_date }</p>
+								</div><!-- cardbody끝 -->
+							</div><!-- card끝 -->
 						</div>
+					</c:forEach>
+				</div><%--row끝 --%>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+<!-- 						<div class="row row-cols-1 row-cols-md-3 g-4"> -->
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래완료</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
+						  
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래완료</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
+						  
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래완료</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
+						  
+<!-- 						  <div class="col"> -->
+<!-- 						    <div class="card h-100"> -->
+<!-- 						    	<div class="photoDiv"> -->
+<!-- 									<a href="secondhand_detail"> -->
+<%-- 										<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
+<!-- 									</a> -->
+<!-- 									<span class="dealStatus"><button>거래완료</button></span> -->
+<!-- 								</div> -->
+<!-- 						      <div class="card-body"> -->
+<!-- 						        <h5 class="card-title"> -->
+<!-- 						        	<button class="btn btn-light" style="margin-top:10px">패션/잡화/의류/뷰티</button> -->
+<%-- 						        	<a href="#" style="margin-left:5px; margin-bottom:50px;"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="25px" height="30px"></a> --%>
+<!-- 						        	<a href="#"> 제목 입니다 <br></a>  -->
+<!-- 						        </h5> -->
+<!-- 						        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+<!-- 						      </div> -->
+<!-- 						    </div> -->
+<!-- 						  </div> -->
+<!-- 						</div> -->
 					
 					
 				</div><%-- 거래완료상품(dealEndTab) 끝 --%>
