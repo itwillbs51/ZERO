@@ -139,21 +139,49 @@
 
 
 
-<!-- 판매자페이지 - 판매자 정보 조회요청 -->
+	<!-- 판매자페이지 - 판매자 정보 조회요청 -->
 	<select id="selectSellerInfo_sellerPage" resultType="com.itwillbs.zero.vo.MemberVO">
 		SELECT *
 		FROM MEMBER
-		WHERE member_id=#{member_id}
+		WHERE 
+			member_id = #{member_id}
 	</select>
 
 
-
-
-
-
-
-
-
+	<!-- 판매자페이지 - 거래중인 판매자의 상품 목록 조회요청 -->
+	<select id="selectDealProductList" resultType="hashmap">
+		SELECT *
+		FROM SECONDHAND
+		WHERE 
+			member_id = #{member_id}
+			AND (secondhand_deal_status = '판매중' OR '예약중')
+	</select>
+	<!-- 판매자페이지 - 거래완료된 판매자의 상품 목록 조회요청 -->
+	<select id="selectSoldoutProductList" resultType="hashmap">
+		SELECT *
+		FROM SECONDHAND
+		WHERE 
+			member_id = #{member_id}
+			AND (secondhand_deal_status = '판매완료')
+	</select>
+	
+	
+	<!-- 판매자페이지 - 거래중인 판매자의 상품 개수 조회요청 -->
+	<select id="selectDealProductCount" resultType="int">
+		SELECT COUNT(*)
+		FROM SECONDHAND
+		WHERE 
+			member_id = #{member_id}
+			AND (secondhand_deal_status = '판매중' OR '예약중')
+	</select>
+	<!-- 판매자페이지 - 거래완료된 판매자의 상품 개수 조회요청 -->
+	<select id="selectSoldOutProductCount" resultType="int">
+		SELECT COUNT(*)
+		FROM SECONDHAND
+		WHERE 
+			member_id = #{member_id}
+			AND (secondhand_deal_status = '판매완료')
+	</select>
 
 
 

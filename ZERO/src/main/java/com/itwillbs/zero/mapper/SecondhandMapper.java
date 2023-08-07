@@ -46,8 +46,7 @@ public interface SecondhandMapper {
 	
 	
 	
-	//판매자페이지 - 판매자정보조회요청(재사용X-member_id만 사용)
-	MemberVO selectSellerInfo_sellerPage(String member_id);	
+	
 	
 	
 	
@@ -60,6 +59,24 @@ public interface SecondhandMapper {
 
 	// 상품 상세정보 조회 -> 조회수증가작업 (update)
 	void updateReadCount(SecondhandVO secondhand);
+
+	
+	
+	
+	//판매자페이지 ----------------------------------------------------------
+	
+	//판매자페이지 - 판매자정보조회요청(재사용X-member_id만 사용)
+	MemberVO selectSellerInfo_sellerPage(String member_id);
+	
+	//판매자가 판매중, 예약중인 상품목록 조회
+	List<HashMap<String, String>> selectDealProductList(String member_id);	
+	//판매자의 판매완료된 상품목록 조회
+	List<HashMap<String, String>> selectSoldoutProductList(String member_id);
+
+	//판매자가 판매중, 예약중인 상품개수 조회
+	int selectDealProductCount(String member_id);
+	//판매자의 판매완료된 상품개수 조회
+	int selectSoldOutProductCount(String member_id);
 
 
 	

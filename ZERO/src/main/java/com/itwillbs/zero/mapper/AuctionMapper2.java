@@ -34,6 +34,8 @@ public interface AuctionMapper2 {
 
 	int updateEnd(String now);
 
+	int selectBidedZpay(String member_id);
+
 	
 
 }

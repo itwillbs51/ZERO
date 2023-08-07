@@ -266,6 +266,17 @@ row{
 	margin:20px;
 	padding:20px;
 }
+/* 카드 카테고리 */
+.category {
+	color:gray;
+	font: bold;
+/* 	background-color:lightgray; */
+}
+.Secondhandcount {
+	font-size:15px;
+	color:darkgray;
+	margin-bottom:20px;
+}
 </style>
 </head>
 <body>
@@ -316,7 +327,7 @@ row{
 			
 			<hr>
 			<!-- 상품개수표시 -->
-			<div class="Secondhandcount"> 상품 개수 개</div>
+			<div class="Secondhandcount"> 상품 개수 <b style="color:gray;">${listCount }</b> 개</div>
 			
 
 			
@@ -363,7 +374,9 @@ row{
 							<div class="card-body">
 								<!-- 카테고리 가져오기 -->
 								<%-- <input type="hidden" id="seoncdhand_idx" value="${secondhand.secondhand_idx}"> --%>
-								<button class="btn btn-light" style="font-size:0.8rem; width:240px; align: left; text-align: left; margin-left:0px;">${secondhand.category_name }</button>
+								<div class="category" style="font-size:0.8rem; ">
+									${secondhand.category_name }
+								</div>
 								
 								<div class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
 									<!-- 제목 링크 -->

@@ -59,9 +59,7 @@
 						<p class="email" data-v-32a5de90="">kream@kream.co.kr</p>
 						<a href="/my/profile-edit" type="button"
 							class="btn btn outlinegrey small" data-v-43813796=""
-							data-v-32a5de90=""> 프로필 관리 </a><a href="zman_join"
-							type="button" class="btn btn btn_my_style outlinegrey small"
-							data-v-43813796="" data-v-32a5de90=""> Z-MAN 신청 </a>
+							data-v-32a5de90=""> 프로필 관리 </a>
 					</div>
 				</div>
 			</div>
@@ -114,8 +112,10 @@
 						<div data-v-7a02263e="">
 							<div data-v-e5d3a8ae="" data-v-7a02263e="">
 								<c:forEach var="myOdShList" items="${myOdShList }">
-								<div data-v-e5d3a8ae="" class="purchase_list_display_item"
-									style="background-color: rgb(255, 255, 255);">
+								<div data-v-e5d3a8ae="" 
+									 class="purchase_list_display_item"
+									 style="background-color: rgb(255, 255, 255);"
+									 onclick="location.href='secondhand_detail?secondhand_idx=${myOdShList.secondhand_idx}&member_id=${myOdShList.order_secondhand_seller}'">
 										<div data-v-e5d3a8ae="" class="purchase_list_product">
 											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
 												<img data-v-e5d3a8ae="" alt="myOdShList_image"
@@ -157,7 +157,7 @@
 		
 		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
 			<h3 data-v-6752ceb2="" class="title">판매 내역</h3>
-			<a data-v-6752ceb2="" href="/my/selling" class="btn_more"><span
+			<a data-v-6752ceb2="" href="member_mypage_sellList" class="btn_more"><span
 				data-v-6752ceb2="" class="btn_txt">더보기</span> <svg
 					data-v-6752ceb2="" xmlns="http://www.w3.org/2000/svg"
 					class="icon sprite-icons arr-right-gray">
@@ -194,8 +194,10 @@
 						<div data-v-7a02263e="">
 							<div data-v-e5d3a8ae="" data-v-7a02263e="">
 								<c:forEach var="myShList" items="${myShList }">
-								<div data-v-e5d3a8ae="" class="purchase_list_display_item"
-									style="background-color: rgb(255, 255, 255);">
+								<div data-v-e5d3a8ae="" 
+									 class="purchase_list_display_item"
+									 style="background-color: rgb(255, 255, 255);"
+									 onclick="location.href='secondhand_detail?secondhand_idx=${myShList.secondhand_idx}&member_id=${myShList.member_id}'">
 										<div data-v-e5d3a8ae="" class="purchase_list_product">
 											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
 												<img data-v-e5d3a8ae="" alt="myShList_image"

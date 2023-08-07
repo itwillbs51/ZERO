@@ -22,6 +22,9 @@ public interface ZpayMapper {
 	// ZPZY 등록
 	int insertZpay(ZpayVO zpay);
 	
+	// ZMAN 계좌 등록
+	int insertZmanBankAccount(ZpayVO zpay);
+	
 	// ZPAY 잔액 조회
 	Integer selectZpayBalance(String member_id);	
 
@@ -47,6 +50,9 @@ public interface ZpayMapper {
 
 	// ZPYA_HISTORY 테이블에 충전내역 추가
 	int insertChargeHistory(ZpayHistoryVO zpayHistory);
+	
+	// 현재 참여하고 있는 경매 입찰이 있는지 확인
+	List<Map<String, Object>> selectAuctionParticipant(String member_id);
 
 	// ZPYA_HISTORY 테이블에 환급내역 추가
 	int insertRefundHistory(ZpayHistoryVO zpayHistory);
@@ -75,11 +81,16 @@ public interface ZpayMapper {
 	// ZERO_ACCOUNT_HISTORY 잔액조회
 	Integer selectZeroAccountBalance();
 	
-	// ZERO_ACCOUNT_HISTORY 입금내역 추가
-	int insertZeroAccountDepositHistory(ZeroAccountHistoryVO zeroAccount);
+//	// ZERO_ACCOUNT_HISTORY 입금내역 추가
+//	int insertZeroAccountDepositHistory(ZeroAccountHistoryVO zeroAccount);
+//
+//	// ZERO_ACCOUNT_HISTORY 출금내역 추가
+//	int insertZeroAccountWithdrawHistory(ZeroAccountHistoryVO zeroAccount);
+	
+	// ZERO_ACCOUNT_HISTORY 입금/출금 내역 추가
+	int insertZeroAccountHistory(ZeroAccountHistoryVO zeroAccount);
 
-	// ZERO_ACCOUNT_HISTORY 출금내역 추가
-	int insertZeroAccountWithdrawHistory(ZeroAccountHistoryVO zeroAccount);
+	
 	
 
 	

@@ -56,5 +56,9 @@ public class AuctionService2  {
 		// TODO Auto-generated method stub
 		return mapper.updateEnd(now);
 	}
+	public int getBidedZpay(String member_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectBidedZpay(member_id);
+	}
 
 }

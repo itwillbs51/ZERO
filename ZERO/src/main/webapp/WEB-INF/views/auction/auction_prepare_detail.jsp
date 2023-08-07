@@ -13,6 +13,21 @@
 $(function() {				
 		$("#start_price").html(comma($("#start_price").html()));
 		$("#max_price").html(comma($("#max_price").html()));
+		
+ 		let datetime="${product.auction_start_datetime}";
+ 		let date=datetime.split('T')[0];
+		
+		let dDay = new Date(date);
+		
+		// D-Day까지 남은 시간 계산
+		var timeDiff = dDay.getDate()-new Date().getDate();
+		
+		if(timeDiff==0){
+			timeDiff=" day";
+		}
+
+		// D-Day까지 남은 일 수 표시
+		$('#dDay').html('D' + timeDiff);
 })
 
 
@@ -172,11 +187,11 @@ function comma(str) {
 				
 				<br>
 				<div class="d-flex justify-content-center">
-				<h3>참가자 12/10</h3>
+				<h3 id=dDay></h3>
 				</div>
 				<div class="d-flex justify-content-center">
 				<button type="button" class="btn btn-light">참가신청</button>
-				<button type="button" class="btn btn-dark">돌아가기</button>
+				<button type="button" class="btn btn-dark" onclick="history.back();">돌아가기</button>
 				</div>
 				<br><br><br><br><br><br>
 			</div>

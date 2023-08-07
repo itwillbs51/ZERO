@@ -22,6 +22,7 @@ $(function(){
 	$("#presentPrice").html(comma($("#presentPrice").html()));
 	$("#maxPrice").html(comma($("#maxPrice").html()));
 	$("#zpayBalance").html(comma($("#zpayBalance").html()));
+	$("#possibleZpay").html(comma($("#possibleZpay").html()));
 	for(let i=0; i<${fn:length(logList)}; i++){
  	$("#logBid"+i).html(comma($("#logBid"+i).html()));
 	}	
@@ -85,7 +86,12 @@ function uncomma(str) {
 
 
 <style type="text/css">
-	
+	.blink {
+			
+			background-color: gray!important;
+		  color: white!important;
+		}
+		
 	#auction_log{
 		overflow: auto; 
 		width: 100%; 
@@ -157,7 +163,8 @@ function uncomma(str) {
                 		<div id="msgArea" class="col">
                 		</div>
                 		</div>                	
-                		
+                	<div class="col-12 col-md-12"><div class="row d-flex justify-content-center">현재 접속중 회원&nbsp;<span id=currentUsersSum></span>명</div></div>
+		<div class="col-12 col-md-12" id="users"></div>	
                 </div>
                 
 				<!--우측 영역 -->
@@ -183,14 +190,14 @@ function uncomma(str) {
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9">    
-                	 		<span id="presentPrice">
+                	 		<b><span id="presentPrice">
                 	 		<c:if test="${empty logList  }">
 								${product.auction_start_price }
 							</c:if>
                 	 		<c:forEach var="log" items="${logList}"  varStatus="index">
                 	 			   <c:if test="${index.last}">${log.auction_log_bid}</c:if>
                 	 		</c:forEach>
-                	 		</span> 원
+                	 		</span> 원</b>
                 	 	</div>
                 	 	<div class="col-6 col-md-3 d-none d-md-block"> 
                 	 		<h4><b>시작가격</b></h4>
@@ -230,17 +237,25 @@ function uncomma(str) {
                 	 		<h4><b>Z-PAY 잔액</b></h4>
                 	 	</div>
                 	 	<div class="col-4 col-md-2">
-                	 		<span id="zpayBalance">150000</span> 원
+                	 		<span id="zpayBalance">${balance} 원</span>
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
-                	 		<button type="button" class="btn btn-primary  btn-block">충전하기</button>
+                	 	 	<a href="zpay_charge_form" class="btn btn-primary  btn-block">충전하기</a>
+                	 	</div>   
+	                	<div class="col-4 col-md-4"  style=" text-align: right;">    
+                	 		<h4><b>입찰가능금액</b></h4>
+                	 	</div>
+                	 	<div class="col-4 col-md-2">
+                	 		<b><span id=possibleZpay >${balance-bidedZpay} 원</span></b>
+                	 	</div>
+                	 	<div class="col-4 col-md-6"> 
+                	 	 	*zpay 잔액에서 금일 입찰에 사용한 금액을 뺀 금액입니다.
                 	 	</div>   
 	                </div>
                 </div>
             </div>
 		</div>
-		<div class="col-12 col-md-4"><div class="row d-flex justify-content-center">현재 접속중 회원&nbsp;<span id=currentUsersSum></span>명</div></div>
-		<div class="col-12 col-md-4" id="users"></div>
+		
 	</section>
 	
 	<!-- footer -->
@@ -352,7 +367,10 @@ function onMessage(msg) {
 	}
 	$("#presentPrice").html(message);
 	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
-	
+	$("#presentPrice").addClass('blink');
+	   setTimeout(function() {
+	      $("#presentPrice").removeClass('blink');
+	   }.bind("#presentPrice"), 300);
     }else{
     	$("#users").html(currentUsers.replace(/[\[\]']+/g, ''));
     	$("#currentUsersSum").html("<b>"+currentUsers.split(",").length+"</b>");

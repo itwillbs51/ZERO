@@ -18,4 +18,6 @@ public class OrderSecondhandVO {
 	private String order_secondhand_product;
 	private String order_secondhand_type;
 	private String secondhand_image1;
+	
+	private int order_delivery_commission;
 }
