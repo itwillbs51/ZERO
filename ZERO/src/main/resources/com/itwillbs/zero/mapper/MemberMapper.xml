@@ -37,6 +37,8 @@
 				, #{member_intro}
 				, #{member_address2_phone}
 				, #{member_address3_phone}
+				, #{member_address2_name}
+				, #{member_address3_name}
 			)
 	
 	</insert>
@@ -57,7 +59,7 @@
 	</select>
 	
 	<!-- 마이페이지 - 메인 구매내역 조회 - 정의효 -->
-	<select id="selectMyOdShList" resultType="Orsh">
+	<select id="selectMyOdShList" resultType="OrSh">
 		SELECT
 			order_secondhand_seller
 			, order_secondhand_buyer
@@ -65,6 +67,7 @@
 			, order_secondhand_product
 			, order_secondhand_type
 			, order_secondhand_status
+			, secondhand_image1
 		FROM
 			ORDER_SECONDHAND
 		JOIN
@@ -78,6 +81,28 @@
 		LIMIT
 			#{startRow}
 			, #{listLimit}			
+	</select>
+	
+	<!-- 마이페이지 - 메인 판매내역 조회 - 정의효 -->
+	<select id="selectMyShList" resultType="Secondhand">
+		SELECT
+			secondhand_subject
+			, secondhand_deliveryType_ptp
+			, secondhand_image1
+			, secondhand_first_date
+			, secondhand_deal_status
+			, MEMBER.member_id
+		FROM
+			SECONDHAND 
+		JOIN
+			MEMBER
+		ON
+			MEMBER.MEMBER_ID = SECONDHAND.MEMBER_ID 
+		WHERE 
+			MEMBER.MEMBER_ID = #{member_id}
+		LIMIT
+			#{startRow}
+			, #{listLimit}
 	</select>
 	
 	
@@ -118,5 +143,14 @@
 				JOIN ZPAY z
 					ON m.member_id = z.member_id
 					WHERE m.member_id = #{member_id}
+	</select>
+	
+	<!-- 회원 아이디로 옥션 판매 정보 조회 -->
+	<select id = "selectSecondhandList" resultType="map">
+		SELECT * 
+			FROM MEMBER m
+				LEFT OUTER JOIN SECONDHAND s
+				ON s.member_id = m.member_id
+				WHERE s.member_id = #{member_id}
 	</select>
 </mapper>
