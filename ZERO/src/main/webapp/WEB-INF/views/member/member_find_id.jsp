@@ -216,7 +216,74 @@ h2 {
 
 	
 </style>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
+$(function(){
+	
+// 	var phone1 = $("#phone");
+// 	phoneFrom(phone1);
+
+
+
+});
+
+function handleInput() {
+	  const input = document.getElementById('phone');
+	  autoHyphen2(input);
+	  btnChange(input);
+}
+
+
+const autoHyphen2 = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/g, '')
+	  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+}
+
+function btnChange(input) {
+	  if (input.value.length > 11) {
+	    $('#btnFind').removeClass('disabled');
+	  } else {
+	    $('#btnFind').addClass('disabled');
+	  }
+}
+
+function clickBtn() {
+	$("#emailDiv").removeClass('blind');
+	$("#phone").addClass('readonly');
+	$("#btnFind").addClass('blind');
+	$("#goLoginBtn").removeClass('blind');
+	
+	var testPhone = $('#phone').val().replaceAll('-','');
+	console.log(testPhone);
+	
+	$.ajax({
+        type: 'post',
+//         url: 'checkUserNaver',
+        url: 'ajax/checkUserEmail',
+       datatype: "text",
+       data: {
+    	   phone: testPhone
+       },
+       success: function (result) {
+           console.log('ajax - checkUserEmail:' + result);
+           if(result != 'false') {
+	           var masked_email = result.replace(/^(.{2})(.*)(.{3})(@.*)$/, (_, prefix, middle, suffix, domain) => prefix + '*'.repeat(middle.length) + suffix + '*'.repeat(domain.length));
+	
+	           console.log(masked_email); // Output: "ad***@nav**.com"
+	           $("#email").text(masked_email);
+           } else {
+        	   $("#email").text('등록된 이메일이 없습니다!');
+           }
+           
+       },
+       error: function () {
+    	   $("#email").text('등록된 이메일이 없습니다!');
+       }
+   });
+}
+
+
 </script>
 </head>
 <body>
@@ -244,11 +311,20 @@ h2 {
 								<div class="input_box">
 									<h3 class="input_title">휴대폰 번호</h3>
 									<div class="input_item">
-										<input type="tel" placeholder="가입하신 휴대폰 번호" autocomplete="off" class="input_txt">
+										<input type="tel" placeholder="가입하신 휴대폰 번호" autocomplete="off" class="input_txt" id="phone" oninput="handleInput();" maxlength="13">
+									</div>
+								</div>
+								<div class="input_box blind" id="emailDiv">
+									<h3 class="input_title">이메일</h3>
+									<div class="input_item">
+										<p class="input_txt" id="email" ></p>
 									</div>
 								</div>
 								<div class="help_btn_box">
-									<a disabled="disabled" href="#" class="btn full solid disabled"> 이메일 아이디 찾기 </a>
+									<a disabled="disabled" class="btn full solid disabled" data-v-43813796="" id="btnFind" onclick="clickBtn()"> 이메일 아이디 찾기 </a>
+								</div>
+								<div class="help_btn_box blind" id="goLoginBtn">
+									<a class="btn full solid" data-v-43813796=""  id="btnFind" onclick="location.href='member_login'"> 로그인 화면으로 이동 </a>
 								</div>
 							</div>
 						</div>

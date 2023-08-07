@@ -838,7 +838,12 @@ public class AdminController {
 	}
 	
 	
-	
+	// ========================= ZPAY 관리 ===============================================================================
+	@GetMapping("admin_zpay_list")
+	public String adminZpayList() {
+		System.out.println("AdminController - adminZpayList");
+		return "admin/admin_zpay_list";
+	}
 	
 	
 	

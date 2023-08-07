@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.spi.FileSystemProvider;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,7 @@ import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.TestService;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 
 @Controller
 public class MemberController {
@@ -451,29 +454,6 @@ public class MemberController {
 		return "member/member_account";
 	}
 	
-	// 
-	
-	// 멤버 마이스토어
-	@GetMapping("member_mystore")
-	public String memberMyStore(HttpSession session
-			, Model model) {
-		System.out.println("MemberController - memberMyStore");
-		
-		String column = "member_id";
-		String member_id = (String)session.getAttribute("member_id");
-		  // 임시 고정값 설정 
-		  
-		  System.out.println(column);
-		  System.out.println(member_id);
-		  // 회원정보 가져오기
-		  Map<String, String> member = service.isMemberCheck(column, member_id);
-		  System.out.println(member);
-		
-		  model.addAttribute("member", member);
-		
-		return "member/member_mystore";
-	}
-	
 	// 멤버 프로필
 	@GetMapping("member_profile")
 	public String memberProfile(HttpSession session
@@ -494,6 +474,33 @@ public class MemberController {
 		
 		return "member/member_profile";
 	}
+	 
+	// ajax로 프로필 이미지 변경
+	@PostMapping("ajax/checkUserEmail")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String checkUserEmail(HttpSession session
+								, Model model
+								, @RequestParam Map<String, String> map
+								) {
+		
+		System.out.println("ajax/checkUserEmail : " + map);	
+		String phone = "false";
+		
+		String column = "member_phone";
+		String value = map.get("phone");
+		
+		// 핸드폰번호와 일치하는 이메일 주소가 있을 경우 이메일 주소 리턴
+		Map result = service.isMemberCheck(column, value);
+		System.out.println(result);
+		System.out.println(result.get("member_id"));
+		if(result != null) {
+			phone = result.get("member_id").toString();
+		}
+		
+		return phone;
+		 
+	 }
+	
 	
 	
 	// ajax로 프로필 이미지 변경
@@ -760,7 +767,33 @@ public class MemberController {
 	}
 	
 	
-	
+	// 멤버 마이스토어
+	@GetMapping("member_mystore")
+	public String memberMyStore(HttpSession session
+			, @RequestParam(required = false) String member_id
+			, Model model) {
+		System.out.println("MemberController - memberMyStore");
+		// 임시 고정값 설정 
+		String column = "member_id";
+		
+		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+			member_id = (String)session.getAttribute("member_id");
+		}  
+		
+		System.out.println(column);
+		System.out.println(member_id);
+		// 회원정보 가져오기
+		Map<String, String> member = service.isMemberCheck(column, member_id);
+		System.out.println(member);
+		
+		model.addAttribute("member", member);
+		// 회원정보 가져오기
+		List<Map<String, String>> sellList = service.selectSecondhandList(member_id);
+		System.out.println(sellList);
+		model.addAttribute("sellList", sellList);
+		
+		return "member/member_mystore";
+	}
 
 	
 	// 등록한 중고 상품 리스트
@@ -862,17 +895,37 @@ public class MemberController {
 //			return "fail_location";
 //		}
 		
-		// 세션 아이디로 구매내역 받아오기(최근 세개만),(myOrderSecondhandList 줄임)
+		// 세션 아이디로 구매내역 받아오기(최근 세개),(myOrderSecondhandList 줄임)
 		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 3); 
+//		Map으로 하면 order_secondhand_date 값 = [unread] 다음에수정하기 
+//		List<Map<String, Object>> myOdShList = service.getMyOdShList(member_id, 0, 2);
+		
+		// 세션 아이디로 판매내역 받아오기(최근 두개)
+		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 3);
 		
 		model.addAttribute("myOdShList", myOdShList);
+		model.addAttribute("myShList", myShList);
 		
 		return "member/member_mypage_main";
 	}
 	
 	// 멤버 중고상품 구매내역
 	@GetMapping("member_mypage_buyList")
-	public String memberMypageBuyList() {
+	public String memberMypageBuyList(HttpSession session, Model model) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+//				if(member_id == null) {
+//					model.addAttribute("msg", " 로그인이 필요합니다!");
+//					model.addAttribute("targetURL", "member_login_form");
+//					
+//					return "fail_location";
+//				}
+		
+		// 세션 아이디로 구매내역 받아오기(myOrderSecondhandList 줄임), 페이징처리해야됨
+		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 5);
+		
+		model.addAttribute("myOdShList", myOdShList);
+		
 		return "member/member_mypage_buyList";
 	}
 	

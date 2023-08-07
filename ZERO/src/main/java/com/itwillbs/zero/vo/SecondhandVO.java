@@ -27,7 +27,7 @@ public class SecondhandVO {
 	
 	private String secondhand_first_date; // 등록일
 	private String secondhand_update_date; //끌어올리기 하였을 경우 날짜(null허용)
-	private int secondhand_read_count;
+	private int secondhand_readcount;
 	private int secondhand_re_ref;
 	private String secondhand_deal_status;
 	private String member_id; //idx->id수정

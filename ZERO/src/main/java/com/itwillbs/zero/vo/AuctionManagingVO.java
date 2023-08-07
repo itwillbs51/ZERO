@@ -16,5 +16,8 @@ public class AuctionManagingVO {
 	private Timestamp auction_manage_check_date;
 	private int auction_idx;
 	private String member_id;
+	
+	// (혜진)
+	private String seller_id;
 
 }

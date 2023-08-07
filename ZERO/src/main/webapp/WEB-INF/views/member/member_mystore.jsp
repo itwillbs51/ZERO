@@ -296,11 +296,9 @@ div {
     height: 50px;
 }
 
-.JoOgK:first-child {
-    border-left: 1px solid rgb(33, 33, 33);
-}
 
-.JoOgK {
+.focus {
+    border-left: 1px solid rgb(33, 33, 33);
     flex: 1 1 0%;
     -webkit-box-align: center;
     align-items: center;
@@ -326,7 +324,7 @@ a {
 }
 
 <%-- 선택안된 목록 --%>
-.eXINrs {
+.unfocus {
     flex: 1 1 0%;
     -webkit-box-align: center;
     align-items: center;
@@ -441,6 +439,78 @@ a {
     cursor: pointer;
     background-color: transparent;
 }
+
+.card-img-top {
+    width: 250x;
+    height: 300px;
+}
+
+
+.photoDiv {
+	position: relative;
+}
+/* 거래상태 버튼 */
+.dealStatus{
+		font-size: 1.0rem;
+		position: absolute;
+		top: 263px;
+		right: 0px;
+		border-radius: 30%;
+}
+.card-text{
+	text-align: center;
+	margin-top: 5px;
+}
+
+.card-body{
+	font-size:0.9rem;
+}
+
+
+/* 거래가능상품보기 라디오박스? */
+.form-check {
+	margin-bottom:10px;
+	margin-left:10px;
+}
+
+/* 탭 css */
+ul.tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+ul.tabs li{
+	background: none;
+	color: #222;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+ul.tabs li.current{
+	color: #222;
+}
+
+.tab-content{
+	display: none;
+	padding: 15px;
+}
+
+.tab-content.current{
+	display: inherit;
+}
+
+
+/* 목록 카드 css */
+.card-img-top{
+	width:250x;
+	height:300px;
+}
+row{
+	margin:20px;
+	padding:20px;
+}
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -498,14 +568,21 @@ a {
 													<div class="sc-ccSCjj jBJukb"></div>
 												</div>
 												<div class="sc-iIHSe fFhxdm">
-													<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxjaXJjbGUgZmlsbD0iI0ZBRkFGQSIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+CiAgICAgICAgPHBhdGggZD0iTTM2LjIxNiA0MS42ODNjLjI0OC0xLjkzMS40OTgtMy44NjIuNzUtNS43OTRoNi43OWwtLjI4MyA1LjUzN2MwIC4wMTcuMDA3LjAzNC4wMDcuMDUxLS4wMDIuMDEtLjAwMi4wMi0uMDAyLjAzLS4wOTggMS44NzYtMS44OTcgMy4zOTItNC4wMzUgMy4zOTItMS4wNjYgMC0yLjAxOC0uMzktMi42MTUtMS4wNzItLjUxLS41ODUtLjcyMi0xLjMyNS0uNjEyLTIuMTQ0em04Ljg4OCA0LjA3OGMxLjIyNCAxLjI4OSAzLjAwOSAyLjAyOCA0Ljg5IDIuMDI4IDEuODkgMCAzLjY3NC0uNzQgNC45LTIuMDMzLjEwNy0uMTEyLjIwNy0uMjI4LjMwNC0uMzQ1IDEuMjggMS40NDcgMy4yMTcgMi4zNzggNS4zNSAyLjM3OC4xMTIgMCAuMjE2LS4wMjcuMzI4LS4wMzJWNjMuNkgzOS4xMTVWNDcuNzU3Yy4xMTIuMDA1LjIxNS4wMzIuMzI4LjAzMiAyLjEzMyAwIDQuMDcxLS45MzEgNS4zNTEtMi4zOC4wOTkuMTIxLjIuMjM4LjMxLjM1MnptMS41NDUtOS44NzJoNi42OThsLjI4MiA1LjYxOWMwIC4wMTUtLjAwNy4wMjctLjAwNy4wNGwuMDA0LjA4NmEyLjkzOSAyLjkzOSAwIDAgMS0uODI2IDIuMTMyYy0xLjM2NyAxLjQ0LTQuMjMzIDEuNDQxLTUuNjA0LjAwM2EyLjk1IDIuOTUgMCAwIDEtLjgzLTIuMTQybC4wMDQtLjA3OGMwLS4wMTYtLjAwOC0uMDMtLjAwOC0uMDQ4bC4yODctNS42MTJ6bTE2LjM3NiAwYy4yNTIgMS45MzMuNTAyIDMuODY1Ljc1MyA1LjgwNC4xMDkuODEtLjEwNCAxLjU0Ny0uNjE0IDIuMTMyLS41OTYuNjgzLTEuNTUgMS4wNzQtMi42MTYgMS4wNzQtMi4xMzcgMC0zLjkzMi0xLjUxNC00LjAzNC0zLjM4OGEuMzU5LjM1OSAwIDAgMC0uMDAzLS4wNDRjMC0uMDE1LjAwNi0uMDI3LjAwNi0uMDRsLS4yNzgtNS41MzhoNi43ODZ6TTM2LjIyNiA0Ni45NDZ2MTguMDk4YzAgLjc5OC42NDYgMS40NDUgMS40NDQgMS40NDVoMjQuNjVjLjc5OSAwIDEuNDQ1LS42NDcgMS40NDUtMS40NDVWNDYuOTQ2Yy41OS0uMzI4IDEuMTM3LS43MTkgMS41NzUtMS4yMiAxLjA2MS0xLjIxNCAxLjUyMi0yLjc4NSAxLjMwMS00LjQxLS4zLTIuMzU1LS42MDctNC43MDctLjkxOC03LjA2YTEuNDQzIDEuNDQzIDAgMCAwLTEuNDMxLTEuMjU3SDM1LjY5OWMtLjcyNCAwLTEuMzM4LjUzOC0xLjQzMSAxLjI1Ny0uMzExIDIuMzU0LS42MTcgNC43MDctLjkxNiA3LjA1LS4yMjEgMS42MzcuMjQgMy4yMDggMS4zIDQuNDIxLjQzOS41MDIuOTg0Ljg5MyAxLjU3NCAxLjIyeiIgZmlsbD0iI0NDQyIvPgogICAgPC9nPgo8L3N2Zz4K" width="100" height="100" alt="상점 프로필 이미지" class="sc-gldTML bHnJBW">
+												<c:choose>
+													<c:when test="${not empty member.member_image }">
+														<img data-v-4b474860="" width="100" height="100" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img sc-gldTML bHnJBW">
+													</c:when>
+													<c:otherwise>
+														<img data-v-4b474860="" width="100" height="100"  src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img sc-gldTML bHnJBW">
+													</c:otherwise>
+												</c:choose>
 													<div class="sc-feryYK dxKilp">상점&nbsp;${member.member_idx }호</div>
 													<div class="sc-eLdqWK gIaRHa">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
 													</div>
 													<div class="sc-jKmXuR jLHspK">
 														<a class="sc-jUpvKA hzlLUQ" href="member_profile">프로필 이동</a>
@@ -524,7 +601,7 @@ a {
 										<div class="sc-jMMfwr zhbnl">
 											<div class="sc-jGxEUC adWrx">
 												<img src="/pc-static/resource/4b323fe1ef79c2b715fe.png" width="14" height="13" alt="상점오픈일 아이콘">상점오픈일
-												<div class="sc-jdeSqf dBzPWd">3 일 전</div>
+												<div class="sc-jdeSqf dBzPWd">${member.member_date } 일</div>
 											</div>
 											<div class="sc-jGxEUC adWrx">
 												<img src="/pc-static/resource/e6792c64a6ba6f2b10a2.png" width="14" height="13" alt="상점방문수 아이콘">상점방문수
@@ -550,28 +627,29 @@ a {
 							<div class="sc-cNnxps cdXYEZ">
 								<div class="sc-eMRERa ebVkwH">
 									<div class="sc-RbTVP kcRaQl">
-										<a class="sc-hMrMfs JoOgK" href="/ajax/sell_secondhandList">중고 
+										<a class="focus " href="/ajax/sell_secondhandList">중고 
 											<span class="sc-bIqbHp gtokyO">1</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_secondhand_reviews">판매후기 
+										<a class=" unfocus" href="/ajax/sell_secondhand_reviews">판매후기 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList">경매
+										<a class=" unfocus" href="/ajax/sell_auctionList">경매
 											<span class="sc-bIqbHp gtokyO">3</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList_reviews">경매후기 
+										<a class=" unfocus" href="/ajax/sell_auctionList_reviews">경매후기 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/myLikeList">찜 
+										<a class=" unfocus" href="/ajax/myLikeList">찜 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
 									</div>
 								</div>
 								<div class="sc-eqPNPO crpdHA">
-									<div class="sc-ileJJU ljwWRl">
-										<div class="sc-jxGEyO khHtgc">
+								<%-- 상품 목록 --%>
+									<div class=" ljwWRl">
+										<div class=" khHtgc">
 											<div>상품&nbsp;
-												<span class="sc-ghsgMZ kmGPmj">1</span>
+												<span class=" kmGPmj">1</span>
 											</div>
 											<div class="inRpvj">
 <!-- 											<div class="sc-erNlkL ijiqeP"> -->
@@ -592,40 +670,46 @@ a {
 <!-- 											</div> -->
 											</div>
 										</div>
-										<div class="sc-dznXNo fpPGpL">
-											<div class="sc-ciodno hiHzLz">
+										<div class=" ">
+											<div class=" ">
+<%-- 											${sellList } --%>
 												<br>
 											</div>
-											<div class="sc-hwcHae fQrqBm">
-												<div class="sc-lnmtFM iUmdcc">
-													<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="/products/229889159?ref=%EC%83%81%EC%A0%90%EC%A0%84%EC%B2%B4%EC%83%81%ED%92%88">
-														<div class="sc-bEjcJn jwhhcG">
-															<img src="https://media.bunjang.co.kr/product/229889159_1_1689295310_w292.jpg" width="194" height="194" alt="상품 이미지">
-															<div class="styled__BadgeArea-sc-3zkh6z-0 dwFxLs">
-																<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDM1IDE2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGc+CiAgICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC05NTguMDAwMDAwLCAtODQ2LjAwMDAwMCkgdHJhbnNsYXRlKDk1OC4wMDAwMDAsIDg0Ni4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxyZWN0IHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgZmlsbD0iI0Q4MEMxOCIgcng9IjIiLz4KICAgICAgICAgICAgICAgIDxwYXRoIGZpbGw9IiNGRkYiIGQ9Ik05LjIyNiAzLjAwM2wtLjU2IDQuNTYzaDIuMzI1Yy4wNDMgMCAuMDY2LjA1Mi4wMzYuMDgzbC01LjAyNCA1LjM4OGMtLjAzMy4wMzUtLjA5MS4wMDgtLjA4NS0uMDRsLjU2LTQuNTYzSDQuMTUzYy0uMDQzIDAtLjA2Ni0uMDUyLS4wMzYtLjA4M0w5LjE0IDIuOTYzYy4wMzMtLjAzNS4wOTEtLjAwOC4wODUuMDR6bTExLjgwMy43MDZ2OC41OWgtMS4zMDZWMy43MWgxLjMwNnptOC40NDcgMHY4LjU5aC0xLjM0NVYzLjcxaDEuMzQ1em0tMTAuMjY1LjA0OHY4LjM4aC0xLjI4OFY4LjEzOGgtLjc3NlY2Ljg3NWguNzc2VjMuNzU3aDEuMjg4em01LjM5OC0uMDJjLjM1MyAwIC42NzcuMDUuOTcuMTQ5LjI5NC4wOTkuNTQ4LjI1Ljc2My40NTUuMjE0LjIwMy4zODUuNDU4LjUxMS43NjUuMTI2LjMwNi4xOTkuNjYzLjIxOCAxLjA3MS4wMTIuMjc0LjAyMi41MzcuMDI4Ljc5LjAwNi4yNTEuMDEuNS4wMS43NDUgMCAuMjQ2LS4wMDQuNDkzLS4wMS43NDJzLS4wMTYuNTA3LS4wMjguNzc1Yy0uMDIuNDE0LS4wOTIuNzczLS4yMTggMS4wNzYtLjEyNi4zMDMtLjI5Ny41NTctLjUxMS43Ni0uMjE1LjIwNC0uNDcuMzU2LS43NjIuNDU1LS4yOTQuMDk5LS42MTguMTQ4LS45NzEuMTQ4LS43MTQgMC0xLjI5MS0uMi0xLjczMy0uNjAyLS40NDItLjQwMi0uNjg1LTEuMDE1LS43My0xLjgzN2wtLjAzMy0uNzg1Yy0uMDEtLjI0OC0uMDE0LS40OTYtLjAxNC0uNzQgMC0uMjQ2LjAwNS0uNDk0LjAxNC0uNzQzLjAxLS4yNDguMDIxLS41MS4wMzQtLjc4NC4wNDQtLjgyMy4yODctMS40MzUuNzI5LTEuODM2LjQ0Mi0uNDAzIDEuMDItLjYwNCAxLjczMy0uNjA0em0tNy4wODQuMTgydjEuMTg3aC0uNTMxbC0uMDE2IDUuMDc1LjYxNC0uMDI0djEuMTY3bC00LjQ3LjE5MnYtMS4xODdsLjYyNC0uMDI0LS4wMTctNS4yaC0uNTMxVjMuOTJoNC4zMjd6bTcuMDg0IDEuMDA1Yy0uMTY1IDAtLjMxMi4wMjctLjQ0LjA4MS0uMTMuMDU0LS4yNDIuMTQ0LS4zMzcuMjY4LS4wOTUuMTI0LS4xNy4yODgtLjIyNy40OTItLjA1Ny4yMDUtLjA5NS40Ni0uMTE0Ljc2Ni0uMDI1LjM3Ni0uMDM4Ljc2Ny0uMDM4IDEuMTcyIDAgLjQwNS4wMTMuNzk2LjAzOCAxLjE3Mi4wMi4zMDYuMDU3LjU2MS4xMTQuNzY1LjA1Ny4yMDQuMTMyLjM2OC4yMjcuNDkzLjA5NS4xMjQuMjA3LjIxMy4zMzYuMjY4LjEzLjA1NC4yNzYuMDguNDQuMDguMTY1IDAgLjMxMi0uMDI2LjQ0LS4wOC4xMy0uMDU1LjI0My0uMTQ0LjMzNy0uMjY4LjA5NS0uMTI1LjE3LS4yODkuMjI4LS40OTMuMDU2LS4yMDQuMDk0LS40Ni4xMTMtLjc2NS4wMjUtLjM3Ni4wMzgtLjc2Ni4wMzgtMS4xNjcgMC0uNDAyLS4wMTMtLjc5NC0uMDM4LTEuMTc3LS4wMTktLjMwNi0uMDU3LS41NjEtLjExMy0uNzY2LS4wNTctLjIwNC0uMTMzLS4zNjgtLjIyOC0uNDkyLS4wOTQtLjEyNC0uMjA3LS4yMTQtLjMzNi0uMjY4LS4xMy0uMDU0LS4yNzYtLjA4MS0uNDQtLjA4MXptLTguODk0LjE4MmgtLjcwN2wuMDE2IDUuMTUuNjc1LS4wMjYuMDE2LTUuMTI0eiIvPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4K" alt="번개페이" class="styled__IconBadge-sc-3zkh6z-2 iDmRbz">
-																<div class="styled__Badge-sc-3zkh6z-1 kpHfXu">배송비포함</div>
-															</div>
-															<div class="sc-cpmKsF drqQHd"></div>
+<!-- 											<div class="sc-hwcHae fQrqBm"> -->
+											<div class="row">
+												<c:forEach var="sell" items="${sellList }">
+													<div class=" col col-sm-12 col-lg-3">
+														<div class="card border-0 shadow-sm">
+															<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${sell.secondhand_idx }&member_id=${sell.member_id}">
+<!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
+																<div class="photoDiv">
+																	<img src="${pageContext.request.contextPath }/resources/upload/${sell.secondhand_image1}" alt="상품 이미지" class="card-img-top">
+		<!-- 															<div class="styled__BadgeArea-sc-3zkh6z-0 dwFxLs"> -->
+		<!-- 																<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDM1IDE2Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGc+CiAgICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC05NTguMDAwMDAwLCAtODQ2LjAwMDAwMCkgdHJhbnNsYXRlKDk1OC4wMDAwMDAsIDg0Ni4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxyZWN0IHdpZHRoPSIzNSIgaGVpZ2h0PSIxNiIgZmlsbD0iI0Q4MEMxOCIgcng9IjIiLz4KICAgICAgICAgICAgICAgIDxwYXRoIGZpbGw9IiNGRkYiIGQ9Ik05LjIyNiAzLjAwM2wtLjU2IDQuNTYzaDIuMzI1Yy4wNDMgMCAuMDY2LjA1Mi4wMzYuMDgzbC01LjAyNCA1LjM4OGMtLjAzMy4wMzUtLjA5MS4wMDgtLjA4NS0uMDRsLjU2LTQuNTYzSDQuMTUzYy0uMDQzIDAtLjA2Ni0uMDUyLS4wMzYtLjA4M0w5LjE0IDIuOTYzYy4wMzMtLjAzNS4wOTEtLjAwOC4wODUuMDR6bTExLjgwMy43MDZ2OC41OWgtMS4zMDZWMy43MWgxLjMwNnptOC40NDcgMHY4LjU5aC0xLjM0NVYzLjcxaDEuMzQ1em0tMTAuMjY1LjA0OHY4LjM4aC0xLjI4OFY4LjEzOGgtLjc3NlY2Ljg3NWguNzc2VjMuNzU3aDEuMjg4em01LjM5OC0uMDJjLjM1MyAwIC42NzcuMDUuOTcuMTQ5LjI5NC4wOTkuNTQ4LjI1Ljc2My40NTUuMjE0LjIwMy4zODUuNDU4LjUxMS43NjUuMTI2LjMwNi4xOTkuNjYzLjIxOCAxLjA3MS4wMTIuMjc0LjAyMi41MzcuMDI4Ljc5LjAwNi4yNTEuMDEuNS4wMS43NDUgMCAuMjQ2LS4wMDQuNDkzLS4wMS43NDJzLS4wMTYuNTA3LS4wMjguNzc1Yy0uMDIuNDE0LS4wOTIuNzczLS4yMTggMS4wNzYtLjEyNi4zMDMtLjI5Ny41NTctLjUxMS43Ni0uMjE1LjIwNC0uNDcuMzU2LS43NjIuNDU1LS4yOTQuMDk5LS42MTguMTQ4LS45NzEuMTQ4LS43MTQgMC0xLjI5MS0uMi0xLjczMy0uNjAyLS40NDItLjQwMi0uNjg1LTEuMDE1LS43My0xLjgzN2wtLjAzMy0uNzg1Yy0uMDEtLjI0OC0uMDE0LS40OTYtLjAxNC0uNzQgMC0uMjQ2LjAwNS0uNDk0LjAxNC0uNzQzLjAxLS4yNDguMDIxLS41MS4wMzQtLjc4NC4wNDQtLjgyMy4yODctMS40MzUuNzI5LTEuODM2LjQ0Mi0uNDAzIDEuMDItLjYwNCAxLjczMy0uNjA0em0tNy4wODQuMTgydjEuMTg3aC0uNTMxbC0uMDE2IDUuMDc1LjYxNC0uMDI0djEuMTY3bC00LjQ3LjE5MnYtMS4xODdsLjYyNC0uMDI0LS4wMTctNS4yaC0uNTMxVjMuOTJoNC4zMjd6bTcuMDg0IDEuMDA1Yy0uMTY1IDAtLjMxMi4wMjctLjQ0LjA4MS0uMTMuMDU0LS4yNDIuMTQ0LS4zMzcuMjY4LS4wOTUuMTI0LS4xNy4yODgtLjIyNy40OTItLjA1Ny4yMDUtLjA5NS40Ni0uMTE0Ljc2Ni0uMDI1LjM3Ni0uMDM4Ljc2Ny0uMDM4IDEuMTcyIDAgLjQwNS4wMTMuNzk2LjAzOCAxLjE3Mi4wMi4zMDYuMDU3LjU2MS4xMTQuNzY1LjA1Ny4yMDQuMTMyLjM2OC4yMjcuNDkzLjA5NS4xMjQuMjA3LjIxMy4zMzYuMjY4LjEzLjA1NC4yNzYuMDguNDQuMDguMTY1IDAgLjMxMi0uMDI2LjQ0LS4wOC4xMy0uMDU1LjI0My0uMTQ0LjMzNy0uMjY4LjA5NS0uMTI1LjE3LS4yODkuMjI4LS40OTMuMDU2LS4yMDQuMDk0LS40Ni4xMTMtLjc2NS4wMjUtLjM3Ni4wMzgtLjc2Ni4wMzgtMS4xNjcgMC0uNDAyLS4wMTMtLjc5NC0uMDM4LTEuMTc3LS4wMTktLjMwNi0uMDU3LS41NjEtLjExMy0uNzY2LS4wNTctLjIwNC0uMTMzLS4zNjgtLjIyOC0uNDkyLS4wOTQtLjEyNC0uMjA3LS4yMTQtLjMzNi0uMjY4LS4xMy0uMDU0LS4yNzYtLjA4MS0uNDQtLjA4MXptLTguODk0LjE4MmgtLjcwN2wuMDE2IDUuMTUuNjc1LS4wMjYuMDE2LTUuMTI0eiIvPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4K" alt="번개페이" class="styled__IconBadge-sc-3zkh6z-2 iDmRbz"> -->
+		<!-- 																<div class="styled__Badge-sc-3zkh6z-1 kpHfXu">배송비포함</div> -->
+		<!-- 															</div> -->
+		<!-- 															<div class="sc-cpmKsF drqQHd"></div> -->
+																</div>
+																<div class="card-body">
+																	<div class="sell_subject bold">${sell.secondhand_subject }</div>
+																	<div class=" ">
+																		<div class="sell_price">${sell.secondhand_price} 원</div>
+																		<div class="sell_date"><span>${sell.secondhand_first_date} 일</span></div>
+																	</div>
+																</div>
+																<div class=" ">
+		<!-- 															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국 -->
+																</div>
+															</a>
 														</div>
-														<div class="sc-ePZHVD iwDtPu">
-															<div class="sc-likbZx eKgVJL">테스트</div>
-															<div class="sc-fgfRvd taYSl">
-																<div class="sc-eKZiaR kfxCyR">223,222</div>
-																<div class="sc-hIVACf QYklO"><span>3일 전</span></div>
-															</div>
-														</div>
-														<div class="sc-drMfKT kbfGHc">
-															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국
-														</div>
-													</a>
-												</div>
+													</div>
+												</c:forEach>
 											</div>
-											<div class="sc-gGCbJM igUjHg"></div>
 										</div>
 									</div>
 									<%-- 판매 후기 --%>
-									<div class="sc-ileJJU cLznef">
-										<div class="sc-jxGEyO khHtgc">
+									<div class=" ">
+										<div class=" khHtgc">
 											<div>판매후기&nbsp;
 												<span class="sc-keFjpB edhbau">0</span>
 											</div>
@@ -647,18 +731,19 @@ a {
 										</div>
 										<div class="sc-fKGOjr ffOQYS"></div>
 									</div>
-									<div class="sc-ileJJU cLznef">
-										<div class="sc-jxGEyO khHtgc">
+									<%-- 경매 목록 --%>
+									<div class=" ">
+										<div class=" khHtgc">
 											<div>경매&nbsp;
-												<span class="sc-gJqsIT dULvPK">0</span>
+												<span class=" ">0</span>
 											</div>
 										</div>
-										<div class="sc-kDhYZr izbPOa">경매 내역이 없습니다.</div>
+										<div class=" ">경매 내역이 없습니다.</div>
 									</div>
 									<%-- 경매후기 --%>
-									<div class="sc-ileJJU cLznef">
-										<div class="sc-OxbzP cPmpNi">
-											<div class="sc-jxGEyO khHtgc">
+									<div class=" ">
+										<div class="sc-OxbzP ">
+											<div class=" khHtgc">
 												<div>경매후기&nbsp;
 													<span class="sc-lnrBVv hIZyef">0</span>
 												</div>
@@ -667,9 +752,9 @@ a {
 										</div>
 									</div>
 									<%-- 찜 목록 --%>
-									<div class="sc-ileJJU cLznef">
-										<div class="sc-jHXLhC dItGrF">
-											<div class="sc-jxGEyO khHtgc">
+									<div class=" ">
+										<div class=" ">
+											<div class=" khHtgc">
 												<div>찜&nbsp;
 													<span class="sc-bOCYYb jGomlc">0</span>
 												</div>

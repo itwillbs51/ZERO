@@ -27,14 +27,42 @@ public interface SecondhandMapper {
 	// 상품번호에 해당하는 상품의 상세정보조회 요청
 	SecondhandVO selectProduct(int secondhand_idx);
 
+	
+	
+	
+
+	
+	
 	// 상품번호? member_id에 해당하는 판매자정보조회 요청
-	HashMap<String,String> selectSellerInfo(@Param("secondhand_idx") int secondhand_idx, @Param("member_id") String member_id);
+	HashMap<String, String> selectSellerInfo(@Param("secondhand_idx") int secondhand_idx,@Param("member_id") String member_id);
 
 	// 판매자의 판매물품 개수 조회요청
 	int selectSellerProductCount(String member_id);
 
 	// 판매자의 판매물품 리스트 조회요청
 	List<HashMap<String, String>> selectSellerProductList(String member_id);
+
+
+	
+	
+	
+	//판매자페이지 - 판매자정보조회요청(재사용X-member_id만 사용)
+	MemberVO selectSellerInfo_sellerPage(String member_id);	
+	
+	
+	
+	
+	// 상품수정작업 (update)
+	int updateSecondhand(SecondhandVO secondhand);
+
+	// 상품삭제작업 (delete)
+	int deleteSecondhand(int secondhand_idx);
+
+	// 상품 상세정보 조회 -> 조회수증가작업 (update)
+	void updateReadCount(SecondhandVO secondhand);
+
+
+	
 
 	
 	

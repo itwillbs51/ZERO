@@ -9,21 +9,41 @@
 <html>
 <head>
 
-<!-- 부트스트랩 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<!-- daum API -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<!-- 제이쿼리 -->
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<!-- 반응형웹페이지위한 설정 --> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/zero/resources/js/jquery-3.7.0.js"></script>
+
+
+<!-- <!-- 부트스트랩 --> 
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+<!-- <!-- daum API --> 
+<!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
+<!-- <!-- 제이쿼리 --> 
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+<!-- <!-- 반응형웹페이지위한 설정 -->  
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 <script type="text/javascript">
 
-var image_list = [${secondhandProduct.secondhand_image1}, ${secondhandProduct.secondhand_image2}, ${secondhandProduct.secondhand_image3}];
+var image_list = [
+		
+		if(${secondhandProduct.secondhand_image1} != null){
+			${secondhandProduct.secondhand_image1}	
+			
+		} else if(${secondhandProduct.secondhand_image2} != null){
+			, ${secondhandProduct.secondhand_image2}
+			
+		} else if(){
+			,  ${secondhandProduct.secondhand_image3}	
+		}
+	];
 var preview_array  = [false, false, false];
 var change_image = ["0","0","0","0","0","0","0","0","0"];
 
@@ -614,7 +634,7 @@ body{
 						<span class="pro_info" id="img_number">(${ fn:length(image_list) }/3)</span>
 						<span style="color: red">*</span>
 						<input type="image" id="imgup" onclick="img_preview();"
-								src="${ pageContext.request.contextPath }/resources/image/image_upload.png" width="150px" height="150px">
+								src="${ pageContext.request.contextPath }/resources/img/image_upload.png" width="150px" height="150px">
 						</td>
 					<td class="td2" align="left">
 					
@@ -624,24 +644,23 @@ body{
 						<div id="img_zone">
 							<div id="img_preview0" >
 								<input type="image" id="imgup_sum" onclick="send_0();"
-									src="${ pageContext.request.contextPath }/resources/image/${secondhandProduct.secondhand_image1 }" width="150px" height="150px">
+									src="${ pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image1 }" width="150px" height="150px">
 								<span id="sum_style" >대표 이미지</span>
 								<!-- 삭제버튼 -->
 								<span id="del_sum" class="chk_style"  onclick="del_sum();">x</span>
 							</div>
 							
 							<!-- 1번이미지 데이터가 있으면 -->	
-							<c:if test="${ not empty secondhandProduct.secondhand_image1}">
+							<c:if test="${ not empty secondhandProduct.secondhand_image2}">
 								<div id="img_preview1" >
 									<input type="image" id="imgup_1" onclick="send_1();"
-										src="${ pageContext.request.contextPath }/resources/image/${secondhandProduct.secondhand_image2 }" width="150px" height="150px">
+										src="${ pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image2 }" width="150px" height="150px">
 									<!-- 삭제버튼 -->
 									<span id="del_img1" class="chk_style" onclick="del_img1();">x</span>
 								</div>
-							</c:if>	
-							
+							</c:if>
 							<!-- 1번이미지 데이터 없으면  -->
-							<c:if test="${ empty secondhandProduct.secondhand_image1}">
+							<c:if test="${ empty secondhandProduct.secondhand_image2}">
 								<div id="img_preview1" style="display: none;">
 									<input type="image" id="imgup_1"  style="display: none;" onclick="send_1();"
 										src="" width="150px" height="150px">
@@ -652,10 +671,10 @@ body{
 							
 							
 							<!-- 2번이미지 데이터가 있으면 -->	
-							<c:if test="${ not empty secondhandProduct.secondhand_image2}">
-								<div id="img_preview2">
+							<c:if test="${ not empty secondhandProduct.secondhand_image3}">
+								<div id="img_preview3">
 									<input type="image" id="imgup_2" onclick="send_2();"
-										src="${ pageContext.request.contextPath }/resources/image/${secondhandProduct.secondhand_image3 }" width="150px" height="150px">
+										src="${ pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image3 }" width="150px" height="150px">
 									<!-- 삭제버튼 -->
 									<span id="del_img2" class="chk_style" onclick="del_img2();">x</span>
 								</div>
@@ -663,7 +682,7 @@ body{
 							
 							
 							<!-- 2번이미지 데이터가 없으면 -->	
-							<c:if test="${empty secondhandProduct.secondhand_image2}">
+							<c:if test="${empty secondhandProduct.secondhand_image3}">
 								<div id="img_preview2" style="display: none;">
 									<input type="image" id="imgup_2" style="display: none;" onclick="send_2();"
 										src="" width="150px" height="150px">
@@ -814,10 +833,10 @@ body{
 					<td class="td2" align="left">
 						<input type="text" id="p_price"
 							maxlength="11" name="p_price" class="input-tag" placeholder="가격"
-							oninput="numberMaxLength(this);" style="width: 30%;"
+							oninput="numberMaxLength(this);" 
 <%-- 						value="<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>" --%>
-							<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>
-							> &nbsp; 
+							<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/> 
+							style="width: 30%;"> &nbsp; 
 						<span class="pro_info"> 원
 						</span> <br> 
 						<span class="pro_info" id="price_under"></span>

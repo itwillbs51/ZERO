@@ -28,6 +28,12 @@ public interface AuctionMapper2 {
 
 	int selectMaxPrice(Map<String, String> map);
 
+	List<HashMap<String, String>> selectWinnerList(String now);
+
+	int updateWinner(HashMap<String, String> winner);
+
+	int updateEnd(String now);
+
 	
 
 }

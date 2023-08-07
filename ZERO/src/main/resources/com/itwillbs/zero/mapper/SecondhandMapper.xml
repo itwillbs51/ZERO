@@ -99,9 +99,8 @@
 		ON 
 			m.member_id = s.member_id
 		WHERE
-			secondhand_idx = #{secondhand_idx}
-			AND s.member_id = #{member_id}
-			
+			s.member_id = #{member_id}
+			AND secondhand_idx = #{secondhand_idx}
 	</select>
 	
 	
@@ -126,12 +125,88 @@
 		ON 
 			m.member_id = s.member_id
 		WHERE
-			s.member_id = #{member_id} 	
-
+			s.member_id = #{member_id}
 	</select>
 
 
+
+
+
+
+
+
+
+
+
+
+<!-- 판매자페이지 - 판매자 정보 조회요청 -->
+	<select id="selectSellerInfo_sellerPage" resultType="com.itwillbs.zero.vo.MemberVO">
+		SELECT *
+		FROM MEMBER
+		WHERE member_id=#{member_id}
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- 글 정보 수정작업 -->
+	<!-- 파일은 파일명이 전달되었을경우(널스트링아닐경우)에만 수정 -->
+	<!-- 날짜는 변경X? (끌어올리기기능 사용시에만 업데이트?) -->
+	<update id="updateSecondhand" >
+		UPDATE SECONDHAND
+		SET 
+			secondhand_price = #{secondhand_pirce}
+			, secondhand_content = #{secondhand_content}
+			, secondhand_deliveryType_ptp = #{secondhand_deliveryType_ptp}
+			, secondhand_paymentTpye_ptp = #{secondhand_paymentTpye_ptp}
+				<if test="!file1.equals('')">
+					, secondhand_image1 = #{secondhand_image1}
+				</if>
+				<if test="!file2.equals('')">
+					, secondhand_image2 = #{secondhand_image2}
+				</if>
+				<if test="!file3.equals('')">
+					, secondhand_image3 = #{secondhand_image3}
+				</if>
+							
+			, category_idx = #{category_idx}
+			, secondhand_deliveryType_parcel = #{secondhand_deliveryType_parcel}
+			, secondhand_deliveryType_zstation = #{secondhand_deliveryType_zstation}
+			, secondhand_deliveryType_zman = #{secondhand_deliveryType_zman}
+			, secondhand_paymentTpye_zpay = #{secondhand_paymentTpye_zpay}
+		WHERE
+			secondhand_idx = #{secondhand_idx}
+	</update>
 	
+	<!-- 글 삭제작업 -->
+	<!-- 전달받은 상품번호와 일치하는 레코드 삭제 -->
+	<delete id="deleteSecondhand">
+		DELETE
+			FROM SECONDHAND
+			WHERE
+				secondhand_idx = #{secondhand_idx}
+	</delete>
+
+
+	<!-- 글 상세정보 조회 - 조회수 증가 작업 -->
+	<update id="updateReadCount">
+		UPDATE SECONDHAND
+		SET secondhand_readcount = secondhand_readcount + 1
+		WHERE 
+			secondhand_idx = #{secondhand_idx}
+	</update>
 	
 	
 	<!-- 끌어올리기 작업 시 업데이트 처리 (등록날짜)-->

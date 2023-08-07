@@ -46,7 +46,7 @@
 			null
 			,#{auction_idx}
 			,'등록'
-			,#{auction_seller_id}
+			,null
 			)
 	</insert>
 	
@@ -80,5 +80,24 @@
 		WHERE auction_idx=#{auction_idx}
 	</select>
 	
+	<update id="updateEnd" >
+		UPDATE AUCTION_MANAGING SET auction_manage_status='경매종료' WHERE auction_end_datetime =#{now}  
+	</update>
+	
+	<select id="selectWinnerList" resultType="hashmap">
+		SELECT a.auction_idx, a.max_bid, b.member_id FROM
+		  (SELECT auction_idx, MAX(auction_log_bid) as max_bid
+		   FROM AUCTION_LOG_ROOM
+		   GROUP BY auction_idx) as a
+		JOIN AUCTION_LOG_ROOM as b
+		  ON a.auction_idx = b.auction_idx AND a.max_bid = b.auction_log_bid
+		JOIN AUCTION_MANAGING as am
+		  ON a.auction_idx = am.auction_idx
+		WHERE auction_end_datetime =#{now} AND am.member_id IS NULL
+	</select>
+	
+	<update id="updateWinner" >
+		UPDATE AUCTION_MANAGING SET member_id =#{member_id} WHERE auction_idx =#{auction_idx} 
+	</update>
 	
 </mapper>

@@ -31,7 +31,12 @@ public class AuctionController2 {
 	
 	// 경매 상세 페이지로 이동
 	@GetMapping("auction_detail")
-	public String auction_detail(Model model, int id) {
+	public String auction_detail(Model model, int id, HttpSession session) {
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
+			return "fail_back";
+		}
 		HashMap<String, String> product= service.getAuctionProduct(id);
 		List<HashMap<String, String>> logList=service.getAuctionLog(id);
 		System.out.println(logList);

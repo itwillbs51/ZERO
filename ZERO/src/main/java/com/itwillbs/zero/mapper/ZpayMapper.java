@@ -1,12 +1,14 @@
 package com.itwillbs.zero.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
-import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
@@ -50,18 +52,37 @@ public interface ZpayMapper {
 	int insertRefundHistory(ZpayHistoryVO zpayHistory);
 	
 	// 중고거래 내역 조회
-	OrderSecondhandVO selectOrderSecondhand(int secondhand_idx);
+	OrderSecondhandVO selectOrderSecondhand(int order_secondhand_idx);
+	
+	// 경매거래 내역 조회
+	OrderAuctionVO selectOrderAuction(int order_auction_idx);
 
-	// ZPYA_HISTORY 테이블에 송금내역 추가
-	int insertSendHistory(ZpayHistoryVO zpayBuyerHistory);
+//	// ZPYA_HISTORY 테이블에 송금내역 추가
+//	int insertSendHistory(ZpayHistoryVO zpayBuyerHistory);
+//
+//	// ZPYA_HISTORY 테이블에 수취내역 추가
+//	int insertReceiveHistory(ZpayHistoryVO zpaySellerHistory);
 
-	// ZPYA_HISTORY 테이블에 수취내역 추가
-	int insertReceiveHistory(ZpayHistoryVO zpaySellerHistory);
+	// ZPYA_HISTORY 테이블에 송금/수취 내역 추가
+	int insertSendReceiveHistory(ZpayHistoryVO zpayHistory);
+
+	// ORDER_SECONDHAND 테이블의 order_secondhand_status 변경
+	int updateOrderSecondhandStatus(int order_secondhand_idx);
+	
+	// 추가한 ZPAY_HISTORY 내역의 idx 찾기
+	ZpayHistoryVO selectzpayHistoryInserted();
+	
+	// ZERO_ACCOUNT_HISTORY 잔액조회
+	Integer selectZeroAccountBalance();
+	
+	// ZERO_ACCOUNT_HISTORY 입금내역 추가
+	int insertZeroAccountDepositHistory(ZeroAccountHistoryVO zeroAccount);
+
+	// ZERO_ACCOUNT_HISTORY 출금내역 추가
+	int insertZeroAccountWithdrawHistory(ZeroAccountHistoryVO zeroAccount);
 	
 
 	
-	// ========================================================================
-	SecondhandVO selectSecondhand(int secondhand_idx);
 	
 	
 	

@@ -59,15 +59,74 @@
 				</div>
 				<!---->
 			</div>
-
-			<div class="purchase_list bidding bid" data-v-7a02263e="">
-				<div class="empty_area" data-v-6abf8c64="" data-v-7a02263e="">
-					<p class="desc" data-v-6abf8c64="">구매 내역이 없습니다.</p>
-					<a href="#" class="btn outlinegrey small" data-v-43813796=""
-						data-v-6abf8c64=""> SHOP 바로가기 </a>
+	<!-- 거래내역 없을때 -->
+		<c:if test="${empty myOdShList }">
+		<div data-v-412d8616="" class="recent_purchase">
+			<div data-v-412d8616="">
+				<div data-v-7a02263e="" data-v-412d8616=""
+					class="purchase_list all ask">
+					<!---->
+					<div data-v-6abf8c64="" data-v-7a02263e="" class="empty_area">
+						<p data-v-6abf8c64="" class="desc">구매 내역이 없습니다.</p>
+						<!---->
+					</div>
+					<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
 				</div>
-				<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
+				<!---->
 			</div>
+		</div>
+		</c:if>
+		
+		<!-- 거래내역 있을때 -->
+		<c:if test="${not empty myOdShList }">
+			<div data-v-412d8616="" class="recent_purchase">
+				<div data-v-412d8616="">
+					<div data-v-7a02263e="" data-v-412d8616=""
+						class="purchase_list all bid">
+						<!---->
+						<div data-v-7a02263e="">
+							<div data-v-e5d3a8ae="" data-v-7a02263e="">
+								<c:forEach var="myOdShList" items="${myOdShList }">
+								<div data-v-e5d3a8ae="" class="purchase_list_display_item"
+									style="background-color: rgb(255, 255, 255);">
+										<div data-v-e5d3a8ae="" class="purchase_list_product">
+											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
+												<img data-v-e5d3a8ae="" alt="myOdShList_image"
+													src="${pageContext.request.contextPath }/resources/upload/' + myOdShList.secondhand_image1 + '"
+													class="list_item_img"
+													style="background-color: rgb(244, 244, 244);">
+												<!---->
+											</div>
+											<div data-v-e5d3a8ae="" class="list_item_title_wrap">
+												<!---->
+												<p data-v-e5d3a8ae="" class="list_item_title">${myOdShList.order_secondhand_product}</p>
+											</div>
+										</div>
+										<div data-v-e5d3a8ae="" class="list_item_status">
+											<div data-v-e5d3a8ae=""
+												class="list_item_column column_secondary">
+												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+													class="secondary_title display_paragraph"
+													style="color: rgba(34, 34, 34, 0.5);">${myOdShList.order_secondhand_date }</p>
+											</div>
+											<div data-v-e5d3a8ae="" class="list_item_column column_last">
+												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+													class="last_title display_paragraph"
+													style="color: rgb(34, 34, 34);">${myOdShList.order_secondhand_status }</p>
+											</div>
+										</div>
+								</div>
+								</c:forEach>
+								<!---->
+							</div>
+						</div>
+						<!---->
+						<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
+					</div>
+					<!---->
+				</div>
+			</div>
+		</c:if>
 			<!---->
 		</div>
 	</article>

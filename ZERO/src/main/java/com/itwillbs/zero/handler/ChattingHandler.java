@@ -44,8 +44,8 @@ public class ChattingHandler extends TextWebSocketHandler{
 		//session.getUri().getQuery()=>http://localhost:8089/zero/chatting? 뒤에 파라미터 (ex id=1) 가져옴 .split("=")[1].toString()= '1'
 		Map<String,Object> map = session.getAttributes();
 		 String userId = (String)map.get("member_id");
-		System.out.println(userId);
 		
+		if(userId==null) {return;}//세션 끊어졌을때 처리
 		if(roomUsers.get(roomNum)==null) {
 			//Map roomUsers에 저장된 방이 없으면(ex 1번 방 없으면)
 			roomUsers.put(roomNum,getMap(userId, session));
@@ -129,12 +129,15 @@ public class ChattingHandler extends TextWebSocketHandler{
 		
 		 logger.info(userId + "님이 퇴장하셨습니다.");
 		
+		 if(!roomUsers.isEmpty()) { 
+			 logger.info(roomUsers.get(roomNum).keySet().toString());
 		 if(!roomNum.contains("chat")) {//채팅방에는 전송안함
-		 for ( String key : (roomUsers.get(roomNum).keySet())) {
-				WebSocketSession s=roomUsers.get(roomNum).get(key);
-				s.sendMessage(new TextMessage(userId + ":" +""+":"+roomUsers.get(roomNum).keySet()));
-				
-				}
+				 for ( String key : (roomUsers.get(roomNum).keySet())) {
+						WebSocketSession s=roomUsers.get(roomNum).get(key);
+						s.sendMessage(new TextMessage(userId + ":" +""+":"+roomUsers.get(roomNum).keySet()));
+						
+						}
+			 }
 		 }
 		
 	}
