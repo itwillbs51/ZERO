@@ -26,7 +26,7 @@ public class ZmanController {
 //		ZmanVO zman = service.getZmanList();
 //		model.addAttribute("zman", zman);
 		
-		return "zman/zman_main";
+		return "member/member_zman_join_identification";
 	}
 	
 	// ZMAN 정산내역 페이지로 이동
