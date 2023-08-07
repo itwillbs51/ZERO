@@ -76,17 +76,30 @@
 							</c:if>
 							<%-- 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화 --%>
 							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' }">
-								<button onclick="reservationNext(this.text)"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
-								<button onclick="reservationNext(this.text)"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
-								<button onclick="reservationNext(this.text)"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
+								<button onclick="reservationNext('time')"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
+								<c:if test="${sessionScope.member_id eq chatRoom.buyer_id && orderSecondhandInfo.order_secondhand_status eq '거래진행중'}">
+									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
+								</c:if>
+								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
 							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
-
+							<form id="openZform" method="post" action="ZpayForm" target="_blank">
+							<c:if test="${not empty orderSecondhandInfo }">
+							    <input type="hidden" name="order_secondhand_idx" value="${orderSecondhandInfo.order_secondhand_idx }">
+							    <input type="hidden" name="secondhand_subject" value="${secondhandInfo.secondhand_subject }">
+							    <input type="hidden" name="order_secondhand_price" id="order_secondhand_price" value=${orderSecondhandInfo.order_secondhand_price }>
+							    <input type="hidden" name="seller_id" value="${chatRoom.seller_id}">
+							    <input type="hidden" name="buyer_id" value="${chatRoom.buyer_id}">
+							    <input type="hidden" name="seller_nickname" value="${chatRoom.seller_nickname}">
+							    <input type="hidden" name="buyer_nickname" value="${chatRoom.buyer_nickname}">
+							    <input type="hidden" name="secondhand_idx" value="${secondhandInfo.secondhand_idx }">
+							</c:if>
+							</form>
+							
 						</div>
 					</div>
 					<hr>
 				</article>
-				
 				<%-- 채팅창 영역 --%>
 				<div class="chatMsgInputArea">
 					<article id="chatMsgArea">
@@ -96,7 +109,7 @@
 						<c:forEach var="chat" items="${chatList }">
 							<c:choose>
 								<%-- 채팅 타입이 '안내' 일 때 --%>
-								<c:when test="${chat.chat_content_type eq '안내' }">
+								<c:when test="${chat.chat_content_type eq '안내' or chat.member_id eq 'notice@test.com' }">
 									<div class="noticeMsg">
 										<span>
 											${chat.chat_content }
@@ -197,12 +210,12 @@
 		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
 		      <div class="modal-price">
 		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" value="${secondhandInfo.secondhand_price }" min="0" max="${secondhandInfo.secondhand_price }">원<br>
+			    <input type="number" id="finalPrice" placeholder="${secondhandInfo.secondhand_price }" min="0" max="${secondhandInfo.secondhand_price }">원<br>
 		      </div>
 		      <div class="dealBtns">
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)">만나서 거래하기</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)">Z맨</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)">택배로 받기</button><br>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
 		      </div>
 	      </div>
 	      <div class="modal-footer justify-content-center">
@@ -295,14 +308,14 @@
 				url: "chatRemember",
 				type: "POST",
 				success: function(data) {
-					console.log("DB 저장 성공");
+// 					console.log("DB 저장 성공");
 					
 				},
 				error: function(request,status,error) {
 					alert("code:"+request.status+"\n"
 							+"message:"+request.responseText+"\n"
 							+"error:"+error);
-					console.log("DB 저장 실패");
+// 					console.log("DB 저장 실패");
 				}
 			});	// ajax 끝
 		} else if(sender == 'notice@test.com') {
@@ -310,7 +323,7 @@
 			chat_content_type = '안내';
 // 			chatMessage = chatMessage.split("&-안내")[1];
 		}
-		
+		console.log("sender 안내가 맞나? :" + (sender == 'notice@test.com'));
 		// 채팅 내용을 DB에 저장하기
 		$.ajax({
 			data: {
@@ -323,13 +336,13 @@
 			url: "chatRemember",
 			type: "POST",
 			success: function(data) {
-				console.log("DB 저장 성공");
+// 				console.log("DB 저장 성공");
 			},
 			error: function(request,status,error) {
 				alert("code:"+request.status+"\n"
 						+"message:"+request.responseText+"\n"
 						+"error:"+error);
-				console.log("DB 저장 실패");
+// 				console.log("DB 저장 실패");
 			}
 		});	// ajax 끝
 		
@@ -360,8 +373,7 @@
 		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
 		
 		if(message.startsWith("&-안내")) {	// 안내메세지인 경우
-		let noticeMessage = message.split("&-안내")[1];
-			
+			let noticeMessage = message.split("&-안내")[1];
 			var str = '<div class="noticeMsg">';
 // 			str += '<div>';
 			str += noticeMessage;
@@ -439,38 +451,54 @@
 			}
 			
 		});	// 버튼 클릭 시 호출되는 함수 끝
+		
+		// Z맨 호출 정보를 입력 외에는 사용못하게 하기
+		if("${zmanCallInfo.zman_delivery_status}" != '입력 중') {
+			$(".callZBtn").attr("disabled", true);
+		}
+		
 	});	// 함수 호출 끝
 	
+	
 	// ================= 버튼들 기능 함수 =========================
+	// 거래를 위한 변수와 함수들
+	let finalPrice;
 	function dealNext(num) {
 		// 전역변수
-		let price = $("#finalPrice").val();
-		console.log("최종 금액 : " + price);
+		finalPrice = $("#finalPrice").val();
+		$("#order_secondhand_price").attr("value", finalPrice);
+		
+		console.log("최종 금액 : " + finalPrice);
+		let chatMessageBtn;
 		
 		// 채팅내용 : chatMessage에 저장(안내니까 "-&안내" 붙이기)하고 sendMessage(sender) 실행시키기
 		switch(num) {
 			case 1 :
 				// 1-1. 만나서 거래하기 클릭 => 안내 메세지 띄우기
-				chatMessage = '&-안내' + '${chatRoom.buyer_id}' + '님이 <b>만나서 거래하기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
-				setOrderSecondhand("직거래", price);
+				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>만나서 거래하기</b>를 선택하셨습니다.<br> 안전거래 되세요!<br>';
+				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원';
+				setOrderSecondhand("직거래");
 				break;
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
-				chatMessage = '&-안내' + ' ${chatRoom.buyer_id}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!';
-// 				chatMessage += '<c:if test="${secondhandInfo.secondhand_deal_status neq \'예약중\' }">'	// 나중에 폼에 다 저장해서 호출하기 성공 시 disabled 넣어주기
-				chatMessage += '<button class="btn btn-dark" onclick="window.open("chatToZ","newWindow",
-																						"width=300, height=300, left=600, top=400");">'
-				chatMessage += 'Z맨 호출 접수</button>'
-// 				chatMessage += '</c:if>'
-// 				setOrderSecondhand("Z맨", price);
-				
+				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
+				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원<br>';
+				chatMessage += '<button class="btn btn-dark callZBtn" onclick="toZ()">';
+				chatMessage += 'Z맨 호출 접수</button>';
+				setOrderSecondhand("Z맨");
 				break;
 			case 3 :
 				// 1-3. 택배로 받기 클릭 => 안내 메세지 띄우고 판매자에게 택배회사 주소가 담긴 버튼 보여주기(안내메세지 판별해 버튼 보여주기)
-				chatMessage = '&-안내' + ' ${chatRoom.buyer_id}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!';
-				chatMessage += '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>'
-// 				setOrderSecondhand("택배", price);
-				
+				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!<br>';
+				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원<br>';
+				chatMessageBtn1 = '<c:if test="${secondhandInfo.member_id eq sessionScope.member_id}">';
+				chatMessageBtn2 = '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
+				chatMessageBtn3 = '</c:if>';
+				setOrderSecondhand("택배");
+				// 세션에 따라 보이는 값 달리하기 위한 변수들 합쳐서 DB에 저장하기
+				chatMessage += chatMessageBtn1 + chatMessageBtn2 + chatMessageBtn3;
+				// 일시적으로 보이게 하기(DB저장은 아님)
+				$("#msgArea").append(chatMessageBtn2);
 				break;
 				
 		}	// switch문 끝
@@ -483,12 +511,12 @@
 	
 	// 받은 거래타입과 금액, 채팅방에 있는 정보(buyer_id, seller_id, secondhand_idx, secondhand_product)를
 	// DB ORDER_SECONDHAND에 저장
-	function setOrderSecondhand(type, price) {
+	function setOrderSecondhand(type) {
 		
 		$.ajax({
 			data: {
 				"type": type,
-				"order_secondhand_price": price,
+				"order_secondhand_price": finalPrice,
 				"order_secondhand_seller": "${chatRoom.seller_id}",
 				"order_secondhand_buyer": "${chatRoom.buyer_id}",
 				"order_secondhand_product": "${secondhandInfo.secondhand_subject }",
@@ -509,17 +537,55 @@
 		
 	}	// setOrderSecondhand() 끝
 	
+	let payPrice = $("#payPrice").text();
+	// Z맨 호출 폼으로 이동하기 위함 함수
+	function toZ() {
+		console.log(payPrice);
+		let requestUrl = "chatToZ?"
+// 				+ "order_secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
+				+ "secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
+				+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
+				+ "&order_secondhand_price=" + payPrice
+				+ "&seller_id=" + "${chatRoom.seller_id}"
+				+ "&buyer_id=" + "${chatRoom.buyer_id}"
+				;
+				
+		window.open(requestUrl, "newWindow", "width=450, height=600, left=500, top=100");
+	}
+	
+	// 새 창에서 받아와서 안내채팅치기
+	// Z맨 호출하기를 누르면 실행되는 함수(채팅)
+	function subNotice(type, typeMsg) {
+		switch(type) {
+			case 'call':
+				chatMessage = "&-안내" + typeMsg;
+				sendMessage('notice@test.com');
+				$(".callZBtn").attr("disabled", true);
+				break;
+			case 'zpay':
+				chatMessage = "&-안내" + typeMsg;
+				sendMessage('notice@test.com');
+				$("#sendZpayBtn").hide();
+				break;
+		}
+	}
+	
+	
 	function reservationNext(type) {
 		// 전역변수
-		
+		let reservUrl;
 		switch(type) {
-			case '약속잡기' :
-			
+			case 'time' :
+// 				reservUrl = ;
 				break;
-			case '송금하기' :
+			case 'zpay' :
+				console.log("송금할 최종 가격 : " + payPrice);
+		        var form = document.getElementById("openZform");
+		        form.submit();
 				
 				break;
-			case '후기쓰기' :
+			case 'review' :
+// 				reservUrl = ;
 				break;
 		}
 		// switch문 끝

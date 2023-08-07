@@ -77,7 +77,9 @@
 							<%-- 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화 --%>
 							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' }">
 								<button onclick="reservationNext('time')"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
-								<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
+								<c:if test="${sessionScope.member_id eq chatRoom.buyer_id && orderSecondhandInfo.order_secondhand_status eq '거래진행중'}">
+									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
+								</c:if>
 								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
 							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
@@ -103,7 +105,7 @@
 					<article id="chatMsgArea">
 						<%-- 나오는 채팅만큼 보여주고 위로 무한스크롤?
 						세션아이디와 비교해 세션아이디가 보낸 메세지는 오른쪽, 아닌 메세지는 왼쪽으로 정렬 --%>
-						<div id="msgArea"><%-- class="col" --%>
+					<div id="msgArea"><%-- class="col" --%>
 						<c:forEach var="chat" items="${chatList }">
 							<c:choose>
 								<%-- 채팅 타입이 '안내' 일 때 --%>
@@ -145,12 +147,35 @@
 							</c:choose>
 							
 						</c:forEach>
-				
+						
+						<!-- 이미지 등록 영역 -->
+						<div id="img_zone">
+							<div id="img_preview0">
+								<input type="image" id="imgup_sum" onclick=""
+									src="" width="150px" height="150px">
+								<!-- 삭제버튼 -->
+								<span id="del_sum" class="chk_style"  onclick="del_sum(1)">x</span>
+							</div>
+							
+<!-- 							<div id="img_preview1"> -->
+<!-- 								<input type="image" id="imgup_1" onclick="" -->
+<!-- 									src="" width="150px" height="150px"> -->
+<!-- 								삭제버튼 -->
+<!-- 								<span id="del_img1" class="chk_style" onclick="del_sum(2)">x</span> -->
+<!-- 							</div> -->
+							
+<!-- 							<div id="img_preview2"> -->
+<!-- 								<input type="image" id="imgup_2" onclick="" -->
+<!-- 									src="" width="150px" height="150px"> -->
+<!-- 								<span id="del_img2" class="chk_style" onclick="del_sum(3)">x</span> -->
+<!-- 							</div> -->
+						</div>
+					
 					</div>
 					<%-- 채팅 입력 영역 --%>
 					<article class="inputArea">
-						<div class="input-group mb-3">
-						<button class="listInfoBtn"><i class="material-icons">add</i></button><br>
+						<div class="input-group mb-3"> <%-- style="display: none;" --%>
+						<button class="listInfoBtn" style="display: none;" ><i class="material-icons">add</i></button><br>
 							<div>
 							</div>
 							<input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -164,7 +189,16 @@
 								<table class="listSort" style="display: none;"> <%-- style="display: none;" --%>
 									<tr>
 										<td>
-											<a><i class="material-icons">photo</i><br> 사진보내기 </a>
+											<a onclick="img_preview()">
+												<i class="material-icons" id="imgup">photo</i><br>
+												 사진보내기 
+											</a>
+											<!-- 파일업로드 용 폼 -->
+											<form enctype="multipart/form-data" id="imgform" method="post" action="sendPhoto">
+												<input type="file" id="sumimage"   name="chatImage" style="display: none;" accept=".jpg, .jpeg, .png">
+<!-- 												<input type="file" id="imageFile1" name="" style="display: none;" accept=".jpg, .jpeg, .png"> -->
+<!-- 												<input type="file" id="imageFile2" name="" style="display: none;" accept=".jpg, .jpeg, .png"> -->
+											</form>
 										</td>
 										<td>
 	<!-- 											<i class="material-icons">map</i>지도보내기(나의위치) -->
@@ -208,11 +242,12 @@
 		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
 		      <div class="modal-price">
 		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" placeholder="${secondhandInfo.secondhand_price }" min="0" max="${secondhandInfo.secondhand_price }">원<br>
+			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
+			    <div>(Z맨 거래의 경우 거래완료 시<br>최종거래금액에서 3000원 뺀 금액이 Z페이로 입금됩니다.)</div>
 		      </div>
 		      <div class="dealBtns">
 	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨 (+3000원)</button>
 	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
 		      </div>
 	      </div>
@@ -223,7 +258,8 @@
 	  </div>
 	</div>
 	
-	
+<%-- 사진 보내는 함수 관련 js파일 연결 --%>
+<script src="${pageContext.request.contextPath }/resources/js/chat_img.js"></script>
 <script type="text/javascript">
 	
 	// 스크롤 위치 조정
@@ -237,17 +273,23 @@
 	
 	// 채팅 메세지
 	let chatMessage;
-	
+	let chatImgMessage;
 	// 채팅 보내는 사람(안내일때는 그때마다 바꾸는걸로)
 	let sender = "${member_id}";
 	
 	//전송 버튼 누르는 이벤트
 	$("#button-send").on("click", function(e) {
 		chatMessage = $('#msg').val();
+		chatImgMessage = $("#imgform input").val();
 		
 		if(chatMessage != "") {
 			sendMessage(sender);
 			$('#msg').val('');
+		} else if(chatImgMessage != "") {
+			console.log(chatImgMessage);
+			var form = document.getElementById("imgform");
+	        form.submit();
+			
 		}
 	});
 	
@@ -432,7 +474,7 @@
 	
 	// ==========================================================================
 	
-		
+	
 	// ====================== 텍스트 외 다른 입력 기능 ==========================
 	let isOpen = false;
 	// 버튼 클릭 시 목록보이게하는 함수
@@ -466,7 +508,13 @@
 		finalPrice = $("#finalPrice").val();
 		$("#order_secondhand_price").attr("value", finalPrice);
 		
-		console.log("최종 금액 : " + finalPrice);
+		console.log(finalPrice);
+		if(finalPrice == "") {
+			alert("최종 거래 금액이 입력되지 않았습니다!\n입력 후 거래방법을 눌러주세요!");
+			return;
+		}
+		
+// 		console.log("최종 금액 : " + finalPrice);
 		let chatMessageBtn;
 		
 		// 채팅내용 : chatMessage에 저장(안내니까 "-&안내" 붙이기)하고 sendMessage(sender) 실행시키기
@@ -578,16 +626,6 @@
 				break;
 			case 'zpay' :
 				console.log("송금할 최종 가격 : " + payPrice);
-// 				reservUrl= "ZpayForm?"
-// 						+ "order_secondhand_idx=" + "${orderSecondhandInfo.order_secondhand_idx }"
-// 						+ "&secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
-// 						+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
-// 						+ "&order_secondhand_price=" + payPrice
-// 						+ "&seller_id=" + "${chatRoom.seller_id}"
-// 						+ "&buyer_id=" + "${chatRoom.buyer_id}"
-// 						;
-// 				window.open(reservUrl, "newWindow", "width=450, height=600, left=500, top=100");
-				// form을 자동으로 제출
 		        var form = document.getElementById("openZform");
 		        form.submit();
 				
