@@ -139,7 +139,7 @@
 	</update>
 	
 	<!-- 회원 아이디로 계좌정보 조회 -->
-	<select id="selectMemberJoin">
+	<select id="selectMemberJoin" resultType="map">
 		SELECT * 
 			FROM MEMBER m
 				JOIN ZPAY z

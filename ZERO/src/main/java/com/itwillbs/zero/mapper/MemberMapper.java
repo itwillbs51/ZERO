@@ -55,7 +55,6 @@ int updateBankAuth(String member_id);
 			, @Param("startRow") int startRow
 			, @Param("listLimit") int listLimit);
 
-
 	// 회원별 찜 목록 가져오기 - 수정
 	List<Map<String, String>> selectLikeList(String member_id);
 
