@@ -71,5 +71,10 @@ public class MemberService {
 		return cnt;
 	}
 
+	// 중고 거래 목록 가져오기
+	public List<Map<String, String>> selectSecondhandList(String member_id) {
+		return mapper.selectSecondhandList(member_id);
+	}
+
 	
 }

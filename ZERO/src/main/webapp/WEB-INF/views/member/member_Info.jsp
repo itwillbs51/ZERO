@@ -139,6 +139,7 @@
 			return true;
 		}
 		var phoneRule = /^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/;
+		
 		return phoneRule.test(hp);
 	}
 	
@@ -166,7 +167,7 @@
 		 target.value = target.value
 		   .replace(/[^0-9]/g, '')
 		  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-		}
+	}
 	
 	<%-- 개인정보 변경 --%>
 	function saveInfo(pop) {
@@ -197,10 +198,10 @@
 			
 		} else if(pop == 'agree1') { // 변경할 정보가 마케팅 수신 동의인 경우
 			column = 'member_agreement_marketing';
-			value = true;
+			value = 1;
 		} else if(pop == 'disagree1') { // 변경할 정보가 마케팅 수신 동의인 경우
 			column = 'member_agreement_marketing';
-			value = false;
+			value = 0;
 		}
 		
 		console.log('2:' + column);
