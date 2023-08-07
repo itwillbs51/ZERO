@@ -1,5 +1,6 @@
 package com.itwillbs.zero.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.zero.mapper.MemberMapper;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 
 @Service
 public class MemberService {
@@ -72,6 +74,7 @@ public class MemberService {
 		return cnt;
 	}
 
+
 	// 중고 거래 목록 가져오기
 	public List<Map<String, String>> selectSecondhandList(String member_id) {
 		return mapper.selectSecondhandList(member_id);
@@ -81,6 +84,16 @@ public class MemberService {
 	public List<OrderSecondhandVO> getMyOdShList(String member_id, int startRow, int listLimit) {
 		return mapper.selectMyOdShList(member_id, startRow, listLimit);
 	}
+//	Map으로 하면 order_secondhand_date 값 = [unread] 다음에수정하기 
+//	public List<Map<String, Object>> getMyOdShList(String member_id, int startRow, int listLimit) {
+//		return mapper.selectMyOdShList(member_id, startRow, listLimit);
+//	}
+
+	// 마이페이지 메인 - 판매(중)내역 최신순 3개 가져오기
+	public List<SecondhandVO> getmyShList(String member_id, int startRow, int listLimit) {
+		return mapper.selectMyShList(member_id, startRow, listLimit);
+	}
+
 
 	// 회원아이디로 중고 상품 판매 후기 리스트 조회
 	public List<Map<String, String>> selectsellReviewList(String member_id) {

@@ -101,6 +101,59 @@ public class ChattingController {
 		return "chatting/chat";
 	}
 	
+	// 채팅창으로 연결
+	// 중고거래관련 가져올 정보
+	// 중고상품 번호, 사진, 상태, 가격 - secondhand_idx, secondhand_image1, secondhand_deal_status, secondhand_price
+//	@RequestMapping(value = "chatTest", method = {RequestMethod.GET, RequestMethod.POST})
+//	public String chatTest(String room_idx, HttpSession session, Model model) {
+//		String member_id = (String) session.getAttribute("member_id");
+//		
+//		// 채팅방 번호
+//		int chat_room_idx = Integer.parseInt(room_idx.split("_")[1]);
+////		System.out.println("채팅방 번호 : " + chat_room_idx);
+//		
+//		// 채팅방 번호로 들어갈 수 있는 아이디 조회
+//		ChatRoomVO chatRoom = service.selectChatRoom(chat_room_idx);
+//		System.out.println("채팅방 정보 : " + chatRoom);
+//		
+//		// 채팅방에 저장된 판매자나 구매자가 아닐때는 접근 불가!
+//		if(!member_id.equals(chatRoom.getBuyer_id()) && !member_id.equals(chatRoom.getSeller_id())) {
+//			model.addAttribute("msg", "접근불가");
+//			return "fail_back";
+//		}
+//		
+//		// 받아온 채팅방 번호(chat_room_idx) 로 채팅 조회
+//		// 파라미터 : chat_room_idx		리턴타입 : List<ChatVO>(chatList)
+//		List<ChatVO> chatList = service.selectChatList(chat_room_idx);
+//		logger.info("*** 채팅내역 : " + chatList);
+//		
+//		// 채팅방 번호로 중고상품 정보 조회(채팅방 조회로 받아온 값 중 중고상품 번호 받아오기)
+//		int secondhand_idx = chatRoom.getSecondhand_idx();
+//		SecondhandVO secondhandInfo = secondhandService.getSecondhandProduct(secondhand_idx);
+//		logger.info("*** 중고상품 정보 : " + secondhandInfo);
+//		
+//		// z맨 호출여부 등을 조회
+//		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(secondhand_idx);
+//		if(zmanCallInfo != null) {
+//			model.addAttribute("zmanCallInfo", zmanCallInfo);
+//			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
+//		}
+//		
+//		// ORDER_SECONDHAND 테이블에 order_secondhand_idx 등의 정보 들고와야할듯
+//		OrderSecondhandVO orderSecondhandInfo = service.getOrderSecondhandInfo(secondhand_idx);
+//		if(orderSecondhandInfo != null) {
+//			model.addAttribute("orderSecondhandInfo", orderSecondhandInfo);
+//			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
+//		}
+//		
+//		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
+//		model.addAttribute("chatList", chatList);
+//		model.addAttribute("chatRoom", chatRoom);
+//		model.addAttribute("secondhandInfo", secondhandInfo);
+//		
+//		return "chatting/chat_backup";
+//	}
+	
 	// 실시간 채팅 DB에 저장하기
 	@ResponseBody
 	@PostMapping("chatRemember")
@@ -127,14 +180,15 @@ public class ChattingController {
 	}
 	
 	// 사진 보낼 때
-//    @RequestMapping(value = "/sendPhoto",
-//    				method = RequestMethod.POST,
-//    				produces = "text/plain; charset=utf-8")
-//    @ResponseBody
-//    public String sendPhoto(MultipartFile file,
-//    						HttpServletRequest request){
-//
-//    	String result = "";
+	@ResponseBody
+    @RequestMapping(value = "/sendPhoto",
+    				method = RequestMethod.POST,
+    				produces = "text/plain; charset=utf-8")
+    public String sendPhoto(MultipartFile chatImage,
+    						HttpServletRequest request){
+
+    	String result = "";
+    	System.out.println(chatImage.toString());
 //    	
 //    	//파일 저장될 경로 가져오기 (HttpServletRequest 필요함)
 //		String saveDirectory = request.getServletContext() //context-path (webapp)
@@ -157,9 +211,9 @@ public class ChattingController {
 //		}			
 //		
 //		result = fileName + "/" + renamedFileName ;
-//
-//    	return result;
-//    }       
+
+    	return result;
+    }       
 	
 	
 	// 중고상품에서 채팅하기 클릭 시 채팅방으로 이동
@@ -243,7 +297,7 @@ public class ChattingController {
 		// 외에 앞 페이지에서 받은 값 그대로 들고가기(secondhand_subject, secondhand_price)
 		model.addAttribute("orderInfo", map);
 		
-		return "chatting/chatToZ";
+		return "chatting/chat_deal_zman";
 	}
 	
 	// Z맨 최종 호출(주소지 모두 입력)할 때 DB에 입력

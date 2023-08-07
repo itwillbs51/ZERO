@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +77,7 @@
 
 		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
 			<h3 data-v-6752ceb2="" class="title">구매 내역</h3>
-			<a data-v-6752ceb2="" href="/my/buying" class="btn_more"><span
+			<a data-v-6752ceb2="" href="member_mypage_buyList"" class="btn_more"><span
 				data-v-6752ceb2="" class="btn_txt">더보기</span> <svg
 					data-v-6752ceb2="" xmlns="http://www.w3.org/2000/svg"
 					class="icon sprite-icons arr-right-gray">
@@ -84,99 +85,10 @@
 						href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"
 						xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"></use></svg></a>
 		</div>
+		
+		<!-- 거래내역 없을때 -->
+		<c:if test="${empty myOdShList }">
 		<div data-v-412d8616="" class="recent_purchase">
-			<div data-v-412d8616="">
-				<div data-v-7a02263e="" data-v-412d8616=""
-					class="purchase_list all bid">
-					<!---->
-					<div data-v-7a02263e="">
-						<div data-v-e5d3a8ae="" data-v-7a02263e="">
-							<div data-v-e5d3a8ae="" class="purchase_list_display_item"
-								style="background-color: rgb(255, 255, 255);">
-								<div data-v-e5d3a8ae="" class="purchase_list_product">
-									<div data-v-e5d3a8ae="" class="list_item_img_wrap">
-										<img data-v-e5d3a8ae="" alt="product_image"
-											src="https://kream-phinf.pstatic.net/MjAyMzAyMDZfMzcg/MDAxNjc1NjY0Mzk4NTQ2.6DGRP9aD9GJuR6TvwOZe2phJYik3rQqrHmlYDzBiiKgg.bc77zAa3vO710rPZVWw2n2z4LcB-HVTfEY6LfYHlnnQg.PNG/a_289cdc1ea5dc443e8daca7f3d2d8a677.png?type=m"
-											class="list_item_img"
-											style="background-color: rgb(244, 244, 244);">
-										<!---->
-									</div>
-									<div data-v-e5d3a8ae="" class="list_item_title_wrap">
-										<!---->
-										<p data-v-e5d3a8ae="" class="list_item_title">${myOdShList[0].order_secondhand_product}</p>
-									</div>
-								</div>
-								<div data-v-e5d3a8ae="" class="list_item_status">
-									<div data-v-e5d3a8ae=""
-										class="list_item_column column_secondary">
-										<p data-v-7b1f182e="" data-v-e5d3a8ae=""
-											class="secondary_title display_paragraph"
-											style="color: rgba(34, 34, 34, 0.5);">2023/03/15</p>
-									</div>
-									<div data-v-e5d3a8ae="" class="list_item_column column_last">
-										<p data-v-7b1f182e="" data-v-e5d3a8ae=""
-											class="last_title display_paragraph"
-											style="color: rgb(34, 34, 34);">배송완료</p>
-										<p data-v-7b1f182e="" data-v-e5d3a8ae=""
-											class="last_description display_paragraph action_named_action"
-											style="color: rgba(34, 34, 34, 0.8);">스타일 올리기</p>
-									</div>
-								</div>
-							</div>
-							<!---->
-						</div>
-					</div>
-					<!---->
-					<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
-				</div>
-				<!---->
-			</div>
-		</div>
-
-		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
-			<h3 data-v-6752ceb2="" class="title">판매 내역</h3>
-			<a data-v-6752ceb2="" href="/my/selling" class="btn_more"><span
-				data-v-6752ceb2="" class="btn_txt">더보기</span> <svg
-					data-v-6752ceb2="" xmlns="http://www.w3.org/2000/svg"
-					class="icon sprite-icons arr-right-gray">
-					<use data-v-6752ceb2=""
-						href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"
-						xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"></use></svg></a>
-		</div>
-
-		<div data-v-412d8616="" class="recent_purchase">
-<!-- 			<div data-v-2cbb289b="" data-v-412d8616="" -->
-<!-- 				class="purchase_list_tab sell"> -->
-<!-- 				<div data-v-2cbb289b="" class="tab_item total"> -->
-<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
-<!-- 							data-v-2cbb289b="" class="tab_box"> -->
-<!-- 							<dt data-v-2cbb289b="" class="title">전체</dt> -->
-<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
-<!-- 						</dl></a> -->
-<!-- 				</div> -->
-<!-- 				<div data-v-2cbb289b="" class="tab_item tab_on"> -->
-<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
-<!-- 							data-v-2cbb289b="" class="tab_box"> -->
-<!-- 							<dt data-v-2cbb289b="" class="title">입찰 중</dt> -->
-<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
-<!-- 						</dl></a> -->
-<!-- 				</div> -->
-<!-- 				<div data-v-2cbb289b="" class="tab_item"> -->
-<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
-<!-- 							data-v-2cbb289b="" class="tab_box"> -->
-<!-- 							<dt data-v-2cbb289b="" class="title">진행 중</dt> -->
-<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
-<!-- 							 -->
-<!-- 						</dl></a> -->
-<!-- 				</div> -->
-<!-- 				<div data-v-2cbb289b="" class="tab_item"> -->
-<!-- 					<a data-v-2cbb289b="" href="#" class="tab_link"><dl -->
-<!-- 							data-v-2cbb289b="" class="tab_box"> -->
-<!-- 							<dt data-v-2cbb289b="" class="title">종료</dt> -->
-<!-- 							<dd data-v-2cbb289b="" class="count">0</dd> -->
-<!-- 						</dl></a> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
 			<div data-v-412d8616="">
 				<div data-v-7a02263e="" data-v-412d8616=""
 					class="purchase_list all ask">
@@ -190,7 +102,143 @@
 				<!---->
 			</div>
 		</div>
-
+		</c:if>
+		
+		<!-- 거래내역 있을때 -->
+		<c:if test="${not empty myOdShList }">
+			<div data-v-412d8616="" class="recent_purchase">
+				<div data-v-412d8616="">
+					<div data-v-7a02263e="" data-v-412d8616=""
+						class="purchase_list all bid">
+						<!---->
+						<div data-v-7a02263e="">
+							<div data-v-e5d3a8ae="" data-v-7a02263e="">
+								<c:forEach var="myOdShList" items="${myOdShList }">
+								<div data-v-e5d3a8ae="" 
+									 class="purchase_list_display_item"
+									 style="background-color: rgb(255, 255, 255);"
+									 onclick="location.href='secondhand_detail?secondhand_idx=${myOdShList.secondhand_idx}&member_id=${myOdShList.order_secondhand_seller}'">
+										<div data-v-e5d3a8ae="" class="purchase_list_product">
+											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
+												<img data-v-e5d3a8ae="" alt="myOdShList_image"
+													src="${pageContext.request.contextPath }/resources/upload/' + myOdShList.secondhand_image1 + '"
+													class="list_item_img"
+													style="background-color: rgb(244, 244, 244);">
+												<!---->
+											</div>
+											<div data-v-e5d3a8ae="" class="list_item_title_wrap">
+												<!---->
+												<p data-v-e5d3a8ae="" class="list_item_title">${myOdShList.order_secondhand_product}</p>
+											</div>
+										</div>
+										<div data-v-e5d3a8ae="" class="list_item_status">
+											<div data-v-e5d3a8ae=""
+												class="list_item_column column_secondary">
+												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+													class="secondary_title display_paragraph"
+													style="color: rgba(34, 34, 34, 0.5);">${myOdShList.order_secondhand_date }</p>
+											</div>
+											<div data-v-e5d3a8ae="" class="list_item_column column_last">
+												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+													class="last_title display_paragraph"
+													style="color: rgb(34, 34, 34);">${myOdShList.order_secondhand_status }</p>
+											</div>
+										</div>
+								</div>
+								</c:forEach>
+								<!---->
+							</div>
+						</div>
+						<!---->
+						<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
+					</div>
+					<!---->
+				</div>
+			</div>
+		</c:if>
+		
+		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
+			<h3 data-v-6752ceb2="" class="title">판매 내역</h3>
+			<a data-v-6752ceb2="" href="member_mypage_sellList" class="btn_more"><span
+				data-v-6752ceb2="" class="btn_txt">더보기</span> <svg
+					data-v-6752ceb2="" xmlns="http://www.w3.org/2000/svg"
+					class="icon sprite-icons arr-right-gray">
+					<use data-v-6752ceb2=""
+						href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"
+						xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"></use></svg></a>
+		</div>
+		
+		<!-- 판매 내역 없을때 -->
+		<c:if test="${empty myShList }">
+			<div data-v-412d8616="" class="recent_purchase">
+				<div data-v-412d8616="">
+					<div data-v-7a02263e="" data-v-412d8616=""
+						class="purchase_list all ask">
+						<!---->
+						<div data-v-6abf8c64="" data-v-7a02263e="" class="empty_area">
+							<p data-v-6abf8c64="" class="desc">거래 내역이 없습니다.</p>
+							<!---->
+						</div>
+						<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
+					</div>
+					<!---->
+				</div>
+			</div>
+		</c:if>
+		
+		<!-- 판매내역 있을때 -->
+		<c:if test="${not empty myShList }">
+			<div data-v-412d8616="" class="recent_purchase">
+				<div data-v-412d8616="">
+					<div data-v-7a02263e="" data-v-412d8616=""
+						class="purchase_list all bid">
+						<!---->
+						<div data-v-7a02263e="">
+							<div data-v-e5d3a8ae="" data-v-7a02263e="">
+								<c:forEach var="myShList" items="${myShList }">
+								<div data-v-e5d3a8ae="" 
+									 class="purchase_list_display_item"
+									 style="background-color: rgb(255, 255, 255);"
+									 onclick="location.href='secondhand_detail?secondhand_idx=${myShList.secondhand_idx}&member_id=${myShList.member_id}'">
+										<div data-v-e5d3a8ae="" class="purchase_list_product">
+											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
+												<img data-v-e5d3a8ae="" alt="myShList_image"
+													src="${pageContext.request.contextPath }/resources/upload/' + myShList.secondhand_image1 + '"
+													class="list_item_img"
+													style="background-color: rgb(244, 244, 244);">
+												<!---->
+											</div>
+											<div data-v-e5d3a8ae="" class="list_item_title_wrap">
+												<!---->
+												<p data-v-e5d3a8ae="" class="list_item_title">${myShList.secondhand_subject}</p>
+											</div>
+										</div>
+										<div data-v-e5d3a8ae="" class="list_item_status">
+											<div data-v-e5d3a8ae=""
+												class="list_item_column column_secondary">
+												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+													class="secondary_title display_paragraph"
+													style="color: rgba(34, 34, 34, 0.5);">${myShList.secondhand_first_date }</p>
+											</div>
+											<div data-v-e5d3a8ae="" class="list_item_column column_last">
+												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
+													class="last_title display_paragraph"
+													style="color: rgb(34, 34, 34);">${myShList.secondhand_deal_status }</p>
+											</div>
+										</div>
+								</div>
+								</c:forEach>
+								<!---->
+							</div>
+						</div>
+						<!---->
+						<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
+					</div>
+					<!---->
+				</div>
+			</div>
+		</c:if>
+		
 		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
 			<h3 data-v-6752ceb2="" class="title">관심 상품</h3>
 			<a data-v-6752ceb2="" href="/saved" class="btn_more"><span

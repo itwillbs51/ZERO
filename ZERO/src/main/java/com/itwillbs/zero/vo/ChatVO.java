@@ -2,6 +2,8 @@ package com.itwillbs.zero.vo;
 
 import java.sql.*;
 
+import org.springframework.web.multipart.*;
+
 import lombok.*;
 
 @Data
@@ -20,4 +22,6 @@ public class ChatVO {
 	private String chat_content_type;	// 채팅타입 - "사용자", "안내"
 	private int chat_room_idx;
 	private String member_id;
+	// 사진 받기
+	private MultipartFile file1;
 }

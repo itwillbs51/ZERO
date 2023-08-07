@@ -141,11 +141,13 @@ a {
 }
 /* 조회수 */
 .readcount {
-	margin-right:100px;
+	align-content:left;
 	color:gray;
 }
 /* 등록일 */
 .registDate{
+	align-content:right;
+	margin-left:190px;
 	color:gray;
 	
 }
@@ -390,27 +392,30 @@ a {
 						<a href="#">
 							<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
 						</a>
-						<button class="btn btn-primary btn-lg" id="chatting" 
-								data-toggle="modal" data-target="#needLogin" 
-								style="font-size:1em; margin:10px 10px">
-							채팅하기
-						</button>
+						<div class="d-grid gap-2">
+							<button class="btn btn-dark" id="chatting" 
+									data-toggle="modal" data-target="#needLogin" 
+									style="font-size:1em; margin:10px 10px">
+								채팅하기
+							</button>
+						</div>
 					</c:if>
 				
 					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
 					<c:if test="${not empty sessionScope.member_id && sessionScope.member_id ne secondhandProduct.member_id }">
-						<span>
-							<a href="#">
+						
+							<a href="#" style="display: inline-block;">
 								<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
 							</a>
-							<!-- <button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px"> 채팅하기 </button> -->
 							
 							<form action="doChat" method="POST">
 								<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
 								<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
-								<input type="submit" class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" value="채팅하기">
+								<div class="d-grid gap-2">
+									<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">
+								</div>
 							</form>
-						</span>
+						
 						
 					</c:if>
 				</c:otherwise>
@@ -520,6 +525,39 @@ a {
 			
 
 		</div> <%--container 끝 --%>
+		
+		
+		
+	<%-- 찜하기 안내 모달 영역 --%>
+	<div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="needSessionId">로그인 안내</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body text-center" id="modalMsg">
+	      	<%-- 메세지가 표시되는 부분 --%>
+		  	회원 로그인이 필요한 작업입니다. 로그인 하시겠습니까?
+	      </div>
+	      <div class="modal-footer justify-content-center">
+	      	<c:choose>
+	      		<c:when test="${empty sessionScope.member_id}">
+		        	<button type="button" class="btn btn-dark" onclick="location.href='${pageContext.request.contextPath }/member_login'">로그인</button>
+			        <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">아니오</button>
+		        </c:when>
+		        <c:otherwise>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">확인</button>
+		        </c:otherwise>
+	      	</c:choose>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+		
+		
 	</article>
 <footer></footer>
 </body>

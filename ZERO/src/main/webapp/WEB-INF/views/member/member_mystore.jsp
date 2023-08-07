@@ -296,11 +296,9 @@ div {
     height: 50px;
 }
 
-.JoOgK:first-child {
-    border-left: 1px solid rgb(33, 33, 33);
-}
 
-.JoOgK {
+.focus {
+    border-left: 1px solid rgb(33, 33, 33);
     flex: 1 1 0%;
     -webkit-box-align: center;
     align-items: center;
@@ -326,7 +324,7 @@ a {
 }
 
 <%-- 선택안된 목록 --%>
-.eXINrs {
+.unfocus {
     flex: 1 1 0%;
     -webkit-box-align: center;
     align-items: center;
@@ -580,11 +578,11 @@ row{
 												</c:choose>
 													<div class="sc-feryYK dxKilp">상점&nbsp;${member.member_idx }호</div>
 													<div class="sc-eLdqWK gIaRHa">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
-														<img src="/pc-static/resource/982587b0e24b8bccea13.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
+														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
 													</div>
 													<div class="sc-jKmXuR jLHspK">
 														<a class="sc-jUpvKA hzlLUQ" href="member_profile">프로필 이동</a>
@@ -629,19 +627,17 @@ row{
 							<div class="sc-cNnxps cdXYEZ">
 								<div class="sc-eMRERa ebVkwH">
 									<div class="sc-RbTVP kcRaQl">
-										<a class="sc-hMrMfs JoOgK" href="/ajax/sell_secondhandList">중고 판매
+										<a class="focus" href="/ajax/sell_secondhandList">중고 판매
 											<span class="sc-bIqbHp gtokyO">1</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_secondhand_reviews">판매 후기 
+
+										<a class=" unfocus" href="/ajax/sell_secondhand_reviews">판매후기 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
-										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList">경매 판매
+										<a class=" unfocus" href="/ajax/sell_auctionList">경매
 											<span class="sc-bIqbHp gtokyO">3</span>
 										</a>
-<!-- 										<a class="sc-hMrMfs eXINrs" href="/ajax/sell_auctionList_reviews">경매후기  -->
-<!-- 											<span class="sc-bIqbHp gtokyO">0</span> -->
-<!-- 										</a> -->
-										<a class="sc-hMrMfs eXINrs" href="/ajax/myLikeList">찜 목록
+										<a class=" unfocus" href="/ajax/myLikeList">찜 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
 									</div>
@@ -679,18 +675,18 @@ row{
 											</div>
 											<div class="row">
 												<c:forEach var="sell" items="${sellList }">
-													<div class=" col col-sm-6 col-lg-3">
+													<div class=" col col-sm-12 col-lg-3">
 														<div class="card border-0 shadow-sm">
 															<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${sell.secondhand_idx }&member_id=${sell.member_id}">
 <!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
 																<div class="photoDiv">
 																	<img src="${pageContext.request.contextPath }/resources/upload/${sell.secondhand_image1}" alt="상품 이미지" class="card-img-top">
 																</div>
-																<div class="  card-body">
-																	<div class=" ">${sell.secondhand_subject }</div>
+																<div class="card-body">
+																	<div class="sell_subject bold">${sell.secondhand_subject }</div>
 																	<div class=" ">
-																		<div class=" ">${sell.secondhand_price}</div>
-																		<div class=" "><span>${sell.secondhand_first_date}</span></div>
+																		<div class="sell_price">${sell.secondhand_price} 원</div>
+																		<div class="sell_date"><span>${sell.secondhand_first_date} 일</span></div>
 																	</div>
 																</div>
 																<div class=" ">

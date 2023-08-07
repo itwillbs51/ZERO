@@ -24,6 +24,7 @@ public class SecondhandController {
 		private SecondhandService service;
 		
 		
+		
 		//중고상품목록페이지
 		//날짜순 기본정렬	
 		@GetMapping("secondhand_list")
@@ -63,6 +64,7 @@ public class SecondhandController {
 			
 			model.addAttribute("secondhandList",secondhandList);
 			model.addAttribute("maxPage", maxPage);
+			model.addAttribute("listCount", listCount);//전체게시물수
 			
 			
 			System.out.println("+++++++++++++ 리스트 :" + secondhandList);
@@ -71,11 +73,20 @@ public class SecondhandController {
 			//System.out.println("..................상품번호 : " + secondhand.getSecondhand_idx());
 	
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			//String uploadDir = "/resources/upload"; 
 			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
 			String saveDir = session.getServletContext().getRealPath("/resources/upload");
 			System.out.println("실제 업로드 경로 : "+ saveDir);
-			//실제업로드경로 : C:\Users\ user\Documents\workspace_spring5\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ZERO\resources\ upload
+			//실제업로드경로 : 실제 업로드 경로 : C:\Users\JIN\Documents\workspace_sts\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ZERO\resources\ upload
 			String image1 = saveDir + secondhand.getSecondhand_image1();
 			String image2 = saveDir + secondhand.getSecondhand_image2();
 			String image3 = saveDir + secondhand.getSecondhand_image3();
@@ -169,6 +180,7 @@ public class SecondhandController {
 			
 			//주의!!!!!-> 파라미터 두개이상일경우 매퍼-(@Param)어노테이션필요!
 
+			
 			HashMap<String,String> sellerInfo = service.getSellerInfo(secondhand_idx, member_id);
 			System.out.println("&&&&&&&&&&&&&&&& 판매자정보 : " + sellerInfo);
 			model.addAttribute("seller",sellerInfo);
@@ -647,11 +659,84 @@ public class SecondhandController {
 		
 		
 		
-		
-		
 		//판매자페이지
 		@GetMapping("secondhandSeller")
-		public String secondhand_seller_page() {
+		public String secondhand_seller_page(HttpSession session, @RequestParam String member_id, Model model) {
+			System.out.println(member_id);
+			
+			
+			session.setAttribute("member_id", session.getAttribute(member_id));
+			
+			//판매자의 정보 조회작업
+			//필요정보 - 판매자 프로필, 판매자 닉네임, 판매자 주소
+			//상세페이지의 sellerInfo재사용 -> xml에서 조건주기(파라미터값으로 secondhand_idx값 있을경우/없을경우 구분하는 동적쿼리)
+			MemberVO sellerInfo_sellerPage = service.getSellerInfo_sellerPage(member_id);
+			System.out.println("판매자페이지***********&&&&&&&&&&&&&&&& 판매자정보 : " + sellerInfo_sellerPage);
+			model.addAttribute("seller",sellerInfo_sellerPage);
+			
+			
+//			List<HashMap<String, String>> selectSeller;
+			
+			//---------------------------------------------------------------------------------------------------------------------
+			
+			//판매자의 판매물품 목록 조회작업 (거래상태별) - 상세페이지의 getsellerProductList()재사용
+			
+			//판매상태 판별 방법 2
+			//1. 뷰페이지에서 넘겨받기? -> 파라미터로 넘겨주고 xml에서 동적쿼리
+			//2. 뷰페이지에서 판별하기? -> 판매자의 전체 판매목록 넘겨받아, 뷰페이지에서 dealStatus가 '판매중'인 상품 목록만 표시하기
+			
+			
+			//기본(판매자의 판매 상품 전체목록조회)
+			List<HashMap<String, String>> sellerProductList = service.getSellerProductList(member_id);
+			model.addAttribute("sellerProductList",sellerProductList);
+			System.out.println(sellerProductList);
+			
+			//판매자의 판매중/예약중 상품목록 조회
+			List<HashMap<String, String>> dealProductList = service.getdealProductList(member_id);
+			model.addAttribute("dealProductList",dealProductList);
+			System.out.println(dealProductList);
+			//판매자의 판매완료 상품목록 조회
+			List<HashMap<String, String>> soldOutProductList = service.getsoldOutProductList(member_id);
+			model.addAttribute("soldOutProductList",soldOutProductList);
+			System.out.println(soldOutProductList);
+			
+			
+			
+			//판매자의 판매물품 개수 조회작업 (거래상태별) -  상세페이지의 getsellerProductListCount()재사용
+			//판매상태 판별 방법 2
+			//1. 뷰페이지에서 넘겨받기? -> 파라미터로 넘겨주고 xml에서 동적쿼리
+			//2. 뷰페이지에서 판별하기? -> 판매자의 전체 판매목록 넘겨받아, 뷰페이지에서 dealStatus가 '판매중'인 상품 목록만 표시하기
+			
+			//판매자의 전체 판매물품 개수
+			int sellerProduct = service.getSellerProductCount(member_id);
+			model.addAttribute("sellerProduct", sellerProduct);
+			//판매자의 판매중,예약중 상품목록 개수
+			int dealProductCount = service.getdealProductCount(member_id);
+			model.addAttribute("dealProductCount", dealProductCount);
+			//판매자의 판매완료 상품목록 개수
+			int soldOutProductCount = service.getsoldOutProductCount(member_id);
+			model.addAttribute("soldOutProductCount", soldOutProductCount);
+			
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&"+ sellerProduct);
+
+//			
+			
+			
+			//---------------------------------------------------------------------------------------------------------------------			
+//			//판매자가 받은 리뷰 조회(list)
+//			//SecondService.getReviewList() - 파라미터:member_id /  리턴타입:List<HashMap<String,String>>
+//			//필요정보 - 리뷰작성한 회원의 닉네임/프로필이미지/리뷰내용/리뷰날짜/
+//			List<HashMap<String,String>> reviewList = service.getReviewList(member_id);
+//			model.addAttribute("reviewList", reviewList);
+//			System.out.println(reviewList);
+//
+//			
+//			//판매자가 받은 리뷰 개수 조회(int)
+//			int reviewListCount = service.getReviewListCount(member_id);
+//			model.addAttribute("reviewListCount", reviewListCount);
+			
+			
+			
 			return "secondhand/secondhand_seller_page";
 		}
 		

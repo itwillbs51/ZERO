@@ -395,6 +395,13 @@
 		color: #252525;
 	}
 
+	.chargeContentArea .chargeInputArea .title .zpay_balance {
+		display: inline-block;
+		font-weight: 700;
+		color: #09aa5c;
+		font-style: normal;
+	}
+
 	.chargeContentArea .chargeInputArea .amountArea {
 		margin-top: 13px;
 	}
