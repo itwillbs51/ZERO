@@ -24,7 +24,8 @@
 			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
 					+ "response_type=code"
 					+ "&client_id=4066d795-aa6e-4720-9383-931d1f60d1a9"
-					+ "&redirect_uri=http://c5d2302t1.itwillbs.com/ZERO/callback"
+					+ "&redirect_uri=http://localhost:8089/zero/callback"
+// 					+ "&redirect_uri=http://c5d2302t1.itwillbs.com/ZERO/callback"
 					+ "&scope=login inquiry transfer oob"
 					+ "&state=12345678901234567890123456789012"
 					+ "&auth_type=0";
@@ -96,39 +97,23 @@
 					<div class="zpayHistoryListArea">
 						<ul>
 							<li>
-									<div class="zpayHistoryItem">
-										<div class="zpayHistoryItem_date">
-											예금주명
-										</div>
-										<div class="zpayHistoryItem_infoArea">
-											<div class="zpayHistoryItem_info">
-												은행명&nbsp;&nbsp;&nbsp;계좌번호
-												<div class="zpayHistoryItem_info_sub">
-													<span class="payTime">
-														핀테크이용번호
-													</span>
-													<span class="paymentType">${account.fintech_use_num }</span>
-												</div>
+								<div class="zpayHistoryItem">
+									<div class="zpayHistoryItem_date">
+										예금주명
+									</div>
+									<div class="zpayHistoryItem_infoArea">
+										<div class="zpayHistoryItem_info">
+											은행명&nbsp;&nbsp;&nbsp;계좌번호
+											<div class="zpayHistoryItem_info_sub">
+												<span class="payTime">
+													핀테크이용번호
+												</span>
+												<span class="paymentType">${account.fintech_use_num }</span>
 											</div>
-<!-- 											<div class="zpayHistoryItem_amountArea"> -->
-<!-- 												<strong class="zpayHistoryItem_amount"> -->
-													
-<!-- 												</strong> -->
-<!-- 												<div class="zpayBalance"> -->
-													<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-<!-- 													<form action="zpay_regist" method="post"> -->
-<!-- 																<form action="bankAccountDetail" method="post"> -->
-														<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
-<%-- 														<input type="hidden" name="user_name" value="${userInfo.user_name }"> --%>
-<%-- 														<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }"> --%>
-<%-- 														<input type="hidden" name="account_num_masked" value="${account.account_num_masked }"> --%>
-<!-- 														<input type="submit" class="btn btn-sm btn-dark" value="등록하기"> -->
-<!-- 													</form> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
 										</div>
 									</div>
-								</li>
+								</div>
+							</li>
 							<c:forEach var="account" items="${userInfo.res_list }">
 								<li>
 									<div class="zpayHistoryItem">
@@ -152,7 +137,6 @@
 												<div class="zpayBalance">
 													<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
 													<form action="zpay_regist" method="post">
-<!-- 																<form action="bankAccountDetail" method="post"> -->
 														<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
 														<input type="hidden" name="user_name" value="${userInfo.user_name }">
 														<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
