@@ -81,6 +81,11 @@
 // 					}
 				}, 
 				{
+					header: '회원타입',
+					name: 'member_type', 
+					filter: 'select', 
+				}, 
+				{
 					header: '상세보기',
 					name: 'member_idx', 
 					formatter: function(row, column, value){

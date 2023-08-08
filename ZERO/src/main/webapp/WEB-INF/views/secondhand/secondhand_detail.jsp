@@ -61,7 +61,7 @@ function showSlides(n) {
 function categoryChange(e) {
     var report_member = ["도배 행위", "사기 행위", "욕설", "비매너"];
     var report_zman = ["불친절", "배달 누락"];
-    var report_goods = ["주류, 담배", "전문 의약품, 의료기기", "위조상품"];
+    var report_goods = ["주류, 담배", "전문 의약품, 의료기기", "위조상품", "부정확한 상품 정보", "전문업자 의심"];
     var target = document.getElementById("report");
  
     if(e.value == "member") var d = report_member;
@@ -279,52 +279,7 @@ a {
 				</span>
 
 
-				<div class="modal fade" id="layerpop" >
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<!-- header -->
-							<div class="modal-header">
-								<!-- header title -->
-								<h4 class="modal-title">header</h4>
-							</div>
-							
-							<!-- body -->
-							<form action="zero_report" method="POST" name="fr">								
-								<div class="modal-body">
-								    <%-- 신고하려는 내용 알려주기 --%>
-									<div class="1st_report">
-										<dl class="report_area">
-											<h2>신고 제목</h2>
-									</div>
-									
-									<%-- 신고 이유 선택하기 --%>				
-									<div class="reportReason">
-										<h4>사유선택</h4>
-										<div>
-											<select onchange="categoryChange(this)">
-											    <option>신고 타입을 선택해주세요</option>
-											    <option value="member">회원</option>
-											    <option value="zman">ZMAN</option>
-											    <option value="goods">상품</option>
-											</select>
-					 					</div>
-					 					
-					 					<div>
-											<select id="report">
-												<option>사유 선택</option>
-											</select>
-										</div>
-									</div>
-								</div> <%-- <div class="modal-body"> --%>
-								
-								<!-- Footer -->
-								<div class="modal-footer">
-									<button type="submit" class="btn btn-default" data-dismiss="modal">신고하기</button>
-								</div>
-							</form>
-						</div> <%-- <div class="modal-content"> --%>
-					</div>
-				</div>
+	
 
 
 
@@ -484,7 +439,7 @@ a {
 					
 					<%-- 판매자 프로필 --%>
 					<div class="column">
-						<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="border-radius:50%">
+						<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
 					 </div>
 					
 					<%-- 판매자 닉네임 --%>
@@ -557,7 +512,62 @@ a {
 	  </div>
 	</div>
 		
-		
+	<%--신고 모달창 영역 --%>
+		<div class="modal fade" id="layerpop" >
+				<div class="modal-dialog">
+					<div class="modal-content">
+					
+						<!-- header -->
+						<div class="modal-header">
+					
+							<!-- header title -->
+							<h4 class="modal-title">header</h4>
+							</div>
+							
+							<!-- body -->
+							<form action="zero_report" method="POST" name="fr">								
+								<div class="modal-body">
+								
+								    <%-- 신고하려는 내용 알려주기 --%>
+									<div class="1st_report">
+										<div class="report_area">
+											<h2>신고 제목</h2>
+										</div>
+									</div>
+									
+									<%-- 신고 이유 선택하기 --%>				
+									<div class="reportReason">
+										<h4>사유선택</h4>
+										<div>
+											<select onchange="categoryChange(this)">
+											    <option>신고 타입을 선택해주세요</option>
+											    <option value="member">회원</option>
+											    <option value="zman">ZMAN</option>
+											    <option value="goods">상품</option>
+											</select>
+					 					</div>
+					 					
+					 					<div>
+											<select id="report">
+												<option>사유 선택</option>
+											</select>
+										</div>
+									</div>
+								</div> <%-- <div class="modal-body"> --%>
+								
+								<!-- Footer -->
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-default" data-dismiss="modal" > 신고하기 </button>
+								</div>
+							</form>
+						</div> <%-- <div class="modal-content"> --%>
+					</div>
+				</div>
+	
+	
+	
+	
+	
 	</article>
 <footer></footer>
 </body>

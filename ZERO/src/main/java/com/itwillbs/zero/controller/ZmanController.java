@@ -39,7 +39,7 @@ public class ZmanController {
 		if(member_type.equals("Z맨") || member_type.equals("직원")) {
 			return "zman/zman_main";
 		} else {
-			return "zpay_main";
+			return "member/member_zman_join_form";
 		}
 	}
 	

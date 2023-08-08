@@ -203,14 +203,37 @@
 	<select id="selectOrderSecondhandList" resultType="map">
 		SELECT *
 			FROM
-				ORDER_SECONDHAND;
+				ORDER_SECONDHAND
+			<if test="!member_id.equals('')">
+				WHERE order_secondhand_seller = #{member_id}
+				OR order_secondhand_buyer = #{member_id}
+			</if>
 	</select>
 	
 	<!-- 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동 -->
-	<select id="selectOrderSecondhandDetail">
-		SELECT *
-			FROM
-				ORDER_SECONDHAND os;
+	<select id="selectOrderSecondhandDetail" resultType="map">
+	    <choose>
+	        <when test="order_secondhand_type.equals('Z맨')">
+	            SELECT os.*,
+	                zd.zman_delivery_startspot, zd.zman_delivery_endspot,
+	                zd.zman_delivery_accepttime, zd.zman_delivery_startime, zd.zman_delivery_endtime,
+	                zd.zman_delivery_commission, zd.zman_delivery_status,
+	               	zd.zman_id, zd.zman_delivery_idx 
+	            FROM
+	            	ORDER_SECONDHAND os
+	            JOIN
+	            	ZMAN_DELIVERY zd
+            		ON
+            			os.order_secondhand_idx = zd.order_secondhand_idx
+	            WHERE 
+	            	os.order_secondhand_idx = #{order_secondhand_idx}
+	        </when>
+	        <otherwise>
+	            SELECT *
+	            FROM ORDER_SECONDHAND os
+	            WHERE order_secondhand_idx = #{order_secondhand_idx}
+	        </otherwise>
+	    </choose>
 	</select>
 	
 	<!-- 경매관리 - 경매예정 상품 목록 조회 -->
@@ -428,5 +451,35 @@
 		WHERE cs_idx = #{cs_idx}
 	</delete>
 	
+	<!-- ZPAY 관리 - 충전/환급 목록 조회 -->
+	<select id="selectZpayDepositWithdrawList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT * FROM ZPAY_HISTORY
+		WHERE zpay_deal_type = '충전'
+		OR zpay_deal_type = '환급'
+	</select>
+
+	<!-- ZPAY 관리 - 충전/환급 정보 조회 -->
+	<select id="selectZpayDepositWithdraw" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT * FROM ZPAY_HISTORY
+		WHERE (zpay_deal_type = '충전'
+				OR zpay_deal_type = '환급')
+		AND zpay_history_idx = #{zpay_history_idx}
+		
+	</select>
+
+	<!-- ZPAY 관리 - 사용/수익 목록 조회 -->
+	<select id="selectZpayUseList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT * FROM ZPAY_HISTORY
+		WHERE zpay_deal_type LIKE '중고%'
+		OR zpay_deal_type LIKE '경매%'
+	</select>
+
+	<!-- ZPAY 관리 - 사용/수익 정보 조회 -->
+	<select id="selectZpayUse" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT * FROM ZPAY_HISTORY
+		WHERE (zpay_deal_type LIKE '중고%'
+				OR zpay_deal_type LIKE '경매%')
+		AND zpay_history_idx = #{zpay_history_idx}
+	</select>
 
 </mapper>
