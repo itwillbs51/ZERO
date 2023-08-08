@@ -18,8 +18,14 @@ public class ZmanDeliveryService {
 	}
 
 	// ZMAN 중고물품 오더 배달 수락하기
-	public ZmanDeliveryVO acceptDelivery(int zman_delivery_idx, String zman_id) {
+	public int acceptDelivery(int zman_delivery_idx, String zman_id) {
 		return mapper.updateDelivery(zman_delivery_idx, zman_id);
+	}
+
+
+	// 배달 상세 정보 - 출발지와 배달지 가져오기
+	public ZmanDeliveryVO getDeliveryDetail(int zman_delivery_idx) {
+		return mapper.selectDeliveryDetail(zman_delivery_idx);
 	}
 
 
