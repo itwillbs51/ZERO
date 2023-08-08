@@ -42,12 +42,13 @@ public class AuctionController2 {
 		HashMap<String, String> product= service.getAuctionProduct(id);
 		List<HashMap<String, String>> logList=service.getAuctionLog(id);
 		int balance=service2.getZpayBalance(member_id); 
-		int bidedZpay=service.getBidedZpay(member_id);
+		int bidedZpay=service.getBidedZpay(member_id,id);
+		int possibleZpay=balance-bidedZpay;
 		System.out.println(bidedZpay);
 		model.addAttribute("product", product);
 		model.addAttribute("logList", logList);
 		model.addAttribute("balance", balance);
-		model.addAttribute("bidedZpay", bidedZpay);
+		model.addAttribute("possibleZpay", possibleZpay);
 		
 		return "auction/auction_detail";
 	}
@@ -61,7 +62,7 @@ public class AuctionController2 {
 		int startPrice=Integer.parseInt(String.valueOf(product.get("auction_start_price")));
 		int maxPrice=Integer.parseInt(String.valueOf(product.get("auction_max_price")));
 		int balance=service2.getZpayBalance((String) session.getAttribute("member_id")); 
-		int bidedZpay=service.getBidedZpay((String) session.getAttribute("member_id"));
+		int bidedZpay=service.getBidedZpay((String) session.getAttribute("member_id"),Integer.parseInt(map.get("auction_idx")));
 		int possibleZpay=balance-bidedZpay;
 		
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));

@@ -117,7 +117,13 @@
 												<p data-v-7b1f182e="" data-v-e5d3a8ae=""
 													class="last_title display_paragraph"
 													style="color: rgb(34, 34, 34);">${myOdShList.order_secondhand_status }</p>
+											<c:if test="${myOdShList.order_secondhand_status == '거래완료'}">
+												<a href="javascript:void(0)" data-v-7b1f182e="" data-v-e5d3a8ae=""
+												   class="last_title display_paragraph"
+												   style="color: rgb(34, 34, 34); cursor:pointer;" onclick="openReviewPopup(event, ${myOdShList.secondhand_idx}, ${myOdShList.order_secondhand_seller});">후기 작성하기</a>
+											</c:if>
 											</div>
+                                    
 										</div>
 								</div>
 								</c:forEach>
@@ -151,6 +157,16 @@
 <link href="${pageContext.request.contextPath }/resources/mypage_css/ddf6c56.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/mypage_css/10a7d17.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/mypage_css/4bb4200.css" rel="stylesheet" type="text/css">
+
+<!-- 후기작성 팝업 -->
+<script type="text/javascript">
+function openReviewPopup(event, secondhand_idx, member_id) {
+    event.preventDefault();
+    event.stopPropagation();
+    // 여기서 리뷰 작성 팝업창을 여는 로직을 구현하세요.
+}
+
+</script>
 
 </body>
 </html>

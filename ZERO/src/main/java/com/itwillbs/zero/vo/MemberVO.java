@@ -65,6 +65,9 @@ public class MemberVO {
 	// 추가주소 번호 추가
 	private String member_address2_phone;
 	private String member_address3_phone;
+	// 추가 주소 이름
+	private String member_address2_name;
+	private String member_address3_name;
 }
 
 
