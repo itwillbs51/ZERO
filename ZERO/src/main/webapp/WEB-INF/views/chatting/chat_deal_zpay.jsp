@@ -38,9 +38,25 @@
 	
 </script>
 <style type="text/css">
-/* 	.container { */
-/* 		padding-bottom: 0; */
-/* 	} */
+	.chargeInputArea {
+		min-height: 400px;
+	}
+	.chargeContentArea {
+		margin-top: 10px;
+	}
+	/* 잔액 */
+	.balanceAccountNum {
+		margin-left: 20px;
+		margin-top: 5px;
+		font-size: 16px;
+		color: gray;
+	}
+	/* 밑에 버튼 영역 */
+	.chargeButtonArea {
+		margin: auto;
+		padding-top: 10px;
+	}
+	
 </style>
 </head>
 <body>
@@ -63,11 +79,16 @@
 									${map.seller_nickname }님에게
 								</div>
 								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">${map.order_secondhand_price }원</div>
+									<div class="withdrawalBankName">
+<%-- 									${map.order_secondhand_price + 3000}원 --%>
+										<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price + 3000}"/>원
+									</div>
 								</div>
 								<div class="withdrawalAccount_info">
-									<div class="withdrawalAccountNum">페이잔액 : xxx,xxx원</div>
+									<div class="withdrawalAccountNum">
+										<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>(상품가격)  + 3,000(배달수수료)</div>
 								</div>
+								<div class="balanceAccountNum">페이잔액 : xxx,xxx원</div>
 								
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>

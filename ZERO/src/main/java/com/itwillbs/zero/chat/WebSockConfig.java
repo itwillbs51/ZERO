@@ -1,6 +1,7 @@
 package com.itwillbs.zero.chat;
 
 import org.springframework.context.annotation.*;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.config.annotation.*;
 import org.springframework.web.socket.server.support.*;
@@ -15,7 +16,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSocket	// => 웹소켓 활성화
-public class WebSockConfig implements WebSocketConfigurer {
+public class WebSockConfig implements WebSocketConfigurer, WebMvcConfigurer {
 	// WebSocketHandler 에 관한 생성자 추가
 	private final ChattingHandler chattingHandler;
 //	private final ChatHandler chatHandler;
@@ -35,6 +36,13 @@ public class WebSockConfig implements WebSocketConfigurer {
 //		registry.addHandler(chatHandler, "/chat")
 //		.setAllowedOrigins("*")
 //		.addInterceptors(new HttpSessionHandshakeInterceptor());
+	}
+	
+	public static final String ALLOWED_METHOD_NAMES = "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH";
+	// SSE 사용을 위한 오버라이딩(알림)
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedMethods(ALLOWED_METHOD_NAMES.split(", "));
 	}
 	
 	

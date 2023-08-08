@@ -1,6 +1,7 @@
 package com.itwillbs.zero.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,11 @@ public class ZpayService {
 	// ZPAY 등록
 	public int registZpay(ZpayVO zpay) {
 		return mapper.insertZpay(zpay);
+	}
+
+	// ZMAN 계좌 등록
+	public int registZmanBankAccount(ZpayVO zpay) {
+		return mapper.insertZmanBankAccount(zpay);
 	}
 	
 	// ZPAY 잔액 조회
@@ -67,6 +73,12 @@ public class ZpayService {
 	public int chargeZpay(ZpayHistoryVO zpayHistory) {
 		return mapper.insertChargeHistory(zpayHistory);
 	}
+	
+	//  현재 참여하고 있는 경매 입찰이 있는 지 확인
+	public List<Map<String, Object>> isAuctionParticipant(String member_id) {
+		return mapper.selectAuctionParticipant(member_id);
+	}
+
 
 	// ZPYA_HISTORY 테이블에 환급내역 추가
 	public int refundZpay(ZpayHistoryVO zpayHistory) {
@@ -116,16 +128,22 @@ public class ZpayService {
 		return zero_account_balance != null ? zero_account_balance : 0;
 	}
 	
-	// ZERO_ACCOUNT_HISTORY 입금내역 추가
-	public int depositZeroAccount(ZeroAccountHistoryVO zeroAccount) {
-		return mapper.insertZeroAccountDepositHistory(zeroAccount);
-	}
+//	// ZERO_ACCOUNT_HISTORY 입금내역 추가
+//	public int depositZeroAccount(ZeroAccountHistoryVO zeroAccount) {
+//		return mapper.insertZeroAccountDepositHistory(zeroAccount);
+//	}
+//	
+//	// ZERO_ACCOUNT_HISTORY 출금내역 추가
+//	public int withdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
+//		return mapper.insertZeroAccountWithdrawHistory(zeroAccount);
+//	}
 	
-	// ZERO_ACCOUNT_HISTORY 출금내역 추가
-	public int withdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
-		return mapper.insertZeroAccountWithdrawHistory(zeroAccount);
+	// ZERO_ACCOUNT_HISTORY 입금/출금 내역 추가
+	public int depositWithdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
+		return mapper.insertZeroAccountHistory(zeroAccount);
 	}
 
+	
 	
 	
 	

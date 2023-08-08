@@ -26,7 +26,7 @@ public class ZmanController {
 //		ZmanVO zman = service.getZmanList();
 //		model.addAttribute("zman", zman);
 		
-		return "zman/zman_main";
+		return "member/member_zman_join_identification";
 	}
 	
 	// ZMAN 정산내역 페이지로 이동
@@ -83,6 +83,13 @@ public class ZmanController {
 	public String zmanReportForm() {
 		
 		return "zero_report_form";
+	}
+	
+	// 정의효 - Z-MAN관련
+	// Z-MAN 신청폼
+	@GetMapping("zman_join_form")
+	public String zmanJoinPro() {
+		return "member/member_zman_join_form";
 	}
 	
 }

@@ -1136,11 +1136,11 @@ public class MemberController {
 		return "member/member_join_complete";
 	}
 	
-	// Z-MAN 신청
-	@GetMapping("zman_join")
-	public String zmanJoin() {
-		return "member/member_zman_join_identification";
-	}
+	// Z-MAN 신청 - 마이페이지인데 거추장스럽다해서 삭제예정 확인후 삭제하기
+//	@GetMapping("zman_join")
+//	public String zmanJoin() {
+//		return "member/member_zman_join_identification";
+//	}
 	
 //	-------------------- ZMAN 컨트롤러 이동후 삭제예정 정의효 -----------------
 	// Z-MAN 신청폼

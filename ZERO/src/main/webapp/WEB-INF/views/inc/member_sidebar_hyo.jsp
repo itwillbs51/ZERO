@@ -82,12 +82,6 @@ $(document).ready(function(){
       </a>
     </li>
     <hr>
-    <li class="nav-item">
-      <a class="nav-link" href="zman_join">
-        Z-MAN 신청
-      </a>
-    </li>
-    <hr>
      <li class="nav-item">
       <a class="nav-link" href="member_Info">
         개인정보 수정
