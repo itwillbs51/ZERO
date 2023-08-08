@@ -47,6 +47,7 @@
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
+										<th>거래번호</th>
 										<th>아이디</th>
 										<th>금액</th>
 										<th>거래유형</th>
@@ -57,6 +58,7 @@
 								<tbody>
 									<c:forEach var="zpayHistory" items="${zpayHistoryList }" varStatus="vs">
 										<tr>
+											<td>${zpayHistory.zpay_history_idx }</td>
 											<td>${zpayHistory.member_id }</td>
 											<td><fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원</td>
 											<c:choose>

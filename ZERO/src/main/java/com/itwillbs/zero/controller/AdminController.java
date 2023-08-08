@@ -90,9 +90,11 @@ public class AdminController {
 		
 		MemberVO member = service.getMember(memberIdx);
 		int memberReportCount = service.getMemberReportCount(member.getMember_id());
+		List<SecondhandVO> orderSecondhandList = service.getOrderSecondhandList(member.getMember_id());
 		System.out.println(member);
 		model.addAttribute("member", member);
 		model.addAttribute("memberReportCount", memberReportCount);
+		model.addAttribute("orderSecondhandCount", orderSecondhandList.size());
 		
 		return "admin/admin_member_detail";
 	}
@@ -345,7 +347,7 @@ public class AdminController {
 	
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
 	@GetMapping("admin_secondhand_order_detail")
-	public String amdinSecondhandOrderDetail(HttpSession session, Model model,@RequestParam int order_secondhand_idx, @RequestParam String order_secondhand_type) {
+	public String amdinSecondhandOrderDetail(HttpSession session, Model model,@RequestParam int order_secondhand_idx, @RequestParam(defaultValue = "") String order_secondhand_type) {
 		System.out.println("AdminController - admin_secondhand_order_detail");
 		System.out.println(order_secondhand_idx);
 		

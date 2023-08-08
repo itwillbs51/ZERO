@@ -101,43 +101,57 @@
 									<tbody>
 										<tr>
 											<th>내역 번호</th>
-											<td>
+											<td colspan="2">
 												${zpayHistory.zpay_history_idx }
 											</td>
 										</tr>
 										<tr>
 											<th>ZPAY 번호</th>
-											<td>
+											<td colspan="2">
 												${zpayHistory.zpay_idx }
 											</td>
 										</tr>
 										<tr>
 											<th>변동금액</th>
-											<td><fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/></td>
+											<td colspan="2">
+												<fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>
+											</td>
 										</tr>
 										<tr>
 											<th>시간</th>
-											<td>${zpayHistory.zpay_time }</td>
+											<td colspan="2">
+												${zpayHistory.zpay_time }
+											</td>
 										</tr>
 										<tr>
 											<th>ZPAY 잔액</th>
-											<td><fmt:formatNumber value="${zpayHistory.zpay_balance}" pattern="#,##0"/></td>
+											<td colspan="2">
+												<fmt:formatNumber value="${zpayHistory.zpay_balance}" pattern="#,##0"/>
+											</td>
 										</tr>
 										<tr>
 											<th>ZPAY 거래 유형</th>
-											<td>${zpayHistory.zpay_deal_type }</td>
+											<td colspan="2">
+												${zpayHistory.zpay_deal_type }
+											</td>
 										</tr>
 										<c:choose>
 											<c:when test="${!empty zpayHistory.order_secondhand_idx }">
 												<tr>
 													<th>중고거래번호</th>
 													<td>${zpayHistory.order_secondhand_idx }</td>
+													<td class="text-end">
+														<button type="button" class="btn btn-sm btn-dark text-nowrap" onclick="location.href='admin_secondhand_order_detail?order_secondhand_idx=${zpayHistory.order_secondhand_idx}'">상세보기</button>
+													</td>
 												</tr>
 											</c:when>
 											<c:otherwise>
 												<tr>
 													<th>경매거래번호</th>
 													<td>${zpayHistory.order_auction_idx }</td>
+													<td class="text-end">
+														<button type="button" class="btn btn-sm btn-dark text-nowrap" onclick="location.href='#'">상세보기</button>
+													</td>
 												</tr>												
 											</c:otherwise>
 										</c:choose>

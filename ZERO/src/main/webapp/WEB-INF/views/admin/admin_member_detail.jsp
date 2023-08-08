@@ -182,19 +182,20 @@
 											<th>피신고건수</th>
 											<td>${memberReportCount } 건</td>
 											<td class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap" onclick="location.href='admin_member_report?reported_member_id=${member.member_id}'">상세보기</button>
+												<button type="button" class="btn btn-sm btn-dark text-nowrap" onclick="location.href='admin_member_report?reported_member_id=${member.member_id}'">목록보기</button>
 											</td>
 										</tr>
 										<tr>
-											<th>중고거래내역 상세보기</th>
-											<td colspan="2" class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap"  onclick="location.href='admin_secondhand_order_list?member_id=${member.member_id}'">상세보기</button>
+											<th>중고거래내역 목록보기</th>
+											<td>${orderSecondhandCount } 건</td>
+											<td class="text-end">
+												<button type="button" class="btn btn-sm btn-dark text-nowrap"  onclick="location.href='admin_secondhand_order_list?member_id=${member.member_id}'">목록보기</button>
 											</td>
 										</tr>
 										<tr>
-											<th>경매내역 상세보기</th>
+											<th>경매내역 목록보기</th>
 											<td colspan="2" class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+												<button type="button" class="btn btn-sm btn-dark text-nowrap">목록보기</button>
 											</td>
 										</tr>
 										<tr>
