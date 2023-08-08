@@ -16,215 +16,121 @@
 <title>ZERO</title>
 <style>
 
-.help_area {
-    margin: 0 auto;
-    padding: 60px 0 160px;
-    width: 400px;
-}
 
-.help-social {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 13px;
-    left: 15px;
-}
-
-.help_title {
-    padding-bottom: 41px;
-    text-align: center;
-    font-size: 32px;
-    letter-spacing: -.48px;
-    color: #000;
-    border-bottom: 2px solid #000;
-}
-
-.help_notice {
-    padding: 40px 0 30px;
-}
-.help_notice .notice_txt {
-    font-size: 14px;
-    letter-spacing: -.21px;
-}
-
-.input_txt {
-    padding: 8px 0;
-    width: 100%;
-    font-size: 15px;
-    letter-spacing: -.15px;
-    line-height: 22px;
-    border-bottom: 1px solid #ebebeb;
-}
-
-.input_title {
-    font-size: 13px;
-    letter-spacing: -.07px;
-    line-height: 18px;
-}
-
-.solid.disabled, .solid:disabled {
-    background-color: #ebebeb;
-    color: #fff;
-    cursor: default;
-}
-
-.has_button .input_txt {
-    padding-right: 30px;
-    height: 38px;
-}
-
-.input_txt {
-    padding: 8px 0;
-    width: 100%;
-    font-size: 15px;
-    letter-spacing: -.15px;
-    line-height: 22px;
-    border-bottom: 1px solid #ebebeb;
-}
-
-input, textarea {
-    padding: 0;
-    outline: 0;
-    border: 0;
-    resize: none;
-    border-radius: 0;
-    -webkit-appearance: none;
-    background-color: transparent;
-}
-
-.btn {
-    display: inline-flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    text-align: center;
-    color: rgba(34,34,34,.8);
-    background-color: #fff;
-}
-
-.look_link {
-    margin: auto;
-    padding: 0 10px;
-    display: inline-flex;
-    font-size: 13px;
-    letter-spacing: -.07px;
-}
-
-
-	
-<%-- 인증에러 --%>
-.input_error {
-    display: none;
-}
-
-*, :after, :before {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-
-.full {
-    width: 100%;
-    font-size: 16px;
-    letter-spacing: -.16px;
-    font-weight: 700;
-    height: 52px;
-    border-radius: 12px;
-}
-
- div {
-    padding: 0px;
-    background: white;
-    display: block;
-}
-
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-
-
-.solid {
-    font-weight: 700;
-    color: #fff;
-    background-color: #222;
-}
-
-*, :after, :before {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-
-link {
-    display: none;
-}
-
-body, button, input, select, table, textarea {
-    font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
-    color: #222;
-    -webkit-font-feature-settings: "frac" 0,"numr" 0;
-    font-feature-settings: "frac" 0,"numr" 0;
-}
-
-.look_box {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-li, ol, ul {
-    list-style: none;
-}
-
-ul {
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
-}
-
-h2 {
-    display: block;
-    font-size: 1.5em;
-    margin-block-start: 0.83em;
-    margin-block-end: 0.83em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-}
-<%-- 버튼 --%>
-
-.help_btn_box {
-    padding-top: 44px;
-}
-
-.help_btn_box>.btn {
-    margin-bottom: 8px;
-}
-
-.outline {
-    border: 1px solid #d3d3d3;
-}
 	
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	
+	// 이메일 함수
+	const emailCheck = document.getElementById("member_id");
+	// 이메일 형식 체크 함수
+	emailCheck.addEventListener("keyup",(e)=> {
+        validEmail(e.target);
+    });
+	
+	// 빈칸 입력시 인증 발송 금지
+	$("#myForm").submit(function(e) {
+	      var memberId = $("#member_id").val().trim();
+	      var memberPhone = $("#member_phone").val().trim();
+	      
+	      if (/^\s*$/.test(memberId)) { // 스페이스바로만 이루어진 공백 감지
+	          e.preventDefault(); // 등록 방지
+	          
+	          alert("아이디를 입력해주세요.");
+	      } else if (/^\s*$/.test(memberPhone)) { // 스페이스바로만 이루어진 공백 감지
+	    	  e.preventDefault(); // 등록 방지
+	    	  alert("핸드폰 번호를 입력해주세요.");
+	      }
+	      
+	});
+	
+	$("#sendSns").on("click", function() { // 문자 발송하기 버튼 클릭
+		
+		$("#btnRewrite, #btnLogin").removeClass("blind");
+		$("#sendSns").addClass("blind");
+		$("#member_id, #member_phone").addClass("readonly");
+		
+		sendAuth();
+		
+	});
+	
+});
 
-function submitForm() { // 폼 데이터 전송
+
+function sendAuth() { // 인증번호 전송 전송
 	
-	// 1. 이메일과 휴대폰 번호가 가입된 정보와 일치할 경우  버튼 클릭 disabled 클래스 삭제로 활성화
+	// 1. 이메일과 휴대폰 번호가 가입된 정보와 일치할 경우  (버튼 클릭 disabled 클래스 삭제로 활성화)
+	var memberId = $("#member_id").val();
+	var memberPhone = $("#member_phone").val().replaceAll('-','');
 	
-	
+	console.log(memberId + ', ' + memberPhone);
 	// 2. 버튼 클릭 시 폼 데이터 전송
+	$.ajax({
+        type: 'post',
+        url: 'ajax/sendSmsPasswd',
+       datatype: "text",
+       data: {
+    	   "member_id": memberId,
+    	   "member_phone": memberPhone
+       },
+       success: function (result) {
+           console.log('ajax - sendSmsPasswd:' + result);
+           if(result != 'false') {
+	           var masked_email = result.replace(/^(.{2})(.*)(.{3})(@.*)$/, (_, prefix, middle, suffix, domain) => prefix + '*'.repeat(middle.length) + suffix + '*'.repeat(domain.length));
 	
-  $("myForm").submit();
+	           console.log(masked_email); // Output: "ad***@nav**.com"
+	           $("#email").text(masked_email);
+           } else {
+        	   $("#email").text('등록된 이메일이 없습니다!');
+           }
+           
+       },
+       error: function () {
+    	   alert('오류 발생');
+       }
+   });
+	
+	
+}
+
+// 핸드폰 입력 형태 표시(000-0000-0000)
+function handleInput() {
+	  const input = document.getElementById('member_phone');
+	  autoHyphen2(input);
+}
+
+const autoHyphen2 = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/g, '')
+	  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+}
+
+// 이메일 형식 체크 정규식
+function validEmail(obj){
+    console.log(obj);
+    if(validEmailCheck(obj)==false){ // 이메일 형식에 맞지 않을 때
+//	    	alert('올바르지 않은 메일 형식입니다.')
+		$("#input_error_email").css({
+		    "display": "block",
+		});
+//	        obj.value='';            // 형식에 맞지 않을 때 공백 처리
+        obj.focus();
+        return false;
+    }else{
+    	$("#input_error_email").css({
+		    "display": "none",
+		});
+    }
+}
+
+// 이메일 정규식
+function validEmailCheck(obj){
+//     var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,}$/i;
+    return (obj.value.match(pattern)!=null)
+   
 }
 
 </script>
@@ -245,30 +151,32 @@ function submitForm() { // 폼 데이터 전송
 					<div class="content lg">
 						<div class="help_area">
 							<div>
-								<h2 class="help_title">비밀번호 찾기</h2>
+								<h2 class="help_title" >비밀번호 찾기</h2>
 								<div class="help_notice">
 									<p class="notice_txt"> 가입 시 등록하신 이메일와 휴대폰 번호을 입력하시면,<br>
 										이메일로 임시 비밀번호를 전송해 드립니다. 
 									</p>
 								</div>
 								<form action="request_authMail_find_passwd" method="post" id="myForm">
-									<div class="input_box">
-										<h3 class="input_title">이메일 주소</h3>
-										<div class="input_item">
-											<input type="email" placeholder="예) zero@zero.co.kr" autocomplete="off" class="input_txt" name="member_id" id="member_id">
+									<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+										<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소</h3>
+										<div class="input_item" data-v-4e1fd2e6="">
+											<input type="email" data-v-4e1fd2e6="" placeholder="예) zero@zero.co.kr" autocomplete="off" class="input_txt" name="member_id" id="member_id">
 										</div>
-										<p class="input_error">이메일 주소를 정확히 입력해주세요.</p>
+										<p class="input_error" id="input_error_email" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소를 정확히 입력해주세요.</p>
 									</div>
-									<div class="input_box">
-										<h3 class="input_title">휴대폰 번호</h3>
-										<div class="input_item">
-											<input type="tel" placeholder="가입하신 휴대폰 번호" autocomplete="off" class="input_txt" name="member_phone" id="member_phone">
+									<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
+										<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">휴대폰 번호</h3>
+										<div class="input_item" data-v-4e1fd2e6="">
+											<input type="tel" data-v-4e1fd2e6="" placeholder="가입하신 휴대폰 번호" autocomplete="off" class="input_txt" name="member_phone" id="member_phone" oninput="handleInput()" maxlength="13">
 										</div>
-										<p class="input_error">휴대폰 번호를 정확히 입력해주세요.</p>
+										<p class="input_error" id="input_error_phone" data-v-4e1fd2e6="" data-v-2b15bea4="">휴대폰 번호를 정확히 입력해주세요.</p>
 									</div>
 									<div class="help_btn_box">
 	<!-- 									<a disabled="disabled" href="#" class="btn full solid disabled"> 문자 발송하기 </a> -->
-										<a class="btn full solid sendEmail" data-v-43813796="" onclick="submitForm()"> 문자 발송하기 </a>
+										<a class="btn full solid " data-v-43813796="" id="sendSns" onclick="sendAuth()"> 문자 발송하기 </a>
+										<a class="btn full outlinegrey blind" data-v-43813796="" id="btnRewrite" href="member_find_passwd"> 다시 작성하기 </a>
+										<a class="btn full solid btnLogin blind" data-v-43813796="" id="btnLogin" href="member_login"> 로그인화면으로 이동 </a>
 									</div>
 								</form>
 							</div>

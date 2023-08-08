@@ -1,21 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <!DOCTYPE html>
 <html>
 <head>
-
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/zero/resources/js/jquery-3.7.0.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 
 
 <!-- <!-- 부트스트랩 --> 
@@ -32,20 +29,19 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 
-var image_list = [
-		
-		if(${secondhandProduct.secondhand_image1} != null){
-			${secondhandProduct.secondhand_image1}	
+// var image_list = [
+// 		if(${secondhandProduct.secondhand_image1} != null){
+// 			${secondhandProduct.secondhand_image1}	
 			
-		} else if(${secondhandProduct.secondhand_image2} != null){
-			, ${secondhandProduct.secondhand_image2}
+// 		} else if(${secondhandProduct.secondhand_image2} != null){
+// 			, ${secondhandProduct.secondhand_image2}
 			
-		} else if(){
-			,  ${secondhandProduct.secondhand_image3}	
-		}
-	];
+// 		}  else if(${secondhandProduct.secondhand_image3} != null){
+// 			,  ${secondhandProduct.secondhand_image3}	
+// 		}
+// 	];
 var preview_array  = [false, false, false];
-var change_image = ["0","0","0","0","0","0","0","0","0"];
+// var change_image = ["0","0","0","0","0","0","0","0","0"];
 
 // for(var y=0; y<${ fn:length(vo.image_list) }; y++){
 // 	preview_array[y] = true;
@@ -363,30 +359,7 @@ function img_preview() {
 		
 		return;
 	}
-	
-// 	function del_img3() {
-// 		/* alert('3번이미지 지움'); */
-		
-// 		$('#imageFile3').val('');
-// 		$("#img_preview3").css("display","none");
-// 		$('#imgup_3').hide();
-// 		$("#del_img3").hide(); 
-		
-// 		/* 3번사진 비움 */
-// 		preview_array[3] = false;
-		
-// 		/* 삭제한 사진이면.. */
-//         if('${ not empty vo.image_list[3].i_idx}' == 'true'){
-//         	change_image[6] = '${vo.image_list[3].i_idx}';
-//         	change_image[7] = "delPhoto";
-//         }
-		
-		
-// 		/* 이미지 넘버변경 */
-// 		img_num();
-		 
-// 		return;
-// 	}
+
 
 </script>
 
@@ -593,7 +566,7 @@ body{
 	}
 
 </style>
-<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/product_modify.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/product_modify.js"></script>
 
 <title>Insert title here</title>
 </head>
@@ -771,9 +744,7 @@ body{
 						<div class="pro_info" style="font-size: 15px; color:gray;"> 중복 선택 가능 </div>
 					</td>
 					<td class="td2" align="left">
-						<input type="checkbox" name="p_delivery_type" class="allCheck" value="전체선택">
-						<span class="pro_info">전체선택</span>
-						
+
 						<input type="checkbox" name="p_delivery_type" id="p_delivery_type" value="직거래" >
 						<span class="pro_info">직거래</span> 
 						
@@ -803,9 +774,7 @@ body{
 					</td>
 					<td class="td2" align="left">
 					
-						<input type="checkbox" name="p_delivery_type" class="allCheck" value="전체선택">
-						<span class="pro_info">전체선택</span>
-						
+		
 						<input type="checkbox" name="p_paymentType" id=p_paymentType value="직접송금"> 
 						<span class="pro_info">직접송금</span>
 						
@@ -833,9 +802,8 @@ body{
 					<td class="td2" align="left">
 						<input type="text" id="p_price"
 							maxlength="11" name="p_price" class="input-tag" placeholder="가격"
-							oninput="numberMaxLength(this);" 
-<%-- 						value="<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>" --%>
-							<fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/> 
+							value="<fmt:formatNumber pattern="#,###" value="${ secondhandProduct.secondhand_price }"/>"
+							oninput="numberMaxLength(this);"
 							style="width: 30%;"> &nbsp; 
 						<span class="pro_info"> 원
 						</span> <br> 

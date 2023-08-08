@@ -241,6 +241,78 @@
 <!-- 				AND secondhand_idx = #{secondhand_idx} -->
 <!-- 	</delete> -->
 	
+	<!-- 중고거래 z맨 배달 여부 확인 (판매자) - 수정 -->
+	<select id="selectSecondhandSeller" resultType="int" >
+		SELECT count(*) 
+			FROM MEMBER m
+				JOIN ZMAN_DELIVERY z
+					ON m.member_id = z.seller_id
+						WHERE m.member_id = #{member_id}
+						AND zman_delivery_status = '배달 예정'
+	</select>
+				
+				
+	<!-- 중고거래 z맨 배달 여부 확인 (구매자) - 수정 -->
+	<select id="selectSecondhandBuyer" resultType="int" >
+		SELECT count(*) 
+			FROM MEMBER m
+				JOIN ZMAN_DELIVERY z
+					ON m.member_id = z.buyer_id
+						WHERE m.member_id = #{member_id}
+						AND zman_delivery_status = '배달 예정';
+	</select>
 	
+	<!-- 옥션거래 참여중인지 여부 확인 - 수정 -->
+	<select id="selectAuctionSeller" resultType="int">
+		SELECT count(*)
+			FROM MEMBER m
+				JOIN AUCTION_PRODUCT ap
+		 ON m.member_id = ap.auction_seller_id
+				 	JOIN AUCTION_MANAGING am
+				 		ON ap.auction_idx = am.auction_idx
+				 		WHERE m.member_id = #{member_id}
+				 			AND auction_manage_check_status = '검수완료'
+				 				AND auction_end_datetime > sysdate();
+	</select>
 	
+	<!-- 옥션거래 입찰중인지 여부 확인 - 수정 -->
+	<select id="selectAuctionBuyer" resultType="int">		 					
+		SELECT count(*) 
+			FROM MEMBER m
+				JOIN AUCTION_LOG_ROOM ar
+				 ON m.member_id = ar.member_id
+				 	JOIN AUCTION_PRODUCT ap
+				 		ON ap.auction_idx = ar.auction_idx
+				 			JOIN AUCTION_MANAGING am
+				 				ON ap.auction_idx = am.auction_idx
+				 					WHERE ar.member_id = #{member_id}
+				 						AND auction_end_datetime > sysdate();
+	</select>
+
+	<!-- 회원 계좌등록 여부 확인 - 정의효 -->
+	<select id="selectBankAuth" resultType="Member">
+		SELECT 
+			member_bank_auth
+		FROM
+			MEMBER
+		WHERE
+			member_id = #{member_id}
+	</select>
+	
+	<!-- 회원 중고상품 리뷰 등록 -->
+	<insert id="insertShReview" parameterType="MemReview">
+		INSERT 
+			INTO
+				MEMBER_REVIEW
+			VALUES (
+				#{member_review_idx}
+				, #{member_review_rating}
+				, #{member_review_content}
+				, now()                    -- member_review_date
+				, #{review_writer_id}
+				, #{review_reader_id}
+				, #{order_secondhand_idx}
+			)
+			
+	</insert>
 </mapper>

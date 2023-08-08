@@ -145,9 +145,9 @@
 			VALUES(
 				null
 				, #{zpay_idx}
-				, #{zpay_amount} * 1.01
+				, #{zpay_amount} * 1.03
 				, now()
-				, #{zpay_balance} + #{zpay_amount} * 1.01
+				, #{zpay_balance} + #{zpay_amount} * 1.03
 				, #{zpay_deal_type}
 				, #{member_id}
 			)		
@@ -191,8 +191,8 @@
 						, null
 						, null
 						, null
-						, #{zero_account_balance} + #{zero_account_amount} * 0.99
-						, #{zero_account_amount} * 0.99
+						, #{zero_account_balance} + #{zero_account_amount} * 0.97
+						, #{zero_account_amount} * 0.97
 					</when>
 					<when test="zero_account_type.equals('환급')">
 						, #{zpay_history_idx}
@@ -373,6 +373,19 @@
 		WHERE order_secondhand_idx = #{order_secondhand_idx}
 	</update>
 
+	<!-- ZMAN 정산 -->
+	<insert id="insertZmanRefund">
+		INSERT INTO 
+			ZMAN_REFUND_HISTORY
+			VALUES(
+				null
+				, #{zman_id}
+				, #{zman_earning_idx}
+				, #{zman_net_profit}
+				, now()
+			)
+	</insert>
+
 	<!-- ZERO_ACCOUNT_HISTORY 테이블에 ZMAN 정산 -->
 	<insert id="insertZeroAccountZmanHistory">
 		INSERT INTO 
@@ -386,7 +399,7 @@
 			VALUES(
 				null
 				, #{zman_id}
-				, #{zero_account_balance}
+				, #{zero_account_balance} - #{zero_account_amount}
 				, #{zero_account_amount}
 				, now()
 				, #{zero_account_type}

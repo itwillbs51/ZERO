@@ -105,7 +105,7 @@
 		FROM (
 		  SELECT MAX(auction_log_bid) AS max_bid
 		  FROM AUCTION_LOG_ROOM
-		  WHERE member_id = #{member_id}
+		  WHERE member_id = #{member_id} AND auction_idx != #{id}
 		  AND DATE(auction_log_datetime) = CURDATE()
 		  GROUP BY auction_idx
 		)as t

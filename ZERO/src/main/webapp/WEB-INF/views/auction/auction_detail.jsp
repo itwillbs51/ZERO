@@ -246,10 +246,10 @@ function uncomma(str) {
                 	 		<h4><b>입찰가능금액</b></h4>
                 	 	</div>
                 	 	<div class="col-4 col-md-2">
-                	 		<b><span id=possibleZpay >${balance-bidedZpay} 원</span></b>
+                	 		<b><span id=possibleZpay >${possibleZpay} 원</span></b>
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
-                	 	 	*zpay 잔액에서 금일 입찰에 사용한 금액을 뺀 금액입니다.
+                	 	 	*zpay 잔액에서 금일 다른 상품 경매 입찰에 사용한 금액을 뺀 금액입니다.
                 	 	</div>   
 	                </div>
                 </div>
@@ -316,6 +316,7 @@ function sendMessage() {
 		success: function(result) {
 			if(result == "true") {
 				sock.send(bid_price)
+				
 			} else {
 				alert("실패!");
 			}

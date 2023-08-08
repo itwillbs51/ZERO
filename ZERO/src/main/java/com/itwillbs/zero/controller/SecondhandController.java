@@ -385,7 +385,7 @@ public class SecondhandController {
 				// -----------------------------------------------------------------
 				
 				// 글쓰기 작업 성공 시 글목록(secondhand_list)으로 리다이렉트
-				return "redirect:/secondhand_list";
+				return "true";
 				
 			} else { // 실패
 				model.addAttribute("msg", "글 쓰기 실패!");
@@ -578,22 +578,24 @@ public class SecondhandController {
 			model.addAttribute("map", map);
 			
 			//수정성공시 글목록페이지로 리다이렉트(상품번호,페이지번호)
-			return "redirect:/secondhand_list?secondhand_idx=" + secondhand.getSecondhand_idx() + "&pageNum=" + pageNum;
+			return "true";
+//			return "redirect:/secondhand_list?secondhand_idx=" + secondhand.getSecondhand_idx() + "&pageNum=" + pageNum;
 		} else { // 실패
 			model.addAttribute("msg", "글 수정 실패!");
 			return "fail_back";
 		}
 		
-		}
+	}
 		
 		
 		
 		
 		//끌어올리기(UPDATE - DATE)
 		//DB의 registdate날짜 업데이트하기
+		//끌어올리기버튼-
 		@GetMapping("secondhandUpdateDate")
 		public String secondhandUpdateDate() {
-			//날짜업데이트후 secondhand_list페이지로 리다이렉트(서블릿-서블릿)
+			//날짜(등록일)업데이트후 secondhand_list페이지로 리다이렉트(서블릿-서블릿)
 			return "secondhand/secondhand_list";
 		}
 		
@@ -739,8 +741,13 @@ public class SecondhandController {
 //			List<HashMap<String,String>> reviewList = service.getReviewList(member_id);
 //			model.addAttribute("reviewList", reviewList);
 //			System.out.println(reviewList);
-//
-//			
+			
+		
+//			List<HashMap<String,String>> reviewList = service.getReviewList(member_id);
+//			//해당 판매자에 대한 리뷰값 조회이므로
+			//MEMBER_REVIEW의 review_reader_id 값이 member_id값(판매자)과 동일한 값
+			
+			
 //			//판매자가 받은 리뷰 개수 조회(int)
 //			int reviewListCount = service.getReviewListCount(member_id);
 //			model.addAttribute("reviewListCount", reviewListCount);
@@ -762,6 +769,24 @@ public class SecondhandController {
 		
 		
 		//
+		//카테고리/가격검색에 따른 marketItemList ajax요청
+		
+//		@ResponseBody
+//		@RequestMapping(value = "marketItemList", method = RequestMethod.POST)
+//		public String marketItemList() {
+//			return response;
+//		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 }

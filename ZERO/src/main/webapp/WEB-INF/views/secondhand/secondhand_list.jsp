@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!-- -->
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%> 
 <!DOCTYPE html>
 <html>
@@ -29,7 +28,18 @@
 	let maxPage = 1;	// 최대 페이지 번호 미리 저장
 
 	
-	
+	//카테고리, 가격대 선택 탭
+	$(document).ready(function(){
+		$('ul.tabs li').click(function(){
+			var tab_id = $(this).attr('data-tab');
+			
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+		
+			$(this).addClass('current');
+			$("#"+tab_id).addClass('current');
+			})
+		});
 	
 	//상품번호넘기기 -- 반복문()
 // 	$(function(){
@@ -55,10 +65,63 @@
 	
 	
 		
+		$(function(){
+			 // 찜하기에 사용
+			 let sId = $("#sessionId").val();
+			 let member_type = $("#member_type").val();
+			
+			 //카테고리 셀렉트박스 변경시 해당카테고리 목록으로 리로드
+			 $(".c_idx option").on("change",function(){
+				 	
+				 //변경된 셀렉트박스 val값 가져와서 저장
+				 let value = $(".c_idx option option:selected").val();
+				 let url = '';
+				 
+				 if(value=="${category.category_idx }".trim()){ //value값이 카테고리값과 동일할경우
+					 url = "categoryList";//요청주소
+				 }
+				 
+				 
+				 
+				 
+				 
+				 $.ajax({
+					type : "get",
+					url : url,
+					dataType : "json",	 
+				 })
+				 .done(function(productList){
+					aler("요청성공");
+					let res = "";
+					
+					for(let i = 0; i < productList.length; i++) {
+						//res에 로딩할 목록 저장(상품개수?까지 포함해서 가져오기)
+						res +=
+					
+					}
+					//지정한 영역에 로딩할 목록 표시
+					$(".row").html(res);
+				 })
+				 .fail(function(){//요청실패시
+					 alert("요청실패");
+				 });//fail끝
+				 
+				 
+				 
+				 
+				 
+				 
+			 })//셀렉트변경 처리 끝
+		});//
 		
 		
 		
 		
+		
+		
+		
+		//무한스크롤
+		$(function(){
 		
 		let searchType = $("#searchType").val();
 		let searchKeyword= $("#searchKeyword").val();
@@ -89,7 +152,10 @@
 				}
 			}
 		});//무한스크롤 이벤트처리 끝
-	});
+// 	});
+	
+	
+
 	
 	
 	
@@ -97,12 +163,7 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
+
 	
 // 	function loadList(searchType,searchKeyword){
 // 		let url;
@@ -140,43 +201,14 @@
 // 									+ "<td>" + board.board_readcount + "</td>" 
 // 									+ "</tr>"
 // 						$("table").append(item);	
-					
-					
-					
 // 					}
-					
-				
-				
 // 			},
 		
 // 	}//loadList함수 끝	
+
+
+// 	});
 	
-	
-	
-
-
-
-	//카테고리, 가격대 선택 탭
-	$(document).ready(function(){
-		
-		$('ul.tabs li').click(function(){
-			var tab_id = $(this).attr('data-tab');
-	
-			$('ul.tabs li').removeClass('current');
-			$('.tab-content').removeClass('current');
-	
-			$(this).addClass('current');
-			$("#"+tab_id).addClass('current');
-			
-			})
-			
-		})
-	
-	});
-
-
-
-
 
 </script>
 <style>
@@ -281,20 +313,80 @@ row{
 </head>
 <body>
 
+<%--머니또.참조 --%>
+<!-- <input type="hidden" id="item_category" name="item_category" value=""> -->
+<!-- <input type="hidden" id="item_status" name="item_status" value="1"> -->
+<!-- <input type="hidden" id="item_price_min" name="item_price_min" value="0"> -->
+<!-- <input type="hidden" id="item_price_max" name="item_price_max" value="999999999999999"> -->
+<!-- <input type="hidden" id="sort" name="sort" value="default"> -->
+<!-- <input type="hidden" id="item_code" name="item_code" value=""> -->
+<!-- <input type="hidden" id="tag" name="tag" value=""> -->
 
-	<header>
-		<%@ include file="../inc/header.jsp"%>
-	</header>
-	<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1로 설정) --%>
-	<c:set var="pageNum" value="1" />
-	<c:if test="${not empty param.pageNum }">
-		<c:set var="pageNum" value="${param.pageNum }" />
-	</c:if>
+
+<header><%@ include file="../inc/header.jsp"%></header>
+<%-- pageNum 파라미터 가져와서 저장(없을 경우 기본값 1로 설정) --%>
+<c:set var="pageNum" value="1" />
+<c:if test="${not empty param.pageNum }">
+	<c:set var="pageNum" value="${param.pageNum }" />
+</c:if>
 
 
 
 	<article id="mainArticle">
 		<div class="container">
+		<hr>
+		
+		
+<!-- 		<div><h1 style="margin-top: 48px;font-size: 30px;"></h1></div> -->
+<!-- 			<div class="webWrapper"> -->
+<!-- 				<div class="barWrapper"> -->
+<!-- 					<div class="FilterBoxWrapper FilterCategory"> -->
+<!-- 						<div class="FilterBoxTopic" > -->
+<!-- 							<div class="FilterBoxName">#카테고리</div> -->
+<!-- 						</div> -->
+<!-- 						<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow"> -->
+<!-- 					</div> -->
+<!-- 					<div class="FilterBoxWrapper FilterPrice"> -->
+<!-- 						<div class="FilterBoxTopic"> -->
+<!-- 							<div class="FilterBoxName">#가격</div> -->
+<!-- 						</div> -->
+<!-- 						<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow"> -->
+<!-- 					</div> -->
+		          	 
+<!-- 		        거래완료 제외하고 보기 -->
+<!-- 					<div class="FilterBoxWrapper FilterCompleted"> -->
+<!-- 						<div class="FilterBoxTopic"> -->
+<!-- 							<div class="FilterBoxName"><label for="complete"><input type="checkbox" value="checked" id="complete" checked="checked"/>거래 완료 물품 제외</label></div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 		   		</div> -->
+<!-- 	         </div> -->
+<!-- 		<div id="__next"> -->
+
+<!-- 				<div id="hello" class="tagListWrapper"> -->
+<!-- 				<div class="tagListFilterBox"> -->
+<!-- 					<div class="tagListReset"> -->
+<!-- 						<div class="tagListResetText">필터초기화</div> -->
+<!-- 						<img -->
+<!-- 							src="https://ccimage.hellomarket.com/img/web/search/filter/refresh.svg" alt="reset" class="tagListResetImg"> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+		  			<!-- 정렬 -->
+<!-- 					<div class="SortListWrapper"> -->
+<!-- 						<div class="SortListList" id="default" 	 title="최근 등록순">최근 등록순</div> -->
+<!-- 						<div class="SortListList" id="lowPrice"  title="낮은 가격순">낮은 가격순</div> -->
+<!-- 						<div class="SortListList" id="highPrice" title="높은 가격순">높은 가격순</div> -->
+<!-- 						<div class="SortListList" id="highGrade" title="높은 등급순">높은 등급순</div> -->
+<!--                    	</div> -->
+<!--                    	현재 정렬 -->
+<!--                     <div class="sortSortBox"> -->
+<!--                     	<div class="sortSort">최근 등록순</div> -->
+<!--                         정렬버튼 이미지 -->
+<!--                         <img src="https://ccimage.hellomarket.com/img/web/search/itemList/ico_sort.png" alt="정렬 아이콘" class="sortSortImg"/> -->
+<!--                         </div> -->
+		
+	
 		
 			<hr>	
 			<div class="category">
@@ -302,21 +394,27 @@ row{
 					<li class="tab-link current" data-tab="tab-1"> 카테고리 선택하기</li>
 					<li class="tab-link" data-tab="tab-2"> 가격대 선택하기</li>		
 				</ul>
+				
 				<!-- 카테고리 선택 영역 -->
 				<div id="tab-1" class="tab-content">
-					<c:forEach var="category" items="${categorylist }">
-						<button class="btn btn-light" style="margin-top:10px;">${category.category_name }</button><br>
-					</c:forEach>
+					<select class="input-tag" id="c_idx" name="c_idx" style="width: 30%; height: 35px;">
+						<option value="0">카테고리 선택</option>
+						<c:forEach var="category" items="${categorylist }">
+							<option value="${category.category_idx }"> ${category.category_name }</option>
+						</c:forEach>
+					</select>
+<%-- 					<c:forEach var="category" items="${categorylist }"> --%>
+<%-- 						<button class="btn btn-light" style="margin-top:10px;">${category.category_name }</button><br> --%>
+<%-- 					</c:forEach> --%>
 				</div>
+				
 				<!-- 가격대 선택 영역 -->
 				<div id="tab-2" class="tab-content">
-					<input type="text" placeholder="최저가"> ~ <input type="text" placeholder="최고가"><button class="btn btn-light"> 적용하기</button>
+					<input type="text" placeholder="최저가">
+					 ~ <input type="text" placeholder="최고가">
+					<button type="submit" class="btn btn-light"> 적용하기</button>
 				</div>
-				<!-- 초기화,내상품등록 -->
-				<div class="secondhandRegist" align="right" style="margin-top:20px;">
-					<button class="btn btn-dark"> 필터초기화 </button>
-					<a href="secondhandRegistForm"><button class="btn btn-dark"> 내 상품 등록하기 </button></a>
-				</div>
+				
 			</div>
 			
 			<!-- 거래중 상품만 보기 -->
@@ -337,18 +435,15 @@ row{
 			
 			
 			
-			
-			
-			
 
-		
+		<!-- 목록표시 영역 -->
 		<div class="row" align="left">
 		<c:forEach var="secondhand" items="${secondhandList }">
 			
 			<div class="col-lg-3 col-mid-4">
 						<div class="card border-0" >
 						
-							<!-- 썸네일이미지 - 서버 업로드시 경로 재설정 필요할수도 -->
+							<!-- 썸네일이미지 -->
 							<div class="photoDiv">	
 								<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
 									<%--<img src="${image1 }" class="card-img-top" > --%>
@@ -399,116 +494,7 @@ row{
 			</c:forEach>
 		</div><%--row끝 --%>
 							
-<!-- 						<div class="card"> -->
-<!-- 							<div class="photoDiv"> -->
-<!-- 								<a href="secondhand_detail"> -->
-<%-- 									<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." > --%>
-<!-- 								</a> -->
-<!-- 								<span class="dealStatus"><button>판매중</button></span> -->
-<!-- 							</div> -->
-<!-- 						<div class="card-body"> -->
-<!-- 							<button class="btn btn-light">패션/잡화/의류/뷰티</button> -->
-<!-- 							<p class="card-text"> -->
-<!-- 								<a href="secondhand_detail">제목입니다</a> -->
-<%-- 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a> --%>
-<!-- 							</p> -->
-<!-- 							<p>14,000원</p> -->
-<!-- 							<p>2023-08-01 11:00:00</p> -->
-<!-- 						</div> -->
 
-
-		
-<!-- 			<div class="row col col-3"> -->
-<!-- 				<hr> -->
-<!-- 				<div class="productArea"> -->
-	
-<!-- 					<div class="productListArea"> -->
-<!-- 						<div class="card"> -->
-<!-- 							<div class="photoDiv"> -->
-<%-- 								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'"> --%>
-<!-- 								<span class="dealStatus"><button>판매중</button></span> -->
-<!-- 							</div> -->
-<!-- 						<div class="card-body"> -->
-<!-- 							<button class="btn btn-light">패션/잡화/의류/뷰티</button> -->
-<!-- 							<p class="card-text"> -->
-<!-- 								<a href="secondhand/secondhand_detail.jsp">제목입니다</a> -->
-<%-- 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a> --%>
-<!-- 							</p> -->
-<!-- 							<p>14,000원</p> -->
-<!-- 							<p>2023-08-01 11:00:00</p> -->
-<!-- 						</div> -->
-<!-- 						</div> -->
-						
-						
-<!-- 						<div class="card"> -->
-<!-- 							<div class="photoDiv"> -->
-<%-- 								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'"> --%>
-<!-- 								<span class="dealStatus"><button>판매중</button></span> -->
-<!-- 							</div> -->
-<!-- 						<div class="card-body"> -->
-<!-- 							<button class="btn btn-light">패션/잡화/의류/뷰티</button> -->
-<!-- 							<p class="card-text"> -->
-<!-- 								<a href="secondhand/secondhand_detail.jsp">제목입니다</a> -->
-<%-- 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a> --%>
-<!-- 							</p> -->
-<!-- 							<p>14,000원</p> -->
-<!-- 							<p>2023-08-01 11:00:00</p> -->
-<!-- 						</div> -->
-<!-- 						</div> -->
-						
-						
-<!-- 						<div class="card"> -->
-<!-- 							<div class="photoDiv"> -->
-<%-- 								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'"> --%>
-<!-- 								<span class="dealStatus"><button>판매중</button></span> -->
-<!-- 							</div> -->
-<!-- 						<div class="card-body"> -->
-<!-- 							<button class="btn btn-light">패션/잡화/의류/뷰티</button> -->
-<!-- 							<p class="card-text"> -->
-<!-- 								<a href="secondhand/secondhand_detail.jsp">제목입니다</a> -->
-<%-- 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a> --%>
-<!-- 							</p> -->
-<!-- 							<p>14,000원</p> -->
-<!-- 							<p>2023-08-01 11:00:00</p> -->
-<!-- 						</div> -->
-<!-- 						</div> -->
-						
-<!-- 						<div class="card"> -->
-<!-- 							<div class="photoDiv"> -->
-<%-- 								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'"> --%>
-<!-- 								<span class="dealStatus"><button>판매중</button></span> -->
-<!-- 							</div> -->
-<!-- 						<div class="card-body"> -->
-<!-- 							<button class="btn btn-light">패션/잡화/의류/뷰티</button> -->
-<!-- 							<p class="card-text"> -->
-<!-- 								<a href="secondhand/secondhand_detail.jsp">제목입니다</a> -->
-<%-- 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a> --%>
-<!-- 							</p> -->
-<!-- 							<p>14,000원</p> -->
-<!-- 							<p>2023-08-01 11:00:00</p> -->
-<!-- 						</div> -->
-<!-- 						</div> -->
-						
-<!-- 						<div class="card"> -->
-<!-- 							<div class="photoDiv"> -->
-<%-- 								<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="..." onclick="location.href='secondhand/secondhand_detail.jsp'"> --%>
-<!-- 								<span class="dealStatus"><button>판매중</button></span> -->
-<!-- 							</div> -->
-<!-- 						<div class="card-body"> -->
-<!-- 							<button class="btn btn-light">패션/잡화/의류/뷰티</button> -->
-<!-- 							<p class="card-text"> -->
-<!-- 								<a href="secondhand/secondhand_detail.jsp">제목입니다</a> -->
-<%-- 								<a href="#" style="margin-left:50px"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"></a> --%>
-<!-- 							</p> -->
-<!-- 							<p>14,000원</p> -->
-<!-- 							<p>2023-08-01 11:00:00</p> -->
-<!-- 						</div> -->
-<!-- 						</div> -->
-						
-						
-<!-- 					</div> -->
-<!-- 				</div> -->
-<%-- 			</div>row끝 --%>
 		</div><%--container 끝 --%>
 		
 	</article>
