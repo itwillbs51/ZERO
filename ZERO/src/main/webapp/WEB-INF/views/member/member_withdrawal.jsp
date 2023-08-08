@@ -155,7 +155,7 @@
 <!-- 														<svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons ico-check-inactive" data-v-4c714e9f=""> -->
 <!-- 															<use href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-check-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-check-inactive" data-v-4c714e9f=""></use> -->
 <!-- 														</svg> -->
-														<span class="label_txt" data-v-4c714e9f="">KREAM을 탈퇴하면 회원 정보 및 서비스 이용 기록이 삭제됩니다.</span>
+														<span class="label_txt" data-v-4c714e9f="">ZERO을 탈퇴하면 회원 정보 및 서비스 이용 기록이 삭제됩니다.</span>
 													</label>
 												</div>
 											</h5>
@@ -205,7 +205,7 @@
 <!-- 														<svg xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons ico-check-inactive" data-v-4c714e9f=""> -->
 <!-- 															<use href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-check-inactive" xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-ico-check-inactive" data-v-4c714e9f=""></use> -->
 <!-- 														</svg> -->
-														<span class="label_txt" data-v-4c714e9f="">KREAM 탈퇴가 제한된 경우에는 아래 내용을 참고하시기 바랍니다.</span>
+														<span class="label_txt" data-v-4c714e9f="">ZERO 탈퇴가 제한된 경우에는 아래 내용을 참고하시기 바랍니다.</span>
 													</label>
 												</div>
 											</h5>
@@ -266,7 +266,7 @@
 												<h2 class="title" data-v-0fdfe010="" data-v-79f8507c="" modal=""> 회원 탈퇴가 완료되었습니다. </h2>
 											</div>
 											<div class="layer_content" data-v-0fdfe010="" modal="">
-												<p class="modal_desc" data-v-0fdfe010="" data-v-79f8507c="" modal="">그동안 서비스를 이용해 주셔서 감사합니다.<br>14일 후 KREAM을 다시 이용할 수 있습니다.</p>
+												<p class="modal_desc" data-v-0fdfe010="" data-v-79f8507c="" modal="">그동안 서비스를 이용해 주셔서 감사합니다.<br>14일 후 ZERO을 다시 이용할 수 있습니다.</p>
 												<div class="modal_btn_box" data-v-0fdfe010="" data-v-79f8507c="" modal="">
 													<button type="button" class="btn outlinegrey medium" data-v-43813796="" data-v-79f8507c="" data-v-0fdfe010="" modal="" onclick="location.href='member_logout'"> 확인 </button>
 												</div>

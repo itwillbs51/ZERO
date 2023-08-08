@@ -18,7 +18,8 @@ public class ZmanDeliveryVO {
 	private int zman_delivery_distance;
 	
 	// FK
-	private String zman_idx;
+	private String zman_id;
+	private int zman_idx;
 	private int order_secondhand_idx;
 	private String seller_id;
 	private String buyer_id;

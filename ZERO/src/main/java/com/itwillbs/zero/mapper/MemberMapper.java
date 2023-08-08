@@ -77,6 +77,16 @@ int updateBankAuth(String member_id);
 	// 회원 계좌등록 여부 확인
 	MemberVO selectBankAuth(String member_id);
 
+	// 중고거래 z맨 배달중 여부 확인
+	int selectSecondhandSeller(String member_id);
 	
-	
+	// 중고거래 z맨 배달중 여부 확인
+	int selectSecondhandBuyer(String member_id);
+
+	// 옥션거래 현재 참여중인지 여부 확인
+	int selectAuctionSeller(String member_id);
+
+	// 옥션거래 현재 참여중인지 여부 확인
+	int selectAuctionBuyer(String member_id);
+
 }
