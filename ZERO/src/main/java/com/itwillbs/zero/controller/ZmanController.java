@@ -34,7 +34,13 @@ public class ZmanController {
 //		ZmanVO zman = service.getZmanList();
 //		model.addAttribute("zman", zman);
 		
-		return "member/member_zman_join_identification";
+		String member_type = (String) session.getAttribute("member_type");
+		System.out.println(member_type);
+		if(member_type.equals("Z맨") || member_type.equals("직원")) {
+			return "zman/zman_main";
+		} else {
+			return "member/member_zman_join_identification";
+		}
 	}
 	
 	// ZMAN 정산내역 페이지로 이동
@@ -126,9 +132,9 @@ public class ZmanController {
 			model.addAttribute("msg", "계좌등록이 완료된 상태여야합니다!");
 			model.addAttribute("targetURL", "member_account");
 			return "fail_location";
+		} else {
+			return "member/member_zman_join_form";
 		}
-		
-		return "member/member_zman_join_form";
 	}
 	
 	// Z-MAN 신청 메인 - 신청하기 버튼 클릭시 확인 절차 후 리다이렉트 -> 완료창
