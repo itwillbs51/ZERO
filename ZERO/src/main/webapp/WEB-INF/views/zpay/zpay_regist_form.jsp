@@ -24,7 +24,8 @@
 			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
 					+ "response_type=code"
 					+ "&client_id=4066d795-aa6e-4720-9383-931d1f60d1a9"
-					+ "&redirect_uri=http://c5d2302t1.itwillbs.com/ZERO/callback"
+					+ "&redirect_uri=http://localhost:8089/zero/callback"
+// 					+ "&redirect_uri=http://c5d2302t1.itwillbs.com/ZERO/callback"
 					+ "&scope=login inquiry transfer oob"
 					+ "&state=12345678901234567890123456789012"
 					+ "&auth_type=0";
@@ -85,7 +86,7 @@
 											<a class="btn" id="zpayBankAuthButton">계좌인증하기</a>
 										</c:when>
 										<c:otherwise>
-											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">ZPAY등록하기</a>		
+											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌등록하기</a>		
 <!-- 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌관리</a> -->
 										</c:otherwise>
 									</c:choose>	

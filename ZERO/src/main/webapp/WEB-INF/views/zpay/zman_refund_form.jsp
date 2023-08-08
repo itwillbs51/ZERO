@@ -121,33 +121,17 @@
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
-								정산금액&nbsp;&nbsp;<div class="zpay_balance"><fmt:formatNumber value="${zman_balance }" pattern="#,##0"/></div>
+								정산금액&nbsp;&nbsp;<div class="zpay_amount"><fmt:formatNumber value="${zman_net_profit }" pattern="#,##0"/></div>
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
-									<input type="text" id="amountInput" maxlength="10" onkeyup="inputNumberFormat(this);" placeholder="환급할 금액을 입력해 주세요">
+									<input type="text" id="amountInput" maxlength="10" onkeyup="inputNumberFormat(this);" value="${zman_net_profit }">
 									<button type="button" class="btn" onclick="amountReset()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
 										</svg>
 									</button>							
 								</div>							
-								<div class="amountShortcutArea">
-									<div class="btn-group btn-group-toggle" data-toggle="buttons">
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option1" autocomplete="off" value="10,000">+1만원
-										</label>
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option2" autocomplete="off" value="50,000">+5만원
-										</label>
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option3" autocomplete="off" value="100,000">+10만원
-										</label>								
-										<label class="btn btn-outline-dark">
-											<input type="radio" name="options" id="option4" autocomplete="off" value="1,000,000">+100만원
-										</label>
-									</div>
-								</div>
 							</div><%-- amountArea 영역 끝 --%>
 							<div class="withdrawalAccountArea">
 								<div class="title">
@@ -160,7 +144,7 @@
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
-							<button type="submit" class="btn btn-dark btn-lg btn-block">환급하기</button>
+							<button type="submit" class="btn btn-dark btn-lg btn-block">정산하기</button>
 						</div><%-- chargeButtenArea 영역 끝 --%>
 					</div><%-- chargeContetnArea 영역 끝 --%>
 				</form>
