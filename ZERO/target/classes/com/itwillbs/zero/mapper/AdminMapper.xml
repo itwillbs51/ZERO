@@ -211,11 +211,29 @@
 	</select>
 	
 	<!-- 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동 -->
-	<select id="selectOrderSecondhandDetail">
-		SELECT *
-			FROM
-				ORDER_SECONDHAND os
-			WHERE order_secondhand_idx = #{order_secondhand_idx}
+	<select id="selectOrderSecondhandDetail" resultType="map">
+	    <choose>
+	        <when test="order_secondhand_type.equals('Z맨')">
+	            SELECT os.*,
+	                zd.zman_delivery_startspot, zd.zman_delivery_endspot,
+	                zd.zman_delivery_accepttime, zd.zman_delivery_startime, zd.zman_delivery_endtime,
+	                zd.zman_delivery_commission, zd.zman_delivery_status,
+	               	zd.zman_id, zd.zman_delivery_idx 
+	            FROM
+	            	ORDER_SECONDHAND os
+	            JOIN
+	            	ZMAN_DELIVERY zd
+            		ON
+            			os.order_secondhand_idx = zd.order_secondhand_idx
+	            WHERE 
+	            	os.order_secondhand_idx = #{order_secondhand_idx}
+	        </when>
+	        <otherwise>
+	            SELECT *
+	            FROM ORDER_SECONDHAND os
+	            WHERE order_secondhand_idx = #{order_secondhand_idx}
+	        </otherwise>
+	    </choose>
 	</select>
 	
 	<!-- 경매관리 - 경매예정 상품 목록 조회 -->

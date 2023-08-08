@@ -192,7 +192,7 @@ row{
 		<div class="row row-cols-2">
 			<!-- 왼쪽섹션 - 회원프로필 -->
 			<div class="col-3">
-					<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px;">
+					<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
 					<h5> ${seller.member_nickname } 님</h5>
 					<!--<button class="btn btn-primary btn-lg" style="font-size:1em;" > 채팅하기 </button> -->
 					
@@ -210,6 +210,7 @@ row{
 					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
 					<c:if test="${not empty sessionScope.member_id && sessionScope.member_id ne seller.member_id }">
 							<form action="doChat" method="POST">
+								<input type="hidden" value="${seller.member_id }" name="seller_id">
 								<input type="hidden" value="${seller.member_id }" name="seller_id">
 								<div class="d-grid gap-2">
 									<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">

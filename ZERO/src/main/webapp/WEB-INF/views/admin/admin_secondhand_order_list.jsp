@@ -75,7 +75,7 @@
 <%-- 											거래 방법이 ZMAN 이 아닐 경우 --%>
 <%-- 											<c:otherwise> --%>
 <!-- 												<td> -->
-													<a class="btn btn-sm btn-outline-dark" href="admin_secondhand_order_detail?order_secondhand_idx=${orderSecondhandList.order_secondhand_idx }">상세보기</a>
+													<a class="btn btn-sm btn-outline-dark" href="admin_secondhand_order_detail?order_secondhand_idx=${orderSecondhandList.order_secondhand_idx }&order_secondhand_type=${orderSecondhandList.order_secondhand_type }">상세보기</a>
 												</td>
 <%-- 											</c:otherwise> --%>
 <%-- 										</c:choose> --%>
