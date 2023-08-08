@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.json.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -73,7 +74,10 @@ public class ChattingController {
 		
 		// 받아온 채팅방 번호(chat_room_idx) 로 채팅 조회
 		// 파라미터 : chat_room_idx		리턴타입 : List<ChatVO>(chatList)
-		List<ChatVO> chatList = service.selectChatList(chat_room_idx);
+		int pageNum = 1;
+		int listLimit = 15; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit;
+		List<ChatVO> chatList = service.selectChatList(chat_room_idx, pageNum, startRow, listLimit);
 		logger.info("*** 채팅내역 : " + chatList);
 		
 		// 채팅방 번호로 중고상품 정보 조회(채팅방 조회로 받아온 값 중 중고상품 번호 받아오기)
@@ -97,10 +101,51 @@ public class ChattingController {
 		
 		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
 		model.addAttribute("chatList", chatList);
+		model.addAttribute("chat_room_idx", chat_room_idx);
 		model.addAttribute("chatRoom", chatRoom);
 		model.addAttribute("secondhandInfo", secondhandInfo);
 		
 		return "chatting/chat";
+	}
+	
+	// 채팅목록 가져오기
+	@ResponseBody
+	@GetMapping("chatMsgList")
+	public String chatMsgList(
+			@RequestParam(defaultValue = "2") int pageNum, int chat_room_idx) {
+		
+		// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+		int listLimit = 15; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		// 받아온 채팅방 번호(chat_room_idx) 로 채팅 조회
+		// 파라미터 : chat_room_idx		리턴타입 : List<ChatVO>(chatList)
+		List<ChatVO> beforeChatList = service.selectChatList(chat_room_idx, pageNum, startRow, listLimit);
+		logger.info("*** 채팅내역 : " + beforeChatList);
+		
+		// 페이징 처리를 위한 계산 작업
+		// 한 페이지에서 표시할 페이지 목록(번호) 계산
+		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
+		int listCount = service.getChatListCount(chat_room_idx);
+//		System.out.println("전체 게시물 수 : " + listCount);
+//				
+		// 2. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		// => 이것도 리턴값으로 들고가고 싶다 => 객체로 넣기(boardList = XX, maxPage = xx) => JSONObject
+		
+		// 최대 페이지번호(maxPage) 값도 JSON 데이터로 함께 넘기기
+		// 기존 목록을 JSONObject 객체를 통해 객체 형태로 변환하고, 최대 페이지번호도 함께 추가
+		JSONObject jsonObject = new JSONObject();
+		// JSONXXX 객체의 put() 메서드를 사용하여 데이터 추가 가능
+		// JSONObject 안에는 Collection 객체를 넣을수도 있기 때문에 굳이 JSONArray를 쓰지 않아도 된다
+		// (물론 그냥 JSONArray를 써도 됨) => 그냥 여러개의 목록을 한꺼번에 내보낼 수 있다
+		jsonObject.put("beforeChatList", beforeChatList);
+		jsonObject.put("maxPage", maxPage);
+		jsonObject.put("listCount", listCount);
+//		System.out.println(jsonObject);
+		
+		return jsonObject.toString();
+		
 	}
 	
 	// 채팅창으로 연결

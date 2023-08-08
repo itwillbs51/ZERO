@@ -9,6 +9,7 @@
 			auction_idx
 			, brand_name
 			, auction_title
+			, auction_image1
 			, auction_manage_check_date
 <!-- 			, CONCAT( DATE(auction_manage_check_date), " ", TIME(auction_manage_check_date) ) AS check_date -->
 			, auction_start_date
@@ -151,9 +152,9 @@
 					<when test="type.equals('경매중')">
 						AUCTION_PRESENT_LIST
 					</when>
-<!-- 					<when test="type.equals('경매종료')"> -->
-<!-- 						AUCTION_PREPARE_LIST -->
-<!-- 					</when> -->
+					<when test="type.equals('경매종료')">
+						AUCTION_END_LIST
+					</when>
 				</choose>
 				
 			<if test="!category.equals('')"> <!-- !searchKeyword.equals('') == searchKeyword neq '' -->

@@ -48,7 +48,7 @@
 	margin-bottom: 5px;
 }
 .input_txt2 {
-	width: 340px;
+	width: 100%;
 }
 .redText {
 	color: red;
@@ -73,14 +73,14 @@
 	
 	$(function() {
 		if(inputStart != "") {
-			$("#member_zipcode1").attr('value', inputEnd.split(",")[0]);
-			$("#zman_delivery_startspot").attr('value', inputEnd.split(",")[1]);
-			console.log("inputStart : " + inputStart.split(",")[0] + ":" + inputStart.split(",")[1]);
+// 			$("#member_zipcode1").attr('value', inputEnd.split(",")[0]);
+			$("#zman_delivery_startspot").attr('value', inputStart);
+// 			console.log("inputStart : " + inputStart.split(",")[0] + ":" + inputStart.split(",")[1]);
 		}
 		if(inputEnd != "") {
-			$("#member_zipcode2").attr('value', inputEnd.split(",")[0]);
-			$("#zman_delivery_endspot").attr('value', inputEnd.split(",")[1]);
-			console.log("inputEnd : " + inputEnd.split(",")[0] + ":" + inputEnd.split(",")[1]);
+// 			$("#member_zipcode2").attr('value', inputEnd.split(",")[0]);
+			$("#zman_delivery_endspot").attr('value', inputEnd);
+// 			console.log("inputEnd : " + inputEnd.split(",")[0] + ":" + inputEnd.split(",")[1]);
 		}
 		
 	});
@@ -129,11 +129,11 @@
                 
                 if(num == 1) {
 	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	                document.getElementById('member_zipcode1').value = data.zonecode;
+// 	                document.getElementById('member_zipcode1').value = data.zonecode;
 	                document.getElementById("zman_delivery_startspot").value = addr;
                 } else {
 	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	                document.getElementById('member_zipcode2').value = data.zonecode;
+// 	                document.getElementById('member_zipcode2').value = data.zonecode;
 	                document.getElementById("zman_delivery_endspot").value = addr;
                 }
             }
@@ -144,12 +144,12 @@
 	let end;
 	// 수정하기, 호출하기 버튼 클릭 시 실행되는 함수
 	function submitBtn(type) {
-		if($("#member_zipcode1").val() != "") {
-			start = $("#member_zipcode1").val() + "," + $("#zman_delivery_startspot").val();
+		if($("#zman_delivery_startspot").val() != "") {
+			start = $("#zman_delivery_startspot").val();
 			console.log(start);
 		}
-		if($("#member_zipcode2").val() != "") {
-			end = $("#member_zipcode2").val() + "," + $("#zman_delivery_endspot").val();
+		if($("#zman_delivery_endspot").val() != "") {
+			end = $("#zman_delivery_endspot").val();
 			console.log(end);
 		}
 		addInfo += "&zman_delivery_startspot=" + start;
@@ -157,7 +157,7 @@
 		
 		switch(type) {
 			case 1:
-				if(addInfo == "") {	// 입력된 값이 없으면 처리 안함
+				if(addInfo="" || addInfo == "") {	// 입력된 값이 없으면 처리 안함
 					alert("수정할 정보가 없습니다!");
 				} else {
 					let url = "chatToZ?"
@@ -184,13 +184,14 @@
 				}
 				break;
 			case 2:
-				if(start == "" || end == "") {
-					alert("출발지 또는 도착지 정보가 입력되지 않았습니다! 호출이 불가능합니다");
+				if(start == null || end == null || start == "" || end == "") {
+					alert("출발지 또는 도착지 정보가 입력되지 않았습니다! \n호출이 불가능합니다");
 				} else {
-					// 정보 모두 입력된 경우만 가능
+					alert("DB에 값 넣기");
+					정보 모두 입력된 경우만 가능
 					$.ajax({
 						data: {
-							"order_secondhand_idx": ${param.secondhand_idx }
+							"order_secondhand_idx": ${orderInfo.order_secondhand_idx }
 // 							, "seller_id": "${param.seller_id}"
 // 							, "buyer_id": "${param.buyer_id}"
 // 							, "zman_delivery_startspot": start
@@ -211,8 +212,8 @@
 						}
 					});
 					
-					break;
 				}
+				break;
 		}	// switch문 끝
 	}
 	// submitBtn() 끝
@@ -238,31 +239,31 @@
 							<div class="withdrawalAccountArea">
 								<div class="title">
 									출발지(판매자) 
-									2. ${param.seller_id }
+<%-- 									2. ${param.seller_id } --%>
 									<%-- 판매자만 수정 가능 --%>
 									<c:if test="${sessionScope.member_id eq param.seller_id }">
 										<button class="btn btn-outline-dark" onclick="DaumPostcode(event, 1)">우편번호 찾기</button>
 									</c:if>
 								</div>
 								<div class="withdrawalAccount_info">
-									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6=""
-										id="member_zipcode1" name="member_zipcode1" required="required" readonly>
+<!-- 									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6="" -->
+<!-- 										id="member_zipcode1" name="member_zipcode1" required="required" readonly> -->
 <!-- 									<button class="btn btn-outline-dark" onclick="DaumPostcode(event)">우편번호 찾기</button> -->
 									<input type="text" class="input_txt2" placeholder="도로명주소" autocomplete="off" data-v-4e1fd2e6=""
 										   id="zman_delivery_startspot" name="zman_delivery_startspot" required="required" readonly>
 								</div>
 								<div class="title">
 									도착지(구매자) 
-									1. ${sessionScope.member_id }
-									2. ${param.buyer_id }
+<%-- 									1. ${sessionScope.member_id } --%>
+<%-- 									2. ${param.buyer_id } --%>
 									<%-- 구매자만 수정 가능 --%>
 									<c:if test="${sessionScope.member_id eq param.buyer_id }">
 										<button class="btn btn-outline-dark" onclick="DaumPostcode(event, 2)">우편번호 찾기</button>
 									</c:if>
 								</div>
 								<div class="withdrawalAccount_info">
-									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6=""
-										id="member_zipcode2" name="member_zipcode2" required="required" readonly>
+<!-- 									<input type="text" class="input_txt1"  placeholder="우편번호" autocomplete="off" data-v-4e1fd2e6="" -->
+<!-- 										id="member_zipcode2" name="member_zipcode2" required="required" readonly> -->
 <!-- 									<button class="btn btn-outline-dark" onclick="DaumPostcode(event)">우편번호 찾기</button> -->
 									<input type="text" class="input_txt2" placeholder="도로명주소" autocomplete="off" data-v-4e1fd2e6=""
 										   id="zman_delivery_endspot" name="zman_delivery_endspot" required="required" readonly>
@@ -288,7 +289,7 @@
 								<div class="title">
 									ZMAN 호출 후에는 <b class="redText">수정이 불가능</b>하오니 다시 한 번 확인 후<br>
 									호출하기 버튼을 눌러주세요<br>
-									(출발지, 도착지가 모두 입력되면 ZMAN 호출이 시작됩니다)
+									(출발지, 도착지가 모두 입력되고 Z페이 결제가 완료되면 ZMAN 호출이 시작됩니다)
 								</div>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 							

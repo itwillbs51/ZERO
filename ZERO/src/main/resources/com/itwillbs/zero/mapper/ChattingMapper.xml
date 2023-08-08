@@ -28,13 +28,25 @@
 					ORDER BY
 						chat_idx DESC
 					LIMIT
-						20
+						#{startRow} 
+						, #{listLimit}
 					) AS SUB
-			ORDER BY
-				chat_idx
+				<if test="pageNum eq 1">
+					ORDER BY
+						chat_idx
+				</if>
 	</select>
-		<!-- 나중에 페이징 처리하기(무한 스크롤) -->
 	
+	<!-- 채팅 무한스크롤을 위한 총 페이지 계산 -->
+	<select id="selectGetChatListCount" resultType="int">
+		SELECT
+			COUNT(*)
+			FROM
+				CHAT
+			WHERE
+				chat_room_idx = #{chat_room_idx}
+	</select>
+		
 	<!-- 채팅 내용 삽입 - INSERT -->
 	<insert id="insertChat">
 		INSERT
@@ -115,6 +127,15 @@
 				, #{secondhand_idx}				-- secondhand_idx
 				, NULL	-- zman_delivery_idx
 				, '거래진행중'	-- order_secondhand_status
+				,
+				<choose>
+					<when test="type.equals('Z맨')">
+						3000		-- order_delivery_commission(z맨 배달비)
+					</when>
+					<otherwise>
+						0
+					</otherwise>
+				</choose>
 				)
 	</insert>
 	

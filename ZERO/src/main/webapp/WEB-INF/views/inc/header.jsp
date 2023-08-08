@@ -4,6 +4,19 @@
 
 <link href="${pageContext.request.contextPath }/resources/css/header.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/alarm.css" rel="stylesheet" type="text/css">
+<script>
+	let isAlarmListOpen = false;
+	function alarmListOpen() {
+		if(!isAlarmListOpen) {
+			$(".layer_box").css("display", "");
+			isAlarmListOpen = true;
+		} else {
+			$(".layer_box").css("display", "none");
+			isAlarmListOpen = false;
+		}
+	}
+</script>
+
 <nav class="navbar navbar-expand-md fixed-top navbar-light p-0">
 	<div id="logo">
 		<a href="./">ZERO</a>
@@ -20,15 +33,14 @@
 					<%-- 알림 임시 --%>
 					<div id="topNotiArea" class="notify_area">
 <!-- 						<button type="button" class="btn_notify" aria-haspopup="menu" aria-expanded="true"> -->
-						<li class="headerArea1_item"><a class="headerArea1_link" onclick="">알림</a></li>
+						<li class="headerArea1_item"><a class="headerArea1_link" onclick="alarmListOpen()">알림</a></li>
 <!-- 							<span class="blind">알림</span> -->
 <!-- 						</button> -->
 						<div class="layer_box" aria-hidden="false" style="display: none;"> <%--  style="display: none;" --%>
 							<div class="box_content">
-								<iframe src="shortAlarmList"
-									title="알림" width="100%" height="100%">
-									#document
-								</iframe>
+<!-- 								<iframe src="shortAlarmList" -->
+<!-- 									title="알림" width="100%" height="100%"> -->
+<!-- 								</iframe> -->
 							</div>
 						</div>
 					</div>

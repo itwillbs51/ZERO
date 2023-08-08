@@ -81,6 +81,7 @@
 									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
 								</c:if>
 								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
+								<button onclick="reservationNext('done')"><i class="material-icons">done</i><span>거래완료</span></button>
 							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 							<form id="openZform" method="post" action="ZpayForm" target="_blank">
@@ -105,54 +106,77 @@
 					<article id="chatMsgArea">
 						<%-- 나오는 채팅만큼 보여주고 위로 무한스크롤?
 						세션아이디와 비교해 세션아이디가 보낸 메세지는 오른쪽, 아닌 메세지는 왼쪽으로 정렬 --%>
-						<div id="msgArea"><%-- class="col" --%>
-						<c:forEach var="chat" items="${chatList }">
-							<c:choose>
-								<%-- 채팅 타입이 '안내' 일 때 --%>
-								<c:when test="${chat.chat_content_type eq '안내' or chat.member_id eq 'notice@test.com' }">
-									<div class="noticeMsg">
-										<span>
-											${chat.chat_content }
-										</span>
-									</div>
-								</c:when>
-								<%-- 세션아이디가 보낸 아이디와 같을 때 --%>
-								<c:when test="${chat.member_id eq sessionScope.member_id }">
-									<div class="msgitem">
-										<div class="alert msgRight">
-											<div class="msgTime">
-												<input type="hidden" class="date" value="${chat.chat_datetime }">
-												<fmt:formatDate value="${chat.chat_datetime }" pattern="a hh:mm"/>
-											</div>
-											<div class="msg">
-												<b>${chat.chat_content }</b>
-											</div>
-										</div>
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="msgitem">
-										<div class="alert msgLeft">
-											<div class="msg">
-												<b>${chat.chat_content }</b>
-											</div>
-											<div class="msgTime">
-												<input type="hidden" class="date" value="${chat.chat_datetime }">
-												<fmt:formatDate value="${chat.chat_datetime }" pattern="a hh:mm"/>
-											</div>
-										</div>
-									</div>
+					<div id="msgArea"><%-- class="col" --%>
+<%-- 						<c:forEach var="chat" items="${chatList }"> --%>
+<%-- 							<c:choose> --%>
+<%-- 								채팅 타입이 '안내' 일 때 --%>
+<%-- 								<c:when test="${chat.chat_content_type eq '안내' or chat.member_id eq 'notice@test.com' }"> --%>
+<!-- 									<div class="noticeMsg"> -->
+<!-- 										<span> -->
+<%-- 											${chat.chat_content } --%>
+<!-- 										</span> -->
+<!-- 									</div> -->
+<%-- 								</c:when> --%>
+<%-- 								세션아이디가 보낸 아이디와 같을 때 --%>
+<%-- 								<c:when test="${chat.member_id eq sessionScope.member_id }"> --%>
+<!-- 									<div class="msgitem"> -->
+<!-- 										<div class="alert msgRight"> -->
+<!-- 											<div class="msgTime"> -->
+<%-- 												<input type="hidden" class="date" value="${chat.chat_datetime }"> --%>
+<%-- 												<fmt:formatDate value="${chat.chat_datetime }" pattern="a hh:mm"/> --%>
+<!-- 											</div> -->
+<!-- 											<div class="msg"> -->
+<%-- 												<b>${chat.chat_content }</b> --%>
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<%-- 								</c:when> --%>
+<%-- 								<c:otherwise> --%>
+<!-- 									<div class="msgitem"> -->
+<!-- 										<div class="alert msgLeft"> -->
+<!-- 											<div class="msg"> -->
+<%-- 												<b>${chat.chat_content }</b> --%>
+<!-- 											</div> -->
+<!-- 											<div class="msgTime"> -->
+<%-- 												<input type="hidden" class="date" value="${chat.chat_datetime }"> --%>
+<%-- 												<fmt:formatDate value="${chat.chat_datetime }" pattern="a hh:mm"/> --%>
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 								
-								</c:otherwise>
-							</c:choose>
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
 							
-						</c:forEach>
-				
+<%-- 						</c:forEach> --%>
+						
+						<!-- 이미지 등록 영역 -->
+<!-- 						<div id="img_zone"> -->
+<!-- 							<div id="img_preview0"> -->
+<!-- 								<input type="image" id="imgup_sum" onclick="" -->
+<!-- 									src="" width="150px" height="150px"> -->
+<!-- 								삭제버튼 -->
+<!-- 								<span id="del_sum" class="chk_style"  onclick="del_sum(1)">x</span> -->
+<!-- 							</div> -->
+							
+<!-- 							<div id="img_preview1"> -->
+<!-- 								<input type="image" id="imgup_1" onclick="" -->
+<!-- 									src="" width="150px" height="150px"> -->
+<!-- 								삭제버튼 -->
+<!-- 								<span id="del_img1" class="chk_style" onclick="del_sum(2)">x</span> -->
+<!-- 							</div> -->
+							
+<!-- 							<div id="img_preview2"> -->
+<!-- 								<input type="image" id="imgup_2" onclick="" -->
+<!-- 									src="" width="150px" height="150px"> -->
+<!-- 								<span id="del_img2" class="chk_style" onclick="del_sum(3)">x</span> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+					
 					</div>
 					<%-- 채팅 입력 영역 --%>
 					<article class="inputArea">
-						<div class="input-group mb-3">
-						<button class="listInfoBtn"><i class="material-icons">add</i></button><br>
+						<div class="input-group mb-3"> <%-- style="display: none;" --%>
+						<button class="listInfoBtn" style="display: none;" ><i class="material-icons">add</i></button><br>
 							<div>
 							</div>
 							<input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -166,7 +190,16 @@
 								<table class="listSort" style="display: none;"> <%-- style="display: none;" --%>
 									<tr>
 										<td>
-											<a><i class="material-icons">photo</i><br> 사진보내기 </a>
+											<a onclick="img_preview()">
+												<i class="material-icons" id="imgup">photo</i><br>
+												 사진보내기 
+											</a>
+											<!-- 파일업로드 용 폼 -->
+											<form enctype="multipart/form-data" id="imgform" method="post" action="sendPhoto">
+												<input type="file" id="sumimage"   name="chatImage" style="display: none;" accept=".jpg, .jpeg, .png">
+<!-- 												<input type="file" id="imageFile1" name="" style="display: none;" accept=".jpg, .jpeg, .png"> -->
+<!-- 												<input type="file" id="imageFile2" name="" style="display: none;" accept=".jpg, .jpeg, .png"> -->
+											</form>
 										</td>
 										<td>
 	<!-- 											<i class="material-icons">map</i>지도보내기(나의위치) -->
@@ -194,7 +227,7 @@
 	</div>
 	
 	
-	<%-- 찜하기 안내 모달 영역 --%>
+	<%-- 거래금액, 거래수단 안내 모달 영역 --%>
 	<div class="modal fade" id="needConfirm" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
@@ -210,11 +243,44 @@
 		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
 		      <div class="modal-price">
 		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" placeholder="${secondhandInfo.secondhand_price }" min="0" max="${secondhandInfo.secondhand_price }">원<br>
+			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
+			    <div>(Z맨 거래의 경우 거래완료 시<br>최종거래금액에서 3000원 뺀 금액이 Z페이로 입금됩니다.)</div>
 		      </div>
 		      <div class="dealBtns">
 	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨 (+3000원)</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
+		      </div>
+	      </div>
+	      <div class="modal-footer justify-content-center">
+	        <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">아니오</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<%-- 거래완료 안내 모달 영역 --%>
+	<div class="modal fade" id="needDoneConfirm" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="needSessionId">거래하기 확인</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body text-center" id="modalMsg">
+	      <%-- 메세지가 표시되는 부분 --%>
+		      정말 상대방과 거래하시겠습니까?<br>
+		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
+		      <div class="modal-price">
+		      	최종거래금액 : 
+			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
+			    <div>(Z맨 거래의 경우 거래완료 시<br>최종거래금액에서 3000원 뺀 금액이 Z페이로 입금됩니다.)</div>
+		      </div>
+		      <div class="dealBtns">
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
+	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨 (+3000원)</button>
 	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
 		      </div>
 	      </div>
@@ -226,6 +292,8 @@
 	</div>
 	
 	
+<%-- 사진 보내는 함수 관련 js파일 연결 --%>
+<script src="${pageContext.request.contextPath }/resources/js/chat_img.js"></script>
 <script type="text/javascript">
 	
 	// 스크롤 위치 조정
@@ -239,17 +307,23 @@
 	
 	// 채팅 메세지
 	let chatMessage;
-	
+	let chatImgMessage;
 	// 채팅 보내는 사람(안내일때는 그때마다 바꾸는걸로)
 	let sender = "${member_id}";
 	
 	//전송 버튼 누르는 이벤트
 	$("#button-send").on("click", function(e) {
 		chatMessage = $('#msg').val();
+		chatImgMessage = $("#imgform input").val();
 		
 		if(chatMessage != "") {
 			sendMessage(sender);
 			$('#msg').val('');
+		} else if(chatImgMessage != "") {
+			console.log(chatImgMessage);
+			var form = document.getElementById("imgform");
+	        form.submit();
+			
 		}
 	});
 	
@@ -283,7 +357,7 @@
 // 	console.log(now);
 	
 	// ================== 웹소켓을 통한 채팅창 동기 과정 ==================================
-	var sock = new SockJS('http://localhost:8089/zero/chatting?=chat_${param.room_idx}');
+	var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?=chat_${param.room_idx}');
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	sock.onopen = onOpen;
@@ -434,7 +508,111 @@
 	
 	// ==========================================================================
 	
+	// ------------ 무한 스크롤 -------------------
+	// 전역변수 (함수바깥에 정의)
+	let pageNum = 1;	// 임의로 설정 (1은 따로 미리 받아옴)
+	let maxPage = 1;	// 최대 페이지 번호 미리 저장
+	
+	$(function() {
+		// 무한스크롤 기능 추가
+		// 웹브라우저의 스크롤바가 채팅창 상단에 닿으면 다음 목록 조회를 위해 loadList() 함수 호출
+		$("#msgArea").on("scroll", function() {
+			
+			// 1. window 객체와 document 객체를 활용하여 스크롤 관련 값 가져와서 제어
+			// => 스크롤바의 현재 위치, 문서가 표시되는 창(window)의 높이, 문서 전체 높이
+			let scrollTop = $("#msgArea").scrollTop();	// 스크롤바 현 높이(위치)를 가지고 옴
+// 			let msgAreaHeight = $("#msgArea").height();	// 브라우저 창의 높이
+// 			let documentHeight = $("#msgArea").clientHeight;	// 문서의 높이(창의 높이보다 크거나 같음)
+			
+			console.log("scrollTop : " + scrollTop);
+// 			console.log("msgAreaHeight : " + msgAreaHeight);
+// 			console.log("documentHeight : " + documentHeight);
+			
+			// 2. 스크롤바 위치값 + 창높이 + x 가 문서 전체 높이(documentHeight) 이상일 경우
+			//		다음 페이지 게시물 목록 로딩하여 목록 하단에 추가
+			let x = 100;	// 픽셀단위(여유값)
+// 			if (scrollTop - x < 0) {
+				// 스크롤의 높이가 30보다 작으면 로딩
+// 				if(pageNum < maxPage) {
+// 					pageNum++;
+// 					loadList();
+// 				} else {
+					
+// 				}
+// 			}
+		}); // 무한 스크롤 끝
 		
+	});	// function() 끝
+	
+	// 목록 불러오는 함수 정의
+	function loadList() {
+		let url;
+		
+		// 컨트롤러로 보낼때 파라미터 처리
+		url = "chatMsgList?pageNum=" + pageNum + "&chat_room_idx=" + ${chat_room_idx};
+		
+		$.ajax({
+			type: "GET",
+			url: url,
+			dataType: "JSON",
+			success: function(data) {
+				maxPage = data.maxPage;
+// 				console.log(maxPage);
+				// => 무한스크롤 시 
+				console.log("maxPage : " + maxPage);
+// 				$("#listCount").text(data.listCount);
+				
+				for(let chat of data.chatList) {
+					// 영역에 넣을 메세지 하나
+					let chatItem;
+					let formattedTime = chat.chat_datetime.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
+					// 안내 메세지일 때
+					if(chat.chat_content_type == '안내' || chat.member_id == 'notice@test.com') {
+						chatItem = '<div class="noticeMsg">';
+						chatItem += '<span>';
+						chatItem += chat.chat_content;
+						chatItem += '</span>';
+						chatItem += '</div>';
+					
+					} else if(chat.member_id == '${sessionScope.member_id}') {
+						// 메세지 보낸 사람이 (로그인 한)본인일 때
+						chatItem = '<div class="msgitem">';
+						chatItem += '	<div class="alert msgRight">';
+						chatItem += '		<div class="msgTime">';
+						chatItem += '			<input type="hidden" class="date" value="' + chat.chat_datetime + '">';
+// 						chatItem += '			<fmt:formatDate value="' + chat.chat_datetime + '" pattern="a hh:mm"/>';
+						chatItem += 			formattedTime;
+						chatItem += '		</div>';
+						chatItem += '		<div class="msg">';
+						chatItem += '			<b>' + chat.chat_content + '</b>';
+						chatItem += '		</div></div></div>';
+						
+					} else {
+						// 채팅
+						chatItem = '<div class="msgitem">';
+						chatItem += '	<div class="alert msgLeft">';
+						chatItem += '		<div class="msg">';
+						chatItem += '			<b>' + chat.chat_content + '</b>';
+						chatItem += '		</div>';
+						chatItem += '		<div class="msgTime">';
+						chatItem += '			<input type="hidden" class="date" value="' + chat.chat_datetime + '">';
+// 						chatItem += '			<fmt:formatDate value="' + chat.chat_datetime + '" pattern="a hh:mm"/>';
+						chatItem += 			formattedTime;
+						chatItem += '		</div></div></div>';
+					}
+						
+					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
+					$(".productListArea").prepend(chatItem);
+				}	// for문 종료
+				
+			}, error: function() {
+				alert("글 목록 요청 실패!");
+			}
+		});	// ajax 끝
+		
+	} // loadList() 끝
+	
+	
 	// ====================== 텍스트 외 다른 입력 기능 ==========================
 	let isOpen = false;
 	// 버튼 클릭 시 목록보이게하는 함수
@@ -468,7 +646,13 @@
 		finalPrice = $("#finalPrice").val();
 		$("#order_secondhand_price").attr("value", finalPrice);
 		
-		console.log("최종 금액 : " + finalPrice);
+		console.log(finalPrice);
+		if(finalPrice == "") {
+			alert("최종 거래 금액이 입력되지 않았습니다!\n입력 후 거래방법을 눌러주세요!");
+			return;
+		}
+		
+// 		console.log("최종 금액 : " + finalPrice);
 		let chatMessageBtn;
 		
 		// 채팅내용 : chatMessage에 저장(안내니까 "-&안내" 붙이기)하고 sendMessage(sender) 실행시키기
@@ -586,6 +770,9 @@
 				break;
 			case 'review' :
 // 				reservUrl = ;
+				break;
+			case 'done' :	// 거래완료 클릭 시
+				
 				break;
 		}
 		// switch문 끝

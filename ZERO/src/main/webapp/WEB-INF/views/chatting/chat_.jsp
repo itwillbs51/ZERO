@@ -49,8 +49,8 @@
 <!-- 					<hr> -->
 					<div class="art_firstRow">
 						<div class="product_photo co01">
-							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg">
-<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}"> --%>
+<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg"> --%>
+							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}">
 						</div>
 						<div class="co02">
 							<div class="co02-1">${secondhandInfo.secondhand_deal_status }</div>
@@ -81,7 +81,7 @@
 									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
 								</c:if>
 								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
-								<button onclick="reservationNext('done')"><i class="material-icons">done</i><span>거래완료</span></button>
+								<button onclick=""><i class="material-icons">done</i><span>거래완료</span></button>
 							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 							<form id="openZform" method="post" action="ZpayForm" target="_blank">
@@ -227,7 +227,7 @@
 	</div>
 	
 	
-	<%-- 거래금액, 거래수단 안내 모달 영역 --%>
+	<%-- 찜하기 안내 모달 영역 --%>
 	<div class="modal fade" id="needConfirm" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
@@ -258,39 +258,6 @@
 	    </div>
 	  </div>
 	</div>
-	
-	<%-- 거래완료 안내 모달 영역 --%>
-	<div class="modal fade" id="needDoneConfirm" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="needSessionId">거래하기 확인</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body text-center" id="modalMsg">
-	      <%-- 메세지가 표시되는 부분 --%>
-		      정말 상대방과 거래하시겠습니까?<br>
-		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
-		      <div class="modal-price">
-		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
-			    <div>(Z맨 거래의 경우 거래완료 시<br>최종거래금액에서 3000원 뺀 금액이 Z페이로 입금됩니다.)</div>
-		      </div>
-		      <div class="dealBtns">
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨 (+3000원)</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
-		      </div>
-	      </div>
-	      <div class="modal-footer justify-content-center">
-	        <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">아니오</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	
 	
 <%-- 사진 보내는 함수 관련 js파일 연결 --%>
 <script src="${pageContext.request.contextPath }/resources/js/chat_img.js"></script>
@@ -507,129 +474,7 @@
 	}
 	
 	// ==========================================================================
-	// 무한 스크롤 구현중
-	// 전역변수 (함수바깥에 정의)
-	let pageNum = 1;	// 임의로 설정 (1은 따로 미리 받아옴)
-	let maxPage = 1;	// 최대 페이지 번호 미리 저장
 	
-	// 스크롤 위치 저장
-	scrollContainer = document.querySelector('#msgArea');
-	// 요소 영역의 높이와 스크롤 높이 가져오기
-	containerHeight = scrollContainer.clientHeight;
-// 	scrollHeight = scrollContainer.scrollHeight;
-	// 스크롤 위치 조정
-// 	scrollContainer.scrollTop = scrollHeight - containerHeight;
-	
-	let chatScrollTop;
-	let msgAreaHeight;
-	let documentHeight;
-	
-	$("#msgArea").on("scroll", function() {
-		// 1. window 객체와 document 객체를 활용하여 스크롤 관련 값 가져와서 제어
-		// => 스크롤바의 현재 위치, 문서가 표시되는 창(window)의 높이, 문서 전체 높이
-		chatScrollTop = $("#msgArea").scrollTop();	// 스크롤바 현 높이(위치)를 가지고 옴
-		msgAreaHeight = $("#msgArea").height();	// 브라우저 창의 높이
-// 		documentHeight = $("#msgArea").clientHeight;	// 문서의 높이(창의 높이보다 크거나 같음)
-// 		console.log("chatScrollTop : " + chatScrollTop);
-// 		console.log("msgAreaHeight : " + msgAreaHeight);
-// 		console.log("documentHeight : " + documentHeight);
-	});
-	
-	// 스크롤 감지 이벤트 핸들러
-	function handleScroll() {
-// 		var chatArea = document.getElementById("msgArea");
-// 		if(chatArea.scrollTop === 0) {
-		if(chatScrollTop === 0) {
-			
-			// 사용자가 스크롤을 위로 올렸을 때 처리하는 로직
-			console.log("새로운 채팅 로드하기!");
-			if(pageNum <= maxPage) {
-				
-				pageNum++;
-				loadList();
-				
-				// 업데이트 후 스크롤 위치 유지하기
-// 				let newScrollHeight = $("#msgArea").clientHeight;
-// 				let scrollOffset = newScrollHeight - prevChatHeight;
-// 				$(this).scrollTop(scrollOffset);
-				// 스크롤 위치 조정
-// 				containerNextHeight = scrollContainer.clientHeight;
-				scrollContainer.scrollTop = documentHeight;
-			} else {
-				
-			}
-		}
-	}
-	
-	// 스크롤 감지 이벤트 등록
-	var chatArea = document.getElementById("msgArea");
-	chatArea.addEventListener("scroll", handleScroll);
-	
-	
-	// 목록 불러오는 함수 정의
-	function loadList() {
-		let url;
-		
-		// 컨트롤러로 보낼때 파라미터 처리
-		url = "chatMsgList?pageNum=" + pageNum + "&chat_room_idx=" + ${chat_room_idx};
-		console.log(url);
-		$.ajax({
-			type: "GET",
-			url: url,
-			dataType: "JSON",
-			success: function(data) {
-				maxPage = data.maxPage;
-// 				console.log(maxPage);
-				// => 무한스크롤 시 
-				console.log("maxPage : " + maxPage);
-// 				$("#listCount").text(data.listCount);
-				
-				for(let chat of data.beforeChatList) {
-					// 영역에 넣을 메세지 하나
-					let chatItem;
-					let datetime = new Date(chat.chat_datetime);
-					let formattedTime = datetime.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
-					// 안내 메세지일 때
-					if(chat.chat_content_type == '안내' || chat.member_id == 'notice@test.com') {
-						chatItem = '<div class="noticeMsg">';
-						chatItem += '<span>';
-						chatItem += chat.chat_content;
-						chatItem += '</span>';
-						chatItem += '</div>';
-					
-					} else if(chat.member_id == '${sessionScope.member_id}') {
-						// 메세지 보낸 사람이 (로그인 한)본인일 때
-						chatItem = '<div class="msgitem">';
-						chatItem += '	<div class="alert msgRight">';
-						chatItem += '		<div class="msgTime">';
-						chatItem += 			formattedTime;
-						chatItem += '		</div>';
-						chatItem += '		<div class="msg">';
-						chatItem += '			<b>' + chat.chat_content + '</b>';
-						chatItem += '		</div></div></div>';
-						
-					} else {
-						// 채팅
-						chatItem = '<div class="msgitem">';
-						chatItem += '	<div class="alert msgLeft">';
-						chatItem += '		<div class="msg">';
-						chatItem += '			<b>' + chat.chat_content + '</b>';
-						chatItem += '		</div>';
-						chatItem += '		<div class="msgTime">';
-						chatItem += 			formattedTime;
-						chatItem += '		</div></div></div>';
-					}
-						
-					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
-					$("#msgArea").prepend(chatItem);
-				}	// for문 종료
-				
-			}, error: function() {
-				alert("글 목록 요청 실패!");
-			}
-		});	// ajax 끝
-		
-	} // loadList() 끝
 	
 	// ====================== 텍스트 외 다른 입력 기능 ==========================
 	let isOpen = false;
@@ -649,8 +494,8 @@
 		});	// 버튼 클릭 시 호출되는 함수 끝
 		
 		// Z맨 호출 정보를 입력 외에는 사용못하게 하기
-		if("${zmanCallInfo.zman_delivery_status}" == '입력 중' || "${orderSecondhandInfo.order_secondhand_status}" == '거래진행중') {
-			$(".callZBtn").attr("disabled", false);
+		if("${zmanCallInfo.zman_delivery_status}" != '입력 중') {
+			$(".callZBtn").attr("disabled", true);
 		}
 		
 	});	// 함수 호출 끝
@@ -664,12 +509,13 @@
 		finalPrice = $("#finalPrice").val();
 		$("#order_secondhand_price").attr("value", finalPrice);
 		
+		console.log(finalPrice);
 		if(finalPrice == "") {
 			alert("최종 거래 금액이 입력되지 않았습니다!\n입력 후 거래방법을 눌러주세요!");
 			return;
 		}
 		
-		console.log("최종 금액 : " + finalPrice);
+// 		console.log("최종 금액 : " + finalPrice);
 		let chatMessageBtn;
 		
 		// 채팅내용 : chatMessage에 저장(안내니까 "-&안내" 붙이기)하고 sendMessage(sender) 실행시키기
@@ -684,28 +530,27 @@
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
 				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
 				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원<br>';
-				chatMessageBtn = '<button class="btn btn-dark callZBtn" onclick="toZ()">';
-				chatMessageBtn += 'Z맨 호출 접수</button>';
+				chatMessage += '<button class="btn btn-dark callZBtn" onclick="toZ()">';
+				chatMessage += 'Z맨 호출 접수</button>';
 				setOrderSecondhand("Z맨");
-				chatMessage += chatMessageBtn;
 				break;
 			case 3 :
 				// 1-3. 택배로 받기 클릭 => 안내 메세지 띄우고 판매자에게 택배회사 주소가 담긴 버튼 보여주기(안내메세지 판별해 버튼 보여주기)
 				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!<br>';
 				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원<br>';
-				chatMessage += '<c:if test="${secondhandInfo.member_id eq sessionScope.member_id}">';
-				chatMessageBtn = '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
-				chatMessageBtn1 = '</c:if>';
+				chatMessageBtn1 = '<c:if test="${secondhandInfo.member_id eq sessionScope.member_id}">';
+				chatMessageBtn2 = '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
+				chatMessageBtn3 = '</c:if>';
 				setOrderSecondhand("택배");
 				// 세션에 따라 보이는 값 달리하기 위한 변수들 합쳐서 DB에 저장하기
-				chatMessage += chatMessageBtn + chatMessageBtn1;
+				chatMessage += chatMessageBtn1 + chatMessageBtn2 + chatMessageBtn3;
 				// 일시적으로 보이게 하기(DB저장은 아님)
+				$("#msgArea").append(chatMessageBtn2);
 				break;
 				
 		}	// switch문 끝
 		// 메세지 보내기
 		sendMessage('notice@test.com');
-		$("#msgArea").append(chatMessageBtn);
 		
 		// 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화
 				
@@ -788,9 +633,6 @@
 				break;
 			case 'review' :
 // 				reservUrl = ;
-				break;
-			case 'done' :	// 거래완료 클릭 시
-				
 				break;
 		}
 		// switch문 끝

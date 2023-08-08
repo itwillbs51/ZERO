@@ -21,8 +21,13 @@ public class ChattingService {
 	}
 	
 	// 채팅 내역 조회
-	public List<ChatVO> selectChatList(int chat_room_idx) {
-		return mapper.selectChatList(chat_room_idx);
+	public List<ChatVO> selectChatList(int chat_room_idx, int pageNum, int startRow, int listLimit) {
+		return mapper.selectChatList(chat_room_idx, pageNum, startRow, listLimit);
+	}
+
+	// 채팅 무한스크롤을 위한 총 페이지 계산
+	public int getChatListCount(int chat_room_idx) {
+		return mapper.selectGetChatListCount(chat_room_idx);
 	}
 	
 	// 채팅 내역 삽입
@@ -95,6 +100,7 @@ public class ChattingService {
 	public OrderSecondhandVO getOrderSecondhandInfo(int secondhand_idx) {
 		return mapper.selectOrderSecondhandInfo(secondhand_idx);
 	}
+
 
 	
 	

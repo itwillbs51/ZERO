@@ -13,7 +13,11 @@ public interface ChattingMapper {
 	List<ChatRoomListVO> selectChatRoomList(String member_id);
 	
 	// 채팅 조회
-	List<ChatVO> selectChatList(int chat_room_idx);
+	List<ChatVO> selectChatList(@Param("chat_room_idx")int chat_room_idx, @Param("pageNum") int pageNum
+										, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
+	
+	// 채팅 무한스크롤을 위한 총 페이지 계산
+	int selectGetChatListCount(int chat_room_idx);
 	
 	// 채팅 내역 삽입
 	int insertChat(Map<String, String> map);
@@ -46,5 +50,6 @@ public interface ChattingMapper {
 	int updateZDelivery(String zman_delivery_idx);
 	// 중고거래 정보 조회 - Z페이
 	OrderSecondhandVO selectOrderSecondhandInfo(int secondhand_idx);
+
 	
 }
