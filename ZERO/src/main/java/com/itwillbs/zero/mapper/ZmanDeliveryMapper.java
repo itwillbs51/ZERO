@@ -15,6 +15,9 @@ public interface ZmanDeliveryMapper {
 	ZmanDeliveryVO selectDeliveryLocation();
 
 	// ZMAN 중고물품 오더 배달 수락하기
-	ZmanDeliveryVO updateDelivery(@Param("zman_delivery_idx") int zman_delivery_idx, @Param("zman_id") String zman_id);
+	int updateDelivery(@Param("zman_delivery_idx") int zman_delivery_idx, @Param("zman_id") String zman_id);
+
+	// 배달 상세 정보 - 출발지와 배달지 가져오기
+	ZmanDeliveryVO selectDeliveryDetail(int zman_delivery_idx);
 
 }

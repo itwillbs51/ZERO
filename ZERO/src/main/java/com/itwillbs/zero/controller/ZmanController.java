@@ -68,10 +68,30 @@ public class ZmanController {
 		System.out.println("ZmanController - zman_delivery_want_pro");
 		System.out.println("zman_id - " + zman_id);
 		
-		ZmanDeliveryVO zd = service.acceptDelivery(zman_delivery_idx, zman_id);
+		// 배달 상세 정보 - 출발지와 배달지 가져오기
+		ZmanDeliveryVO zd = service.getDeliveryDetail(zman_delivery_idx);
+		System.out.println("출발지  - " + zd.getZman_delivery_startspot());
+		System.out.println("도착  - " + zd.getZman_delivery_endspot());
 		
-		return "zman/zman_delivery_ing";
+		// 배달 수락 상태로 변경하기
+		int updateCount = service.acceptDelivery(zman_delivery_idx, zman_id);
+		
+		if(updateCount > 0) {
+			model.addAttribute("zd", zd);
+			model.addAttribute("depart", zd.getZman_delivery_startspot()); // zman_delivery_startspot
+			model.addAttribute("arrive", zd.getZman_delivery_endspot()); // zman_delivery_endspot
+			
+			return "zman/zman_test_location";
+			
+		} else {
+			model.addAttribute("msg", "배달 수락 실패!");
+			return "fail_back";
+		}
+		
 	}
+	
+
+	
 	
 	// ZMAN 배달 완료 페이지로 이동
 	@GetMapping("zman_delivery_done")
@@ -86,23 +106,27 @@ public class ZmanController {
 	}
 	
 	// ZMAN 지도 test 페이지로 이동하기
-	@GetMapping("zman_test_location")
-	public String zman_test_location(Model model) {
-		
-		System.out.println("Zmancontroller -zman_test_location ");
-		
-		// DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx
-//		ZmanDeliveryVO zd = service.getDeliveryLocation();
-//		System.out.println("zd - " + zd);
-		
-//		model.addAttribute("depart", zd.getZman_delivery_startspot());
-//		model.addAttribute("arrive", zd.getZman_delivery_endspot());
-		
-		model.addAttribute("depart", " 부산광역시 부산진구 중앙대로 658"); // zman_delivery_startspot 
-		model.addAttribute("arrive", "부산광역시 부산진구 범전로5번길 13"); // zman_delivery_endspot
-		
-		return "zman/zman_test_location";
-	}
+//	@GetMapping("zman_test_location")
+//	public String zman_test_location(Model model) {
+//		
+//		System.out.println("Zmancontroller -zman_test_location ");
+//		
+//		// DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx
+////		ZmanDeliveryVO zd = service.getDeliveryLocation();
+////		System.out.println("zd - " + zd);
+//		
+////		model.addAttribute("depart", zd.getZman_delivery_startspot());
+////		model.addAttribute("arrive", zd.getZman_delivery_endspot());
+//		
+////		ZMANDELIVERYVO ZD = SERVICE.GETDELIVERYDETAIL(ZMAN_DELIVERY_IDX);
+////		SYSTEM.OUT.PRINTLN("출발지  - " + ZD.GETZMAN_DELIVERY_STARTSPOT());
+////		SYSTEM.OUT.PRINTLN("도착  - " + ZD.GETZMAN_DELIVERY_ENDSPOT());
+//		
+//		model.addAttribute("depart", "부산 부산진구 동천로 109 "); // zman_delivery_startspot 
+//		model.addAttribute("arrive", "부산 부산진구 동천로 4"); // zman_delivery_endspot
+//		
+//		return "zman/zman_test_location";
+//	}
 	
 	// 신청 폼
 	@GetMapping("zero_report_form")

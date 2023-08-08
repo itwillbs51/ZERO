@@ -31,6 +31,15 @@
 				zman_delivery_accepttime = now()
 				, zman_delivery_status = '배달 수락'
 				, zman_id = #{zman_id}
-			WHERE zman_delivery_idx = #{zman_delivery_idx};
+			WHERE
+				zman_delivery_idx = #{zman_delivery_idx};
 	</update>
+	
+	<!-- selectDeliveryDetail -->
+	<select id="selectDeliveryDetail" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
+		SELECT *
+			FROM ZMAN_DELIVERY
+			WHERE
+				zman_delivery_idx = #{zman_delivery_idx};
+	</select>
 </mapper>
