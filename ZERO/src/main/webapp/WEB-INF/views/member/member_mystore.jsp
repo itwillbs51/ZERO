@@ -10,6 +10,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/member.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
 
 <meta charset="UTF-8">
 <title>ZERO</title>
@@ -58,18 +60,7 @@
     background-color: rgb(181, 181, 181);
 }
 
-.fFhxdm {
-    position: inherit;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    flex-direction: column;
-    box-shadow: rgba(4, 0, 0, 0.03) 0px 5px 10px 0px;
-}
+
 
 <%-- 프로필 이미지 --%>
 .bHnJBW {
@@ -500,39 +491,236 @@ ul.tabs li.current{
 	display: inherit;
 }
 
+/* 가로로 긴 카드를 위한 커스텀 스타일 */
+.custom-card {
+    display: flex;
+    flex-direction: row;
+}
 
-/* 목록 카드 css */
-.card-img-top{
-	width:250x;
-	height:300px;
+.image-container {
+    flex: 1;
+    max-width: 20%;
+    padding: 10px;
+    margin: auto; 
 }
-row{
-	margin:20px;
-	padding:20px;
+
+.image-container img {
+    width: 100%;
+    height: auto;
 }
+
+.text-container {
+    flex: 4;
+    max-width: 80%;
+    padding: 10px;
+}
+
+.card-text {
+	text-align: left;
+}
+
+.card-text-reverse {
+	text-align: right;
+}
+
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-	$.ajax({
-	    type: "GET",
-	    url: "/zero/ajax/profileUpdateInfo",
-	    data: {
-	  	  "column2":column2,
-	  	  "value2":value2
-	    },
-	    dataType: "text",
-	    success: function(result){
-	//   	  alert(result);
-	    },
-	    error: function(err){
-	  	  alert('닉네임 중복으로 변경 실패');
-	    }
-	}).done((res) => {
-	//	  alert(res.msg);
-	    location.reload();
-	}); // ajax 끝
+// 	$.ajax({
+// 	    type: "GET",
+// 	    url: "/zero/ajax/profileUpdateInfo",
+// 	    data: {
+// 	  	  "column2":column2,
+// 	  	  "value2":value2
+// 	    },
+// 	    dataType: "text",
+// 	    success: function(result){
+// 	//   	  alert(result);
+// 	    },
+// 	    error: function(err){
+// 	  	  alert('닉네임 중복으로 변경 실패');
+// 	    }
+// 	}).done((res) => {
+// 	//	  alert(res.msg);
+// 	    location.reload();
+// 	}); // ajax 끝
+	
+	$(function(){
+		
+		$("#sellSecondHand, #sellSecondHandReview, #sellAuction, #Like").on("click", function() {
+	        var id = this.id; // 클릭된 탭의 아이디 변수 저장
+	        changeTab(id);
+	    });
+		
+	});
+	
+	function changeTab(id){
+		const tabs = ["sellSecondHand", "sellSecondHandReview", "sellAuction", "Like"];
+		const divs = ["secondhandDiv", "ReviewDiv", "auctionDiv", "likeDiv"]
+		const urls = ["ajax/mySecondhandList", "ajax/sell_secondhand_reviews", "ajax/sell_auctionList", "ajax/myLikeList"]
+		const lists = ["sellList", "sellReviewList", "sellAuctionList", "likeList"];
+		let url = "";
+		let div = "";
+		let listClass = "";
+		value2='${member.member_id}';
+		
+		for(var i = 0; i < tabs.length; i++) {
+			if(tabs[i] == id) {
+				$("#" + tabs[i]).addClass('focus readonly').removeClass('unfocus');
+				$("."+ divs[i]).removeClass('blind');
+				url = urls[i];
+				div = divs[i];
+				listClass = lists[i];
+			} else {
+				$("#" + tabs[i]).removeClass('focus readonly').addClass('unfocus');
+				$("."+ divs[i]).addClass('blind');
+			}
+		}
+		
+		console.log('선택된 탭 url:' + url);
+		let html = ""; 
+		var myList = []; // 비어있는 배열로 초기화
+		
+		$.ajax({
+	 	    type: "GET",
+	 	    url: url,
+	 	    data: {
+	 	  	  "column2": "member_id",
+	 	  	  "member_id":value2
+	 	    },
+	 	    dataType: "json",
+	 	    success: function(data){
+	 	  	  console.log(data);
+	 	  	  console.log();
+	 	  	  
+	 	  	  if(data == '') { // 리스트가 없는 경우
+		 	  		if(url == urls[0]) {
+						alert('중고판매 내용 없음');
+					} else if(url == urls[1]) {
+						alert('판매후기 내용 없음');
+					} else if(url == urls[2]) {
+						alert('경매 내용 없음');
+					} else if(url == urls[3]) {
+						alert('찜 내용 없음');
+					}
+	 	  	  } else { // 리스트가 있는 경우
+				
+				if(url == urls[0]) {
+					alert('중고판매 내용 있음');
+					for (var i = 0; i < data.length; i++) {
+		                var item = data[i];
+		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
+		                html += '<div class="row">\
+		                        <div class="col-lg-12">\
+		                            <a class="col" href="secondhand_detail?secondhand_idx=' + item.secondhand_idx + '&member_id=' + item.member_id + '">\
+		                                <div class="card custom-card">\
+		                                    <div class="image-container">\
+		                                        <img src="${pageContext.request.contextPath }/resources/upload/' + item.secondhand_image1  + '" alt="Image">\
+		                                    </div>\
+		                                    <div class="text-container">\
+		                                        <div class="card-body">\
+		                                            <h5 class="card-title">' + item.secondhand_subject  + '</h5>\
+		                                            <div class="card-text sell_price">판매 가격 : ' + item.secondhand_price  + ' 원</div>\
+		                                            <div class="card-text sell_date">판매 등록일 : ' + item.secondhand_first_date  + ' 일</div>\
+		                                            <div class="card-text buyer">구매자 : ' + item.order_secondhand_buyer  + '</div>\
+		                                            <div class="card-text delivery">거래방법 : ' + item.order_secondhand_type  + '</div>\
+		                                            <div class="card-text commission">수수료 : ' + item.order_delivery_commission  + '</div>\
+		                                            <div class="card-text commission">배송상태 : ' + item.zman_delivery_status  + '</div>\
+		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.secondhand_deal_status  + '</div></div>\
+		                                        </div>\
+		                                    </div>\
+		                                </div>\
+		                            </a>\
+		                        </div>\
+		                    </div>';
+		            }
+					
+					$("." + listClass).empty();
+					$("." + listClass).html(html);
+					
+				} else if(url == urls[1]) {
+					alert('판매후기 내용 있음');
+				} else if(url == urls[2]) {
+					alert('경매 내용 있음');
+// 					var myList = data.myStore; // myList 변수에 리스트 데이터 저장
+		            
+		            // 리스트 데이터를 처리하고 출력하는 로직 작성
+		            for (var i = 0; i < data.length; i++) {
+		                var item = data[i];
+		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
+		                html += '<div class="row">\
+		                        <div class="col-lg-12">\
+		                            <a class="col" href="auction_prepare_detail?id=' + item.auction_idx + 'ss">\
+		                                <div class="card custom-card">\
+		                                    <div class="image-container">\
+		                                        <img src="${pageContext.request.contextPath }/resources/upload/' + item.auction_image1 + '" alt="Image">\
+		                                    </div>\
+		                                    <div class="text-container">\
+		                                        <div class="card-body">\
+		                                            <h5 class="card-title">' + item.auction_title + '</h5>\
+		                                            <div class="card-text sell_price">시작가격 : ' + item.auction_start_price + ' 원</div>\
+		                                            <div class="card-text sell_date"><span>경매 시작일 : ' + item.auction_start_datetime + ' 일</span></div>\
+		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div></div>\
+		                                        </div>\
+		                                    </div>\
+		                                </div>\
+		                            </a>\
+		                        </div>\
+		                    </div>';
+		            }
+					$("." + listClass).empty();
+					$("." + listClass).html(html);
+					
+					
+				} else if(url == urls[3]) {
+					alert('찜 내용 있음');
+					
+					for (var i = 0; i < data.length; i++) {
+		                var item = data[i];
+		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
+		                html += '<div class="row">\
+		                        <div class="col-lg-12">\
+		                            <a class="col" href="secondhand_detail?secondhand_idx=' + item.secondhand_idx + '&member_id=' + item.member_id + '">\
+		                                <div class="card custom-card">\
+		                                    <div class="image-container">\
+		                                        <img src="${pageContext.request.contextPath }/resources/upload/' + item.secondhand_image1 + '" alt="Image">\
+		                                    </div>\
+		                                    <div class="text-container">\
+		                                        <div class="card-body">\
+		                                            <h5 class="card-title">' + item.secondhand_subject + '</h5>\
+		                                            <div class="card-text sell_price">판매 가격 : ' + item.secondhand_price  + ' 원</div>\
+		                                            <div class="card-text sell_date">판매 등록일 : ' + item.secondhand_first_date  + ' 일</div>\
+		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.secondhand_deal_status  + '</div></div>\
+		                                        </div>\
+		                                    </div>\
+		                                </div>\
+		                            </a>\
+		                        </div>\
+		                    </div>';
+		            }
+					$("." + listClass).empty();
+					$("." + listClass).html(html);
+					
+					
+				}
+	 	  		  
+	 	  	  }
+	 	  		  
+	 	  		  
+	 	    },
+	 	    error: function(err){
+	 	  	  alert('실패');
+	 	    }
+	 	}).done((res) => {
+	 	//	  alert(res.msg);
+// 	 	    location.reload();
+	 	}); // ajax 끝
+	
+		
+	}
+	
 
 </script>
 </head>
@@ -557,25 +745,28 @@ row{
 					<div >
 			
 					<%-- 본문 - 스토어 관리 --%>
-						<div   class="content_area" data-v-2b15bea4="">
+						<div class="content_area" data-v-2b15bea4="">
 						<div class="sc-fAJaQT gHsrAW">
 							<div class="sc-jotlie lmEPCP">
 								<div class="sc-hRmvpr efKeHO">
-									<div class="sc-cZBZkQ dagUQO">
+								<%-- 프로필 박스 --%>
+									<div class="profile_box">
 										<div class="sc-iiUIRa fgbAbR">
 											<div size="310" class="sc-hgRTRy cpvyzS">
 												<div class="sc-cJOK jhHppC">
 													<div class="sc-ccSCjj jBJukb"></div>
 												</div>
-												<div class="sc-iIHSe fFhxdm">
-												<c:choose>
-													<c:when test="${not empty member.member_image }">
-														<img data-v-4b474860="" width="100" height="100" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img sc-gldTML bHnJBW">
-													</c:when>
-													<c:otherwise>
-														<img data-v-4b474860="" width="100" height="100"  src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img sc-gldTML bHnJBW">
-													</c:otherwise>
-												</c:choose>
+												<div class="profile_area lg">
+													<div class="profile_thumb" data-v-4b474860="" style="margin:0">
+														<c:choose>
+															<c:when test="${not empty member.member_image }">
+																<img data-v-4b474860=""  src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img sc-gldTML bHnJBW">
+															</c:when>
+															<c:otherwise>
+																<img data-v-4b474860="" width="100px" height="100px"  src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img sc-gldTML bHnJBW">
+															</c:otherwise>
+														</c:choose>
+													</div>
 													<div class="sc-feryYK dxKilp">상점&nbsp;${member.member_idx }호</div>
 													<div class="sc-eLdqWK gIaRHa">
 														<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_star.png" width="15" height="14" alt="작은 별점 0점 이미지">
@@ -598,26 +789,26 @@ row{
 											</div>
 											<div class="sc-eopZyb hYzNdy">본인인증 완료</div>
 											</div>
-										<div class="sc-jMMfwr zhbnl">
-											<div class="sc-jGxEUC adWrx">
+										<div class="sc-jMMfwr zhbnl row">
+											<div class="sc-jGxEUC adWrx col col-lg-4 col-md-12 col-sm-12">
 												<img src="/pc-static/resource/4b323fe1ef79c2b715fe.png" width="14" height="13" alt="상점오픈일 아이콘">상점오픈일
 												<div class="sc-jdeSqf dBzPWd">${member.member_date } 일</div>
 											</div>
-											<div class="sc-jGxEUC adWrx">
-												<img src="/pc-static/resource/e6792c64a6ba6f2b10a2.png" width="14" height="13" alt="상점방문수 아이콘">상점방문수
-												<div class="sc-jdeSqf dBzPWd">1 명</div>
-											</div>
-											<div class="sc-jGxEUC adWrx">
+<!-- 											<div class="sc-jGxEUC adWrx col col-lg-3 col-sm-6"> -->
+<!-- 												<img src="/pc-static/resource/e6792c64a6ba6f2b10a2.png" width="14" height="13" alt="상점방문수 아이콘">상점방문수 -->
+<!-- 												<div class="sc-jdeSqf dBzPWd">1 명</div> -->
+<!-- 											</div> -->
+											<div class="sc-jGxEUC adWrx col col-lg-3 col-md-12 col-sm-12">
 												<img src="/pc-static/resource/ef9d606d24890f02bde0.png" width="14" height="13" alt="상품판매 아이콘">상품판매
 												<div class="sc-jdeSqf dBzPWd">0 회</div>
 											</div>
-											<div class="sc-jGxEUC adWrx">
+											<div class="sc-jGxEUC adWrx col col-lg-3 col-md-12 col-sm-12">
 												<img src="/pc-static/resource/b6ca1c340805703d7c62.png" width="14" height="13" alt="상퓸발송 아이콘">택배발송
 												<div class="sc-jdeSqf dBzPWd">0 회</div>
 											</div>
 										</div>
-										<div class="sc-cBrjTV czeXQe">${member.member_intro }</div>
-										<div class="sc-fkyLDJ isYF">
+										<div class="sc-fkyLDJ isYF row">
+											<div class="sc-cBrjTV czeXQe col col-lg-12 col-sm-12">${member.member_intro }</div>
 <!-- 											<button class="sc-ecaExY cxNNaK">소개글 수정</button> -->
 										</div>
 									</div>
@@ -627,24 +818,27 @@ row{
 							<div class="sc-cNnxps cdXYEZ">
 								<div class="sc-eMRERa ebVkwH">
 									<div class="sc-RbTVP kcRaQl">
-										<a class="focus" href="/ajax/sell_secondhandList">중고 판매
+<!-- 										<a class="focus" href="/ajax/sell_secondhandList" id="sellSecondHand">중고 판매 -->
+										<a class="focus readonly" id="sellSecondHand">중고 판매
 											<span class="sc-bIqbHp gtokyO">1</span>
 										</a>
-
-										<a class=" unfocus" href="/ajax/sell_secondhand_reviews">판매후기 
+<!-- 										<a class=" unfocus" href="/ajax/sell_secondhand_reviews" id="sellSecondHandReview">판매후기  -->
+										<a class=" unfocus" id="sellSecondHandReview">판매후기 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
-										<a class=" unfocus" href="/ajax/sell_auctionList">경매
+<!-- 										<a class=" unfocus" href="/ajax/sell_auctionList" id="sellAuction">경매 -->
+										<a class=" unfocus" id="sellAuction">경매
 											<span class="sc-bIqbHp gtokyO">3</span>
 										</a>
-										<a class=" unfocus" href="/ajax/myLikeList">찜 
+<!-- 										<a class=" unfocus" href="/ajax/myLikeList" id="Like">찜  -->
+										<a class=" unfocus" id="Like">찜 
 											<span class="sc-bIqbHp gtokyO">0</span>
 										</a>
 									</div>
 								</div>
 								<div class="sc-eqPNPO crpdHA">
 								<%-- 상품 목록 --%>
-									<div class=" ljwWRl">
+									<div class="secondhandDiv">
 										<div class=" khHtgc">
 											<div>중고 판매&nbsp;
 												<span class=" kmGPmj">1</span>
@@ -657,12 +851,11 @@ row{
 <!-- 												<div class="sc-FQuPU iDlcuM"> -->
 			<!-- 										<a class="sc-kEmuub cohUeK">전체</a> -->
 			<!-- 										<a class="sc-kEmuub zPWkt">키덜트</a> -->
-													<select class="form-control">
+													<select class="form-control" id="secondhandSelect">
 														<option value="전체">전체</option>
-														<option value="카테고리1">최신순</option>
-														<option value="카테고리1">인기순</option>
-														<option value="카테고리1">저가순</option>
-														<option value="카테고리2">고가순</option>
+														<option value="판매중">판매중</option>
+														<option value="예약중">예약중</option>
+														<option value="판매완료">판매완료</option>
 													</select>
 <!-- 												</div> -->
 <!-- 											</div> -->
@@ -670,118 +863,110 @@ row{
 										</div>
 										<%-- 중고 판매 목록 리스트 --%>
 										<div class="sellList">
-											<div class=" ">
-												<br>
-											</div>
-											<div class="row">
-												<c:forEach var="sell" items="${sellList }">
-													<div class=" col col-sm-12 col-lg-3">
-														<div class="card border-0 shadow-sm">
-															<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${sell.secondhand_idx }&member_id=${sell.member_id}">
-<!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
-																<div class="photoDiv">
-																	<img src="${pageContext.request.contextPath }/resources/upload/${sell.secondhand_image1}" alt="상품 이미지" class="card-img-top">
-																</div>
-																<div class="card-body">
-																	<div class="sell_subject bold">${sell.secondhand_subject }</div>
-																	<div class=" ">
-																		<div class="sell_price">${sell.secondhand_price} 원</div>
-																		<div class="sell_date"><span>${sell.secondhand_first_date} 일</span></div>
-																	</div>
-																</div>
-																<div class=" ">
-		<!-- 															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국 -->
-																</div>
-															</a>
-														</div>
-													</div>
-												</c:forEach>
-											</div>
+										<c:if test="${empty sellList}">판매 내역이 없습니다.</c:if>
+											<c:forEach var="sell" items="${sellList }">
+												<div class="row">
+											        <div class="col-lg-12">
+												        <a class="col" href="secondhand_detail?secondhand_idx=${sell.secondhand_idx }&member_id=${sell.member_id}">
+												            <div class="card custom-card">
+												                <!-- 이미지 영역 -->
+												                <div class="image-container">
+												                    <img src="${pageContext.request.contextPath }/resources/upload/${sell.secondhand_image1}" alt="Image">
+												                </div>
+												                <!-- 설명글 영역 -->
+												                <div class="text-container">
+												                    <div class="card-body">
+												                        <h5 class="card-title">${sell.secondhand_subject}</h5>
+																		<div class="card-text sell_price">${sell.secondhand_price} 원</div>
+																		<div class="card-text sell_date"><span>${sell.secondhand_first_date} 일</span></div>
+																		<div class="card-text deal_status"><span>${sell.secondhand_deal_status}</span></div>
+																		<div class="card-text delivery"><span>거래방법 : ${sell.order_secondhand_type}</span></div>
+		                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission}</span></div>
+							                                            <div class="card-text commission"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
+							                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">${sell.secondhand_deal_status}</div></div>
+							                                            
+												                    </div>
+												                </div>
+												            </div>
+												        </a>
+											        </div>
+											    </div>
+											</c:forEach>
 										</div>
 									</div>
 									<%-- 판매 후기 --%>
-									<div class=" ">
+									<div class="ReviewDiv blind">
 										<div class=" khHtgc">
 											<div>판매 후기&nbsp;
 												<span class="sc-keFjpB edhbau">0</span>
 											</div>
 										</div>
-										<div class="sc-AnqlK hYpuCz">
-											<div class="sc-jWojfa hwzHa">
-												<div class="sc-kVrTmx lcBRID">
-													<div class="sc-cEvuZC hzgTJv">등록된 판매후기가 없습니다.</div>
+										<br>
+										<div class="sellReviewList">등록된 판매후기가 없습니다.</div>
 <!-- 													<button class="sc-crNyjn dRjcfF">선택삭제</button> -->
-												</div>
-												<div class="sc-ekkqgF cTdzXF">
+										<div class="sc-ekkqgF cTdzXF">
 <!-- 													<a class="sc-iBmynh gjtVmz">최신순</a> -->
 <!-- 													<a class="sc-iBmynh iHPPlM">인기순</a> -->
 <!-- 													<a class="sc-iBmynh iHPPlM">저가순</a> -->
 <!-- 													<a class="sc-iBmynh iHPPlM">고가순</a> -->
-												</div>
-											</div>
-											<div class="sc-eitiEO uLBJN"></div>
 										</div>
 										<div class="sc-fKGOjr ffOQYS"></div>
 									</div>
 									<%-- 경매 목록 --%>
-									<div class=" ">
+									<div class="auctionDiv blind">
 										<div class=" khHtgc">
 											<div>경매 판매&nbsp;
 												<span class=" ">0</span>
 											</div>
+											<div class="inRpvj">
+												<select class="form-control" id="auctionSelect">
+													<option value="전체">전체</option>
+													<option value="판매중">검수중</option>
+													<option value="예약중">검수완료</option>
+													<option value="판매완료">판매완료</option>
+												</select>
+											</div>
 										</div>
-										<div class=" ">경매 내역이 없습니다.</div>
+										<br>
+										<div class="sellAuctionList">경매 내역이 없습니다.</div>
 									</div>
-									<%-- 경매후기 --%>
-<!-- 									<div class=" "> -->
-<!-- 										<div class="sc-OxbzP "> -->
-<!-- 											<div class=" khHtgc"> -->
-<!-- 												<div>경매후기&nbsp; -->
-<!-- 													<span class="sc-lnrBVv hIZyef">0</span> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 											<div class="sc-hvvHee cdYewf">등록된 경매후기가 없습니다.</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
 									<%-- 찜 목록 --%>
-									<div class="likeList">
+									<div class="likeDiv blind">
 										<div class=" ">
 											<div class=" khHtgc">
 												<div>찜 목록&nbsp;
 													<span class="sc-bOCYYb jGomlc">0</span>
 												</div>
 											</div>
-											<div class=" ">
-											<div class=" ">
-												<br>
+											<br>
+											<div class="likeList">
+												찜 목록이 없습니다.
+<!-- 												<div class="row"> -->
+<%-- 													<c:forEach var="like" items="${likeList }"> --%>
+<!-- 														<div class=" col col-sm-6 col-lg-3"> -->
+<!-- 															<div class="card border-0 shadow-sm"> -->
+<%-- 																<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${like.secondhand_idx }&member_id=${like.member_id}"> --%>
+<!-- 	<!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
+<!-- 																	<div class="photoDiv"> -->
+<%-- 																		<img src="${pageContext.request.contextPath }/resources/upload/${like.secondhand_image1}" alt="상품 이미지" class="card-img"> --%>
+<!-- 																	</div> -->
+<!-- 																	<div class="  card-body"> -->
+<%-- 																		<div class=" ">${like.secondhand_subject }</div> --%>
+<!-- 																		<div class=" "> -->
+<%-- 																			<div class=" ">${like.secondhand_price}</div> --%>
+<%-- 																			<div class=" "><span>${like.secondhand_first_date}</span></div> --%>
+<!-- 																		</div> -->
+<!-- 																	</div> -->
+<!-- 																	<div class=" "> -->
+<!-- 			<!-- 															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국 -->
+<!-- 																	</div> -->
+<!-- 																</a> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<%-- 													</c:forEach> --%>
+												</div>
 											</div>
-											<div class="row">
-												<c:forEach var="like" items="${likeList }">
-													<div class=" col col-sm-6 col-lg-3">
-														<div class="card border-0 shadow-sm">
-															<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${like.secondhand_idx }&member_id=${like.member_id}">
-<!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
-																<div class="photoDiv">
-																	<img src="${pageContext.request.contextPath }/resources/upload/${like.secondhand_image1}" alt="상품 이미지" class="card-img-top">
-																</div>
-																<div class="  card-body">
-																	<div class=" ">${like.secondhand_subject }</div>
-																	<div class=" ">
-																		<div class=" ">${like.secondhand_price}</div>
-																		<div class=" "><span>${like.secondhand_first_date}</span></div>
-																	</div>
-																</div>
-																<div class=" ">
-		<!-- 															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국 -->
-																</div>
-															</a>
-														</div>
-													</div>
-												</c:forEach>
-											</div>
-										</div>
 <!-- 											<div class="sc-clBsIJ hLgItk">찜 목록이 없습니다</div> -->
-										</div>
 									</div>
 								</div>
 							</div>

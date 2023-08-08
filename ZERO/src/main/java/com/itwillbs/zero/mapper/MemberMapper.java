@@ -47,16 +47,22 @@ int updateBankAuth(String member_id);
 	int phoneCheck(String member_phone);
 
 
-	// 회원정보 조인해서 중고 거래 목록 가져오기 - 수정
+	// 회원정보 조인해서 중고 판매 거래 목록 가져오기 - 수정
 	List<Map<String, String>> selectSecondhandList(String member_id);
+
+	// 회원정보 조인해서 중고 거래 후기 목록 가져오기 - 수정
+	List<Map<String, String>> selectSecondhandReviewList(String member_id);
+	
+	// 회원정보 조인해서 옥션 판매 거래 목록 가져오기 - 수정
+	List<Map<String, String>> selectSellAuctionList(String member_id);
+	
+	// 회원별 찜 목록 가져오기 - 수정
+	List<Map<String, String>> selectLikeList(String member_id);
 
 	// 중고 구매내역 3개 
 	List<OrderSecondhandVO> selectMyOdShList(@Param("member_id") String member_id
 			, @Param("startRow") int startRow
 			, @Param("listLimit") int listLimit);
-
-	// 회원별 찜 목록 가져오기 - 수정
-	List<Map<String, String>> selectLikeList(String member_id);
 
 //	Map으로 하면 order_secondhand_date 값 = [unread] 다음에수정하기 
 //	List<Map<String, Object>> selectMyOdShList(@Param("member_id") String member_id
@@ -67,5 +73,7 @@ int updateBankAuth(String member_id);
 	List<SecondhandVO> selectMyShList(@Param("member_id") String member_id
 			, @Param("startRow") int startRow
 			, @Param("listLimit") int listLimit);
+
+	
 	
 }
