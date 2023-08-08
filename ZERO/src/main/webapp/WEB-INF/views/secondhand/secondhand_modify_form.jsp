@@ -29,19 +29,19 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 
-var image_list = [
-		if(${secondhandProduct.secondhand_image1} != null){
-			${secondhandProduct.secondhand_image1}	
+// var image_list = [
+// 		if(${secondhandProduct.secondhand_image1} != null){
+// 			${secondhandProduct.secondhand_image1}	
 			
-		} else if(${secondhandProduct.secondhand_image2} != null){
-			, ${secondhandProduct.secondhand_image2}
+// 		} else if(${secondhandProduct.secondhand_image2} != null){
+// 			, ${secondhandProduct.secondhand_image2}
 			
-		}  else if(${secondhandProduct.secondhand_image3} != null){
-			,  ${secondhandProduct.secondhand_image3}	
-		}
-	];
+// 		}  else if(${secondhandProduct.secondhand_image3} != null){
+// 			,  ${secondhandProduct.secondhand_image3}	
+// 		}
+// 	];
 var preview_array  = [false, false, false];
-var change_image = ["0","0","0","0","0","0","0","0","0"];
+// var change_image = ["0","0","0","0","0","0","0","0","0"];
 
 // for(var y=0; y<${ fn:length(vo.image_list) }; y++){
 // 	preview_array[y] = true;

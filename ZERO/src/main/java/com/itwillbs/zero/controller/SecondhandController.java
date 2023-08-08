@@ -769,6 +769,24 @@ public class SecondhandController {
 		
 		
 		//
+		//카테고리/가격검색에 따른 marketItemList ajax요청
+		
+//		@ResponseBody
+//		@RequestMapping(value = "marketItemList", method = RequestMethod.POST)
+//		public String marketItemList() {
+//			return response;
+//		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 }
