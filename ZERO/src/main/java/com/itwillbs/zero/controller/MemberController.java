@@ -784,6 +784,8 @@ public class MemberController {
 		Map<String, String> member = service.isMemberCheck(column, member_id);
 		System.out.println(member);
 		
+		// COUNT 함수 값 가져오기
+		
 		model.addAttribute("member", member);
 		
 		// 중고 상품 회원정보 가져오기
@@ -797,13 +799,13 @@ public class MemberController {
 	
 	// 등록한 중고 상품 리스트 - 수정
 	@ResponseBody
-	@GetMapping("/ajax/mySsecondhandList")
-	public JSONObject myStoreSecondHandList(HttpSession session
+	@GetMapping("/ajax/mySecondhandList")
+	public String myStoreSecondHandList(HttpSession session
 							, Model model
 							, @RequestParam(required = false) String member_id
 							, @RequestParam Map<String, String> map
 							) {
-		System.out.println("/ajax/mySsecondhandList - myStoreSecondHandList ");
+		System.out.println("/ajax/mySecondhandList - myStoreSecondHandList ");
 		// 임시 고정값 설정 
 		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
 			member_id = (String)session.getAttribute("member_id");
@@ -812,85 +814,85 @@ public class MemberController {
 
 		List<Map<String, String>> sellList = service.selectSecondhandList(member_id);
 		System.out.println("sellList:" + sellList);
-		JSONArray jsonArray = new JSONArray();
+		JSONArray myStore = new JSONArray();
 
 		for (Map<String, String> item : sellList) {
 		    JSONObject jsonItem = new JSONObject(item);
-		    jsonArray.put(jsonItem);
+		    myStore.put(jsonItem);
 		}
 
-		JSONObject resultObject = new JSONObject();
-		resultObject.put("myStore", jsonArray);
+//		JSONObject resultObject = new JSONObject();
+//		resultObject.put("myStore", jsonArray);
 		
-		return resultObject;
+		return myStore.toString();
 	}
 	
 	// 등록한 중고 상품 후기 리스트 - 수정
-//	@ResponseBody
-//	@GetMapping("/ajax/sell_secondhand_reviews")
-//	public JSONObject sellSecondhand_reviews(HttpSession session
-//							, Model model
-//							, @RequestParam(required = false) String member_id
-//							, @RequestParam Map<String, String> map
-//							) {
-//		
-//		System.out.println();
-//		// 임시 고정값 설정 
-//		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
-//			member_id = (String)session.getAttribute("member_id");
-//		}  
-//		System.out.println(member_id);
-//		
-//		List<Map<String, String>> sellReviewList = service.selectsellReviewList(member_id);
-//		System.out.println("sellReviewList:" + sellReviewList);
-//		JSONArray jsonArray = new JSONArray();
-//
-//		for (Map<String, String> item : sellReviewList) {
-//		    JSONObject jsonItem = new JSONObject(item);
-//		    jsonArray.put(jsonItem);
-//		}
-//
+	@ResponseBody
+	@GetMapping("/ajax/sell_secondhand_reviews")
+	public String sellSecondhand_reviews(HttpSession session
+							, Model model
+							, @RequestParam(required = false) String member_id
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		// 임시 고정값 설정 
+		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+			member_id = (String)session.getAttribute("member_id");
+		}  
+		System.out.println(member_id);
+		
+		List<Map<String, String>> sellReviewList = service.selectsellReviewList(member_id);
+		System.out.println("sellReviewList:" + sellReviewList);
+		JSONArray myStore = new JSONArray();
+
+		for (Map<String, String> item : sellReviewList) {
+		    JSONObject jsonItem = new JSONObject(item);
+		    myStore.put(jsonItem);
+		}
+
 //		JSONObject resultObject = new JSONObject();
 //		resultObject.put("myStore", jsonArray);
-//		
-//		return resultObject;
-//	}
+		
+		return myStore.toString();
+	}
 	
 	// 등록한 경매 상품 리스트 - 수정
-//	@ResponseBody
-//	@GetMapping("/ajax/sell_auctionList")
-//	public JSONObject sellAuctionList(HttpSession session
-//							, Model model
-//							, @RequestParam(required = false) String member_id
-//							, @RequestParam Map<String, String> map
-//							) {
-//		
-//		System.out.println();
-//		
-//		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
-//			member_id = (String)session.getAttribute("member_id");
-//		}  
-//		System.out.println(member_id);
-//
-//		List<Map<String, String>> auctionList = service.selectAuctionList(member_id);
-//		System.out.println("auctionList:" + auctionList);
-//		JSONArray jsonArray = new JSONArray();
-//
-//		for (Map<String, String> item : auctionList) {
-//		    JSONObject jsonItem = new JSONObject(item);
-//		    jsonArray.put(jsonItem);
-//		}
-//
+	@ResponseBody
+	@GetMapping("/ajax/sell_auctionList")
+	public String sellAuctionList(HttpSession session
+							, Model model
+							, @RequestParam(required = false) String member_id
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println();
+		
+		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+			member_id = (String)session.getAttribute("member_id");
+		}  
+		System.out.println(member_id);
+
+		List<Map<String, String>> auctionList = service.selectAuctionList(member_id);
+		System.out.println("auctionList:" + auctionList);
+		JSONArray myStore = new JSONArray();
+
+		for (Map<String, String> item : auctionList) {
+		    JSONObject jsonItem = new JSONObject(item);
+		    myStore.put(jsonItem);
+		}
+
 //		JSONObject resultObject = new JSONObject();
 //		resultObject.put("myStore", jsonArray);
-//		
-//		return resultObject;
-//	}
+		System.out.println(myStore.toString());
+		return myStore.toString();
+	}
 	
 	// 등록한 찜목록 리스트  - 수정
 	@ResponseBody
 	@GetMapping("/ajax/myLikeList")
-	public JSONObject myLikeList(HttpSession session
+	public String myLikeList(HttpSession session
 							, Model model
 							, @RequestParam(required = false) String member_id
 							, @RequestParam Map<String, String> map
@@ -904,17 +906,17 @@ public class MemberController {
 
 		List<Map<String, String>> likeList = service.selectLikeList(member_id);
 		System.out.println("likeList:" + likeList);
-		JSONArray jsonArray = new JSONArray();
+		JSONArray myStore = new JSONArray();
 
 		for (Map<String, String> item : likeList) {
 		    JSONObject jsonItem = new JSONObject(item);
-		    jsonArray.put(jsonItem);
+		    myStore.put(jsonItem);
 		}
 
-		JSONObject resultObject = new JSONObject();
-		resultObject.put("myStore", jsonArray);
+//		JSONObject resultObject = new JSONObject();
+//		resultObject.put("myStore", jsonArray);
 		
-		return resultObject;
+		return myStore.toString();
 	}
 	
 	// 등록한 찜 삭제  - 수정

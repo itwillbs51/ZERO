@@ -385,7 +385,7 @@ public class SecondhandController {
 				// -----------------------------------------------------------------
 				
 				// 글쓰기 작업 성공 시 글목록(secondhand_list)으로 리다이렉트
-				return "redirect:/secondhand_list";
+				return "true";
 				
 			} else { // 실패
 				model.addAttribute("msg", "글 쓰기 실패!");
@@ -662,13 +662,14 @@ public class SecondhandController {
 		//판매자페이지
 		@GetMapping("secondhandSeller")
 		public String secondhand_seller_page(HttpSession session, 
-//				@RequestParam String member_id, 
+				@RequestParam String member_id, 
 				Model model) {
 			
 			
 			
-			String member_id = (String) session.getAttribute("member_id");
-			System.out.println("세션아이디 : (ㅑ)*)**)*)*)*)*)" + member_id);
+			String sId = (String) session.getAttribute("member_id");
+			System.out.println(sId);
+		
 			
 //			String sId = (String) session.getAttribute("sId");
 //			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);

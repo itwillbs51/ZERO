@@ -21,16 +21,165 @@
 		margin: 25px;
 	}
 	
-	#sec01, #sec02 {
+	#sec01 {
 		display: flex;
 		justify-content: center;
 		align-items: center;	
 	}
+
+	/* datepicker */
+	.daterangepicker td.in-range {
+		background-color: #EBF4E9;
+		border-color: transparent;
+		color: #000;
+		border-radius: 0;
+	}
+	
+	.daterangepicker td.active, .daterangepicker td.active:hover {
+		background-color: #09aa5c;
+		border-color: transparent;
+		color: #fff;
+	}
+	
+	.daterangepicker td.end-date {
+		border-radius: 0 4px 4px 0;
+	}
+	
+	.daterangepicker td.start-date {
+		border-radius: 4px 0 0 4px;
+	}
 </style>
-<script>
-  $(function(){
-    $('.datepicker').datepicker();
-  })
+<script type="text/javascript">
+
+$(function() {
+	let selectedSearchType = null;
+	let selectedStartDate = null;
+	let selectedEndDate = null;
+
+	function updateTransactionHistory() {
+		let requestData = {};
+		
+		if (selectedSearchType) {
+		    requestData.searchType = selectedSearchType;
+		}
+		if (selectedStartDate && selectedEndDate) {
+		    requestData.startDate = selectedStartDate.format('YYYY-MM-DD 00:00:00');
+		    requestData.endDate = selectedEndDate.format('YYYY-MM-DD 23:59:59');
+		}
+
+			
+		$.ajax({
+			type : "GET", 
+			url : "zpay_main_ajax", 
+			data : requestData, 
+			dataType : "JSON", 
+			success : function(data) {
+				
+				let res = "";
+
+				for(let zpayHistory of data.zpayHistoryList) {
+					res += "<li>" + 
+								"<div class='zpayHistoryItem'>" + 
+									"<div class='zpayHistoryItem_date'>" + 
+										getFormatDate(zpayHistory.zpay_time) + 
+									"</div>" + 
+									"<div class='zpayHistoryItem_infoArea'>" +
+										"<div class='zpayHistoryItem_info'>" + 
+											"<a href='#' class='itemTitle itemLink'>" + zpayHistory.zpay_deal_type + "</a>" +
+											"<div class='zpayHistoryItem_info_sub'>" +
+												"<span class='payTime'>" + getFormatTime(zpayHistory.zpay_time) + "</span>" +
+												"<span class='paymentType'>" + zpayHistory.zpay_deal_type + "</span>" +
+											"</div>" +
+										"</div>" + 
+										"<div class='zpayHistoryItem_amountArea'>" +
+											"<strong class='zpayHistoryItem_amount' data-dealType='" + zpayHistory.zpay_deal_type + "'>" +
+												comma(zpayHistory.zpay_amount) +  "원" +
+											"</strong>" +
+										"<div class='zpayBalance'>" +
+											comma(zpayHistory.zpay_balance) +  "원" +
+										"</div>" +
+									"</div>" +
+								"</div>" +
+							"</div>" +
+						"</li>"
+				}	// for문 끝
+				
+				$(".zpayHistoryListArea > ul").html(res);
+				$(".listCount").html(data.listCount);
+				amountColor();
+				
+			}, // success 끝
+			error : function() {
+				alert("요청실패");
+			}
+		});	// AJAX 끝
+	}	// updateTransactionHistory 끝
+	
+	
+	// dealType 타입 선택 시 updateTransactionHistory() 함수 실행
+	$(".dealType").on("click", function() {
+		$(".dealType").removeClass("active");
+		$(this).addClass("active");
+		
+		selectedSearchType = $(this).val();
+		updateTransactionHistory();
+	});
+
+	// 날짜 선택 시 updateTransactionHistory() 함수 실행
+	$('input[name="datetimes"]').daterangepicker({
+	    "showWeekNumbers": true,
+	    "showDropdowns": true,
+	    "locale": {
+	        "format": "YYYY.MM.DD",
+	        "separator": " ~ ",
+	        "applyLabel": "조회",
+	        "cancelLabel": "취소",
+	        "fromLabel": "From",
+	        "toLabel": "To",
+	        "customRangeLabel": "Custom",
+	        "weekLabel": "W",
+	        "daysOfWeek": [
+	            "일",
+	            "월",
+	            "화",
+	            "수",
+	            "목",
+	            "금",
+	            "토"
+	        ],
+	        "monthNames": [
+	            "1월",
+	            "2월",
+	            "3월",
+	            "4월",
+	            "5월",
+	            "6월",
+	            "7월",
+	            "8월",
+	            "9월",
+	            "10월",
+	            "11월",
+	            "12월"
+	        ],
+	        "firstDay": 1
+	    },
+	    "startDate": moment().startOf('date').add(-1, 'month'),	// 기본 선택 시작일
+	    "endDate": moment().startOf('date'),	// 기본 선택 마지막일
+	    "maxDate": new Date(),	// 선택할 수 있는 가장 마지막날
+	    "opens": "center",
+	    "drops": "auto",
+	    "applyButtonClasses": "btn-dark"
+	}, function(start, end, label) {
+		selectedStartDate = start;
+		selectedEndDate = end;
+		updateTransactionHistory();
+	});
+	updateTransactionHistory();
+});
+
+
+
+
 </script>
 </head>
 <body>
@@ -50,24 +199,24 @@
 			<div class="container-fluid">
 			<div class="contentArea">
 				<div id="main">
+					<h1>ZMAN</h1>
 					<%--ZMAN 프로필 영역 --%>
 					<section id="sec01">
 						<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
 							<div class="user_detail" data-v-32a5de90="">
 								<div class="user_thumb01" data-v-32a5de90="">
-									<h1>ZMAN</h1>
 									<br>
-									<img
-										src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png"
-										alt="사용자 이미지" class="thumb_img" data-v-32a5de90="">
+<!-- 									<img -->
+<%-- 										src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
+<!-- 										alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
 									
-									<strong class="name" data-v-32a5de90="">김둘리</strong> |
-									<strong class="email" data-v-32a5de90="">Dooly@zero.co.kr</strong> |
-									<strong class="phone" data-v-32a5de90="">010-1234-5678</strong>
+									<strong class="name" data-v-32a5de90="">ZMAN 이름</strong> |
+									<strong class="email" data-v-32a5de90="">ZMAN 아이디</strong> |
+									<strong class="phone" data-v-32a5de90="">ZMAN 전화번호</strong>
 										<%-- 프로필 관리는 사이드바로 빼기 --%>
-										<a href="/my/profile-edit" type="button"
-											class="btn btn outlinegrey small" data-v-43813796=""
-											data-v-32a5de90=""> 프로필 관리 </a>
+<!-- 										<a href="/my/profile-edit" type="button" -->
+<!-- 											class="btn btn outlinegrey small" data-v-43813796="" -->
+<!-- 											data-v-32a5de90=""> 프로필 관리 </a> -->
 								</div>
 							</div>
 						</div>
@@ -78,45 +227,10 @@
 						<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
 							<div class="user_detail" data-v-32a5de90="">
 								<div class="user_thumb01" data-v-32a5de90="">
-									<h2>일주일 정산</h2>
-									<%-- 표로 만들자@ --%>
-<!-- 									<table data-v-32a5de90="" data-v-412d8616="" border="1"> -->
-<!-- 										<tr height="45px"> -->
-<!-- 											<th width="200px"> 이번 주 정산 내역 </th> -->
-<!-- 											<th width="200px" colspan="2"> 정산 확인 날짜 선택 -->
-<!-- 										</tr> -->
-<!-- 										<tr height="75px"> -->
-<!-- 											<td rowspan="2"> -->
-<!-- 												<button class="btn btn-dark" onclick=""> -->
-<!-- 		 										23/07/17 ~ 23/07/23  <br> -->
-<!-- 												87,000원 -->
-<!-- 												</button> -->
-<!-- 											</td> -->
-<!-- 											<td> -->
-<!-- 												<input class="datepicker" placeholder="정산을 확인하고 싶은 날짜" data-v-32a5de90=""> -->
-<!-- 											</td> -->
-<!-- 											<td> -->
-<%-- 												
-<%-- 													날짜가 선택되었을 때 --%>
-<%-- 													1. 해당 날짜의 배달 내역(정산 내역) 있다 -> 화면에 금액 알려주기 --%>
-<%-- 													2. 없다 -> 정산 내역이 없어요 라고 알려주기  --%>
-<%-- 												--%> --%>
-<!-- 												<button class="btn btn-dark" onclick=""> -->
-<!-- 													27,800원 -->
-<!-- 												</button> -->
-											
-<!-- 											</td> -->
-<!-- 										</tr> -->
-									
-<!-- 									</table> -->
-		<!-- 							<strong class="name" data-v-32a5de90="">이번 주 정산 내역 -->
-		<!-- 								<button class="btn btn-dark" onclick=""> -->
-		<!-- <!-- 									2023 / 07 / 08 <br> --> 
-		<!-- 									87,000원 -->
-		<!-- 								</button> -->
-		<!-- 							</strong> -->
-		<!-- 							<br> -->
-		<!-- 							<input class="datepicker" placeholder="정산을 확인하고 싶은 날짜" data-v-32a5de90=""> | -->
+									<h2>정산 내역</h2>
+										<div class="zpayHistoryDateSelect" style="display: flex;">
+											<input type="text" name="datetimes"  class="form-control">
+										</div>
 								</div>
 							</div>
 						</div>

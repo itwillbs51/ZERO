@@ -201,6 +201,9 @@
 							<%-- AJAX 마커 클릭 시 간단 정보 출력 영역 시작--%>
 							<div class="row">
 							    <div class="col">
+						    	<form action="zman_delivery_want_pro" method="post">
+						    		<input type="hidden" name="zman_delivery_idx" value="${zd.zman_delivery_idx }" >
+							    	<input type="hidden" name="zman_id" value="${sessionScope.member_id }">
 							    	<table class="table">
 							    		<thead>
 							    			<tr>
@@ -209,6 +212,7 @@
 							    				<th scope="col">도착지</th>
 							    				<th scope="col">배달 거리</th>
 							    				<th scope="col">배달료</th>
+							    				<th scope="col"></th>
 							    			</tr>
 							    		</thead>
 							    		<tbody>
@@ -218,9 +222,13 @@
 							    				 <td>${zd.zman_delivery_endspot }</td>
 							    				 <td>거리,,, </td>
 							    				 <td>${zd.zman_delivery_commission }</td>
+							    				 <td>
+							    				 	<button class="btn btn-dark" type="submit">배달하기</button>
+							    				 </td>
 							    			</tr>
 							    		</tbody>
 							    	</table>
+						    	</form>
 							    </div>
 							</div>
 							<%-- AJAX 마커 클릭 시 간단 정보 출력 영역 끝--%>

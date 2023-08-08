@@ -67,7 +67,7 @@ public class BankApiClient {
 		parameters.add("code", authResponse.get("code")); // 응답데이터 활용
 		parameters.add("client_id", clientId); // @Value 어노테이션으로 포함한 속성값
 		parameters.add("client_secret", clientSecret); // @Value 어노테이션으로 포함한 속성값
-		parameters.add("redirect_uri", "http://localhost:8089/zero/callback"); // 기존 콜백 URL 그대로 활용
+		parameters.add("redirect_uri", "http://c5d2302t1.itwillbs.com/ZERO/callback"); // 기존 콜백 URL 그대로 활용
 		parameters.add("grant_type", "authorization_code"); // 고정값
 		logger.info("□□□□□□ parameters : " + parameters.toString());
 		

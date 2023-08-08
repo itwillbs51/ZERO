@@ -49,8 +49,8 @@
 <!-- 					<hr> -->
 					<div class="art_firstRow">
 						<div class="product_photo co01">
-							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg">
-<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}"> --%>
+<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg"> --%>
+							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}">
 						</div>
 						<div class="co02">
 							<div class="co02-1">${secondhandInfo.secondhand_deal_status }</div>
@@ -324,7 +324,7 @@
 // 	console.log(now);
 	
 	// ================== 웹소켓을 통한 채팅창 동기 과정 ==================================
-	var sock = new SockJS('http://localhost:8089/zero/chatting?=chat_${param.room_idx}');
+	var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?=chat_${param.room_idx}');
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	sock.onopen = onOpen;
