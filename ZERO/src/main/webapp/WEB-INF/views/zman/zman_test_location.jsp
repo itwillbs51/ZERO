@@ -57,10 +57,9 @@
 						<%-- 발급받은 appkey 를 넣어주기 & 주소로 좌표 얻기 위한 서비스 라이브러리 추가  --%>
 						<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c7b64b9fe8be0d3ba0e69ecffe2e6efe&libraries=services"></script>
 
-						<hr>
 						<div id="clickLatlng"></div>
-						
 						<hr>
+						
 						
 <!-- 						<h2>배달 w 게시판</h2> -->
 					    	<%-- 배달 진행 중인 내역  --%>
@@ -75,7 +74,10 @@
 								<div id="distance">
 			                        직선 거리: <span id="distanceValue">0</span> km
 			                    </div>
-<!-- 							</div> -->
+			                    
+			                    <form>
+			                    	<input type="hidden" id= "" value="">
+			                    </form>
 						<hr>
 
 						
@@ -164,7 +166,7 @@
 			
 			                var line = new kakao.maps.Polyline({
 			                    path: linePath,
-			                    strokeWeight: 2,
+			                    strokeWeight: 7,
 			                    strokeColor: '#FF0000',
 			                    strokeOpacity: 0.7,
 			                    strokeStyle: 'solid'
