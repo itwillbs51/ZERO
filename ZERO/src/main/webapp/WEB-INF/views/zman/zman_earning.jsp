@@ -124,6 +124,7 @@
 				
 						<%-- 주간 정산 목록 게시판 --%>
 						<section id="sec02">
+						<form>
 							<table class="table">
 								<thead>
 									<tr>
@@ -134,23 +135,16 @@
 								 	</tr>
 								 </thead>
 								 <tbody class="table-group-divider">
-								 	<tr>
-								         <th scope="row">7/24 ~ 7/30</th> <%-- 일주일 단위로 표시 --%>
-								         <td></td>
-								         <td></td>
-								     </tr>
-							     	 <tr>
-								         <th scope="row"> </th>
-								         <td></td>
-								         <td></td>
-								     </tr>
-							    	 <tr>
-								         <th scope="row"> </th>
-								         <td></td>
-								         <td></td>
+								  	<tr>
+								         <th scope="row">7/31 ~ 8/13</th>
+								         <td>18,000 원</td>
+								         <td>
+					    				 	<button class="btn btn-dark" type="submit">상세보기</button>
+					    				 </td>
 								    </tr>
 								</tbody>
 							</table>
+						</form>
 						</section>
 						
 						

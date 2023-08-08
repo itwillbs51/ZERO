@@ -49,8 +49,8 @@
 <!-- 					<hr> -->
 					<div class="art_firstRow">
 						<div class="product_photo co01">
-							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg">
-<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}"> --%>
+<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg"> --%>
+							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}">
 						</div>
 						<div class="co02">
 							<div class="co02-1">${secondhandInfo.secondhand_deal_status }</div>
