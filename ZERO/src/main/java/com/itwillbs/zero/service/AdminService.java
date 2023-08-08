@@ -121,8 +121,8 @@ public class AdminService {
 	}
 	
 	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
-	public List<SecondhandVO> getOrderSecondhandList() {
-		return mapper.selectOrderSecondhandList();
+	public List<SecondhandVO> getOrderSecondhandList(String member_id) {
+		return mapper.selectOrderSecondhandList(member_id);
 	}
 
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
@@ -232,6 +232,8 @@ public class AdminService {
 	public int removeCsFaq(int cs_idx) {
 		return mapper.deleteFaq(cs_idx);
 	}
+
+	
 
 
 

@@ -332,10 +332,10 @@ public class AdminController {
 	
 	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
 	@GetMapping("admin_secondhand_order_list")
-	public String adminSecondhandOrderList(HttpSession session, Model model) {
+	public String adminSecondhandOrderList(@RequestParam(defaultValue = "") String member_id, HttpSession session, Model model) {
 		System.out.println("AdminController - admin_secondhand_order_list");
 		
-		List<SecondhandVO> orderSecondhandList = service.getOrderSecondhandList();
+		List<SecondhandVO> orderSecondhandList = service.getOrderSecondhandList(member_id);
 		System.out.println("orderSecondhandList - " + orderSecondhandList);
 		model.addAttribute("orderSecondhandList", orderSecondhandList);
 		
@@ -344,8 +344,9 @@ public class AdminController {
 	
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
 	@GetMapping("admin_secondhand_order_detail")
-	public String amdinSecondhandOrderDetail(HttpSession session, Model model,@RequestParam(defaultValue = "1") int order_secondhand_idx) {
+	public String amdinSecondhandOrderDetail(HttpSession session, Model model,@RequestParam int order_secondhand_idx) {
 		System.out.println("AdminController - admin_secondhand_order_detail");
+		System.out.println(order_secondhand_idx);
 		
 		Map<String, String> secondhandOrderDetail = service.getSecondhandOrderDetail(order_secondhand_idx);
 		System.out.println("secondhandOrderDetail - " + secondhandOrderDetail);

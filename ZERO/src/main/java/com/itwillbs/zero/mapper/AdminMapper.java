@@ -79,7 +79,7 @@ public interface AdminMapper {
 	int deleteSecondhandItem(int secondhand_idx);
 
 	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
-	List<SecondhandVO> selectOrderSecondhandList();
+	List<SecondhandVO> selectOrderSecondhandList(String member_id);
 
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
 	Map<String, String> selectOrderSecondhandDetail(int order_secondhand_idx);
@@ -144,6 +144,7 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
+
 
 
 

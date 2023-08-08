@@ -203,14 +203,19 @@
 	<select id="selectOrderSecondhandList" resultType="map">
 		SELECT *
 			FROM
-				ORDER_SECONDHAND;
+				ORDER_SECONDHAND
+			<if test="!member_id.equals('')">
+				WHERE order_secondhand_seller = #{member_id}
+				OR order_secondhand_buyer = #{member_id}
+			</if>
 	</select>
 	
 	<!-- 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동 -->
 	<select id="selectOrderSecondhandDetail">
 		SELECT *
 			FROM
-				ORDER_SECONDHAND os;
+				ORDER_SECONDHAND os
+			WHERE order_secondhand_idx = #{order_secondhand_idx}
 	</select>
 	
 	<!-- 경매관리 - 경매예정 상품 목록 조회 -->

@@ -33,6 +33,12 @@
 </style>
 <script type="text/javascript">
 	$(function() {
+		$("#memberTypeSelect").on("change", function() {
+			let changedType = $("#memberTypeSelect>option:selected").val();
+			$("#memberType").empty();
+			$("#memberType").html(changedType);
+		});
+
 		$("#memberStatusSelect").on("change", function() {
 			let changedStatus = $("#memberStatusSelect>option:selected").val();
 			$("#memberStatus").empty();
@@ -117,9 +123,15 @@
 <!-- 										</tr> -->
 										<tr>
 											<th>회원타입</th>
-											<td colspan="2">
-<%-- 												${member.member_type } --%>
-												<input type="text" class="form-control" name="member_type" value="${member.member_type }">
+											<td id="memberType">${member.member_type}</td>
+											<td class="text-end">
+												<span style="display: inline-block;">
+													<select class="form-select form-select-sm" name="member_type"  id="memberTypeSelect" aria-label="Default select example" style="width: 170px;">
+														<option value="회원" <c:if test="${member.member_type eq '회원' }">selected</c:if>>회원</option>
+														<option value="Z맨" <c:if test="${member.member_type eq 'Z맨' }">selected</c:if>>Z맨</option>
+														<option value="직원" <c:if test="${member.member_type eq '직원' }">selected</c:if>>직원</option>
+													</select>
+												</span>
 											</td>
 										</tr>
 										<tr>
@@ -176,7 +188,7 @@
 										<tr>
 											<th>중고거래내역 상세보기</th>
 											<td colspan="2" class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
+												<button type="button" class="btn btn-sm btn-dark text-nowrap"  onclick="location.href='admin_secondhand_order_list?member_id=${member.member_id}'">상세보기</button>
 											</td>
 										</tr>
 										<tr>
