@@ -268,7 +268,7 @@
 			dataType : 'json',
 			success  : function(res){
 				
-				if(res.res.trim() == 'true'){
+				if(res	== true){
 					alert('상품수정 성공!');
 // 					location.href='../mainpage/list.do';
 // 					location.href='../secondhand/secondhand_regist_form';

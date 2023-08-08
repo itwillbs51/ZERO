@@ -1120,8 +1120,7 @@ body{
 						<div class="pro_info" style="font-size: 15px; color:gray;"> 중복 선택 가능 </div>
 					</td>
 					<td class="td2" align="left">
-						<input type="checkbox" name="p_delivery_type" class="allCheck" value="전체선택">
-						<span class="pro_info">전체선택</span>
+
 						
 						<input type="checkbox" name="p_delivery_type" id="p_delivery_type" value="직거래" >
 						<span class="pro_info">직거래</span> 
@@ -1152,8 +1151,7 @@ body{
 					</td>
 					<td class="td2" align="left">
 					
-						<input type="checkbox" name="p_delivery_type" class="allCheck" value="전체선택">
-						<span class="pro_info">전체선택</span>
+
 						
 						<input type="checkbox" name="p_paymentType" id=p_paymentType value="직접송금"> 
 						<span class="pro_info">직접송금</span>
