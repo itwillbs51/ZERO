@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.AuctionProductVO;
 
@@ -34,7 +35,7 @@ public interface AuctionMapper2 {
 
 	int updateEnd(String now);
 
-	int selectBidedZpay(String member_id);
+	int selectBidedZpay(@Param("member_id")String member_id, @Param("id")int id);
 
 	
 
