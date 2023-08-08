@@ -654,7 +654,7 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
-	// 회원 탈퇴 확인 페이지 이동  - 수정
+	// 회원 이메일 인증 페이지 이동  - 수정
 	@GetMapping("member_find_emailAuth")
 	public String memberFindEmailAuth(HttpSession session
 			, Model model
@@ -739,9 +739,9 @@ public class MemberController {
 		String value2 = "탈퇴";
 		
 		// 옥션 판매중이거나 낙찰진행중인 경우 탈퇴 불가
-		String column3 = "";
+		boolean isWithDrawalCheck = service.withDrawalCheck(member_id);
 		
-		if(false) { // 중고거래 z맨 호출중이거나 옥션 판매중이거나 입찰 진행중인 경우(구현중)
+		if(!isWithDrawalCheck) { // 중고거래 z맨 호출중이거나 옥션 판매중이거나 입찰 진행중인 경우(구현중)
 			
 			return "false";
 		}

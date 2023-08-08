@@ -112,6 +112,28 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		return mapper.selectLikeList(member_id);
 	}
+
+	public boolean withDrawalCheck(String member_id) {
+		
+		int isSecondhandSeller = 0; // 중고거래 시 z맨으로 배달중인지 여부
+		int isSecondhandBuyer = 0; // 중고거래 시 z맨으로 배달중인지 여부
+		int isAuctionSeller = 0; // 옥션거래 시 경매중인지 여부
+		int isAuctionBuyer = 0; // 옥션거래 시 경매중인지 여부
+		
+		isSecondhandSeller = mapper.selectSecondhandSeller(member_id);
+		isSecondhandBuyer = mapper.selectSecondhandBuyer(member_id);
+		isAuctionSeller = mapper.selectAuctionSeller(member_id);
+		isAuctionBuyer = mapper.selectAuctionBuyer(member_id);
+		
+		System.out.println("isSecondhandSeller:" + isSecondhandSeller);
+		System.out.println("isSecondhandBuyer:" + isSecondhandBuyer);
+		System.out.println("isAuctionSeller:" + isAuctionSeller);
+		System.out.println("isAuctionBuyer:" + isAuctionBuyer);
+//		if(isSecondhandDeliverd == null || isAuctionSeller == null) { // 없으면 탈퇴 가능
+//			return true;
+//		}
+		return false; // 있으면 탈퇴 불가
+	}
 	
 	
 
