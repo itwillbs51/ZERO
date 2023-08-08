@@ -37,6 +37,7 @@ import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 
 @Controller
 public class AdminController {
@@ -840,13 +841,50 @@ public class AdminController {
 	
 	
 	// ========================= ZPAY 관리 ===============================================================================
-	@GetMapping("admin_zpay_list")
-	public String adminZpayList() {
+	// ZPAY 관리 - 충전/환급 목록 조회
+	@GetMapping("admin_zpay_deposit_withdraw_list")
+	public String adminZpayDepositWithdrawList(Model model) {
 		System.out.println("AdminController - adminZpayList");
-		return "admin/admin_zpay_list";
+		
+		List<ZpayHistoryVO> zpayHistoryList = service.getZpayDepositWithdrawList();
+		model.addAttribute("zpayHistoryList", zpayHistoryList);
+		
+		return "admin/admin_zpay_deposit_withdraw_list";
 	}
 	
+	// ZPAY 관리 - 충전/환급 정보 조회
+	@GetMapping("admin_zpay_deposit_withdraw_detail")
+	public String adminZpayDepositWithdrawDetail(@RequestParam int zpay_history_idx, Model model) {
+		System.out.println("AdminController - adminZpayDepositWithdrawDetail");
+		
+		ZpayHistoryVO zpayHistory = service.getZpayDepositWithdraw(zpay_history_idx);
+		model.addAttribute("zpayHistory", zpayHistory);
+		
+		return "admin/admin_zpay_deposit_withdraw_detail";
+	}
 	
+	// ZPAY 관리 - 사용/수익 목록 조회
+	@GetMapping("admin_zpay_use_list")
+	public String adminZpayUseList(Model model) {
+		System.out.println("AdminController - adminZpayList");
+		
+		List<ZpayHistoryVO> zpayHistoryList = service.getZpayUseList();
+		model.addAttribute("zpayHistoryList", zpayHistoryList);
+		
+		return "admin/admin_zpay_use_list";
+	}
 	
+
+	// ZPAY 관리 - 사용/수익 정보 조회
+	@GetMapping("admin_zpay_use_detail")
+	public String adminZpayUseDetail(@RequestParam int zpay_history_idx, Model model) {
+		System.out.println("AdminController - adminZpayDepositWithdrawDetail");
+		
+		ZpayHistoryVO zpayHistory = service.getZpayUse(zpay_history_idx);
+		model.addAttribute("zpayHistory", zpayHistory);
+		
+		return "admin/admin_zpay_use_detail";
+	}
+
 	
 }

@@ -14,6 +14,7 @@ import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 
 @Mapper
 public interface AdminMapper {
@@ -144,6 +145,20 @@ public interface AdminMapper {
 
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	int deleteFaq(int cs_idx);
+
+	
+	// ========================= ZPAY 관리 ===============================================================================
+	// ZPAY 관리 - 충전/환급 목록 조회
+	List<ZpayHistoryVO> selectZpayDepositWithdrawList();
+
+	// ZPAY 관리 - 충전/환급 정보 조회
+	ZpayHistoryVO selectZpayDepositWithdraw(int zpay_history_idx);
+
+	// ZPAY 관리 - 사용/수익 목록 조회
+	List<ZpayHistoryVO> selectZpayUseList();
+
+	// ZPAY 관리 - 사용/수익 정보 조회
+	ZpayHistoryVO selectZpayUse(int zpay_history_idx);
 
 
 

@@ -15,6 +15,7 @@ import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 
 @Service
 public class AdminService {
@@ -231,6 +232,28 @@ public class AdminService {
 	// 고객센터 관리 - 자주 묻는 질문 삭제하기
 	public int removeCsFaq(int cs_idx) {
 		return mapper.deleteFaq(cs_idx);
+	}
+
+	
+	// ========================= ZPAY 관리 ===============================================================================
+	// ZPAY 관리 - 충전/환급 목록 조회
+	public List<ZpayHistoryVO> getZpayDepositWithdrawList() {
+		return mapper.selectZpayDepositWithdrawList();
+	}
+
+	// ZPAY 관리 - 충전/환급 정보 조회
+	public ZpayHistoryVO getZpayDepositWithdraw(int zpay_history_idx) {
+		return mapper.selectZpayDepositWithdraw(zpay_history_idx);
+	}
+
+	// ZPAY 관리 - 사용/수익 목록 조회
+	public List<ZpayHistoryVO> getZpayUseList() {
+		return mapper.selectZpayUseList();
+	}
+
+	// ZPAY 관리 - 사용/수익 정보 조회
+	public ZpayHistoryVO getZpayUse(int zpay_history_idx) {
+		return mapper.selectZpayUse(zpay_history_idx);
 	}
 
 	
