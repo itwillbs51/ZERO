@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.mapper.MemberMapper;
+import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -113,8 +114,37 @@ public class MemberService {
 		return mapper.selectLikeList(member_id);
 	}
 
+	// 회원 계좌 등록 확인
+	// 회원 탈퇴시 체크
+	public boolean withDrawalCheck(String member_id) {
+		
+		int isSecondhandSeller = 0; // 중고거래 시 z맨으로 배달중인지 여부
+		int isSecondhandBuyer = 0; // 중고거래 시 z맨으로 배달중인지 여부
+		int isAuctionSeller = 0; // 옥션거래 시 경매중인지 여부
+		int isAuctionBuyer = 0; // 옥션거래 시 경매중인지 여부
+		
+		isSecondhandSeller = mapper.selectSecondhandSeller(member_id);
+		isSecondhandBuyer = mapper.selectSecondhandBuyer(member_id);
+		isAuctionSeller = mapper.selectAuctionSeller(member_id);
+		isAuctionBuyer = mapper.selectAuctionBuyer(member_id);
+		
+		System.out.println("isSecondhandSeller:" + isSecondhandSeller);
+		System.out.println("isSecondhandBuyer:" + isSecondhandBuyer);
+		System.out.println("isAuctionSeller:" + isAuctionSeller);
+		System.out.println("isAuctionBuyer:" + isAuctionBuyer);
+//		if(isSecondhandDeliverd == null || isAuctionSeller == null) { // 없으면 탈퇴 가능
+//			return true;
+//		}
+		return false; // 있으면 탈퇴 불가
+	}
+
 	public MemberVO isValidBank(String member_id) {
 		return mapper.selectBankAuth(member_id);
+	}
+
+	// 회원 중고상품 리뷰 등록
+	public int writeShReview(MemberReviewVO review) {
+		return mapper.insertShReview(review);
 	}
 	
 	

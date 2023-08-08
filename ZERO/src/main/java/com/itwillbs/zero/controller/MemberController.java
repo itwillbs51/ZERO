@@ -45,6 +45,7 @@ import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.TestService;
+import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -654,7 +655,7 @@ public class MemberController {
 		return "member/member_find_passwd";
 	}
 	
-	// 회원 탈퇴 확인 페이지 이동  - 수정
+	// 회원 이메일 인증 페이지 이동  - 수정
 	@GetMapping("member_find_emailAuth")
 	public String memberFindEmailAuth(HttpSession session
 			, Model model
@@ -739,9 +740,9 @@ public class MemberController {
 		String value2 = "탈퇴";
 		
 		// 옥션 판매중이거나 낙찰진행중인 경우 탈퇴 불가
-		String column3 = "";
+		boolean isWithDrawalCheck = service.withDrawalCheck(member_id);
 		
-		if(false) { // 중고거래 z맨 호출중이거나 옥션 판매중이거나 입찰 진행중인 경우(구현중)
+		if(!isWithDrawalCheck) { // 중고거래 z맨 호출중이거나 옥션 판매중이거나 입찰 진행중인 경우(구현중)
 			
 			return "false";
 		}
@@ -1162,7 +1163,20 @@ public class MemberController {
 		return "member/member_mypage_write_review";
 	}
 	
-	
+	// 중고상품 구매 리뷰 작성
+	@PostMapping("member_buyList_review")
+	public String memberBuyListReview(MemberReviewVO review, Model model) {
+		// MemberService(writeShReview()) - Member_mapper(insertwriteShReview())
+		int insertCount = service.writeShReview(review);
+		
+		if(insertCount > 0) {
+			return "redirect:/member_mypage_buyList";
+		} else {
+			model.addAttribute("msg", "리뷰작성 실패 다시 작성해주세요");
+			return "fail_back";
+		}
+		
+	}
 	
 }
 

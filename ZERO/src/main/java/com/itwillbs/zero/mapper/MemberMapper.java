@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 
+import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -77,6 +78,19 @@ int updateBankAuth(String member_id);
 	// 회원 계좌등록 여부 확인
 	MemberVO selectBankAuth(String member_id);
 
+	// 리뷰 등록
+	int insertShReview(MemberReviewVO review);
+
+	// 중고거래 z맨 배달중 여부 확인
+	int selectSecondhandSeller(String member_id);
 	
-	
+	// 중고거래 z맨 배달중 여부 확인
+	int selectSecondhandBuyer(String member_id);
+
+	// 옥션거래 현재 참여중인지 여부 확인
+	int selectAuctionSeller(String member_id);
+
+	// 옥션거래 현재 참여중인지 여부 확인
+	int selectAuctionBuyer(String member_id);
+
 }
