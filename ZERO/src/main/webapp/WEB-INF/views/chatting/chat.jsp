@@ -324,7 +324,7 @@
 // 	console.log(now);
 	
 	// ================== 웹소켓을 통한 채팅창 동기 과정 ==================================
-	var sock = new SockJS('http://localhost:8089/zero/chatting?=chat_${param.room_idx}');
+	var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?=chat_${param.room_idx}');
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	sock.onopen = onOpen;
