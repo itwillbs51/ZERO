@@ -223,7 +223,7 @@
 							    				 <td>거리,,, </td>
 							    				 <td>${zd.zman_delivery_commission }</td>
 							    				 <td>
-							    				 	<button class="btn btn-dark" type="submit">배달하기</button>
+							    				 	<button class="btn btn-dark" type="submit">배달</button>
 							    				 </td>
 							    			</tr>
 							    		</tbody>

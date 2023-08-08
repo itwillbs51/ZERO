@@ -27,7 +27,7 @@
 	<update id="updateDelivery">
 		UPDATE 
 			ZMAN_DELIVERY 
-			set 
+			SET 
 				zman_delivery_accepttime = now()
 				, zman_delivery_status = '배달 수락'
 				, zman_id = #{zman_id}
@@ -35,11 +35,23 @@
 				zman_delivery_idx = #{zman_delivery_idx};
 	</update>
 	
-	<!-- selectDeliveryDetail -->
+	<!-- 배달 상세 정보 - 출발지와 배달지 가져오기 - SELECT -->
 	<select id="selectDeliveryDetail" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
 		SELECT *
-			FROM ZMAN_DELIVERY
+			FROM
+				ZMAN_DELIVERY
 			WHERE
 				zman_delivery_idx = #{zman_delivery_idx};
 	</select>
+	
+	<!-- updateDeliveryDetailStart -->
+<!-- 	<update id="updateDeliveryDetailStart"> -->
+<!-- 		UPDATE -->
+<!-- 			ZMAN_DELIVERY -->
+<!-- 			SET -->
+<!-- 				zman_delivery_status = '배달 중' -->
+<!-- 				, zman_delivery_starttime = now() -->
+<!-- 			WHERE -->
+<!-- 				zman_delivery_idx = #{zman_delivery_idx}; -->
+<!-- 	</update> -->
 </mapper>

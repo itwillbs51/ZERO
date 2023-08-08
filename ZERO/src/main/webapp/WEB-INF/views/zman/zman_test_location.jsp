@@ -75,9 +75,22 @@
 			                        직선 거리: <span id="distanceValue">0</span> km
 			                    </div>
 			                    
-			                    <form>
-			                    	<input type="hidden" id= "" value="">
-			                    </form>
+			                    <c:choose>
+			                    	<c:when test="${empty DeliveryDetail.zman_delivery_starttime }">
+					                    <form action="zman_delivery_start" method="post">
+					                    	<input type="hidden" id= "zman_delivery_idx" value="${DeliveryDetail.zman_delivery_idx }">
+					                    	
+				                    		<button class="btn btn-dark" type="submit">배달 시작</button>
+					                    </form>
+				                    </c:when>
+				                    <c:otherwise>
+				                     	<form action="zman_delivery_end" method="post">
+					                    	<input type="hidden" id= "zman_delivery_idx" value="${DeliveryDetail.zman_delivery_idx }">
+					                    	
+				                    		<button class="btn btn-dark" type="submit">배달 완료</button>
+					                    </form>
+				                    </c:otherwise>
+			                    </c:choose>
 						<hr>
 
 						
