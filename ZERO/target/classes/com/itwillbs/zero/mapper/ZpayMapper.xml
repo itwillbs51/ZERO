@@ -21,6 +21,19 @@
 				, #{access_token}
 			)
 	</insert>
+
+	<!-- ZMAN 계좌 등록 -->
+<!-- 	<insert id="insertZmanBankAccount"> -->
+<!-- 		INSERT INTO ZMAN_ACCOUNT -->
+<!-- 			VALUES ( -->
+<!-- 				null -->
+<!-- 				, #{zman_bank_name} -->
+<!-- 				, #{zman_bank_account} -->
+<!-- 				, #{access_token} -->
+<!-- 				, #{fintech_use_num} -->
+<!-- 				, #{zman_id} -->
+<!-- 			) -->
+<!-- 	</insert> -->
 	
 	<!-- ZPAY 잔액 조회 -->
 	<select id="selectZpayBalance" resultType="Integer">
@@ -155,25 +168,84 @@
 					= (SELECT MAX(zero_account_history_idx) FROM ZERO_ACCOUNT_HISTORY)
 	</select>
 	
-	<!-- ZERO_ACCOUNT_HISTORY 테이블에 입금내역 추가 -->
-	<insert id="insertZeroAccountDepositHistory">
+	<!-- ZERO_ACCOUNT_HISTORY 테이블에 입금/환급내역 추가 -->
+	<insert id="insertZeroAccountHistory">
 		INSERT INTO 
 			ZERO_ACCOUNT_HISTORY(
 				zero_account_history_idx
 				, member_id
 				, zpay_history_idx
+				, order_secondhand_idx
+				, order_auction_idx				
+				, auction_idx			-- 검수비
 				, zero_account_balance
 				, zero_account_amount
-				, zero_account_time)
+				, zero_account_time
+				, zero_account_type)
 			VALUES(
 				null
 				, #{member_id}
-				, #{zpay_history_idx}
-				, #{zero_account_balance} + #{zero_account_amount} * 0.99
-				, #{zero_account_amount} * 0.99
+				<choose>
+					<when test="zero_account_type.equals('충전')">
+						, #{zpay_history_idx}
+						, null
+						, null
+						, null
+						, #{zero_account_balance} + #{zero_account_amount} * 0.99
+						, #{zero_account_amount} * 0.99
+					</when>
+					<when test="zero_account_type.equals('환급')">
+						, #{zpay_history_idx}
+						, null
+						, null
+						, null
+						, #{zero_account_balance} - #{zero_account_amount}
+						, #{zero_account_amount}
+					</when>
+					<when test="zero_account_type.equals('배달비')">
+						, #{zpay_history_idx}
+						, #{order_secondhand_idx}
+						, null
+						, null
+						, #{zero_account_balance} + #{zero_account_amount}
+						, #{zero_account_amount}
+					</when>
+					<when test="zero_account_type.equals('경매수수료')">
+						, #{zpay_history_idx}
+						, null
+						, #{order_auction_idx} 
+						, null
+						, #{zero_account_balance} + #{zero_account_amount}
+						, #{zero_account_amount}
+					</when>
+					<when test="zero_account_type.equals('검수비')">
+						, null
+						, null
+						, null
+						, #{auction_idx}
+						, #{zero_account_balance} + #{zero_account_amount}
+						, #{zero_account_amount}
+					</when>
+				</choose>
 				, now()
+				, #{zero_account_type}
 			)		
 	</insert>
+
+	<!-- 현재 참여하고 있는 경매 입찰이 있는 지 확인 -->
+	<select id="selectAuctionParticipant" resultType="map">
+		SELECT auction_idx, Max(auction_log_bid) AS max_auction_log_bid
+			FROM 
+				AUCTION_LOG_ROOM
+			WHERE 
+				auction_log_datetime >= CURDATE()
+			AND 
+				CURDATE() + INTERVAL 1 DAY > auction_log_datetime
+			AND 
+				MEMBER_id = #{member_id}
+			GROUP BY 
+				auction_idx;
+	</select>
 
 	<!-- ZPYA_HISTORY 테이블에 환급내역 추가 -->
 	<insert id="insertRefundHistory">
@@ -294,11 +366,31 @@
 			)		
 	</insert>
 	
+	<!-- ORDER_SECONDHAND 테이블의 order_secondhand_status 변경 -->
 	<update id="updateOrderSecondhandStatus">
 		UPDATE ORDER_SECONDHAND
 		SET order_secondhand_status = '결제완료'
 		WHERE order_secondhand_idx = #{order_secondhand_idx}
 	</update>
 
+	<!-- ZERO_ACCOUNT_HISTORY 테이블에 ZMAN 정산 -->
+	<insert id="insertZeroAccountZmanHistory">
+		INSERT INTO 
+			ZERO_ACCOUNT_HISTORY(
+				zero_account_history_idx
+				, zman_id
+				, zero_account_balance
+				, zero_account_amount
+				, zero_account_time
+				, zero_account_type)
+			VALUES(
+				null
+				, #{zman_id}
+				, #{zero_account_balance}
+				, #{zero_account_amount}
+				, now()
+				, #{zero_account_type}
+			)		
+	</insert>
 	
 </mapper>

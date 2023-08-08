@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <link href="${pageContext.request.contextPath }/resources/css/header.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/alarm.css" rel="stylesheet" type="text/css">
 <nav class="navbar navbar-expand-md fixed-top navbar-light p-0">
 	<div id="logo">
 		<a href="./">ZERO</a>
@@ -16,19 +17,21 @@
 				<ul id="headerArea1_list">
 					<li class="headerArea1_item"><a href="cs_main" class="headerArea1_link">고객센터</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
-					<li class="headerArea1_item"><a href="#" class="headerArea1_link">알림</a></li>
 					<%-- 알림 임시 --%>
-<!-- 					<div class="dropdown"> -->
-<!-- 						<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-<!-- 							알림 -->
-<!-- 						</a> -->
-<!-- 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink"> -->
-<!-- 							<a class="dropdown-item" href="#">Action</a> -->
-<!-- 							<a class="dropdown-item" href="#">Another action</a> -->
-<!-- 							<a class="dropdown-item" href="#">Something else here</a> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-					
+					<div id="topNotiArea" class="notify_area">
+<!-- 						<button type="button" class="btn_notify" aria-haspopup="menu" aria-expanded="true"> -->
+						<li class="headerArea1_item"><a class="headerArea1_link" onclick="">알림</a></li>
+<!-- 							<span class="blind">알림</span> -->
+<!-- 						</button> -->
+						<div class="layer_box" aria-hidden="false" style="display: none;"> <%--  style="display: none;" --%>
+							<div class="box_content">
+								<iframe src="shortAlarmList"
+									title="알림" width="100%" height="100%">
+									#document
+								</iframe>
+							</div>
+						</div>
+					</div>
 					<%-- 채팅 임시 --%>
 					<li class="headerArea1_item"><a href="chatList" class="headerArea1_link">채팅</a></li>
 					<li class="headerArea1_item">
@@ -48,7 +51,7 @@
 				</ul>
 			</div>
 		</div>
-		<div id="headerArea2">
+		<div id="headerArea2" style="z-index: 1;">
 			<div id="headerArea2_inner">
 				<ul class="navbar-nav ml-auto mr-2 mt-2 mt-md-0">
 					<li class="nav-item">

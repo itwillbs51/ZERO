@@ -301,47 +301,41 @@ input[type=checkbox] {
 		<div class="content lg" data-v-2b15bea4="">
 			<div class="login_area" data-v-2b15bea4="">
 				<h2 class="login_title" data-v-2b15bea4="">
-					<span class="blind" data-v-2b15bea4="">본인 확인</span>
+					<span class="blind" data-v-2b15bea4="">Z-MAN</span>
 				</h2><br>
+				<div class="sc-fznMAR hFIAMe"><span class="sc-fzoXWK bGEXNl"><h4>Z-MAN이란?</h4></span>
+					<p class="sc-fzpmMD fFeDtm description">Z-MAN은 내가 원할 때 
+					<span class="sc-fznxKY kfRyXm">하루 한 시간도 가능한 배달 아르바이트</span>입니다. 
+					<span class="sc-fznxKY kfRyXm">퇴근길에 자동차로, 집앞에서 걸어서도</span> 부담없이 시작할 수 있습니다.</p></div>
+					
+				<div class="sc-fznMAR hFIAMe"><span class="sc-fzoXWK bGEXNl"><h4>자유롭게 정하는 스케줄</h4></span>
+					<p class="item-description">나의 라이프스타일에 맞춰
+					      날짜와 시간을 자유롭게 선택할 수 있어요.
+					      하루 1시간도 가능해요.</p></div>
 				
-				<form action="zman_join_form" method="post">
-					<%-- 클래스 이름 바꾸기 --%>
-					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
-						<div class="btn_input_container">
-						<input type="email" 
-						   	   placeholder="예) kream@kream.co.kr" 
-						   	   id="member_id" 
-						   	   name="member_id" 
-						   	   autocomplete="off" 
-						   	   class="input_txt" 
-						   	   data-v-4e1fd2e6="">
-						</div>
-					</div><br>
-					
-					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
-						<input type="password" 
-							   placeholder="비밀번호를 입력해주세요" 
-							   id="member_passwd" 
-							   name="member_passwd" 
-							   autocomplete="off" 
-							   class="input_txt" 
-							   data-v-4e1fd2e6=""
-							   required="required">
-					</div>
-
-					
-					<div data-v-2b15bea4="" class="login_btn_box">
-<!-- 						<a data-v-43813796="" data-v-2b15bea4="" href="join_pro" class="btn full solid"> 회원가입 </a> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 확인 </button>
-					</div>
-				</form>
+				<div class="sc-fznMAR hFIAMe"><span class="sc-fzoXWK bGEXNl"><h4>앱을 켜면 시작, 끄면 종료</h4></span>
+					<p class="item-description">신청 지역 내 어디서든 자유롭게 배달할 수 있어요.</p></div>
+				
+				<div class="sc-fznMAR hFIAMe"><span class="sc-fzoXWK bGEXNl"><h4>배달한 만큼 매주 받는 수입</h4></span>
+					<p class="item-description">내가 배달한 건수와 거리만큼 수입이 계산되어 매주 정산돼요.<br>
+					<span class="sc-fzoNJl enIZvx">활동 지역, 시간대, 배달 거리 등에 따라 수입이 달라질 수 있습니다.</span></p></div><!-- 사이즈 작게 하기 -->
+				
+				<div class="sc-fznMAR hFIAMe"><span class="sc-fzoXWK bGEXNl"><h4>Z-MAN은 오토바이 외에도
+					다양한 이동수단으로 할 수 있어요</h4></span>
+					<p class="item-description">자동차! 오토바이! 킥보드! 도보!</p></div>
+				
+				<div class="sc-fznMAR hFIAMe"><span class="sc-fzoXWK bGEXNl"><h4>배달이 처음이어도 걱정 마세요</h4></span>
+					<p class="item-description">산재/시간제 보험 가입!<br> 전원 산재보험에 가입되며 운송수단 별 시간제 보험을 이용할 수 있어요.</p>
+					<p class="item-description">늦을까봐 걱정 마세요!<br> 커넥터님의 이동수단과 현재 위치를 고려하여 최적의 배달 건을 배차합니다.</p>
+					<p class="item-description">배달 용품 구입 가능해요!<br> 배민커넥트 온라인 몰에서 배달 가방과 경량헬멧을 저렴하게 구입할 수 있습니다.</p></div>
+				
+				<div data-v-2b15bea4="" class="login_btn_box">
+					<a data-v-43813796="" data-v-2b15bea4="" class="btn full solid" onclick="location.href='zman_join_form'"> 신청하러 가기 </a>
+				</div>
 
 			</div>
 		</div>
 	</div>
-
   </article>
   
   <nav id="mainNav" class="d-none d-md-block sidebar">

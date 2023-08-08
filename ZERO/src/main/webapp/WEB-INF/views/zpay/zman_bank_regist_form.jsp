@@ -18,7 +18,7 @@
 <title>ZERO</title>
 <script type="text/javascript">
 	$(function() {
-		$("#zpayBankAuthButton").on("click", function() {
+		$("#zmanBankAuthButton").on("click", function() {
 			// 새 창에서 사용자 인증 페이지 요청
 			// => 입금 이체 API 사용을 위해 scope 항목에 oob추가
 			let requestUri = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?"
@@ -68,7 +68,7 @@
 											로그인이 필요한 서비스입니다.
 										</c:when>
 										<c:otherwise>
-											등록된 ZPAY가 없습니다.
+											등록된 계좌정보가 없습니다.
 										</c:otherwise>
 									</c:choose>	
 								</div>
@@ -82,11 +82,10 @@
 											<a href="member_login" class="btn" id="zpayRegistButton">로그인</a>
 										</c:when>
 										<c:when test="${member.member_bank_auth eq 'N' }">
-											<a class="btn" id="zpayBankAuthButton">계좌인증하기</a>
+											<a class="btn" id="zmanBankAuthButton">계좌인증하기</a>
 										</c:when>
 										<c:otherwise>
-											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">ZPAY등록하기</a>		
-<!-- 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌관리</a> -->
+											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌등록하기</a>		
 										</c:otherwise>
 									</c:choose>	
 								</div>

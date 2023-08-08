@@ -80,7 +80,7 @@ public class MemberService {
 		return mapper.selectSecondhandList(member_id);
 	}
 
-		// 마이페이지 메인 - 중고상품구매내역 최신순 3개 가져오기
+	// 마이페이지 메인 - 중고상품구매내역 최신순 3개 가져오기
 	public List<OrderSecondhandVO> getMyOdShList(String member_id, int startRow, int listLimit) {
 		return mapper.selectMyOdShList(member_id, startRow, listLimit);
 	}
@@ -94,6 +94,26 @@ public class MemberService {
 		return mapper.selectMyShList(member_id, startRow, listLimit);
 	}
 
+
+	// 회원아이디로 중고 상품 판매 후기 리스트 조회
+	public List<Map<String, String>> selectsellReviewList(String member_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectSecondhandReviewList(member_id);
+	}
+
+	// 회원아이디로 경매 판매 리스트 조회
+	public List<Map<String, String>> selectAuctionList(String member_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectSellAuctionList(member_id);
+	}
+
+	// 회원아이디로 찜 목록 리스트 조회
+	public List<Map<String, String>> selectLikeList(String member_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectLikeList(member_id);
+	}
+	
+	
 
 	
 }

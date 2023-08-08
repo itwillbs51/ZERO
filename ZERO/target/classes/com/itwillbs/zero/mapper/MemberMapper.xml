@@ -108,14 +108,14 @@
 	</select>
 	
 	
-	<!-- 특정 컬럼으로 회원정보 조회 -->
+	<!-- 특정 컬럼으로 회원정보 조회 -수정 -->
 	<select id="selectMemberCheck" resultType="map">
 		SELECT *
 			FROM MEMBER
 				WHERE ${column} = #{value}
 	</select>
 	
-	<!-- 세션 아이디가 동일한 회원 회원정보 변경 -->
+	<!-- 세션 아이디가 동일한 회원 회원정보 변경 -수정 -->
 	<update id="updateMemberImage">
 		UPDATE MEMBER
 			SET ${column2} = #{value2}
@@ -139,7 +139,7 @@
 	</update>
 	
 	<!-- 회원 아이디로 계좌정보 조회 -->
-	<select id="selectMemberJoin">
+	<select id="selectMemberJoin" resultType="map">
 		SELECT * 
 			FROM MEMBER m
 				JOIN ZPAY z
@@ -147,12 +147,100 @@
 					WHERE m.member_id = #{member_id}
 	</select>
 	
-	<!-- 회원 아이디로 옥션 판매 정보 조회 -->
-	<select id = "selectSecondhandList" resultType="map">
+	<!-- 회원 아이디로 중고판매횟수, 판매후기 횟수, 경매 횟수, 찜누른 횟수 조회 count(*) -->
+	
+	<!-- 회원 아이디로 중고 판매 정보 조회 - 수정 -->
+	<select id ="selectSecondhandList" resultType="map">
 		SELECT * 
 			FROM MEMBER m
 				LEFT OUTER JOIN SECONDHAND s
-				ON s.member_id = m.member_id
-				WHERE s.member_id = #{member_id}
+					ON s.member_id = m.member_id
+				LEFT OUTER JOIN ORDER_SECONDHAND o
+					ON s.secondhand_idx = o.secondhand_idx
+				LEFT OUTER JOIN ZMAN_DELIVERY z
+					ON o.order_secondhand_idx = z.order_secondhand_idx
+						WHERE s.member_id = #{member_id}
+				<!-- 검색어(searchKeyword)가 널스트링이 아닐 때 -->
+				<if test="!searchKeyword.equals('')">
+				<!-- 검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="searchType.equals('전체')">
+					</when>
+					<when test="searchType.equals('판매중')">
+						AND secondhand_deal_status = '판매중'
+					</when>
+					<when test="searchType.equals('예약중')">
+						AND secondhand_deal_status = '예약중'
+					</when>
+					<when test="searchType.equals('판매완료')">
+						AND secondhand_deal_status = '판매완료'
+					</when>
+				</choose>
+			</if>
 	</select>
+	
+	<!-- 회원 아이디로 중고 판매 내역 리뷰 조회 - 수정 -->
+	<select id ="selectSecondhandReviewList" resultType="map">
+		SELECT * 
+			FROM MEMBER m
+				LEFT OUTER JOIN SECONDHAND s
+					ON s.member_id = m.member_id
+				LEFT OUTER JOIN ORDER_SECONDHAND o
+					ON s.secondhand_idx = o.secondhand_idx
+				LEFT OUTER JOIN MEMBER_REVIEW r
+					ON o.order_secondhand_idx = r.order_secondhand_idx
+						WHERE s.member_id = #{member_id}
+						AND r.review_reader_id = #{member_id}
+	</select>
+	
+	
+	<!-- 회원 아이디로 경매 판매 내역 조회 - 수정 -->
+	<select id ="selectSellAuctionList" resultType="map">
+		SELECT * 
+			FROM MEMBER m
+				LEFT OUTER JOIN AUCTION_PRODUCT a
+					ON m.member_id = a.auction_seller_id
+				LEFT OUTER JOIN AUCTION_MANAGING am
+					ON a.auction_idx = am.auction_idx
+				LEFT OUTER JOIN ORDER_AUCTION o
+					ON a.auction_idx = o.auction_idx
+						WHERE a.auction_seller_id = #{member_id}
+<!-- 				검색어(searchKeyword)가 널스트링이 아닐 때 -->
+<!-- 				<if test="!searchKeyword.equals('')"> -->
+<!-- 					검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
+<!-- 					<choose> -->
+<!-- 						<when test="searchType.equals('전체')"> -->
+<!-- 						</when> -->
+<!-- 						<when test="searchType.equals('판매중')"> -->
+<!-- 							AND secondhand_deal_status = '판매중' -->
+<!-- 						</when> -->
+<!-- 						<when test="searchType.equals('예약중')"> -->
+<!-- 							AND secondhand_deal_status = '예약중' -->
+<!-- 						</when> -->
+<!-- 						<when test="searchType.equals('판매완료')"> -->
+<!-- 							AND secondhand_deal_status = '판매완료' -->
+<!-- 						</when> -->
+<!-- 					</choose> -->
+<!-- 				</if> -->
+	</select>
+	
+	<!-- 찜 목록리스트 조회 - 수정 -->
+	<select id = "selectLikeList" resultType="map">
+		SELECT * FROM LIKES l 
+			LEFT OUTER JOIN MEMBER m 
+				ON l.member_id = m.member_id
+			LEFT OUTER JOIN SECONDHAND s 
+				ON l.secondhand_idx = s.secondhand_idx
+					WHERE l.member_id = #{member_id}
+	</select>
+	
+	<!-- 찜 목록 삭제 -->
+<!-- 	<delete id="deleteLike"> -->
+<!-- 		DELETE FROM LIKES -->
+<!-- 			WHERE member_id = #{member_id} -->
+<!-- 				AND secondhand_idx = #{secondhand_idx} -->
+<!-- 	</delete> -->
+	
+	
+	
 </mapper>

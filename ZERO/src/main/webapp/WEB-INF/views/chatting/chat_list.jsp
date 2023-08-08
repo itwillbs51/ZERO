@@ -128,8 +128,8 @@
 									</c:otherwise>
 								</c:choose>
 								<td class="productImg" rowspan="2">
-									<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/happy.jpg">
-<%-- 									<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${room.secondhand_image1 }"> --%>
+<%-- 									<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/happy.jpg"> --%>
+									<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${room.secondhand_image1 }">
 <%-- 									<a href="chatTest?room_idx=chat_${room.chat_room_idx}">채팅 테스트</a> --%>
 								</td>
 							</tr>

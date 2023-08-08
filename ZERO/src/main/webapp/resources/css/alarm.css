@@ -1,0 +1,44 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+	 font-family: 'NanumSquareNeo-Variable';
+}
+/* ----- 헤더에 뜨는 상자 크기 조절 등 ------------------- */
+#topNotiArea {
+}
+.btn_notify {
+	position: relative;
+	z-index: 2;
+	
+}
+.layer_box {
+	background-color: white;
+	position: absolute;
+	float: left;
+	right: 0;
+	z-index: 2;
+}
+
+.box_content {
+	background-color: white;
+	width: 340px;
+	height: 385px;
+	z-index: 3;
+}
+.box_content iframe {
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	box-shadow: 5px 5px 5px gray;
+}
+
+/* ---- 반응형 --------- */
+@media only screen and (max-width: 768px) {	
+/* 	.layer_box { */
+/* 		right: 10; */
+/* 	} */
+}
