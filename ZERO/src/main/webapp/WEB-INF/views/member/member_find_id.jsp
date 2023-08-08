@@ -249,10 +249,10 @@ function btnChange(input) {
 }
 
 function clickBtn() {
-	$("#emailDiv").removeClass('blind');
+	$("#emailDiv, #btnRewrite, #btnLogin").removeClass('blind');
 	$("#phone").addClass('readonly');
 	$("#btnFind").addClass('blind');
-	$("#goLoginBtn").removeClass('blind');
+// 	$("#goLoginBtn").removeClass('blind');
 	
 	var testPhone = $('#phone').val().replaceAll('-','');
 	console.log(testPhone);
@@ -322,10 +322,11 @@ function clickBtn() {
 								</div>
 								<div class="help_btn_box">
 									<a disabled="disabled" class="btn full solid disabled" data-v-43813796="" id="btnFind" onclick="clickBtn()"> 이메일 아이디 찾기 </a>
+									<a class="btn full outlinegrey blind" data-v-43813796=""  id="btnRewrite" onclick="location.href='member_find_id'"> 다시 작성하기 </a>
+									<a class="btn full solid blind" data-v-43813796=""  id="btnLogin" onclick="location.href='member_login'"> 로그인 화면으로 이동 </a>
 								</div>
-								<div class="help_btn_box blind" id="goLoginBtn">
-									<a class="btn full solid" data-v-43813796=""  id="btnFind" onclick="location.href='member_login'"> 로그인 화면으로 이동 </a>
-								</div>
+<!-- 								<div class="help_btn_box blind" id="goLoginBtn"> -->
+<!-- 								</div> -->
 							</div>
 						</div>
 					</div>
