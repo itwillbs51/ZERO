@@ -662,13 +662,14 @@ public class SecondhandController {
 		//판매자페이지
 		@GetMapping("secondhandSeller")
 		public String secondhand_seller_page(HttpSession session, 
-//				@RequestParam String member_id, 
+				@RequestParam String member_id, 
 				Model model) {
 			
 			
 			
-			String member_id = (String) session.getAttribute("member_id");
-			System.out.println("세션아이디 : (ㅑ)*)**)*)*)*)*)" + member_id);
+			String sId = (String) session.getAttribute("member_id");
+			System.out.println(sId);
+		
 			
 //			String sId = (String) session.getAttribute("sId");
 //			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);
