@@ -216,7 +216,7 @@
 	        <when test="order_secondhand_type.equals('Z맨')">
 	            SELECT os.*,
 	                zd.zman_delivery_startspot, zd.zman_delivery_endspot,
-	                zd.zman_delivery_accepttime, zd.zman_delivery_startime, zd.zman_delivery_endtime,
+	                zd.zman_delivery_accepttime, zd.zman_delivery_starttime, zd.zman_delivery_endtime,
 	                zd.zman_delivery_commission, zd.zman_delivery_status,
 	               	zd.zman_id, zd.zman_delivery_idx 
 	            FROM

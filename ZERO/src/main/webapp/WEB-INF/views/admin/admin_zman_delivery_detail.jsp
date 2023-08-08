@@ -90,8 +90,8 @@
 										<th>배달 시작 시간</th>
 										<td>
 											<c:choose>
-												<c:when test="${not empty zmanDeliveryDetail.zman_delivery_startime}">
-													<td>${zmanDeliveryDetail.zman_delivery_startime }</td>
+												<c:when test="${not empty zmanDeliveryDetail.zman_delivery_starttime}">
+													<td>${zmanDeliveryDetail.zman_delivery_starttime }</td>
 												</c:when>
 												<c:otherwise>
 													배달 시작 전입니다.
