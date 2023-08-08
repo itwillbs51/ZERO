@@ -673,7 +673,7 @@ ul.tabs li.current{
 		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
 		                html += '<div class="row">\
 		                        <div class="col-lg-12">\
-		                            <a class="col" href="auction_prepare_detail?id=' + item.auction_idx + 'ss">\
+		                            <a class="col" href="auction_prepare_detail?id=' + item.auction_idx + '">\
 		                                <div class="card custom-card">\
 		                                    <div class="image-container">\
 		                                        <img src="${pageContext.request.contextPath }/resources/upload/' + item.auction_image1 + '" alt="Image">\
@@ -904,7 +904,9 @@ ul.tabs li.current{
 		                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission}</span></div>
 							                                            <div class="card-text commission"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
 							                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">${sell.secondhand_deal_status}</div></div>
-							                                            
+												                    </div>
+												                    <div class="card-body2">
+												                    	
 												                    </div>
 												                </div>
 												            </div>

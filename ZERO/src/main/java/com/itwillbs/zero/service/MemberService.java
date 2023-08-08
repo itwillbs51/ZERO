@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.mapper.MemberMapper;
+import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -113,6 +114,7 @@ public class MemberService {
 		return mapper.selectLikeList(member_id);
 	}
 
+	// 회원 계좌 등록 확인
 	// 회원 탈퇴시 체크
 	public boolean withDrawalCheck(String member_id) {
 		
@@ -138,6 +140,11 @@ public class MemberService {
 
 	public MemberVO isValidBank(String member_id) {
 		return mapper.selectBankAuth(member_id);
+	}
+
+	// 회원 중고상품 리뷰 등록
+	public int writeShReview(MemberReviewVO review) {
+		return mapper.insertShReview(review);
 	}
 	
 	

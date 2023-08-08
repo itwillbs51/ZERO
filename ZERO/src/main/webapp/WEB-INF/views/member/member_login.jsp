@@ -187,7 +187,8 @@
 <%-- 구글 로그인 --%>
  <%
     String clientId = "763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com";//애플리케이션 클라이언트 아이디값";
-    String redirectURI = URLEncoder.encode("http://localhost:8089/zero/callback_login_google", "UTF-8");
+//     String redirectURI = URLEncoder.encode("http://localhost:8089/zero/callback_login_google", "UTF-8");
+    String redirectURI = URLEncoder.encode("http://c5d2302t1.itwillbs.com/zero/callback_login_google", "UTF-8");
     SecureRandom random = new SecureRandom();
     String state = new BigInteger(130, random).toString();
     String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
@@ -271,13 +272,13 @@
 <!-- 						</svg>  -->
 						카카오로 로그인 
 					</button>
-<!-- 					<button type="button" class="btn btn_login_google full outline" data-v-43813796="" data-v-2b15bea4="" > -->
-<%-- 					<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_google.svg"> --%>
+					<button type="button" class="btn btn_login_google full outline" data-v-43813796="" data-v-2b15bea4="" >
+					<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_google.svg">
 <!-- <!-- 						<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4=""> -->
 <!-- <!-- 							<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-google" data-v-2b15bea4=""></use> -->
 <!-- <!-- 						</svg>  -->
-<!-- 						구글로 로그인  -->
-<!-- 					</button> -->
+						구글로 로그인 
+					</button>
 <!-- 					<div class="blind" style="visibility: hidden;"> -->
 						<div id="g_id_onload"
 						     data-client_id="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com"
@@ -355,7 +356,32 @@
 </script>
 
 
-<!--  네이버 로그인 시작 -->
+<!--  구글 로그인 -->
+<script type="text/javascript">
+// 	var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8089/zero/callback_login_naver"); // YOUR_CLIENT_ID, YOUR_CALLBACK_URL 
+//     var state = naver_id_login.getUniqState();
+//     naver_id_login.setButton("white", 2, 40);
+//     naver_id_login.setDomain("http://localhost:8089/zero/member_login"); // YOUR_SERVICE_URL
+//     naver_id_login.setState(state);
+//     naver_id_login.setPopup();
+//     naver_id_login.init_naver_id_login();
+				        
+    var client_id = "763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com";
+    var redirect_uri = "http://localhost:8089/zero/callback_login_google";
+//     var redirect_uri = "http://c5d2302t1.itwillbs.com/zero/callback_login_google";
+    var url = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + client_id + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=email profile";
+    $(".btn_login_google").on("click",function(){
+    	window.open(url, "googleloginpop", "titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100 left=600");
+//     	location.href=url;
+    })
+    
+//     	https://accounts.google.com/o/oauth2/v2/auth?client_id=
+//     	763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com
+//     	&redirect_uri=
+//     		http://localhost:8089/zero/callback_login_google
+//     		&response_type=code
+//     		&scope=email profile
+</script>
 <%-- 네이버 로그인 --%>
 
 <script type="text/javascript">
