@@ -56,7 +56,7 @@
     z-index: 0;
     width: 100%;
     height: 100%;
-    background-image: url(/zero/resources/mypage_img/store_bg.png);
+    background-image: url(${pageContext.request.contextPath }/resources/mypage_img/store_bg.png);
     background-color: rgb(181, 181, 181);
 }
 
@@ -523,6 +523,27 @@ ul.tabs li.current{
 	text-align: right;
 }
 
+/* 마이스토어 */
+.profile_area {
+    position: inherit;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: rgba(4, 0, 0, 0.03) 0px 5px 10px 0px;
+}
+
+
+/* 작원 화면에서 마이스토어 프로필 이미지 히든 */
+@media only screen and (max-width: 768px) {
+	.profile_box{
+		display: none;
+}
+
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -879,7 +900,6 @@ ul.tabs li.current{
 												                        <h5 class="card-title">${sell.secondhand_subject}</h5>
 																		<div class="card-text sell_price">${sell.secondhand_price} 원</div>
 																		<div class="card-text sell_date"><span>${sell.secondhand_first_date} 일</span></div>
-																		<div class="card-text deal_status"><span>${sell.secondhand_deal_status}</span></div>
 																		<div class="card-text delivery"><span>거래방법 : ${sell.order_secondhand_type}</span></div>
 		                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission}</span></div>
 							                                            <div class="card-text commission"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
