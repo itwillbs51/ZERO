@@ -77,7 +77,7 @@ $(document).ready(function(){
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="member_account">
+      <a class="nav-link" href="zpay_main">
         나의 Z-PAY
       </a>
     </li>

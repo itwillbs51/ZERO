@@ -73,6 +73,9 @@ int updateBankAuth(String member_id);
 	List<SecondhandVO> selectMyShList(@Param("member_id") String member_id
 			, @Param("startRow") int startRow
 			, @Param("listLimit") int listLimit);
+	
+	// 회원 계좌등록 여부 확인
+	MemberVO selectBankAuth(String member_id);
 
 	
 	
