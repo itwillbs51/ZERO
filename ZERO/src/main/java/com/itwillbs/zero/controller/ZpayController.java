@@ -28,6 +28,7 @@ import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.PageInfoVO;
 import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanAccountVO;
 import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
@@ -61,6 +62,13 @@ public class ZpayController {
 		System.out.println("ZpayController - zpayMain()");
 		
 		String member_id = (String)session.getAttribute("member_id");
+		
+//		if(member_id == null) {
+//			model.addAttribute("msg", "로그인이 필요합니다.");
+//			model.addAttribute("targetURL", "./");
+//			
+//			return "fail_location";
+//		}
 		MemberVO member = memberService.getMember(member_id);
 		
 		// 토큰 정보 조회 => 세션에 저장
@@ -77,7 +85,7 @@ public class ZpayController {
 			return "zpay/zpay_regist_form";
 		}
 		
-		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
+//		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
 //		if(member.getMember_type().equals("회원") && zpay == null) {
 //			model.addAttribute("member", member);	
 //			return "zpay/zpay_regist_form";
@@ -88,10 +96,7 @@ public class ZpayController {
 //		if(member.getMember_type().equals("Z맨") && zpay == null) {
 //			model.addAttribute("member", member);	
 //			return "zpay/zman_account_regist_form";
-//		} else if(member.getMember_type().equals("Z맨") && zpay != null) {
-//			model.addAttribute("msg", "등록된 계좌 정보가 존재합니다.");	
-//			return "fail_back";
-//		} 
+//		}
 		
 		// ------------------------------------------------------------------------------------------
 //		int listLimit = 5; //한페이지 표시 목록갯수
@@ -220,15 +225,15 @@ public class ZpayController {
 //			return "bank_auth_fail_back";
 //		}
 //		
-//		// 핀테크 이용자 정보를 ZPAY 테이블에 추가 => 이용자의 ZPAY 등록
-//		ZpayVO zpay = new ZpayVO();
-//		zpay.setMember_id(member_id);
-//		zpay.setZpay_bank_name(map.get("bank_name"));
-//		zpay.setZpay_bank_account(map.get("account_num_masked"));
-//		zpay.setAccess_token(access_token);
-//		zpay.setFintech_use_num(map.get("fintech_use_num"));
+//		// 핀테크 이용자 정보를 ZMAN_ACCOUNT 테이블에 추가
+//		ZmanAccountVO zmanAccount = new ZmanAccountVO();
+//		zmanAccount.setZman_id(member_id);
+//		zmanAccount.setZman_bank_name(map.get("bank_name"));
+//		zmanAccount.setZman_bank_account(map.get("account_num_masked"));
+//		zmanAccount.setAccess_token(access_token);
+//		zmanAccount.setFintech_use_num(map.get("fintech_use_num"));
 //		
-//		int insertCount = service.registZpay(zpay);
+//		int insertCount = service.registZmanBankAccount(zmanAccount);
 //		
 //		if(insertCount > 0) {
 //			return "redirect:/zpay_main";			
@@ -796,7 +801,88 @@ public class ZpayController {
 		
 	}
 	
+	// zpay_refund_form.jsp 페이지로 디스페치
+	@GetMapping("zman_refund_form")
+	public String zmanRefundForm(Model model, HttpSession session) {
+		System.out.println("ZpayController - zmanRefundForm()");
+		
+		// 환급받을 계좌 정보와 환급가능한 금액(zpay 잔액) 조회
+		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
+//		Integer zpay_balance = service.getZpayBalance((String)session.getAttribute("member_id"));
+		// => 정산 받을 balance
+				
+		model.addAttribute("zpay", zpay);
+//		model.addAttribute("zpay_balance", zpay_balance);
+		return "zpay/zpay_refund_form";
+	}
+	
 	// ZMAN 정산
+	@PostMapping("zman_refund_pro")
+	public String zmanRefundPro(ZpayHistoryVO zpayHistory, 
+			@RequestParam String member_id, 
+			@RequestParam String zpayAmount, 
+			@RequestParam int zpay_balance, 
+			Map<String, String> map,
+			Model model) {
+		System.out.println("ZpayController - zmanRefundPro()");
+		
+		// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
+		ZpayVO zpay = service.getZpay(member_id);
+		map.put("access_token", zpay.getAccess_token());
+		map.put("fintech_use_num", zpay.getFintech_use_num());
+		// 금결원 테스트데이터 등록 후
+		map.put("zpayAmount", zpayAmount);
+		
+		// BankApiService - requestDeposit() 메서드를 호출하여 입금이체 요청
+		// => 파라미터 : Map 객체   리턴타입 : requestDeposit
+		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+		
+		// Model 객체에 ResponseDepositVO 객체 저장
+		model.addAttribute("depositResult", depositResult);
+		
+		// --------------------------------------------------------------------------------------------------------------------------
+		// ZPAY_HISTORY 테이블에서 잔액조회
+//		Integer zpay_balance = service.getZpayBalance(member_id);
+		
+		zpayHistory.setZpay_idx(zpay.getZpay_idx());
+//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
+		zpayHistory.setZpay_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
+		zpayHistory.setZpay_deal_type("환급");
+		System.out.println(zpayHistory);
+		
+		// ZPYA_HISTORY 테이블에 환급내역 추가
+		int insertCount = service.refundZpay(zpayHistory);
+		
+		if(insertCount > 0) {
+			// ----------------- ZERO 약정계좌 거래(출금)내역 추가 ----------------------------------------------
+			ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
+			zpayHistoryInserted = service.getzpayHistoryInserted();
+			
+			Integer zero_account_balance = service.getZeroAccountBalance();
+			
+			ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
+			zeroAccount.setMember_id(member_id);
+			zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
+			zeroAccount.setZero_account_amount(Integer.parseInt(zpayAmount));
+			zeroAccount.setZero_account_balance(zero_account_balance);
+			zeroAccount.setZero_account_type("환급");
+			
+			int insertZeroCount = service.depositWithdrawZeroAccount(zeroAccount);
+//			int insertZeroCount = service.withdrawZeroAccount(zeroAccount);
+			// --------------------------------------------------------------------------------------------------
+			zpay_balance = service.getZpayBalance(member_id);
+			
+			model.addAttribute("zpay", zpay);
+			model.addAttribute("zpayHistory", zpayHistory);
+			model.addAttribute("zpay_balance", zpay_balance);
+			return "zpay/zpay_refund_success";				
+		} else {
+			model.addAttribute("msg", "ZPAY 환급 실패");
+			return "fail_back";
+		}
+		
+	}
 
 	
 //	// 송금 및 수취

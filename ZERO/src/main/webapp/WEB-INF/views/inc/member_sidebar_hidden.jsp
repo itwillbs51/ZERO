@@ -118,7 +118,7 @@
       </a>
     </li>
     <li class="snb_item">
-      <a class="snb_link" href="member_account">
+      <a class="snb_link" href="zpay_main">
         나의 Z-PAY
       </a>
     </li>

@@ -258,6 +258,22 @@
 </script>
 </head>
 <body>
+	<%-- 세션 아이디가 없을 경우 "로그인 후 사용 가능합니다" 출력 후 로그인 페이지로 이동 --%>
+	<%-- 아니면, 엑세스토큰이 없을 경우 "계좌 인증 후 사용 가능합니다" 출력 후 회원정보 페이지로 이동 --%>
+	<c:choose>
+		<c:when test="${empty sessionScope.member_id }">
+			<script>
+				alert("로그인 후 사용 가능합니다");
+				location.href = "./";
+			</script>
+		</c:when>
+		<c:when test="${empty sessionScope.access_token }">
+			<script>
+				alert("계좌 인증 후 사용 가능합니다");
+				location.href = "MemberInfo";
+			</script>
+		</c:when>
+	</c:choose>
 	<c:set var="pageNum" value="1"/>
 	<c:if test="${!empty param.pageNum }">
 		<c:set var="pageNum" value="${param.pageNum }"/>

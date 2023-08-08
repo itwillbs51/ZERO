@@ -11,6 +11,7 @@ import com.itwillbs.zero.vo.ZpayVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanAccountVO;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
 
@@ -30,10 +31,10 @@ public class ZpayService {
 		return mapper.insertZpay(zpay);
 	}
 
-	// ZMAN 계좌 등록
-	public int registZmanBankAccount(ZpayVO zpay) {
-		return mapper.insertZmanBankAccount(zpay);
-	}
+//	// ZMAN 계좌 등록
+//	public int registZmanBankAccount(ZmanAccountVO zmanAccount) {
+//		return mapper.insertZmanBankAccount(zmanAccount);
+//	}
 	
 	// ZPAY 잔액 조회
 	public Integer getZpayBalance(String member_id) {
@@ -74,7 +75,7 @@ public class ZpayService {
 		return mapper.insertChargeHistory(zpayHistory);
 	}
 	
-	//  현재 참여하고 있는 경매 입찰이 있는 지 확인
+	//  현재 참여하고 있는 경매 입찰이 있는지 확인
 	public List<Map<String, Object>> isAuctionParticipant(String member_id) {
 		return mapper.selectAuctionParticipant(member_id);
 	}
@@ -142,6 +143,8 @@ public class ZpayService {
 	public int depositWithdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
 		return mapper.insertZeroAccountHistory(zeroAccount);
 	}
+
+	
 
 	
 	

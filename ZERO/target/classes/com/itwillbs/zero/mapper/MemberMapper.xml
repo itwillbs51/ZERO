@@ -289,5 +289,14 @@
 				 						AND auction_end_datetime > sysdate();
 	</select>
 
+	<!-- 회원 계좌등록 여부 확인 - 정의효 -->
+	<select id="selectBankAuth" resultType="Member">
+		SELECT 
+			member_bank_auth
+		FROM
+			MEMBER
+		WHERE
+			member_id = #{member_id}
+	</select>
 	
 </mapper>

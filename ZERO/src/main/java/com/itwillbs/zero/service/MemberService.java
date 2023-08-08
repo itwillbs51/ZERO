@@ -113,6 +113,7 @@ public class MemberService {
 		return mapper.selectLikeList(member_id);
 	}
 
+	// 회원 탈퇴시 체크
 	public boolean withDrawalCheck(String member_id) {
 		
 		int isSecondhandSeller = 0; // 중고거래 시 z맨으로 배달중인지 여부
@@ -134,6 +135,11 @@ public class MemberService {
 //		}
 		return false; // 있으면 탈퇴 불가
 	}
+
+	public MemberVO isValidBank(String member_id) {
+		return mapper.selectBankAuth(member_id);
+	}
+	
 	
 	
 
