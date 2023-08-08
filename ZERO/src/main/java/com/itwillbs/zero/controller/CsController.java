@@ -188,6 +188,7 @@ public class CsController {
 //			, @RequestParam("pageNum") int pageNum
 			) {
 		List<CsVO> faq = csService.getCsFaq(cs_type);
+		System.out.println("faq - " + faq);
 		
 		return faq;
 	}

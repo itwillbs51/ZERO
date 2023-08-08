@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.zero.service.ZmanDeliveryService;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
@@ -45,6 +47,18 @@ public class ZmanController {
 		model.addAttribute("zd", zd);
 		
 		return "zman/zman_delivery_want";
+	}
+	
+	// ZMAN 중고물품 오더 배달 수락하기
+	@PostMapping("zman_delivery_want_pro")
+	public String zmanDeliveyAccept(HttpSession session, Model model, 
+									@RequestParam int zman_delivery_idx, @RequestParam String zman_id) {
+		System.out.println("ZmanController - zman_delivery_want_pro");
+		System.out.println("zman_id - " + zman_id);
+		
+		ZmanDeliveryVO zd = service.acceptDelivery(zman_delivery_idx, zman_id);
+		
+		return "zman/zman_delivery_ing";
 	}
 	
 	// ZMAN 배달 완료 페이지로 이동

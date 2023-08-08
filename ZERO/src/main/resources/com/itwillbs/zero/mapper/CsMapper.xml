@@ -65,8 +65,8 @@
 				, cs_type
 			FROM CS
  			<choose>
- 				<when test="cs_type eq '전체'">
- 					WHERE cs_type IN ('이용정책', '공통', '중고판매', '경매판매', '경매구매', 'ZPAY')
+ 				<when test="cs_type eq '자주묻는질문'">
+ 					WHERE cs_info_idx IN ('1', '2', '3', '4', '5', '6')
  				</when>
  				<otherwise>
 		 			WHERE cs_type = #{cs_type}
