@@ -72,22 +72,26 @@ public class ZpayController {
 		
 		// ZPAY 사용자 여부 조회 = > 미사용자인 경우 ZPAY 등록 폼으로 이동
 		ZpayVO zpay = service.isZpayUser(member_id);
-		
-		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
-		if(member.getMember_type().equals("회원") && zpay == null) {
+		if(zpay == null) {
 			model.addAttribute("member", member);	
 			return "zpay/zpay_regist_form";
 		}
 		
-		// ZMAN - 1) ZPAY 미사용자 & 계좌등록X	=> 계좌 등록
-		//        2) ZPAY 사용자 => ZPAY 등록 계좌 자동 등록
-		if(member.getMember_type().equals("Z맨") && zpay == null) {
-			model.addAttribute("member", member);	
-			return "zpay/zman_account_regist_form";
-		} else if(member.getMember_type().equals("Z맨") && zpay != null) {
-			model.addAttribute("msg", "등록된 계좌 정보가 존재합니다.");	
-			return "fail_back";
-		} 
+		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
+//		if(member.getMember_type().equals("회원") && zpay == null) {
+//			model.addAttribute("member", member);	
+//			return "zpay/zpay_regist_form";
+//		}
+//		
+//		// ZMAN - 1) ZPAY 미사용자 & 계좌등록X	=> 계좌 등록
+//		//        2) ZPAY 사용자 => ZPAY 등록 계좌 자동 등록
+//		if(member.getMember_type().equals("Z맨") && zpay == null) {
+//			model.addAttribute("member", member);	
+//			return "zpay/zman_account_regist_form";
+//		} else if(member.getMember_type().equals("Z맨") && zpay != null) {
+//			model.addAttribute("msg", "등록된 계좌 정보가 존재합니다.");	
+//			return "fail_back";
+//		} 
 		
 		// ------------------------------------------------------------------------------------------
 //		int listLimit = 5; //한페이지 표시 목록갯수
@@ -266,18 +270,18 @@ public class ZpayController {
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-//		ResponseWithdrawVO withdrawResult = bankApiService.requestWithdraw(map);
+		ResponseWithdrawVO withdrawResult = bankApiService.requestWithdraw(map);
 		
 		// Model 객체에 ResponseWithdrawVO 객체 저장
-//		model.addAttribute("withdrawResult", withdrawResult);
+		model.addAttribute("withdrawResult", withdrawResult);
 		
 		// ---------------------------------------------------------------------------------------------------------------
 		// ZPAY_HISTORY 테이블에서 잔액조회
 		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-//		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
+//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);
 		zpayHistory.setZpay_deal_type("충전");
 		System.out.println(zpayHistory);
@@ -395,19 +399,18 @@ public class ZpayController {
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-//		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
 		
 		// Model 객체에 ResponseWithdrawVO 객체 저장
-//		model.addAttribute("depositResult", depositResult);
+		model.addAttribute("depositResult", depositResult);
 		
 		// --------------------------------------------------------------------------------------------------------------------------
 		// ZPAY_HISTORY 테이블에서 잔액조회
 //		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-//		zpayHistory.setZpay_balance(zpay_balance);
-//		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
+//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
 		zpayHistory.setZpay_deal_type("환급");
 		System.out.println(zpayHistory);
