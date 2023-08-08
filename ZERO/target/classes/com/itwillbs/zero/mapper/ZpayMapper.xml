@@ -23,17 +23,17 @@
 	</insert>
 
 	<!-- ZMAN 계좌 등록 -->
-	<insert id="insertZmanBankAccount">
-		INSERT INTO ZMAN_ACCOUNT
-			VALUES (
-				null
-				, #{zman_bank_name}
-				, #{zman_bank_account}
-				, #{access_token}
-				, #{fintech_use_num}
-				, #{zman_id}
-			)
-	</insert>
+<!-- 	<insert id="insertZmanBankAccount"> -->
+<!-- 		INSERT INTO ZMAN_ACCOUNT -->
+<!-- 			VALUES ( -->
+<!-- 				null -->
+<!-- 				, #{zman_bank_name} -->
+<!-- 				, #{zman_bank_account} -->
+<!-- 				, #{access_token} -->
+<!-- 				, #{fintech_use_num} -->
+<!-- 				, #{zman_id} -->
+<!-- 			) -->
+<!-- 	</insert> -->
 	
 	<!-- ZPAY 잔액 조회 -->
 	<select id="selectZpayBalance" resultType="Integer">

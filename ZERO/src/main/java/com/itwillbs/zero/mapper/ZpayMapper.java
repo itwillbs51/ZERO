@@ -23,8 +23,8 @@ public interface ZpayMapper {
 	// ZPZY 등록
 	int insertZpay(ZpayVO zpay);
 	
-	// ZMAN 계좌 등록
-	int insertZmanBankAccount(ZmanAccountVO zmanAccount);
+//	// ZMAN 계좌 등록
+//	int insertZmanBankAccount(ZmanAccountVO zmanAccount);
 	
 	// ZPAY 잔액 조회
 	Integer selectZpayBalance(String member_id);	
