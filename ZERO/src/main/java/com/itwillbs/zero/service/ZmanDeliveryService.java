@@ -17,5 +17,10 @@ public class ZmanDeliveryService {
 		return mapper.selectDeliveryYetList();
 	}
 
+	// ZMAN 중고물품 오더 배달 수락하기
+	public ZmanDeliveryVO acceptDelivery(int zman_delivery_idx, String zman_id) {
+		return mapper.updateDelivery(zman_delivery_idx, zman_id);
+	}
+
 
 }
