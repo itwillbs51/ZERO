@@ -1,5 +1,8 @@
-admin_form.jsp<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +14,7 @@ admin_form.jsp<%@ page language="java" contentType="text/html; charset=UTF-8"
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -43,20 +47,31 @@ admin_form.jsp<%@ page language="java" contentType="text/html; charset=UTF-8"
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
+										<th>거래번호</th>
 										<th>아이디</th>
-										<th>생년월일</th>
-										<th>탈퇴여부</th>
+										<th>금액</th>
+										<th>거래유형</th>
+										<th>날짜</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="zman" items="${zmanList }" varStatus="vs">
+									<c:forEach var="zpayHistory" items="${zpayHistoryList }" varStatus="vs">
 										<tr>
-											<td>${zman.zman_id }</td>
-											<td>${zman.zman_birth }</td>
-											<td>${zman.zman_status }</td>
+											<td>${zpayHistory.zpay_history_idx }</td>
+											<td>${zpayHistory.member_id }</td>
+											<td><fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원</td>
+											<c:choose>
+												<c:when test="${zpayHistory.zpay_deal_type eq '충전'}">
+													<td style="color: #09aa5c;">${zpayHistory.zpay_deal_type }</td>
+												</c:when>
+												<c:otherwise>
+													<td>${zpayHistory.zpay_deal_type }</td>												
+												</c:otherwise>
+											</c:choose>
+											<td>${zpayHistory.zpay_time }</td>
 											<td>
-												<a class="btn btn-sm btn-outline-dark" href="admin_zman_detail?zman_idx=${zman.zman_idx }">상세보기</a>
+												<a class="btn btn-sm btn-outline-dark" href="admin_zpay_deposit_withdraw_detail?zpay_history_idx=${zpayHistory.zpay_history_idx }">상세보기</a>
 											</td>
 										</tr>
 								</c:forEach>

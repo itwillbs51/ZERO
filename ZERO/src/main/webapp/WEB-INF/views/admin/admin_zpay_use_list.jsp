@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
@@ -13,8 +12,9 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -31,62 +31,54 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">중고거래 관리</h1>
+					<h1 class="mt-4">ZPAY 관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">중고거래 거래(ORDER) 목록</li>
+						<li class="breadcrumb-item active">충전환급관리</li>
 					</ol>
+					
+					<%-- main 내용 작성 영역 --%>
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
-							거래(ORDER) 목록
+							ZPAY 충전환급 목록
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>거래 번호</th>
-										<th>거래 일시</th>
-										<th>상품 이름</th>
-										<th>거래 가격</th>
-										<th>거래 상태</th>
+										<th>거래번호</th>
+										<th>아이디</th>
+										<th>금액</th>
+										<th>거래유형</th>
+										<th>날짜</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="orderSecondhandList" items="${orderSecondhandList}" varStatus="vs">
-									<tr>
-										<td>${orderSecondhandList.order_secondhand_idx }</td>
-										<td>${orderSecondhandList.order_secondhand_date }</td>
-										<td>${orderSecondhandList.order_secondhand_product }</td>
-										<td>
-											<fmt:formatNumber value="${orderSecondhandList.order_secondhand_price }" pattern="#,##0"/>원
-										</td>
-										<td>${orderSecondhandList.order_secondhand_type }</td>
-										
-<%-- 										<c:choose> --%>
-<%-- 											거래 방법이 ZMAN 일 경우 --%>
-<%-- 											<c:when test="${orderSecondhandList.order_secondhand_type eq 'ZMAN'}"> --%>
-												<td>
-<!-- 													<a class="btn btn-sm btn-outline-dark" -->
-<%-- 													href="admin_secondhand_order_detail?secondhand_idx=${orderSecondhandList.order_secondhand_idx }&zman_delivery_idx=${orderSecondhandList.zman_delivery_idx}">상세보기</a> --%>
-<!-- 												</td> -->
-<%-- 											</c:when> --%>
-<%-- 											거래 방법이 ZMAN 이 아닐 경우 --%>
-<%-- 											<c:otherwise> --%>
-<!-- 												<td> -->
-													<a class="btn btn-sm btn-outline-dark" href="admin_secondhand_order_detail?order_secondhand_idx=${orderSecondhandList.order_secondhand_idx }&order_secondhand_type=${orderSecondhandList.order_secondhand_type }">상세보기</a>
-												</td>
-<%-- 											</c:otherwise> --%>
-<%-- 										</c:choose> --%>
-										
-									</tr>
-									</c:forEach>
+									<c:forEach var="zpayHistory" items="${zpayHistoryList }" varStatus="vs">
+										<tr>
+											<td>${zpayHistory.zpay_history_idx }</td>
+											<td>${zpayHistory.member_id }</td>
+											<td><fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원</td>
+											<c:choose>
+												<c:when test="${zpayHistory.zpay_deal_type eq '중고입금' or zpayHistory.zpay_deal_type eq '경매입금'}">
+													<td style="color: #09aa5c;">${zpayHistory.zpay_deal_type }</td>
+												</c:when>
+												<c:otherwise>
+													<td>${zpayHistory.zpay_deal_type }</td>												
+												</c:otherwise>
+											</c:choose>
+											<td>${zpayHistory.zpay_time }</td>
+											<td>
+												<a class="btn btn-sm btn-outline-dark" href="admin_zpay_use_detail?zpay_history_idx=${zpayHistory.zpay_history_idx }">상세보기</a>
+											</td>
+										</tr>
+								</c:forEach>
 								</tbody>
 							</table>
 						</div>
-					</div> <%-- 메인 영역 끝 --%>
-					
+					</div>
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

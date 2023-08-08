@@ -15,6 +15,7 @@ import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 
 @Service
 public class AdminService {
@@ -121,13 +122,13 @@ public class AdminService {
 	}
 	
 	// 중고거래관리 - 중고거래 주문(ORDER) 목록 페이지로 이동
-	public List<SecondhandVO> getOrderSecondhandList() {
-		return mapper.selectOrderSecondhandList();
+	public List<SecondhandVO> getOrderSecondhandList(String member_id) {
+		return mapper.selectOrderSecondhandList(member_id);
 	}
 
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
-	public Map<String, String> getSecondhandOrderDetail(int order_secondhand_idx) {
-		return mapper.selectOrderSecondhandDetail(order_secondhand_idx);
+	public Map<String, String> getSecondhandOrderDetail(int order_secondhand_idx, String order_secondhand_type) {
+		return mapper.selectOrderSecondhandDetail(order_secondhand_idx, order_secondhand_type);
 	}
 	
 	//  ========== ========== 경매 관리  ========== ==========
@@ -232,6 +233,30 @@ public class AdminService {
 	public int removeCsFaq(int cs_idx) {
 		return mapper.deleteFaq(cs_idx);
 	}
+
+	
+	// ========================= ZPAY 관리 ===============================================================================
+	// ZPAY 관리 - 충전/환급 목록 조회
+	public List<ZpayHistoryVO> getZpayDepositWithdrawList() {
+		return mapper.selectZpayDepositWithdrawList();
+	}
+
+	// ZPAY 관리 - 충전/환급 정보 조회
+	public ZpayHistoryVO getZpayDepositWithdraw(int zpay_history_idx) {
+		return mapper.selectZpayDepositWithdraw(zpay_history_idx);
+	}
+
+	// ZPAY 관리 - 사용/수익 목록 조회
+	public List<ZpayHistoryVO> getZpayUseList() {
+		return mapper.selectZpayUseList();
+	}
+
+	// ZPAY 관리 - 사용/수익 정보 조회
+	public ZpayHistoryVO getZpayUse(int zpay_history_idx) {
+		return mapper.selectZpayUse(zpay_history_idx);
+	}
+
+	
 
 
 

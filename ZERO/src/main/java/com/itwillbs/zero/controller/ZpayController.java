@@ -559,7 +559,7 @@ public class ZpayController {
 		
 		// 거래방법이 ZMAN / 택배 일 경우 송금(구매자에게서 출금)만 진행하고
 		// 판매자에게 입금은 [거래완료]버튼 클릭 시 진행되도록 zpay/zpay_send_success.jsp로 이동
-		if(order_secondhand.getOrder_secondhand_type().equals("Z맨") || order_secondhand.getOrder_secondhand_type().equals("택배")) {
+//		if(order_secondhand.getOrder_secondhand_type().equals("Z맨") || order_secondhand.getOrder_secondhand_type().equals("택배")) {
 			if(insertSendCount > 0) {
 				// 중고상품 결제 완료 시 "결제완료"로 변경
 				int updateOrderSecondhandStatusCount = service.modifyOrderSecondhandStatus(order_secondhand_idx);
@@ -600,51 +600,51 @@ public class ZpayController {
 				model.addAttribute("msg", "ZPAY 송금 실패");
 				return "fail_back";
 			}
-		}			
+//		}			
 		
-		// ----------------------- seller의 ZPAY_HISTORY 추가 -----------------------------------------------------------------------
-		// 거래방법이 ZMAN / 택배 가 아닐 경우(직거래 경우) buyer 와 seller 에 동시에 ZPAY_HISTORY 추가
-		// ZPAY 테이블에서 seller_id에 일치하는 zpay_idx 조회
-		int seller_zpay_idx = service.getZpayIdx(seller_id);
-		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
-		Integer seller_zpay_balance = service.getZpayBalance(seller_id);
-		
-		// zpayBuyerHistory 객체에 저장
-		ZpayHistoryVO zpaySellerHistory = new ZpayHistoryVO();
-		zpaySellerHistory.setZpay_idx(seller_zpay_idx);
-		zpaySellerHistory.setMember_id(seller_id);
-		zpaySellerHistory.setZpay_amount(product_price);
-		zpaySellerHistory.setZpay_balance(seller_zpay_balance);
-		zpaySellerHistory.setZpay_deal_type("중고입금");
-		zpaySellerHistory.setOrder_secondhand_idx(order_secondhand_idx);
-				
-		// ZPYA_HISTORY 테이블에 수취내역 추가
-		int insertReceiveCount = service.insertSendReceiveHistory(zpaySellerHistory);
-//		int insertReceiveCount = service.receiveZpay(zpaySellerHistory);
-		
-		// ==================================================================================
-		
-		if(insertSendCount > 0 && insertReceiveCount >0) {
-			// 중고상품 결제 완료 시 "결제완료"로 변경
-			int updateOrderSecondhandStatusCount = service.modifyOrderSecondhandStatus(order_secondhand_idx);
-			
-			if(updateOrderSecondhandStatusCount > 0) {
-				buyer_zpay_balance = service.getZpayBalance(buyer_id);
-				
-				model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
-				model.addAttribute("seller_id", seller_id);
-				model.addAttribute("buyer_zpay", buyer_zpay);
-				model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
-				
-				return "zpay/zpay_send_success";							
-			} else {
-				model.addAttribute("msg", "중고상품 구매완료 상태변경 실패");
-				return "fail_back";
-			}
-		} else {
-			model.addAttribute("msg", "ZPAY 송금 실패");
-			return "fail_back";
-		}
+//		// ----------------------- seller의 ZPAY_HISTORY 추가 -----------------------------------------------------------------------
+//		// 거래방법이 ZMAN / 택배 가 아닐 경우(직거래 경우) buyer 와 seller 에 동시에 ZPAY_HISTORY 추가
+//		// ZPAY 테이블에서 seller_id에 일치하는 zpay_idx 조회
+//		int seller_zpay_idx = service.getZpayIdx(seller_id);
+//		// ZPAY_HISTORY 테이블에서 seller_id의 잔액조회
+//		Integer seller_zpay_balance = service.getZpayBalance(seller_id);
+//		
+//		// zpayBuyerHistory 객체에 저장
+//		ZpayHistoryVO zpaySellerHistory = new ZpayHistoryVO();
+//		zpaySellerHistory.setZpay_idx(seller_zpay_idx);
+//		zpaySellerHistory.setMember_id(seller_id);
+//		zpaySellerHistory.setZpay_amount(product_price);
+//		zpaySellerHistory.setZpay_balance(seller_zpay_balance);
+//		zpaySellerHistory.setZpay_deal_type("중고입금");
+//		zpaySellerHistory.setOrder_secondhand_idx(order_secondhand_idx);
+//				
+//		// ZPYA_HISTORY 테이블에 수취내역 추가
+//		int insertReceiveCount = service.insertSendReceiveHistory(zpaySellerHistory);
+////		int insertReceiveCount = service.receiveZpay(zpaySellerHistory);
+//		
+//		// ==================================================================================
+//		
+//		if(insertSendCount > 0 && insertReceiveCount >0) {
+//			// 중고상품 결제 완료 시 "결제완료"로 변경
+//			int updateOrderSecondhandStatusCount = service.modifyOrderSecondhandStatus(order_secondhand_idx);
+//			
+//			if(updateOrderSecondhandStatusCount > 0) {
+//				buyer_zpay_balance = service.getZpayBalance(buyer_id);
+//				
+//				model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
+//				model.addAttribute("seller_id", seller_id);
+//				model.addAttribute("buyer_zpay", buyer_zpay);
+//				model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
+//				
+//				return "zpay/zpay_send_success";							
+//			} else {
+//				model.addAttribute("msg", "중고상품 구매완료 상태변경 실패");
+//				return "fail_back";
+//			}
+//		} else {
+//			model.addAttribute("msg", "ZPAY 송금 실패");
+//			return "fail_back";
+//		}
 		
 	}
 	
