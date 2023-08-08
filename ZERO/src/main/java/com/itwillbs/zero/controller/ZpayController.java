@@ -28,6 +28,7 @@ import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.PageInfoVO;
 import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanAccountVO;
 import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
@@ -61,6 +62,13 @@ public class ZpayController {
 		System.out.println("ZpayController - zpayMain()");
 		
 		String member_id = (String)session.getAttribute("member_id");
+		
+		if(member_id == null) {
+			model.addAttribute("msg", "로그인이 필요합니다.");
+			model.addAttribute("targetURL", "./");
+			
+			return "fail_location";
+		}
 		MemberVO member = memberService.getMember(member_id);
 		
 		// 토큰 정보 조회 => 세션에 저장
@@ -77,7 +85,7 @@ public class ZpayController {
 			return "zpay/zpay_regist_form";
 		}
 		
-		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
+//		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
 //		if(member.getMember_type().equals("회원") && zpay == null) {
 //			model.addAttribute("member", member);	
 //			return "zpay/zpay_regist_form";
@@ -88,10 +96,7 @@ public class ZpayController {
 //		if(member.getMember_type().equals("Z맨") && zpay == null) {
 //			model.addAttribute("member", member);	
 //			return "zpay/zman_account_regist_form";
-//		} else if(member.getMember_type().equals("Z맨") && zpay != null) {
-//			model.addAttribute("msg", "등록된 계좌 정보가 존재합니다.");	
-//			return "fail_back";
-//		} 
+//		}
 		
 		// ------------------------------------------------------------------------------------------
 //		int listLimit = 5; //한페이지 표시 목록갯수
@@ -201,44 +206,44 @@ public class ZpayController {
 		
 	}
 
-//	// ZMAN 계좌 등록
-//	@PostMapping("zman_account_regist")
-//	public String zmanAccountRegist(@RequestParam Map<String, String> map, 
-//			Model model, 
-//			HttpSession session) {
-//		
-//		String member_id = (String)session.getAttribute("member_id");
-//		
-//		// 세션에 저장된 엑세스토큰 및 사용자번호를 변수에 저장
-//		// => 핀테크 이용자 정보 조회
-//		// => 예금주명, 계좌번호(마스킹), 핀테크이용번호 조회하여 ZPAY테이블에 정보 추가(ZPAY 등록)
-//		String access_token = (String)session.getAttribute("access_token");
-//		
-//		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
-//		if(session.getAttribute("member_id") == null || session.getAttribute("access_token") == null) {
-//			model.addAttribute("msg", "권한이 없습니다!");
-//			return "bank_auth_fail_back";
-//		}
-//		
-//		// 핀테크 이용자 정보를 ZPAY 테이블에 추가 => 이용자의 ZPAY 등록
-//		ZpayVO zpay = new ZpayVO();
-//		zpay.setMember_id(member_id);
-//		zpay.setZpay_bank_name(map.get("bank_name"));
-//		zpay.setZpay_bank_account(map.get("account_num_masked"));
-//		zpay.setAccess_token(access_token);
-//		zpay.setFintech_use_num(map.get("fintech_use_num"));
-//		
-//		int insertCount = service.registZpay(zpay);
-//		
-//		if(insertCount > 0) {
-//			return "redirect:/zpay_main";			
-//		} else {
-//			model.addAttribute("msg", "ZPAY 등록 실패");
-//			return "bank_auth_fail_back";
-//		}
-//		
-//		
-//	}
+	// ZMAN 계좌 등록
+	@PostMapping("zman_account_regist")
+	public String zmanAccountRegist(@RequestParam Map<String, String> map, 
+			Model model, 
+			HttpSession session) {
+		
+		String member_id = (String)session.getAttribute("member_id");
+		
+		// 세션에 저장된 엑세스토큰 및 사용자번호를 변수에 저장
+		// => 핀테크 이용자 정보 조회
+		// => 예금주명, 계좌번호(마스킹), 핀테크이용번호 조회하여 ZPAY테이블에 정보 추가(ZPAY 등록)
+		String access_token = (String)session.getAttribute("access_token");
+		
+		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
+		if(session.getAttribute("member_id") == null || session.getAttribute("access_token") == null) {
+			model.addAttribute("msg", "권한이 없습니다!");
+			return "bank_auth_fail_back";
+		}
+		
+		// 핀테크 이용자 정보를 ZMAN_ACCOUNT 테이블에 추가
+		ZmanAccountVO zmanAccount = new ZmanAccountVO();
+		zmanAccount.setZman_id(member_id);
+		zmanAccount.setZman_bank_name(map.get("bank_name"));
+		zmanAccount.setZman_bank_account(map.get("account_num_masked"));
+		zmanAccount.setAccess_token(access_token);
+		zmanAccount.setFintech_use_num(map.get("fintech_use_num"));
+		
+		int insertCount = service.registZmanBankAccount(zmanAccount);
+		
+		if(insertCount > 0) {
+			return "redirect:/zpay_main";			
+		} else {
+			model.addAttribute("msg", "ZPAY 등록 실패");
+			return "bank_auth_fail_back";
+		}
+		
+		
+	}
 	
 	// zpay_charge_form.jsp 페이지로 디스페치
 	@GetMapping("zpay_charge_form")

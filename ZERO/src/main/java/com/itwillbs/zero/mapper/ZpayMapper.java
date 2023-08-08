@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanAccountVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
@@ -23,7 +24,7 @@ public interface ZpayMapper {
 	int insertZpay(ZpayVO zpay);
 	
 	// ZMAN 계좌 등록
-	int insertZmanBankAccount(ZpayVO zpay);
+	int insertZmanBankAccount(ZmanAccountVO zmanAccount);
 	
 	// ZPAY 잔액 조회
 	Integer selectZpayBalance(String member_id);	
