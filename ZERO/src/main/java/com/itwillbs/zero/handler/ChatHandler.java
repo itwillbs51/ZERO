@@ -75,6 +75,7 @@ public class ChatHandler extends TextWebSocketHandler{
 			}
 			
 			System.out.println("입장 : " + alarmUsers.get(session.getUri().getQuery().split("=")[1].toString()));
+			System.out.println("입장 : " + alarmUsers.get(session.getUri().getQuery().split("=")[1].toString()));
 		}
 	
 		
@@ -99,7 +100,7 @@ public class ChatHandler extends TextWebSocketHandler{
 		
 		// 연결된 방의 클라이언트에게 메세지 전송
 		for ( String key : (alarmUsers.get(member_id).keySet())) {
-			WebSocketSession s=alarmUsers.get(member_id).get(key);
+			WebSocketSession s = alarmUsers.get(member_id).get(key);
 			s.sendMessage(new TextMessage(senderId + ":" + message.getPayload()));
 		}
 		 

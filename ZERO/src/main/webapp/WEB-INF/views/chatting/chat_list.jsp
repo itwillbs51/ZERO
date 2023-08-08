@@ -88,11 +88,11 @@
 										<td class="listImg" rowspan="2">
 											<c:choose>
 											<%-- 프로필 사진 없을 때 --%>
-												<c:when test="${empty room.buyer_image }">
+												<c:when test="${empty room.seller_image }">
 													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/img/profile.png">
 												</c:when>
 												<c:otherwise>
-													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.buyer_image }">
+													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.seller_image }">
 												</c:otherwise>
 											</c:choose>
 										</td>
@@ -109,11 +109,11 @@
 										<td class="listImg" rowspan="2">
 											<c:choose>
 											<%-- 프로필 사진 없을 때 --%>
-												<c:when test="${empty room.seller_image }">
+												<c:when test="${empty room.buyer_image }">
 													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/img/profile.png">
 												</c:when>
 												<c:otherwise>
-													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.seller_image }">
+													<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.buyer_image }">
 												</c:otherwise>
 											</c:choose>
 										</td>

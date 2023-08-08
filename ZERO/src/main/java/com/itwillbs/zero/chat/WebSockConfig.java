@@ -16,10 +16,10 @@ import lombok.*;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSocket	// => 웹소켓 활성화
-public class WebSockConfig implements WebSocketConfigurer, WebMvcConfigurer {
+public class WebSockConfig implements WebSocketConfigurer {
 	// WebSocketHandler 에 관한 생성자 추가
 	private final ChattingHandler chattingHandler;
-//	private final ChatHandler chatHandler;
+	private final ChatHandler chatHandler;
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -32,18 +32,12 @@ public class WebSockConfig implements WebSocketConfigurer, WebMvcConfigurer {
 		// interceptor for adding httpsession into websocket session
 		// interceptor를 사용해서 HTTP session안에 있는 member_id 사용하기!
 		
-		// 분리용으로 만들어둠(지영)
-//		registry.addHandler(chatHandler, "/chat")
-//		.setAllowedOrigins("*")
-//		.addInterceptors(new HttpSessionHandshakeInterceptor());
+		// 분리용으로 만들어둠(지영) - 알림
+		registry.addHandler(chatHandler, "/chat")
+		.setAllowedOrigins("*")
+		.addInterceptors(new HttpSessionHandshakeInterceptor());
 	}
 	
-	public static final String ALLOWED_METHOD_NAMES = "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH";
-	// SSE 사용을 위한 오버라이딩(알림)
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedMethods(ALLOWED_METHOD_NAMES.split(", "));
-	}
 	
 	
 	

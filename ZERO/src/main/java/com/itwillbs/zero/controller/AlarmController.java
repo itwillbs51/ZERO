@@ -10,8 +10,8 @@ public class AlarmController {
 	@RequestMapping(value = "shortAlarmList", method = {RequestMethod.GET, RequestMethod.POST})
 	public String shortAlarmList() {
 		
-//		return "alarm/alarm_list";
-		return "alarm/alarm_list_sse";
+		return "alarm/alarm_list";
+//		return "alarm/alarm_list_sse";
 	}
 	
 	

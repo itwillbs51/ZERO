@@ -122,12 +122,9 @@ hr {
 //     			});
     			
 // 				    function login() {
-// 				        let id = document.getElementById('id').value;
-// 				        id = id.replace("@", "_");
-// 				        id = id.replace(".com", "");
+// 				        const id = document.getElementById('id').value;
 				
-// 		    			const eventSource = new EventSource('http://localhost:8089/zero/subscribe?id=' + id);
-// // 				        const eventSource = new EventSource(`/subscribe/` + id);
+// 				        const eventSource = new EventSource(`/subscribe/` + id);
 				
 // 				        eventSource.addEventListener("sse", function (event) {
 // 				            console.log(event.data);
@@ -145,6 +142,7 @@ hr {
 // 				                    setTimeout(() => {
 // 				                        notification.close();
 // 				                    }, 10 * 1000);
+// 				                    // 아마 10분 설정
 				                    
 // 				                    notification.addEventListener('click', () => {
 // 				                        window.open(data.url, '_blank');

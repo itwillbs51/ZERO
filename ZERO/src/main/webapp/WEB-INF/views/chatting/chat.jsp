@@ -522,7 +522,6 @@
 	
 	let chatScrollTop;
 	let msgAreaHeight;
-	let documentHeight;
 	
 	$("#msgArea").on("scroll", function() {
 		// 1. window 객체와 document 객체를 활용하여 스크롤 관련 값 가져와서 제어
@@ -530,8 +529,8 @@
 		chatScrollTop = $("#msgArea").scrollTop();	// 스크롤바 현 높이(위치)를 가지고 옴
 		msgAreaHeight = $("#msgArea").height();	// 브라우저 창의 높이
 // 		documentHeight = $("#msgArea").clientHeight;	// 문서의 높이(창의 높이보다 크거나 같음)
-// 		console.log("chatScrollTop : " + chatScrollTop);
-// 		console.log("msgAreaHeight : " + msgAreaHeight);
+		console.log("chatScrollTop : " + chatScrollTop);
+		console.log("msgAreaHeight : " + msgAreaHeight);
 // 		console.log("documentHeight : " + documentHeight);
 	});
 	
@@ -544,17 +543,18 @@
 			// 사용자가 스크롤을 위로 올렸을 때 처리하는 로직
 			console.log("새로운 채팅 로드하기!");
 			if(pageNum <= maxPage) {
+				let prevChatHeight = $("#msgArea").clientHeight;
 				
 				pageNum++;
 				loadList();
 				
 				// 업데이트 후 스크롤 위치 유지하기
-// 				let newScrollHeight = $("#msgArea").clientHeight;
-// 				let scrollOffset = newScrollHeight - prevChatHeight;
-// 				$(this).scrollTop(scrollOffset);
+				let newScrollHeight = $("#msgArea").clientHeight;
+				let scrollOffset = newScrollHeight - prevChatHeight;
+				$(this).scrollTop(scrollOffset);
 				// 스크롤 위치 조정
 // 				containerNextHeight = scrollContainer.clientHeight;
-				scrollContainer.scrollTop = documentHeight;
+// 				scrollContainer.scrollTop = documentHeight;
 			} else {
 				
 			}
@@ -565,11 +565,10 @@
 	var chatArea = document.getElementById("msgArea");
 	chatArea.addEventListener("scroll", handleScroll);
 	
-	
-	// 목록 불러오는 함수 정의
+	// 목록 불러오는 함수 정의		
+
 	function loadList() {
 		let url;
-		
 		// 컨트롤러로 보낼때 파라미터 처리
 		url = "chatMsgList?pageNum=" + pageNum + "&chat_room_idx=" + ${chat_room_idx};
 		console.log(url);
