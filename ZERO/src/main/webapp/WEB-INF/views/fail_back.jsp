@@ -12,6 +12,9 @@
 	if("${msg}".trim() == '로그인이 필요한 작업입니다!'){
 		alert("${msg}");
 		location.href="${pageContext.request.contextPath }/member_login";	
+	} else if("${isClose}" == "true"){ 	// 새 창 닫을 때
+		alert("${msg}");
+		window.close();
 	} else {
 		alert("${msg}");
 		history.back();	

@@ -98,13 +98,13 @@ public class MemberService {
 	// 회원아이디로 중고 상품 판매 후기 리스트 조회
 	public List<Map<String, String>> selectsellReviewList(String member_id) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.selectSecondhandReviewList(member_id);
 	}
 
 	// 회원아이디로 경매 판매 리스트 조회
 	public List<Map<String, String>> selectAuctionList(String member_id) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.selectSellAuctionList(member_id);
 	}
 
 	// 회원아이디로 찜 목록 리스트 조회

@@ -59,9 +59,7 @@
 						<p class="email" data-v-32a5de90="">kream@kream.co.kr</p>
 						<a href="/my/profile-edit" type="button"
 							class="btn btn outlinegrey small" data-v-43813796=""
-							data-v-32a5de90=""> 프로필 관리 </a><a href="zman_join"
-							type="button" class="btn btn btn_my_style outlinegrey small"
-							data-v-43813796="" data-v-32a5de90=""> Z-MAN 신청 </a>
+							data-v-32a5de90=""> 프로필 관리 </a>
 					</div>
 				</div>
 			</div>

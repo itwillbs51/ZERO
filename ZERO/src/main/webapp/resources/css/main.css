@@ -108,6 +108,13 @@
 		min-width: 210px;
 		max-width: 215px;
 	}
+	
+	.carousel-inner img {
+	    height: 100%;
+	    max-height: 480px;
+	    object-fit: cover;
+	}
+	
 /* ----------------------------------------------------------------------------------------------------------------- */
 @media only screen and (min-width: 768px) {	
 	
