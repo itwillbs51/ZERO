@@ -72,22 +72,26 @@ public class ZpayController {
 		
 		// ZPAY 사용자 여부 조회 = > 미사용자인 경우 ZPAY 등록 폼으로 이동
 		ZpayVO zpay = service.isZpayUser(member_id);
-		
-		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
-		if(member.getMember_type().equals("회원") && zpay == null) {
+		if(zpay == null) {
 			model.addAttribute("member", member);	
 			return "zpay/zpay_regist_form";
 		}
 		
-		// ZMAN - 1) ZPAY 미사용자 & 계좌등록X	=> 계좌 등록
-		//        2) ZPAY 사용자 => ZPAY 등록 계좌 자동 등록
-		if(member.getMember_type().equals("Z맨") && zpay == null) {
-			model.addAttribute("member", member);	
-			return "zpay/zman_account_regist_form";
-		} else if(member.getMember_type().equals("Z맨") && zpay != null) {
-			model.addAttribute("msg", "등록된 계좌 정보가 존재합니다.");	
-			return "fail_back";
-		} 
+		// 일반회원 - ZPAY 미사용자의 경우 ZPAY 등록폼으로 이동
+//		if(member.getMember_type().equals("회원") && zpay == null) {
+//			model.addAttribute("member", member);	
+//			return "zpay/zpay_regist_form";
+//		}
+//		
+//		// ZMAN - 1) ZPAY 미사용자 & 계좌등록X	=> 계좌 등록
+//		//        2) ZPAY 사용자 => ZPAY 등록 계좌 자동 등록
+//		if(member.getMember_type().equals("Z맨") && zpay == null) {
+//			model.addAttribute("member", member);	
+//			return "zpay/zman_account_regist_form";
+//		} else if(member.getMember_type().equals("Z맨") && zpay != null) {
+//			model.addAttribute("msg", "등록된 계좌 정보가 존재합니다.");	
+//			return "fail_back";
+//		} 
 		
 		// ------------------------------------------------------------------------------------------
 //		int listLimit = 5; //한페이지 표시 목록갯수
