@@ -17,9 +17,20 @@
 	</select>
 	
 	<!-- DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx -->
-	<select id="selectDeliveryLocation">
+	<select id="selectDeliveryLocation" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
 		SELECT *
 			FROM ZMAN_DELIVERY
 			WHERE zman_delivery_idx = 15;
 	</select>
+	
+	<!-- ZMAN 중고물품 오더 배달 수락하기 - UPDATE -->
+	<update id="updateDelivery">
+		UPDATE 
+			ZMAN_DELIVERY 
+			set 
+				zman_delivery_accepttime = now()
+				, zman_delivery_status = '배달 수락'
+				, zman_id = #{zman_id}
+			WHERE zman_delivery_idx = #{zman_delivery_idx};
+	</update>
 </mapper>
