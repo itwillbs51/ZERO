@@ -126,8 +126,8 @@ public class AdminService {
 	}
 
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
-	public Map<String, String> getSecondhandOrderDetail(int order_secondhand_idx) {
-		return mapper.selectOrderSecondhandDetail(order_secondhand_idx);
+	public Map<String, String> getSecondhandOrderDetail(int order_secondhand_idx, String order_secondhand_type) {
+		return mapper.selectOrderSecondhandDetail(order_secondhand_idx, order_secondhand_type);
 	}
 	
 	//  ========== ========== 경매 관리  ========== ==========

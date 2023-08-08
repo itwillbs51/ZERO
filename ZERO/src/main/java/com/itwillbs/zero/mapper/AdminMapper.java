@@ -82,7 +82,7 @@ public interface AdminMapper {
 	List<SecondhandVO> selectOrderSecondhandList(String member_id);
 
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
-	Map<String, String> selectOrderSecondhandDetail(int order_secondhand_idx);
+	Map<String, String> selectOrderSecondhandDetail(@Param("order_secondhand_idx") int order_secondhand_idx, @Param("order_secondhand_type") String order_secondhand_type);
 
 	// ========== ========== 경매 관리  ========== ==========
 	

@@ -344,11 +344,11 @@ public class AdminController {
 	
 	// 중고거래관리 - 중고거래 주문(ORDER) 상세 페이지로 이동
 	@GetMapping("admin_secondhand_order_detail")
-	public String amdinSecondhandOrderDetail(HttpSession session, Model model,@RequestParam int order_secondhand_idx) {
+	public String amdinSecondhandOrderDetail(HttpSession session, Model model,@RequestParam int order_secondhand_idx, @RequestParam String order_secondhand_type) {
 		System.out.println("AdminController - admin_secondhand_order_detail");
 		System.out.println(order_secondhand_idx);
 		
-		Map<String, String> secondhandOrderDetail = service.getSecondhandOrderDetail(order_secondhand_idx);
+		Map<String, String> secondhandOrderDetail = service.getSecondhandOrderDetail(order_secondhand_idx , order_secondhand_type);
 		System.out.println("secondhandOrderDetail - " + secondhandOrderDetail);
 		model.addAttribute("secondhandOrderDetail", secondhandOrderDetail);
 		
