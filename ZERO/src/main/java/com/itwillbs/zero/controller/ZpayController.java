@@ -28,7 +28,7 @@ import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.PageInfoVO;
 import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
-import com.itwillbs.zero.vo.ZmanAccountVO;
+import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.service.BankApiService;
 import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.MemberService;
@@ -818,10 +818,10 @@ public class ZpayController {
 	
 	// ZMAN 정산
 	@PostMapping("zman_refund_pro")
-	public String zmanRefundPro(ZpayHistoryVO zpayHistory, 
+	public String zmanRefundPro(ZmanRefundHistoryVO zmanRefundHistory,
+			@RequestParam int  zman_earning_idx, 
 			@RequestParam String member_id, 
 			@RequestParam String zpayAmount, 
-			@RequestParam int zpay_balance, 
 			Map<String, String> map,
 			Model model) {
 		System.out.println("ZpayController - zmanRefundPro()");
@@ -841,21 +841,16 @@ public class ZpayController {
 		model.addAttribute("depositResult", depositResult);
 		
 		// --------------------------------------------------------------------------------------------------------------------------
-		// ZPAY_HISTORY 테이블에서 잔액조회
-//		Integer zpay_balance = service.getZpayBalance(member_id);
-		
-		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
-		zpayHistory.setZpay_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
-		zpayHistory.setZpay_deal_type("환급");
-		System.out.println(zpayHistory);
+		zmanRefundHistory.setZman_earning_idx(zman_earning_idx);
+		zmanRefundHistory.setZman_net_profit(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
+//		zmanRefundHistory.setZman_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
+		System.out.println(zmanRefundHistory);
 		
 		// ZPYA_HISTORY 테이블에 환급내역 추가
-		int insertCount = service.refundZpay(zpayHistory);
+		int insertCount = service.zmanRefund(zmanRefundHistory);
 		
 		if(insertCount > 0) {
-			// ----------------- ZERO 약정계좌 거래(출금)내역 추가 ----------------------------------------------
+			// ----------------- ZERO 약정계좌 ZMAN 정산 내역 추가 ----------------------------------------------
 			ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
 			zpayHistoryInserted = service.getzpayHistoryInserted();
 			
@@ -866,16 +861,16 @@ public class ZpayController {
 			zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
 			zeroAccount.setZero_account_amount(Integer.parseInt(zpayAmount));
 			zeroAccount.setZero_account_balance(zero_account_balance);
-			zeroAccount.setZero_account_type("환급");
+			zeroAccount.setZero_account_type("Z맨정산");
 			
-			int insertZeroCount = service.depositWithdrawZeroAccount(zeroAccount);
+			int insertZeroCount = service.zeroAccountZmanHistory(zeroAccount);
 //			int insertZeroCount = service.withdrawZeroAccount(zeroAccount);
 			// --------------------------------------------------------------------------------------------------
-			zpay_balance = service.getZpayBalance(member_id);
+//			zpay_balance = service.getZpayBalance(member_id);
 			
 			model.addAttribute("zpay", zpay);
-			model.addAttribute("zpayHistory", zpayHistory);
-			model.addAttribute("zpay_balance", zpay_balance);
+			model.addAttribute("zmanRefundHistory", zmanRefundHistory);
+//			model.addAttribute("zpay_balance", zpay_balance);
 			return "zpay/zpay_refund_success";				
 		} else {
 			model.addAttribute("msg", "ZPAY 환급 실패");

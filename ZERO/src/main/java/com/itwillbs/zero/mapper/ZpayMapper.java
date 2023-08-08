@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
-import com.itwillbs.zero.vo.ZmanAccountVO;
+import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
@@ -90,6 +90,12 @@ public interface ZpayMapper {
 	
 	// ZERO_ACCOUNT_HISTORY 입금/출금 내역 추가
 	int insertZeroAccountHistory(ZeroAccountHistoryVO zeroAccount);
+
+	// ZMAN 정산
+	int insertZmanRefund(ZmanRefundHistoryVO zmanRefundHistory);
+
+	// ZERO_ACCOUNT_HISTORY ZMAN 정산 내역 추가
+	int insertZeroAccountZmanHistory(ZeroAccountHistoryVO zeroAccount);
 
 	
 	

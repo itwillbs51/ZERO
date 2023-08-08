@@ -11,7 +11,7 @@ import com.itwillbs.zero.vo.ZpayVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
-import com.itwillbs.zero.vo.ZmanAccountVO;
+import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
 
@@ -142,6 +142,16 @@ public class ZpayService {
 	// ZERO_ACCOUNT_HISTORY 입금/출금 내역 추가
 	public int depositWithdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
 		return mapper.insertZeroAccountHistory(zeroAccount);
+	}
+
+	// ZMAN 정산
+	public int zmanRefund(ZmanRefundHistoryVO zmanRefundHistory) {
+		return mapper.insertZmanRefund(zmanRefundHistory);
+	}
+
+	// ZERO_ACCOUNT_HISTORY ZMAN 정산 내역 추가
+	public int zeroAccountZmanHistory(ZeroAccountHistoryVO zeroAccount) {
+		return mapper.insertZeroAccountZmanHistory(zeroAccount);
 	}
 
 	
