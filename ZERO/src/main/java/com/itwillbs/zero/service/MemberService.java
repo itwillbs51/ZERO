@@ -112,6 +112,11 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		return mapper.selectLikeList(member_id);
 	}
+
+	public MemberVO isValidBank(String member_id) {
+		return mapper.selectBankAuth(member_id);
+	}
+	
 	
 	
 
