@@ -31,10 +31,10 @@ public class ZpayService {
 		return mapper.insertZpay(zpay);
 	}
 
-	// ZMAN 계좌 등록
-	public int registZmanBankAccount(ZmanAccountVO zmanAccount) {
-		return mapper.insertZmanBankAccount(zmanAccount);
-	}
+//	// ZMAN 계좌 등록
+//	public int registZmanBankAccount(ZmanAccountVO zmanAccount) {
+//		return mapper.insertZmanBankAccount(zmanAccount);
+//	}
 	
 	// ZPAY 잔액 조회
 	public Integer getZpayBalance(String member_id) {
