@@ -114,10 +114,7 @@ public class MemberService {
 		return mapper.selectLikeList(member_id);
 	}
 
-<<<<<<< HEAD
 	// 회원 계좌 등록 확인
-=======
->>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 	// 회원 탈퇴시 체크
 	public boolean withDrawalCheck(String member_id) {
 		

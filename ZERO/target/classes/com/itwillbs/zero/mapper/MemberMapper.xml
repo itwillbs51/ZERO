@@ -299,7 +299,6 @@
 			member_id = #{member_id}
 	</select>
 	
-<<<<<<< HEAD
 	<!-- 회원 중고상품 리뷰 등록 -->
 	<insert id="insertShReview" parameterType="MemReview">
 		INSERT 
@@ -316,6 +315,4 @@
 			)
 			
 	</insert>
-=======
->>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 </mapper>

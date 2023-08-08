@@ -78,12 +78,9 @@ int updateBankAuth(String member_id);
 	// 회원 계좌등록 여부 확인
 	MemberVO selectBankAuth(String member_id);
 
-<<<<<<< HEAD
 	// 리뷰 등록
 	int insertShReview(MemberReviewVO review);
 
-=======
->>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 	// 중고거래 z맨 배달중 여부 확인
 	int selectSecondhandSeller(String member_id);
 	
