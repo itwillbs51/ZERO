@@ -316,7 +316,7 @@ function sendMessage() {
 		success: function(result) {
 			if(result == "true") {
 				sock.send(bid_price)
-				location.reload();
+				
 			} else {
 				alert("실패!");
 			}
