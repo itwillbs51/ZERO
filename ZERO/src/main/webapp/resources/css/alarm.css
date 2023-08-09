@@ -1,44 +1,68 @@
 @charset "UTF-8";
-@font-face {
-    font-family: 'NanumSquareNeo-Variable';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-*{
-	 font-family: 'NanumSquareNeo-Variable';
-}
-/* ----- 헤더에 뜨는 상자 크기 조절 등 ------------------- */
-#topNotiArea {
-}
-.btn_notify {
-	position: relative;
-	z-index: 2;
-	
-}
-.layer_box {
-	background-color: white;
-	position: absolute;
-	float: left;
-	right: 0;
-	z-index: 2;
-}
 
-.box_content {
-	background-color: white;
-	width: 340px;
-	height: 385px;
-	z-index: 3;
+/* ---------- 알람창 크기조절 ----------------- */
+.alarmArticle {
+	width: inherit;
+	min-height: 100%;
+	background-color: #f4f6f8;
+	border: 3px solid #eee;
+    border-radius: 20px;
 }
-.box_content iframe {
-	border: 1px solid #ddd;
+.alarmContainer {
+	margin: auto;
+/* 	max-width: 300px; */
+	padding: 15px;
+}
+.contentArea {
+	margin: auto;
+	padding: 10px;
 	border-radius: 10px;
-	box-shadow: 5px 5px 5px gray;
+	background-color: white;
+	width: 320px;
+    min-height: 380px;
+}
+.alarmTitleArea {
+	display: flex;
+	justify-content: space-between;
+}
+.alarmTitle {
+	font-weight: bold;
+	margin-left: 5px;
+	font-size: 20px;
+}
+.moreAlarm {
+	text-decoration: none;
+	color: #555;
+	font-size: 14px;
 }
 
-/* ---- 반응형 --------- */
-@media only screen and (max-width: 768px) {	
-/* 	.layer_box { */
-/* 		right: 10; */
-/* 	} */
+.alarmHr {
+	margin: 0;
+	padding: 0;
+}
+#alarmList {
+	list-style:none;
+/* 	align-items: center; */
+	margin:0;
+	padding: 0;
+}
+.alarmItem {
+	margin: 10px 8px;
+}
+.alarmTitle {
+	font-size: 17px;
+}
+
+.alarmTime {
+	padding-left: 5px;
+	font-size: 12px;
+	color: #aaa;
+}
+.alarmContent {
+	font-size: 15px;
+	color: gray;
+	max-width: 330px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

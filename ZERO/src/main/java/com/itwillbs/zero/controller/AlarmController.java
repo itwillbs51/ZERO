@@ -1,5 +1,7 @@
 package com.itwillbs.zero.controller;
 
+import javax.servlet.http.*;
+
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class AlarmController {
 	
 	@RequestMapping(value = "shortAlarmList", method = {RequestMethod.GET, RequestMethod.POST})
-	public String shortAlarmList() {
+	public String shortAlarmList(HttpSession session) {
 		
 		return "alarm/alarm_list";
 //		return "alarm/alarm_list_sse";

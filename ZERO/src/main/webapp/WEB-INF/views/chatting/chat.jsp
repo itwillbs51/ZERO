@@ -12,7 +12,9 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 
 <%-- 소켓통신을 위한 함수들을 콜백형태로 제공 --%>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
+<%-- 알림 관련 함수 --%>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/alarm.js"></script> --%>
 <%-- google 아이콘 --%>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
@@ -466,6 +468,19 @@
 			str += "</div></div></div>";
 			
 			$("#msgArea").append(str);
+			
+			// 알림 보내기
+			let messager = null;
+			let holder = null;
+			if(sessionId == "${chatRoom.seller_id}") {
+				messager = "${chatRoom.seller_nickname}";
+				holder = "${chatRoom.buyer_id}";
+			} else {
+				messager = "${chatRoom.buyer_nickname}";
+				holder = "${chatRoom.seller_id}";
+			}
+			sendAlarmMessage(holder, "채팅이 도착했습니다!", messager + " : " + message);
+			
 		} else{
 			
 			var str = "<div class='msgitem'>";
