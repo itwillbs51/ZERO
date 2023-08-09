@@ -308,12 +308,26 @@ $("#button-send2").on("click", function(e) {
   		url: "direct_pay_pro",
   		type: "POST",
   		success: function(result) {
-  			if(result == "true") {
-  				alert("등록성공!");
-				
-			} else {
-				alert("실패2!");
-			}
+  			if(result == "false"){
+  				alert("경매종료");
+  				return;
+  			}
+  			 $.ajax({
+  		  		data: {
+  		  			'order_auction_idx':result
+  		  		},
+  		  		url: "zpay_auction_send_pro",
+  		  		type: "POST",
+  		  		success: function() {
+  		  			alert("성공");
+  		  			
+  		  		},
+  		  		fail: function() {
+  		  			alert("실패!");
+  		  		}	
+  		  		
+  		  	});
+  			
   		},
   		fail: function() {
   			alert("실패!");

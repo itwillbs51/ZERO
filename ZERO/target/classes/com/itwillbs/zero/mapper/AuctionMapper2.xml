@@ -110,4 +110,29 @@
 		  GROUP BY auction_idx
 		)as t
 	</select>
+	
+	<insert id="insertOrder" >
+		INSERT 
+		INTO ORDER_AUCTION
+		values(
+			null
+			, CONCAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), ' 07:00:00')
+			, #{auction_max_price}
+			, 13245
+			, #{order_auction_commission}
+			, "한진택배"
+			, #{auction_seller_id}
+			, #{member_id}
+			, #{auction_idx}
+			
+			)
+	</insert>
+	
+	<select id="selectoOderauctionIdx" resultType="int">
+			SELECT order_auction_idx
+				FROM ORDER_AUCTION
+				WHERE auction_idx=#{id}
+				
+	</select>
+	
 </mapper>

@@ -37,6 +37,10 @@ public interface AuctionMapper2 {
 
 	int selectBidedZpay(@Param("member_id")String member_id, @Param("id")int id);
 
+	void insertOrder(HashMap<String, String> product);
+
+	int selectoOderauctionIdx(int id);
+
 	
 
 }
