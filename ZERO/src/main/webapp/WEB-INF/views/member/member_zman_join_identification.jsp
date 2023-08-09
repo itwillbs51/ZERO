@@ -326,8 +326,8 @@ input[type=checkbox] {
 				
 				<div class="sc-fznMAR hFIAMe"><span class="sc-fzoXWK bGEXNl"><h4>배달이 처음이어도 걱정 마세요</h4></span>
 					<p class="item-description">산재/시간제 보험 가입!<br> 전원 산재보험에 가입되며 운송수단 별 시간제 보험을 이용할 수 있어요.</p>
-					<p class="item-description">늦을까봐 걱정 마세요!<br> 커넥터님의 이동수단과 현재 위치를 고려하여 최적의 배달 건을 배차합니다.</p>
-					<p class="item-description">배달 용품 구입 가능해요!<br> 배민커넥트 온라인 몰에서 배달 가방과 경량헬멧을 저렴하게 구입할 수 있습니다.</p></div>
+					<p class="item-description">늦을까봐 걱정 마세요!<br> Z-MAN님의 이동수단과 현재 위치를 고려하여 최적의 배달 건을 배차합니다.</p>
+					<p class="item-description">배달 용품 구입 가능해요!<br> Z-MAN 온라인 몰에서 배달 가방과 경량헬멧을 저렴하게 구입할 수 있습니다.</p></div>
 				
 				<div data-v-2b15bea4="" class="login_btn_box">
 					<a data-v-43813796="" data-v-2b15bea4="" class="btn full solid" onclick="location.href='zman_join_form'"> 신청하러 가기 </a>

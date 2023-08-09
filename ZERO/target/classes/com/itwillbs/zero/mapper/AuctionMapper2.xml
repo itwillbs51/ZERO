@@ -142,7 +142,7 @@
 		INTO ORDER_AUCTION
 		values(
 			null
-			, CONCAT(CURDATE(), ' 07:00:00')
+			, ADDTIME(CURDATE(), '07:00:00'),
 			, #{max_bid}
 			, 13245
 			, (#{max_bid} * 0.1)
