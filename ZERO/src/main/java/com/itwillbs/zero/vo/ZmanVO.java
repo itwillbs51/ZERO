@@ -9,7 +9,7 @@ public class ZmanVO {
 	private int zman_idx;
 	private String zman_id; // 이메일
 	private String zman_nickname; 
-	private String zman_passwd;
+//	private String zman_passwd;          //삭제 - 정의효
 	private String zman_name;
 	private String zman_birth;  
 	private String zman_date;	//Date : java.sqlDate 임포트함
@@ -28,4 +28,5 @@ public class ZmanVO {
 	private String zman_location_agreement;
 	private String zman_bank_name;
 	private String zman_account;
+	private String zman_driver_license;
 }

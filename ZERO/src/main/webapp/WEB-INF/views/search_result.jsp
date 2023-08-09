@@ -14,6 +14,14 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/defualt.css" rel="stylesheet" type="text/css">
+
+
+<link href="${pageContext.request.contextPath }/resources/css/aution.css" rel="stylesheet" type="text/css">
+<%-- google 아이콘 --%>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
 <meta charset="UTF-8">
 <%-- 반응형웹페이지위한 설정 --%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,7 +38,7 @@
 a {
 	color:black;
 }
-p {
+h5 p {
 	color:gray;
 }
 h4 {
@@ -66,7 +74,7 @@ h4 {
 
 .card-text{
 	text-align: center;
-	margin-top: 5px;
+	
 }
 
 .card-body{
@@ -116,9 +124,9 @@ ul.tabs li.current{
 	width:250x;
 	height:300px;
 }
-row{
-	margin:20px;
-	padding:20px;
+.row {
+	margin:15px;
+/* 	padding:10px; */
 }
 /* 카드 카테고리 */
 .category {
@@ -138,7 +146,15 @@ row{
 /* 경매상품 검색목록 영역*/
 .auctionList{
 	margin-top:50px;
-
+}
+p {
+	color:gray;
+}
+.price{
+	margin:0px;
+}
+.brand{
+	font-weight: bold;
 }
 
 </style>
@@ -219,18 +235,174 @@ row{
 			</div><%-- secondhandList끝 --%>
 			
 			
+		<!-- 검색결과 - 경매상품 리스트 출력 -->
+		<hr>
+		<div class="auctionList">
+			<h5> 경매 상품 </h5>
+			<p> 검색된 상품 ${listCount } 개</p>
+			
+			<c:choose>
+				<c:when test="${listCount eq 0}">
+					경매 상품 검색 결과가 존재하지 않습니다
+				</c:when>
+				
+				<c:otherwise>
+					<div class="row" align="left">
+					<c:forEach var="auction" items="${AuctionList }">
+						<div class="col-lg-3 col-mid-4">
+							<div class="card border-0" >
+								<!-- 썸네일이미지 -->
+								<div class="photoDiv">	
+									<a href="auction_detail?id=${auction.auction_idx}">
+										<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top">
+									</a>
+								</div>
+								
+								
+								<div class="card-body">
+									<!-- 브랜드명  -->
+									<div class="brand" style="font-size:0.8rem; ">
+											${auction.brand_name }
+									</div>
+									<div class="card-title" style="white-space: nowrap; overflow:hidden; text-overflow: elipsis;">
+										<!-- 제목 링크 -->
+										<a href="auction_detail?id=${auction.auction_idx}">
+											${auction.auction_title}
+										</a>
+
+									</div>
+									<p>경매상태</p>
+									<p>입찰최저가 <fmt:formatNumber pattern="#,###" value="${auction.auction_start_price }"/>원</p>
+									<p>즉시구매가 <fmt:formatNumber pattern="#,###" value="${auction.auction_max_price }"/>원</p>
+									
+									<p>${secondhand.secondhand_first_date }</p>
+								</div><!-- cardbody끝 -->
+							</div><!-- card끝 -->
+							
+							</div>
+					</c:forEach>
+					</div><%--row끝 --%>	
+				</c:otherwise>
+			</c:choose>
+		</div><%-- auctionList끝 --%>
+			
+			
+	
+	
+	
+	
+	
+	
+			
+			
 			
 
-			<!-- 검색결과 - 경매 상품 리스트 출력 -->
-			<hr>
-			<div class="auctionList">
-				<h5> 경매 상품 </h5>
-				<p> 검색된 상품 ${searchSecondhandCount } 개</p>
+<!-- 			<!-- 검색결과 - 경매 상품 리스트 출력 -->
+<!-- 			<hr> -->
+<!-- 			<div class="auctionList"> -->
+				
+<!-- 				<h5> 경매 상품 </h5> -->
+<!-- 				<hr> -->
+<!-- 				<h6> 경매 예정 상품</h6> -->
+				
+<!-- 				<p> 검색된 상품  개</p> -->
+
+<!-- 				2. 컨텐츠 -->
+<!-- 				<article id="listContainer"> -->
+<!-- 					2-1. 상품갯수, 검색창, 정렬 -->
+<!-- 					<div class="listInfo"> -->
+<!-- 						<span class="listInfoCount">상품 <span id="listCount"></span>개</span> -->
+<!-- 	<!-- 					<input type="search" placeholder="모델명, 브랜드명 등"> -->
+<!-- 						<button class="listInfoBtn"> -->
+<!-- 							인기순 <i class="material-icons">swap_vert</i> -->
+<!-- 						</button> -->
+<%-- 							정렬 방법(기본 : 보이지 않음, 클릭 : style 지우기) --%>
+<%-- 							<ul class="listSort" style="display: none;"> style="display: none;" --%>
+<!-- 								<li id="list1" class="selected"><span>인기순</span> <i class="material-icons">check</i></li> -->
+<!-- 								<li id="list2"><span>가격순</span> </li> -->
+<!-- 								<li id="list3"><span>최신순</span> </li> -->
+<!-- 							</ul> -->
+<!-- 					</div> -->
+<!-- 					2-2. 상품 목록 -->
+<!-- 					<div class="productListArea"> -->
+	
+	
+<!-- 					</div> -->
+<!-- 				</article> -->
+				
+				
+<!-- 				<hr> -->
+<!-- 				<h6> 경매 진행중 상품 </h6> -->
+<!-- 					2. 컨텐츠 -->
+<!-- 					<article id="listContainer"> -->
+<!-- 						2-1. 상품갯수, 검색창, 정렬 -->
+<!-- 						<div class="listInfo"> -->
+<!-- 							<span class="listInfoCount">상품 <span id="listCount"></span>개</span> -->
+<!-- 							<input type="search" placeholder="모델명, 브랜드명 등"> -->
+<!-- 							<button class="listInfoBtn"> -->
+<!-- 								인기순 <i class="material-icons">swap_vert</i> -->
+<!-- 							</button> -->
+<%-- 								정렬 방법(기본 : 보이지 않음, 클릭 : style 지우기) --%>
+<%-- 								<ul class="listSort" style="display: none;"> style="display: none;" --%>
+<!-- 									<li id="list1">인기순 <i class="material-icons">check</i></li> -->
+<!-- 									<li id="list2">가격순 </li> -->
+<!-- 									<li id="list3">최신순 </li> -->
+<!-- 								</ul> -->
+<!-- 						</div> -->
+<!-- 						2-2. 상품 목록 -->
+<!-- 						<div class="productListArea"> -->
+						
+								
+<!-- 						</div> -->
+							
+<!-- 					</article> -->
+				
+				
+				
+				
+				
+<!-- 				<hr> -->
+<!-- 				<h6> 경매 종료된 상품</h6> -->
+				
+<!-- 					2. 컨텐츠 -->
+<!-- 					<article id="listContainer"> -->
+<!-- 						2-1. 상품갯수, 검색창, 정렬 -->
+<!-- 						<div class="listInfo"> -->
+<!-- 							<span class="listInfoCount">상품 <span id="listCount"></span>개</span> -->
+<!-- 		<!-- 					<input type="search" placeholder="모델명, 브랜드명 등"> --> 
+<!-- 							<button class="listInfoBtn"> -->
+<!-- 								인기순 <i class="material-icons">swap_vert</i> -->
+<!-- 							</button> -->
+<%-- 								정렬 방법(기본 : 보이지 않음, 클릭 : style 지우기) --%>
+<%-- 								<ul class="listSort" style="display: none;"> style="display: none;" --%>
+<!-- 									<li id="list1">인기순 <i class="material-icons">check</i></li> -->
+<!-- 									<li id="list2">가격순 </li> -->
+<!-- 									<li id="list3">최신순 </li> -->
+<!-- 								</ul> -->
+<!-- 						</div> -->
+<!-- 						2-2. 상품 목록 -->
+<!-- 						<div class="productListArea"> -->
+						
+<!-- 						</div> -->
+							
+<!-- 					</article> -->
+				
+				
+
+<!-- 			</div> -->
 
 
 
 
-			</div>
+
+
+
+
+
+
+
+
+
 
 
 

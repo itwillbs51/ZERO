@@ -33,6 +33,8 @@ public class ZmanDeliveryService {
 	public ZmanDeliveryVO getDeliveryDetail(int zman_delivery_idx) {
 		return mapper.selectDeliveryDetail(zman_delivery_idx);
 	}
+	
+
 
 	// ZMAN 중고물품 배달 시작하기
 //	public int DeliveryStart(int zman_delivery_idx) {

@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper  namespace="com.itwillbs.zero.mapper.BankMapper">
+
+	<!-- 이미 존재하는 토큰인지 확인 -->
+	<select id="selectExsitTokenCount" resultType="int">
+		SELECT COUNT(*) FROME BANK_TOKEN
+		WHERE member_id = #{member_id}
+		AND access_token = #{token.access_token}
+	</select>
+	
+	<!-- 이미 토큰이 존재할 경우 토큰 정보 업데이트 -->
+	<update id="updateToken">
+		UPDATE BANK_TOKEN
+		SET access_token = #{token.access_token}
+		WHERE member_id = #{member_id}
+	</update>
+
+	<!--  ZPAY 의 access_token 업데이트 -->
+	<update id="updateZpayToken">
+		UPDATE ZPAY
+		SET access_token = #{token.access_token}
+		WHERE member_id = #{member_id}
+	</update>
+
+
 	<!-- 토큰 정보 저장 - INSERT -->
 	<insert id="insertToken">
 		INSERT 

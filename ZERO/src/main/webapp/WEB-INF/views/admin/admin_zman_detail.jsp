@@ -100,6 +100,7 @@
 						<div class="card-body">
 							<form action="admin_zman_modify" method="post">
 								<input type="hidden" name="zman_idx" value="${zman.zman_idx }">
+								<input type="hidden" name="zman_id" value="${zman.zman_id }">
 								<table id="zmanDetailInfo" class="table table-border">
 									<tbody>
 										<tr>
