@@ -146,8 +146,16 @@ public class MemberService {
 	public int writeShReview(MemberReviewVO review) {
 		return mapper.insertShReview(review);
 	}
+
+	// 회원 대표 주소록 추가(add_num : 주소록 번호)
+	public int addMainAddress(String add_num, Map<String, String> map) {
+		return mapper.updateMainAddress(add_num, map);
+	}
 	
-	
+	// 회원 주소록 추가(add_num : 주소록 번호)
+	public int addAddress(String add_num, Map<String, String> map) {
+		return mapper.updateAddress(add_num, map);
+	}
 	
 
 	

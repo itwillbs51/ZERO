@@ -93,4 +93,9 @@ int updateBankAuth(String member_id);
 	// 옥션거래 현재 참여중인지 여부 확인
 	int selectAuctionBuyer(String member_id);
 
+	// 대표 주소록 추가 
+	int updateMainAddress(@Param("add_num")String add_num, @Param("map") Map<String, String> map);
+
+	// 주소록 추가
+	int updateAddress(@Param("add_num")String add_num, @Param("map") Map<String, String> map);
 }

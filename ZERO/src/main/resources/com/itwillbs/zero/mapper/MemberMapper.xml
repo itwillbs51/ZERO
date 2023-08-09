@@ -39,6 +39,8 @@
 				, #{member_address3_phone}
 				, #{member_address2_name}
 				, #{member_address3_name}
+				, #{member_phone}
+				, #{member_name}
 			)
 	
 	</insert>
@@ -315,4 +317,59 @@
 			)
 			
 	</insert>
+	
+	<!-- 대표 주소록 추가 -->
+	<update id="updateMainAddress">
+		 UPDATE MEMBER
+	        SET 
+	        <choose>
+	        	<when test="add_num.equals('main_add2')"> 
+	        		member_address2_name = member_address1_name
+		        	, member_address2_phone = member_address1_phone
+		        	, member_zipcode2 = member_zipcode1
+		        	, member_address2 = member_address1
+		        	, member_address_detail2 = member_address_detail1
+	        	</when>
+	        	<when test="add_num.equals('main_add3')"> 
+	        		member_address3_name = member_address1_name
+		        	, member_address3_phone = member_address1_phone
+		        	, member_zipcode3 = member_zipcode1
+		        	, member_address3 = member_address1
+		        	, member_address_detail3 = member_address_detail1
+	        	</when>
+	        </choose>
+	        	    , member_address1_name = #{map.member_address_name}
+		        	, member_address1_phone = #{map.member_phone}
+		        	, member_zipcode1 = #{map.member_zipcode}
+		        	, member_address1 = #{map.member_address}
+		        	, member_address_detail1 = #{map.member_address_detail}
+				WHERE
+				    member_id = #{map.member_id}
+	</update>
+	
+	<!-- 주소록 추가 -->
+	<update id="updateAddress">
+		 UPDATE MEMBER
+	        SET 
+	        <choose>
+	        	<when test="add_num.equals('add2')"> -- 주소 2인 경우
+	        		member_address2_name =  #{map.member_address_name}
+		        	, member_address2_phone = #{map.member_phone}
+		        	, member_zipcode2 = #{map.member_zipcode}
+		        	, member_address2 = #{map.member_address}
+		        	, member_address_detail2 = #{map.member_address_detail}
+	        	</when>
+	        	<when test="add_num.equals('add3')"> -- 주소 3인 경우
+	        		member_address3_name =  #{map.member_address_name}
+		        	, member_address3_phone = #{map.member_phone}
+		        	, member_zipcode3 = #{map.member_zipcode}
+		        	, member_address3 = #{map.member_address}
+		        	, member_address_detail3 = #{map.member_address_detail}
+	        	</when>
+	        </choose>
+	        WHERE
+    			member_id = #{map.member_id}
+	</update>
+	
+	
 </mapper>
