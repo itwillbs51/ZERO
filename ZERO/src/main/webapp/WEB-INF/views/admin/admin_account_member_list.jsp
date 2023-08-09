@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
@@ -21,15 +20,6 @@
 	body{
 		min-width: 360px;
 	}
-	.container-fluid {
-		max-width: 1000px;
-	}
-
-	#memberDetailInfo th {
-		width: 30%;
-		background-color: rgba(0, 0, 0, 0.07);
-	}	
-
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -41,67 +31,52 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">${zpayHistory.zpay_history_idx } 번 내역 상세보기</h1>
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="admin_zpay_depoist_withdraw_list">ZPAY 목록</a></li>
-						<li class="breadcrumb-item active" aria-current="page">상세정보</li>
+					<h1 class="mt-4">계좌 관리</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">회원계좌관리</li>
 					</ol>
 					
 					<%-- main 내용 작성 영역 --%>
+					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
-							<b>${zpayHistory.zpay_history_idx }</b> 번 내역 상세보기
+							<i class="fas fa-table me-1"></i>
+							회원계좌 목록
 						</div>
 						<div class="card-body">
-							<form action="admin_member_modify" method="post" id="member_modify_form">
-								<input type="hidden" name="member_idx" value="${member.member_idx }">
-								<table id="memberDetailInfo" class="table table-border">
-									<tbody>
+							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>ZPAY 번호</th>
+										<th>아이디</th>
+										<th>은행명</th>
+										<th>계좌번호</th>
+										<th>상세보기</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="zpay" items="${zpayList }" varStatus="vs">
 										<tr>
-											<th>내역 번호</th>
+											<td>${zpay.zpay_idx }</td>
+											<td>${zpay.member_id }</td>
+											<td>${zpay.zpay_bank_name }</td>
+											<td>${zpay.zpay_bank_account }</td>
 											<td>
-												${zpayHistory.zpay_history_idx }
+												<a class="btn btn-sm btn-outline-dark" href="admin_account_member_history?zpay_idx=${zpay.zpay_idx }">상세보기</a>
 											</td>
 										</tr>
-										<tr>
-											<th>ZPAY 번호</th>
-											<td>
-												${zpayHistory.zpay_idx }
-											</td>
-										</tr>
-										<tr>
-											<th>변동금액</th>
-											<td><fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/></td>
-										</tr>
-										<tr>
-											<th>시간</th>
-											<td>${zpayHistory.zpay_time }</td>
-										</tr>
-										<tr>
-											<th>ZPAY 잔액</th>
-											<td><fmt:formatNumber value="${zpayHistory.zpay_balance}" pattern="#,##0"/></td>
-										</tr>
-										<tr>
-											<th>ZPAY 거래 유형</th>
-											<td>${zpayHistory.zpay_deal_type }</td>
-										</tr>
-									</tbody>
-								</table>
-								<div class="text-center">
-									<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
-								</div>
-							</form>
+								</c:forEach>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
-
 			</main>
 			<footer class="py-4 bg-light mt-auto">
 				<%@ include file="../inc/admin_footer.jsp" %>	
 			</footer>	
 		</div>
 	</div>
-		
 <!-- 이 스크립트들은 위로 올리면 작동하지 않음 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath }/resources/js/scripts.js"></script>

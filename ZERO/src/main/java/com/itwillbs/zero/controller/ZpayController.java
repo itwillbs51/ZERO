@@ -82,7 +82,7 @@ public class ZpayController {
 			return "zpay/zpay_regist_form";
 		}
 		
-		
+		model.addAttribute("member", member);
 		return "zpay/zpay_main_scroll";
 	}
 	
@@ -198,18 +198,18 @@ public class ZpayController {
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-		ResponseWithdrawVO withdrawResult = bankApiService.requestWithdraw(map);
+//		ResponseWithdrawVO withdrawResult = bankApiService.requestWithdraw(map);
 		
 		// Model 객체에 ResponseWithdrawVO 객체 저장
-		model.addAttribute("withdrawResult", withdrawResult);
+//		model.addAttribute("withdrawResult", withdrawResult);
 		
 		// ---------------------------------------------------------------------------------------------------------------
 		// ZPAY_HISTORY 테이블에서 잔액조회
 		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
+		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);
 		zpayHistory.setZpay_deal_type("충전");
 		System.out.println(zpayHistory);
@@ -326,17 +326,17 @@ public class ZpayController {
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+//		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
 		
 		// Model 객체에 ResponseWithdrawVO 객체 저장
-		model.addAttribute("depositResult", depositResult);
+//		model.addAttribute("depositResult", depositResult);
 		
 		// ZPAY_HISTORY 테이블에서 잔액조회 ========================================================================================
 //		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
+		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
 		zpayHistory.setZpay_deal_type("환급");
 		System.out.println(zpayHistory);

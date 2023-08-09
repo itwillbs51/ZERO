@@ -47,7 +47,7 @@
 						<p class="targetMessage">
 							<strong>${seller_id } </strong>께<br>
 							<em class="amount">
-								<fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원 송금완료
+								<fmt:formatNumber value="${zpayBuyerHistory.zpay_amount}" pattern="#,##0"/>원 송금완료
 							</em>
 						</p>
 						<p class="targetAccountInfo">

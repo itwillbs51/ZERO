@@ -81,8 +81,9 @@
 					</a>
 					<div class="collapse" id="accountManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="#">회원 계좌 관리</a>
-							<a class="nav-link" href="#">ZMAN 계좌 관리</a>
+							<a class="nav-link" href="admin_zero_account">약정 계좌 관리</a>
+							<a class="nav-link" href="admin_account_member_list">회원 계좌 관리</a>
+							<a class="nav-link" href="admin_account_zman_list">ZMAN 계좌 관리</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#zpayManagment" aria-expanded="false" aria-controls="zpayManagment">

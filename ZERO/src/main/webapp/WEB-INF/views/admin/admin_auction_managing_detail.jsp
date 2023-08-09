@@ -220,23 +220,26 @@
 											</td>
 										</tr>
 										<tr>
-											<th>상품이미지1</th>
+											<th>상품이미지</th>
 											<td colspan="2">
-												${auctionManaging.auction_image1 }
+<%-- 												${auctionManaging.auction_image1 } --%>
+												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${auctionManaging.auction_image1 }" alt="사용자 이미지" class="thumb_img" width=150px height=150px>
+												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${auctionManaging.auction_image2 }" alt="사용자 이미지" class="thumb_img" width=150px height=150px>
+												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${auctionManaging.auction_image3 }" alt="사용자 이미지" class="thumb_img" width=150px height=150px>
 											</td>
 										</tr>
-										<tr>
-											<th>상품이미지2</th>
-											<td colspan="2">
-												${auctionManaging.auction_image2 }
-											</td>
-										</tr>
-										<tr>
-											<th>상품이미지3</th>
-											<td colspan="2">
-												${auctionManaging.auction_image3 }
-											</td>
-										</tr>
+<!-- 										<tr> -->
+<!-- 											<th>상품이미지2</th> -->
+<!-- 											<td colspan="2"> -->
+<%-- 												${auctionManaging.auction_image2 } --%>
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>상품이미지3</th> -->
+<!-- 											<td colspan="2"> -->
+<%-- 												${auctionManaging.auction_image3 } --%>
+<!-- 											</td> -->
+<!-- 										</tr> -->
 										<tr>
 											<th>검수상태</th>
 											<td id="auctionManageCheckStatus">${auctionManaging.auction_manage_check_status}</td>
