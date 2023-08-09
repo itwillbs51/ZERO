@@ -108,24 +108,28 @@ $(function () {
 
 
 
-   <script>
-        function checkLicenseDup() {
-            var license = document.getElementById("zman_driver_license").value;
-            var resultMsg = "";
-            if (license === "121403327111" || license === "111010221312") {
-                resultMsg = "유효한 운전면허증 번호입니다. 계속해서 작성해주세요";
-            } else {
-                resultMsg = "유효하지 않은 운전면허증 번호입니다.";
-            }
-            alert(resultMsg);
-        }
+<script>
+function checkLicenseDup() {
+    var license = document.getElementById("zman_driver_license").value;
+    var resultMsg = "";
+    if (license === "121403327111" || license === "111010221312") {
+        resultMsg = "유효한 운전면허증 번호입니다. 계속해서 작성해주세요";
+    	alert(resultMsg);
+        return true;
+    } else {
+        resultMsg = "유효하지 않은 운전면허증 번호입니다.";
+    	alert(resultMsg);
+        return false;
+    }
+}
 
-        $(document).ready(function () {
-            $('#checkLicense').click(function () {
-                checkLicenseDup();
-            });
-        });
-    </script>
+$(document).ready(function () {
+    $('#checkLicense').click(function () {
+        let isValidLicense = checkLicenseDup();
+        $("#registerButton").prop("disabled", !isValidLicense);
+    });
+});
+</script>
 
 <title>ZERO 회원가입</title>
 <style>
@@ -419,19 +423,19 @@ input[type=checkbox] {
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">사용할 수단을 선택해 주세요</h3>
 						<label>
-				        	<input type="checkbox" name="vehicle[]" value="car">
+				        	<input type="checkbox" name="vehicle[]" value="자동차">
 				      		<span>자동차</span>
 					    </label>
 						<label>
-				        	<input type="checkbox" name="vehicle[]" value="motorcycle">
+				        	<input type="checkbox" name="vehicle[]" value="오토바이">
 				      		<span>오토바이</span>
 					    </label>
 						<label>
-				        	<input type="checkbox" name="vehicle[]" value="walk">
+				        	<input type="checkbox" name="vehicle[]" value="도보">
 				      		<span>도보</span>
 					    </label>
 						<label>
-				        	<input type="checkbox" name="vehicle[]" value="bicycle">
+				        	<input type="checkbox" name="vehicle[]" value="자전거">
 				      		<span>자전거</span>
 					    </label>
 					</div><br>
@@ -576,7 +580,7 @@ input[type=checkbox] {
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
 <!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton"> 회원가입 </button>
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled="disabled"> 회원가입 </button>
 					</div>
 				</form>
 
@@ -658,7 +662,7 @@ input[type=checkbox] {
   
   <%-- 스크립트 코드 --%>
 
-
+<!-- 계좌 없을시 zpay_main으로 이동하는 스크립트 -->
 <script>
   $(document).ready(function () {
     $("#zpayMain").on("click", function (event) {
@@ -672,125 +676,6 @@ input[type=checkbox] {
   }
 </script>
 
-<script type="text/javascript">
-	$("#member_id2").on("input", function () {
-	    // 입력값 받아오기
-	    const inputAuthCode = $(this).val();
-	
-	    // 인증코드가 입력된 경우에만 AJAX 요청 시작
-	    if (inputAuthCode.length === 6) {
-	        $.ajax({
-	            type: "POST",
-	            url: "checkAuthCode",
-	            data: { inputAuthCode: inputAuthCode },
-	            success: function (response) {
-	                if (response.success) {
-	                    $("#email_confirm").html(response.message);
-	                    $("#email_confirm").css("color", "green");
-	                    $("#member_id").attr("readonly", true); // 추가된 부분
-	                    $("#member_id2").attr("readonly", true); // 추가된 부분
-	                    emailAuthSuccess = true;
-	                } else {
-	                    $("#email_confirm").html(response.message);
-	                    $("#email_confirm").css("color", "red");
-	                    emailAuthSuccess = false;
-	                }
-	                checkAuthSuccess(); // 활성화 확인 함수 호출
-	            },
-	            error: function () {
-	                alert("오류가 발생했습니다. 다시 시도해주세요.");
-	            }
-	        });
-	    }
-	});
-
-</script>
- 
-<script type="text/javascript">
-
-// 휴대폰 인증 번호 요청 및 중복 검사
-function checkPhoneDupAndSend(callback) {
-  var phone = $('#member_phone').val();
-  var phoneResult = document.getElementById("phone_dup_result");
-  $.ajax({
-    url: './phoneCheck',
-    type: 'post',
-    data: { phone: phone },
-    success: function (cnt) {
-      if (cnt == 0) {
-    	phoneResult.innerHTML = "가입이 가능한 번호입니다.";
-        phoneResult.style.color = "green";
-        callback();
-      } else {
-    	phoneResult.innerHTML = "이미 등록된 번호 입니다.";
-        phoneResult.style.color = "red";
-        alert("이미 가입된 휴대폰 번호입니다. 다른 번호를 입력해주세요!");
-        $('#member_phone').val('');
-        $('#member_phone').focus();
-      }
-    },
-    error: function (error) {
-      alert("error : " + JSON.stringify(error));
-    }
-  });
-}
-
-// 기존 휴대폰 번호 인증 코드
-var code2 = "";
-$("#phone_chk").click(function () {
-  var phone = $("#member_phone").val();
-  if (!validatePhone()) {
-    alert("올바르게 입력해주세요.");
-  } else {
-	  checkPhoneDupAndSend(function () {
-      alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-      // 기존 인증번호 발송 코드는 여기에 배치
-      var phone = $("#member_phone").val();
-      $.ajax({
-        type: "GET",
-        url: "phoneCheck?phone=" + phone,
-        cache: false,
-        success: function (data) {
-          if (data == "error") {
-            alert("휴대폰 번호가 올바르지 않습니다.");
-            $("#member_phone").attr("autofocus", true);
-          } else {
-            $("#member_phone2").attr("disabled", false);
-            $("#member_phone").attr("readonly", true);
-            code2 = data;
-          }
-        }
-      });
-      // 기존 인증번호 발송 코드 종료
-    });
-  }
-});
-</script>
-
-<script type="text/javascript">
-	//휴대폰 인증번호 대조
-	$("#member_phone2").on("input", function() {
-	    const inputValue = $("#member_phone2").val();
-
-	    if (inputValue.length === 0) {
-	        $(".phone_chk").text("");
-	        phoneAuthSuccess = false;
-	    } else if (inputValue == code2) {
-	        $(".phone_chk").text("인증번호가 일치합니다.");
-	        $(".phone_chk").css("color", "green");
-	        $("#phoneDoubleChk").val("true");
-	        $("#member_phone2").attr("readonly", true);
-	        phoneAuthSuccess = true;
-	    } else {
-	        $(".phone_chk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
-	        $(".phone_chk").css("color", "red");
-	        $("#phoneDoubleChk").val("false");
-	        $("#member_phone2").attr("autofocus", true);
-	        phoneAuthSuccess = false;
-	    }
-	    checkAuthSuccess(); // 활성화 확인 함수 호출
-	});
-</script>
 
 <script type="text/javascript">
   // 동의 버튼
@@ -879,23 +764,8 @@ $(document).ready(function () {
     }
   });
 </script>
-<!-- <script type="text/javascript"> -->
-<!-- // //인증 성공 여부를 저장할 변수 추가  -->
-<!-- // let phoneAuthSuccess = false; -->
-<!-- // let emailAuthSuccess = false; -->
-
-<!-- // // 회원가입 버튼 활성화 확인 함수 추가  -->
-<!-- //  function checkAuthSuccess() {  -->
-<!-- //      // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 -->
-<!-- //      if (phoneAuthSuccess && emailAuthSuccess) {  -->
-<!-- //          $("#registerButton").prop("disabled", false);  -->
-<!-- //      } else {  -->
-<!-- //          $("#registerButton").prop("disabled", true);  -->
-<!-- //      }  -->
-<!-- //  } -->
-<!-- </script>  -->
- <!-- 편의를위해 위에 주석해놓음, 테스트시 위 주석풀고, 회원가입 disabled 추가해야됨 -->
  
+ <!-- 활동할 지역 합치는 스크립트 -->
  <script type="text/javascript">
  $(document).ready(function () {
 	    $('#joinForm').on('submit', function () {
