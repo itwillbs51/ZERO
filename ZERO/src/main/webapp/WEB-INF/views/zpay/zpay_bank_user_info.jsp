@@ -69,7 +69,8 @@
 									${sessionScope.member_id } 님
 <!-- 									홍길동 님 -->
 								</strong>
-								hong
+								${member.member_nickname }
+<!-- 								hong -->
 							</span>
 						</a>
 					</div>
