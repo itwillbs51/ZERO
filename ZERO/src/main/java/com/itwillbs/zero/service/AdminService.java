@@ -286,6 +286,16 @@ public class AdminService {
 		return mapper.selectZmanZpayList();
 	}
 
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	public List<AuctionManagingVO> getAuctionProductList() {
+		return mapper.selectAuctionProductList();
+	}
+	
+	// 경매관리 - 경매 상품 상세보기
+	public Map<String, String> getAuctionProduct(int auction_idx) {
+		return mapper.selectAuctionProduct(auction_idx);
+	}
+
 	
 	
 

@@ -177,6 +177,12 @@ public interface AdminMapper {
 	// 계좌 관리 - ZMAN 계좌 목록 조회
 	List<ZpayVO> selectZmanZpayList();
 
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	List<AuctionManagingVO> selectAuctionProductList();
+
+	// 경매관리 - 경매 상품 상세보기
+	Map<String, String> selectAuctionProduct(int auction_idx);
+
 
 
 
