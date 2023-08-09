@@ -121,7 +121,7 @@
 				, #{order_secondhand_product}	-- order_secondhand_product
 				, #{order_secondhand_price}		-- order_secondhand_price 
 				, #{type}						-- order_secondhand_type
-				, 'N'							-- order_secondhand_iszpay
+<!-- 				, 'N'							 order_secondhand_iszpay -->
 				, #{order_secondhand_seller}
 				, #{order_secondhand_buyer}
 				, #{secondhand_idx}				-- secondhand_idx
@@ -139,12 +139,12 @@
 				)
 	</insert>
 	
-	<!-- 거래상태 변경 '판매중' -> '예약중' -->
+	<!-- 거래상태 변경 '판매중' -> '예약중',  -> 판매완료 -->
 	<update id="updateDealStatuse">
 		UPDATE
 			SECONDHAND 
 			SET
-				secondhand_deal_status = "예약중"
+				secondhand_deal_status = #{type}
 			WHERE
 				secondhand_idx = #{secondhand_idx};
 	</update>
@@ -229,6 +229,19 @@
 			WHERE
 				secondhand_idx = #{secondhand_idx}
 	</select>
+	
+	<!-- 주문내역 상태 변경 - ORDER_SECONDHAND - order_secondhand_status '거래완료' -->
+	<update id="updateOrderStatus">
+		UPDATE
+			ORDER_SECONDHAND
+			SET
+				order_secondhand_status = #{order_status_type}
+			WHERE
+				secondhand_idx = #{secondhand_idx}
+	</update>
+	
+	
+	
 	
 	
 </mapper>
