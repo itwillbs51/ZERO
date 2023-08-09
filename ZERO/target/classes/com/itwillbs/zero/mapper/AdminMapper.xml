@@ -456,6 +456,7 @@
 		SELECT * FROM ZPAY_HISTORY
 		WHERE zpay_deal_type = '충전'
 		OR zpay_deal_type = '환급'
+		ORDER BY zpay_time DESC
 	</select>
 
 	<!-- ZPAY 관리 - 충전/환급 정보 조회 -->
@@ -472,6 +473,7 @@
 		SELECT * FROM ZPAY_HISTORY
 		WHERE zpay_deal_type LIKE '중고%'
 		OR zpay_deal_type LIKE '경매%'
+		ORDER BY zpay_time DESC
 	</select>
 
 	<!-- ZPAY 관리 - 사용/수익 정보 조회 -->
