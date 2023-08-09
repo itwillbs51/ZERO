@@ -53,6 +53,16 @@
 .redText {
 	color: red;
 }
+
+.titleNotice {
+	padding: 10px 0 0 5px !important;
+	font-size: 13px !important;
+}
+
+.priceDetail {
+	font-size: 12px;
+	color: #777;
+}
 /* 밑에 버튼 영역 */
 .chargeButtonArea {
 	margin: auto;
@@ -65,7 +75,7 @@
 <script type="text/javascript">
 	
 	// 수정 시 값이 있는 것만 받아서 ajax로 전달하기 위한 변수
-	let addInfo;	
+	let addInfo = "";	
 	let inputStart = "${zmanOrderInfo.zman_delivery_startspot}";
 	let inputEnd = "${zmanOrderInfo.zman_delivery_endspot}";
 	console.log("inputStart : " + inputStart);
@@ -146,18 +156,20 @@
 	function submitBtn(type) {
 		if($("#zman_delivery_startspot").val() != "") {
 			start = $("#zman_delivery_startspot").val();
-			console.log(start);
+			console.log("start : " + start);
+			addInfo += "&zman_delivery_startspot=" + start;
 		}
 		if($("#zman_delivery_endspot").val() != "") {
 			end = $("#zman_delivery_endspot").val();
-			console.log(end);
+			console.log("end : " + end);
+			addInfo += "&zman_delivery_endspot=" + end;
 		}
-		addInfo += "&zman_delivery_startspot=" + start;
-		addInfo += "&zman_delivery_endspot=" + end;
+		console.log("수정할 사항들임!");
+		console.log("addInfo : " + addInfo);
 		
 		switch(type) {
 			case 1:
-				if(addInfo="" || addInfo == "") {	// 입력된 값이 없으면 처리 안함
+				if(addInfo == null || addInfo == "") {	// 입력된 값이 없으면 처리 안함
 					alert("수정할 정보가 없습니다!");
 				} else {
 					let url = "chatToZ?"
@@ -167,6 +179,7 @@
 						+ "&type=" + '수정'
 						+ addInfo
 						;
+					console.log(url);
 					
 					$.ajax({
 						url: url,
@@ -174,13 +187,13 @@
 						success: function(data) {
 							console.log("DB 저장 성공");
 							console.log(url);
+							window.close();
 						},
 						error: function(request,status,error) {
 							console.log(url);
 							console.log("DB 저장 실패");
 						}
 					});
-					window.close();
 				}
 				break;
 			case 2:
@@ -277,18 +290,18 @@
 									총금액
 								</div>
 								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">36,000원 </div>
-									<div class="withdrawalAccountNum">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div>
-<%-- 									<div class="withdrawalBankName">${orderInfo.secondhand_price + 3000 }</div> --%>
-<%-- 									<div class="withdrawalAccountNum">${orderInfo.secondhand_price }(상품가격) + 3,000(배달비)</div> --%>
+<!-- 									<div class="withdrawalBankName">36,000원 </div> -->
+<%-- 									<div class="withdrawalAccountNum">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div> --%>
+									<div class="withdrawalBankName">${param.order_secondhand_price + 3000 }원 </div>
+									<div class="withdrawalAccountNum priceDetail">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div>
 								</div>
-								<div class="title">
-									희망배달시간
-								</div>
-								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">2023년 00월 00일 00시(미정)</div>
-								</div>
-								<div class="title">
+<!-- 								<div class="title"> -->
+<!-- 									희망배달시간 -->
+<!-- 								</div> -->
+<!-- 								<div class="withdrawalAccount_info"> -->
+<!-- 									<div class="withdrawalBankName">2023년 00월 00일 00시(미정)</div> -->
+<!-- 								</div> -->
+								<div class="title titleNotice">
 									ZMAN 호출 후에는 <b class="redText">수정이 불가능</b>하오니 다시 한 번 확인 후<br>
 									호출하기 버튼을 눌러주세요<br>
 									(출발지, 도착지가 모두 입력되고 Z페이 결제가 완료되면 ZMAN 호출이 시작됩니다)

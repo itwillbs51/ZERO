@@ -178,21 +178,19 @@
 	<!-- 주소 업데이트하기 -->
 	<update id="updateZmanOrderInfo">
 		UPDATE ZMAN_DELIVERY
-			<if test="map.zman_delivery_startspot != null and !map.zman_delivery_endspot != null">
 			SET
 				<choose>
-					<when test="!map.zman_delivery_startspot.equals('') and !map.zman_delivery_endspot.equals('')">
+					<when test="map.zman_delivery_startspot neq null and map.zman_delivery_endspot neq null">
 						zman_delivery_startspot = #{map.zman_delivery_startspot}
 						, zman_delivery_endspot = #{map.zman_delivery_endspot}
 					</when>
-					<when test="!map.zman_delivery_endspot.equals('')">
+					<when test="map.zman_delivery_endspot neq null">
 						zman_delivery_endspot = #{map.zman_delivery_endspot}
 					</when>
 					<otherwise>
 						zman_delivery_startspot = #{map.zman_delivery_startspot}
 					</otherwise>
 				</choose>
-			</if>
 			WHERE
 				zman_delivery_idx = #{zman_delivery_idx}
 	</update>
