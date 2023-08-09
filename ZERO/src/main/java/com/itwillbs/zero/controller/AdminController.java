@@ -363,6 +363,33 @@ public class AdminController {
 	
 	
 	// ============================= 경매 관리 =======================================================================================
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	@GetMapping("admin_auction_product_list")
+	public String adminAuctionProductList(Model model) {
+		System.out.println("AdminController - adminAuctionProductList");
+		
+		List<AuctionManagingVO> auctionProductList = service.getAuctionProductList();
+		System.out.println(auctionProductList);
+		
+		model.addAttribute("auctionProductList", auctionProductList);
+		
+		return "admin/admin_auction_product_list";
+	}
+	
+	// 경매관리 - 경매 상품 상세보기
+	@GetMapping("admin_auction_product_detail")
+	public String adminAuctionProductDetail(@RequestParam int auction_idx, Model model) {
+		System.out.println("AdminController - adminAuctionManagingDetail");
+		
+		Map<String, String> auctionProduct = service.getAuctionProduct(auction_idx);
+		System.out.println(auctionProduct);
+		
+		model.addAttribute("auctionProduct", auctionProduct);
+		
+		return "admin/admin_auction_product_detail";
+	}
+
+	
 	// 경매관리 - 경매예정 상품 목록 페이지로 디스패치
 	@GetMapping("admin_auction_managing_list")
 	public String adminAuctionManagingList(Model model) {

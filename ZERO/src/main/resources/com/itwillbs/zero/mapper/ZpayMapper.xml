@@ -191,8 +191,8 @@
 						, null
 						, null
 						, null
-						, #{zero_account_balance} + #{zero_account_amount} * 0.97
-						, #{zero_account_amount} * 0.97
+						, #{zero_account_balance} + #{zero_account_amount}
+						, #{zero_account_amount}
 					</when>
 					<when test="zero_account_type.equals('환급')">
 						, #{zpay_history_idx}
