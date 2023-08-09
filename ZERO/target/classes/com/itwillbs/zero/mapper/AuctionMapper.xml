@@ -174,4 +174,29 @@
 	</select>
 	
 	
+	<!-- 검색시 옥션 목록 조회 -->
+	<select id="selectAuctionList" resultType="hashmap">
+		SELECT *
+		FROM 
+			AUCTION_PRODUCT_CATEGORY_BRAND
+		WHERE
+			<if test="!productSearchKeyword.equals('')">
+        		auction_title LIKE '%${productSearchKeyword}%'
+     		</if>
+	</select>
+	
+	
+	<!-- 검색시 옥션 목록 개수 조회 -->
+	<select id="selectAuctionCount" resultType="int">
+		SELECT COUNT(*)
+		FROM 
+			AUCTION_PRODUCT_CATEGORY
+		WHERE
+			<if test="!productSearchKeyword.equals('')">
+        		auction_title LIKE '%${productSearchKeyword}%'
+     		</if>
+	</select>
+	
+	
+	
 </mapper>

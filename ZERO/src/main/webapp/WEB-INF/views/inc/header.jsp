@@ -87,7 +87,7 @@
 				<!-- 검색어 입력창 -->
 				<form class="form-inline my-2 my-md-0" action="searchProductList" id="productSearchKeyword" name="productSearchKeyword" method="get" >
 					<input class="form-control mr-sm-2" 
-							type="text" placeholder="원하는 상품 키워드를 입력해주세요" 
+							type="text" placeholder="키워드를 입력해주세요" 
 							aria-label="Search"
 							name="productSearchKeyword"
 	                        value="${not empty param.productSearchKeyword ? param.productSearchKeyword : ''}"> 
