@@ -99,11 +99,21 @@ public class ChattingController {
 			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
 		}
 		
+		// 판매자가 z페이 사용자일 때 송금하기 가능
+		String seller_id = chatRoom.getSeller_id();
+		logger.info("*** 판매자 아이디 : " + seller_id);
+		ZpayVO zpay = zpayService.isZpayUser(seller_id);
+		boolean isZpayUser = false;
+		if(zpay != null) {
+			isZpayUser = true;
+		}
+		
 		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("chat_room_idx", chat_room_idx);
 		model.addAttribute("chatRoom", chatRoom);
 		model.addAttribute("secondhandInfo", secondhandInfo);
+		model.addAttribute("isZpayUser", isZpayUser);
 		
 		return "chatting/chat";
 	}

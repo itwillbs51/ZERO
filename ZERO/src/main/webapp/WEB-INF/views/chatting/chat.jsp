@@ -77,7 +77,7 @@
 							<%-- 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화 --%>
 							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' }">
 								<button onclick="reservationNext('time')"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
-								<c:if test="${sessionScope.member_id eq chatRoom.buyer_id && orderSecondhandInfo.order_secondhand_status eq '거래진행중'}">
+								<c:if test="${isZpayUser && sessionScope.member_id eq chatRoom.buyer_id && orderSecondhandInfo.order_secondhand_status eq '거래진행중'}">
 									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
 								</c:if>
 								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
@@ -705,7 +705,8 @@
 		// 메세지 보내기
 		sendMessage('notice@test.com');
 		$("#msgArea").append(chatMessageBtn);
-		
+		// 거래하기 비활성화
+		$("#doDeal").attr("disabled", true);
 		// 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화
 				
 	}	// 거래버튼 시 실행 함수 끝

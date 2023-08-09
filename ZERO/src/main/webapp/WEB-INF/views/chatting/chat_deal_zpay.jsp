@@ -22,6 +22,7 @@
 	function submitNclose(type) {
 		switch(type) {
 			case 'submit' : 
+				console.log(${map.order_secondhand_idx });
 				var form = document.getElementById("zpay_send_form");
 		        form.submit();
 		        // 채팅창에(부모창) 안내 메세지 띄우기
@@ -67,7 +68,7 @@
 		<div class="container">
 			<div class="contentArea">
 			<%-- 메인영역 --%>
-				<form action="zpay_send_form" method="get">
+				<form action="zpay_send_form" method="get" id="zpay_send_form">
 					<input type="hidden" name="order_secondhand_idx" value="${map.order_secondhand_idx }">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
