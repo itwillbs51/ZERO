@@ -226,6 +226,14 @@
 						, #{zero_account_balance} + #{zero_account_amount}
 						, #{zero_account_amount}
 					</when>
+					<when test="zero_account_type.equals('경매취소환불')">
+						, null
+						, null
+						, null
+						, #{auction_idx}
+						, #{zero_account_balance} - #{zero_account_amount} * 0.9
+						, #{zero_account_amount}
+					</when>
 				</choose>
 				, now()
 				, #{zero_account_type}
@@ -353,6 +361,9 @@
 					</when>
 					<when test="zpay_deal_type.equals('중고출금') or zpay_deal_type.equals('경매출금')">
 						, #{zpay_balance} - #{zpay_amount}
+					</when>				
+					<when test="zpay_deal_type.equals('경매취소환불')">
+						, #{zpay_balance} + #{zpay_amount} * 0.9
 					</when>				
 				</choose>
 				, #{zpay_deal_type}

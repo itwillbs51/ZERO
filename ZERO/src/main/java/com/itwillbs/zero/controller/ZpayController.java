@@ -842,14 +842,7 @@ public class ZpayController {
 		ZpayVO buyer_zpay = service.getZpay(buyer_id);
 		// ZPAY_HISTORY 테이블에서 buyer_id의 잔액조회
 		Integer buyer_zpay_balance = service.getZpayBalance(buyer_id);
-		
-		// 잔액을 초과할 경우 송금 진행 불가
-		if(buyer_zpay_balance < product_price) {
-			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n추가 충전이 필요합니다");
-			model.addAttribute("targetURL", "zpay_charge_form");
-			return "fail_location";
-		}
-		
+				
 		// zpaySellerHistory 객체에 저장
 		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
 		zpayBuyerHistory.setZpay_idx(buyer_zpay_idx);
@@ -859,11 +852,11 @@ public class ZpayController {
 		zpayBuyerHistory.setZpay_deal_type("경매취소환불");
 		zpayBuyerHistory.setOrder_auction_idx(order_auction_idx);
 		
-		// ZPYA_HISTORY 테이블에 송금내역 추가
+		// ZPYA_HISTORY 테이블에 경매취소환불 내역 추가
 		int insertSendCount = service.insertSendReceiveHistory(zpayBuyerHistory);
 //				int insertSendCount = service.sendZpay(zpayBuyerHistory);
 		
-		// -------------------------- ZERO 약정계좌 배달비 거래내역 추가 ---------------------------------------
+		// -------------------------- ZERO 약정계좌 경매취소환불 내역 추가 ---------------------------------------
 		ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
 		zpayHistoryInserted = service.getzpayHistoryInserted();
 		
@@ -875,7 +868,7 @@ public class ZpayController {
 		zeroAccount.setOrder_secondhand_idx(order_auction_idx);
 		zeroAccount.setZero_account_amount(order_auction_commission);
 		zeroAccount.setZero_account_balance(zero_account_balance);
-		zeroAccount.setZero_account_type("경매수수료");
+		zeroAccount.setZero_account_type("경매취소환불");
 		
 		int insertZeroCount = service.depositWithdrawZeroAccount(zeroAccount);
 //				int insertZeroCount = service.depositZeroAccount(zeroAccount);
@@ -883,19 +876,18 @@ public class ZpayController {
 				
 		if(insertSendCount > 0) {
 				
-			model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
-			model.addAttribute("seller_id", seller_id);
-			model.addAttribute("buyer_zpay", buyer_zpay);
-			model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
-			
-			return "zpay/zpay_send_success";
+//			model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
+//			model.addAttribute("seller_id", seller_id);
+//			model.addAttribute("buyer_zpay", buyer_zpay);
+//			model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
+//			
+//			return "zpay/zpay_send_success";
+			return "./";
 			
 		} else {
 			model.addAttribute("msg", "ZPAY 송금 실패");
 			return "fail_back";
 		}
-		
-//		return "./";
 	}
 	
 	
