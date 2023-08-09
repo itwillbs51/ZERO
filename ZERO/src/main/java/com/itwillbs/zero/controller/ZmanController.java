@@ -46,19 +46,26 @@ public class ZmanController {
 		String member_type = (String) session.getAttribute("member_type");
 		String member_id = (String) session.getAttribute("member_id");
 		ZmanVO zman = zman_service.getZman(member_id);
-		System.out.println(zman.getZman_status());
 		System.out.println(member_type);
 		System.out.println(member_id);
 		
-		model.addAttribute("zman", zman);
+		if (zman != null) {
+			model.addAttribute("zman", zman);
+		    System.out.println(zman.getZman_status());
+		}
 		
-		if(member_type.equals("Z맨") || member_type.equals("직원") || zman.getZman_status().equals("활동")) {
-			return "zman/zman_main";
-		} else if(zman.getZman_status().equals("대기") || zman.getZman_status().equals("탈퇴")) {
-			return "member/member_zman_standby";
+		if (zman == null) {
+		    session.setAttribute("previousPage", "zman_main");
+		    return "member/member_zman_join_identification";
+		} else if (member_type.equals("Z맨") || member_type.equals("직원") || zman.getZman_status().equals("활동")) {
+		    model.addAttribute("zman", zman);
+		    return "zman/zman_main";
+		} else if (zman.getZman_status().equals("대기") || zman.getZman_status().equals("탈퇴")) {
+		    model.addAttribute("zman", zman);
+		    return "member/member_zman_standby";
 		} else {
-			session.setAttribute("previousPage", "zman_main");
-			return "member/member_zman_join_identification";
+		    session.setAttribute("previousPage", "zman_main");
+		    return "member/member_zman_join_identification";
 		}
 	}
 	
