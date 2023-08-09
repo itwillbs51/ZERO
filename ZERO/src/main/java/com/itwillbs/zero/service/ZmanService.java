@@ -16,5 +16,10 @@ public class ZmanService {
 	public int registZman(ZmanVO zman, String vehiclesStr, String zman_area) {
 		return mapper.insertZman(zman, vehiclesStr, zman_area);
 	}
+	
+	// ZMAN조회
+	public ZmanVO getZman(String member_id) {
+		return mapper.selectZman(member_id);
+	}
 
 }

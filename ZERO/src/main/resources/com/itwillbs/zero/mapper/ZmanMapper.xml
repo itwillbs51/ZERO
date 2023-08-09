@@ -48,4 +48,13 @@
 			)
 	</insert>
 	
+	<select id="selectZman" resultType="Zman">
+		SELECT 
+			*
+		FROM
+			ZMAN
+		WHERE
+			zman_id = #{member_id}
+	</select>	
+	
 </mapper>

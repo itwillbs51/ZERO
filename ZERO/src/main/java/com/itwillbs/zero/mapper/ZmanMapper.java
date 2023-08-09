@@ -13,4 +13,7 @@ public interface ZmanMapper {
 				   @Param("vehiclesStr") String vehiclesStr, 
 				   @Param("zman_area") String zman_area);
 
+	// Zman 조회
+	ZmanVO selectZman(String member_id);
+
 }

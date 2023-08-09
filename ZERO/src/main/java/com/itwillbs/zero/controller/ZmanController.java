@@ -42,15 +42,20 @@ public class ZmanController {
 	public String zmanMain(HttpSession session, Model model) {
 		System.out.println("ZmanController - zman_main");
 		
-		// 세션에 저장된 zman 아이디를 파라미터로 넘기
-//		ZmanVO zman = service.getZmanList();
-//		model.addAttribute("zman", zman);
 		
-		// 여기 조건 더 추가해야됨 zpay 아이디 있으면 zman 메인으로 아니면 신청페이지
 		String member_type = (String) session.getAttribute("member_type");
+		String member_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(member_id);
+		System.out.println(zman.getZman_status());
 		System.out.println(member_type);
-		if(member_type.equals("Z맨") || member_type.equals("직원")) {
+		System.out.println(member_id);
+		
+		model.addAttribute("zman", zman);
+		
+		if(member_type.equals("Z맨") || member_type.equals("직원") || zman.getZman_status().equals("활동")) {
 			return "zman/zman_main";
+		} else if(zman.getZman_status().equals("대기") || zman.getZman_status().equals("탈퇴")) {
+			return "member/member_zman_standby";
 		} else {
 			session.setAttribute("previousPage", "zman_main");
 			return "member/member_zman_join_identification";
