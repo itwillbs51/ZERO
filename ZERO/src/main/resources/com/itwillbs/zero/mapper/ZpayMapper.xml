@@ -273,7 +273,7 @@
 	<select id="selectOrderSecondhand" resultType="com.itwillbs.zero.vo.OrderSecondhandVO">
 		SELECT * FROM ORDER_SECONDHAND
 		WHERE order_secondhand_idx = #{order_secondhand_idx}
-		AND order_secondhand_iszpay = 'Y'
+<!-- 		AND order_secondhand_iszpay = 'Y' -->
 	</select>
 
 	<!-- 경매거래 내역 조회 -->
