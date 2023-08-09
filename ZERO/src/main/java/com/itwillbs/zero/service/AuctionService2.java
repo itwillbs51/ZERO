@@ -60,5 +60,16 @@ public class AuctionService2  {
 		// TODO Auto-generated method stub
 		return mapper.selectBidedZpay(member_id, id);
 	}
+	public void registOrder(HashMap<String, String> product) {
+		mapper.insertOrder(product);
+	}
+	public int getOderauctionIdx(int id) {
+		return mapper.selectoOderauctionIdx(id);
+		
+	}
+	public void registOrder2(HashMap<String, String> winner) {
+		mapper.insertOrder2(winner);
+		
+	}
 
 }

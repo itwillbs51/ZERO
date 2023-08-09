@@ -24,6 +24,8 @@ public interface ZmanDeliveryMapper {
 	// 배달 상세 정보 - 출발지와 배달지 가져오기
 	ZmanDeliveryVO selectDeliveryDetail(int zman_delivery_idx);
 
+
+
 	// ZMAN 중고물품 배달 시작하기
 //	int updateDeliveryDetailStart(int zman_delivery_idx);
 

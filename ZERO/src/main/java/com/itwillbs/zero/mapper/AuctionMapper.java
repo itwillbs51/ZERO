@@ -28,4 +28,14 @@ public interface AuctionMapper {
 	int selectGetAuctionListCount(@Param("pageNum") int pageNum, @Param("category") String category
 			, @Param("sort") String sort, @Param("type") String type);
 
+	
+	
+	
+	
+	
+	// 검색시 옥션 목록 조회 (경진)
+	List<HashMap<String, String>> selectAuctionList(String productSearchKeyword);
+	// 검색시 옥션 목록 개수 조회 (경진)
+	int selectAuctionCount(String productSearchKeyword);
+
 }

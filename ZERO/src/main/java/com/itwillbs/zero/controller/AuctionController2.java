@@ -136,19 +136,29 @@ public class AuctionController2 {
 		String member_id = (String) session.getAttribute("member_id");
 		HashMap<String, String> product= service.getAuctionProduct(id);
 		int maxPrice=Integer.parseInt(String.valueOf(product.get("auction_max_price")));
+		String auction_manage_status=(product.get("auction_manage_status"));
 		System.out.println(maxPrice);
 		int balance=service2.getZpayBalance(member_id); 
 		int bidedZpay=service.getBidedZpay(member_id,id);
 		int possibleZpay=balance-bidedZpay;
-		product.get("auction_manage_status");
-		if(possibleZpay<maxPrice) {
+		
+		if(possibleZpay<maxPrice || auction_manage_status!=null) {
 		return "false";
 		}
 		HashMap<String, String> winner = new HashMap<String, String>();
 		winner.put("member_id", member_id);
 		winner.put("auction_idx",Integer.toString( id));
 		service.registWinner(winner);
-		return "true";
+		product= service.getAuctionProduct(id);
+		String uuid = UUID.randomUUID().toString();
+		product.put("order_auction_delivery_idx", uuid);
+		product.put("order_auction_commission",Double.toString(maxPrice*0.1));
+	
+		service.registOrder(product);
+		int order_auction_idx= service.getOderauctionIdx(id);
+		System.out.println(order_auction_idx);
+		String idx=Integer.toString(order_auction_idx);
+		return idx;
 	}
 	
 	// 경매 상품 등록
