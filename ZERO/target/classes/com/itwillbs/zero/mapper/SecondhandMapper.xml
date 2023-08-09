@@ -237,6 +237,46 @@
 	</update>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 검색 - 중고상품리스트 조회 -->
+	<select id="selectSearchSecondhandList" resultType="com.itwillbs.zero.vo.SecondhandVO">
+		SELECT *
+		FROM 
+			SECONDHAND
+		WHERE
+	    	<if test="!productSearchKeyword.equals('')">
+        			secondhand_subject LIKE '%${productSearchKeyword}%'
+     		</if>
+		ORDER BY
+			secondhand_first_date
+	</select>	
+	
+	<!-- 검색된 중고상품의 개수 조회 -->
+	<select id="selectSearchSecondhandCount" resultType="int">
+		SELECT COUNT(*)
+		FROM 
+			SECONDHAND
+		WHERE
+	    	<if test="!productSearchKeyword.equals('')">
+        			secondhand_subject LIKE '%${productSearchKeyword}%'
+     		</if>
+	</select>
+	
+
+
+
+	
+	
+	
 	<!-- 끌어올리기 작업 시 업데이트 처리 (등록날짜)-->
 	
 </mapper>
