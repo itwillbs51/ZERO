@@ -54,4 +54,6 @@
 <!-- 			WHERE -->
 <!-- 				zman_delivery_idx = #{zman_delivery_idx}; -->
 <!-- 	</update> -->
+
+	
 </mapper>

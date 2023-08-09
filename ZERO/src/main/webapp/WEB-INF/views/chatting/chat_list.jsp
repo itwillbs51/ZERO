@@ -12,7 +12,9 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 
 <%-- 소켓통신을 위한 함수들을 콜백형태로 제공 --%>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
+<%-- <%-- 알림 관련 함수 --%>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/alarm.js"></script> --%>
 <%-- google 아이콘 --%>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
@@ -138,6 +140,13 @@
 									<div>${room.chat_content }</div>
 								</td>
 							</tr>
+<!-- 							<tr> -->
+<!-- 								<td> -->
+									<%-- sendAlarmMessage(receiver_id, alarmType, alarmMsg) --%>
+<%-- 									<button onclick="sendAlarmMessage('${room.buyer_id}', '테스트', '테스트입니다')">구매자에게 알림보내기</button> --%>
+<%-- 									<button onclick="sendAlarmMessage('${room.seller_id}', '테스트2', '테스트입니다2')">판매자에게 알림보내기</button> --%>
+<!-- 								</td> -->
+<!-- 							</tr> -->
 					</c:forEach>
 						
 				</table>
