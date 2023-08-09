@@ -82,10 +82,21 @@
 						<a class="nav-link" href="auction_regist_form">경매등록</a>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-md-0">
-					<input class="form-control form-control-sm mr-2 mr-sm-2" type="search" placeholder="Search">
-					<button class="btn btn-sm btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+			
+			
+				<!-- 검색어 입력창 -->
+				<form class="form-inline my-2 my-md-0" action="searchProductList" id="productSearchKeyword" name="productSearchKeyword" method="get" >
+					<input class="form-control mr-sm-2" 
+							type="text" placeholder="원하는 상품 키워드를 입력해주세요" 
+							aria-label="Search"
+							name="productSearchKeyword"
+	                        value="${not empty param.productSearchKeyword ? param.productSearchKeyword : ''}"> 
+					<button class="btn btn-sm btn-outline-dark my-2 my-sm-0" type="submit" 
+							onclick="location.href='searchProductList?productSearchKeyword=${param.productSearchKeyword}'">Search
+					</button>
 				</form>
+			
+				
 			</div>
 		</div>
 	</div>

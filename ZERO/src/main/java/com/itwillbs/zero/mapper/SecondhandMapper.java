@@ -78,7 +78,16 @@ public interface SecondhandMapper {
 	//판매자의 판매완료된 상품개수 조회
 	int selectSoldOutProductCount(String member_id);
 
+	
+	
+	
+	//검색결과페이지------------------------------------------------------------
+	
+	//검색키워드 포함된 중고상품리스트 조회요청
+	List<SecondhandVO> selectSearchSecondhandList(String productSearchKeyword);
 
+	//검색키워드 포함된 중고상품 개수 조회요청
+	int selectSearchSecondhandCount(String productSearchKeyword);
 	
 
 	
