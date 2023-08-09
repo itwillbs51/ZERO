@@ -230,7 +230,7 @@ function uncomma(str) {
                 	 		<span id="maxPrice">${product.auction_max_price }</span> 원
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
-                	 		<button type="button" class="btn btn-dark  btn-block">즉시구매</button>
+                	 		<button type="submit" id="button-send2" class="btn btn-dark  btn-block">즉시구매</button>
                 	 	</div>   
 	                	
 	                	<div class="col-4 col-md-4"  style=" text-align: right;">    
@@ -292,6 +292,37 @@ $("#bid_price").on("keyup",function(key){
   	sendMessage();
     }
     }
+});
+
+//즉시구매
+$("#button-send2").on("click", function(e) {
+	
+	
+	  let result = confirm($("#maxPrice").html()+"원 입니다 즉시구매 하시겠습니까?");
+
+      if(!result){return false;}
+      $.ajax({
+  		data: {
+  			'id':"${param.id}"
+  		},
+  		url: "direct_pay_pro",
+  		type: "POST",
+  		success: function(result) {
+  			if(result == "true") {
+  				alert("등록성공!");
+				
+			} else {
+				alert("실패2!");
+			}
+  		},
+  		fail: function() {
+  			alert("실패!");
+  		}	
+  		
+  	});
+      
+     
+	
 });
 
 var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?id=${param.id}');

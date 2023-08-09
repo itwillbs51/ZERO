@@ -287,15 +287,24 @@
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
-						<a class="profileLink" href="#">
+						<a class="profileLink" href="member_mypage_main">
 							<span class="profileImg">
+							<c:choose>
+								<c:when test="${not empty member.member_image }">
+									<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+								</c:when>
+								<c:otherwise>
+									<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+								</c:otherwise>
+							</c:choose>							
 							</span>
 							<span class="profileInfo">
 								<strong class="profileName">
 									${sessionScope.member_id } 님
 <!-- 									홍길동 님 -->
 								</strong>
-								hong
+									${member.member_nickname }
+<!-- 								hong -->
 							</span>
 						</a>
 					</div>

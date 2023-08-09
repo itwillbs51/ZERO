@@ -12,9 +12,11 @@ import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Mapper
 public interface AdminMapper {
@@ -159,6 +161,23 @@ public interface AdminMapper {
 
 	// ZPAY 관리 - 사용/수익 정보 조회
 	ZpayHistoryVO selectZpayUse(int zpay_history_idx);
+
+	// 계좌 관리 - 약정 계좌 내역 목록 조회
+	List<ZeroAccountHistoryVO> selectZeroAccountHistoryList();
+	
+	// ZERO_ACCOUNT_HISTORY 잔액조회
+	Integer selectZeroAccountBalance();
+
+	// 계좌 관리 - 회원 계좌 목록 조회
+	List<ZpayVO> selectMemberZpayList();
+
+	// 계좌 관리 - 회원 계좌 거래 정보 조회
+	List<ZpayHistoryVO> selectMemberZpayHistoryList(int zpay_idx);
+
+	// 계좌 관리 - ZMAN 계좌 목록 조회
+	List<ZpayVO> selectZmanZpayList();
+
+
 
 
 
