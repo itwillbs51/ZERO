@@ -58,10 +58,17 @@
 			let now = new Date();
 			let year = now.getFullYear();
 			let month = String(now.getMonth() + 1).padStart(2, '0');
-			let day = String(now.getDate()).padStart(2, '0');
+			let day = String(now.getDate() - 4).padStart(2, '0');
 			let auctionManageCheckDate = year + "-" + month + "-" + day;
-			let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate() + 4).padStart(2, '0');
-			let auctionEndDatetime = year + "-" + month + "-" + String(now.getDate() + 5).padStart(2, '0');
+			let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate()).padStart(2, '0');
+			let auctionEndDatetime = year + "-" + month + "-" + String(now.getDate() + 1).padStart(2, '0');
+// 			let now = new Date();
+// 			let year = now.getFullYear();
+// 			let month = String(now.getMonth() + 1).padStart(2, '0');
+// 			let day = String(now.getDate()).padStart(2, '0');
+// 			let auctionManageCheckDate = year + "-" + month + "-" + day;
+// 			let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate() + 4).padStart(2, '0');
+// 			let auctionEndDatetime = year + "-" + month + "-" + String(now.getDate() + 5).padStart(2, '0');
 
 			// 등록, 검수중 상태로 변경될 경우
 			// 검수완료일, 경매시작일, 경매종료일 지정X

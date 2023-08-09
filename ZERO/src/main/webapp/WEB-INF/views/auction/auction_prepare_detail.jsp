@@ -71,6 +71,10 @@ function comma(str) {
 
 }
 	
+	.carousel-control-next-icon, .carousel-control-prev-icon {
+		background-color: #333;
+	}
+	
 
 	@media only screen and (min-width: 768px) {
 		body{
@@ -101,6 +105,9 @@ function comma(str) {
 	
 	}
 	
+	.carousel-control-next-icon, .carousel-control-prev-icon {
+		background-color: black;
+	}
 	
 	
 </style>
