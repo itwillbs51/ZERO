@@ -190,7 +190,7 @@
 					alert("Z페이 송금 후 호출이 가능합니다! \n호출이 불가능합니다");
 				} else {
 					alert("DB에 값 넣기");
-					정보 모두 입력된 경우만 가능
+					// 정보 모두 입력된 경우만 가능
 					$.ajax({
 						data: {
 							"order_secondhand_idx": ${orderInfo.order_secondhand_idx }
