@@ -56,7 +56,7 @@
 							<div class="co02-1">${secondhandInfo.secondhand_deal_status }</div>
 							<div class="co02-2">${secondhandInfo.secondhand_subject }</div><br>
 							<div class="co02-3">
-								${secondhandInfo.secondhand_price }원
+								<fmt:formatNumber pattern="###,###" value="${secondhandInfo.secondhand_price }"/>원
 							</div>
 						</div>
 						<div class="co03">
@@ -93,6 +93,7 @@
 							<form id="openZform" method="post" action="ZpayForm" target="_blank">
 							<c:if test="${not empty orderSecondhandInfo }">
 							    <input type="hidden" name="order_secondhand_idx" value="${orderSecondhandInfo.order_secondhand_idx }">
+							    <input type="hidden" name="order_secondhand_type" value="${orderSecondhandInfo.order_secondhand_type }">
 							    <input type="hidden" name="secondhand_subject" value="${secondhandInfo.secondhand_subject }">
 							    <input type="hidden" name="order_secondhand_price" id="order_secondhand_price" value=${orderSecondhandInfo.order_secondhand_price }>
 							    <input type="hidden" name="seller_id" value="${chatRoom.seller_id}">
@@ -316,11 +317,10 @@
 		if(chatMessage != "") {
 			sendMessage(sender);
 			$('#msg').val('');
-		} else if(chatImgMessage != "") {
-			console.log(chatImgMessage);
-			var form = document.getElementById("imgform");
-	        form.submit();
-			
+// 		} else if(chatImgMessage != "") {
+// 			console.log(chatImgMessage);
+// 			var form = document.getElementById("imgform");
+// 	        form.submit();
 		}
 	});
 	
@@ -379,7 +379,7 @@
 				url: "chatRemember",
 				type: "POST",
 				success: function(data) {
-// 					console.log("DB 저장 성공");
+					console.log("DB 저장 성공");
 					
 				},
 				error: function(request,status,error) {
@@ -392,9 +392,8 @@
 		} else if(sender == 'notice@test.com') {
 			// 안내메세지 관리
 			chat_content_type = '안내';
-// 			chatMessage = chatMessage.split("&-안내")[1];
 		}
-		console.log("sender 안내가 맞나? :" + (sender == 'notice@test.com'));
+// 		console.log("sender 안내가 맞나? :" + (sender == 'notice@test.com'));
 		// 채팅 내용을 DB에 저장하기
 		$.ajax({
 			data: {
@@ -452,6 +451,7 @@
 			str += '</div>';
 			
 			$("#msgArea").append(str);
+			console.log("안내문자 :" + noticeMessage);
 			
 		}else if(sessionId == cur_session){ //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
 			
@@ -526,8 +526,8 @@
 		chatScrollTop = $("#msgArea").scrollTop();	// 스크롤바 현 높이(위치)를 가지고 옴
 		msgAreaHeight = $("#msgArea").height();	// 브라우저 창의 높이
 // 		documentHeight = $("#msgArea").clientHeight;	// 문서의 높이(창의 높이보다 크거나 같음)
-		console.log("chatScrollTop : " + chatScrollTop);
-		console.log("msgAreaHeight : " + msgAreaHeight);
+// 		console.log("chatScrollTop : " + chatScrollTop);
+// 		console.log("msgAreaHeight : " + msgAreaHeight);
 // 		console.log("documentHeight : " + documentHeight);
 	});
 	
@@ -806,10 +806,8 @@
 							console.log("거래완료 의사 전달 완료 - Z맨, Z페이");
 						},
 						error: function(request,status,error) {
-							alert("code:"+request.status+"\n"
-									+"message:"+request.responseText+"\n"
-									+"error:"+error);
-							console.log("DB 저장 실패");
+							alert("놀라지마세요! z맨, z페이 거래완료 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
+							console.log("DB 저장 실패 - z맨");
 						}
 					});	// ajax끝
 				}	// if문 끝
@@ -826,10 +824,8 @@
 						
 					},
 					error: function(request,status,error) {
-						alert("code:"+request.status+"\n"
-								+"message:"+request.responseText+"\n"
-								+"error:"+error);
-						console.log("DB 저장 실패");
+						alert("놀라지마세요! 상태변경하는 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
+						console.log("DB 저장 실패 - 택배, 만나서의 경우");
 					}
 				});	// ajax끝
 				

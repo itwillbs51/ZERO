@@ -32,10 +32,12 @@
 // 	let chatImgMessage;
 	// 채팅 보내는 사람
 	let receiver = "${member_id}";
-	
-	// 웹소켓 주소 설정 - 알림창 동기 설정
-// 	var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?=chat_${param.room_idx}');
 	var sock;
+	// 로그인했을 경우만 알림 가능하게 하기 - 세션아이디 유무 판별
+	if(receiver != "") {
+		sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?=chat_${param.room_idx}');
+	}
+	// 웹소켓 주소 설정 - 알림창 동기 설정
 	sock.onmessage = onMessage;
 	sock.onclose = onClose;
 	sock.onopen = onOpen;

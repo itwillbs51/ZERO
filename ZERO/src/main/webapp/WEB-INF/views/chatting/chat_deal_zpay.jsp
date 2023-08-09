@@ -79,16 +79,33 @@
 								<div class="title">
 									${map.seller_nickname }님에게
 								</div>
-								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">
-<%-- 									${map.order_secondhand_price + 3000}원 --%>
-										<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price + 3000}"/>원
-									</div>
-								</div>
-								<div class="withdrawalAccount_info">
-									<div class="withdrawalAccountNum">
-										<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>(상품가격)  + 3,000(배달수수료)</div>
-								</div>
+									<c:choose>
+										<%--  --%>
+										<c:when test="${map.order_secondhand_type eq 'Z맨' }">
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalBankName">
+			<%-- 									${map.order_secondhand_price + 3000}원 --%>
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price + 3000}"/>원
+												</div>
+											</div>
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalAccountNum">
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>(상품가격)  + 3,000(배달수수료)</div>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalBankName">
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>원
+												</div>
+											</div>
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalAccountNum">
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>(상품가격)</div>
+											</div>
+											
+										</c:otherwise>
+									</c:choose>
 								<div class="balanceAccountNum">페이잔액 : xxx,xxx원</div>
 								
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
