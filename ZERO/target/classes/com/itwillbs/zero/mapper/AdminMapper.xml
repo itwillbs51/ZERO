@@ -103,6 +103,13 @@
 			WHERE zman_idx = #{zman_idx}
 	</update>
 	
+	<!-- zman관리 - ZMNA 상태가 '활동'으로 변경되면 MEMBER.member_type 'Z맨'으로 변경 -->
+	<update id="updateZmanMemberType">
+		UPDATE MEMBER
+		SET member_type = 'Z맨'
+		WHERE member_id = #{zman_id}
+	</update>
+	
 	<!--  zman 관리 - 배달 내역 목록 조회 - SELECT -->
 	<select id="selectDeliveryList" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
 		SELECT

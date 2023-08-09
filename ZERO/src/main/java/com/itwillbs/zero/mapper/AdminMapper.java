@@ -59,6 +59,9 @@ public interface AdminMapper {
 	// zman관리 - zman 정보 수정
 	int updateZman(ZmanVO zman);
 	
+	//  zman관리 - ZMNA 상태가 '활동'으로 변경되면 MEMBER.member_type 'Z맨'으로 변경
+	int updateZmanMemberType(String zman_id);
+	
 	// zman 관리 - 배달 내역 목록 조회
 	ZmanDeliveryVO selectDeliveryList();
 
@@ -182,6 +185,8 @@ public interface AdminMapper {
 
 	// 경매관리 - 경매 상품 상세보기
 	Map<String, String> selectAuctionProduct(int auction_idx);
+
+
 
 
 

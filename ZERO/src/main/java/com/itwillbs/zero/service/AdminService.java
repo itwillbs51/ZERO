@@ -87,6 +87,12 @@ public class AdminService {
 		return mapper.updateZman(zman);
 	}
 	
+	//  zman관리 - ZMNA 상태가 '활동'으로 변경되면 MEMBER.member_type 'Z맨'으로 변경
+	public int modifyZmanMemberType(String zman_id) {
+		return mapper.updateZmanMemberType(zman_id);
+	}
+
+	
 	// zman 관리 - 배달 내역 목록 조회
 	public ZmanDeliveryVO getDeliveryList() {
 		return mapper.selectDeliveryList();
@@ -296,6 +302,7 @@ public class AdminService {
 		return mapper.selectAuctionProduct(auction_idx);
 	}
 
+	
 	
 	
 

@@ -239,12 +239,31 @@ public class AdminController {
 		
 		int updateCount = service.modifyZman(zman);
 		
+		// ZMNA 상태가 '활동'으로 변경되면 MEMBER.member_type 'Z맨'으로 변경		
+		if(zman.getZman_status().equals("활동")) {
+			int updateZmanMemberTypeCount = service.modifyZmanMemberType(zman.getZman_id());
+			
+			if(updateZmanMemberTypeCount > 0) {
+				if(updateCount > 0) {
+					return "redirect:/admin_zman_list";					
+				} else {
+					model.addAttribute("msg", "zman 정보 수정 실패");
+					return "fail_back";
+				}
+			} else {
+				model.addAttribute("msg", "zman 회원 타입 수정 실패");
+				return "fail_back";
+			}
+		}
+		
 		if(updateCount > 0) {
 			return "redirect:/admin_zman_list";			
 		} else {
 			model.addAttribute("msg", "zman 정보 수정 실패");
 			return "fail_back";
-		}	
+		}				
+		
+		
 	}
 	
 	// ---------- ---------- zman 배달 관련 ---------- ----------
