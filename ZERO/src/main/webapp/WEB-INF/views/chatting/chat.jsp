@@ -794,7 +794,7 @@
 				// zpay를 사용한 경우
 				if ("${orderSecondhandInfo.order_secondhand_status}" == '결제완료' ) {
 					let doneUrl = "zpay_send_to_seller";
-					let idx = ${orderSecondhandInfo.order_secondhand_idx} ;
+					let idx = ${orderSecondhandInfo.order_secondhand_idx} + 0 ;
 					
 					$.ajax({
 						data: {
@@ -833,7 +833,9 @@
 					}
 				});	// ajax끝
 				
-			
+				// 작업 끝나면 버튼에 비활성화하기
+				$("#dealFinish").attr("disabled", true);
+				
 				break;
 		}
 		// switch문 끝
