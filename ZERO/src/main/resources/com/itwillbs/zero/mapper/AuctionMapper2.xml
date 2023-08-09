@@ -97,7 +97,7 @@
 	</select>
 	
 	<update id="updateWinner" >
-		UPDATE AUCTION_MANAGING SET member_id =#{member_id} WHERE auction_idx =#{auction_idx} 
+		UPDATE AUCTION_MANAGING SET auction_manage_status='경매종료', member_id =#{member_id} WHERE auction_idx =#{auction_idx} 
 	</update>
 	
 	<select id="selectBidedZpay" resultType="int">

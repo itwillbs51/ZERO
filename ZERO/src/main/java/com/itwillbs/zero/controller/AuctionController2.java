@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.itwillbs.zero.service.AuctionService2;
 import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.AuctionProductVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 
 @Controller
 public class AuctionController2 {
@@ -126,6 +127,30 @@ public class AuctionController2 {
 		model.addAttribute("brandlist", brand);
 		return "auction/auction_regist_form";
 	}
+	@ResponseBody
+	@PostMapping("direct_pay_pro")
+	public String directPay(Model model, HttpSession session, int id) {
+			
+		System.out.println("즉시구매");
+		
+		String member_id = (String) session.getAttribute("member_id");
+		HashMap<String, String> product= service.getAuctionProduct(id);
+		int maxPrice=Integer.parseInt(String.valueOf(product.get("auction_max_price")));
+		System.out.println(maxPrice);
+		int balance=service2.getZpayBalance(member_id); 
+		int bidedZpay=service.getBidedZpay(member_id,id);
+		int possibleZpay=balance-bidedZpay;
+		product.get("auction_manage_status");
+		if(possibleZpay<maxPrice) {
+		return "false";
+		}
+		HashMap<String, String> winner = new HashMap<String, String>();
+		winner.put("member_id", member_id);
+		winner.put("auction_idx",Integer.toString( id));
+		service.registWinner(winner);
+		return "true";
+	}
+	
 	// 경매 상품 등록
 	
 	@ResponseBody

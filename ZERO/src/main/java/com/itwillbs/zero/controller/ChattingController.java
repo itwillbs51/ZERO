@@ -299,7 +299,7 @@ public class ChattingController {
 			// 채팅방이 없으면
 			// => 채팅방 생성하기
 			int insertChatRoom = service.insertChatRoom(map, buyer_id);
-//			chat_room_idx = ??;
+			chat_room_idx = service.selectChatRoomIdx(map, buyer_id);
 		}
 		
 		// 채팅방이 있으면
@@ -343,6 +343,8 @@ public class ChattingController {
 			int isInsert = service.setZmanOrderInfo(map);
 			logger.info("*** Z맨 거래 정보 INSERT : " + isInsert);
 		} else if (map.get("type") != null){
+			
+			logger.info("*** 가져온 파라미터 map : " + map);
 			// z맨 호출신청 관련 데이터가 있으면 가져온 값을 DB에 업데이트 하기
 			// zmanOrderInfo 안의 zman_delivery_idx로 조회해 UPDATE 하기
 			int updateCount = service.updateZmanOrderInfo(map, zmanOrderInfo.getZman_delivery_idx());
