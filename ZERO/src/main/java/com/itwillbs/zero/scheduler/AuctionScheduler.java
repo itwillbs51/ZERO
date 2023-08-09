@@ -29,6 +29,8 @@ public class AuctionScheduler {
 		
 		for(HashMap<String, String> winner : winnerList) {
 			service.registWinner(winner);
+			service.registOrder2(winner);
+			service.getOderauctionIdx(Integer.parseInt(winner.get("auction_idx")));
 		}
 		
 		

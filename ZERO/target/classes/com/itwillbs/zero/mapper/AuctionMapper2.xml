@@ -85,7 +85,7 @@
 	</update>
 	
 	<select id="selectWinnerList" resultType="hashmap">
-		SELECT a.auction_idx, a.max_bid, b.member_id FROM
+		SELECT a.auction_idx, a.max_bid, b.member_id, ap.auction_seller_id FROM
 		  (SELECT auction_idx, MAX(auction_log_bid) as max_bid
 		   FROM AUCTION_LOG_ROOM
 		   GROUP BY auction_idx) as a
@@ -93,6 +93,8 @@
 		  ON a.auction_idx = b.auction_idx AND a.max_bid = b.auction_log_bid
 		JOIN AUCTION_MANAGING as am
 		  ON a.auction_idx = am.auction_idx
+		JOIN AUCTION_PRODUCT as ap
+ 		  ON a.auction_idx = ap.auction_idx
 		WHERE auction_end_datetime =#{now} AND am.member_id IS NULL
 	</select>
 	
@@ -134,5 +136,22 @@
 				WHERE auction_idx=#{id}
 				
 	</select>
+	
+	<insert id="insertOrder2" >
+		INSERT 
+		INTO ORDER_AUCTION
+		values(
+			null
+			, CONCAT(CURDATE(), ' 07:00:00')
+			, #{max_bid}
+			, 13245
+			, (#{max_bid} * 0.1)
+			, "한진택배"
+			, #{auction_seller_id}
+			, #{member_id}
+			, #{auction_idx}
+			
+			)
+	</insert>
 	
 </mapper>

@@ -41,6 +41,8 @@ public interface AuctionMapper2 {
 
 	int selectoOderauctionIdx(int id);
 
+	void insertOrder2(HashMap<String, String> winner);
+
 	
 
 }

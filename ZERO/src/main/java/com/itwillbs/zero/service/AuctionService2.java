@@ -67,5 +67,9 @@ public class AuctionService2  {
 		return mapper.selectoOderauctionIdx(id);
 		
 	}
+	public void registOrder2(HashMap<String, String> winner) {
+		mapper.insertOrder2(winner);
+		
+	}
 
 }

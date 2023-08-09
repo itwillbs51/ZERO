@@ -147,7 +147,7 @@ function uncomma(str) {
 				<!-- 좌측 영역 -->
                 <div class="col-md-4">
                 	<div class="row d-flex justify-content-center">
-                	<div class="col-4 col-md-4"><h3>남은시간</h3></div>	<div class="col-3 col-md-3" id="clock"></div>
+                	<div class="col-4 col-md-4"><h3 id="clockTitle">남은시간</h3></div>	<div class="col-3 col-md-3" id="clock"></div>
 
 <!--                 		<h2>03 : 23 : 01</h2> -->
                 	</div>
@@ -163,7 +163,7 @@ function uncomma(str) {
                 		<div id="msgArea" class="col">
                 		</div>
                 		</div>                	
-                	<div class="col-12 col-md-12"><div class="row d-flex justify-content-center">현재 접속중 회원&nbsp;<span id=currentUsersSum></span>명</div></div>
+                	<div class="col-12 col-md-12" id="usersArea"><div class="row d-flex justify-content-center">현재 접속중 회원&nbsp;<span id=currentUsersSum></span>명</div></div>
 		<div class="col-12 col-md-12" id="users"></div>	
                 </div>
                 
@@ -183,10 +183,10 @@ function uncomma(str) {
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9 d-none d-md-block">    
-                	 		2023년 8월 2일~2023년 8월 3일
+                	 		${product.auction_start_datetime }~${product.auction_end_datetime }
                 	 	</div>
                 	 	<div class="col-6 col-md-3"> 
-                	 		<h4><b>현재가격</b></h4>
+                	 		<h4 id="presentPriceTitle"><b>현재가격</b></h4>
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9">    
@@ -208,7 +208,7 @@ function uncomma(str) {
                 	 	</div>
                 	 </div>
                 	 
-	                <div class="row col-md-12 ">
+	                <div class="row col-md-12 " id="bottomRight">
 	                
 	                	<div class="col-4 col-md-4"  style=" text-align: right;">    
                 	 		<h4><b>입찰가격 </b></h4>
@@ -416,8 +416,9 @@ function onMessage(msg) {
 	$("#presentPrice").addClass('blink');
 	   setTimeout(function() {
 	      $("#presentPrice").removeClass('blink');
-	   }.bind("#presentPrice"), 300);
+	   }.bind("#presentPrice"), 500);
     }else{
+    	if("${product.auction_manage_status}"=="경매종료"){return;}
     	$("#users").html(currentUsers.replace(/[\[\]']+/g, ''));
     	$("#currentUsersSum").html("<b>"+currentUsers.split(",").length+"</b>");
     	
@@ -432,19 +433,32 @@ function onClose(evt) {
 	
 }
 //채팅창에 들어왔을 때
-function onOpen(evt) {
+function onOpen(evt) {}// 	sock.send( "님이 입장하셨습니다.");
 	
+	$(function(){
+	if("${product.auction_manage_status}"=="경매종료"){
+	$("#clock").css("display", "none");
+	$("#clockTitle").css("display", "none");
+	$("#bottomRight").css("display", "none");
+	$("#usersArea").css("display", "none");
+	$("#presentPriceTitle").html("<b>최종낙찰가격</b>");
+	
+	var str = "<div  style=' text-align: center;'>";
+	str += "<b> --------경매종료-------- </b>";
+	str += "</div>";
+	}
+	else{
 	var user = '${sessionScope.member_id}';
 	
 	var str = "<div  style=' text-align: center;'>";
 	
-	str += "<b>" + user + "님 많이 따세요~ </b>";
+	str += "<b>" + user + "님 환영 합니다~ </b>";
 	str += "</div>";
-	
+	}
 	$("#msgArea").append(str);
 	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
-	
-}
+	});
+
 
 </script>
 </html>
