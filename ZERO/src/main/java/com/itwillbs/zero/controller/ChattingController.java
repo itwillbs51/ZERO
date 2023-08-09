@@ -299,7 +299,7 @@ public class ChattingController {
 			// 채팅방이 없으면
 			// => 채팅방 생성하기
 			int insertChatRoom = service.insertChatRoom(map, buyer_id);
-//			chat_room_idx = ??;
+			chat_room_idx = service.selectChatRoomIdx(map, buyer_id);
 		}
 		
 		// 채팅방이 있으면
