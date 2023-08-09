@@ -743,10 +743,14 @@
 	// Z맨 호출 폼으로 이동하기 위함 함수
 	function toZ() {
 		console.log(payPrice);
+// 		console.log("${secondhandInfo.secondhand_idx }");
+// 		console.log("${secondhandInfo.secondhand_subject }");
+// 		console.log("${chatRoom.seller_id}");
+// 		console.log("${chatRoom.buyer_id}");
 		let requestUrl = "chatToZ?"
 // 				+ "order_secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
 				+ "secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
-				+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
+// 				+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
 				+ "&order_secondhand_price=" + payPrice
 				+ "&seller_id=" + "${chatRoom.seller_id}"
 				+ "&buyer_id=" + "${chatRoom.buyer_id}"
