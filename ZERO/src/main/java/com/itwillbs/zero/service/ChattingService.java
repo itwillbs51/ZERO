@@ -64,8 +64,12 @@ public class ChattingService {
 	}
 	
 	// 거래상태 변경 '판매중' -> '예약중'
-	public int updateDealStatus(String secondhand_idx) {
-		return mapper.updateDealStatuse(secondhand_idx);
+	public boolean updateDealStatus(int secondhand_idx, String type) {
+		int updateStatus = mapper.updateDealStatuse(secondhand_idx, type);
+		if (updateStatus > 0) {
+			return true;
+		}
+		return false;
 	}
 	
 	// --- 나중에 옮기기 ---
@@ -99,6 +103,15 @@ public class ChattingService {
 	// 중고거래 정보 조회 - Z페이
 	public OrderSecondhandVO getOrderSecondhandInfo(int secondhand_idx) {
 		return mapper.selectOrderSecondhandInfo(secondhand_idx);
+	}
+	
+	// 주문내역 상태 변경 - ORDER_SECONDHAND - order_secondhand_status '거래완료'
+	public boolean updateOrderStatus(int secondhand_idx, String order_status_type) {
+		int updateCount = mapper.updateOrderStatus(secondhand_idx, order_status_type);
+		if (updateCount > 0) {
+			return true;
+		}
+		return false;
 	}
 
 

@@ -35,9 +35,11 @@ import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Controller
 public class AdminController {
@@ -888,5 +890,53 @@ public class AdminController {
 		return "admin/admin_zpay_use_detail";
 	}
 
+	
+	// ========================= 계좌 관리 ===============================================================================
+	// 계좌 관리 - 약정 계좌 내역 목록
+	@GetMapping("admin_zero_account")
+	public String adminZeroAccount(Model model) {
+		System.out.println("AdminController - adminZeroAccount");
+		
+		List<ZeroAccountHistoryVO> zeroAccountHistoryList = service.getZeroAccountHistoryList();
+		Integer zero_account_balance = service.getZeroAccountBalance();
+		
+		model.addAttribute("zeroAccountHistoryList", zeroAccountHistoryList);
+		model.addAttribute("zero_account_balance", zero_account_balance);
+		
+		return "admin/admin_zero_account";
+	}
+
+	// 계좌 관리 - 회원 계좌 목록 조회
+	@GetMapping("admin_account_member_list")
+	public String adminAccountMemberList(Model model) {
+		System.out.println("AdminController - adminAccountMemberList");
+		
+		List<ZpayVO> zpayList = service.getMemberZpayList();
+		model.addAttribute("zpayList", zpayList);
+		
+		return "admin/admin_account_member_list";
+	}
+
+	// 계좌 관리 - 회원 계좌 거래 정보 조회
+	@GetMapping("admin_account_member_history")
+	public String adminAccountMemberHistory(@RequestParam int zpay_idx, Model model) {
+		System.out.println("AdminController - adminAccountMemberList");
+		
+		List<ZpayHistoryVO> zpayHistoryList = service.getMemberZpayHistoryList(zpay_idx);
+		model.addAttribute("zpayHistoryList", zpayHistoryList);
+		
+		return "admin/admin_account_member_history";
+	}
+
+	// 계좌 관리 - ZMAN 계좌 목록 조회
+	@GetMapping("admin_account_zman_list")
+	public String adminAccountZmanList(Model model) {
+		System.out.println("AdminController - adminAccountZmanList");
+		
+		List<ZpayVO> zpayList = service.getZmanZpayList();
+		model.addAttribute("zpayList", zpayList);
+		
+		return "admin/admin_account_zman_list";
+	}
 	
 }

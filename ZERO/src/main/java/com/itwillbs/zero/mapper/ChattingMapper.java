@@ -35,7 +35,7 @@ public interface ChattingMapper {
 	// 거래정보를 ORDER_SECONDHAND에 저장
 	int insertOrderInfo(Map<String, String> map);
 	// 거래상태 변경 '판매중' -> '예약중'
-	int updateDealStatuse(String secondhand_idx);
+	int updateDealStatuse(@Param("secondhand_idx") int secondhand_idx, @Param("type") String type);
 	
 	// --- 나중에 옮기기 ---
 	// 신청폼 들어올 때 값 넣기
@@ -50,6 +50,8 @@ public interface ChattingMapper {
 	int updateZDelivery(String zman_delivery_idx);
 	// 중고거래 정보 조회 - Z페이
 	OrderSecondhandVO selectOrderSecondhandInfo(int secondhand_idx);
+	// 주문내역 상태 변경 - ORDER_SECONDHAND - order_secondhand_status '거래완료'
+	int updateOrderStatus(@Param("secondhand_idx") int secondhand_idx, @Param("order_status_type") String order_status_type);
 
 	
 }

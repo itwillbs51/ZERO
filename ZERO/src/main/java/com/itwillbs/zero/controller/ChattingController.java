@@ -320,8 +320,10 @@ public class ChattingController {
 		logger.info("*** 거래 정보 INSERT : " + isInsert);
 		
 		// 거래하기를 선택해서 거래방법을 누르면 상품 상태가 '판매중' 에서 '예약중'으로 변경
-		int updateStatus = service.updateDealStatus(map.get("secondhand_idx"));
-		logger.info("*** 상품 상태 UPDATE : " + updateStatus);
+		String type = "예약중";
+		int secondhand_idx = Integer.parseInt(map.get("secondhand_idx"));
+		boolean isChange = service.updateDealStatus(secondhand_idx, type);
+		logger.info("*** 상품 상태 UPDATE : " + isChange);
 		
 	}
 	
@@ -388,7 +390,27 @@ public class ChattingController {
 		return "chatting/chat_deal_zpay";
 	}
 	
-	// z페이 송금하기
+	// 거래완료 버튼 눌렀을 경우 - 거래완료, 판매완료로 변경
+	@ResponseBody
+	@PostMapping("finishDeal")
+	public void finishDeal(int secondhand_idx) {
+		logger.info("○○○○○ secondhand_idx : " + secondhand_idx);
+		
+		// 중고상품 상태 변경 - SECONDHAND - secondhand_deal_status '판매완료'
+		String type = "판매완료";
+		boolean isChange = service.updateDealStatus(secondhand_idx, type);
+		
+		logger.info("○○○○○ 상품-판매완료로 상태변경 : " + isChange);
+		
+		// 주문내역 상태 변경 - ORDER_SECONDHAND - order_secondhand_status '거래완료'
+		String order_status_type = "거래완료";
+		boolean isOrderStateChange = service.updateOrderStatus(secondhand_idx, order_status_type);
+		logger.info("○○○○○ 주문-거래완료로 상태변경 : " + isOrderStateChange);
+		
+		
+	}
+	
+	
 	
 	
 }

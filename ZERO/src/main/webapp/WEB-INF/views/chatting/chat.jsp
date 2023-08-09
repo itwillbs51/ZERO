@@ -81,7 +81,13 @@
 									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
 								</c:if>
 								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
-								<button onclick="reservationNext('done')"><i class="material-icons">done</i><span>거래완료</span></button>
+								<c:if test="${orderSecondhandInfo.order_secondhand_type ne 'Z맨' || orderSecondhandInfo.order_secondhand_status eq '결제완료' }">
+<!-- 									<button onclick="reservationNext('done')"><i class="material-icons">done</i><span>거래완료</span></button> -->
+									<button id="dealFinish" data-toggle="modal" data-target="#needDoneConfirm">
+										<i class="material-icons">done</i><span>거래완료 </span>
+									</button>
+								
+								</c:if>
 							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 							<form id="openZform" method="post" action="ZpayForm" target="_blank">
@@ -264,27 +270,18 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="needSessionId">거래하기 확인</h5>
+	        <h5 class="modal-title" id="needSessionId">거래완료 확인</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body text-center" id="modalMsg">
 	      <%-- 메세지가 표시되는 부분 --%>
-		      정말 상대방과 거래하시겠습니까?<br>
-		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
-		      <div class="modal-price">
-		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
-			    <div>(Z맨 거래의 경우 거래완료 시<br>최종거래금액에서 3000원 뺀 금액이 Z페이로 입금됩니다.)</div>
-		      </div>
-		      <div class="dealBtns">
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨 (+3000원)</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
-		      </div>
+		      물건은 잘 받아보셨나요?<br>
+		      확인 버튼을 클릭하시면 거래가 종료됩니다! <br>
 	      </div>
 	      <div class="modal-footer justify-content-center">
+        	<button type="button" class="btn btn-dark" onclick="reservationNext('done')" data-dismiss="modal" aria-label="Close">확인</button>
 	        <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">아니오</button>
 	      </div>
 	    </div>
@@ -793,8 +790,50 @@
 			case 'review' :
 // 				reservUrl = ;
 				break;
-			case 'done' :	// 거래완료 클릭 시
+			case 'done' :	// 거래완료 - 확인 클릭 시
+				// zpay를 사용한 경우
+				if ("${orderSecondhandInfo.order_secondhand_status}" == '결제완료' ) {
+					let doneUrl = "zpay_send_to_seller";
+					let idx = ${orderSecondhandInfo.order_secondhand_idx} ;
+					
+					$.ajax({
+						data: {
+							"order_secondhand_idx": idx,
+						},
+						url: doneUrl,
+						type: "POST",
+						success: function(data) {
+							console.log("거래완료 의사 전달 완료 - Z맨, Z페이");
+						},
+						error: function(request,status,error) {
+							alert("code:"+request.status+"\n"
+									+"message:"+request.responseText+"\n"
+									+"error:"+error);
+							console.log("DB 저장 실패");
+						}
+					});	// ajax끝
+				}	// if문 끝
 				
+				// 공통적으로 중고상품 판매완료라고 상태변경하기
+				$.ajax({
+					data: {
+						"secondhand_idx": ${secondhandInfo.secondhand_idx },	//여기까지함 => (상품)판매완료, (오더)거래완료 수정해주기
+					},
+					url: "finishDeal",
+					type: "POST",
+					success: function(data) {
+						console.log("거래완료 의사 전달 완료 - 택배, 만나서의 경우");
+						
+					},
+					error: function(request,status,error) {
+						alert("code:"+request.status+"\n"
+								+"message:"+request.responseText+"\n"
+								+"error:"+error);
+						console.log("DB 저장 실패");
+					}
+				});	// ajax끝
+				
+			
 				break;
 		}
 		// switch문 끝

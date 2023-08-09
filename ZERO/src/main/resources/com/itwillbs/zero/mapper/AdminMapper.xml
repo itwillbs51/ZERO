@@ -481,5 +481,40 @@
 				OR zpay_deal_type LIKE '경매%')
 		AND zpay_history_idx = #{zpay_history_idx}
 	</select>
+	
+	<!-- 계좌 관리 - 약정 계좌 내역 목록 조회 -->
+	<select id="selectZeroAccountHistoryList" resultType="com.itwillbs.zero.vo.ZeroAccountHistoryVO">
+		SELECT * FROM ZERO_ACCOUNT_HISTORY	
+		ORDER BY zero_account_time DESC
+	</select>
 
+	<!-- ZERO_ACCOUNT_HISTORY 잔액 조회 -->
+	<select id="selectZeroAccountBalance" resultType="Integer">
+		SELECT IFNULL(zero_account_balance, 0) 
+			FROM ZERO_ACCOUNT_HISTORY
+			WHERE zero_account_history_idx 
+					= (SELECT MAX(zero_account_history_idx) FROM ZERO_ACCOUNT_HISTORY)
+	</select>
+
+	<!-- 계좌 관리 - 회원 계좌 목록 조회 -->
+	<select id="selectMemberZpayList" resultType="com.itwillbs.zero.vo.ZpayVO">
+		SELECT * FROM ZPAY z
+		LEFT JOIN MEMBER m ON m.member_id = z.member_id
+		WHERE member_type = '회원'
+		
+	</select>
+	
+	<!-- 계좌 관리 - 회원 계좌 거래 정보 조회 -->
+	<select id="selectMemberZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT * FROM ZPAY_HISTORY
+		WHERE zpay_idx = #{zpay_idx}
+	</select>
+
+	<!-- 계좌 관리 - ZMAN 계좌 목록 조회 -->
+	<select id="selectZmanZpayList" resultType="com.itwillbs.zero.vo.ZpayVO">
+		SELECT * FROM ZPAY z
+		LEFT JOIN MEMBER m ON m.member_id = z.member_id
+		WHERE member_type = 'Z맨'
+	</select>
+	
 </mapper>
