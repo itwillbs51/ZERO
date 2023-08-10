@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.itwillbs.zero.handler.*;
@@ -62,6 +63,14 @@ public class AlarmController {
 		logger.info("*** 알람 읽음으로 변경 isRead : " + isRead);
 		
 		return "redirect:/" + link;
+	}
+	
+	// 알림 더보기 클릭 시 가는 페이지
+	@GetMapping("alarmAll")
+	public String alarmAll(HttpSession session, Model model) {
+		
+		
+		return "alarm/alarm_list_all";
 	}
 	
 }
