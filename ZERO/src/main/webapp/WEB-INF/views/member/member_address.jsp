@@ -33,7 +33,7 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
 <!-- <style type="text/css"> /*# sourceMappingURL=contenteditable.vue.map */</style> -->
 <!-- 스크립트 태그 추가 -->
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 
 	$(function(){

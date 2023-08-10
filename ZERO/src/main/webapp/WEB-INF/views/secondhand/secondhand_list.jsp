@@ -20,7 +20,7 @@
 <title>ZERO</title>
 
 <!-- 제이쿼리 -->
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 
 	//전역변수 pageNum, maxPage 미리저장

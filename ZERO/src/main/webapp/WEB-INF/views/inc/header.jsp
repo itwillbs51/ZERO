@@ -21,11 +21,8 @@
 					<li class="headerArea1_item"><a href="cs_main" class="headerArea1_link">고객센터</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
 					<%-- 알림 임시 --%>
-<!-- 					<div id="topNotiArea" class="notify_area"> -->
-<!-- 						<button type="button" class="btn_notify" aria-haspopup="menu" aria-expanded="true"> -->
-						<li class="headerArea1_item"><a class="headerArea1_link alarmLi" onclick="alarmListOpen()">알림</a></li>
-<!-- 							<span class="blind">알림</span> -->
-<!-- 						</button> -->
+					<li class="headerArea1_item alarmLi">
+						<a class="headerArea1_link" onclick="alarmListOpen()">알림<span id="alarmPoint" style="display: none;">●</span></a>
 						<div class="layer_box" aria-hidden="false" style="display: none;"> <%--  style="display: none;" --%>
 							<div class="box_content">
 <!-- 								<iframe src="shortAlarmList" -->
@@ -34,8 +31,7 @@
 								<%@ include file="../alarm/alarm_list.jsp"%>
 							</div>
 						</div>
-<!-- 					</div> -->
-					<%-- 채팅 임시 --%>
+					</li>
 					<li class="headerArea1_item"><a href="chatList" class="headerArea1_link">채팅</a></li>
 					<li class="headerArea1_item">
 						<c:choose>
@@ -149,56 +145,46 @@
 	}
 
 	// receiver_id에게 type(알림 타입), msg(알림 내용) 문자열 하나로 보내기
-	function sendAlarmMessage(receiver_id, alarmType, alarmMsg) {
-//		let sendSocket = new SockJS('/alarm?id=' + receiver_id);
-		
-//		sendSocket.onopen = function() {
-//			console.log("알림 보내는 소켓 연결!");
+	function sendAlarmMessage(receiver_id, alarmType, alarmMsg, alarmMsgLink) {
 			
-			// 보낼 알림 메세지 작성
-			// receiver_id에게 type(알림 타입), msg(알림 내용) 문자열 하나로 보내기
-	 		alarmMessage = receiver_id + "p]]/[" + alarmType + "p]]/[" + alarmMsg;
-//			alarmMessage = alarmType + ":" + alarmMsg;
-			// 각 이벤트 시 받는 메세지를 소켓으로 전달
-			socket.send(alarmMessage);
-//		};
-//			sendSocket.onclose = function() {
-//				console.log("알림 보내는 소켓 닫기!");
-//			};
+		// 보낼 알림 메세지 작성
+		// receiver_id에게 type(알림 타입), msg(알림 내용) 문자열 하나로 보내기
+ 		alarmMessage = receiver_id + "p]]/[" + alarmType + "p]]/[" + alarmMsg + "p]]/[" + alarmMsgLink;
+		// 각 이벤트 시 받는 메세지를 소켓으로 전달
+		socket.send(alarmMessage);
 		
 		
 		// 알림 내용을 DB에 저장하기
-//			$.ajax({
-//				data: {
-////	 				chat_datetime: now, // 이건 DB에 넣을 때 기본값으로 넣기
-//					'chat_content': chatMessage,
-//					'chat_content_type' : chat_content_type,
-//					'room_idx': "${param.room_idx}",
-//					'member_id': sender
-//				},
-//				url: "chatRemember",
-//				type: "POST",
-//				success: function(data) {
-////	 				console.log("DB 저장 성공");
-//				},
-//				error: function(request,status,error) {
-//					alert("code:"+request.status+"\n"
-//							+"message:"+request.responseText+"\n"
-//							+"error:"+error);
-////	 				console.log("DB 저장 실패");
-//				}
-//			});	// ajax 끝
+		$.ajax({
+			data: {
+				'member_id': receiver_id,
+				'alarm_message' : alarmType + "p]]/[" + alarmMsg,
+				'alarm_link': alarmMsgLink,
+			},
+			url: "alarmRemember",
+			type: "POST",
+			success: function(data) {
+ 				console.log("DB 저장 성공");
+			},
+			error: function(request,status,error) {
+				alert("code:"+request.status+"\n"
+						+"message:"+request.responseText+"\n"
+						+"error:"+error);
+ 				console.log("DB 저장 실패");
+			}
+		});	// ajax 끝
 		
 	}	// sendMessage(sender) 끝
-
+	
+	let alarmNewCount = 0;
 	//서버에서 메시지를 받았을 때
 	function onAlarmMessage(msg) {
 		
 		var data = msg.data;
-//			var sessionId = null; // 데이터를 보낸 사람
-//			var receiveId = null; // 알림 받을 아이디
+		var receiveId = null; // 알림 받을 아이디
 		var receiveType = null;
 		var receiveMessage = null;
+		var receiveLink = null;
 		
 		var arr = data.split("p]]/[");
 		console.log("받는 원 메세지 : " + data);
@@ -208,10 +194,12 @@
 		receiveId = arr[0];
 		receiveType = arr[1];
 		receiveMessage = arr[2];
+		receiveLink = arr[3];
 		
 		console.log("받는 사람 : " + receiveId);
 		console.log("받는 알림 타입 : " + receiveType);
 		console.log("받는 알림 메세지 : " + receiveMessage);
+		console.log("받는 알림 링크 : " + receiveLink);
 		
 		let now = new Date();
 		// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
@@ -225,6 +213,7 @@
 		// 메세지를 받을 아이디와 같은 경우만 표시해주기
 		if(receiver == receiveId) {
 			var strr = 	'<li class="alarmItem">';
+			strr += 	'	<a href="alarmClick?url=' + receiveLink + '">';
 			strr += 	'	<div class="alarmTitle">';
 			strr += 			receiveType;
 			strr += 			'<span class="alarmTime">';
@@ -234,10 +223,88 @@
 			strr += 	'	<div class="alarmContent">';
 			strr += 			receiveMessage;
 			strr += 	'	</div>';
+			strr += 	'	</a>';
 			strr += 	'</li>';
 			
-			$("#alarmList").append(strr);
+			$("#alarmList").prepend(strr);
+			$("#alarmPoint").css("display", "");
 		}
-			
-	}
+	}	// onAlarmMessage() 끝
+	
+	// DB에서 확인하지 않은 알림 들고오기
+	$(function() {
+		
+		// 알림 내용을 DB에서 가져오기
+		$.ajax({
+			data: {
+				'member_id': '${member_id}',
+				'type' : '새알림'
+			},
+			url: "alarmCheck",
+			type: "POST",
+			success: function(data) {
+ 				console.log("DB 가져오기 성공");
+ 				
+				// 기존에 있던 리스트 삭제
+				$("#alarmList").empty();
+				
+				if(data != "") {
+					$("#alarmPoint").css("display", "");
+				}
+				
+				for(let alarmItem of data) {
+					let alarmArr = alarmItem.alarm_message.split("p]]/[");
+// 					console.log("받는 원 메세지 : " + data.toString());
+					
+					let alaType  = alarmArr[0];
+					let alaMessage = alarmArr[1];
+// 					console.log("alaType : " + alaType);
+// 					console.log("alaMessage : " + alaMessage);
+					
+// 					let now = new Date();
+					// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
+// 					let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
+					
+					let changeLink = alarmItem.alarm_link.replace("?", "--");
+					// 보여줄 시간 형식
+					let formatTime = null;
+					let alarmDate = new Date(alarmItem.alarm_time);
+					formatTime = alarmDate.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
+// 					console.log("alarmDate 시간만 : " + alarmDate.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' }) );
+					
+// 					formatTime = alarmItem.alarm_time.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
+// 					console.log("formatTime : " + formatTime)
+					
+					var strr = 	'<li class="alarmItem">';
+					strr += 	'	<a href="alarmClick?url=' + changeLink + '">';
+					strr += 	'	<div class="alarmTitle">';
+					strr += 			alaType;
+					strr += 			'<span class="alarmTime">';
+					strr += 				formatTime;
+					strr += 			'</span>';
+					strr += 	'	</div>';
+					strr += 	'	<div class="alarmContent">';
+					strr += 			alaMessage;
+					strr += 	'	</div>';
+					strr += 	'	</a>';
+					strr += 	'</li>';
+					
+					$("#alarmList").append(strr);
+				}
+ 				
+			},
+			error: function(request,status,error) {
+				alert("code:"+request.status+"\n"
+						+"message:"+request.responseText+"\n"
+						+"error:"+error);
+ 				console.log("DB 가져오기 실패");
+			}
+		});	// ajax 끝
+		
+		
+	});	// 페이지 열때 조회하기
+	
+	
+	
+	
 </script>

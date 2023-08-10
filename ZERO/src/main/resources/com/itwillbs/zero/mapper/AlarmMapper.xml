@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.zero.mapper.AlarmMapper">
+	
+	<!-- 보내는 알람을 DB에 넣기 - INSERT -->
+	<insert id="insertAlarm">
+		INSERT
+			INTO ALARM
+			VALUES
+				(
+				NULL
+				, NOW()
+				, #{member_id}
+				, #{alarm_message}
+				, #{alarm_link}
+				, 'N'
+				)
+	</insert>
+	
+	<!-- 알림 내용 담아오기 - SELECT -->
+	<select id="selectAlarmList" resultType="hashMap">
+		SELECT
+			alarm_idx
+			, CONCAT(DATE(alarm_time), " ", TIME(alarm_time)) AS alarm_time
+			, member_id 
+			, alarm_message 
+			, alarm_link
+			, alarm_isread
+			FROM
+				ALARM
+			WHERE
+				member_id = #{member_id}
+			<if test="type.equals('새알림')">
+				AND
+					alarm_isread = 'N'
+				ORDER BY 
+					alarm_idx DESC
+				LIMIT
+					6
+			</if>
+	</select>
+	
+	<!-- 세션아이디와 link로 알림 조회 후 상태를 'Y'로 바꾸기 -->
+	<update id="updateAlarmStatus">
+		UPDATE
+			ALARM
+			SET
+				alarm_isread = 'Y'
+			WHERE
+				member_id = #{member_id}
+				AND
+					alarm_link = #{link}
+	</update>
+	
+	
+	
+</mapper>
