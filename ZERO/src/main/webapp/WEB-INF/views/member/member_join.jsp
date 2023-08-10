@@ -449,7 +449,8 @@ input[type=checkbox] {
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
 							   onkeyup="validateName()" 
-							   required="required">
+							   required="required"
+							   value="${param.member_name }">
 					</div>
 					<div class="row mb-3">
 		    			<label for="inputNameRegex_Result" class="col-sm-5 "></label>
@@ -487,7 +488,8 @@ input[type=checkbox] {
 						   	   autocomplete="off" 
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6=""
-						   	   required="required">
+						   	   required="required"
+						   	   value="${param.member_id }">
 					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
 						</div>
 					<!-- 이메일 중복 확인 일치 여부-->
