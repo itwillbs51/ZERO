@@ -4,7 +4,7 @@
 
 	<!-- 이미 존재하는 토큰인지 확인 -->
 	<select id="selectExsitTokenCount" resultType="int">
-		SELECT COUNT(*) FROME BANK_TOKEN
+		SELECT COUNT(*) FROM BANK_TOKEN
 		WHERE member_id = #{member_id}
 		AND access_token = #{token.access_token}
 	</select>

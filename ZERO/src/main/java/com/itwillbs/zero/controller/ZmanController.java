@@ -55,7 +55,7 @@ public class ZmanController {
 		}
 		
 		if (zman == null) {
-		    session.setAttribute("previousPage", "zman_main");
+		    session.setAttribute("previousPage", "zman_join_form");
 		    return "member/member_zman_join_identification";
 		} else if (member_type.equals("Z맨") || member_type.equals("직원") || zman.getZman_status().equals("활동")) {
 		    model.addAttribute("zman", zman);
@@ -64,7 +64,7 @@ public class ZmanController {
 		    model.addAttribute("zman", zman);
 		    return "member/member_zman_standby";
 		} else {
-		    session.setAttribute("previousPage", "zman_main");
+		    session.setAttribute("previousPage", "zman_join_form");
 		    return "member/member_zman_join_identification";
 		}
 	}
