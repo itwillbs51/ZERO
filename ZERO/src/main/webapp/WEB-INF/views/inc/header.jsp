@@ -21,7 +21,7 @@
 					<li class="headerArea1_item"><a href="cs_main" class="headerArea1_link">고객센터</a></li>
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
 					<%-- 알림 임시 --%>
-					<div id="topNotiArea" class="notify_area">
+<!-- 					<div id="topNotiArea" class="notify_area"> -->
 <!-- 						<button type="button" class="btn_notify" aria-haspopup="menu" aria-expanded="true"> -->
 						<li class="headerArea1_item"><a class="headerArea1_link alarmLi" onclick="alarmListOpen()">알림</a></li>
 <!-- 							<span class="blind">알림</span> -->
@@ -34,7 +34,7 @@
 								<%@ include file="../alarm/alarm_list.jsp"%>
 							</div>
 						</div>
-					</div>
+<!-- 					</div> -->
 					<%-- 채팅 임시 --%>
 					<li class="headerArea1_item"><a href="chatList" class="headerArea1_link">채팅</a></li>
 					<li class="headerArea1_item">
