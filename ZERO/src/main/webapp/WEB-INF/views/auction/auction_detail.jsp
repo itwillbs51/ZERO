@@ -312,7 +312,7 @@ $("#bid_price").on("keyup",function(key){
 $("#button-send2").on("click", function(e) {
 	
 	
-	  let result = confirm($("#maxPrice").html()+"원 입니다 즉시구매 하시겠습니까?");
+	  let result = confirm("즉시구매가격은 "+$("#maxPrice").html()+"원 입니다 즉시구매 하시겠습니까?");
 
       if(!result){return false;}
       $.ajax({
@@ -375,6 +375,18 @@ function sendMessage() {
 		success: function(result) {
 			if(result == "true") {
 				sock.send(bid_price)
+				
+			}else if (result == "false") {
+				alert("입찰가능금액이 부족합니다");
+				
+			}else if(result == "false2") {
+				$("#button-send2").click();
+				
+			}else if(result == "false3") {
+				alert("현재가격 부터 입찰 가능합니다");
+				
+			}else if(result == "false4") {
+				alert("현재가격 보다 높게 입찰 가능합니다");
 				
 			} else {
 				alert("실패!");

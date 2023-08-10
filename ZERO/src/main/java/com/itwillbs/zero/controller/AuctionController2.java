@@ -70,20 +70,18 @@ public class AuctionController2 {
 		if(possibleZpay<currentBid) {
 			System.out.println("입찰가능금액보다 높게 입찰 불가");
 			return "false";
-		}
-		if(maxPrice<currentBid) {
-			System.out.println("즉시낙찰");
-			return "false";
-		}
+		}else if(maxPrice<=currentBid) {
+			System.out.println("즉시구매로");
+			return "false2";
 		
-		if(maxBidPrice == 0) {
+		}else if(maxBidPrice == 0) {
 			if(startPrice<=currentBid) {
 				System.out.println("입찰성공");
 				service.registLog(map);
 				return "true";
 			}else {
 				System.out.println("입찰불가");
-				return "false";
+				return "false3";
 			}
 			
 		}else{
@@ -93,7 +91,7 @@ public class AuctionController2 {
 				return "true";
 			}else {
 				System.out.println("입찰불가2");
-				return "false";
+				return "false4";
 			}
 			
 		}
