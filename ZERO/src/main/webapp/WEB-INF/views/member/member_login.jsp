@@ -265,7 +265,7 @@
 					
 
 					
-					<button type="button" class="btn btn_login_apple full outline" data-v-43813796="" data-v-2b15bea4="">
+					<button type="button" class="btn btn_login_apple full outline" data-v-43813796="" data-v-2b15bea4="" onclick="loginWithKakao()">
 						<img src="${pageContext.request.contextPath}/resources/mypage_img/btn_kakao.svg">
 <!-- 						<svg xmlns="http://www.w3.org/2000/svg" class="logo-social icon sprite-icons" data-v-2b15bea4=""> -->
 <!-- 							<use href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" xlink:href="/_nuxt/54eaabd5a726b216f3c53922147167ee.svg#i-logo-apple" data-v-2b15bea4=""></use> -->
@@ -400,7 +400,84 @@
     	window.open("https://nid.naver.com/oauth2.0/authorize?response_type=token&amp;client_id=" + client_id + "&amp;redirect_uri=" + redirect_uri + "&amp;state=" + state, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100 left=600');
     })
 </script>
+<%-- 카카오 로그인 --%>
+ 	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+ 	<!-- 카카오 로그인 시작 -->
+<script type="text/javascript">
+Kakao.init('2f0829f8602d8b0e77db3a81f84898ac');	// 카카오에서 받아온 앱 키
+Kakao.isInitialized();
 
+function loginWithKakao() {
+	Kakao.Auth.login({
+		
+		// 이 부분은 생략가능한 부분인데, 이용 중 동의를 설정했을 때 scope에 추가해주면 됨
+		scope: "profile_nickname, account_email",
+		success: function (response) {
+			Kakao.API.request({
+			url: '/v2/user/me',
+			success: function (response) {
+				
+				// 이메일과 닉네임을 변수에 저장
+				// 다른 값들을 받고 싶으면 response.XXX 해서 꺼내오면 된다!
+				var email = response.kakao_account.email;
+				var nickname = response.kakao_account.profile.nickname;
+				
+				// JSON 객체 출력하기
+				// 카카오 로그인을 성공하면 여기에 전달받은 값들이 출력됨
+				alert(JSON.stringify(response));
+						
+				// 여기서 부터는 직접 구현해야 하는 부분임!
+				// 이메일을 사용하여 회원가입 여부 판별할 예정임
+				// DB에 회원 이메일(아이디)이 존재하면? => 바로 사이트 로그인 처리
+				// 존재하지 않으면? => 카카오에서 전달받은 값들을 바탕으로 회원가입 진행
+				$.ajax({
+					// 이메일 판별을 하기 위해서 아래 주소로 ajax 요청
+					// 각자 주소에 맞게 변경하면 됨!
+					url: '<c:url value="/checkKakao"/>',
+					method: 'POST',
+					data: {email: email, nickname: nickname},
+					success: function (result) {
+						
+						if (result === 'new') {	// DB에 없는 새로운 이메일!
+							// DB에 카카오에서 받아온 이메일이 존재하지 않을 경우 => 회원가입 진행
+							alert('카카오 로그인 성공! 회원가입을 완료해주세요');
+					// 											console.log('카카오 로그인 성공! 회원가입을 완료해주세요');
+																
+							// 회원가입 진행시 자동으로 값을 입력해주기 위해서
+							// 로컬의 세션 스토리지에 이메일 저장
+							sessionStorage.setItem('member_id', email);
+							sessionStorage.setItem('member_name', nickname);
+							
+							// 회원가입 페이지로 이동
+							location.href = '<c:url value="'join?member_id=' + member_id + '&member_name=' + member_name;"/>';
+							
+						} else if (result === 'existing') {	// DB에 있는 이메일!
+							alert('카카오 로그인 성공!')
+							// DB에 이메일이 존재할 경우 => 이미 가입된 회원인 경우
+							// 세션 스토리지 값 비우기
+// 							sessionStorage.removeItem("member_id");
+							sessionStorage.removeItem("member_name");
+							
+							console.log('기존 회원이므로 로그인 처리 진행');
+							
+							// 로그인 완료 후 메인 페이지로 이동
+							location.href = '<c:url value="/" />';
+						}
+					}
+				});
+			},
+			fail: function (error) {
+				alert(JSON.stringify(error));
+			}
+		});
+		},
+		fail: function (error) {
+		alert(JSON.stringify(error));
+		}
+	});
+	}
+</script>
+<!-- 카카오 로그인 끝 -->
 <%--   <a href="<%=apiURL%>"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a> --%>
 </body>
 </html>
