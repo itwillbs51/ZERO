@@ -77,7 +77,7 @@ public class ZpayController {
 		// ZPAY 사용자 여부 조회 = > 미사용자인 경우 ZPAY 등록 폼으로 이동
 		ZpayVO zpay = service.isZpayUser(member_id);
 		if(zpay == null) {
-			session.setAttribute("previousPage", "zpay_main");
+//			session.setAttribute("previousPage", "zpay_main");
 			model.addAttribute("member", member);	
 			return "zpay/zpay_regist_form";
 		}
@@ -134,7 +134,7 @@ public class ZpayController {
 	public String zpayRegist(@RequestParam Map<String, String> map, 
 							Model model, 
 							HttpSession session) {
-		
+		System.out.println("ZpayController - zpayRegist");
 		String member_id = (String)session.getAttribute("member_id");
 		
 		// 세션에 저장된 엑세스토큰 및 사용자번호를 변수에 저장
@@ -158,8 +158,14 @@ public class ZpayController {
 		
 		int insertCount = service.registZpay(zpay);
 		
+		System.out.println(session.getAttribute("previousPage"));
+		System.out.println(session.getAttribute("previousPage").equals(""));
 		if(insertCount > 0) {
-			return "redirect:/" + session.getAttribute("previousPage");
+			if(!session.getAttribute("previousPage").equals("")) {
+				return "redirect:/" + session.getAttribute("previousPage");				
+			} else {
+				return "redirect:/zpay_main";
+			}
 		} else {
 			model.addAttribute("msg", "ZPAY 등록 실패");
 			return "bank_auth_fail_back";

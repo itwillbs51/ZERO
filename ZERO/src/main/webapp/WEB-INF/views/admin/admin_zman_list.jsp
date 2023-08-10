@@ -47,7 +47,6 @@
 										<tr>
 											<th>이름</th>
 											<th>아이디</th>
-											<th>생년월일</th>
 											<th>탈퇴여부</th>
 											<th>상세보기</th>
 										</tr>
@@ -57,7 +56,6 @@
 											<tr>
 												<td>${zman.zman_name }</td>
 												<td>${zman.zman_id }</td>
-												<td>${zman.zman_birth }</td>
 												<td>${zman.zman_status }</td>
 	<%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
 												<td>

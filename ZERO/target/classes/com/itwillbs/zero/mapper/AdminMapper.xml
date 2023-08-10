@@ -3,7 +3,8 @@
 <mapper namespace="com.itwillbs.zero.mapper.AdminMapper">
 	<!-- 회원 목록 조회 -->
 	<select id="selectMemberList" resultType="com.itwillbs.zero.vo.MemberVO">
-		SELECT * FROM MEMBER
+		SELECT * FROM MEMBER 
+		ORDER BY member_date DESC
 	</select>
 	
 	<!-- 회원 정보 조회 -->

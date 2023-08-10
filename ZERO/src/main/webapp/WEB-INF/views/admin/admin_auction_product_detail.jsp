@@ -35,10 +35,10 @@
 
 	$(function() {
 
-		let auction_regist_date = "${auctionManaging.auction_regist_date}";
-		let auction_manage_check_date = "${auctionManaging.auction_manage_check_date}";
-		let auction_start_datetime = "${auctionManaging.auction_start_datetime}";
-		let auction_end_datetime = "${auctionManaging.auction_end_datetime}";
+		let auction_regist_date = "${auctionProduct.auction_regist_date}";
+		let auction_manage_check_date = "${auctionProduct.auction_manage_check_date}";
+		let auction_start_datetime = "${auctionProduct.auction_start_datetime}";
+		let auction_end_datetime = "${auctionProduct.auction_end_datetime}";
 		
 		// 변환된 변수를 사용하여 날짜 데이터를 HTML 요소에 추가
 		$("#auctionRegistDate").html(getFormatDate2(auction_regist_date));
@@ -168,11 +168,6 @@
 								</table>
 								<div class="text-center">
 									<button type="button" class="btn btn-outline-dark" onclick="history.back()">뒤로가기</button>							
-									<button type="button" id="modifyButton" class="btn btn-dark text-nowrap" onclick="modify()" disabled="disabled">변경저장</button>						
-<!-- 									<button type="submit" class="btn btn-dark text-nowrap">변경저장</button>						 -->
-<!-- 									<button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#confirmDeleteMember"> -->
-<!-- 										&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp; -->
-<!-- 									</button> -->
 								</div>
 							</form>
 						</div>

@@ -41,7 +41,7 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
@@ -53,7 +53,8 @@
 									${sessionScope.member_id } 님
 <!-- 									홍길동 님 -->
 								</strong>
-								hong
+								${member.member_nickname }
+<!-- 								hong -->
 							</span>
 						</a>
 					</div>
@@ -69,7 +70,7 @@
 											로그인이 필요한 서비스입니다.
 										</c:when>
 										<c:otherwise>
-											등록된 ZPAY가 없습니다.
+											등록된 계좌가 없습니다.
 										</c:otherwise>
 									</c:choose>	
 								</div>
