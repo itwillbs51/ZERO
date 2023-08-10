@@ -890,7 +890,7 @@ public class ZpayController {
 		ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
 		zeroAccount.setMember_id(buyer_id);
 		zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
-		zeroAccount.setOrder_secondhand_idx(order_auction_idx);
+		zeroAccount.setOrder_auction_idx(order_auction_idx);
 		zeroAccount.setZero_account_amount(order_auction_commission);
 		zeroAccount.setZero_account_balance(zero_account_balance);
 		zeroAccount.setZero_account_type("경매취소환불");

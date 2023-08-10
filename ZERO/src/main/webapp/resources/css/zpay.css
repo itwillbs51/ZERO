@@ -496,9 +496,58 @@
 		font-weight: 600;
 	}
 	
+	.chargeContentArea .chargeInputArea .withdrawalAccountArea button.btn-withdrawalAccount_info {
+		outline: none;
+		border: 0;
+		background-color: transparent;
+		display: flex;
+/* 		display: block; */
+		position: relative;
+		width: 100%;
+/* 		margin-top: 10px; */
+		padding: 18px 35px 18px 17px;
+		border: 1px solid #d9d9d9;
+		border-radius: 6px;
+		box-shadow: 0 2px 6px 0 rgba(122,132,194,.18);
+		font-size: 16px;
+		color: #222;
+		line-height: 19px;
+	}
+
+	.chargeContentArea .chargeInputArea .withdrawalAccountArea button.btn-withdrawalAccount_info .withdrawalBankName{
+/* 		flex: 1 1 auto; */
+/* 		-ms-flex: 1 1 auto; */
+		display: inline-flex;
+		font-size: 14px;
+		font-weight: 600;
+	}
+
+	.chargeContentArea .chargeInputArea .withdrawalAccountArea button.btn-withdrawalAccount_info .withdrawalAccountNum{
+		text-align: left;
+		display: inline-block;
+		flex: 1 0 auto;
+		-ms-flex: 1 0 auto;
+		max-width: 100%;
+		padding-left: 8px;
+		font-size: 14px;
+		font-weight: 600;
+		
+	}
+
+	.chargeContentArea .chargeInputArea .withdrawalAccountArea button.btn-withdrawalAccount_info .moreAccountInfo {
+		display: inline-block;
+/* 		flex: 1 0 auto; */
+/* 		-ms-flex: 1 0 auto; */
+		max-width: 100%;
+		padding-left: 4px;
+/* 		font-size: 14px; */
+		font-weight: bold;
+		color: #999;
+	}
+	
 	.chargeContentArea .chargeButtonArea {
-		margin-top: auto;
-/* 		margin-top: 218px; */
+/* 		margin-top: auto; */
+		margin-top: 218px;
 		padding-top: 30px;
 	}
 	
