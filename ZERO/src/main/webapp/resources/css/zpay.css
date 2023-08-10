@@ -22,8 +22,14 @@
 	
 	.contentArea {
 		margin: auto;
-		max-width: 568px;
-		min-width: 360px;
+		max-width: 568px!important;
+		min-width: 360px!important;
+	}
+
+	.contentAreaZpay {
+		margin: auto;
+		max-width: 568px!important;
+		min-width: 360px!important;
 	}
 	
 	/* ============================ zpay_regist_form.jsp ============================= */

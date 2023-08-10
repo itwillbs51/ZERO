@@ -98,4 +98,10 @@ int updateBankAuth(String member_id);
 
 	// 주소록 추가
 	int updateAddress(@Param("add_num")String add_num, @Param("map") Map<String, String> map);
+
+	// 주소록 삭제
+	int deleteAddress(@Param("rmv")String rmv, @Param("map") Map<String, String> map);
+
+	// 주소록 변경
+	int modifyAddress(Map<String, String> map);
 }

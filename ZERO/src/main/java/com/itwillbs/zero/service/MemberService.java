@@ -147,15 +147,28 @@ public class MemberService {
 		return mapper.insertShReview(review);
 	}
 
-	// 회원 대표 주소록 추가(add_num : 주소록 번호)
+	// 회원 대표 주소록 추가(add_num : 주소록 번호) - 수정
 	public int addMainAddress(String add_num, Map<String, String> map) {
 		return mapper.updateMainAddress(add_num, map);
 	}
 	
-	// 회원 주소록 추가(add_num : 주소록 번호)
+	// 회원 주소록 추가(add_num : 주소록 번호) - 수정
 	public int addAddress(String add_num, Map<String, String> map) {
 		return mapper.updateAddress(add_num, map);
 	}
+
+	// 회원 주소록 변경 - 수정
+	public int reWriteAddress(Map<String, String> map) {
+		return mapper.modifyAddress(map);
+		
+	}
+
+	// 회원 주소록 삭제(rmv2 : 주소2만 삭제 , rew2_rmv3 : 주소3을 2로 업데이트 후 주소3삭제, rmv : 주소3 삭제) - 수정
+	public int deleteAddress(String rmv, Map<String, String> map) {
+		return mapper.deleteAddress(rmv, map);
+		
+	}
+
 	
 
 	

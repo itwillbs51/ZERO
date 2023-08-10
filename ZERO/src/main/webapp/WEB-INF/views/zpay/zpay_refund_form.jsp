@@ -112,7 +112,7 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<form action="zpay_refund_pro" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">

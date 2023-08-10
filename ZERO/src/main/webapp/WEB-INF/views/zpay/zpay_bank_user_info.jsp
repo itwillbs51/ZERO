@@ -57,7 +57,7 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
@@ -94,7 +94,8 @@
 											로그인이 필요한 서비스입니다.
 										</c:when>
 										<c:otherwise>
-											ZPAY에 등록할 계좌를 선택해 주세요
+<!-- 											ZPAY에 등록할 계좌를 선택해 주세요 -->
+											대표 계좌를 선택해주세요.
 										</c:otherwise>
 									</c:choose>	
 								</div>

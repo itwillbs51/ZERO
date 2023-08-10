@@ -15,7 +15,7 @@
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -42,7 +42,7 @@
 		
 		// 변환된 변수를 사용하여 날짜 데이터를 HTML 요소에 추가
 		$("#auctionRegistDate").html(getFormatDate2(auction_regist_date));
-		$("#auctionManageCheckDate").html(getFormatDate(auction_manage_check_date));
+		$("#auctionManageCheckDate").html(getFormatDate2(auction_manage_check_date));
 		$("#auctionStartDatetime").html(getFormatDate3(auction_start_datetime));
 		$("#auctionEndDatetime").html(getFormatDate3(auction_end_datetime));
 		
@@ -52,6 +52,23 @@
 			let changedStatus = $("#auctionManageCheckStatusSelect>option:selected").val();
 			$("#auctionManageCheckStatus").empty();
 			$("#auctionManageCheckStatus").html(changedStatus);
+
+			// 검수 완료일과 경매 시작일 계산
+			// Timestampe 형식으로 변환
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = String(now.getMonth() + 1).padStart(2, '0');
+			let day = String(now.getDate() - 4).padStart(2, '0');
+			let auctionManageCheckDate = year + "-" + month + "-" + day;
+			let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate()).padStart(2, '0');
+			let auctionEndDatetime = year + "-" + month + "-" + String(now.getDate() + 1).padStart(2, '0');
+// 			let now = new Date();
+// 			let year = now.getFullYear();
+// 			let month = String(now.getMonth() + 1).padStart(2, '0');
+// 			let day = String(now.getDate()).padStart(2, '0');
+// 			let auctionManageCheckDate = year + "-" + month + "-" + day;
+// 			let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate() + 4).padStart(2, '0');
+// 			let auctionEndDatetime = year + "-" + month + "-" + String(now.getDate() + 5).padStart(2, '0');
 
 			// 등록, 검수중 상태로 변경될 경우
 			// 검수완료일, 경매시작일, 경매종료일 지정X
@@ -63,34 +80,19 @@
 			} else if(changedStatus == "검수완료") {
 				// 검수완료 상태로 변경될 경우
 				// 검수완료일, 경매시작일, 경매종료일 지정O
-				$("#auctionManageCheckDate").html('<input type="datetime-local" id="auction_manage_check_date" class="form-control datepicker">');
+				$("#auctionManageCheckDate").html(auctionManageCheckDate);
+				$("#auctionStartDatetime").html(auctionStartDatetime);
+				$("#auctionEndDatetime").html(auctionEndDatetime);
 				
-				$("#auction_manage_check_date").on("input", function() {
-					// 검수 완료일과 경매 시작일 계산
-					// Timestampe 형식으로 변환
-					let now = new Date(getFormatDate($("#auction_manage_check_date").val()));
-					let year = now.getFullYear();
-					let month = String(now.getMonth() + 1).padStart(2, '0');
-					let day = String(now.getDate()).padStart(2, '0');
-					let auctionManageCheckDate = year + "-" + month + "-" + day;
-					let auctionStartDatetime = year + "-" + month + "-" + String(now.getDate() + 4).padStart(2, '0');
-					let auctionEndDatetime = year + "-" + month + "-" + String(now.getDate() + 5).padStart(2, '0');
-	
-					$("#auctionStartDatetime").html(auctionStartDatetime);
-					$("#auctionEndDatetime").html(auctionEndDatetime);					
-
-					// Controller에 hidden 타입으로 검수완료일, 경매시작일, 경매종료일 전송
-					$(".hiddenArea").append(
-							'<input type="hidden" name="auction_manage_check_date" value="">'
-							+ '<input type="hidden" name="auction_start_datetime" value="">'
-							+ '<input type="hidden" name="auction_end_datetime" value="">'
-					);
-					$("input[name=auction_manage_check_date]").val(auctionManageCheckDate + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
-					$("input[name=auction_start_datetime]").val(getFormatDate4(auctionStartDatetime))
-					$("input[name=auction_end_datetime]").val(getFormatDate4(auctionEndDatetime))
-				});
-				
-				
+				// Controller에 hidden 타입으로 검수완료일, 경매시작일, 경매종료일 전송
+				$(".hiddenArea").append(
+						'<input type="hidden" name="auction_manage_check_date" value="">'
+						+ '<input type="hidden" name="auction_start_datetime" value="">'
+						+ '<input type="hidden" name="auction_end_datetime" value="">'
+				);
+				$("input[name=auction_manage_check_date]").val(auctionManageCheckDate + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds());
+				$("input[name=auction_start_datetime]").val(getFormatDate4(auctionStartDatetime))
+				$("input[name=auction_end_datetime]").val(getFormatDate4(auctionEndDatetime))
 				
 			} else if(changedStatus == "경매불가") {
 				// 경매불가 상태로 변경될 경우
@@ -135,7 +137,7 @@
 	}
 	
 	function modify(){
-		
+				
 		if($("#auctionManageCheckStatus").text() == "검수완료" && $("input[name=auction_manage_check_date]").val() == ""){
 			alert("검수완료일을 지정해주세요");
 		} else if($("#auctionManageCheckStatus").text() == "경매불가" && $("input[name=auction_manage_check_date]").val() == "") {
@@ -220,11 +222,24 @@
 										<tr>
 											<th>상품이미지</th>
 											<td colspan="2">
+<%-- 												${auctionManaging.auction_image1 } --%>
 												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${auctionManaging.auction_image1 }" alt="사용자 이미지" class="thumb_img" width=150px height=150px>
 												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${auctionManaging.auction_image2 }" alt="사용자 이미지" class="thumb_img" width=150px height=150px>
 												<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${auctionManaging.auction_image3 }" alt="사용자 이미지" class="thumb_img" width=150px height=150px>
 											</td>
 										</tr>
+<!-- 										<tr> -->
+<!-- 											<th>상품이미지2</th> -->
+<!-- 											<td colspan="2"> -->
+<%-- 												${auctionManaging.auction_image2 } --%>
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>상품이미지3</th> -->
+<!-- 											<td colspan="2"> -->
+<%-- 												${auctionManaging.auction_image3 } --%>
+<!-- 											</td> -->
+<!-- 										</tr> -->
 										<tr>
 											<th>검수상태</th>
 											<td id="auctionManageCheckStatus">${auctionManaging.auction_manage_check_status}</td>

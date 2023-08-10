@@ -39,6 +39,18 @@
 			$("#memberType").html(changedType);
 		});
 
+		$("#memberMailAuthSelect").on("change", function() {
+			let changedType = $("#memberMailAuthSelect>option:selected").val();
+			$("#memberMailAuth").empty();
+			$("#memberMailAuth").html(changedType);
+		});
+
+		$("#memberBankAuthSelect").on("change", function() {
+			let changedType = $("#memberBankAuthSelect>option:selected").val();
+			$("#memberBankAuth").empty();
+			$("#memberBankAuth").html(changedType);
+		});
+
 		$("#memberStatusSelect").on("change", function() {
 			let changedStatus = $("#memberStatusSelect>option:selected").val();
 			$("#memberStatus").empty();
@@ -136,9 +148,14 @@
 										</tr>
 										<tr>
 											<th>이메일 인증여부</th>
-											<td colspan="2">
-												<input type="text" class="form-control" name="member_mail_auth" value="${member.member_mail_auth }">
-<%-- 												${member.member_mail_auth } --%>
+											<td id="memberMailAuth">${member.member_mail_auth }	</td>
+											<td class="text-end">
+												<span style="display: inline-block;">
+													<select class="form-select form-select-sm" name="member_mail_auth"  id="memberMailAuthSelect" aria-label="Default select example" style="width: 170px;">
+														<option value="Y" <c:if test="${member.member_mail_auth eq 'Y' }">selected</c:if>>Y</option>
+														<option value="N" <c:if test="${member.member_mail_auth eq 'N' }">selected</c:if>>N</option>
+													</select>
+												</span>
 											</td>
 										</tr>
 										<tr>
@@ -222,9 +239,14 @@
 										</tr>
 										<tr>
 											<th>계좌인증여부</th>
-											<td colspan="2">
-												<input type="text" class="form-control" name="member_bank_auth" value="${member.member_bank_auth }">
-<%-- 												${member.member_bank_auth } --%>
+											<td id="memberBankAuth">${member.member_bank_auth }</td>
+											<td class="text-end">
+												<span style="display: inline-block;">
+													<select class="form-select form-select-sm" name="member_bank_auth"  id="memberBankAuthSelect" aria-label="Default select example" style="width: 170px;">
+														<option value="Y" <c:if test="${member.member_bank_auth eq 'Y' }">selected</c:if>>Y</option>
+														<option value="N" <c:if test="${member.member_bank_auth eq 'N' }">selected</c:if>>N</option>
+													</select>
+												</span>
 											</td>
 										</tr>
 										<tr>

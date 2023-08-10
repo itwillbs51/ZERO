@@ -15,7 +15,7 @@ public class BankService {
 	// 토큰정보 저장
 	public boolean registToken(String member_id, ResponseTokenVO responseToken) {
 		int exsitTokenCount = mapper.selectExsitTokenCount(member_id, responseToken);
-		
+		System.out.println(exsitTokenCount);
 		
 		if(exsitTokenCount > 0) {	// 토큰 정보가 이미 존재할 경우 BANK_TOEKN 과 ZPAY 의 access_token 업데이트
 			if(mapper.updateToken(member_id, responseToken) > 0 && mapper.updateZpayToken(member_id, responseToken) > 0) {
