@@ -511,28 +511,27 @@ public class MemberController {
 		System.out.println(member);
 		
 		JsonArray myAddress = new JsonArray();
-		if(map.get("add_num").equals(1)) { // 주소 1 변경
+		if(map.get("chk_main").equals("true")) { // 대표 주소지 변경
 			
-			return "주소가 변경되었습니다";
+			service.reWriteAddress(map); 
+			
+			myAddress.add("대표 주소가 변경되었습니다");
+			return myAddress.toString();
 
-		} else if(map.get("add_num").equals(2)) { // 주소 2 변경(만약 대표 배송지 설정시 1번과 2번 변경)
+		} else if(map.get("rew").equals("rew_num2")) { // 주소 2 변경(만약 대표 배송지 설정시 1번과 2번 변경)
+				
+			service.reWriteAddress(map); 
 			
-			if(map.get("chk_main").equals(true)) { // 대표배송지를 주소2로 변경 후 대표배송지 업데이트
+			myAddress.add("주소2가 변경되었습니다");
+			return myAddress.toString();
+			
+		} else if (map.get("rew").equals("rew_num3")) { // 주소 3 변경(만약 대표 배송지 설정시 1번과 3번 변경)
 				
-				return "주소가 변경되었습니다";
-			} else {
-				
-				return "주소가 변경되었습니다";
-			}
-		} else if (map.get("add_num").equals(3)) { // 주소 3 추가(만약 대표 배송지 설정시 1번과 3번 변경)
-				
-			if(map.get("chk_main").equals(true)) { // 대표배송지를 주소3으로 변경 후 대표배송지 업데이트
-				
-				return "주소가 변경되었습니다";
-			} else {
-				
-				return "주소가 변경되었습니다";
-			}
+			service.reWriteAddress(map); 
+			
+			myAddress.add("주소3가 변경되었습니다");
+			return myAddress.toString();
+			
 		}
 		
 		return "";

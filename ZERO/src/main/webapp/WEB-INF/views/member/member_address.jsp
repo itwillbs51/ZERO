@@ -63,11 +63,76 @@
 	function modal(pop) {
 		console.log(pop)
 		$('#' + pop).removeClass('blind');
+		
+		
+		if(pop == 'insert') { // 새 배송지 추가 시 모달 열기
+			return;
+		}
+		
+		// 배송지 수정일 경우 모달에 값 출력
+		var rew = event.target.name;
+		var phoneNumber = '';
+		
+		console.log(rew);
+		
+		$('input#rew').val(rew);
+		
+		if(rew == 'rew_num1') { // 주소1 변경
+			phoneNumber = '${member.member_address1_phone}';
+			if (phoneNumber.length === 11) {
+		        // 010-1111-2222 형식으로 변경
+		        phoneNumber = phoneNumber.substring(0, 3) + '-' + phoneNumber.substring(3, 7) + '-' + phoneNumber.substring(7);
+		    } else if (phoneNumber.length === 10) {
+		        // 010-111-2222 형식으로 변경
+		        phoneNumber = phoneNumber.substring(0, 3) + '-' + phoneNumber.substring(3, 6) + '-' + phoneNumber.substring(6);
+		    }
+			
+			$('input#member_address_name_rew').val('${member.member_address1_name }');
+			$('input#member_phone_rew').val(phoneNumber);
+			$('input#member_zipcode_rew').val('${member.member_zipcode1 }');
+			$('input#member_address_rew').val('${member.member_address1 }');
+			$('input#member_address_detail_rew').val('${member.member_address_detail1 }');
+			$('input#chk_main_rew').prop({checked:true, disabled:true });
+			
+		} else if(rew == 'rew_num2') { // 주소2 변경
+			var phoneNumber = '${member.member_address2_phone}';
+			if (phoneNumber.length === 11) {
+		        // 010-1111-2222 형식으로 변경
+		        phoneNumber = phoneNumber.substring(0, 3) + '-' + phoneNumber.substring(3, 7) + '-' + phoneNumber.substring(7);
+		    } else if (phoneNumber.length === 10) {
+		        // 010-111-2222 형식으로 변경
+		        phoneNumber = phoneNumber.substring(0, 3) + '-' + phoneNumber.substring(3, 6) + '-' + phoneNumber.substring(6);
+		    }
+			$('input#member_address_name_rew').val('${member.member_address2_name }');
+			$('input#member_phone_rew').val(phoneNumber);
+			$('input#member_zipcode_rew').val('${member.member_zipcode2 }');
+			$('input#member_address_rew').val('${member.member_address2 }');
+			$('input#member_address_detail_rew').val('${member.member_address_detail2 }');
+			$('input#chk_main_rew').prop("checked",false);
+			
+		} else if(rew == 'rew_num3') { // 주소3 변경
+			var phoneNumber = '${member.member_address3_phone}';
+			if (phoneNumber.length === 11) {
+		        // 010-1111-2222 형식으로 변경
+		        phoneNumber = phoneNumber.substring(0, 3) + '-' + phoneNumber.substring(3, 7) + '-' + phoneNumber.substring(7);
+		    } else if (phoneNumber.length === 10) {
+		        // 010-111-2222 형식으로 변경
+		        phoneNumber = phoneNumber.substring(0, 3) + '-' + phoneNumber.substring(3, 6) + '-' + phoneNumber.substring(6);
+		    }
+			$('input#member_address_name_rew').val('${member.member_address3_name }');
+			$('input#member_phone_rew').val(phoneNumber);
+			$('input#member_zipcode_rew').val('${member.member_zipcode3 }');
+			$('input#member_address_rew').val('${member.member_address3 }');
+			$('input#member_address_detail_rew').val('${member.member_address_detail3 }');
+			$('input#chk_main_rew').prop("checked",false);
+			
+		}
 	}
 	
 	function closeModal(pop) {
 		console.log(pop)
 		$('#' + pop).addClass('blind');
+		
 	}
 	
 	<%-- 새로운 주소 추가 --%>
@@ -94,6 +159,8 @@
 	        dataType: "json",
 	        success: function(response) {
 	            console.log(response); // 성공한 경우 처리
+	            alert(response[0]);
+	            location.reload();
 	        },
 	        error: function(error) {
 	            console.error(error); // 오류 처리
@@ -107,13 +174,14 @@
 		$('#' + pop).addClass('blind');
 		
 		var map = {
+				rew: $('input#rew').val(),
 				member_id: '${member.member_id}',
-				member_address_name: $('input#member_address_name').val(),
-				member_phone: $('input#member_phone').val().replaceAll('-',''),
-				member_zipcode: $('input#member_zipcode').val(),
-				member_address: $('input#member_address').val(),
-				member_address_detail: $('input#member_address_detail').val(),
-				chk_main: $('input#chk_main').prop('checked')
+				member_address_name: $('input#member_address_name_rew').val(),
+				member_phone: $('input#member_phone_rew').val().replaceAll('-',''),
+				member_zipcode: $('input#member_zipcode_rew').val(),
+				member_address: $('input#member_address_rew').val(),
+				member_address_detail: $('input#member_address_detail_rew').val(),
+				chk_main: $('input#chk_main_rew').prop('checked')
 		};
 		
 		$.ajax({
@@ -123,7 +191,8 @@
 	        data: JSON.stringify(map),
 	        dataType: "json",
 	        success: function(response) {
-	            console.log(response); // 성공한 경우 처리
+	        	alert(response[0]);
+	            location.reload();
 	        },
 	        error: function(error) {
 	            console.error(error); // 오류 처리
@@ -159,6 +228,8 @@
 	        dataType: "json",
 	        success: function(response) {
 	            console.log(response); // 성공한 경우 처리
+	            alert(response[0]);
+	            location.reload();
 	        },
 	        error: function(error) {
 	            console.error(error); // 오류 처리
@@ -292,7 +363,7 @@
 										</div>
 									</div>
 									<div data-v-7d49a47c="" class="btn_bind">
-										<a data-v-43813796="" data-v-7d49a47c="" name="update1" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
+										<a data-v-43813796="" data-v-7d49a47c="" name="rew_num1"  id="rew_num1" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
 <!-- 										<a data-v-43813796="" data-v-7d49a47c="" name="delete1" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a> -->
 									</div>
 								</div>
@@ -323,7 +394,7 @@
 												</div>
 											</div>
 											<div data-v-7d49a47c="" class="btn_bind">
-												<a data-v-43813796="" data-v-7d49a47c="" name="rew_num2" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
+												<a data-v-43813796="" data-v-7d49a47c="" name="rew_num2" id="rew_num2" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
 												<a data-v-43813796="" data-v-7d49a47c="" name="rmv_num2" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
 											</div>
 										</div>
@@ -353,7 +424,7 @@
 												</div>
 											</div>
 											<div data-v-7d49a47c="" class="btn_bind">
-												<a data-v-43813796="" data-v-7d49a47c="" name="rew_num3" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
+												<a data-v-43813796="" data-v-7d49a47c="" name="rew_num3" id="rew_num1" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
 												<a data-v-43813796="" data-v-7d49a47c="" name="rmv_num3" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
 											</div>
 										</div>
@@ -444,6 +515,7 @@
 								<div data-v-78455e2e="" class="layer_content" modal="">
 									<div data-v-78455e2e="" class="layer_header" modal="">
 										<h2 data-v-71b8d4b9="" data-v-78455e2e="" class="title" modal=""> 주소 변경 </h2>
+										<input type="hidden" name="rew" id="rew" value="">
 									</div>
 									<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_bind" modal="">
 										<div data-v-71b8d4b9="" data-v-78455e2e="" class="delivery_input" modal="">
@@ -492,7 +564,7 @@
 									<div data-v-71b8d4b9="" data-v-78455e2e="" class="layer_btn" modal="">
 										<a data-v-43813796="" data-v-71b8d4b9="" name="closeModal" class="btn btn_delete outlinegrey medium" data-v-78455e2e="" modal="" onclick="closeModal('rewModal')"> 취소 </a>
 		<!-- 								<a data-v-43813796="" data-v-71b8d4b9="" disabled="disabled" href="#" class="btn btn_save solid medium disabled" data-v-78455e2e="" modal=""> 저장하기 </a> -->
-										<a data-v-43813796="" data-v-71b8d4b9="" name="saveModal" class="btn btn_save solid medium" data-v-78455e2e="" modal="" onclick="closeModal(event)"> 저장하기 </a>
+										<a data-v-43813796="" data-v-71b8d4b9="" name="saveModal" class="btn btn_save solid medium" data-v-78455e2e="" modal="" onclick="rewAddress('rewModal')"> 저장하기 </a>
 									</div>
 								</div>
 							</div>
