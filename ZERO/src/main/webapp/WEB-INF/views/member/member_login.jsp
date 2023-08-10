@@ -401,8 +401,8 @@
     })
 </script>
 <%-- 카카오 로그인 --%>
- 	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
- 	<!-- 카카오 로그인 시작 -->
+<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<!-- 카카오 로그인 시작 -->
 <script type="text/javascript">
 Kakao.init('2f0829f8602d8b0e77db3a81f84898ac');	// 카카오에서 받아온 앱 키
 Kakao.isInitialized();
@@ -445,18 +445,18 @@ function loginWithKakao() {
 																
 							// 회원가입 진행시 자동으로 값을 입력해주기 위해서
 							// 로컬의 세션 스토리지에 이메일 저장
-							sessionStorage.setItem('member_id', email);
-							sessionStorage.setItem('member_name', nickname);
+// 							sessionStorage.setItem('member_id', email);
+// 							sessionStorage.setItem('member_name', nickname);
 							
 							// 회원가입 페이지로 이동
-							location.href = '<c:url value="'join?member_id=' + member_id + '&member_name=' + member_name;"/>';
+							location.href = 'join?member_id=' + email + '&member_name=' + nickname;
 							
 						} else if (result === 'existing') {	// DB에 있는 이메일!
 							alert('카카오 로그인 성공!')
 							// DB에 이메일이 존재할 경우 => 이미 가입된 회원인 경우
 							// 세션 스토리지 값 비우기
 // 							sessionStorage.removeItem("member_id");
-							sessionStorage.removeItem("member_name");
+// 							sessionStorage.removeItem("member_name");
 							
 							console.log('기존 회원이므로 로그인 처리 진행');
 							
