@@ -6,6 +6,10 @@
 
 .alarmLi {
 	position: relative;
+	cursor: pointer;
+}
+.alarmLi a:hover {
+	text-decoration: underline;
 }
 .layer_box {
 	float: left;
@@ -31,7 +35,10 @@
 }
 #alarmPoint {
 	color: red;
-	font-size: 18px;
+	font-size: 11px;
+    position: absolute;
+    right: -9px;
+    top: -5px;
 }
 
 /* ---------- 알람창 크기조절 ----------------- */
@@ -110,4 +117,9 @@
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+/* 읽은 알람은 옅은 색으로 표시 */
+.isRead {
+	color: gray !important;
+	font-weight: normal;
 }

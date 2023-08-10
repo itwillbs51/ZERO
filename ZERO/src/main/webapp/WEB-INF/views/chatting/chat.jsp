@@ -84,7 +84,7 @@
 								</c:if>
 								<%-- 직거래나 택배거나 결제까지 완료한 상태면 --%>
 							</c:if>
-							<c:if test="${(orderSecondhandInfo.order_secondhand_type eq ('직거래' or '택배') && orderSecondhandInfo.order_secondhand_status ne '거래완료')  || orderSecondhandInfo.order_secondhand_status eq '결제완료' }">
+							<c:if test="${orderSecondhandInfo.order_secondhand_buyer eq sessionScope.member_id && ((orderSecondhandInfo.order_secondhand_type eq ('직거래' or '택배') && orderSecondhandInfo.order_secondhand_status ne '거래완료')  || orderSecondhandInfo.order_secondhand_status eq '결제완료') }">
 								<button id="dealFinish" data-toggle="modal" data-target="#needDoneConfirm">
 									<i class="material-icons">done</i><span>거래완료 </span>
 								</button>
@@ -189,10 +189,20 @@
 						<button class="listInfoBtn" style="display: none;" ><i class="material-icons">add</i></button><br>
 							<div>
 							</div>
-							<input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
-							</div>
+							<c:choose>
+								<c:when test="${secondhandInfo.secondhand_deal_status eq '판매중' || (sessionScope.member_id eq orderSecondhandInfo.order_secondhand_buyer || sessionScope.member_id eq orderSecondhandInfo.order_secondhand_seller) }">
+									<input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<input type="text" id="msg" class="form-control" placeholder="판매중인 아닌 상품은 채팅이 불가능합니다!" disabled aria-label="Recipient's username" aria-describedby="button-addon2">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-send" disabled>전송</button>
+									</div>
+								</c:otherwise>
+							</c:choose>
 							
 						</div>
 							<%-- + 버튼 클릭 시 나오는 기능들 --%>
@@ -702,7 +712,7 @@
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
 				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
-				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원<br>';
+				chatMessage += '최종가격 : <span id="payPrice">' + (finalPrice + 3000) + '</span>원<br>';
 				chatMessage += '<button class="btn btn-dark callZBtn" onclick="toZ()">';
 				chatMessage += 'Z맨 호출 접수</button>';
 				setOrderSecondhand("Z맨");
