@@ -47,8 +47,77 @@
 	}
 </style>
 <script type="text/javascript">
+	
+	let maxPage = 1;
+	let pageNum = 1;
+	
+	$(function() {
+		loadAlarmList('전체');
 		
-
+		$(".btn-group input[type=button]").on("click", function() {
+			$(".btn-group input[type=button]").removeClass("active");
+			$(this).addClass("active");
+			loadAlarmList($(this).val());
+		});	// 버튼 클릭 시 함수 끝
+		
+	});	// function() 끝
+	
+	function loadAlarmList(category) {
+		
+		$.ajax({
+			type: "POST",
+			data: {"category" : category},
+			url: "alarmList",
+			dataType: "JSON",
+			success: function(data) {
+				
+				maxPage = data.maxPage;
+				console.log(maxPage);
+				// => 무한스크롤 시 
+// 				console.log("maxPage : " + maxPage);
+				$("#listCount").text(data.listCount);
+				
+				// 기존에 있던 리스트 삭제
+				$(".zpayHistoryListArea ul").empty();
+				
+				for(let alarm of data.alarmList) {
+					let isRead = "";
+					if(alarm.alarm_isread == 'Y') {
+						isRead = "isRead";
+					}
+					let date = new Date(alarm.alarm_time);
+					let formatDate = ('0' + (date.getMonth() + 1)).slice(-2) + "." + ('0' + date.getDate()).slice(-2);
+					let formatTime = ('0' + date.getHours()).slice(-2) + ":" + ('0' + date.getMinutes()).slice(-2);
+					
+					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
+					let str = '<li>'
+							+ '	<div class="zpayHistoryItem">'
+							+ '		<div class="zpayHistoryItem_date">'
+							+ 			formatDate
+							+ '		</div>'
+							+ '		<div class="zpayHistoryItem_infoArea">'
+							+ '			<div class="zpayHistoryItem_info">'
+							+ '				<a href="alarmClick?url=' + alarm.alarm_link.replace("?", "--") + '" class="itemTitle itemLink ' + isRead + '">'
+							+ 					alarm.alarm_type
+							+ '					<div class="zpayHistoryItem_info_sub">'
+							+ '						<span class="payTime">'
+							+ 							formatTime
+							+ '						</span>'
+							+ '						<span class="paymentType  ' + isRead + '">' + alarm.alarm_message + '</span>'
+							+ '					</div>'
+							+ '				</a>'
+							+ '		</div></div></div>'
+							+ '	</li>'
+					
+					$(".zpayHistoryListArea ul").append(str);
+				}	// for문 종료
+				
+			}, error: function() {
+				alert("글 목록 요청 실패!");
+			}
+		});	// ajax 끝
+	}	// loadAlarmList() 함수 끝
+	
 </script>
 </head>
 <body>
@@ -61,94 +130,52 @@
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
-						<a class="profileLink" href="#">
-							<span class="profileImg">
-							</span>
-							<span class="profileInfo">
-								<strong class="profileName">
-									${sessionScope.member_id } 님
-<!-- 									홍길동 님 -->
-								</strong>
-								hong
-							</span>
-						</a>
-					</div>
-					<div class="payWalletWidgetArea">
-						<div class="zpayArea">
-							<div class="balanceArea">
-								<strong class="title">
-									ZPAY 잔액
-								</strong>
-								<div class="balance">
-								</div>
-							</div>
-							<div class="zpayLinkArea">
-								<div class="zpayChargeLink">
-									<a href="zpay_charge_form" class="zpayChargeButton">충전</a>
-								</div>
-								<div class="zpayRefundLink">
-									<a href="zpay_refund_form" class="zpayRefundButton">환급</a>
-								</div>
-							</div>
-						</div>
+						<span class="profileImg">
+						</span>
+						<span class="profileInfo">
+							<strong class="profileName">
+								${sessionScope.member_id }님이 받은 알림
+							</strong><br>
+							(지난 <b>3개월</b>까지의 구매내역을 확인하실 수 있습니다)
+						</span>
 					</div>
 				</div><%-- zpayManageArea 영역 끝 --%>
 				<div class="zpayHistoryArea">
 					<div class="zpayHistoryFilter">
 						<div class="btn-group">
 							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1 active" value="전체">
-							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="충전">
-							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="환급">
-							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="사용">
-							<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="수익">
+							<c:forEach var="category" items="${categories }">
+								<input type="button" class="dealType btn btn-sm btn-outline-dark rounded-pill mr-1" value="${category }">
+							</c:forEach>
 						</div>
 					</div>
 					<div class="zpayHistoryDateSelect" style="display: flex;">
 						<input type="text" name="datetimes"  class="form-control">
 					</div>
 					<div class="zpayHistoryPeriodArea">
-						총 <strong class="listCount">${listCount }</strong> 건
-						<span class="listPeriod">
-							<span class="startDate"></span>
-							<span class="endDate"></span>
-						</span>
+						총 <strong id="listCount"></strong> 건
 					</div>
 					<div class="zpayHistoryListArea">
 						<ul>
-							<c:forEach var="zpayHistory" items="${zpayHistoryList }">
-								<li>
-									<div class="zpayHistoryItem">
-										<div class="zpayHistoryItem_date">
-											<fmt:formatDate value="${zpayHistory.zpay_time }" pattern="MM.dd"/>
-										</div>
-										<div class="zpayHistoryItem_infoArea">
-											<div class="zpayHistoryItem_info">
-												<c:choose>
-													<c:when test="${zpayHistory.zpay_deal_type eq '충전' or zpayHistory.zpay_deal_type eq '환급' }">
-														<a class="itemTitle itemLink">${zpayHistory.zpay_deal_type }</a>
-													</c:when>
-													<c:otherwise>
-														<a href="#" class="itemTitle itemLink">${zpayHistory.zpay_deal_type }</a>
-													</c:otherwise>
-												</c:choose>
-												<div class="zpayHistoryItem_info_sub">
-													<span class="payTime">
-														<fmt:formatDate value="${zpayHistory.zpay_time }" pattern="HH:mm"/>
-													</span>
-													<span class="paymentType">${zpayHistory.zpay_deal_type }</span>
-												</div>
-											</div>
-											<div class="zpayHistoryItem_amountArea">
-												<strong class="zpayHistoryItem_amount" data-dealType="${zpayHistory.zpay_deal_type }">
-													<fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원
-												</strong>
-												<div class="zpayBalance">
-													 <fmt:formatNumber value="${zpayHistory.zpay_balance}" pattern="#,##0"/>원
-												</div>
-											</div>
-										</div>
-									</div>
-								</li>
+							<c:forEach var="zpayHistory" items="">
+<!-- 								<li> -->
+<!-- 									<div class="zpayHistoryItem"> -->
+<!-- 										<div class="zpayHistoryItem_date"> -->
+<%-- 											<fmt:formatDate value="" pattern="MM.dd"/> --%>
+<!-- 										</div> -->
+<!-- 										<div class="zpayHistoryItem_infoArea"> -->
+<!-- 											<div class="zpayHistoryItem_info"> -->
+<!-- 												<a href="#" class="itemTitle itemLink"></a> -->
+<!-- 												<div class="zpayHistoryItem_info_sub"> -->
+<!-- 													<span class="payTime"> -->
+<%-- 														<fmt:formatDate value="" pattern="HH:mm"/> --%>
+<!-- 													</span> -->
+<!-- 													<span class="paymentType"></span> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</li> -->
 							</c:forEach>
 						</ul>
 					</div><%-- zpayHistoryListArea 영역 끝 --%>
