@@ -56,7 +56,21 @@ $(function(){
 	  let currentTime = padZero(hours, 2)+':'+padZero(minutes, 2)+':'+padZero(seconds, 2);
 	  
 	  $('#clock').html('<h3>'+currentTime+'</h3>');
-
+      if(currentTime=="00:00:00"){
+    	  $("#clock").css("display", "none");
+    		$("#clockTitle").css("display", "none");
+    		$("#bottomRight").css("display", "none");
+    		$("#usersArea").css("display", "none");
+    		$("#presentPriceTitle").html("<b>최종낙찰가격</b>");
+    		
+    		var str = "<div  style=' text-align: center;'>";
+    		str += "<b> --------경매종료-------- </b>";
+    		str += "</div>";
+      $("#msgArea").append(str);
+  	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
+    		
+    	  
+      }
 // 	  setInterval(updateTime, 1000);
 	  setTimeout(updateTime, 1000);
 	  

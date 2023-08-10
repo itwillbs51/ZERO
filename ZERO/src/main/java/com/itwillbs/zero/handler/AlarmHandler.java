@@ -24,7 +24,7 @@ public class AlarmHandler extends TextWebSocketHandler{
 	// 로그인한 회원의 세션받기 (List타입)
 //	private List<Map<String, WebSocketSession>> sessionList = new ArrayList<>();
 	// 로그인 한 회원의 아이디, 웹소켓세션 저장
-	private Map<String, WebSocketSession> alarmUsers = new HashMap<>();
+	public static Map<String, WebSocketSession> alarmUsers = new HashMap<>();
 	
 //	public static Map<String, WebSocketSession> getMap(String name, WebSocketSession session) {
 //		//innermap 셋팅 함수
