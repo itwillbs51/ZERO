@@ -175,84 +175,84 @@
 	<footer>
 	</footer>
 	
-<!-- <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true"> -->
-<!-- <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document"> -->
-<!-- <div class="modal-content"> -->
-<!-- <div class="modal-header"> -->
-<!-- <h5 class="modal-title" id="exampleModalScrollableTitle">계좌선택</h5> -->
-<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-<!-- <span aria-hidden="true">&times;</span> -->
-<!-- </button> -->
-<!-- </div> -->
-<!-- <div class="modal-body"> -->
-<!-- <div class="zpayHistoryArea"> -->
-<!-- 	<div class="zpayHistoryListArea"> -->
-<!-- 		<ul> -->
-<!-- 			<li> -->
-<!-- 				<div class="zpayHistoryItem"> -->
-<!-- 					<div class="zpayHistoryItem_date"> -->
-<!-- 						예금주명 -->
-<!-- 					</div> -->
-<!-- 					<div class="zpayHistoryItem_infoArea"> -->
-<!-- 						<div class="zpayHistoryItem_info"> -->
-<!-- 							은행명&nbsp;&nbsp;&nbsp;계좌번호 -->
-<!-- 							<div class="zpayHistoryItem_info_sub"> -->
-<!-- 								<span class="payTime"> -->
-<!-- 									핀테크이용번호 -->
-<!-- 								</span> -->
-<!-- 								<span class="paymentType"></span> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</li> -->
-<%-- 			<c:forEach var="account" items="${myAccountList }"> --%>
-<!-- 				<li> -->
-<!-- 					<div class="zpayHistoryItem"> -->
-<!-- 						<div class="zpayHistoryItem_date"> -->
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="exampleModalScrollableTitle">계좌선택</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="zpayHistoryArea">
+	<div class="zpayHistoryListArea">
+		<ul>
+			<li>
+				<div class="zpayHistoryItem">
+					<div class="zpayHistoryItem_date">
+						예금주명
+					</div>
+					<div class="zpayHistoryItem_infoArea">
+						<div class="zpayHistoryItem_info">
+							은행명&nbsp;&nbsp;&nbsp;계좌번호
+							<div class="zpayHistoryItem_info_sub">
+								<span class="payTime">
+									핀테크이용번호
+								</span>
+								<span class="paymentType"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<c:forEach var="account" items="${myAccountList }">
+				<li>
+					<div class="zpayHistoryItem">
+						<div class="zpayHistoryItem_date">
 							
-<!-- 						</div> -->
-<!-- 						<div class="zpayHistoryItem_infoArea"> -->
-<!-- 							<div class="zpayHistoryItem_info"> -->
-<%-- 								${account.bank_name }(${account.zpay_bank_account }) --%>
-<!-- 								<div class="zpayHistoryItem_info_sub"> -->
-<!-- 									<span class="payTime"> -->
-<!-- 										핀테크이용번호 -->
-<!-- 									</span> -->
-<!-- 									<span class="paymentType"></span> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="zpayHistoryItem_amountArea"> -->
-<!-- 								<strong class="zpayHistoryItem_amount"> -->
+						</div>
+						<div class="zpayHistoryItem_infoArea">
+							<div class="zpayHistoryItem_info">
+								${account.zpay_bank_name }(${account.zpay_bank_account })
+								<div class="zpayHistoryItem_info_sub">
+									<span class="payTime">
+										핀테크이용번호
+									</span>
+									<span class="paymentType"></span>
+								</div>
+							</div>
+							<div class="zpayHistoryItem_amountArea">
+								<strong class="zpayHistoryItem_amount">
 									
-<!-- 								</strong> -->
-<!-- 								<div class="zpayBalance"> -->
-<%-- 									2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-<!-- 									<form action="zpay_regist" method="post"> -->
-<%-- 										hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
-<%-- 										<input type="hidden" name="user_name" value="${userInfo.user_name }"> --%>
-<%-- 										<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }"> --%>
-<%-- 										<input type="hidden" name="bank_name" value="${account.bank_name }"> --%>
-<%-- 										<input type="hidden" name="account_num_masked" value="${account.account_num_masked }"> --%>
-<!-- 										<input type="submit" class="btn btn-sm btn-dark" value="등록하기"> -->
-<!-- 									</form> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</li> -->
-<%-- 			</c:forEach> --%>
-<!-- 		</ul> -->
-<%-- 	</div>zpayHistoryListArea 영역 끝 --%>
-<!-- </div> -->
-<!-- </div> -->
-<!-- <div class="modal-footer"> -->
-<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-<!-- </div> -->
-<!-- </div> -->
-<!-- </div> -->
-<!-- </div> -->
+								</strong>
+								<div class="zpayBalance">
+									2.3.1. 잔액조회 API 요청을 위한 폼
+									<form action="zpay_regist" method="post">
+										hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달
+										<input type="hidden" name="user_name" value="${userInfo.user_name }">
+										<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
+										<input type="hidden" name="bank_name" value="${account.bank_name }">
+										<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
+										<input type="submit" class="btn btn-sm btn-dark" value="등록하기">
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</c:forEach>
+		</ul>
+	</div><!-- zpayHistoryListArea 영역 끝 -->
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<button type="button" class="btn btn-primary">Save changes</button>
+</div>
+</div>
+</div>
+</div>
 
 </body>
 </html>
