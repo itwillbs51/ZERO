@@ -97,6 +97,9 @@ public interface ZpayMapper {
 	// ZERO_ACCOUNT_HISTORY ZMAN 정산 내역 추가
 	int insertZeroAccountZmanHistory(ZeroAccountHistoryVO zeroAccount);
 
+	// 
+	List<ZpayVO> selectMyAccountList(String member_id);
+
 
 	
 	

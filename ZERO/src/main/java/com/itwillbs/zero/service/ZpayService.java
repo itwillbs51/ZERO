@@ -154,6 +154,10 @@ public class ZpayService {
 		return mapper.insertZeroAccountZmanHistory(zeroAccount);
 	}
 
+	public List<ZpayVO> getMyAccountList(String member_id) {
+		return mapper.selectMyAccountList(member_id);
+	}
+
 
 	
 

@@ -339,7 +339,7 @@
 						</div>
 					</div>
 					<div class="zpayHistoryDateSelect" style="display: flex;">
-						<input type="text" name="datetimes"  class="form-control">
+						<input type="text" name="datetimes" class="form-control">
 					</div>
 					<div class="zpayHistoryPeriodArea">
 						총 <strong class="listCount">${listCount }</strong> 건
