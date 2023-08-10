@@ -496,7 +496,7 @@ public class MemberController {
 		
 	}
 
-	// 멤버 주소 등록 수정  - 수정
+	// 멤버 주소 수정  - 수정
 	@PostMapping("member_address_update")
 	@ResponseBody
 	public String memberAddressUpdate(HttpSession session
@@ -510,7 +510,7 @@ public class MemberController {
 		Map<String, String> member = service.isMemberCheck("member_id", member_id);
 		System.out.println(member);
 		
-		
+		JsonArray myAddress = new JsonArray();
 		if(map.get("add_num").equals(1)) { // 주소 1 변경
 			
 			return "주소가 변경되었습니다";
@@ -543,10 +543,10 @@ public class MemberController {
 	@PostMapping("member_address_delete")
 	@ResponseBody
 	public String memberAddressDelete(HttpSession session
-			, @RequestParam Map<String, String> map
+			, @RequestBody Map<String, String> map
 			, Model model) {
 		
-		System.out.println("MemberController - memberAddressRewrite");
+		System.out.println("MemberController - memberAddressDelete");
 		System.out.println(map);
 
 		String member_id = (String)session.getAttribute("member_id");
@@ -554,26 +554,30 @@ public class MemberController {
 		Map<String, String> member = service.isMemberCheck("member_id", member_id);
 		System.out.println(member);
 		
-		// 삭제할 주소가 대표배송지인 경우
-		if(map.get("add_num").equals(1)) {
-			System.out.println("대표배송지 삭제 요청");
-			
-			return "대표 배송지는 삭제할 수 없습니다!";
-		
-		} else if(map.get("add_num").equals(2)) { // 주소 2 삭제
+		JsonArray myAddress = new JsonArray();
+		if(map.get("rmv_num").equals("rmv_num2")) { // 주소 2 삭제
 			System.out.println("2번째 배송지 삭제");  
 			
-			if(member.containsKey("member_address3")) {// 세번째 배송지가 있는 경우 세번째 배송지를 두번쨰 배송지로 업데이트 후 세번쨰 삭제
-				return "주소가 삭제되었습니다";
-			} else { // 두번째 배송지만 있는 경우
+			if(member.get("member_address3") == null) {// 세번째 배송지가 없는 경우 
 				
-				return "주소가 삭제되었습니다";
+				service.deleteAddress("rmv2" , map); 
+				myAddress.add("주소가 삭제되었습니다");
+				
+				return myAddress.toString();
+			} else { // 세번째 배송지가 있는 경우 두번쨰 배송지로 업데이트 후 세번째 삭제
+				service.deleteAddress("rew2_rmv3" , map); 
+				myAddress.add("주소가 삭제되었습니다");
+				
+				return myAddress.toString();
 			}
 				
-		} else if (map.get("add_num").equals(3)) { // 주소 3 삭제
-			System.out.println("대표배송지 삭제");
-				
-			return "주소가 삭제되었습니다";
+		} else if (map.get("rmv_num").equals("rmv_num3")) { // 주소 3 삭제
+			System.out.println("3번째 배송지 삭제");
+			
+			service.deleteAddress("rmv3" , map); 
+			myAddress.add("주소가 삭제되었습니다");
+			
+			return myAddress.toString();
 		}
 		
 		return "";

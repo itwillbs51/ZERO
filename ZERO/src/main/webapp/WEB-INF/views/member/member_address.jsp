@@ -42,38 +42,22 @@
 	});
 	
 	// 주소 추가버튼
-	function btnAddress(event) {
+// 	function btnAddress(event) {
 
-// 		event.preventDefault();
+// // 		event.preventDefault();
 
-		// 이벤트가 발생한 요소를 가져옵니다.
-		const target = event.target;
-		console.log('클릭한 링크의 class 값:', target.className);
-		console.log('클릭한 링크의 name 값:', target.name);
-		console.log('hidden 값 상태:', $('div[name="modal"]').attr('hidden'));
-// 		if(){
-			
-// 		}
-		$('div[name="modal"]').removeAttr('hidden');
-		
-	}
-	
-	// 주소 삭제버튼
-	function deleteAddress(event) {
-
-// 		event.preventDefault();
-
-		// 이벤트가 발생한 요소를 가져옵니다.
-		const target = event.target;
-		console.log('클릭한 링크의 class 값:', target.className);
-		console.log('클릭한 링크의 name 값:', target.name);
+// 		// 이벤트가 발생한 요소를 가져옵니다.
+// 		const target = event.target;
+// 		console.log('클릭한 링크의 class 값:', target.className);
+// 		console.log('클릭한 링크의 name 값:', target.name);
 // 		console.log('hidden 값 상태:', $('div[name="modal"]').attr('hidden'));
-// 		if(){
+// // 		if(){
 			
-// 		}
-		$('div[name="modal"]').removeAttr('hidden');
+// // 		}
+// 		$('div[name="modal"]').removeAttr('hidden');
 		
-	}
+// 	}
+	
 
 	
 	function modal(pop) {
@@ -123,7 +107,7 @@
 		$('#' + pop).addClass('blind');
 		
 		var map = {
-				member_id: $('input#member_id').val(),
+				member_id: '${member.member_id}',
 				member_address_name: $('input#member_address_name').val(),
 				member_phone: $('input#member_phone').val().replaceAll('-',''),
 				member_zipcode: $('input#member_zipcode').val(),
@@ -145,6 +129,42 @@
 	            console.error(error); // 오류 처리
 	        }
 	    });
+	}
+	
+	// 주소 삭제버튼
+	function deleteAddress(event) {
+
+// 		event.preventDefault();
+
+		// 이벤트가 발생한 요소를 가져옵니다.
+		const target = event.target;
+		console.log('클릭한 링크의 class 값:', target.className);
+		console.log('클릭한 링크의 name 값:', target.name);
+// 		console.log('hidden 값 상태:', $('div[name="modal"]').attr('hidden'));
+// 		
+// 		var rmv_num = target.name
+// 		$('div[name="modal"]').removeAttr('hidden');
+
+		
+		var map = {
+				member_id: '${member.member_id}',
+				rmv_num: target.name,
+		};
+		
+		$.ajax({
+	        type: 'POST',
+	        url: 'member_address_delete', // 컨트롤러에서 처리할 URL 경로
+	        contentType: 'application/json',
+	        data: JSON.stringify(map),
+	        dataType: "json",
+	        success: function(response) {
+	            console.log(response); // 성공한 경우 처리
+	        },
+	        error: function(error) {
+	            console.error(error); // 오류 처리
+	        }
+	    });
+		
 	}
 	
 	const autoHyphen2 = (target) => {
@@ -273,7 +293,7 @@
 									</div>
 									<div data-v-7d49a47c="" class="btn_bind">
 										<a data-v-43813796="" data-v-7d49a47c="" name="update1" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
-										<a data-v-43813796="" data-v-7d49a47c="" name="delete1" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
+<!-- 										<a data-v-43813796="" data-v-7d49a47c="" name="delete1" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a> -->
 									</div>
 								</div>
 							</div>
@@ -303,8 +323,8 @@
 												</div>
 											</div>
 											<div data-v-7d49a47c="" class="btn_bind">
-												<a data-v-43813796="" data-v-7d49a47c="" name="update2" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
-												<a data-v-43813796="" data-v-7d49a47c="" name="delete2" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
+												<a data-v-43813796="" data-v-7d49a47c="" name="rew_num2" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
+												<a data-v-43813796="" data-v-7d49a47c="" name="rmv_num2" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
 											</div>
 										</div>
 <!-- 									<div data-v-1c284ef0="" class="other"> -->
@@ -333,8 +353,8 @@
 												</div>
 											</div>
 											<div data-v-7d49a47c="" class="btn_bind">
-												<a data-v-43813796="" data-v-7d49a47c="" name="update3" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
-												<a data-v-43813796="" data-v-7d49a47c="" name="delete3" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
+												<a data-v-43813796="" data-v-7d49a47c="" name="rew_num3" class="btn solid small update" onclick="modal('rewModal')"> 수정 </a>
+												<a data-v-43813796="" data-v-7d49a47c="" name="rmv_num3" class="btn outlinegrey small delete" onclick="deleteAddress(event)"> 삭제 </a>
 											</div>
 										</div>
 										<div data-v-1c284ef0="" class="other">

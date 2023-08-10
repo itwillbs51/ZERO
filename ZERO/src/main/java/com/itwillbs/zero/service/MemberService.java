@@ -156,6 +156,12 @@ public class MemberService {
 	public int addAddress(String add_num, Map<String, String> map) {
 		return mapper.updateAddress(add_num, map);
 	}
+
+	// 회원 주소록 삭제(rmv2 : 주소2만 삭제 , rew2_rmv3 : 주소3을 2로 업데이트 후 주소3삭제, rmv : 주소3 삭제)
+	public int deleteAddress(String rmv, Map<String, String> map) {
+		return mapper.deleteAddress(rmv, map);
+		
+	}
 	
 
 	

@@ -372,4 +372,40 @@
 	</update>
 	
 	
+	<!-- 주소록 삭제 -->
+	<update id="deleteAddress">
+		UPDATE MEMBER
+	        SET 
+	        <choose>
+	        	<when test="rmv.equals('rmv2')"> -- 주소 2 삭제인 경우
+	        		member_address2_name =  null
+		        	, member_address2_phone = null
+		        	, member_zipcode2 = null
+		        	, member_address2 = null
+		        	, member_address_detail2 = null
+	        	</when>
+	        	<when test="rmv.equals('rew2_rmv3')"> -- 주소 3을 2로 업데이트 후 삭제인 경우
+	        		member_address2_name = member_address3_name
+		        	, member_address2_phone = member_address3_phone
+		        	, member_zipcode2 = member_zipcode3
+		        	, member_address2 = member_address3
+		        	, member_address_detail2 = member_address_detail3
+	        		, member_address3_name =  null
+		        	, member_address3_phone = null
+		        	, member_zipcode3 = null
+		        	, member_address3 = null
+		        	, member_address_detail3 = null
+	        	</when>
+	        	<when test="rmv.equals('rmv3')"> -- 주소 3 삭제인 경우
+	        		member_address3_name =  null
+		        	, member_address3_phone = null
+		        	, member_zipcode3 = null
+		        	, member_address3 = null
+		        	, member_address_detail3 = null
+	        	</when>
+	        </choose>
+	        WHERE
+    			member_id = #{map.member_id}
+	</update>
+	
 </mapper>
