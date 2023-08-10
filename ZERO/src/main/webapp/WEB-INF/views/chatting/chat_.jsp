@@ -19,7 +19,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/chat.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>채팅 | ZERO</title>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script>
 </head>
 <body>

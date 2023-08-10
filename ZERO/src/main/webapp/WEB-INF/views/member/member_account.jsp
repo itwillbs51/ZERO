@@ -55,7 +55,7 @@
 <title>중고거래 사이트</title>
 <style>
 </style>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 	$(function() {
 		$("#btnAccountAuth").on("click", function() {

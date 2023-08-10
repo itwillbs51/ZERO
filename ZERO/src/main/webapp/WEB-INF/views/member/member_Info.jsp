@@ -65,7 +65,7 @@
 }
 
 </style>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 	//휴대폰 번호 입력형태 추가
 	$(function(){

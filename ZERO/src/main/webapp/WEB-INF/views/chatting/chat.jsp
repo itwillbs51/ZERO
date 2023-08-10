@@ -21,7 +21,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/chat.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>채팅 | ZERO</title>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script>
 </head>
 <body>
@@ -479,7 +479,9 @@
 				messager = "${chatRoom.buyer_nickname}";
 				holder = "${chatRoom.seller_id}";
 			}
-			sendAlarmMessage(holder, "채팅이 도착했습니다!", messager + " : " + message);
+			
+			// 알림 보내는 함수
+			sendAlarmMessage(holder, "채팅 도착!", messager + " : " + message, "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 			
 		} else{
 			

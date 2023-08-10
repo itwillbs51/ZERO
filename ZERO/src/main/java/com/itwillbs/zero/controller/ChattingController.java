@@ -26,6 +26,8 @@ public class ChattingController {
 	private ChattingService service;
 	@Autowired
 	private ZpayService zpayService;
+	@Autowired
+	private AlarmService alarmService;
 	
 	@Autowired
 	private SecondhandService secondhandService;
@@ -107,6 +109,14 @@ public class ChattingController {
 		if(zpay != null) {
 			isZpayUser = true;
 		}
+		
+		// 알림을 받아서 들어왔으면 알림 읽었다고 표시하기
+		// 파라미터 : member_id(세션), chat_room_idx
+//		boolean isRead = alarmService.readAlarm(member_id, chat_room_idx);
+//		if(isRead) {
+//			logger.info("*** 알림 상태 변경 isRead : " + isRead);
+//		}
+		
 		
 		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
 		model.addAttribute("chatList", chatList);
