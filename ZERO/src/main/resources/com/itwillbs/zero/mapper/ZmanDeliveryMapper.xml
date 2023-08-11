@@ -60,6 +60,7 @@
 				zman_delivery_idx = #{zman_delivery_idx};
 	</select>
 	
+
 	<!-- ZMAN zman_delivery_status "배달 시작" 로 변경하기 -->
 	<update id="updateDeliveryDetail">
 		UPDATE 
@@ -110,5 +111,17 @@
 				zd.order_secondhand_idx = os.order_secondhand_idx
 		WHERE zman_delivery_status = "배달 완료"
 	</select>
+
+	<!-- updateDeliveryDetailStart -->
+<!-- 	<update id="updateDeliveryDetailStart"> -->
+<!-- 		UPDATE -->
+<!-- 			ZMAN_DELIVERY -->
+<!-- 			SET -->
+<!-- 				zman_delivery_status = '배달 중' -->
+<!-- 				, zman_delivery_starttime = now() -->
+<!-- 			WHERE -->
+<!-- 				zman_delivery_idx = #{zman_delivery_idx}; -->
+<!-- 	</update> -->
+
 	
 </mapper>
