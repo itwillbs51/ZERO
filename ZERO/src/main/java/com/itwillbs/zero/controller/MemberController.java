@@ -1349,9 +1349,11 @@ public class MemberController {
 									  , Model model
 									  , @RequestParam("review_reader_id") String review_reader_id
 									  , @RequestParam("review_writer_id") String review_writer_id
-									  , @RequestParam("order_secondhand_idx") int order_secondhand_idx) {
+									  , @RequestParam("order_secondhand_idx") int order_secondhand_idx
+									  , @RequestParam("member_review_rating") int member_review_rating
+									  , @RequestParam("member_review_content") String member_review_content) {
 		// MemberService(writeShReview()) - Member_mapper(insertwriteShReview())
-		int insertCount = service.writeShReview(review, review_reader_id, review_writer_id, order_secondhand_idx);
+		int insertCount = service.writeShReview(review, review_reader_id, review_writer_id, order_secondhand_idx, member_review_rating, member_review_content);
 		
 		if(insertCount > 0) {
 			return "redirect:/member_mypage_buyList";
