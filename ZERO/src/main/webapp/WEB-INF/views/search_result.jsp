@@ -26,7 +26,7 @@
 <%-- 반응형웹페이지위한 설정 --%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 제이쿼리 -->
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <style>
 <style>
 #mainArticle {

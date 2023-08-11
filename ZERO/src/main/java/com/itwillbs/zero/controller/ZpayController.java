@@ -179,9 +179,28 @@ public class ZpayController {
 	public String zpayChargeForm(Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayChargeForm()");
 		
+		String access_token = (String)session.getAttribute("access_token");
+//		String user_seq_no = (String)session.getAttribute("user_seq_no");
+//		
+		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
+		if(access_token == null) {
+			model.addAttribute("msg", "계좌 인증 필수!");
+			return "bank_auth_fail_back";
+		}
+		
+		// BankApiService - requestUserInfo() 메서드 호출하여 핀테크 이용자 정보 조회
+		// => 파라미터 : 엑세스토큰, 사용자번호    리턴타입 : ResponseUserInfoVO(userInfo)
+//		ResponseUserInfCoVO userInfo = bankApiService.requestUserInfo(access_token, user_seq_no);
+		
+		// Model 객체에 ResponseUserInfoVO 객체 저장
+//		model.addAttribute("userInfo", userInfo);
+		
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
 		model.addAttribute("zpay", zpay);
 				
+//		List<ZpayVO> myAccountList = service.getMyAccountList((String)session.getAttribute("member_id"));
+//		model.addAttribute("myAccountList", myAccountList);
+		
 		return "zpay/zpay_charge_form";
 	}
 	
@@ -871,7 +890,7 @@ public class ZpayController {
 		ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
 		zeroAccount.setMember_id(buyer_id);
 		zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
-		zeroAccount.setOrder_secondhand_idx(order_auction_idx);
+		zeroAccount.setOrder_auction_idx(order_auction_idx);
 		zeroAccount.setZero_account_amount(order_auction_commission);
 		zeroAccount.setZero_account_balance(zero_account_balance);
 		zeroAccount.setZero_account_type("경매취소환불");
