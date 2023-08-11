@@ -26,6 +26,8 @@ public class ChattingController {
 	private ChattingService service;
 	@Autowired
 	private ZpayService zpayService;
+	@Autowired
+	private AlarmService alarmService;
 	
 	@Autowired
 	private SecondhandService secondhandService;
@@ -108,6 +110,14 @@ public class ChattingController {
 			isZpayUser = true;
 		}
 		
+		// 알림을 받아서 들어왔으면 알림 읽었다고 표시하기
+		// 파라미터 : member_id(세션), chat_room_idx
+//		boolean isRead = alarmService.readAlarm(member_id, chat_room_idx);
+//		if(isRead) {
+//			logger.info("*** 알림 상태 변경 isRead : " + isRead);
+//		}
+		
+		
 		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("chat_room_idx", chat_room_idx);
@@ -158,58 +168,6 @@ public class ChattingController {
 		
 	}
 	
-	// 채팅창으로 연결
-	// 중고거래관련 가져올 정보
-	// 중고상품 번호, 사진, 상태, 가격 - secondhand_idx, secondhand_image1, secondhand_deal_status, secondhand_price
-//	@RequestMapping(value = "chatTest", method = {RequestMethod.GET, RequestMethod.POST})
-//	public String chatTest(String room_idx, HttpSession session, Model model) {
-//		String member_id = (String) session.getAttribute("member_id");
-//		
-//		// 채팅방 번호
-//		int chat_room_idx = Integer.parseInt(room_idx.split("_")[1]);
-////		System.out.println("채팅방 번호 : " + chat_room_idx);
-//		
-//		// 채팅방 번호로 들어갈 수 있는 아이디 조회
-//		ChatRoomVO chatRoom = service.selectChatRoom(chat_room_idx);
-//		System.out.println("채팅방 정보 : " + chatRoom);
-//		
-//		// 채팅방에 저장된 판매자나 구매자가 아닐때는 접근 불가!
-//		if(!member_id.equals(chatRoom.getBuyer_id()) && !member_id.equals(chatRoom.getSeller_id())) {
-//			model.addAttribute("msg", "접근불가");
-//			return "fail_back";
-//		}
-//		
-//		// 받아온 채팅방 번호(chat_room_idx) 로 채팅 조회
-//		// 파라미터 : chat_room_idx		리턴타입 : List<ChatVO>(chatList)
-//		List<ChatVO> chatList = service.selectChatList(chat_room_idx);
-//		logger.info("*** 채팅내역 : " + chatList);
-//		
-//		// 채팅방 번호로 중고상품 정보 조회(채팅방 조회로 받아온 값 중 중고상품 번호 받아오기)
-//		int secondhand_idx = chatRoom.getSecondhand_idx();
-//		SecondhandVO secondhandInfo = secondhandService.getSecondhandProduct(secondhand_idx);
-//		logger.info("*** 중고상품 정보 : " + secondhandInfo);
-//		
-//		// z맨 호출여부 등을 조회
-//		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(secondhand_idx);
-//		if(zmanCallInfo != null) {
-//			model.addAttribute("zmanCallInfo", zmanCallInfo);
-//			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
-//		}
-//		
-//		// ORDER_SECONDHAND 테이블에 order_secondhand_idx 등의 정보 들고와야할듯
-//		OrderSecondhandVO orderSecondhandInfo = service.getOrderSecondhandInfo(secondhand_idx);
-//		if(orderSecondhandInfo != null) {
-//			model.addAttribute("orderSecondhandInfo", orderSecondhandInfo);
-//			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
-//		}
-//		
-//		// 채팅내용, 채팅방 정보, 중고상품 정보 받아오기
-//		model.addAttribute("chatList", chatList);
-//		model.addAttribute("chatRoom", chatRoom);
-//		model.addAttribute("secondhandInfo", secondhandInfo);
-//		
-//		return "chatting/chat_backup";
-//	}
 	
 	// 실시간 채팅 DB에 저장하기
 	@ResponseBody
@@ -320,8 +278,10 @@ public class ChattingController {
 		logger.info("*** 거래 정보 INSERT : " + isInsert);
 		
 		// 거래하기를 선택해서 거래방법을 누르면 상품 상태가 '판매중' 에서 '예약중'으로 변경
-		int updateStatus = service.updateDealStatus(map.get("secondhand_idx"));
-		logger.info("*** 상품 상태 UPDATE : " + updateStatus);
+		String type = "예약중";
+		int secondhand_idx = Integer.parseInt(map.get("secondhand_idx"));
+		boolean isChange = service.updateDealStatus(secondhand_idx, type);
+		logger.info("*** 상품 상태 UPDATE : " + isChange);
 		
 	}
 	
@@ -343,6 +303,7 @@ public class ChattingController {
 			int isInsert = service.setZmanOrderInfo(map);
 			logger.info("*** Z맨 거래 정보 INSERT : " + isInsert);
 		} else if (map.get("type") != null){
+			logger.info("*** 가져온 파라미터 map : " + map);
 			// z맨 호출신청 관련 데이터가 있으면 가져온 값을 DB에 업데이트 하기
 			// zmanOrderInfo 안의 zman_delivery_idx로 조회해 UPDATE 하기
 			int updateCount = service.updateZmanOrderInfo(map, zmanOrderInfo.getZman_delivery_idx());
@@ -386,7 +347,27 @@ public class ChattingController {
 		return "chatting/chat_deal_zpay";
 	}
 	
-	// z페이 송금하기
+	// 거래완료 버튼 눌렀을 경우 - 거래완료, 판매완료로 변경
+	@ResponseBody
+	@PostMapping("finishDeal")
+	public void finishDeal(int secondhand_idx) {
+		logger.info("○○○○○ secondhand_idx : " + secondhand_idx);
+		
+		// 중고상품 상태 변경 - SECONDHAND - secondhand_deal_status '판매완료'
+		String type = "판매완료";
+		boolean isChange = service.updateDealStatus(secondhand_idx, type);
+		
+		logger.info("○○○○○ 상품-판매완료로 상태변경 : " + isChange);
+		
+		// 주문내역 상태 변경 - ORDER_SECONDHAND - order_secondhand_status '거래완료'
+		String order_status_type = "거래완료";
+		boolean isOrderStateChange = service.updateOrderStatus(secondhand_idx, order_status_type);
+		logger.info("○○○○○ 주문-거래완료로 상태변경 : " + isOrderStateChange);
+		
+		
+	}
+	
+	
 	
 	
 }

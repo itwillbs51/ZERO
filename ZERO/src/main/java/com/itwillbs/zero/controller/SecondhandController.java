@@ -459,7 +459,7 @@ public class SecondhandController {
 		
 		
 		//상품수정 처리(UPDATE)
-		@RequestMapping(value = "secondhandModifyPro", method = RequestMethod.POST)
+		@RequestMapping(value = "secondhandModifyPro", method = {RequestMethod.GET, RequestMethod.POST})
 		@ResponseBody
 		public String secondhandModifyPro(
 					SecondhandVO secondhand,
@@ -777,6 +777,25 @@ public class SecondhandController {
 //			return response;
 //		}
 		
+		
+		
+//		//검색기능-검색시 상품리스트(경매/중고) 출력
+//		@RequestMapping(value="searchProductList", method = {RequestMethod.GET, RequestMethod.POST})
+//		public String searchProductList (@RequestParam(defaultValue="") String productSearchKeyword, Model model) {
+//			
+//			//중고상품 목록 조회
+//			List<SecondhandVO> searchSecondhandList = service.getSearchSecondhandList(productSearchKeyword);
+//			model.addAttribute("searchSecondhandList", searchSecondhandList);
+//			//중고상품 목록 개수조회
+//			int searchSecondhandCount = service.getSearchSecondhandCount(productSearchKeyword);
+//			model.addAttribute("searchSecondhandCount", searchSecondhandCount);
+//
+//			
+//		
+//			return "search_result";
+//			
+//		} 
+
 		
 		
 		

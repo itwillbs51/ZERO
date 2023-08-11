@@ -139,10 +139,12 @@
 .art_firstRow .co01 {
 	max-width: 90px;
 	min-width: 90px;
+	cursor: pointer;
 }
 .co02 {
 	max-width: 600px;
 	min-width: 290px;
+	cursor: pointer;
 }
 .co02 div {
 	vertical-align: middle;
@@ -267,8 +269,8 @@
 	vertical-align: bottom;
 }
 .alert {
-	padding: 7px 10px;
-	margin-bottom: 0;
+	padding: 7px 10px !important;
+	margin-bottom: 0 !important;
 }
 .msgRight .msg {
 	/* 본인 채팅 */

@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
@@ -278,6 +281,35 @@ public class MemberController {
 		
 	}
 	
+	// 2. 카카오 로그인 클릭
+	@PostMapping("/checkKakao")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String checkKakao(@RequestParam String email, @RequestParam String nickname, HttpSession session) {
+		// 카카오에서 받아온 데이터 출력
+		System.out.println("email : " + email + "name : " + nickname);
+		
+		// DB에서 리턴받아 판별
+		// MemberService - idCheck()
+		// 파라미터 : String(email -> member_id)		리턴타입 : int(idCheck)
+		int idCheck = service.idCheck(email);
+		
+		// 카카오에서 전달받은 이메일 값으로 회원가입 여부 판별
+		if (idCheck > 0) {
+			// DB에 카카오에서 전달받은 이메일이 아이디로 존재할 때
+			System.out.println("존재하는 회원");
+			
+			// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
+			session.setAttribute("member_id", email);
+			return "existing";
+		} else {
+			// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
+			return "new";
+		}
+		
+	}
+	
+	
+	
 	// 멤버 로그인정보  - 수정
 	@GetMapping("member_Info")
 	public String memberLoginInfo(HttpSession session
@@ -411,7 +443,7 @@ public class MemberController {
 //		return "ajax 끝";
 //	}
 	
-	// 멤버 주소 등록  - 수정
+	// 멤버 주소 등록 페이지  - 수정
 	@GetMapping("member_address")
 	public String memberAddress(HttpSession session
 			, Model model) {
@@ -430,7 +462,155 @@ public class MemberController {
 		model.addAttribute("member", member);
 		
 		return "member/member_address";
-	}	
+	}
+	
+	// 멤버 주소 등록 추가  - 수정
+	@PostMapping("member_address_regist")
+	@ResponseBody
+	public String memberAddressRegist(HttpSession session
+			, @RequestBody Map<String, String> map
+			, Model model) {
+		
+		System.out.println("MemberController - memberAddressRegist");
+		System.out.println(map);
+		
+		String member_id = (String)session.getAttribute("member_id");
+		// 회원정보 가져오기
+		Map<String, String> member = service.isMemberCheck("member_id", member_id);
+		System.out.println(member);
+		
+		JsonArray myAddress = new JsonArray();
+		// 주소 3개가 이미 
+		if(member.containsKey("member_address1") && member.containsKey("member_address2") && member.containsKey("member_address3") ) {
+			System.out.println("주소 3개 존재");
+			
+			myAddress.add("주소는 최대 3개까지 추가 가능합니다");
+			
+			return myAddress.toString();
+		}
+		
+		if(member.get("member_address2") == null) { // 주소 2 추가(만약 대표 배송지 설정시 1번과 2번 변경)
+			
+			if(map.get("chk_main").equals("true")) { // 대표배송지를 주소2로 변경 후 대표배송지 추가
+				
+				service.addMainAddress("main_add2" , map); 
+				myAddress.add("대표 주소가 추가되었습니다");
+				
+				return myAddress.toString();
+			} else {
+				
+				service.addAddress("add2" , map); 
+				myAddress.add("주소2가 추가되었습니다");
+				
+				return myAddress.toString();
+			}
+		} else if (member.get("member_address3") == null) { // 주소 3 추가(만약 대표 배송지 설정시 1번과 3번 변경)
+				
+			if(map.get("chk_main").equals("true")) { // 대표배송지를 주소3으로 변경 후 대표배송지 추가
+				
+				service.addMainAddress("main_add3" , map); 
+				myAddress.add("대표 주소가 추가되었습니다");
+				
+				return myAddress.toString();
+			} else {
+				
+				service.addAddress("add3" , map); 
+				myAddress.add("주소3가 추가되었습니다");
+				
+				return myAddress.toString();
+			}
+		}
+		
+		return "";
+		
+	}
+
+	// 멤버 주소 수정  - 수정
+	@PostMapping("member_address_update")
+	@ResponseBody
+	public String memberAddressUpdate(HttpSession session
+			, @RequestBody Map<String, String> map
+			, Model model) {
+		System.out.println("MemberController - memberAddressUpdate");
+		System.out.println(map);
+
+		String member_id = (String)session.getAttribute("member_id");
+		// 회원정보 가져오기
+		Map<String, String> member = service.isMemberCheck("member_id", member_id);
+		System.out.println(member);
+		
+		JsonArray myAddress = new JsonArray();
+		if(map.get("chk_main").equals("true")) { // 대표 주소지 변경
+			
+			service.reWriteAddress(map); 
+			
+			myAddress.add("대표 주소가 변경되었습니다");
+			return myAddress.toString();
+
+		} else if(map.get("rew").equals("rew_num2")) { // 주소 2 변경(만약 대표 배송지 설정시 1번과 2번 변경)
+				
+			service.reWriteAddress(map); 
+			
+			myAddress.add("주소2가 변경되었습니다");
+			return myAddress.toString();
+			
+		} else if (map.get("rew").equals("rew_num3")) { // 주소 3 변경(만약 대표 배송지 설정시 1번과 3번 변경)
+				
+			service.reWriteAddress(map); 
+			
+			myAddress.add("주소3가 변경되었습니다");
+			return myAddress.toString();
+			
+		}
+		
+		return "";
+		
+	}
+	
+	// 멤버 주소 삭제  - 삭제
+	@PostMapping("member_address_delete")
+	@ResponseBody
+	public String memberAddressDelete(HttpSession session
+			, @RequestBody Map<String, String> map
+			, Model model) {
+		
+		System.out.println("MemberController - memberAddressDelete");
+		System.out.println(map);
+
+		String member_id = (String)session.getAttribute("member_id");
+		// 회원정보 가져오기
+		Map<String, String> member = service.isMemberCheck("member_id", member_id);
+		System.out.println(member);
+		
+		JsonArray myAddress = new JsonArray();
+		if(map.get("rmv_num").equals("rmv_num2")) { // 주소 2 삭제
+			System.out.println("2번째 배송지 삭제");  
+			
+			if(member.get("member_address3") == null) {// 세번째 배송지가 없는 경우 
+				
+				service.deleteAddress("rmv2" , map); 
+				myAddress.add("주소가 삭제되었습니다");
+				
+				return myAddress.toString();
+			} else { // 세번째 배송지가 있는 경우 두번쨰 배송지로 업데이트 후 세번째 삭제
+				service.deleteAddress("rew2_rmv3" , map); 
+				myAddress.add("주소가 삭제되었습니다");
+				
+				return myAddress.toString();
+			}
+				
+		} else if (map.get("rmv_num").equals("rmv_num3")) { // 주소 3 삭제
+			System.out.println("3번째 배송지 삭제");
+			
+			service.deleteAddress("rmv3" , map); 
+			myAddress.add("주소가 삭제되었습니다");
+			
+			return myAddress.toString();
+		}
+		
+		return "";
+		
+	}
 	
 	// 멤버 개인 계좌 등록 
 	@GetMapping("member_account")
@@ -1165,9 +1345,13 @@ public class MemberController {
 	
 	// 중고상품 구매 리뷰 작성
 	@PostMapping("member_buyList_review")
-	public String memberBuyListReview(MemberReviewVO review, Model model) {
+	public String memberBuyListReview(MemberReviewVO review
+									  , Model model
+									  , @RequestParam("review_reader_id") String review_reader_id
+									  , @RequestParam("review_writer_id") String review_writer_id
+									  , @RequestParam("order_secondhand_idx") int order_secondhand_idx) {
 		// MemberService(writeShReview()) - Member_mapper(insertwriteShReview())
-		int insertCount = service.writeShReview(review);
+		int insertCount = service.writeShReview(review, review_reader_id, review_writer_id, order_secondhand_idx);
 		
 		if(insertCount > 0) {
 			return "redirect:/member_mypage_buyList";

@@ -15,7 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <style type="text/css">
 	html {
@@ -37,7 +37,7 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<div class="successContentArea">
 					<div class="targetArea">
@@ -47,7 +47,7 @@
 						<p class="targetMessage">
 							<strong>${seller_id } </strong>께<br>
 							<em class="amount">
-								<fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원 송금완료
+								<fmt:formatNumber value="${zpayBuyerHistory.zpay_amount}" pattern="#,##0"/>원 송금완료
 							</em>
 						</p>
 						<p class="targetAccountInfo">

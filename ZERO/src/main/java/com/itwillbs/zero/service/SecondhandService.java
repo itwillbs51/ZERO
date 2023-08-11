@@ -159,6 +159,25 @@ public class SecondhandService {
 		return mapper.selectSoldOutProductCount(member_id);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	// 검색페이지 - 검색된 중고상품리스트 조회
+	public List<SecondhandVO> getSearchSecondhandList(String productSearchKeyword) {
+		// TODO Auto-generated method stub
+		return mapper.selectSearchSecondhandList(productSearchKeyword);
+	}
+	// 검색페이지 - 검색된 중고상품 개수조회
+	public int getSearchSecondhandCount(String productSearchKeyword) {
+		// TODO Auto-generated method stub
+		return mapper.selectSearchSecondhandCount(productSearchKeyword);
+	}
+
 
 
 	

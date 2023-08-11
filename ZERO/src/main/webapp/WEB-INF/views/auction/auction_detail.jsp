@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <meta charset="UTF-8">
 <title> ZERO | 경매상세 </title>
 	
@@ -56,7 +56,21 @@ $(function(){
 	  let currentTime = padZero(hours, 2)+':'+padZero(minutes, 2)+':'+padZero(seconds, 2);
 	  
 	  $('#clock').html('<h3>'+currentTime+'</h3>');
-
+      if(currentTime=="00:00:00"){
+    	  $("#clock").css("display", "none");
+    		$("#clockTitle").css("display", "none");
+    		$("#bottomRight").css("display", "none");
+    		$("#usersArea").css("display", "none");
+    		$("#presentPriceTitle").html("<b>최종낙찰가격</b>");
+    		
+    		var str = "<div  style=' text-align: center;'>";
+    		str += "<b> --------경매종료-------- </b>";
+    		str += "</div>";
+      $("#msgArea").append(str);
+  	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
+    		
+    	  
+      }
 // 	  setInterval(updateTime, 1000);
 	  setTimeout(updateTime, 1000);
 	  
@@ -147,7 +161,7 @@ function uncomma(str) {
 				<!-- 좌측 영역 -->
                 <div class="col-md-4">
                 	<div class="row d-flex justify-content-center">
-                	<div class="col-4 col-md-4"><h3>남은시간</h3></div>	<div class="col-3 col-md-3" id="clock"></div>
+                	<div class="col-4 col-md-4"><h3 id="clockTitle">남은시간</h3></div>	<div class="col-3 col-md-3" id="clock"></div>
 
 <!--                 		<h2>03 : 23 : 01</h2> -->
                 	</div>
@@ -163,7 +177,7 @@ function uncomma(str) {
                 		<div id="msgArea" class="col">
                 		</div>
                 		</div>                	
-                	<div class="col-12 col-md-12"><div class="row d-flex justify-content-center">현재 접속중 회원&nbsp;<span id=currentUsersSum></span>명</div></div>
+                	<div class="col-12 col-md-12" id="usersArea"><div class="row d-flex justify-content-center">현재 접속중 회원&nbsp;<span id=currentUsersSum></span>명</div></div>
 		<div class="col-12 col-md-12" id="users"></div>	
                 </div>
                 
@@ -183,10 +197,10 @@ function uncomma(str) {
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9 d-none d-md-block">    
-                	 		2023년 8월 2일~2023년 8월 3일
+                	 		${product.auction_start_datetime }~${product.auction_end_datetime }
                 	 	</div>
                 	 	<div class="col-6 col-md-3"> 
-                	 		<h4><b>현재가격</b></h4>
+                	 		<h4 id="presentPriceTitle"><b>현재가격</b></h4>
                 	 	</div>   
                 	 	
                 	 	<div class="col-6 col-md-9">    
@@ -208,7 +222,7 @@ function uncomma(str) {
                 	 	</div>
                 	 </div>
                 	 
-	                <div class="row col-md-12 ">
+	                <div class="row col-md-12 " id="bottomRight">
 	                
 	                	<div class="col-4 col-md-4"  style=" text-align: right;">    
                 	 		<h4><b>입찰가격 </b></h4>
@@ -230,7 +244,7 @@ function uncomma(str) {
                 	 		<span id="maxPrice">${product.auction_max_price }</span> 원
                 	 	</div>
                 	 	<div class="col-4 col-md-6"> 
-                	 		<button type="button" class="btn btn-dark  btn-block">즉시구매</button>
+                	 		<button type="submit" id="button-send2" class="btn btn-dark  btn-block">즉시구매</button>
                 	 	</div>   
 	                	
 	                	<div class="col-4 col-md-4"  style=" text-align: right;">    
@@ -294,6 +308,51 @@ $("#bid_price").on("keyup",function(key){
     }
 });
 
+//즉시구매
+$("#button-send2").on("click", function(e) {
+	
+	
+	  let result = confirm("즉시구매가격은 "+$("#maxPrice").html()+"원 입니다 즉시구매 하시겠습니까?");
+
+      if(!result){return false;}
+      $.ajax({
+  		data: {
+  			'id':"${param.id}"
+  		},
+  		url: "direct_pay_pro",
+  		type: "POST",
+  		success: function(result) {
+  			if(result == "false"){
+  				alert("경매종료");
+  				return;
+  			}
+  			 $.ajax({
+  		  		data: {
+  		  			'order_auction_idx':result
+  		  		},
+  		  		url: "zpay_auction_send_pro",
+  		  		type: "POST",
+  		  		success: function() {
+  		  			alert("성공");
+  		  			
+  		  		},
+  		  		fail: function() {
+  		  			alert("실패!");
+  		  		}	
+  		  		
+  		  	});
+  			
+  		},
+  		fail: function() {
+  			alert("실패!");
+  		}	
+  		
+  	});
+      
+     
+	
+});
+
 var sock = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chatting?id=${param.id}');
 sock.onmessage = onMessage;
 sock.onclose = onClose;
@@ -316,6 +375,18 @@ function sendMessage() {
 		success: function(result) {
 			if(result == "true") {
 				sock.send(bid_price)
+				
+			}else if (result == "false") {
+				alert("입찰가능금액이 부족합니다");
+				
+			}else if(result == "false2") {
+				$("#button-send2").click();
+				
+			}else if(result == "false3") {
+				alert("현재가격 부터 입찰 가능합니다");
+				
+			}else if(result == "false4") {
+				alert("현재가격 보다 높게 입찰 가능합니다");
 				
 			} else {
 				alert("실패!");
@@ -371,8 +442,9 @@ function onMessage(msg) {
 	$("#presentPrice").addClass('blink');
 	   setTimeout(function() {
 	      $("#presentPrice").removeClass('blink');
-	   }.bind("#presentPrice"), 300);
+	   }.bind("#presentPrice"), 500);
     }else{
+    	if("${product.auction_manage_status}"=="경매종료"){return;}
     	$("#users").html(currentUsers.replace(/[\[\]']+/g, ''));
     	$("#currentUsersSum").html("<b>"+currentUsers.split(",").length+"</b>");
     	
@@ -387,19 +459,32 @@ function onClose(evt) {
 	
 }
 //채팅창에 들어왔을 때
-function onOpen(evt) {
+function onOpen(evt) {}// 	sock.send( "님이 입장하셨습니다.");
 	
+	$(function(){
+	if("${product.auction_manage_status}"=="경매종료"){
+	$("#clock").css("display", "none");
+	$("#clockTitle").css("display", "none");
+	$("#bottomRight").css("display", "none");
+	$("#usersArea").css("display", "none");
+	$("#presentPriceTitle").html("<b>최종낙찰가격</b>");
+	
+	var str = "<div  style=' text-align: center;'>";
+	str += "<b> --------경매종료-------- </b>";
+	str += "</div>";
+	}
+	else{
 	var user = '${sessionScope.member_id}';
 	
 	var str = "<div  style=' text-align: center;'>";
 	
-	str += "<b>" + user + "님 많이 따세요~ </b>";
+	str += "<b>" + user + "님 환영 합니다~ </b>";
 	str += "</div>";
-	
+	}
 	$("#msgArea").append(str);
 	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
-	
-}
+	});
+
 
 </script>
 </html>

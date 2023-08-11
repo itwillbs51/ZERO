@@ -16,7 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ZERO</title>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 //슬라이드인덱스
 let slideIndex = 1;//슬라이드인덱스 기본값 1

@@ -13,9 +13,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link href="/your-path-to-uicons/css/uicons-rounded-regular.css" rel="stylesheet">
+<link href="/your-path-to-uicons/css/uicons-rounded-bold.css" rel="stylesheet">
+<link href="/your-path-to-uicons/css/uicons-rounded-solid.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <script type="text/javascript">
 	
@@ -112,7 +116,7 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<form action="zpay_charge_pro" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
@@ -153,10 +157,11 @@
 								<div class="title">
 									출금 계좌
 								</div>
-								<div class="withdrawalAccount_info">
+								<button type="button" class="btn-withdrawalAccount_info" data-toggle="modal" data-target="#exampleModalScrollable">
 									<div class="withdrawalBankName">${zpay.zpay_bank_name }</div>
 									<div class="withdrawalAccountNum">${zpay.zpay_bank_account }</div>
-								</div>
+									<div class="moreAccountInfo"><i class="fi fi-rr-angle-down"></i></div>
+								</button>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
@@ -169,6 +174,85 @@
 	</article>
 	<footer>
 	</footer>
+	
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="exampleModalScrollableTitle">계좌선택</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="zpayHistoryArea">
+	<div class="zpayHistoryListArea">
+		<ul>
+			<li>
+				<div class="zpayHistoryItem">
+					<div class="zpayHistoryItem_date">
+						예금주명
+					</div>
+					<div class="zpayHistoryItem_infoArea">
+						<div class="zpayHistoryItem_info">
+							은행명&nbsp;&nbsp;&nbsp;계좌번호
+							<div class="zpayHistoryItem_info_sub">
+								<span class="payTime">
+									핀테크이용번호
+								</span>
+								<span class="paymentType"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<c:forEach var="account" items="${myAccountList }">
+				<li>
+					<div class="zpayHistoryItem">
+						<div class="zpayHistoryItem_date">
+							
+						</div>
+						<div class="zpayHistoryItem_infoArea">
+							<div class="zpayHistoryItem_info">
+								${account.zpay_bank_name }(${account.zpay_bank_account })
+								<div class="zpayHistoryItem_info_sub">
+									<span class="payTime">
+										핀테크이용번호
+									</span>
+									<span class="paymentType"></span>
+								</div>
+							</div>
+							<div class="zpayHistoryItem_amountArea">
+								<strong class="zpayHistoryItem_amount">
+									
+								</strong>
+								<div class="zpayBalance">
+									2.3.1. 잔액조회 API 요청을 위한 폼
+									<form action="zpay_regist" method="post">
+										hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달
+										<input type="hidden" name="user_name" value="${userInfo.user_name }">
+										<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
+										<input type="hidden" name="bank_name" value="${account.bank_name }">
+										<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
+										<input type="submit" class="btn btn-sm btn-dark" value="등록하기">
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</c:forEach>
+		</ul>
+	</div><!-- zpayHistoryListArea 영역 끝 -->
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<button type="button" class="btn btn-primary">Save changes</button>
+</div>
+</div>
+</div>
+</div>
 
 </body>
 </html>

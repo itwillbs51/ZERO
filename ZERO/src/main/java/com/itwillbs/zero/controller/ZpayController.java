@@ -77,12 +77,12 @@ public class ZpayController {
 		// ZPAY 사용자 여부 조회 = > 미사용자인 경우 ZPAY 등록 폼으로 이동
 		ZpayVO zpay = service.isZpayUser(member_id);
 		if(zpay == null) {
-			session.setAttribute("previousPage", "zpay_main");
+//			session.setAttribute("previousPage", "zpay_main");
 			model.addAttribute("member", member);	
 			return "zpay/zpay_regist_form";
 		}
 		
-		
+		model.addAttribute("member", member);
 		return "zpay/zpay_main_scroll";
 	}
 	
@@ -134,7 +134,7 @@ public class ZpayController {
 	public String zpayRegist(@RequestParam Map<String, String> map, 
 							Model model, 
 							HttpSession session) {
-		
+		System.out.println("ZpayController - zpayRegist");
 		String member_id = (String)session.getAttribute("member_id");
 		
 		// 세션에 저장된 엑세스토큰 및 사용자번호를 변수에 저장
@@ -158,8 +158,14 @@ public class ZpayController {
 		
 		int insertCount = service.registZpay(zpay);
 		
+		System.out.println(session.getAttribute("previousPage"));
+		System.out.println(session.getAttribute("previousPage").equals(""));
 		if(insertCount > 0) {
-			return "redirect:/" + session.getAttribute("previousPage");
+			if(!session.getAttribute("previousPage").equals("")) {
+				return "redirect:/" + session.getAttribute("previousPage");				
+			} else {
+				return "redirect:/zpay_main";
+			}
 		} else {
 			model.addAttribute("msg", "ZPAY 등록 실패");
 			return "bank_auth_fail_back";
@@ -173,9 +179,28 @@ public class ZpayController {
 	public String zpayChargeForm(Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayChargeForm()");
 		
+		String access_token = (String)session.getAttribute("access_token");
+//		String user_seq_no = (String)session.getAttribute("user_seq_no");
+//		
+		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
+		if(access_token == null) {
+			model.addAttribute("msg", "계좌 인증 필수!");
+			return "bank_auth_fail_back";
+		}
+		
+		// BankApiService - requestUserInfo() 메서드 호출하여 핀테크 이용자 정보 조회
+		// => 파라미터 : 엑세스토큰, 사용자번호    리턴타입 : ResponseUserInfoVO(userInfo)
+//		ResponseUserInfCoVO userInfo = bankApiService.requestUserInfo(access_token, user_seq_no);
+		
+		// Model 객체에 ResponseUserInfoVO 객체 저장
+//		model.addAttribute("userInfo", userInfo);
+		
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
 		model.addAttribute("zpay", zpay);
 				
+//		List<ZpayVO> myAccountList = service.getMyAccountList((String)session.getAttribute("member_id"));
+//		model.addAttribute("myAccountList", myAccountList);
+		
 		return "zpay/zpay_charge_form";
 	}
 	
@@ -198,18 +223,18 @@ public class ZpayController {
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-		ResponseWithdrawVO withdrawResult = bankApiService.requestWithdraw(map);
+//		ResponseWithdrawVO withdrawResult = bankApiService.requestWithdraw(map);
 		
 		// Model 객체에 ResponseWithdrawVO 객체 저장
-		model.addAttribute("withdrawResult", withdrawResult);
+//		model.addAttribute("withdrawResult", withdrawResult);
 		
 		// ---------------------------------------------------------------------------------------------------------------
 		// ZPAY_HISTORY 테이블에서 잔액조회
 		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
+		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		zpayHistory.setZpay_amount(withdrawResult.getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);
 		zpayHistory.setZpay_deal_type("충전");
 		System.out.println(zpayHistory);
@@ -326,17 +351,17 @@ public class ZpayController {
 		
 		// BankApiService - requestWithdraw() 메서드를 호출하여 출금이체 요청
 		// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+//		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
 		
 		// Model 객체에 ResponseWithdrawVO 객체 저장
-		model.addAttribute("depositResult", depositResult);
+//		model.addAttribute("depositResult", depositResult);
 		
 		// ZPAY_HISTORY 테이블에서 잔액조회 ========================================================================================
 //		Integer zpay_balance = service.getZpayBalance(member_id);
 		
 		zpayHistory.setZpay_idx(zpay.getZpay_idx());
-//		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
-		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
+		zpayHistory.setZpay_amount(Integer.parseInt(zpayAmount));
+//		zpayHistory.setZpay_amount(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
 		zpayHistory.setZpay_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
 		zpayHistory.setZpay_deal_type("환급");
 		System.out.println(zpayHistory);
@@ -865,7 +890,7 @@ public class ZpayController {
 		ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
 		zeroAccount.setMember_id(buyer_id);
 		zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
-		zeroAccount.setOrder_secondhand_idx(order_auction_idx);
+		zeroAccount.setOrder_auction_idx(order_auction_idx);
 		zeroAccount.setZero_account_amount(order_auction_commission);
 		zeroAccount.setZero_account_balance(zero_account_balance);
 		zeroAccount.setZero_account_type("경매취소환불");

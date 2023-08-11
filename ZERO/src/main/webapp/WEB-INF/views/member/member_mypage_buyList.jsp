@@ -173,7 +173,10 @@
 													   class="last_title display_paragraph"
 													   style="color: rgb(34, 34, 34); 
 													   cursor:pointer; position: absolute; bottom: 0; right: 0;" 
-													   onclick="openReviewPopup(event, '${myOdShList.order_secondhand_product}', '${myOdShList.order_secondhand_seller}');">
+													   onclick="openReviewPopup(event, '${myOdShList.order_secondhand_product}'
+													   								 , '${myOdShList.order_secondhand_seller}'
+													   								 , '${myOdShList.order_secondhand_buyer }'
+													   								 , '${myOdShList.order_secondhand_idx }');">
 													후기 작성하기
 													</a>
                                                     
@@ -227,7 +230,7 @@
             </div>
             <div class="form-group">
 		      <label for="message-text" class="col-form-label" id="">리뷰를 남겨주세요 (최대 100자)</label>
-		      <textarea class="form-control" id="message-text" name="member_review_content"></textarea>
+		      <textarea class="form-control" id="message-text" name="member_review_content" required="required"></textarea>
 		      <div class="char-counter text-muted" style="float: right; display: flex;">
 		        <div id="currentCount">0</div>
 		        <div>&nbsp;/ 100</div>
@@ -237,7 +240,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <button type="submit" class="btn btn-primary" form="review-form">리뷰 작성</button>
+        <button type="submit" id="reviewBtn" class="btn btn-primary" form="review-form">리뷰 작성</button>
       </div>
     </div>
   </div>
@@ -264,7 +267,11 @@
 <!-- 후기작성 팝업 -->
 <script type="text/javascript">
 jQuery.noConflict();
-function openReviewPopup(event, order_secondhand_product, member_id) {
+function openReviewPopup(event
+						 , order_secondhand_product
+						 , review_reader_id
+						 , review_writer_id
+						 , order_secondhand_idx) {
   event.preventDefault();
   event.stopPropagation();
 
@@ -290,48 +297,17 @@ function updateCharCount() {
 $(document).ready(function () {
   // 이벤트 바인딩
   $("#message-text").on("input", updateCharCount);
-  $(".btn-primary").on("click", submitReview);
+//   $(".btn-primary").on("click", submitReview);
 
   // 초깃값 설정
   updateCharCount();
 });
 
-function submitReview() {
-	  event.preventDefault();  // 폼의 기본 제출 동작을 막습니다.
-	  const messageText = $("#message-text").val();
 
-	  if (!messageText) {
-	    alert("리뷰를 작성해주세요.");
-	    return;
-	  }
-
-	  // AJAX to send data to the server
-	  $.ajax({
-	    type: "POST",
-	    url: "/member_buyList_review",
-	    data: {
-	      messageText: messageText,
-	    },
-	    success: function(response){
-	      alert("리뷰가 작성되었습니다.");
-	      
-	      // Close the modal
-	      $("#reviewModal").modal("hide");
-
-	      // Clear form fields after submission
-	      $("#message-text").val("");
-	      updateCharCount();
-	    },
-	    error: function(){
-	      // Handle error appropriately
-	      alert("리뷰 작성 실패, 다시 시도해주세요.");
-	    }
-	  });
-	}
 </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const stars = document.querySelectorAll("#myform input[type=radio]");
     const labels = document.querySelectorAll("#myform label");
 
@@ -345,6 +321,21 @@ function submitReview() {
           }
         });
       });
+    });
+
+    const form = document.getElementById('review-form');
+    const reviewBtn = document.getElementById('reviewBtn');
+    
+    reviewBtn.addEventListener('click', (event) => {
+      if (!form.checkValidity() || !form.querySelector('input[name="reviewStar"]:checked')) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        if (!form.querySelector('input[name="reviewStar"]:checked')) {
+          alert('별점을 클릭해주세요');
+        }
+      }
+      form.classList.add('was-validated');
     });
   });
 </script>

@@ -12,14 +12,16 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 
 <%-- 소켓통신을 위한 함수들을 콜백형태로 제공 --%>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
+<%-- 알림 관련 함수 --%>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/alarm.js"></script> --%>
 <%-- google 아이콘 --%>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/chat.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
 <title>채팅 | ZERO</title>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script>
 </head>
 <body>
@@ -49,20 +51,20 @@
 <!-- 					<hr> -->
 					<div class="art_firstRow">
 						<div class="product_photo co01">
-							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg">
+							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" onclick="secondhandDetail()">
 <%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}"> --%>
 						</div>
-						<div class="co02">
+						<div class="co02" onclick="secondhandDetail()">
 							<div class="co02-1">${secondhandInfo.secondhand_deal_status }</div>
 							<div class="co02-2">${secondhandInfo.secondhand_subject }</div><br>
 							<div class="co02-3">
-								${secondhandInfo.secondhand_price }원
+								<fmt:formatNumber pattern="###,###" value="${secondhandInfo.secondhand_price }"/>원
 							</div>
 						</div>
 						<div class="co03">
-							<button>
-								<i class="material-icons">sim_card_alert</i>신고하기
-							</button>
+<!-- 							<button> -->
+<!-- 								<i class="material-icons">sim_card_alert</i>신고하기 -->
+<!-- 							</button> -->
 						</div>
 					</div>
 					<div class="art_secondRow">
@@ -75,18 +77,26 @@
 								</button>
 							</c:if>
 							<%-- 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화 --%>
-							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' }">
+							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' && orderSecondhandInfo.order_secondhand_buyer eq sessionScope.member_id}">
 								<button onclick="reservationNext('time')"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
 								<c:if test="${isZpayUser && sessionScope.member_id eq chatRoom.buyer_id && orderSecondhandInfo.order_secondhand_status eq '거래진행중'}">
 									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
 								</c:if>
+								<%-- 직거래나 택배거나 결제까지 완료한 상태면 --%>
+							</c:if>
+							<c:if test="${orderSecondhandInfo.order_secondhand_buyer eq sessionScope.member_id && ((orderSecondhandInfo.order_secondhand_type eq ('직거래' or '택배') && orderSecondhandInfo.order_secondhand_status ne '거래완료')  || orderSecondhandInfo.order_secondhand_status eq '결제완료') }">
+								<button id="dealFinish" data-toggle="modal" data-target="#needDoneConfirm">
+									<i class="material-icons">done</i><span>거래완료 </span>
+								</button>
+							</c:if>
+							<c:if test="${orderSecondhandInfo.order_secondhand_status eq '거래완료'}">
 								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
-								<button onclick="reservationNext('done')"><i class="material-icons">done</i><span>거래완료</span></button>
 							</c:if>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 							<form id="openZform" method="post" action="ZpayForm" target="_blank">
 							<c:if test="${not empty orderSecondhandInfo }">
 							    <input type="hidden" name="order_secondhand_idx" value="${orderSecondhandInfo.order_secondhand_idx }">
+							    <input type="hidden" name="order_secondhand_type" value="${orderSecondhandInfo.order_secondhand_type }">
 							    <input type="hidden" name="secondhand_subject" value="${secondhandInfo.secondhand_subject }">
 							    <input type="hidden" name="order_secondhand_price" id="order_secondhand_price" value=${orderSecondhandInfo.order_secondhand_price }>
 							    <input type="hidden" name="seller_id" value="${chatRoom.seller_id}">
@@ -179,10 +189,20 @@
 						<button class="listInfoBtn" style="display: none;" ><i class="material-icons">add</i></button><br>
 							<div>
 							</div>
-							<input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
-							</div>
+							<c:choose>
+								<c:when test="${secondhandInfo.secondhand_deal_status eq '판매중' || (sessionScope.member_id eq orderSecondhandInfo.order_secondhand_buyer || sessionScope.member_id eq orderSecondhandInfo.order_secondhand_seller) }">
+									<input type="text" id="msg" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<input type="text" id="msg" class="form-control" placeholder="판매중인 아닌 상품은 채팅이 불가능합니다!" disabled aria-label="Recipient's username" aria-describedby="button-addon2">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-send" disabled>전송</button>
+									</div>
+								</c:otherwise>
+							</c:choose>
 							
 						</div>
 							<%-- + 버튼 클릭 시 나오는 기능들 --%>
@@ -264,27 +284,18 @@
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="needSessionId">거래하기 확인</h5>
+	        <h5 class="modal-title" id="needSessionId">거래완료 확인</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body text-center" id="modalMsg">
 	      <%-- 메세지가 표시되는 부분 --%>
-		      정말 상대방과 거래하시겠습니까?<br>
-		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
-		      <div class="modal-price">
-		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
-			    <div>(Z맨 거래의 경우 거래완료 시<br>최종거래금액에서 3000원 뺀 금액이 Z페이로 입금됩니다.)</div>
-		      </div>
-		      <div class="dealBtns">
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(1)" data-dismiss="modal" aria-label="Close">만나서 거래하기</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(2)" data-dismiss="modal" aria-label="Close">Z맨 (+3000원)</button>
-	        	<button type="button" class="btn btn-dark" onclick="dealNext(3)" data-dismiss="modal" aria-label="Close">택배로 받기</button><br>
-		      </div>
+		      물건은 잘 받아보셨나요?<br>
+		      확인 버튼을 클릭하시면 거래가 종료됩니다! <br>
 	      </div>
 	      <div class="modal-footer justify-content-center">
+        	<button type="button" class="btn btn-dark" onclick="reservationNext('done')" data-dismiss="modal" aria-label="Close">확인</button>
 	        <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">아니오</button>
 	      </div>
 	    </div>
@@ -319,11 +330,10 @@
 		if(chatMessage != "") {
 			sendMessage(sender);
 			$('#msg').val('');
-		} else if(chatImgMessage != "") {
-			console.log(chatImgMessage);
-			var form = document.getElementById("imgform");
-	        form.submit();
-			
+// 		} else if(chatImgMessage != "") {
+// 			console.log(chatImgMessage);
+// 			var form = document.getElementById("imgform");
+// 	        form.submit();
 		}
 	});
 	
@@ -382,7 +392,7 @@
 				url: "chatRemember",
 				type: "POST",
 				success: function(data) {
-// 					console.log("DB 저장 성공");
+					console.log("DB 저장 성공");
 					
 				},
 				error: function(request,status,error) {
@@ -395,9 +405,8 @@
 		} else if(sender == 'notice@test.com') {
 			// 안내메세지 관리
 			chat_content_type = '안내';
-// 			chatMessage = chatMessage.split("&-안내")[1];
 		}
-		console.log("sender 안내가 맞나? :" + (sender == 'notice@test.com'));
+// 		console.log("sender 안내가 맞나? :" + (sender == 'notice@test.com'));
 		// 채팅 내용을 DB에 저장하기
 		$.ajax({
 			data: {
@@ -455,6 +464,7 @@
 			str += '</div>';
 			
 			$("#msgArea").append(str);
+			console.log("안내문자 :" + noticeMessage);
 			
 		}else if(sessionId == cur_session){ //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
 			
@@ -469,6 +479,21 @@
 			str += "</div></div></div>";
 			
 			$("#msgArea").append(str);
+			
+			// 알림 보내기
+			let messager = null;
+			let holder = null;
+			if(sessionId == "${chatRoom.seller_id}") {
+				messager = "${chatRoom.seller_nickname}";
+				holder = "${chatRoom.buyer_id}";
+			} else {
+				messager = "${chatRoom.buyer_nickname}";
+				holder = "${chatRoom.seller_id}";
+			}
+			
+			// 알림 보내는 함수
+			sendAlarmMessage(holder, "채팅 도착!", messager + " : " + message, "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
+			
 		} else{
 			
 			var str = "<div class='msgitem'>";
@@ -529,8 +554,8 @@
 		chatScrollTop = $("#msgArea").scrollTop();	// 스크롤바 현 높이(위치)를 가지고 옴
 		msgAreaHeight = $("#msgArea").height();	// 브라우저 창의 높이
 // 		documentHeight = $("#msgArea").clientHeight;	// 문서의 높이(창의 높이보다 크거나 같음)
-		console.log("chatScrollTop : " + chatScrollTop);
-		console.log("msgAreaHeight : " + msgAreaHeight);
+// 		console.log("chatScrollTop : " + chatScrollTop);
+// 		console.log("msgAreaHeight : " + msgAreaHeight);
 // 		console.log("documentHeight : " + documentHeight);
 	});
 	
@@ -654,6 +679,11 @@
 		
 	});	// 함수 호출 끝
 	
+	function secondhandDetail() {
+		// 상품정보 클릭 시 상품 글로 이동
+		location.href = "secondhand_detail?secondhand_idx=" + ${chatRoom.secondhand_idx} + "&member_id=" + "${chatRoom.seller_id}";
+	}
+	
 	
 	// ================= 버튼들 기능 함수 =========================
 	// 거래를 위한 변수와 함수들
@@ -682,11 +712,11 @@
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
 				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
-				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원<br>';
-				chatMessageBtn = '<button class="btn btn-dark callZBtn" onclick="toZ()">';
-				chatMessageBtn += 'Z맨 호출 접수</button>';
+				chatMessage += '최종가격 : <span id="payPrice">' + (finalPrice + 3000) + '</span>원<br>';
+				chatMessage += '<button class="btn btn-dark callZBtn" onclick="toZ()">';
+				chatMessage += 'Z맨 호출 접수</button>';
 				setOrderSecondhand("Z맨");
-				chatMessage += chatMessageBtn;
+// 				chatMessage += chatMessageBtn;
 				break;
 			case 3 :
 				// 1-3. 택배로 받기 클릭 => 안내 메세지 띄우고 판매자에게 택배회사 주소가 담긴 버튼 보여주기(안내메세지 판별해 버튼 보여주기)
@@ -707,6 +737,9 @@
 		$("#msgArea").append(chatMessageBtn);
 		// 거래하기 비활성화
 		$("#doDeal").attr("disabled", true);
+		
+		// 알림 보내는 함수
+		sendAlarmMessage("${chatRoom.buyer_id}", "거래하기!", "${chatRoom.seller_nickname}" + "님이 거래하기를 선택하셨습니다!", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 		// 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화
 				
 	}	// 거래버튼 시 실행 함수 끝
@@ -748,12 +781,13 @@
 // 		console.log("${chatRoom.seller_id}");
 // 		console.log("${chatRoom.buyer_id}");
 		let requestUrl = "chatToZ?"
-// 				+ "order_secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
-				+ "secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
+				+ "&order_secondhand_idx=" + "${orderSecondhandInfo.order_secondhand_idx }"
+				+ "&secondhand_idx=" + "${secondhandInfo.secondhand_idx }"
 // 				+ "&secondhand_subject=" + "${secondhandInfo.secondhand_subject }"
 				+ "&order_secondhand_price=" + payPrice
 				+ "&seller_id=" + "${chatRoom.seller_id}"
 				+ "&buyer_id=" + "${chatRoom.buyer_id}"
+				+ "&order_secondhand_status=" + "${orderSecondhandInfo.order_secondhand_status}"
 				;
 				
 		window.open(requestUrl, "newWindow", "width=450, height=600, left=500, top=100");
@@ -767,6 +801,9 @@
 				chatMessage = "&-안내" + typeMsg;
 				sendMessage('notice@test.com');
 				$(".callZBtn").attr("disabled", true);
+				// 알림 보내는 함수
+				sendAlarmMessage("${chatRoom.buyer_id}", "Z맨 호출"
+						, "Z맨 호출이 접수되었습니다! 상품명 - " + "${secondhandInfo.secondhand_subject }", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 				break;
 			case 'zpay':
 				chatMessage = "&-안내" + typeMsg;
@@ -793,12 +830,54 @@
 			case 'review' :
 // 				reservUrl = ;
 				break;
-			case 'done' :	// 거래완료 클릭 시
+			case 'done' :	// 거래완료 - 확인 클릭 시
+				// zpay를 사용한 경우
+				if ("${orderSecondhandInfo.order_secondhand_status}" == '결제완료' ) {
+					let doneUrl = "zpay_send_to_seller";
+					let idx = ${orderSecondhandInfo.order_secondhand_idx} + 0 ;
+					
+					$.ajax({
+						data: {
+							"order_secondhand_idx": idx,
+						},
+						url: doneUrl,
+						type: "POST",
+						success: function(data) {
+							console.log("거래완료 의사 전달 완료 - Z맨, Z페이");
+						},
+						error: function(request,status,error) {
+							alert("놀라지마세요! z맨, z페이 거래완료 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
+							console.log("DB 저장 실패 - z맨");
+						}
+					});	// ajax끝
+				}	// if문 끝
+				
+				// 공통적으로 중고상품 판매완료라고 상태변경하기
+				$.ajax({
+					data: {
+						"secondhand_idx": ${secondhandInfo.secondhand_idx },	//여기까지함 => (상품)판매완료, (오더)거래완료 수정해주기
+					},
+					url: "finishDeal",
+					type: "POST",
+					success: function(data) {
+						console.log("거래완료 의사 전달 완료 - 택배, 만나서의 경우");
+						
+					},
+					error: function(request,status,error) {
+						alert("놀라지마세요! 상태변경하는 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
+						console.log("DB 저장 실패 - 택배, 만나서의 경우");
+					}
+				});	// ajax끝
+				
+				// 작업 끝나면 버튼에 비활성화하기
+				$("#dealFinish").attr("disabled", true);
 				
 				break;
 		}
 		// switch문 끝
 	}
+	
+
 	
 </script>
 	

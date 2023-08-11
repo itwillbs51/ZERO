@@ -54,15 +54,16 @@
 	
 	<!-- 웹소켓 핸들러 분리용 (채팅 - 지영) -->
 	<websocket:handlers>
-		<websocket:mapping handler="chatHandler" path="/chat"/>
+		<websocket:mapping handler="alarmHandler" path="/alarm"/>
  		<!-- 추가 - udonmarket -->
 		<websocket:handshake-interceptors>
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
 		</websocket:handshake-interceptors>
-		<websocket:sockjs></websocket:sockjs>
+		<websocket:sockjs websocket-enabled="true"/>
+<!-- 		<websocket:sockjs></websocket:sockjs> -->
 	</websocket:handlers>
 	
-	<beans:bean id="chatHandler" class="com.itwillbs.zero.handler.ChatHandler"/>
+	<beans:bean id="alarmHandler" class="com.itwillbs.zero.handler.AlarmHandler"/>
 
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<!-- class 에 있는 경로에 NaverLoginBO를 @bean 으로 등록해서  -->

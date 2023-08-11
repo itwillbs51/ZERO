@@ -35,5 +35,19 @@ public class AuctionService {
 	public int getAucionListCount(int pageNum, String category, String sort, String type) {
 		return mapper.selectGetAuctionListCount(pageNum, category, sort, type);
 	}
+
+	
+	
+	
+	// 검색시 옥션 목록 조회 (경진)
+	public List<HashMap<String, String>> getAuctionList(String productSearchKeyword) {
+		// TODO Auto-generated method stub
+		return mapper.selectAuctionList(productSearchKeyword);
+	}
+	// 검색시 옥션 목록 개수 조회 (경진)
+	public int getAucionCount(String productSearchKeyword) {
+		// TODO Auto-generated method stub
+		return mapper.selectAuctionCount(productSearchKeyword);
+	}
 	
 }

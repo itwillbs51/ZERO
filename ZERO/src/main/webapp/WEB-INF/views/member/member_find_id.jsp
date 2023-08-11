@@ -216,7 +216,7 @@ h2 {
 
 	
 </style>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 $(function(){
 	

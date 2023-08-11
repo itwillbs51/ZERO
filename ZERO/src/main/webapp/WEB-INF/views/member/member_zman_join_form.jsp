@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -29,29 +30,6 @@
 	href="${pageContext.request.contextPath }/resources/css/button.css"
 	rel="stylesheet" type="text/css">
 	
-<%-- vue.js 링크 --%>
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
-<!-- <style type="text/css"> /*# sourceMappingURL=contenteditable.vue.map */</style> -->
-
-
-
-<!-- <meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" data-hid="description" name="description" content="한정판 거래의 FLEX, KICKS RULE EVERYTHING AROUND ME"><meta data-n-head="ssr" data-hid="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"><meta data-n-head="ssr" name="apple-mobile-web-app-title" content="KREAM"><meta data-n-head="ssr" name="application-name" content="KREAM"><meta data-n-head="ssr" name="msapplication-TileColor" content="#111111"><meta data-n-head="ssr" name="theme-color" content="#ffffff"><meta data-n-head="ssr" name="msapplication-config" content="/browserconfig.xml"><meta data-n-head="ssr" data-hid="google-site-verification" name="google-site-verification" content="n9xvZpoumVa_cedth9bLo1fgwQfIoGkw0Jmkray34FM"><meta data-n-head="ssr" data-hid="naver-site-verification" name="naver-site-verification" property="naver-site-verification" content="ecf6ec0ed503754fbcec5f8c0a1fa4e94297f425"><meta data-n-head="ssr" data-hid="twitter:card" name="twitter:card" property="twitter:card" content="summary_large_image"><meta data-n-head="ssr" data-hid="og:type" name="og:type" property="og:type" content="website"><meta data-n-head="ssr" data-hid="og:title" name="og:title" property="og:title" content="KREAM | 한정판 거래의 FLEX"><meta data-n-head="ssr" data-hid="og:description" name="og:description" property="og:description" content="한정판을 거래하는 가장 확실한 방법"><meta data-n-head="ssr" data-hid="og:image" name="og:image" property="og:image" content="https://kream.co.kr/images/index_og_kream.png"><meta data-n-head="ssr" data-hid="format-detection" name="format-detection" content="telephone=no"><link data-n-head="ssr" rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link data-n-head="ssr" rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link data-n-head="ssr" rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link data-n-head="ssr" rel="manifest" href="/site.webmanifest"><link data-n-head="ssr" rel="mask-icon" href="/safari-pinned-tab.svg" color="#111111"><link data-n-head="ssr" rel="search" type="application/opensearchdescription+xml" href="/resources/opensearch.xml" title="KREAM | 한정판 거래의 FLEX"><link data-n-head="ssr" rel="preconnect" href="//kream-phinf.pstatic.net"><link data-n-head="ssr" rel="preconnect" href="https://www.googletagmanager.com"><link data-n-head="ssr" rel="preconnect" href="https://connect.facebook.net"><script async="" src="https://websdk.appsflyer.com?st=pba&amp;"></script><script async="" src="https://websdk.appsflyer.com?st=pba&amp;"></script><script async="" src="https://websdk.appsflyer.com?st=pba&amp;"></script><script async="" src="https://websdk.appsflyer.com?st=pba&amp;"></script><script async="" src="https://websdk.appsflyer.com?st=pba&amp;"></script><script async="" src="https://websdk.appsflyer.com?st=pba&amp;"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-5LYDPM15LW&amp;l=dataLayer&amp;cx=c"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=UA-153398119-1&amp;l=dataLayer&amp;cx=c"></script><script async="" src="https://websdk.appsflyer.com?st=pba&amp;"></script><script src="https://connect.facebook.net/signals/config/740347893514718?v=2.9.111&amp;r=stable" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script data-n-head="ssr" type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"KREAM","url":"https://kream.co.kr/","logo":"https://kream.co.kr/images/logo.png","sameAs":["https://apps.apple.com/app/id1490580239","https://play.google.com/store/apps/details?id=com.fstudio.kream","https://www.instagram.com/kream.co.kr/","https://www.youtube.com/channel/UCHbInfTxnIbWlUFin7drigw"]}</script><link rel="preload" href="/_nuxt/0fc2b9a.js" as="script"><link rel="preload" href="/_nuxt/6d1f03a.js" as="script"><link rel="preload" href="/_nuxt/css/04c034c.css" as="style"><link rel="preload" href="/_nuxt/5402e5b.js" as="script"><link rel="preload" href="/_nuxt/css/6115a6e.css" as="style"><link rel="preload" href="/_nuxt/31641e8.js" as="script"><link rel="preload" href="/_nuxt/css/6ca5ffb.css" as="style"><link rel="preload" href="/_nuxt/c2849e3.js" as="script"><link rel="stylesheet" href="/_nuxt/css/04c034c.css"><link rel="stylesheet" href="/_nuxt/css/6115a6e.css"><link rel="stylesheet" href="/_nuxt/css/6ca5ffb.css"> -->
-<!--   <style type="text/css"> /*# sourceMappingURL=contenteditable.vue.map */</style><style type="text/css">.vue-slider-dot{position:absolute;-webkit-transition:all 0s;transition:all 0s;z-index:5}.vue-slider-dot:focus{outline:none}.vue-slider-dot-tooltip{position:absolute;visibility:hidden}.vue-slider-dot-hover:hover .vue-slider-dot-tooltip,.vue-slider-dot-tooltip-show{visibility:visible}.vue-slider-dot-tooltip-top{top:-10px;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.vue-slider-dot-tooltip-bottom{bottom:-10px;left:50%;-webkit-transform:translate(-50%,100%);transform:translate(-50%,100%)}.vue-slider-dot-tooltip-left{left:-10px;top:50%;-webkit-transform:translate(-100%,-50%);transform:translate(-100%,-50%)}.vue-slider-dot-tooltip-right{right:-10px;top:50%;-webkit-transform:translate(100%,-50%);transform:translate(100%,-50%)}</style><style type="text/css">.vue-slider-marks{position:relative;width:100%;height:100%}.vue-slider-mark{position:absolute;z-index:1}.vue-slider-ltr .vue-slider-mark,.vue-slider-rtl .vue-slider-mark{width:0;height:100%;top:50%}.vue-slider-ltr .vue-slider-mark-step,.vue-slider-rtl .vue-slider-mark-step{top:0}.vue-slider-ltr .vue-slider-mark-label,.vue-slider-rtl .vue-slider-mark-label{top:100%;margin-top:10px}.vue-slider-ltr .vue-slider-mark{-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vue-slider-ltr .vue-slider-mark-step{left:0}.vue-slider-ltr .vue-slider-mark-label{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.vue-slider-rtl .vue-slider-mark{-webkit-transform:translate(50%,-50%);transform:translate(50%,-50%)}.vue-slider-rtl .vue-slider-mark-step{right:0}.vue-slider-rtl .vue-slider-mark-label{right:50%;-webkit-transform:translateX(50%);transform:translateX(50%)}.vue-slider-btt .vue-slider-mark,.vue-slider-ttb .vue-slider-mark{width:100%;height:0;left:50%}.vue-slider-btt .vue-slider-mark-step,.vue-slider-ttb .vue-slider-mark-step{left:0}.vue-slider-btt .vue-slider-mark-label,.vue-slider-ttb .vue-slider-mark-label{left:100%;margin-left:10px}.vue-slider-btt .vue-slider-mark{-webkit-transform:translate(-50%,50%);transform:translate(-50%,50%)}.vue-slider-btt .vue-slider-mark-step{top:0}.vue-slider-btt .vue-slider-mark-label{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.vue-slider-ttb .vue-slider-mark{-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vue-slider-ttb .vue-slider-mark-step{bottom:0}.vue-slider-ttb .vue-slider-mark-label{bottom:50%;-webkit-transform:translateY(50%);transform:translateY(50%)}.vue-slider-mark-label,.vue-slider-mark-step{position:absolute}</style><style type="text/css">.vue-slider{position:relative;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:block;-webkit-tap-highlight-color:rgba(0,0,0,0)}.vue-slider-rail{position:relative;width:100%;height:100%;-webkit-transition-property:width,height,left,right,top,bottom;transition-property:width,height,left,right,top,bottom}.vue-slider-process{position:absolute;z-index:1}</style><script charset="utf-8" src="/_nuxt/6b9fce8.js"></script><script charset="utf-8" src="/_nuxt/bf9bb52.js"></script><script type="text/javascript" async="" src="https://wcs.naver.net/wcslog.js" id="naver-ads" data-loaded="true"></script><script src="https://www.googletagmanager.com/gtag/js?l=dataLayer&amp;id=G-SRFKTMTR0R" async=""></script><link rel="preload" as="style" href="/_nuxt/css/caea5a4.css"><script charset="utf-8" src="/_nuxt/ddc8c64.js"></script><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><meta data-n-head="ssr" name="robots" content="noindex"><meta data-n-head="ssr" data-hid="page-name" name="page-name" property="page-name" content="sign_in"><meta data-n-head="ssr" data-hid="Pragma" http-equiv="Pragma" content="no-cache"><meta data-n-head="ssr" data-hid="Expires" http-equiv="Expires" content="0"><meta data-n-head="ssr" data-hid="Cache-Control" http-equiv="Cache-Control" content="no-cache"><script data-n-head="ssr" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
-<!-- <style type="text/css">.vue-slider{position:relative;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:block;-webkit-tap-highlight-color:rgba(0,0,0,0)}.vue-slider-rail{position:relative;width:100%;height:100%;-webkit-transition-property:width,height,left,right,top,bottom;transition-property:width,height,left,right,top,bottom}.vue-slider-process{position:absolute;z-index:1}</style> -->
-<!-- <script charset="utf-8" src="/_nuxt/6b9fce8.js"></script> -->
-<!-- <script charset="utf-8" src="/_nuxt/bf9bb52.js"></script> -->
-<!-- <script type="text/javascript" async="" src="https://wcs.naver.net/wcslog.js" id="naver-ads" data-loaded="true"></script> -->
-<!-- <script src="https://www.googletagmanager.com/gtag/js?l=dataLayer&amp;id=G-SRFKTMTR0R" async=""></script> -->
-<!-- <link rel="preload" as="style" href="/_nuxt/css/caea5a4.css"> -->
-<!-- <script charset="utf-8" src="/_nuxt/ddc8c64.js"></script> -->
-<!-- <meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"> -->
-<!-- <meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"> -->
-<!-- <meta data-n-head="ssr" name="robots" content="noindex"> -->
-<!-- <meta data-n-head="ssr" data-hid="page-name" name="page-name" property="page-name" content="sign_in"> -->
-<!-- <meta data-n-head="ssr" data-hid="Pragma" http-equiv="Pragma" content="no-cache"> -->
-<!-- <meta data-n-head="ssr" data-hid="Expires" http-equiv="Expires" content="0"> -->
-<!-- <meta data-n-head="ssr" data-hid="Cache-Control" http-equiv="Cache-Control" content="no-cache"> -->
-<!-- <script data-n-head="ssr" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script> -->
 
 <%-- 우편번호찾기 Daum api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -128,113 +106,30 @@ $(function () {
 });
 </script>
 
-<script type="text/javascript">
-// 이름 정규식
-function validateName() {
-	var nameInput = document.getElementById("member_name");
-	var nameMessage = document.getElementById("pass_name");
-	var regex = /^[A-Za-z가-힣]{2,15}$/;
-	
-	if(nameInput.value.trim() === ""){
-		nameMessage.innerHTML = "";
-		return;
-	}
-	
-	if (!regex.test(nameInput.value)) {
-		nameMessage.innerHTML = "이름을 한글 또는 영어로 입력해주세요";
-	    nameMessage.style.color = "red";
-	} else {
-	    nameMessage.innerHTML = "올바른 형식입니다.";
-	    nameMessage.style.color = "green";
-	  }
-}
-</script>
-
-<script type="text/javascript">
-//닉네임 중복 검사 및 정규식 검사
-function checkNicknameDup() {
-	var nickname = $('#member_nickname').val();
-	var nickResult = document.getElementById("pass_nick");
-	var regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
-
-	if(nickname.trim() === ""){
-		nickResult.innerHTML = "";
-   	 	return;
-    }
-
-	if (!regex.test(nickname)) {
-	    nickResult.innerHTML = "2자 이상 16자 이하, 영어 또는 숫자 또는 한글 입력해주세요";
-	    nickResult.style.color = "red";
-	    return;
-	}
-
-	$.ajax({
-		url: './nickCheck',
-   		type: 'post',
-    	data: { nickname: nickname },
-    	success: function (cnt) {
-        if (cnt == 0) {
-	        nickResult.innerHTML = "사용 가능한 닉네임 입니다.";
-	        nickResult.style.color = "green";
-      	} else {
-	        nickResult.innerHTML = "이미 사용 중인 닉네임입니다.";
-	        nickResult.style.color = "red";
-	      }
-   		},
-    	error: function (error) {
-        	alert("error : " + JSON.stringify(error));
-    	}
-	});
-}
-</script>
 
 
-<script type="text/javascript">
-// 생년월일 정규식
-function validateBirth() {
-	var birthInput = document.getElementById("member_birth");
-	var birthMessage = document.getElementById("birth_check");
-	var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
-
-	if(birthInput.value.trim() === ""){
-		birthMessage.innerHTML = "";
-		return;
-	}
-	if (!regex.test(birthInput.value)) {
-		birthMessage.innerHTML = "생년월일 8자리를 입력해주세요";
-		birthMessage.style.color = "red";
-	} else {
-		birthMessage.innerHTML = "올바른 형식입니다.";
-		birthMessage.style.color = "green";
-	   }
-}
-</script>
-
-<script type="text/javascript">
-// 정규표현식으로 전화번호 판별
-function validatePhone() {
-    var phoneInput = document.getElementById("member_phone");
-    var phoneMessage = document.getElementById("phone_dup_result");
-    var regex = /^(010|011)[\d]{3,4}[\d]{4}$/;
-
-    if (phoneInput.value.trim() === "") {
-        phoneMessage.innerHTML = "";
-        return;
-    }
-
-    if (!regex.test(phoneInput.value)) {
-        phoneMessage.innerHTML = "올바른 전화번호를 입력해주세요.";
-        phoneMessage.style.color = "red";
-        return false;
-    } else {
-        phoneMessage.innerHTML = "올바른 형식입니다.";
-        phoneMessage.style.color = "green";
+<script>
+function checkLicenseDup() {
+    var license = document.getElementById("zman_driver_license").value;
+    var resultMsg = "";
+    if (license === "121403327111" || license === "111010221312") {
+        resultMsg = "유효한 운전면허증 번호입니다. 계속해서 작성해주세요";
+    	alert(resultMsg);
         return true;
+    } else {
+        resultMsg = "유효하지 않은 운전면허증 번호입니다.";
+    	alert(resultMsg);
+        return false;
     }
 }
 
+$(document).ready(function () {
+    $('#checkLicense').click(function () {
+        let isValidLicense = checkLicenseDup();
+        $("#registerButton").prop("disabled", !isValidLicense);
+    });
+});
 </script>
-
 
 <title>ZERO 회원가입</title>
 <style>
@@ -415,7 +310,7 @@ input[type=checkbox] {
     flex: 1; /* 추가 됨: 검색 버튼 너비 늘리기 */
 }
 
-#member_zipcode1, #member_phone, #phone_dup_result, #member_id {
+#member_zipcode1, #member_phone, #phone_dup_result, #zman_driver_license, #zman_account {
     width: 60%; /* 주소지 검색 입력란 너비 조절 */
 }
 </style>
@@ -437,157 +332,124 @@ input[type=checkbox] {
 					<span class="blind" data-v-2b15bea4="">Z-MAN 신청</span>
 				</h2><br>
 				
-				<form action="join_pro" method="post" id="joinForm">
+				<form action="zman_join_pro" method="post" id="joinForm">
 					<%-- 클래스 이름 바꾸기 --%>
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">아이디</h3>
 						<input type="text" 
-							   placeholder="이름" 
-							   id="member_name" 
-							   name="member_name" 
+							   id="zman_id" 
+							   name="zman_id" 
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
 							   onkeyup="validateName()" 
-							   required="required">
-					</div>
-					<div class="row mb-3">
-		    			<label for="inputNameRegex_Result" class="col-sm-5 "></label>
-				    	<div class="col-sm-12">
-							<span id="pass_name"></span>
-				   		</div>
+							   required="required"
+							   readonly="readonly"
+							   value="${memberInfo.member_id }">
 					</div><br>
 					
 					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">닉네임</h3>
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이름</h3>
 						<input type="text" 
-							   placeholder="닉네임" 
-							   id="member_nickname" 
-							   name="member_nickname" 
+							   id="zman_name" 
+							   name="zman_name" 
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   onkeyup="checkNicknameDup()" 
-							   required="required">
-					</div>
-					<div class="row mb-3">
-		    			<label for="inputNickRegex_Result" class="col-sm-5 "></label>
-				    	<div class="col-sm-12">
-							<span id="pass_nick"></span>
-				   		</div>
+							   onkeyup="validateName()" 
+							   required="required"
+							   readonly="readonly"
+							   value="${memberInfo.member_name }">
 					</div><br>
 					
+					<!-- DB에 값 미리저장해놓고 아니면 올바르지않습니다 맞으면 조회되었습니다 -->
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">이메일 주소(아이디로 사용됩니다)</h3>
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">운전면허증 번호</h3>
 						<div class="btn_input_container">
-						<input type="email" 
-						   	   placeholder="예)zero@zero.com" 
-						   	   id="member_id" 
-						   	   name="member_id" 
+						<input type="text" 
+						   	   placeholder="112323" 
+						   	   id="zman_driver_license" 
+						   	   name="zman_driver_license" 
 						   	   autocomplete="off" 
 						   	   class="input_txt" 
 						   	   data-v-4e1fd2e6=""
 						   	   required="required">
-					   	   <button type="button" id="emailAuthButton">인증번호 받기</button>
+					   	   <button type="button" id="checkLicense">운전면허증조회</button>
 						</div>
-					<!-- 이메일 중복 확인 일치 여부-->
-					<div class="row mb-3">
-				    	<label for="emailDup_Result" class="col-sm-5 "></label>
-					    	<div class="col-sm-12">
-								<span id="email_dup_result"></span>
-					   		</div>
-					</div>
 					</div>
 					<br>
 					
-								
-					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">인증코드 확인</h3>
-						<input type="text" 
-							   placeholder="메일에 작성된 인증코드를 작성해주세요" 
-							   id="member_id2" 
-							   name="member_id2" 
-							   autocomplete="off" 
-							   class="input_txt" 
-							   data-v-4e1fd2e6=""
-							   maxlength="6"
-							   > <!-- required="required" 편의를위해뺴놓음 테스트시 넣기 -->
-					</div>
-					<!-- 이메일 인증코드 확인 일치 여부-->
-					<div class="row mb-3">
-				    	<label for="emailconfirmCode_Result" class="col-sm-5 "></label>
-					    	<div class="col-sm-12">
-								<span id="email_confirm"></span>
-					   		</div>
-					</div>
-					<br>
+					<!-- ZPAY 계좌 있을때 -->
+					<c:if test="${not empty zpayCheck.zpay_idx }">
+						<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+							<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">계좌 번호</h3>
+							<div class="btn_input_container">
+							<input type="text" 
+							   	   id="zman_account" 
+							   	   name="zman_account" 
+							   	   autocomplete="off" 
+							   	   class="input_txt" 
+							   	   data-v-4e1fd2e6=""
+							   	   required="required"
+							   	   value="${zpayCheck.zpay_bank_account }"
+							   	   readonly="readonly">
+<!-- 						   	   <button type="button" id="emailAuthButton">등록하러 가기</button> -->
+							</div>
+						</div>
+						<br>
+					</c:if>
 					
-					
-					
-					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호</h3>
-						<input type="password" 
-							   placeholder="영문, 숫자, 특수문자(!@#$%)를 조합해서 입력해주세요. (8-16자)" 
-							   id="member_passwd" 
-							   name="member_passwd" 
-							   autocomplete="off" 
-							   class="input_txt" 
-							   data-v-4e1fd2e6=""
-							   required="required"
-							   onkeyup="checkPass(this.value)">
-					<div class="check_font" id="pw_check"></div>
-					</div>
-					
-					<%-- 비밀번호 정규식 : regex --%>
-					<div class="row mb-3">
-		    			<label for="inputPasswordRegex_Result" class="col-sm-5 "></label>
-				    	<div class="col-sm-12">
-							<span id="pass_check"></span>
-				   		</div>
-					</div>	
-					
-								
-					<div class="input_box has_button" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">비밀번호 확인</h3>
-						<input type="password" 
-							   placeholder="입력해주세요" 
-							   id="member_passwd2" 
-							   name="member_passwd2" 
-							   autocomplete="off" 
-							   class="input_txt" 
-							   data-v-4e1fd2e6=""
-							   onkeyup="checkconfirmPasswd(this.value)">
-							   <!-- required="required"  편의를위해 뺴놓음 테스트시 켜기  -->
-					</div>
-						<!-- 비밀번호 와 비밀번호 확인 일치 여부-->
-					<div class="row mb-3">
-				    	<label for="inputPasswordDupCheck_Result" class="col-sm-5 "></label>
-					    	<div class="col-sm-12">
-								<span id="pass_confirm"></span>
-<!-- 								<font id="pass_confirm" size="2"></font> -->
-					   		</div>
-					</div>
-					<br>
+					<!-- ZPAY 계좌 없을때 -->
+					<c:if test="${empty zpayCheck.zpay_idx }">
+						<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+							<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">계좌 번호</h3>
+							<div class="btn_input_container">
+							<input type="text" 
+							   	   id="zman_account" 
+							   	   name="zman_account" 
+							   	   autocomplete="off" 
+							   	   class="input_txt" 
+							   	   data-v-4e1fd2e6=""
+							   	   required="required"
+<%-- 							   	   value="${zpayCheck.zpay_bank_account }" --%>
+							   	   readonly="readonly">
+						   	   <button type="button" id="zpayMain">등록하러 가기</button>
+							</div>
+						</div>
+						<br>
+					</c:if>
 					
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">생년월일</h3>
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">사용할 수단을 선택해 주세요</h3>
+						<label>
+				        	<input type="checkbox" name="vehicle[]" value="자동차">
+				      		<span>자동차</span>
+					    </label>
+						<label>
+				        	<input type="checkbox" name="vehicle[]" value="오토바이">
+				      		<span>오토바이</span>
+					    </label>
+						<label>
+				        	<input type="checkbox" name="vehicle[]" value="도보">
+				      		<span>도보</span>
+					    </label>
+						<label>
+				        	<input type="checkbox" name="vehicle[]" value="자전거">
+				      		<span>자전거</span>
+					    </label>
+					</div><br>
+					
+					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">차량번호</h3>
 						<input type="text"
-							   placeholder="생년월일 8자리를 입력해 주세요" 
-							   id="member_birth" 
-							   name="member_birth" 
+							   placeholder="차량이 있는경우 입력해주세요" 
+							   id="zman_car_num" 
+							   name="zman_car_num" 
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   required="required"
 							   onkeyup="validateBirth()">
-					</div>
-					<%-- 생년월일 정규식 : regex --%>
-					<div class="row mb-3">
-		    			<label for="inputBirthRegex_Result" class="col-sm-5 "></label>
-				    	<div class="col-sm-12">
-							<span id="birth_check"></span>
-				   		</div>
 					</div><br>
 				
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
@@ -595,50 +457,64 @@ input[type=checkbox] {
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="- 없이 입력" 
-								   id="member_phone" 
-								   name="member_phone" 
+								   id="zman_phone" 
+								   name="zman_phone" 
 								   autocomplete="off" 
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
 								   required="required"
-								   onkeyup="validatePhone()">
-							<button type="button" id="phone_chk">인증번호 받기</button>
+								   onkeyup="validatePhone()"
+								   readonly="readonly"
+								   value="${memberInfo.member_phone }">
 						</div>
-					</div>
-					<%-- 휴대폰번호 정규식 : regex --%>
-					<div class="row mb-3">
-		    			<label for="inputPhoneRegex_Result" class="col-sm-5 "></label>
-				    	<div class="col-sm-12">
-							<span id="phone_dup_result"></span>
-				   		</div>
 					</div><br>
 				
-					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
-						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4=""></h3>
-						<div class="btn_input_container">
-							<input type="text" 
-								   placeholder="인증번호를 입력해 주세요" 
-								   id="member_phone2" 
-								   name="member_phone2"
-								   autocomplete="off" 
-								   class="input_txt" 
-								   data-v-4e1fd2e6=""
-								   maxlength="4"
-								   > <!-- required="required" 편의를위해 뺴놓음 테스트시 켜기 -->
-						</div>
-					</div>
-					<!-- 핸드폰 인증코드 확인 일치 여부-->
-					<div class="row mb-3">
-				    	<label for="phoneChk_Result" class="col-sm-5 "></label>
-					    	<div class="col-sm-12">
-								<span class="phone_chk" id="phone_chk"></span>
-					   		</div>
-					</div>
-					<br>
-					
 					
 					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
 						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">주소지 입력</h3>
+						<div class="btn_input_container">
+							<input type="text" 
+								   placeholder="우편번호" 
+								   id="zman_zipcode1" 
+								   name="zman_zipcode1" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6=""
+								   required="required"
+								   value="${memberInfo.member_zipcode1 }">
+<!-- 							<button onclick="DaumPostcode()">우편번호 찾기</button> -->
+<!-- 								<button onclick="DaumPostcode(event)">우편번호 찾기</button> -->
+						</div>
+							<input type="text" 
+								   placeholder="도로명주소" 
+								   id="zman_address" 
+								   name="zman_address" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6=""
+								   required="required"
+								   value="${memberInfo.member_address1 }">
+<!-- 							<input type="text"  -->
+<!-- 								   placeholder="참고항목" -->
+<!-- 								   id="member_extraAddress"  -->
+<!-- 								   name="member_extraAddress"  -->
+<!-- 								   autocomplete="off"  -->
+<!-- 								   class="input_txt"  -->
+<!-- 								   data-v-4e1fd2e6=""> -->
+							<input type="text"
+								   placeholder="상세주소" 
+								   id="zman_address_detail" 
+								   name="zman_address_detail" 
+								   autocomplete="off" 
+								   class="input_txt" 
+								   data-v-4e1fd2e6=""
+								   required="required"
+								   value="${memberInfo.member_address_detail1 }">
+					</div>
+					<br>
+					
+					<div class="has_button input_box" data-v-4e1fd2e6="" data-v-2b15bea4="">
+						<h3 class="input_title" data-v-4e1fd2e6="" data-v-2b15bea4="">활동지역 선택</h3>
 						<div class="btn_input_container">
 							<input type="text" 
 								   placeholder="우편번호" 
@@ -659,13 +535,6 @@ input[type=checkbox] {
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
 								   required="required">
-<!-- 							<input type="text"  -->
-<!-- 								   placeholder="참고항목" -->
-<!-- 								   id="member_extraAddress"  -->
-<!-- 								   name="member_extraAddress"  -->
-<!-- 								   autocomplete="off"  -->
-<!-- 								   class="input_txt"  -->
-<!-- 								   data-v-4e1fd2e6=""> -->
 							<input type="text"
 								   placeholder="상세주소" 
 								   id="member_address_detail1" 
@@ -675,7 +544,9 @@ input[type=checkbox] {
 								   data-v-4e1fd2e6=""
 								   required="required">
 					</div>
+					<input type="hidden" id="zman_area" name="zman_area">
 					<br>
+					
 					
 					<div>
 						<label for="agree_all">
@@ -685,36 +556,31 @@ input[type=checkbox] {
 					    <div>
 						    <label for="agree1">
 						        <input type="checkbox" name="agree1" id="agree1" value="check1" class="sub_agree">
-						        <span>이용약관 동의<strong>(필수)</strong></span>
+						        <span>교육이수동의여부<strong>(필수)</strong></span>
 						    </label>
-					        <span><a href="#" class="modal-trigger" data-source="${pageContext.request.contextPath}/resources/terms/term" data-modal-id="agree1Modal">내용보기</a></span>
+					        <span><a href="#" class="modal-trigger" data-source="${pageContext.request.contextPath}/resources/terms/zman_join_term1" data-modal-id="agree1Modal">내용보기</a></span>
 					    </div>
 					    <div>
 						    <label for="agree2">
 						        <input type="checkbox" name="agree2" id="agree2" value="check2" class="sub_agree">
-						        <span>개인정보 수집 및 이용 동의<strong>(필수)</strong></span>
+						        <span>보험가입동의여부<strong>(필수)</strong></span>
 						    </label>
-						    <span><a href="#" class="modal-trigger" data-source="${pageContext.request.contextPath}/resources/terms/term2" data-modal-id="agree2Modal">내용보기</a></span>
+						    <span><a href="#" class="modal-trigger" data-source="${pageContext.request.contextPath}/resources/terms/zman_join_term2" data-modal-id="agree2Modal">내용보기</a></span>
 					    </div>
-<!-- 					    <label for="agree3"> -->
-<!-- 					        <input type="checkbox" name="agree" value="3" class="sub_agree"> -->
-<!-- 					        <span>개인정보 이용 동의<strong>(필수)</strong></span> -->
-<!-- 					    </label> -->
-						<div>
+					    <div>
 						    <label for="agree3">
-						        <input type="checkbox" name="agree" value="3" class="sub_agree">
-						        <span>이벤트, 혜택정보 수신동의<strong class="select_disable">(선택)</strong></span>
+						        <input type="checkbox" name="agree3" id="agree3" value="check3" class="sub_agree">
+						        <span>위치기반동의여부<strong>(필수)</strong></span>
 						    </label>
+						    <span><a href="#" class="modal-trigger" data-source="${pageContext.request.contextPath}/resources/terms/zman_join_term3" data-modal-id="agree2Modal">내용보기</a></span>
 					    </div>
 					</div>
 					
-					<!-- 이벤트, 혜택정보 수신동의 여부 -->
-					<input type="hidden" name="member_agreement_marketing" id="member_agreement_marketing" value="">
 
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
 <!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton"> 회원가입 </button>
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled="disabled"> 회원가입 </button>
 					</div>
 				</form>
 
@@ -729,7 +595,7 @@ input[type=checkbox] {
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="agree1ModalTitle">이용약관 동의</h5>
+        <h5 class="modal-title" id="agree1ModalTitle">교육이수동의여부</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -750,7 +616,27 @@ input[type=checkbox] {
  <div class="modal-dialog" role="document">
    <div class="modal-content">
      <div class="modal-header">
-       <h5 class="modal-title" id="agree2ModalTitle">개인정보 수집 및 이용 동의</h5>
+       <h5 class="modal-title" id="agree2ModalTitle">보험가입동의여부</h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body">
+     
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     </div>
+   </div>
+ </div>
+</div>
+
+ <%-- 세번째 내용보기 --%>
+<div class="modal fade" id="agree3Modal" tabindex="-1" role="dialog" aria-labelledby="agree3ModalTitle" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="agree3ModalTitle">위치기반 수집 동의여부</h5>
        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
          <span aria-hidden="true">&times;</span>
        </button>
@@ -775,255 +661,21 @@ input[type=checkbox] {
   
   
   <%-- 스크립트 코드 --%>
-<!--   <script src="/_nuxt/0fc2b9a.js" defer=""></script> -->
-<!--   <script src="/_nuxt/c2849e3.js" defer=""></script> -->
-<!--   <script src="/_nuxt/6d1f03a.js" defer=""></script> -->
-<!--   <script src="/_nuxt/5402e5b.js" defer=""></script> -->
-<!--   <script src="/_nuxt/31641e8.js" defer=""></script> -->
-<!--   <link href="/_nuxt/css/6ca5ffb.css" rel="stylesheet" type="text/css"> -->
-<!--   <link href="/_nuxt/css/caea5a4.css" rel="stylesheet" type="text/css"> -->
 
-	<script type="text/javascript">
-// 	  // 동의 모두선택/해제 지울예정
-// 	  const agreeChkAll = document.querySelector('input[name=agree_all]');
-// 	  const agreeChk = document.querySelectorAll('input[name=agree]');
-
-// 	  agreeChkAll.addEventListener('change', (e) => {
-// 	    for (let i = 0; i < agreeChk.length; i++) {
-// 	      agreeChk[i].checked = e.target.checked;
-// 	    }
-// 	  });
-
-// 	  const updateAgreeAllStatus = () => {
-// 	    let allChecked = true;
-// 	    for (let i = 0; i < agreeChk.length; i++) {
-// 	      if (!agreeChk[i].checked) {
-// 	        allChecked = false;
-// 	        break;
-// 	      }
-// 	    }
-// 	    agreeChkAll.checked = allChecked;
-// 	  };
-
-// 	  for (let i = 0; i < agreeChk.length; i++) {
-// 	    agreeChk[i].addEventListener('change', () => {
-// 	      updateAgreeAllStatus();
-// 	    });
-// 	  }
-	 
-	// 비밀번호 정규식 되는데 편의를 위해 주석해놓음
-	  
-	// 비밀번호 정규식
-// 	function checkPass(member_passwd, member_passwd2) {
-// 		let regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9]).{8,16}$/;
-		
-// 		if(regex.exec(member_passwd)) {
-// 			document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
-// 			document.querySelector("#pass_check").style.color = "green";
-// 		} else {
-// 			document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
-// 			document.querySelector("#pass_check").style.color = "red";
-// // 			alert("비밀번호를 다시 입력해주세요!");
-// 			$("#member_pass").val('');
-// 			$("#member_pass2").val('');
-// 		}
-// 	}
-
-// 	// 비밀번호 와 비밀번호 확인 일치
-// 	function checkconfirmPasswd(passwdCheck) {
-// 		let member_passwd = document.querySelector('#member_passwd').value;	
-		 
-// 		if(member_passwd == passwdCheck) {
-// 			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
-// 			document.querySelector("#pass_confirm").style.color = "green";
-// 		} else {
-// 			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
-// 			document.querySelector("#pass_confirm").style.color = "red";
-// // 			alert("비밀번호를 다시 입력해주세요!");
-// 			$("#member_pass").val('');
-// 			$("#member_pass2").val('');
-// 		}
-// 	}
-	  
-	  
-	  
-	</script>
-  <script type="text/javascript">
-//이메일 인증번호 발송 및 아이디 중복 확인
-  function sendEmailAndCheckId() {
-      var id = $('#member_id').val();
-      var emailResult = document.getElementById("email_dup_result");
-
-      $.ajax({
-          url: './idCheck',
-          type: 'post',
-          data: { id: id },
-          success: function (cnt) {
-              if (cnt == 0) {
-                  emailResult.innerHTML = "가입이 가능한 이메일입니다.";
-                  emailResult.style.color = "green";
-                  alert("가입이 가능한 아이디입니다. 인증코드를 입력해주세요");
-                  
-                  const email = $("#member_id").val();
-
-                  // AJAX 요청 시작
-                  $.ajax({
-                      type: "POST",
-                      url: "sendAuthCode",
-                      data: { email: email },
-                      success: function (data) {
-                          if (data.success) {
-                              alert("인증번호가 이메일로 발송되었습니다.");
-                          } else {
-                              alert("인증번호 발송에 실패했습니다. 다시 시도해주세요.");
-                          }
-                      },
-                      error: function () {
-                          alert("오류가 발생했습니다. 다시 시도해주세요.");
-                      }
-                  });
-
-              } else {
-                  emailResult.innerHTML = "이미 등록된 이메일입니다.";
-                  emailResult.style.color = "red";
-                  alert("이미 가입된 아이디입니다. 아이디를 다시 입력해주세요!");
-                  $('#member_id').val('');
-                  $('#member_id').focus();
-              }
-          },
-          error: function (error) {
-              alert("error : " + JSON.stringify(error));
-          }
-      });
-  }
-
-  // 이메일 인증번호 발송 버튼
+<!-- 계좌 없을시 zpay_main으로 이동하는 스크립트 -->
+<script>
   $(document).ready(function () {
-      $("#emailAuthButton").on("click", function (event) {
-          event.preventDefault();
-          sendEmailAndCheckId();
-      });
-  });
-</script>
-<script type="text/javascript">
-	$("#member_id2").on("input", function () {
-	    // 입력값 받아오기
-	    const inputAuthCode = $(this).val();
-	
-	    // 인증코드가 입력된 경우에만 AJAX 요청 시작
-	    if (inputAuthCode.length === 6) {
-	        $.ajax({
-	            type: "POST",
-	            url: "checkAuthCode",
-	            data: { inputAuthCode: inputAuthCode },
-	            success: function (response) {
-	                if (response.success) {
-	                    $("#email_confirm").html(response.message);
-	                    $("#email_confirm").css("color", "green");
-	                    $("#member_id").attr("readonly", true); // 추가된 부분
-	                    $("#member_id2").attr("readonly", true); // 추가된 부분
-	                    emailAuthSuccess = true;
-	                } else {
-	                    $("#email_confirm").html(response.message);
-	                    $("#email_confirm").css("color", "red");
-	                    emailAuthSuccess = false;
-	                }
-	                checkAuthSuccess(); // 활성화 확인 함수 호출
-	            },
-	            error: function () {
-	                alert("오류가 발생했습니다. 다시 시도해주세요.");
-	            }
-	        });
-	    }
-	});
-
-</script>
- 
-<script type="text/javascript">
-
-// 휴대폰 인증 번호 요청 및 중복 검사
-function checkPhoneDupAndSend(callback) {
-  var phone = $('#member_phone').val();
-  var phoneResult = document.getElementById("phone_dup_result");
-  $.ajax({
-    url: './phoneCheck',
-    type: 'post',
-    data: { phone: phone },
-    success: function (cnt) {
-      if (cnt == 0) {
-    	phoneResult.innerHTML = "가입이 가능한 번호입니다.";
-        phoneResult.style.color = "green";
-        callback();
-      } else {
-    	phoneResult.innerHTML = "이미 등록된 번호 입니다.";
-        phoneResult.style.color = "red";
-        alert("이미 가입된 휴대폰 번호입니다. 다른 번호를 입력해주세요!");
-        $('#member_phone').val('');
-        $('#member_phone').focus();
-      }
-    },
-    error: function (error) {
-      alert("error : " + JSON.stringify(error));
-    }
-  });
-}
-
-// 기존 휴대폰 번호 인증 코드
-var code2 = "";
-$("#phone_chk").click(function () {
-  var phone = $("#member_phone").val();
-  if (!validatePhone()) {
-    alert("올바르게 입력해주세요.");
-  } else {
-	  checkPhoneDupAndSend(function () {
-      alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
-      // 기존 인증번호 발송 코드는 여기에 배치
-      var phone = $("#member_phone").val();
-      $.ajax({
-        type: "GET",
-        url: "phoneCheck?phone=" + phone,
-        cache: false,
-        success: function (data) {
-          if (data == "error") {
-            alert("휴대폰 번호가 올바르지 않습니다.");
-            $("#member_phone").attr("autofocus", true);
-          } else {
-            $("#member_phone2").attr("disabled", false);
-            $("#member_phone").attr("readonly", true);
-            code2 = data;
-          }
-        }
-      });
-      // 기존 인증번호 발송 코드 종료
+    $("#zpayMain").on("click", function (event) {
+      event.preventDefault();
+      goToZpayMain();
     });
+  });
+
+  function goToZpayMain() {
+    window.location.href = "zpay_main";
   }
-});
 </script>
 
-<script type="text/javascript">
-	//휴대폰 인증번호 대조
-	$("#member_phone2").on("input", function() {
-	    const inputValue = $("#member_phone2").val();
-
-	    if (inputValue.length === 0) {
-	        $(".phone_chk").text("");
-	        phoneAuthSuccess = false;
-	    } else if (inputValue == code2) {
-	        $(".phone_chk").text("인증번호가 일치합니다.");
-	        $(".phone_chk").css("color", "green");
-	        $("#phoneDoubleChk").val("true");
-	        $("#member_phone2").attr("readonly", true);
-	        phoneAuthSuccess = true;
-	    } else {
-	        $(".phone_chk").text("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
-	        $(".phone_chk").css("color", "red");
-	        $("#phoneDoubleChk").val("false");
-	        $("#member_phone2").attr("autofocus", true);
-	        phoneAuthSuccess = false;
-	    }
-	    checkAuthSuccess(); // 활성화 확인 함수 호출
-	});
-</script>
 
 <script type="text/javascript">
   // 동의 버튼
@@ -1071,42 +723,58 @@ function getMarketingAgreementValue() {
     return agreementCheckbox ? 1 : 0;
   }
 
-  $(document).ready(function () {
+$(document).ready(function () {
     // 회원가입 폼 제출 시 유효성 검사
     $("#joinForm").on("submit", function (e) {
-      const agree1 = $("#agree1").prop("checked");
-      const agree2 = $("#agree2").prop("checked");
+        const agree1 = $("#agree1").prop("checked");
+        const agree2 = $("#agree2").prop("checked");
+        const agree3 = $("#agree3").prop("checked");
 
-      // 필수 체크박스가 체크되지 않은 경우
-      if (!agree1 || !agree2) {
-        e.preventDefault();
-        alert("필수 체크박스를 체크해주세요.");
-      } else {
-        // 이벤트, 혜택정보 수신동의 값을 가져와 숨겨진 입력 필드에 설정합니다.
-        $('#member_agreement_marketing').val(getMarketingAgreementValue());
+        // 필수 체크박스가 체크되지 않은 경우
+        if (!agree1 || !agree2 || !agree3) {
+            e.preventDefault();
+            alert("필수 체크박스를 체크해주세요.");
+        } else {
+            // 이벤트, 혜택정보 수신동의 값을 가져와 숨겨진 입력 필드에 설정합니다.
+            // $('#member_agreement_marketing').val(getMarketingAgreementValue());
 
-        // 폼을 전송합니다.
-        this.submit();
-      }
+            // 폼을 전송합니다.
+            this.submit();
+        }
     });
-  });
+});
 </script>
 
-<!-- <script type="text/javascript"> -->
-<!-- // //인증 성공 여부를 저장할 변수 추가  -->
-<!-- // let phoneAuthSuccess = false; -->
-<!-- // let emailAuthSuccess = false; -->
-
-<!-- // // 회원가입 버튼 활성화 확인 함수 추가  -->
-<!-- //  function checkAuthSuccess() {  -->
-<!-- //      // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 -->
-<!-- //      if (phoneAuthSuccess && emailAuthSuccess) {  -->
-<!-- //          $("#registerButton").prop("disabled", false);  -->
-<!-- //      } else {  -->
-<!-- //          $("#registerButton").prop("disabled", true);  -->
-<!-- //      }  -->
-<!-- //  } -->
-<!-- </script>  -->
- <!-- 편의를위해 위에 주석해놓음, 테스트시 위 주석풀고, 회원가입 disabled 추가해야됨 -->
+<!-- 이동수단 선택 안되있을경우 알림창 -->
+<script>
+  document.getElementById('joinForm').addEventListener('submit', function (event) {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="vehicle[]"]');
+    let checked = false;
+  
+    for (const checkbox of checkboxes) {
+      if (checkbox.checked) {
+        checked = true;
+        break;
+      }
+    }
+  
+    if (!checked) {
+      event.preventDefault();
+      alert('최소 하나의 수단을 선택해 주세요.');
+    }
+  });
+</script>
+ 
+ <!-- 활동할 지역 합치는 스크립트 -->
+ <script type="text/javascript">
+ $(document).ready(function () {
+	    $('#joinForm').on('submit', function () {
+	      const address1 = $('#member_address1').val().trim();
+	      const addressDetail1 = $('#member_address_detail1').val().trim();
+	      const zman_area = address1 + ' ' + addressDetail1;
+	      $('#zman_area').val(zman_area);
+	    });
+	  });
+ </script>
  
 </body>

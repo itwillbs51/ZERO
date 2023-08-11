@@ -40,6 +40,8 @@ public class ZmanDeliveryService {
 	public ZmanDeliveryVO getDeliveryDetail(int zman_delivery_idx) {
 		return mapper.selectDeliveryDetail(zman_delivery_idx);
 	}
+	
+
 
 	// ZMAN zman_delivery_status "배달 시작" 로 변경하기
 	public int updateDeliveryStatus(int zman_delivery_idx) {

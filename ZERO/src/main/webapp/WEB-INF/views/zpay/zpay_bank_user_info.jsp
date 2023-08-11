@@ -14,7 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <script type="text/javascript">
 	$(function() {
@@ -57,19 +57,28 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
 						<a class="profileLink" href="#">
 							<span class="profileImg">
+							<c:choose>
+								<c:when test="${not empty member.member_image }">
+									<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+								</c:when>
+								<c:otherwise>
+									<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+								</c:otherwise>
+							</c:choose>		
 							</span>
 							<span class="profileInfo">
 								<strong class="profileName">
 									${sessionScope.member_id } 님
 <!-- 									홍길동 님 -->
 								</strong>
-								hong
+								${member.member_nickname }
+<!-- 								hong -->
 							</span>
 						</a>
 					</div>
@@ -85,7 +94,8 @@
 											로그인이 필요한 서비스입니다.
 										</c:when>
 										<c:otherwise>
-											ZPAY에 등록할 계좌를 선택해 주세요
+<!-- 											ZPAY에 등록할 계좌를 선택해 주세요 -->
+											대표 계좌를 선택해주세요.
 										</c:otherwise>
 									</c:choose>	
 								</div>

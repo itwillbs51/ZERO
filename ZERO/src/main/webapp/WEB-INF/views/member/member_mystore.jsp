@@ -663,6 +663,37 @@ ul.tabs li.current{
 					
 				} else if(url == urls[1]) {
 					alert('판매후기 내용 있음');
+					
+					// 리스트 데이터를 처리하고 출력하는 로직 작성
+		            for (var i = 0; i < data.length; i++) {
+		                var item = data[i];
+		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
+		                html += '<div class="row">\
+		                        <div class="col-lg-12">\
+		                        <a class="col" href="secondhand_detail?secondhand_idx=' + item.secondhand_idx + '&member_id=' + item.member_id + '">\
+		                                <div class="card custom-card">\
+		                                    <div class="image-container">\
+		                                        <img src="${pageContext.request.contextPath }/resources/upload/' + item.secondhand_image1 + '" alt="Image">\
+		                                    </div>\
+		                                    <div class="text-container">\
+		                                        <div class="card-body">\
+		                                            <h5 class="card-title">판매상품 : ' + item.secondhand_subject + '</h5>\
+		                                            <div class="card-text sell_price">작성자 : ' + item.review_writer_id + '</div>\
+		                                            <div class="card-text sell_price">평점 : ' + item.member_review_rating + '</div>\
+		                                            <div class="card-text sell_price">내용 : ' + item.member_review_content + '</div>\
+		                                            <div class="card-text sell_date"><span> ' + item.member_reivew_date + ' 일</span></div>\
+// 		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div></div>\
+		                                        </div>\
+		                                    </div>\
+		                                </div>\
+		                            </a>\
+		                        </div>\
+		                    </div>';
+		            }
+					$("." + listClass).empty();
+					$("." + listClass).html(html);
+					
+					
 				} else if(url == urls[2]) {
 					alert('경매 내용 있음');
 // 					var myList = data.myStore; // myList 변수에 리스트 데이터 저장

@@ -29,6 +29,7 @@ public interface ZmanDeliveryMapper {
 	// 배달 상세 정보 - 출발지와 배달지 가져오기
 	ZmanDeliveryVO selectDeliveryDetail(int zman_delivery_idx);
 
+<<<<<<< HEAD
 	// ZMAN zman_delivery_status "배달 시작" 로 변경하기
 	int updateDeliveryDetail(int zman_delivery_idx);
 
@@ -44,6 +45,8 @@ public interface ZmanDeliveryMapper {
 	// ZMAN 배달 완료 내역 페이지로 이동
 	List<ZmanDeliveryVO> selectDeliveryDoneList();
 
+=======
+>>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 
 
 	// ZMAN 중고물품 배달 시작하기

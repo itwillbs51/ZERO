@@ -23,6 +23,7 @@
 		<typeAlias type="com.itwillbs.zero.vo.ChatRoomListVO" alias="ChatRoomList"/>
 		<typeAlias type="com.itwillbs.zero.vo.OrderSecondhandVO" alias="OrSh" /> <!-- 정의효 -->
 		<typeAlias type="com.itwillbs.zero.vo.MemberReviewVO" alias="MemReview" /> <!-- 정의효 -->
+		<typeAlias type="com.itwillbs.zero.vo.ZmanVO" alias="Zman" /> <!-- 정의효 -->
 	</typeAliases>
 
 </configuration>

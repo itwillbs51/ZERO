@@ -79,7 +79,10 @@ int updateBankAuth(String member_id);
 	MemberVO selectBankAuth(String member_id);
 
 	// 리뷰 등록
-	int insertShReview(MemberReviewVO review);
+	int insertShReview(MemberReviewVO review 
+					   , @Param("review_reader_id") String review_reader_id
+					   , @Param("review_reader_id") String review_writer_id
+					   , @Param("review_reader_id") int order_secondhand_idx);
 
 	// 중고거래 z맨 배달중 여부 확인
 	int selectSecondhandSeller(String member_id);
@@ -93,4 +96,15 @@ int updateBankAuth(String member_id);
 	// 옥션거래 현재 참여중인지 여부 확인
 	int selectAuctionBuyer(String member_id);
 
+	// 대표 주소록 추가 
+	int updateMainAddress(@Param("add_num")String add_num, @Param("map") Map<String, String> map);
+
+	// 주소록 추가
+	int updateAddress(@Param("add_num")String add_num, @Param("map") Map<String, String> map);
+
+	// 주소록 삭제
+	int deleteAddress(@Param("rmv")String rmv, @Param("map") Map<String, String> map);
+
+	// 주소록 변경
+	int modifyAddress(Map<String, String> map);
 }

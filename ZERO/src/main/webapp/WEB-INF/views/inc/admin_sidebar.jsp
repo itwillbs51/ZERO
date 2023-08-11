@@ -55,9 +55,9 @@
 					</a>
 					<div class="collapse" id="auctionManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="#">상품 목록</a>
+							<a class="nav-link" href="admin_auction_product_list">상품 목록</a>
 							<a class="nav-link" href="admin_auction_managing_list">경매 예정상품</a>
-							<a class="nav-link" href="#">경매 참가신청 목록</a>
+<!-- 							<a class="nav-link" href="#">경매 참가신청 목록</a> -->
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#csManagment" aria-expanded="false" aria-controls="csManagment">
@@ -81,8 +81,9 @@
 					</a>
 					<div class="collapse" id="accountManagment" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="#">회원 계좌 관리</a>
-							<a class="nav-link" href="#">ZMAN 계좌 관리</a>
+							<a class="nav-link" href="admin_zero_account">약정 계좌 관리</a>
+							<a class="nav-link" href="admin_account_member_list">회원 계좌 관리</a>
+							<a class="nav-link" href="admin_account_zman_list">ZMAN 계좌 관리</a>
 						</nav>
 					</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#zpayManagment" aria-expanded="false" aria-controls="zpayManagment">

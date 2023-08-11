@@ -35,9 +35,11 @@ import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Controller
 public class AdminController {
@@ -237,12 +239,31 @@ public class AdminController {
 		
 		int updateCount = service.modifyZman(zman);
 		
+		// ZMNA 상태가 '활동'으로 변경되면 MEMBER.member_type 'Z맨'으로 변경		
+		if(zman.getZman_status().equals("활동")) {
+			int updateZmanMemberTypeCount = service.modifyZmanMemberType(zman.getZman_id());
+			
+			if(updateZmanMemberTypeCount > 0) {
+				if(updateCount > 0) {
+					return "redirect:/admin_zman_list";					
+				} else {
+					model.addAttribute("msg", "zman 정보 수정 실패");
+					return "fail_back";
+				}
+			} else {
+				model.addAttribute("msg", "zman 회원 타입 수정 실패");
+				return "fail_back";
+			}
+		}
+		
 		if(updateCount > 0) {
 			return "redirect:/admin_zman_list";			
 		} else {
 			model.addAttribute("msg", "zman 정보 수정 실패");
 			return "fail_back";
-		}	
+		}				
+		
+		
 	}
 	
 	// ---------- ---------- zman 배달 관련 ---------- ----------
@@ -361,6 +382,33 @@ public class AdminController {
 	
 	
 	// ============================= 경매 관리 =======================================================================================
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	@GetMapping("admin_auction_product_list")
+	public String adminAuctionProductList(Model model) {
+		System.out.println("AdminController - adminAuctionProductList");
+		
+		List<AuctionManagingVO> auctionProductList = service.getAuctionProductList();
+		System.out.println(auctionProductList);
+		
+		model.addAttribute("auctionProductList", auctionProductList);
+		
+		return "admin/admin_auction_product_list";
+	}
+	
+	// 경매관리 - 경매 상품 상세보기
+	@GetMapping("admin_auction_product_detail")
+	public String adminAuctionProductDetail(@RequestParam int auction_idx, Model model) {
+		System.out.println("AdminController - adminAuctionManagingDetail");
+		
+		Map<String, String> auctionProduct = service.getAuctionProduct(auction_idx);
+		System.out.println(auctionProduct);
+		
+		model.addAttribute("auctionProduct", auctionProduct);
+		
+		return "admin/admin_auction_product_detail";
+	}
+
+	
 	// 경매관리 - 경매예정 상품 목록 페이지로 디스패치
 	@GetMapping("admin_auction_managing_list")
 	public String adminAuctionManagingList(Model model) {
@@ -888,5 +936,53 @@ public class AdminController {
 		return "admin/admin_zpay_use_detail";
 	}
 
+	
+	// ========================= 계좌 관리 ===============================================================================
+	// 계좌 관리 - 약정 계좌 내역 목록
+	@GetMapping("admin_zero_account")
+	public String adminZeroAccount(Model model) {
+		System.out.println("AdminController - adminZeroAccount");
+		
+		List<ZeroAccountHistoryVO> zeroAccountHistoryList = service.getZeroAccountHistoryList();
+		Integer zero_account_balance = service.getZeroAccountBalance();
+		
+		model.addAttribute("zeroAccountHistoryList", zeroAccountHistoryList);
+		model.addAttribute("zero_account_balance", zero_account_balance);
+		
+		return "admin/admin_zero_account";
+	}
+
+	// 계좌 관리 - 회원 계좌 목록 조회
+	@GetMapping("admin_account_member_list")
+	public String adminAccountMemberList(Model model) {
+		System.out.println("AdminController - adminAccountMemberList");
+		
+		List<ZpayVO> zpayList = service.getMemberZpayList();
+		model.addAttribute("zpayList", zpayList);
+		
+		return "admin/admin_account_member_list";
+	}
+
+	// 계좌 관리 - 회원 계좌 거래 정보 조회
+	@GetMapping("admin_account_member_history")
+	public String adminAccountMemberHistory(@RequestParam int zpay_idx, Model model) {
+		System.out.println("AdminController - adminAccountMemberList");
+		
+		List<ZpayHistoryVO> zpayHistoryList = service.getMemberZpayHistoryList(zpay_idx);
+		model.addAttribute("zpayHistoryList", zpayHistoryList);
+		
+		return "admin/admin_account_member_history";
+	}
+
+	// 계좌 관리 - ZMAN 계좌 목록 조회
+	@GetMapping("admin_account_zman_list")
+	public String adminAccountZmanList(Model model) {
+		System.out.println("AdminController - adminAccountZmanList");
+		
+		List<ZpayVO> zpayList = service.getZmanZpayList();
+		model.addAttribute("zpayList", zpayList);
+		
+		return "admin/admin_account_zman_list";
+	}
 	
 }

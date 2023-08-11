@@ -13,9 +13,11 @@ import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Service
 public class AdminService {
@@ -84,6 +86,12 @@ public class AdminService {
 	public int modifyZman(ZmanVO zman) {
 		return mapper.updateZman(zman);
 	}
+	
+	//  zman관리 - ZMNA 상태가 '활동'으로 변경되면 MEMBER.member_type 'Z맨'으로 변경
+	public int modifyZmanMemberType(String zman_id) {
+		return mapper.updateZmanMemberType(zman_id);
+	}
+
 	
 	// zman 관리 - 배달 내역 목록 조회
 	public ZmanDeliveryVO getDeliveryList() {
@@ -255,6 +263,48 @@ public class AdminService {
 	public ZpayHistoryVO getZpayUse(int zpay_history_idx) {
 		return mapper.selectZpayUse(zpay_history_idx);
 	}
+
+	// 계좌 관리 - 약정 계좌 내역 목록 조회
+	public List<ZeroAccountHistoryVO> getZeroAccountHistoryList() {
+		return mapper.selectZeroAccountHistoryList();
+	}
+	
+	// ZERO_ACCOUNT_HISTORY 잔액조회
+	public Integer getZeroAccountBalance() {
+		
+		Integer zero_account_balance = mapper.selectZeroAccountBalance();
+		
+		return zero_account_balance != null ? zero_account_balance : 0;
+	}
+	
+	// 계좌 관리 - 회원 계좌 목록 조회
+	public List<ZpayVO> getMemberZpayList() {
+		return mapper.selectMemberZpayList();
+	}
+
+	// 계좌 관리 - 회원 계좌 거래 정보 조회
+	public List<ZpayHistoryVO> getMemberZpayHistoryList(int zpay_idx) {
+		return mapper.selectMemberZpayHistoryList(zpay_idx);
+	}
+	
+	// 계좌 관리 - ZMAN 계좌 목록 조회
+	public List<ZpayVO> getZmanZpayList() {
+		return mapper.selectZmanZpayList();
+	}
+
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	public List<AuctionManagingVO> getAuctionProductList() {
+		return mapper.selectAuctionProductList();
+	}
+	
+	// 경매관리 - 경매 상품 상세보기
+	public Map<String, String> getAuctionProduct(int auction_idx) {
+		return mapper.selectAuctionProduct(auction_idx);
+	}
+
+	
+	
+	
 
 	
 

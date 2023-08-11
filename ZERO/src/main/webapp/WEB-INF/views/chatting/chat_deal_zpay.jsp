@@ -15,7 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <script type="text/javascript">
 	
@@ -79,16 +79,33 @@
 								<div class="title">
 									${map.seller_nickname }님에게
 								</div>
-								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">
-<%-- 									${map.order_secondhand_price + 3000}원 --%>
-										<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price + 3000}"/>원
-									</div>
-								</div>
-								<div class="withdrawalAccount_info">
-									<div class="withdrawalAccountNum">
-										<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>(상품가격)  + 3,000(배달수수료)</div>
-								</div>
+									<c:choose>
+										<%--  --%>
+										<c:when test="${map.order_secondhand_type eq 'Z맨' }">
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalBankName">
+			<%-- 									${map.order_secondhand_price + 3000}원 --%>
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price + 3000}"/>원
+												</div>
+											</div>
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalAccountNum">
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>(상품가격)  + 3,000(배달수수료)</div>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalBankName">
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>원
+												</div>
+											</div>
+											<div class="withdrawalAccount_info">
+												<div class="withdrawalAccountNum">
+													<fmt:formatNumber pattern="###,###" value="${map.order_secondhand_price}"/>(상품가격)</div>
+											</div>
+											
+										</c:otherwise>
+									</c:choose>
 								<div class="balanceAccountNum">페이잔액 : xxx,xxx원</div>
 								
 							</div><%-- withdrawalAccountArea 영역 끝 --%>

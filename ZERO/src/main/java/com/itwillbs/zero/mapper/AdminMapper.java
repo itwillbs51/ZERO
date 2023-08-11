@@ -12,9 +12,11 @@ import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Mapper
 public interface AdminMapper {
@@ -56,6 +58,9 @@ public interface AdminMapper {
 	
 	// zman관리 - zman 정보 수정
 	int updateZman(ZmanVO zman);
+	
+	//  zman관리 - ZMNA 상태가 '활동'으로 변경되면 MEMBER.member_type 'Z맨'으로 변경
+	int updateZmanMemberType(String zman_id);
 	
 	// zman 관리 - 배달 내역 목록 조회
 	ZmanDeliveryVO selectDeliveryList();
@@ -159,6 +164,31 @@ public interface AdminMapper {
 
 	// ZPAY 관리 - 사용/수익 정보 조회
 	ZpayHistoryVO selectZpayUse(int zpay_history_idx);
+
+	// 계좌 관리 - 약정 계좌 내역 목록 조회
+	List<ZeroAccountHistoryVO> selectZeroAccountHistoryList();
+	
+	// ZERO_ACCOUNT_HISTORY 잔액조회
+	Integer selectZeroAccountBalance();
+
+	// 계좌 관리 - 회원 계좌 목록 조회
+	List<ZpayVO> selectMemberZpayList();
+
+	// 계좌 관리 - 회원 계좌 거래 정보 조회
+	List<ZpayHistoryVO> selectMemberZpayHistoryList(int zpay_idx);
+
+	// 계좌 관리 - ZMAN 계좌 목록 조회
+	List<ZpayVO> selectZmanZpayList();
+
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	List<AuctionManagingVO> selectAuctionProductList();
+
+	// 경매관리 - 경매 상품 상세보기
+	Map<String, String> selectAuctionProduct(int auction_idx);
+
+
+
+
 
 
 

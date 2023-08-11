@@ -13,10 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <meta charset="UTF-8">
 <title>ZERO</title>
@@ -283,19 +280,28 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
-						<a class="profileLink" href="#">
+						<a class="profileLink" href="member_mypage_main">
 							<span class="profileImg">
+							<c:choose>
+								<c:when test="${not empty member.member_image }">
+									<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+								</c:when>
+								<c:otherwise>
+									<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+								</c:otherwise>
+							</c:choose>							
 							</span>
 							<span class="profileInfo">
 								<strong class="profileName">
 									${sessionScope.member_id } 님
 <!-- 									홍길동 님 -->
 								</strong>
-								hong
+									${member.member_nickname }
+<!-- 								hong -->
 							</span>
 						</a>
 					</div>
@@ -330,7 +336,7 @@
 						</div>
 					</div>
 					<div class="zpayHistoryDateSelect" style="display: flex;">
-						<input type="text" name="datetimes"  class="form-control">
+						<input type="text" name="datetimes" class="form-control">
 					</div>
 					<div class="zpayHistoryPeriodArea">
 						총 <strong class="listCount">${listCount }</strong> 건
@@ -349,6 +355,8 @@
 	</article>
 	<footer>
 	</footer>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 </body>
 </html>

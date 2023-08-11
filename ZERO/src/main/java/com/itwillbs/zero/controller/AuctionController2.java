@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.itwillbs.zero.service.AuctionService2;
 import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.AuctionProductVO;
+import com.itwillbs.zero.vo.SecondhandVO;
 
 @Controller
 public class AuctionController2 {
@@ -69,20 +70,18 @@ public class AuctionController2 {
 		if(possibleZpay<currentBid) {
 			System.out.println("입찰가능금액보다 높게 입찰 불가");
 			return "false";
-		}
-		if(maxPrice<currentBid) {
-			System.out.println("즉시낙찰");
-			return "false";
-		}
+		}else if(maxPrice<=currentBid) {
+			System.out.println("즉시구매로");
+			return "false2";
 		
-		if(maxBidPrice == 0) {
+		}else if(maxBidPrice == 0) {
 			if(startPrice<=currentBid) {
 				System.out.println("입찰성공");
 				service.registLog(map);
 				return "true";
 			}else {
 				System.out.println("입찰불가");
-				return "false";
+				return "false3";
 			}
 			
 		}else{
@@ -92,7 +91,7 @@ public class AuctionController2 {
 				return "true";
 			}else {
 				System.out.println("입찰불가2");
-				return "false";
+				return "false4";
 			}
 			
 		}
@@ -126,6 +125,40 @@ public class AuctionController2 {
 		model.addAttribute("brandlist", brand);
 		return "auction/auction_regist_form";
 	}
+	@ResponseBody
+	@PostMapping("direct_pay_pro")
+	public String directPay(Model model, HttpSession session, int id) {
+			
+		System.out.println("즉시구매");
+		
+		String member_id = (String) session.getAttribute("member_id");
+		HashMap<String, String> product= service.getAuctionProduct(id);
+		int maxPrice=Integer.parseInt(String.valueOf(product.get("auction_max_price")));
+		String auction_manage_status=(product.get("auction_manage_status"));
+		System.out.println(maxPrice);
+		int balance=service2.getZpayBalance(member_id); 
+		int bidedZpay=service.getBidedZpay(member_id,id);
+		int possibleZpay=balance-bidedZpay;
+		
+		if(possibleZpay<maxPrice || auction_manage_status!=null) {
+		return "false";
+		}
+		HashMap<String, String> winner = new HashMap<String, String>();
+		winner.put("member_id", member_id);
+		winner.put("auction_idx",Integer.toString( id));
+		service.registWinner(winner);
+		product= service.getAuctionProduct(id);
+		String uuid = UUID.randomUUID().toString();
+		product.put("order_auction_delivery_idx", uuid);
+		product.put("order_auction_commission",Double.toString(maxPrice*0.1));
+	
+		service.registOrder(product);
+		int order_auction_idx= service.getOderauctionIdx(id);
+		System.out.println(order_auction_idx);
+		String idx=Integer.toString(order_auction_idx);
+		return idx;
+	}
+	
 	// 경매 상품 등록
 	
 	@ResponseBody

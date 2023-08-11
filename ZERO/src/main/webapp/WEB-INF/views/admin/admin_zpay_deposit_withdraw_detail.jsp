@@ -31,48 +31,6 @@
 	}	
 
 </style>
-<script type="text/javascript">
-	$(function() {
-		$("#memberTypeSelect").on("change", function() {
-			let changedType = $("#memberTypeSelect>option:selected").val();
-			$("#memberType").empty();
-			$("#memberType").html(changedType);
-		});
-
-		$("#memberStatusSelect").on("change", function() {
-			let changedStatus = $("#memberStatusSelect>option:selected").val();
-			$("#memberStatus").empty();
-			$("#memberStatus").html(changedStatus);
-
-			let now = new Date();
-			let year = now.getFullYear();
-			let month = String(now.getMonth() + 1).padStart(2, '0');
-			let day = String(now.getDate()).padStart(2, '0');
-			let memberWithdrawal = year + "-" + month + "-" + day;
-			
-			if(changedStatus == "활동"){
-				$("#memberWithdrawal").empty();
-			} else {
-				$("#memberWithdrawal").html(memberWithdrawal + '<input type="hidden" id="member_withdrawal" name="member_withdrawal" value=' + memberWithdrawal + '>');
-			}
-		});
-		
-	});
-	
-	function modify(){
-// 		alert($("#memberStatus").text());
-// 		alert($("#member_withdrawal").val());
-// 		if($("#member_withdrawal").val() == ""){
-	
-		if($("#memberStatus").text() == "탈퇴" && $("#member_withdrawal").val() == ""){
-			alert("탈퇴일을 지정해주세요");
-		} else {
-			$("form").submit();
-		}
-	}
-	
-	
-</script>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -83,16 +41,16 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">${member.member_name } 님 회원정보</h1>
+					<h1 class="mt-4">${zpayHistory.zpay_history_idx } 번 내역 상세보기</h1>
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="admin_member_list">회원목록</a></li>
+						<li class="breadcrumb-item"><a href="admin_zpay_depoist_withdraw_list">ZPAY 목록</a></li>
 						<li class="breadcrumb-item active" aria-current="page">상세정보</li>
 					</ol>
 					
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
-							<b>${member.member_name }</b> 님 회원정보
+							<b>${zpayHistory.zpay_history_idx }</b> 번 내역 상세보기
 						</div>
 						<div class="card-body">
 							<form action="admin_member_modify" method="post" id="member_modify_form">

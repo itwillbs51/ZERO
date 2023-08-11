@@ -13,7 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -47,7 +47,7 @@
 	}
 </style>
 <script type="text/javascript">
-
+		
 	$(function() {
 		let selectedSearchType = null;
 		let selectedStartDate = null;
@@ -63,7 +63,6 @@
 			    requestData.startDate = selectedStartDate.format('YYYY-MM-DD 00:00:00');
 			    requestData.endDate = selectedEndDate.format('YYYY-MM-DD 23:59:59');
 			}
-	
 				
 			$.ajax({
 				type : "GET", 
@@ -151,7 +150,7 @@
 		            "4월",
 		            "5월",
 		            "6월",
-		            "7월",
+// 		            "7월",
 		            "8월",
 		            "9월",
 		            "10월",
@@ -173,7 +172,6 @@
 		});
 		updateTransactionHistory();
 	});
-		
 	
 	// 처음 zpay_main 요청 시 목록 불러 오면서 balance 형식 지정
 	$(function() {
@@ -218,7 +216,7 @@
 		});
 		
 	}
-		
+
 </script>
 </head>
 <body>
@@ -231,7 +229,7 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
@@ -289,30 +287,6 @@
 					</div>
 					<div class="zpayHistoryListArea">
 						<ul>
-							<li>
-								<div class="zpayHistoryItem">
-									<div class="zpayHistoryItem_date">
-										07.29
-									</div>
-									<div class="zpayHistoryItem_infoArea">
-										<div class="zpayHistoryItem_info">
-											<a href="#" class="itemTitle itemLink">신발</a>
-											<div class="zpayHistoryItem_info_sub">
-												<span class="payTime">09:00</span>
-												<span class="paymentType">사용</span>
-											</div>
-										</div>
-										<div class="zpayHistoryItem_amountArea">
-											<strong class="zpayHistoryItem_amount">
-												- 10,000원
-											</strong>
-											<div class="zpayBalance">
-												50,000원
-											</div>
-										</div>
-									</div>
-								</div>
-							</li>
 							<c:forEach var="zpayHistory" items="${zpayHistoryList }">
 								<li>
 									<div class="zpayHistoryItem">
@@ -338,15 +312,7 @@
 											</div>
 											<div class="zpayHistoryItem_amountArea">
 												<strong class="zpayHistoryItem_amount" data-dealType="${zpayHistory.zpay_deal_type }">
-															 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원
-<%-- 													<c:choose> --%>
-<%-- 														<c:when test="${zpayHistory.zpay_deal_type eq '충전' or zpayHistory.zpay_deal_type eq '중고입금' or zpayHistory.zpay_deal_type eq '경매입금'}"> --%>
-<%-- 															 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="+ #,##0"/>원 --%>
-<%-- 														</c:when> --%>
-<%-- 														<c:otherwise> --%>
-<%-- 															 <fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="- #,##0"/>원 --%>
-<%-- 														</c:otherwise> --%>
-<%-- 													</c:choose> --%>
+													<fmt:formatNumber value="${zpayHistory.zpay_amount}" pattern="#,##0"/>원
 												</strong>
 												<div class="zpayBalance">
 													 <fmt:formatNumber value="${zpayHistory.zpay_balance}" pattern="#,##0"/>원
