@@ -69,7 +69,7 @@ public class AuctionController2 {
 		System.out.println(auction_manage_status);
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
 		
-		if(auction_manage_status.equals("경매종료")) {
+		if(auction_manage_status!=null) {
 			System.out.println("경매종료");
 			return "false5";
 		}
