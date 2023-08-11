@@ -787,10 +787,12 @@ public class SecondhandController {
 					member_id,
 					report_member_id);
 			
-			
-			
-			
-			return "success";
+			System.out.println(insertCount);
+			if(insertCount>0) {
+				return "success";	
+			} else {
+				return "fail";
+			}
 		}
 	
 		

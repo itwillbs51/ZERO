@@ -279,6 +279,34 @@
 	reportType=에따라 report_type insert
 	report_content는 그대로 입력
 	 -->
+	 
+	 
+	 <insert  id="insertReport">
+  		INSERT INTO 
+  			REPORT (
+    			report_type, secondhand_idx, report_content, report_status, report_member_id, reported_member_id)
+  			VALUES (
+<!-- 			    <if test="reportType.equals('member')"> -->
+<!-- 			      '회원', null, #{reportReason}, '처리전', #{report_member_id}, #{member_id} -->
+<!-- 			    </if> -->
+			  
+<!-- 			    <if test="reportType.equals('goods')"> -->
+<!-- 			      '상품', #{secondhand_idx}, #{reportReason}, '처리전', #{report_member_id}, null -->
+<!-- 			    </if> -->
+<!-- 			  ); -->
+			    <choose>
+			      <when test="reportType.equals('member')">
+			        '회원', null, #{reportReason}, '처리전', #{report_member_id}, #{member_id}
+			      </when>
+			      <otherwise>
+			        '상품', #{secondhand_idx}, #{reportReason}, '처리전', #{report_member_id}, null
+			      </otherwise>
+			    </choose>
+			  );
+
+	</insert>
+
+
 <!-- 	<update id="insertReport"> -->
 <!-- 	      SET FOREIGN_KEY_CHECKS = 0; -->
 	
@@ -290,17 +318,35 @@
 <!-- 				, report_status -->
 <!-- 				, report_member_id -->
 <!-- 				, reported_member_id -->
+<!-- 				) -->
+<!-- 		VALUES ( report_type = '회원' -->
+<!-- 				, report_content = #{reportReason} -->
+<!-- 				, report_status = '처리전' -->
+<!-- 				, report_member_id = #{report_member_id} -->
+<!-- 				, reported_member_id = #{member_id} -->
+<!-- 				) -->
 <!-- 			</if> -->
+			
 <!-- 			<if test="reportType.equals('goods')"> -->
 <!-- 				report_type -->
 <!-- 				, secondhand_idx -->
 <!-- 				, report_content -->
 <!-- 				, report_status -->
-<!-- 				, report_member_id		 -->
-<!-- 				</if> -->
+<!-- 				, report_member_id -->
+<!-- 				) -->
+<!-- 		VALUES ( report_type = '상품' -->
+<!-- 				, secondhand_idx = #{secondhand_idx} -->
+<!-- 				, report_content = #{reportReason} -->
+<!-- 				, report_status = '처리전' -->
+<!-- 				, report_member_id = #{report_member_id} -->
+<!-- 				) -->
+<!-- 			</if> -->
 <!-- 			) -->
 <!-- 		VALUES  -->
 <!-- 			(	 -->
+			
+			
+			
 <!-- 			<if test="reportType.equals('member')"> -->
 <!-- 				report_type = '회원' -->
 <!-- 				, report_content = #{reportReason} -->
@@ -308,9 +354,9 @@
 <!-- 				, report_member_id = #{report_member_id} -->
 <!-- 				, reported_member_id = #{member_id} -->
 <!-- 			</if> -->
-<!--  			<if test="reportType.equals('zman')"> --> 
-<!--  				report_type = 'ZMAN' --> 
-<!--  			</if> --> 
+<!--  			<if test="reportType.equals('zman')">  -->
+<!--  				report_type = 'ZMAN'  -->
+<!--  			</if>  -->
 <!-- 			<if test="reportType.equals('goods')"> -->
 <!-- 				report_type = '상품' -->
 <!-- 				, secondhand_idx = #{secondhand_idx} -->

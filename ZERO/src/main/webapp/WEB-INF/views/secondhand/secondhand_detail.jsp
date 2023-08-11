@@ -43,14 +43,14 @@ function categoryChange(e) {
 //신고컨텐츠 전달
 $(document).ready(function() {
 	
-	alert("Document ready")
+// 	alert("Document ready")
 
 	  $("#reportForm").submit(function(e) {
 	    e.preventDefault(); // 폼 기본 동작 방지
 	    
 	    // 콘솔에 메시지 출력 (디버깅 용도)
-	    alert("디버깅");
-	    console.log("Form submit event triggered.");
+// 	    alert("디버깅");
+// 	    console.log("Form submit event triggered.");
 
 	    const selectedReportType = $("#reportType").val();//선택된 신고타입
 	    const reportReason = $("#report").val();//선택된 신고사유 값
@@ -81,10 +81,8 @@ $(document).ready(function() {
 	      },
 	      success: function(response) {
 	        // 서버의 응답 처리 (성공 시)
-	        alert("요청성공!!");
+	        alert("신고가 정상 접수 되었습니다");
 
-	        console.log("Server response: " + response);
-	        console.log("신고가 접수되었습니다.");
 	      },
 	      error: function(err) {
 	        // 서버의 응답 처리 (실패 시)
@@ -326,22 +324,69 @@ a {
 				<!-- 거래상태 -->
 				<button class="btn btn-dark" style="margine-bottom:10px;">${secondhandProduct.secondhand_deal_status }</button>
 				<span class="icon">
-<%-- 					<a href="reportPopup"><img src="${pageContext.request.contextPath }/resources/img/report_icon.png" width="30px" height="30px"></a> --%>
 					
-				
-				
-				
-				<%-- 신고 모달로 해보기 --%>
-				<%-- 모달 출력 버튼 --%>
-				<button class="btn btn-default" data-target="#layerpop" data-toggle="modal">
-					<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
-					 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
-				</button>
-				<%-- 공유하기버튼 --%>
-					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
+<%-- 					신고 모달로 해보기 --%>
+<%-- 					모달 출력 버튼 --%>
+<%-- 					로그인상태-세션아이디 존재하는 경우 --%>
+<!-- 					<button class="btn btn-default" data-target="#layerpop" data-toggle="modal"> -->
+<!-- 						<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png" -->
+<!-- 						 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px"> -->
+<!-- 					</button> -->
+					
+					
+					<%-- 신고 모달로 해보기 --%>
+					<%-- 모달 출력 버튼 --%>
+						<%-- 1.세션아이디 없을경우(미로그인) -> 로그인 모달창띄우고 로그인페이지로 이동 --%>
+						<c:choose>
+							<c:when test="${empty sessionScope.member_id }">
+	
+								<button class="btn btn-dark" 
+										data-toggle="modal" 
+										data-target="#needLogin">
+									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
+									 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
+								</button>
+								
+							</c:when>
+							<%-- 2. 세션아이디 존재하는 경우(로그인상태) - 신고하기 모달창 --%>
+							<c:otherwise>
+								<button class="btn btn-dark" 
+										data-target="#layerpop" 
+										data-toggle="modal">
+									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
+									 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
+								</button>
+							</c:otherwise>
+						</c:choose>
+					
+					
+					
+					
+					
+					
+					<%-- 공유하기버튼 --%>
+						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
 				</span>
+				
+				
+				
+				
 
 
+
+
+						
+					
+
+
+							
+							
+							
+	
+						
+
+						
+				
 	
 
 
