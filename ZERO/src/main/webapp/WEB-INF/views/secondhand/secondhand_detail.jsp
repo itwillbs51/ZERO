@@ -96,6 +96,24 @@ $(document).ready(function() {
 
 
 </script>
+
+
+
+<script type="text/javascript">
+
+//삭제작업 -- 게시물삭제확인창
+function confirmDelete() {
+	let isDelete = confirm("정말 삭제하시겠습니까?");
+	
+	// isDelete 가 true 일 때 BoardDelete 서블릿 요청
+	if(isDelete) {
+		location.href='secondhandDelete?secondhand_idx=${param.secondhand_idx}';
+	}
+}
+
+</script>
+
+
 <script type="text/javascript">
 //슬라이드인덱스
 let slideIndex = 1;//슬라이드인덱스 기본값 1
@@ -131,6 +149,13 @@ function showSlides(n) {
 	dots[slideIndex-1].className += " active";
 }
 
+
+
+//거래상태 예약중일경우 채팅불가 처리하는 reservedProduct() 함수
+function reservedProduct(){
+	alert= '예약중인 상품이므로 채팅하실 수 없습니다';
+	console.log='예약중인 상품이므로 채팅하실 수 없습니다';
+}
 
 </script>
 
@@ -420,17 +445,17 @@ a {
 				<c:when test="${not empty sessionScope.member_id && sessionScope.member_id eq secondhandProduct.member_id}">
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
+					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
 							onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						수정하기 
 					</button>
 	
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-							onclick="location.href='secondhandDelete?secondhand_idx=${secondhandProduct.secondhand_idx}'">
+					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
+							onclick="confirmDelete()">
 						 삭제하기 
 					 </button>
 	
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
+					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
 						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						끌어올리기 
 					</button>
@@ -471,13 +496,27 @@ a {
 								<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
 							</a>
 							
-							<form action="doChat" method="POST">
-								<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
-								<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
-								<div class="d-grid gap-2">
-									<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">
-								</div>
-							</form>
+							<%--
+							 거래상태 '예약중'일경우, 채팅하기 버튼 누를경우 
+							'예약중인상품이므로 채팅하기를 하실 수 없습니다' 알람창만 띄우기 
+							--%>
+							<c:choose>
+								<c:when test="${secondhandProduct.secondhand_deal_status eq '예약중' }">
+									<input type="button" class="btn btn-dark" style="font-size:1em;" value="채팅하기" onclick="reservedProduct()">
+								</c:when>
+								<%--- 거래상태 예약중이아닐경우 채팅하기로 정상적으로 이동 --%> 
+								<c:otherwise>
+									<form action="doChat" method="POST">
+									<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
+									<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
+									<div class="d-grid gap-2">
+										<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">
+									</div>
+									</form>
+								</c:otherwise>
+							</c:choose>
+							
+
 						
 						
 					</c:if>
