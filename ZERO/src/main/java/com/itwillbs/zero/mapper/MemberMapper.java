@@ -81,8 +81,10 @@ int updateBankAuth(String member_id);
 	// 리뷰 등록
 	int insertShReview(MemberReviewVO review 
 					   , @Param("review_reader_id") String review_reader_id
-					   , @Param("review_reader_id") String review_writer_id
-					   , @Param("review_reader_id") int order_secondhand_idx);
+					   , @Param("review_writer_id") String review_writer_id
+					   , @Param("order_secondhand_idx") int order_secondhand_idx
+					   , @Param("member_review_rating") int member_review_rating
+					   , @Param("member_review_content") String member_review_content);
 
 	// 중고거래 z맨 배달중 여부 확인
 	int selectSecondhandSeller(String member_id);

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.zero.vo.BankAccountDetailVO;
 import com.itwillbs.zero.vo.BankAccountVO;
+import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.ResponseUserInfoVO;
@@ -162,9 +163,12 @@ public class BankController {
 		// => 파라미터 : 엑세스토큰, 사용자번호    리턴타입 : ResponseUserInfoVO(userInfo)
 		ResponseUserInfoVO userInfo = bankApiService.requestUserInfo(access_token, user_seq_no);
 		logger.info("●●●●● userInfo : " + userInfo);
+		 
+		MemberVO member = memberService.getMember((String)session.getAttribute("member_id"));
 		
 		// Model 객체에 ResponseUserInfoVO 객체 저장
 		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("member", member);
 		
 //		return "zpay/bank_user_info";
 		return "zpay/zpay_bank_user_info";

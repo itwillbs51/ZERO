@@ -378,6 +378,7 @@
 		box-sizing: border-box;
 		letter-spacing: -0.5px;
 		/* ------------------------------ */
+		height: 686px;
 		margin-bottom: 12px;
 		padding: 20px;
 /* 		padding: 0 20px; */
@@ -546,12 +547,87 @@
 	}
 	
 	.chargeContentArea .chargeButtonArea {
-/* 		margin-top: auto; */
-		margin-top: 218px;
+		margin-top: auto;
+/* 		margin-top: 265px; */
 		padding-top: 30px;
 	}
 	
+	 .myAccountArea {
+		margin-bottom: 12px;
+		padding: 0 20px;
+		border-radius: 16px;
+		background-color: #fff;
+		box-shadow: 0 4px 16px 0 rgba(0,0,0,.05);
+	}
 	
+	.myAccountArea .myAccountListArea ul {
+		padding: 0;
+		list-style: none;
+		position: relative;
+	}
+	
+	.myAccountArea .myAccountListArea li:not(:first-child) {
+		padding: 0;
+		line-height: 20px;
+		list-style: none;
+		border-top: 1px solid #f0f2f4;
+	}
+
+	.myAccountArea .myAccountListArea li a {
+		text-decoration: none;
+	}
+
+	.myAccountArea .myAccountListArea li a:hover {
+		text-decoration: none;
+		color: #222;
+	}
+
+	.myAccountItem {
+		position: relative;
+		margin: 0 20px;
+		padding: 20px 0;
+		font-size: 16px;
+		line-height: 22px;
+		color: #222;
+	}
+
+	.myAccountItem .myAccountItem_infoArea {
+		display: flex;
+		overflow: hidden;
+		display: -ms-flexbox;
+		font-size: 16px;
+	}
+
+	.myAccountItem .myAccountItem_infoArea .myAccountItem_info {
+		flex: 1 1;
+		-ms-flex: 1 1 0%;
+		overflow: hidden;
+		padding-right: 16px;
+	}
+	
+	.myAccountItem .myAccountItem_infoArea .myAccountItem_info_sub {
+		color: #888;
+/* 		font-weight: 500; */
+		font-size: 14px;
+	}
+
+	.myAccountItem .myAccountItem_infoArea .myAccountItem_info_sub .bank_name {
+		white-space: nowrap;
+	}
+
+	.myAccountItem .myAccountItem_infoArea .myAccountItem_info_sub .bank_account {
+		position: relative;
+		margin: 0 9px 0 5px;
+		padding-left: 6px;	
+	}
+	
+	.myAccountItem .myAccountItem_infoArea .moreAccount {
+		flex: 1 1;
+		-ms-flex: 1 1 0%;
+		overflow: hidden;
+		padding-right: 16px;
+		color: #09aa5c;
+	}
 /* ============================ zpay_charge_success.jsp ============================= */
 	
 	.successContentArea {

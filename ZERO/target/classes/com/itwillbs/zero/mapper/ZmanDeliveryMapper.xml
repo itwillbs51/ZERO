@@ -60,6 +60,10 @@
 				zman_delivery_idx = #{zman_delivery_idx};
 	</select>
 	
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 	<!-- ZMAN zman_delivery_status "배달 시작" 로 변경하기 -->
 	<update id="updateDeliveryDetail">
 		UPDATE 
@@ -111,4 +115,19 @@
 		WHERE zman_delivery_status = "배달 완료"
 	</select>
 
+<<<<<<< HEAD
+=======
+	<!-- updateDeliveryDetailStart -->
+<!-- 	<update id="updateDeliveryDetailStart"> -->
+<!-- 		UPDATE -->
+<!-- 			ZMAN_DELIVERY -->
+<!-- 			SET -->
+<!-- 				zman_delivery_status = '배달 중' -->
+<!-- 				, zman_delivery_starttime = now() -->
+<!-- 			WHERE -->
+<!-- 				zman_delivery_idx = #{zman_delivery_idx}; -->
+<!-- 	</update> -->
+
+	
+>>>>>>> branch 'main' of https://github.com/itwillbs51/ZERO.git
 </mapper>
