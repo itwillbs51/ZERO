@@ -281,6 +281,35 @@ public class MemberController {
 		
 	}
 	
+	// 2. 카카오 로그인 클릭
+	@PostMapping("/checkKakao")
+	@ResponseBody	// Json 형태의 응답을 반환하도록 지정
+	public String checkKakao(@RequestParam String email, @RequestParam String nickname, HttpSession session) {
+		// 카카오에서 받아온 데이터 출력
+		System.out.println("email : " + email + "name : " + nickname);
+		
+		// DB에서 리턴받아 판별
+		// MemberService - idCheck()
+		// 파라미터 : String(email -> member_id)		리턴타입 : int(idCheck)
+		int idCheck = service.idCheck(email);
+		
+		// 카카오에서 전달받은 이메일 값으로 회원가입 여부 판별
+		if (idCheck > 0) {
+			// DB에 카카오에서 전달받은 이메일이 아이디로 존재할 때
+			System.out.println("존재하는 회원");
+			
+			// 이미 가입된 회원이므로 세션에 유저의 아이디 저장
+			session.setAttribute("member_id", email);
+			return "existing";
+		} else {
+			// DB에 아이디가 존재하지 않는 경우 -> 회원가입으로 넘어가기
+			return "new";
+		}
+		
+	}
+	
+	
+	
 	// 멤버 로그인정보  - 수정
 	@GetMapping("member_Info")
 	public String memberLoginInfo(HttpSession session
@@ -511,28 +540,27 @@ public class MemberController {
 		System.out.println(member);
 		
 		JsonArray myAddress = new JsonArray();
-		if(map.get("add_num").equals(1)) { // 주소 1 변경
+		if(map.get("chk_main").equals("true")) { // 대표 주소지 변경
 			
-			return "주소가 변경되었습니다";
+			service.reWriteAddress(map); 
+			
+			myAddress.add("대표 주소가 변경되었습니다");
+			return myAddress.toString();
 
-		} else if(map.get("add_num").equals(2)) { // 주소 2 변경(만약 대표 배송지 설정시 1번과 2번 변경)
+		} else if(map.get("rew").equals("rew_num2")) { // 주소 2 변경(만약 대표 배송지 설정시 1번과 2번 변경)
+				
+			service.reWriteAddress(map); 
 			
-			if(map.get("chk_main").equals(true)) { // 대표배송지를 주소2로 변경 후 대표배송지 업데이트
+			myAddress.add("주소2가 변경되었습니다");
+			return myAddress.toString();
+			
+		} else if (map.get("rew").equals("rew_num3")) { // 주소 3 변경(만약 대표 배송지 설정시 1번과 3번 변경)
 				
-				return "주소가 변경되었습니다";
-			} else {
-				
-				return "주소가 변경되었습니다";
-			}
-		} else if (map.get("add_num").equals(3)) { // 주소 3 추가(만약 대표 배송지 설정시 1번과 3번 변경)
-				
-			if(map.get("chk_main").equals(true)) { // 대표배송지를 주소3으로 변경 후 대표배송지 업데이트
-				
-				return "주소가 변경되었습니다";
-			} else {
-				
-				return "주소가 변경되었습니다";
-			}
+			service.reWriteAddress(map); 
+			
+			myAddress.add("주소3가 변경되었습니다");
+			return myAddress.toString();
+			
 		}
 		
 		return "";
@@ -1317,9 +1345,15 @@ public class MemberController {
 	
 	// 중고상품 구매 리뷰 작성
 	@PostMapping("member_buyList_review")
-	public String memberBuyListReview(MemberReviewVO review, Model model) {
+	public String memberBuyListReview(MemberReviewVO review
+									  , Model model
+									  , @RequestParam("review_reader_id") String review_reader_id
+									  , @RequestParam("review_writer_id") String review_writer_id
+									  , @RequestParam("order_secondhand_idx") int order_secondhand_idx
+									  , @RequestParam("member_review_rating") int member_review_rating
+									  , @RequestParam("member_review_content") String member_review_content) {
 		// MemberService(writeShReview()) - Member_mapper(insertwriteShReview())
-		int insertCount = service.writeShReview(review);
+		int insertCount = service.writeShReview(review, review_reader_id, review_writer_id, order_secondhand_idx, member_review_rating, member_review_content);
 		
 		if(insertCount > 0) {
 			return "redirect:/member_mypage_buyList";

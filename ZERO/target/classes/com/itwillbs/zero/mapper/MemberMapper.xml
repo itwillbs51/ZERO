@@ -71,6 +71,7 @@
 			, order_secondhand_status
 			, secondhand_image1
 			, SECONDHAND.secondhand_idx
+			, order_secondhand_idx
 		FROM
 			ORDER_SECONDHAND
 		JOIN
@@ -305,10 +306,17 @@
 	<insert id="insertShReview" parameterType="MemReview">
 		INSERT 
 			INTO
-				MEMBER_REVIEW
+				MEMBER_REVIEW (
+					member_review_rating
+					, member_review_content
+					, member_reivew_date
+					, review_writer_id
+					, review_reader_id
+					, order_secondhand_idx
+				)
 			VALUES (
-				#{member_review_idx}
-				, #{member_review_rating}
+				-- {member_review_idx} auto increment
+				#{member_review_rating}
 				, #{member_review_content}
 				, now()                    -- member_review_date
 				, #{review_writer_id}
@@ -406,6 +414,61 @@
 	        </choose>
 	        WHERE
     			member_id = #{map.member_id}
+	</update>
+	
+	<!-- 주소록 변경 -->
+	<update id="modifyAddress">
+		UPDATE MEMBER
+			SET
+			<choose>
+				<when test="rew.equals('rew_num1')"> -- 주소1 변경
+					member_address1_name = #{member_address_name}
+		        	, member_address1_phone = #{member_phone}
+		        	, member_zipcode1 = #{member_zipcode}
+		        	, member_address1 = #{member_address}
+		        	, member_address_detail1 = #{member_address_detail}
+				</when>
+				<when test="rew.equals('rew_num2') and chk_main eq 'false'"> -- 주소2 변경
+					member_address2_name = #{member_address_name}
+		        	, member_address2_phone = #{member_phone}
+		        	, member_zipcode2 = #{member_zipcode}
+		        	, member_address2 = #{member_address}
+		        	, member_address_detail2 = #{member_address_detail}
+				</when>
+				<when test="rew.equals('rew_num3') and chk_main eq 'false'"> -- 주소3 변경
+					member_address3_name = #{member_address_name}
+		        	, member_address3_phone = #{member_phone}
+		        	, member_zipcode3 = #{member_zipcode}
+		        	, member_address3 = #{member_address}
+		        	, member_address_detail3 = #{member_address_detail}
+				</when>
+				<when test="rew.equals('rew_num2') and chk_main eq 'true'"> -- 주소2 대표 변경
+					member_address2_name = member_address1_name
+		        	, member_address2_phone = member_address1_phone
+		        	, member_zipcode2 = member_zipcode1
+		        	, member_address2 = member_address1
+		        	, member_address_detail2 = member_address_detail1
+		        	, member_address1_name = #{member_address_name}
+		        	, member_address1_phone = #{member_phone}
+		        	, member_zipcode1 = #{member_zipcode}
+		        	, member_address1 = #{member_address}
+		        	, member_address_detail1 = #{member_address_detail}
+				</when>
+				<when test="rew.equals('rew_num3') and chk_main eq 'true'"> -- 주소3 대표 변경
+					member_address3_name = member_address1_name
+		        	, member_address3_phone = member_address1_phone
+		        	, member_zipcode3 = member_zipcode1
+		        	, member_address3 = member_address1
+		        	, member_address_detail3 = member_address_detail1
+		        	, member_address1_name = #{member_address_name}
+		        	, member_address1_phone = #{member_phone}
+		        	, member_zipcode1 = #{member_zipcode}
+		        	, member_address1 = #{member_address}
+		        	, member_address_detail1 = #{member_address_detail}
+				</when>
+			</choose>
+					WHERE
+					    member_id = #{member_id}
 	</update>
 	
 </mapper>

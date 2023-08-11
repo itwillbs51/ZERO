@@ -1,11 +1,52 @@
 @charset "UTF-8";
 
+/* .headerArea1_list { */
+/* 	position: relative; */
+/* } */
+
+.alarmLi {
+	position: relative;
+	cursor: pointer;
+}
+.alarmLi a:hover {
+	text-decoration: underline;
+}
+.layer_box {
+	float: left;
+	position: absolute;
+	top: 28px;
+	left: -13px;
+}
+
+.layer_box::before {
+    left: 13px;
+}
+.layer_box::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -13px;
+    background-image: url(https://pm.pstatic.net/resources/asset/sp_main.89f0d213.png);
+    background-size: 434px 422px;
+    background-position: -165px -114px;
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 13px;
+}
+#alarmPoint {
+	color: red;
+	font-size: 11px;
+    position: absolute;
+    right: -9px;
+    top: -5px;
+}
+
 /* ---------- 알람창 크기조절 ----------------- */
 .alarmArticle {
 	width: inherit;
 	min-height: 100%;
 	background-color: #f4f6f8;
-	border: 3px solid #eee;
+	border: 3px solid #f4f6f8;
     border-radius: 20px;
 }
 .alarmContainer {
@@ -24,6 +65,7 @@
 .alarmTitleArea {
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 5px;
 }
 .alarmTitle {
 	font-weight: bold;
@@ -49,8 +91,17 @@
 .alarmItem {
 	margin: 10px 8px;
 }
+.alarmItem:hover {
+	text-decoration: none;
+	background-color: #eee;
+}
+.alarmItem a:hover {
+	text-decoration: none;
+}
 .alarmTitle {
 	font-size: 17px;
+	text-decoration: none;
+	color: black;
 }
 
 .alarmTime {
@@ -61,8 +112,14 @@
 .alarmContent {
 	font-size: 15px;
 	color: gray;
+	padding-left: 5px;
 	max-width: 330px;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+/* 읽은 알람은 옅은 색으로 표시 */
+.isRead {
+	color: gray !important;
+	font-weight: normal;
 }

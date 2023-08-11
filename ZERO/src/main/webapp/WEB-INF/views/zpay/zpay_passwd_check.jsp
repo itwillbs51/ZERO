@@ -20,15 +20,44 @@
 <script type="text/javascript">
 	
 	$(function() {
-		
+		checkButtonStatus();
 	});
+
+
+	// [환급하기] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
+	function checkButtonStatus(){
+		let amountInput =  $("#passwd").val();
+		let chargeButton = $(".chargeButtonArea>button");
+		
+		if(amountInput === ""){
+			chargeButton.attr("disabled", "disabled");
+		} else {
+			chargeButton.removeAttr("disabled");
+		}
+	}
+	
+	
+	$(function(){		
+		// 금액이 입력될 경우 [비밀번호확인] 버튼 활성화 ====================================================================
+		$("#passwd").on("input", function() {
+			checkButtonStatus();
+		});
+	});
+	
+	
+	// [비밀번호입력] 란의 [x]버튼
+	// 클릭 시 [비밀번호입력] 란의 내용 null로 바꾸기
+	function passwdReset() {
+		$("#passwd").val(null);
+		checkButtonStatus();
+	}
 
 	
 </script>
 <style type="text/css">
-/* 	.container { */
-/* 		padding-bottom: 0; */
-/* 	} */
+	.container {
+		padding-bottom: 0;
+	}
 </style>
 </head>
 <body>
@@ -37,62 +66,34 @@
 	</header>
 	<article>
 		<div class="container">
-			<div class="contentArea">
+			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
+				<form action="zpay_charge_pro" method="post">
+					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
+					<input type="hidden" name="zpayAmount" value="${zpayAmount }">
 					<div class="chargeContentArea">
-						<div class="chargeInputArea">
+						<div class="chargeInputArea text-center">
 							<div class="title">
-								ZPAY 로
+								비밀번호입력
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
-<!-- 									<input type="text" id="amountInput" maxlength="10" onkeyup="inputNumberFormat(this);" placeholder="충전할 금액을 입력해 주세요"> -->
-<!-- 									<button type="button" class="btn" onclick="amountReset()"> -->
-<!-- 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16"> -->
-<!-- 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/> -->
-<!-- 										</svg> -->
-<!-- 									</button>							 -->
+									<input type="password" id="passwd" onkeyup="checkPasswd(this);" placeholder="비밀번호를 입력해 주세요">
+									<button type="button" class="btn" onclick="passwdReset()">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+										</svg>
+									</button>							
 								</div>							
-								<div class="amountShortcutArea">
-									<div class="btn-group btn-group-toggle" data-toggle="buttons">
-<!-- 										<label class="btn btn-outline-dark"> -->
-<!-- 											<input type="radio" name="options" id="option1" autocomplete="off" value="10,000">+1만원 -->
-<!-- 										</label> -->
-<!-- 										<label class="btn btn-outline-dark"> -->
-<!-- 											<input type="radio" name="options" id="option2" autocomplete="off" value="50,000">+5만원 -->
-<!-- 										</label> -->
-<!-- 										<label class="btn btn-outline-dark"> -->
-<!-- 											<input type="radio" name="options" id="option3" autocomplete="off" value="100,000">+10만원 -->
-<!-- 										</label>								 -->
-<!-- 										<label class="btn btn-outline-dark"> -->
-<!-- 											<input type="radio" name="options" id="option4" autocomplete="off" value="1,000,000">+100만원 -->
-<!-- 										</label> -->
-									</div>
-								</div>
 							</div><%-- amountArea 영역 끝 --%>
 							<div class="withdrawalAccountArea">
-								<div class="title">
-									출금 계좌
-								</div>
-								<div class="withdrawalAccount_info">
-									<div class="withdrawalBankName">하나</div>
-									<div class="withdrawalAccountNum">123-456-789</div>
-								</div>
-								<div class="dropdown withdrawalAccount_info">
-									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										출금계좌선택
-									</button>
-									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									
-									</div>
-								</div>
-								
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
-							<button type="submit" class="btn btn-dark btn-lg btn-block">충전하기</button>
+							<button type="submit" class="btn btn-dark btn-lg btn-block">비밀번호확인</button>
 						</div><%-- chargeButtenArea 영역 끝 --%>
 					</div><%-- chargeContetnArea 영역 끝 --%>
+				</form>
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
 	</article>

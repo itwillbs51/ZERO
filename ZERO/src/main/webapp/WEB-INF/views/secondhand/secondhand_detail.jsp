@@ -16,7 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ZERO</title>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 //신고타입선택시 표시될 신고사유 셀렉트 박스
 function categoryChange(e) {

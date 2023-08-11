@@ -10,7 +10,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/cs.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/button.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <style>
 	.searchFaq {

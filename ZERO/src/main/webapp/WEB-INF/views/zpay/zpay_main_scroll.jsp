@@ -13,10 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <meta charset="UTF-8">
 <title>ZERO</title>
@@ -339,7 +336,7 @@
 						</div>
 					</div>
 					<div class="zpayHistoryDateSelect" style="display: flex;">
-						<input type="text" name="datetimes"  class="form-control">
+						<input type="text" name="datetimes" class="form-control">
 					</div>
 					<div class="zpayHistoryPeriodArea">
 						총 <strong class="listCount">${listCount }</strong> 건
@@ -358,6 +355,8 @@
 	</article>
 	<footer>
 	</footer>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 </body>
 </html>

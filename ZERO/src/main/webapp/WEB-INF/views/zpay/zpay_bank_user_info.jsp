@@ -14,7 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <script type="text/javascript">
 	$(function() {

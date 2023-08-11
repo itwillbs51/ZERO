@@ -66,6 +66,7 @@ function loadDetail(index, orderSecondhandIdx, orderAuctionIdx, auctionIdx, zpay
 										<th>거래유형</th>
 										<th>변동금액</th>
 										<th>약정계좌잔액</th>
+										<th>거래일</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
@@ -84,6 +85,7 @@ function loadDetail(index, orderSecondhandIdx, orderAuctionIdx, auctionIdx, zpay
 											<td>${zeroAccountHistory.zero_account_type }</td>
 											<td><fmt:formatNumber value="${zeroAccountHistory.zero_account_amount}" pattern="#,##0"/></td>
 											<td><fmt:formatNumber value="${zeroAccountHistory.zero_account_balance}" pattern="#,##0"/></td>
+											<td>${zeroAccountHistory.zero_account_time}</td>
 											<td>
 												<a class="btn btn-sm btn-outline-dark" onclick="loadDetail(${vs.index}, ${zeroAccountHistory.order_secondhand_idx}, ${zeroAccountHistory.order_auction_idx}, ${zeroAccountHistory.auction_idx}, ${zeroAccountHistory.zpay_history_idx})">상세보기</a>
 											</td>

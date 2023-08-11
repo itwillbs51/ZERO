@@ -1,12 +1,17 @@
 	package com.itwillbs.zero.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -80,24 +85,58 @@ public class ZmanController {
 	public String zmanDeliveryWant(HttpSession session, Model model) {
 		System.out.println("ZmanController - zman_delivery_want");
 		
-		ZmanDeliveryVO zd = service.getDeliveryYetList();
-		System.out.println("ZmanDeliveryVO : " + zd);
-		model.addAttribute("zd", zd);
+		List<ZmanDeliveryVO> zmanDeliveryYetList = service.getDeliveryYetList();
+		System.out.println("ZmanDeliveryVO : " + zmanDeliveryYetList);
+//		System.out.println(zmanDeliveryYetList.);
+		model.addAttribute("zmanDeliveryYetList", zmanDeliveryYetList);
 		
 		return "zman/zman_delivery_want";
 	}
 	
-	// ZMAN 중고물품 오더 배달 수락하기
-	@PostMapping("zman_delivery_want_pro")
+	// ZMAN 배달 출발지 리스트 가져오기
+	@ResponseBody
+	@GetMapping("getDeliveryStartspotList") 
+	public String getDeliveryStartspotList(@RequestParam("markerId") Long markerId) {
+		System.out.println("ZmanController - getDeliveryStartspotList");
+		System.out.println("markerId - " + markerId);
+		
+		List<ZmanDeliveryVO> startspotList = service.getDelivertStartspotList(markerId);
+		System.out.println(startspotList);
+		
+		JSONArray json = new JSONArray(startspotList);
+		System.out.println(json);
+		
+		return json.toString();
+		
+	}
+	
+	// 마커 클릭 시 보여줄 정보 가져오기
+	@ResponseBody
+	@GetMapping("markerClickInfo")
+	public String getMarkerClickInfo(@RequestParam("markerTitle") String markerTitle) {
+	    System.out.println("ZmanController - markerClickInfo");
+	    
+	    List<ZmanDeliveryVO> markerClickInfo = service.getMarkerClickInfo(markerTitle);
+	    System.out.println(markerClickInfo);
+	    
+	    JSONArray json = new JSONArray(markerClickInfo);
+	    System.out.println(json);
+	    
+	    return json.toString();
+	}
+	
+	// ZMAN zman_delivery_status "배달 수락"로 변경하기
+	@PostMapping("zman_delivery_ing")
 	public String zmanDeliveyAccept(HttpSession session, Model model, 
 									@RequestParam int zman_delivery_idx, @RequestParam String zman_id) {
-		System.out.println("ZmanController - zman_delivery_want_pro");
+		System.out.println("ZmanController - zman_delivery_ing");
 		System.out.println("zman_id - " + zman_id);
 		
 		// 배달 상세 정보 - 출발지와 배달지 가져오기
 		ZmanDeliveryVO zd = service.getDeliveryDetail(zman_delivery_idx);
 		System.out.println("출발지  - " + zd.getZman_delivery_startspot());
 		System.out.println("도착  - " + zd.getZman_delivery_endspot());
+		System.out.println("zd  - " + zd);
 		
 		// 배달 수락 상태로 변경하기
 		int updateCount = service.acceptDelivery(zman_delivery_idx, zman_id);
@@ -107,7 +146,7 @@ public class ZmanController {
 			model.addAttribute("depart", zd.getZman_delivery_startspot()); // zman_delivery_startspot
 			model.addAttribute("arrive", zd.getZman_delivery_endspot()); // zman_delivery_endspot
 			
-			return "zman/zman_test_location";
+			return "zman/zman_delivery_ing";
 			
 		} else {
 			model.addAttribute("msg", "배달 수락 실패!");
@@ -116,12 +155,66 @@ public class ZmanController {
 		
 	}
 	
+	// ZMAN zman_delivery_status "배달 시작" 로 변경하기
+	@RequestMapping(value = "zman_delivery_start", method = RequestMethod.GET)
+	public String zmanDeliveryStart(@RequestParam int zman_delivery_idx, Model model, HttpSession session) {
+		System.out.println("ZmanController - zman_delivery_start");
+		System.out.println("zman_delivery_idx : " + zman_delivery_idx);
+		
+		// ZMAN 배달 상태 를 '배달 시작'으로 변경하기
+		int updateCount = service.updateDeliveryStatus(zman_delivery_idx);
+		
+		if(updateCount > 0) {
+			System.out.println("zman_delivery_status - 배달 시작 으로 변경");
+			
+//			return "zman/zman_delivery_ing";
+			return "redirect:/zman_delivery_ing";
+		} else {
+			model.addAttribute("msg", "배달 시작 실패!");
+			return "fail_back";
+		}
+		
+	}
 
+	// ZMAN zman_delivery_status "배달 완료" 로 변경하기
+	@GetMapping("zman_delivery_end")
+	public String zmanDeliveryEnd(@RequestParam int zman_delivery_idx,@RequestParam String zman_id ,Model model, HttpSession session) { 
+		System.out.println("ZmanController - zman_delivery_end");
+		System.out.println("zman_delivery_idx : " + zman_delivery_idx);
+		
+		// ZMAN 배달 상태 를 '배달 완료'으로 변경하기
+		int updateCount = service.updateDeliveryStatusEnd(zman_delivery_idx);
+		ZmanDeliveryVO zd = service.getDeliveryDetail(zman_delivery_idx);
+		System.out.println("zman_delivery_end - zd " + zd);
+//		System.out.println("zd.getZman_id() - @@@@@@" + zd.getZman_id());
+		System.out.println("zman_id - @@@@@@" + zman_id);
+		
+		// ZMAN 정산을 위해 ZMAN_EARNING 테입르에 값 삽입
+		int insertCount = service.insertDeliveryEarning(zman_delivery_idx, zman_id, zd.getZman_delivery_commission());
+		
+		if(updateCount > 0 && insertCount > 0) {
+			System.out.println("zman_delivery_status - 배달 완료 으로 변경");
+			
+			return "zman/zman_delivery_done";
+		} else {
+			model.addAttribute("msg", "배달 완료 실패!");
+			return "fail_back";
+		}
+		
+	}
 	
-	
-	// ZMAN 배달 완료 페이지로 이동
+	// ZMAN 배달 완료 내역 페이지로 이동
 	@GetMapping("zman_delivery_done")
-	public String zmanDeliveryDone() {
+	public String zmanDeliveryDone(HttpSession session, Model model) {
+		System.out.println("ZmanController - zman_delivery_done");
+		
+//		String sId = session.getId();
+		
+		List<ZmanDeliveryVO> zmanDeliveryDoneList = service.getDeliveryDoneList();
+		System.out.println("zmanDeliveryDoneList - " + zmanDeliveryDoneList);
+		
+		model.addAttribute("zmanDeliveryDoneList", zmanDeliveryDoneList);
+		
 		return "zman/zman_delivery_done";
 	}
 	

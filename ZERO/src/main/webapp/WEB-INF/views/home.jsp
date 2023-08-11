@@ -162,6 +162,7 @@
 	</article>
 	
 	<footer>
+		<%@ include file="inc/footer.jsp"%>
 	</footer>
 </body>
 </html>

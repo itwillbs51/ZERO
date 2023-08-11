@@ -143,25 +143,32 @@ public class MemberService {
 	}
 
 	// 회원 중고상품 리뷰 등록
-	public int writeShReview(MemberReviewVO review) {
-		return mapper.insertShReview(review);
+	public int writeShReview(MemberReviewVO review, String review_reader_id, String review_writer_id, int order_secondhand_idx, int member_review_rating, String member_review_content) {
+		return mapper.insertShReview(review, review_reader_id, review_writer_id, order_secondhand_idx, member_review_rating, member_review_content);
 	}
 
-	// 회원 대표 주소록 추가(add_num : 주소록 번호)
+	// 회원 대표 주소록 추가(add_num : 주소록 번호) - 수정
 	public int addMainAddress(String add_num, Map<String, String> map) {
 		return mapper.updateMainAddress(add_num, map);
 	}
 	
-	// 회원 주소록 추가(add_num : 주소록 번호)
+	// 회원 주소록 추가(add_num : 주소록 번호) - 수정
 	public int addAddress(String add_num, Map<String, String> map) {
 		return mapper.updateAddress(add_num, map);
 	}
 
-	// 회원 주소록 삭제(rmv2 : 주소2만 삭제 , rew2_rmv3 : 주소3을 2로 업데이트 후 주소3삭제, rmv : 주소3 삭제)
+	// 회원 주소록 변경 - 수정
+	public int reWriteAddress(Map<String, String> map) {
+		return mapper.modifyAddress(map);
+		
+	}
+
+	// 회원 주소록 삭제(rmv2 : 주소2만 삭제 , rew2_rmv3 : 주소3을 2로 업데이트 후 주소3삭제, rmv : 주소3 삭제) - 수정
 	public int deleteAddress(String rmv, Map<String, String> map) {
 		return mapper.deleteAddress(rmv, map);
 		
 	}
+
 	
 
 	

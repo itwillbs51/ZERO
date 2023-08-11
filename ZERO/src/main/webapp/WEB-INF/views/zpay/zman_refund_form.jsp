@@ -15,7 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <script type="text/javascript">
 	
@@ -117,7 +117,7 @@
 				<form action="zman_refund_pro" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zman_net_profit" value="">
-					<input type="hidden" name="zman_balance" value="${zman_balance }">
+<%-- 					<input type="hidden" name="zman_balance" value="${zman_balance }"> --%>
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">

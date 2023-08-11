@@ -13,9 +13,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link href="/your-path-to-uicons/css/uicons-rounded-regular.css" rel="stylesheet">
+<link href="/your-path-to-uicons/css/uicons-rounded-bold.css" rel="stylesheet">
+<link href="/your-path-to-uicons/css/uicons-rounded-solid.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/zpay.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <title>ZERO</title>
 <script type="text/javascript">
 	
@@ -99,6 +103,10 @@
 		
 	})
 	
+// 	$(function()) {
+// 		$("#")
+// 	})
+	
 </script>
 <style type="text/css">
 	.container {
@@ -114,7 +122,8 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zpay_charge_pro" method="post">
+				<form action="zpay_passwd_check" method="post">
+<!-- 				<form action="zpay_charge_pro" method="post"> -->
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="">
 					<input type="hidden" name="zpay_deal_type" value="충전">
@@ -154,8 +163,11 @@
 									출금 계좌
 								</div>
 								<div class="withdrawalAccount_info">
+<!-- 								<button type="button" class="btn-withdrawalAccount_info" data-toggle="modal" data-target="#exampleModalScrollable"> -->
 									<div class="withdrawalBankName">${zpay.zpay_bank_name }</div>
 									<div class="withdrawalAccountNum">${zpay.zpay_bank_account }</div>
+<!-- 									<div class="moreAccountInfo"><i class="fi fi-rr-angle-down"></i></div> -->
+<!-- 								</button> -->
 								</div>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
@@ -169,6 +181,53 @@
 	</article>
 	<footer>
 	</footer>
+	
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-titl" id="exampleModalScrollableTitle">계좌선택</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="myAccountArea">
+					<div class="myAccountListArea">
+						<ul>
+							<c:forEach var="account" items="${myAccountList }">
+								<li>
+									<a href="#" class="myAccountItem">
+										<div class="myAccountItem_infoArea">
+											<div class="myAccountItem_info">
+												${account.zpay_bank_name }
+												<div class="myAccountItem_info_sub">
+													<span class="bank_name">
+														${account.zpay_bank_name }
+													</span>
+													<span class="bank_account">${account.zpay_bank_account }</span>
+												</div>
+											</div>
+										</div>
+									</a>
+								</li>
+							</c:forEach>
+							<li>
+								<a href="bankUserInfo" class="myAccountItem">
+									<div class="myAccountItem_infoArea">
+										<div class="moreAccount text-center">
+											+ 계좌 등록하기
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 </body>
 </html>
