@@ -388,6 +388,10 @@ function sendMessage() {
 			}else if(result == "false4") {
 				alert("현재가격 보다 높게 입찰 가능합니다");
 				
+			}else if(result == "false5") {
+				alert("경매 종료");
+				 location.reload();
+				
 			} else {
 				alert("실패!");
 			}
