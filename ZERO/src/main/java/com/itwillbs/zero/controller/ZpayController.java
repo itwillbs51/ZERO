@@ -159,9 +159,9 @@ public class ZpayController {
 		int insertCount = service.registZpay(zpay);
 		
 		System.out.println(session.getAttribute("previousPage"));
-		System.out.println(session.getAttribute("previousPage").equals(""));
+		System.out.println(session.getAttribute("previousPage") == null);
 		if(insertCount > 0) {
-			if(!session.getAttribute("previousPage").equals("")) {
+			if(session.getAttribute("previousPage") != null) {
 				return "redirect:/" + session.getAttribute("previousPage");				
 			} else {
 				return "redirect:/zpay_main";
@@ -180,7 +180,6 @@ public class ZpayController {
 		System.out.println("ZpayController - zpayChargeForm()");
 		
 		String access_token = (String)session.getAttribute("access_token");
-//		String user_seq_no = (String)session.getAttribute("user_seq_no");
 //		
 		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
 		if(access_token == null) {
@@ -188,20 +187,23 @@ public class ZpayController {
 			return "bank_auth_fail_back";
 		}
 		
-		// BankApiService - requestUserInfo() 메서드 호출하여 핀테크 이용자 정보 조회
-		// => 파라미터 : 엑세스토큰, 사용자번호    리턴타입 : ResponseUserInfoVO(userInfo)
-//		ResponseUserInfCoVO userInfo = bankApiService.requestUserInfo(access_token, user_seq_no);
-		
-		// Model 객체에 ResponseUserInfoVO 객체 저장
-//		model.addAttribute("userInfo", userInfo);
-		
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
 		model.addAttribute("zpay", zpay);
 				
-//		List<ZpayVO> myAccountList = service.getMyAccountList((String)session.getAttribute("member_id"));
-//		model.addAttribute("myAccountList", myAccountList);
+		List<ZpayVO> myAccountList = service.getMyAccountList((String)session.getAttribute("member_id"));
+		model.addAttribute("myAccountList", myAccountList);
 		
 		return "zpay/zpay_charge_form";
+	}
+	
+	@PostMapping("zpay_passwd_check")
+	public String zpayPasswdCheck(@RequestParam String member_id, 
+								@RequestParam String zpayAmount, 
+								Model model) {
+		System.out.println("ZpayController - zpayPasswdCheck()");
+		model.addAttribute("zpayAmount", zpayAmount);
+		
+		return "zpay/zpay_passwd_check";
 	}
 	
 	// ZPAY 충전 비즈니스 로직 요청
