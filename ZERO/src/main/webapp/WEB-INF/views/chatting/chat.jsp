@@ -327,14 +327,15 @@
 		chatMessage = $('#msg').val();
 		chatImgMessage = $("#imgform input").val();
 		
-		if(chatMessage != "") {
+		if(chatMessage != "") {	// 빈칸이 아닐때만 전송하기
 			sendMessage(sender);
 			$('#msg').val('');
-// 		} else if(chatImgMessage != "") {
+		}
+// 		else if(chatImgMessage != "") {	// 이미지가 있을 때 버튼을 누르면
 // 			console.log(chatImgMessage);
 // 			var form = document.getElementById("imgform");
 // 	        form.submit();
-		}
+// 		}
 	});
 	
 	// 엔터 누르면 보내지는 이벤트
@@ -885,8 +886,8 @@
 </script>
 	
 	<!-- footer -->
-	<footer>
-		<div>여기 footer</div>
-	</footer>
+<!-- 	<footer> -->
+<%-- 		<%@ include file="../inc/footer.jsp"%> --%>
+<!-- 	</footer> -->
 </body>
 </html>
