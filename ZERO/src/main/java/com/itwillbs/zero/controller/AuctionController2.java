@@ -65,8 +65,14 @@ public class AuctionController2 {
 		int balance=service2.getZpayBalance((String) session.getAttribute("member_id")); 
 		int bidedZpay=service.getBidedZpay((String) session.getAttribute("member_id"),Integer.parseInt(map.get("auction_idx")));
 		int possibleZpay=balance-bidedZpay;
-		
+		String auction_manage_status=product.get("auction_manage_status");
+		System.out.println(auction_manage_status);
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
+		
+		if(auction_manage_status.equals("경매종료")) {
+			System.out.println("경매종료");
+			return "false5";
+		}
 		if(possibleZpay<currentBid) {
 			System.out.println("입찰가능금액보다 높게 입찰 불가");
 			return "false";

@@ -71,6 +71,7 @@
 			, order_secondhand_status
 			, secondhand_image1
 			, SECONDHAND.secondhand_idx
+			, order_secondhand_idx
 		FROM
 			ORDER_SECONDHAND
 		JOIN
@@ -305,10 +306,17 @@
 	<insert id="insertShReview" parameterType="MemReview">
 		INSERT 
 			INTO
-				MEMBER_REVIEW
+				MEMBER_REVIEW (
+					member_review_rating
+					, member_review_content
+					, member_reivew_date
+					, review_writer_id
+					, review_reader_id
+					, order_secondhand_idx
+				)
 			VALUES (
-				#{member_review_idx}
-				, #{member_review_rating}
+				-- {member_review_idx} auto increment
+				#{member_review_rating}
 				, #{member_review_content}
 				, now()                    -- member_review_date
 				, #{review_writer_id}

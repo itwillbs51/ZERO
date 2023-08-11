@@ -54,7 +54,8 @@
 											<td>${zd.zman_delivery_idx }</td>
 											<td>${zd.zman_name }</td>
 											<td>${zd.zman_id }</td>
-											<td>${zd.order_secondhand_product }</td>
+<%-- 											<td>${zd.order_secondhand_product }</td> --%>
+											<td>  </td>
 											<td>${zd.zman_delivery_status }</td>
 <%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
 											<td>
