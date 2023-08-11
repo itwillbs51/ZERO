@@ -25,7 +25,7 @@
 		margin-top: 0px;
 	}
 </style>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 	
 	//전역변수 (함수바깥에 정의)
