@@ -117,7 +117,7 @@
 				<form action="zman_refund_pro" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zman_net_profit" value="">
-					<input type="hidden" name="zman_balance" value="${zman_balance }">
+<%-- 					<input type="hidden" name="zman_balance" value="${zman_balance }"> --%>
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">

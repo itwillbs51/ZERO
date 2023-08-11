@@ -776,11 +776,14 @@ public class ZpayController {
 	
 	// zman_refund_form.jsp 페이지로 디스페치
 	@GetMapping("zman_refund_form")
-	public String zmanRefundForm(Model model, HttpSession session) {
+	public String zmanRefundForm(@RequestParam int  zman_earning_idx, 
+							Model model, HttpSession session) {
 		System.out.println("ZpayController - zmanRefundForm()");
 		
 		// 정산받을 계좌 정보와 조회
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
+//		Map<String, String> map = service.getZmanEarning(zman_earning_idx);
+		
 		
 		model.addAttribute("zpay", zpay);
 		return "zpay/zpay_refund_form";
