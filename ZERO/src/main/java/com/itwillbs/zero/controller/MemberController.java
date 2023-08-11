@@ -671,9 +671,11 @@ public class MemberController {
 		// 핸드폰번호와 일치하는 이메일 주소가 있을 경우 이메일 주소 리턴
 		Map result = service.isMemberCheck(column, value);
 		System.out.println(result);
-		System.out.println(result.get("member_id"));
+//		System.out.println(result.get("member_id"));
 		if(result != null) {
 			phone = result.get("member_id").toString();
+		} else {
+			phone = "false";
 		}
 		
 		return phone;
