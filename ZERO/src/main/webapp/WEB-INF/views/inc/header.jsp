@@ -22,7 +22,7 @@
 					<li class="headerArea1_item"><a href="#" class="headerArea1_link">관심상품</a></li>
 					<%-- 알림 임시 --%>
 					<li class="headerArea1_item alarmLi">
-						<a class="headerArea1_link" onclick="alarmListOpen()">알림<span id="alarmPoint" style="display: none;">●</span></a>
+						<a class="headerArea1_link" onclick="alarmListOpen()">알림<span id="alarmPoint" style="display: none;">● </span></a>
 						<div class="layer_box" aria-hidden="false" style="display: none;"> <%--  style="display: none;" --%>
 							<div class="box_content">
 <!-- 								<iframe src="shortAlarmList" -->
@@ -158,8 +158,9 @@
 		$.ajax({
 			data: {
 				'member_id': receiver_id,
-				'alarm_message' : alarmType + "p]]/[" + alarmMsg,
-				'alarm_link': alarmMsgLink,
+				'alarm_message' : alarmMsg,
+				'alarm_type' : alarmType,
+				'alarm_link': alarmMsgLink
 			},
 			url: "alarmRemember",
 			type: "POST",
@@ -253,17 +254,7 @@
 				}
 				
 				for(let alarmItem of data) {
-					let alarmArr = alarmItem.alarm_message.split("p]]/[");
-// 					console.log("받는 원 메세지 : " + data.toString());
 					
-					let alaType  = alarmArr[0];
-					let alaMessage = alarmArr[1];
-// 					console.log("alaType : " + alaType);
-// 					console.log("alaMessage : " + alaMessage);
-					
-// 					let now = new Date();
-					// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
-// 					let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
 					
 					let changeLink = alarmItem.alarm_link.replace("?", "--");
 					// 보여줄 시간 형식
@@ -278,13 +269,13 @@
 					var strr = 	'<li class="alarmItem">';
 					strr += 	'	<a href="alarmClick?url=' + changeLink + '">';
 					strr += 	'	<div class="alarmTitle">';
-					strr += 			alaType;
+					strr += 			alarmItem.alarm_type;
 					strr += 			'<span class="alarmTime">';
 					strr += 				formatTime;
 					strr += 			'</span>';
 					strr += 	'	</div>';
 					strr += 	'	<div class="alarmContent">';
-					strr += 			alaMessage;
+					strr += 			alarmItem.alarm_message;
 					strr += 	'	</div>';
 					strr += 	'	</a>';
 					strr += 	'</li>';

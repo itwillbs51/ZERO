@@ -159,9 +159,9 @@ public class ZpayController {
 		int insertCount = service.registZpay(zpay);
 		
 		System.out.println(session.getAttribute("previousPage"));
-		System.out.println(session.getAttribute("previousPage").equals(""));
+		System.out.println(session.getAttribute("previousPage") == null);
 		if(insertCount > 0) {
-			if(!session.getAttribute("previousPage").equals("")) {
+			if(session.getAttribute("previousPage") != null) {
 				return "redirect:/" + session.getAttribute("previousPage");				
 			} else {
 				return "redirect:/zpay_main";
@@ -179,10 +179,31 @@ public class ZpayController {
 	public String zpayChargeForm(Model model, HttpSession session) {
 		System.out.println("ZpayController - zpayChargeForm()");
 		
+		String access_token = (String)session.getAttribute("access_token");
+//		
+		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
+		if(access_token == null) {
+			model.addAttribute("msg", "계좌 인증 필수!");
+			return "bank_auth_fail_back";
+		}
+		
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
 		model.addAttribute("zpay", zpay);
 				
+		List<ZpayVO> myAccountList = service.getMyAccountList((String)session.getAttribute("member_id"));
+		model.addAttribute("myAccountList", myAccountList);
+		
 		return "zpay/zpay_charge_form";
+	}
+	
+	@PostMapping("zpay_passwd_check")
+	public String zpayPasswdCheck(@RequestParam String member_id, 
+								@RequestParam String zpayAmount, 
+								Model model) {
+		System.out.println("ZpayController - zpayPasswdCheck()");
+		model.addAttribute("zpayAmount", zpayAmount);
+		
+		return "zpay/zpay_passwd_check";
 	}
 	
 	// ZPAY 충전 비즈니스 로직 요청
@@ -755,11 +776,14 @@ public class ZpayController {
 	
 	// zman_refund_form.jsp 페이지로 디스페치
 	@GetMapping("zman_refund_form")
-	public String zmanRefundForm(Model model, HttpSession session) {
+	public String zmanRefundForm(@RequestParam int  zman_earning_idx, 
+							Model model, HttpSession session) {
 		System.out.println("ZpayController - zmanRefundForm()");
 		
 		// 정산받을 계좌 정보와 조회
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
+//		Map<String, String> map = service.getZmanEarning(zman_earning_idx);
+		
 		
 		model.addAttribute("zpay", zpay);
 		return "zpay/zpay_refund_form";
@@ -871,7 +895,7 @@ public class ZpayController {
 		ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
 		zeroAccount.setMember_id(buyer_id);
 		zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
-		zeroAccount.setOrder_secondhand_idx(order_auction_idx);
+		zeroAccount.setOrder_auction_idx(order_auction_idx);
 		zeroAccount.setZero_account_amount(order_auction_commission);
 		zeroAccount.setZero_account_balance(zero_account_balance);
 		zeroAccount.setZero_account_type("경매취소환불");

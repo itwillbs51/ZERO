@@ -28,7 +28,7 @@
 						알림
 					</div>
 					<div class="detailArea">
-						<a class="moreAlarm" href="">더보기 > </a>
+						<a class="moreAlarm" href="alarmAll">더보기 > </a>
 					</div>
 				</div>
 <%-- 				<button onclick="sendAlarmMessage('${sessionScope.member_id}', '채팅', '테스트입니다')">알람보내보기</button> --%>

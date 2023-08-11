@@ -142,10 +142,10 @@
 		INTO ORDER_AUCTION
 		values(
 			null
-			, ADDTIME(CURDATE(), '07:00:00'),
+			, ADDTIME(CURDATE(), '07:00:00')
 			, #{max_bid}
 			, 13245
-			, (#{max_bid} * 0.1)
+			, #{max_bid} * 0.1
 			, "한진택배"
 			, #{auction_seller_id}
 			, #{member_id}

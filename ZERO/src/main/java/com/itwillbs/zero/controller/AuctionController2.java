@@ -65,25 +65,29 @@ public class AuctionController2 {
 		int balance=service2.getZpayBalance((String) session.getAttribute("member_id")); 
 		int bidedZpay=service.getBidedZpay((String) session.getAttribute("member_id"),Integer.parseInt(map.get("auction_idx")));
 		int possibleZpay=balance-bidedZpay;
-		
+		String auction_manage_status=product.get("auction_manage_status");
+		System.out.println(auction_manage_status);
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
+		
+		if(auction_manage_status!=null) {
+			System.out.println("경매종료");
+			return "false5";
+		}
 		if(possibleZpay<currentBid) {
 			System.out.println("입찰가능금액보다 높게 입찰 불가");
 			return "false";
-		}
-		if(maxPrice<currentBid) {
-			System.out.println("즉시낙찰");
-			return "false";
-		}
+		}else if(maxPrice<=currentBid) {
+			System.out.println("즉시구매로");
+			return "false2";
 		
-		if(maxBidPrice == 0) {
+		}else if(maxBidPrice == 0) {
 			if(startPrice<=currentBid) {
 				System.out.println("입찰성공");
 				service.registLog(map);
 				return "true";
 			}else {
 				System.out.println("입찰불가");
-				return "false";
+				return "false3";
 			}
 			
 		}else{
@@ -93,7 +97,7 @@ public class AuctionController2 {
 				return "true";
 			}else {
 				System.out.println("입찰불가2");
-				return "false";
+				return "false4";
 			}
 			
 		}
@@ -142,8 +146,10 @@ public class AuctionController2 {
 		int bidedZpay=service.getBidedZpay(member_id,id);
 		int possibleZpay=balance-bidedZpay;
 		
-		if(possibleZpay<maxPrice || auction_manage_status!=null) {
+		if(possibleZpay<maxPrice) {
 		return "false";
+		}else if(auction_manage_status!=null){
+			return "false2";
 		}
 		HashMap<String, String> winner = new HashMap<String, String>();
 		winner.put("member_id", member_id);

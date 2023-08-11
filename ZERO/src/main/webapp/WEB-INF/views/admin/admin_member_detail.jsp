@@ -15,7 +15,7 @@
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -72,10 +72,6 @@
 	});
 	
 	function modify(){
-// 		alert($("#memberStatus").text());
-// 		alert($("#member_withdrawal").val());
-// 		if($("#member_withdrawal").val() == ""){
-	
 		if($("#memberStatus").text() == "탈퇴" && $("#member_withdrawal").val() == ""){
 			alert("탈퇴일을 지정해주세요");
 		} else {
@@ -83,7 +79,79 @@
 		}
 	}
 	
-	
+	<%-- 개인정보 변경 --%>
+	function saveInfo(pop) {
+		console.log(pop);
+		var column = "";
+		var value = "";
+		
+		if(pop == 'phone1') { // 변경할 정보가 핸드폰인 경우
+			column = 'member_phone';
+			value = $('#phone1').val().replaceAll('-','');
+			
+			if(value == '') { // 입력 안한경우
+				alert('휴대폰번호를 입력하세요');
+				return;
+			}
+			
+		} else if(pop == 'passwd2') { // 변경할 정보가 비밀번호인 경우
+			column = 'member_passwd2';
+			value = $('#passwd2').val();
+			
+			var column2 = 'origin_passwd'; 
+			var value2 = $('#passwd1').val(); // 이전 비밀번호
+			
+			if(value == '' || value2 == '') { // 입력 안한경우
+				alert('비밀번호를 입력하세요');
+				return;
+			}
+			
+		} else if(pop == 'agree1') { // 변경할 정보가 마케팅 수신 동의인 경우
+			column = 'member_agreement_marketing';
+			value = 1;
+		} else if(pop == 'disagree1') { // 변경할 정보가 마케팅 수신 동의인 경우
+			column = 'member_agreement_marketing';
+			value = 0;
+		}
+		
+		console.log('2:' + column);
+		console.log('2:' + value);
+		
+		$.ajax({
+	       type: 'post',
+	       url: 'ajax/chgInfo',
+           datatype: "text",
+           data: {
+           	column: column,
+           	value: value,
+           	column2: column2,
+           	value2: value2
+           },
+           success: function (result) {
+               console.log('ajax - chgInfo:' + result);
+               closeModal('modal2');
+               closeModal('modal3');
+				
+				
+			   
+				if(result == 'member_phone') { // 휴대폰 변경시 표시
+				   phoneFrom(value);
+			   } else if (result == 'false') { // 비밀번호 불일치
+				   alert('비밀번호가 일치하지 않습니다');
+			   		return;
+			   } 
+				
+				modal('modal1');
+				
+
+           },
+           error: function () {
+               alert("오류가 발생했습니다. 다시 시도해주세요.");
+           }
+		});
+		
+		
+	}
 </script>
 </head>
 <body class="sb-nav-fixed">

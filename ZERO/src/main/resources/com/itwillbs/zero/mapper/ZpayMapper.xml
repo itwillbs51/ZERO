@@ -124,12 +124,19 @@
 				, #{listLimit}
 		</if>
 	</select>
+
+	<!-- 계좌 목록 조회 -->
+	<select id="selectMyAccountList" resultType="com.itwillbs.zero.vo.ZpayVO">
+		SELECT * FROM ZPAY
+		WHERE member_id = #{member_id}
+	</select>
 	
 	<!-- ZPAY 번호 조회 -->
 	<select id="selectZpayIdx" resultType="int">
 		SELECT * FROM ZPAY
 		WHERE member_id = #{member_id}
 	</select>
+	
 	
 	<!-- ZPYA_HISTORY 테이블에 충전내역 추가 -->
 	<insert id="insertChargeHistory">

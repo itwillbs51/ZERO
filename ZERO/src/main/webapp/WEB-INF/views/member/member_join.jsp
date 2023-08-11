@@ -797,20 +797,20 @@ input[type=checkbox] {
 	// 비밀번호 정규식 되는데 편의를 위해 주석해놓음
 	  
 	// 비밀번호 정규식
-// 	function checkPass(member_passwd, member_passwd2) {
-// 		let regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9]).{8,16}$/;
+	function checkPass(member_passwd, member_passwd2) {
+		let regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%])(?=.*[0-9]).{8,16}$/;
 		
-// 		if(regex.exec(member_passwd)) {
-// 			document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
-// 			document.querySelector("#pass_check").style.color = "green";
-// 		} else {
-// 			document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
-// 			document.querySelector("#pass_check").style.color = "red";
-// // 			alert("비밀번호를 다시 입력해주세요!");
-// 			$("#member_pass").val('');
-// 			$("#member_pass2").val('');
-// 		}
-// 	}
+		if(regex.exec(member_passwd)) {
+			document.querySelector("#pass_check").innerHTML = "사용 가능한 비밀번호입니다!"
+			document.querySelector("#pass_check").style.color = "green";
+		} else {
+			document.querySelector("#pass_check").innerHTML = "사용 불가능한 비밀번호입니다!"
+			document.querySelector("#pass_check").style.color = "red";
+// 			alert("비밀번호를 다시 입력해주세요!");
+			$("#member_pass").val('');
+			$("#member_pass2").val('');
+		}
+	}
 
 // 	// 비밀번호 와 비밀번호 확인 일치
 // 	function checkconfirmPasswd(passwdCheck) {

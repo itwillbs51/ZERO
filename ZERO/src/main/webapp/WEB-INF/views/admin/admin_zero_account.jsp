@@ -14,7 +14,7 @@
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" type="text/css">
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -66,6 +66,7 @@ function loadDetail(index, orderSecondhandIdx, orderAuctionIdx, auctionIdx, zpay
 										<th>거래유형</th>
 										<th>변동금액</th>
 										<th>약정계좌잔액</th>
+										<th>거래일</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
@@ -84,6 +85,7 @@ function loadDetail(index, orderSecondhandIdx, orderAuctionIdx, auctionIdx, zpay
 											<td>${zeroAccountHistory.zero_account_type }</td>
 											<td><fmt:formatNumber value="${zeroAccountHistory.zero_account_amount}" pattern="#,##0"/></td>
 											<td><fmt:formatNumber value="${zeroAccountHistory.zero_account_balance}" pattern="#,##0"/></td>
+											<td>${zeroAccountHistory.zero_account_time}</td>
 											<td>
 												<a class="btn btn-sm btn-outline-dark" onclick="loadDetail(${vs.index}, ${zeroAccountHistory.order_secondhand_idx}, ${zeroAccountHistory.order_auction_idx}, ${zeroAccountHistory.auction_idx}, ${zeroAccountHistory.zpay_history_idx})">상세보기</a>
 											</td>

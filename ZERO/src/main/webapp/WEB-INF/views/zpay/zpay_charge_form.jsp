@@ -103,6 +103,10 @@
 		
 	})
 	
+// 	$(function()) {
+// 		$("#")
+// 	})
+	
 </script>
 <style type="text/css">
 	.container {
@@ -118,7 +122,8 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zpay_charge_pro" method="post">
+				<form action="zpay_passwd_check" method="post">
+<!-- 				<form action="zpay_charge_pro" method="post"> -->
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="">
 					<input type="hidden" name="zpay_deal_type" value="충전">
@@ -157,13 +162,13 @@
 								<div class="title">
 									출금 계좌
 								</div>
-								<button type="button" class="withdrawalAccount_info" data-toggle="modal" data-target="#exampleModalCenter">
-<!-- 									<div class="withdrawalAccount_info"> -->
-										<div class="withdrawalBankName">${zpay.zpay_bank_name }</div>
-										<div class="withdrawalAccountNum">${zpay.zpay_bank_account }</div>
-										<div class="moreAccountInfo"><i class="fi fi-rr-angle-down"></i></div>
-<!-- 									</div> -->
-								</button>
+								<div class="withdrawalAccount_info">
+<!-- 								<button type="button" class="btn-withdrawalAccount_info" data-toggle="modal" data-target="#exampleModalScrollable"> -->
+									<div class="withdrawalBankName">${zpay.zpay_bank_name }</div>
+									<div class="withdrawalAccountNum">${zpay.zpay_bank_account }</div>
+<!-- 									<div class="moreAccountInfo"><i class="fi fi-rr-angle-down"></i></div> -->
+<!-- 								</button> -->
+								</div>
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
@@ -176,28 +181,52 @@
 	</article>
 	<footer>
 	</footer>
-	<!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
+	
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-titl" id="exampleModalScrollableTitle">계좌선택</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="myAccountArea">
+					<div class="myAccountListArea">
+						<ul>
+							<c:forEach var="account" items="${myAccountList }">
+								<li>
+									<a href="#" class="myAccountItem">
+										<div class="myAccountItem_infoArea">
+											<div class="myAccountItem_info">
+												${account.zpay_bank_name }
+												<div class="myAccountItem_info_sub">
+													<span class="bank_name">
+														${account.zpay_bank_name }
+													</span>
+													<span class="bank_account">${account.zpay_bank_account }</span>
+												</div>
+											</div>
+										</div>
+									</a>
+								</li>
+							</c:forEach>
+							<li>
+								<a href="bankUserInfo" class="myAccountItem">
+									<div class="myAccountItem_infoArea">
+										<div class="moreAccount text-center">
+											+ 계좌 등록하기
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 </body>

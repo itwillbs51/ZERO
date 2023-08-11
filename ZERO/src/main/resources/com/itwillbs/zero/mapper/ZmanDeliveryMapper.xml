@@ -16,6 +16,22 @@
 		WHERE zman_delivery_status = "배달 예정"
 	</select>
 	
+	<!-- ZMAN 배달 출발지 리스트 가져오기 -SELECT -->
+	<select id="selectDeliveryStartspotList" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
+		SELECT
+			zman_delivery_startspot
+			FROM
+				ZMAN_DELIVERY
+	</select>
+	
+	<!-- 마커 클릭 시 보여줄 정보 가져오기 -->
+	<select id="selectMarkerClickInfo" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
+		SELECT
+			*
+			FROM
+				ZMAN_DELIVERY
+	</select>
+	
 	<!-- DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx -->
 	<select id="selectDeliveryLocation" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
 		SELECT *
@@ -44,6 +60,58 @@
 				zman_delivery_idx = #{zman_delivery_idx};
 	</select>
 	
+
+	<!-- ZMAN zman_delivery_status "배달 시작" 로 변경하기 -->
+	<update id="updateDeliveryDetail">
+		UPDATE 
+			ZMAN_DELIVERY 
+			SET 
+				zman_delivery_starttime = now()
+				, zman_delivery_status = '배달 시작'
+			WHERE
+				zman_delivery_idx = #{zman_delivery_idx};
+	</update>
+	
+	<!-- ZMAN zman_delivery_status "배달 완료" 로 변경하기 -->
+	<update id="updateDeliveryEnd">
+		UPDATE 
+			ZMAN_DELIVERY 
+			SET 
+				zman_delivery_endtime = now()
+				, zman_delivery_status = '배달 완료'
+			WHERE
+				zman_delivery_idx = #{zman_delivery_idx};
+	</update>
+	
+	<!--  -->
+	<insert id="insertDeliveryDone">
+	    INSERT INTO ZMAN_EARNING (
+	        zman_earning_idx
+	        , zman_delivery_commission
+	        , zman_delivery_idx
+	        , zman_id
+	    )
+	    VALUES (
+		        null
+		        , #{zman_delivery_commission}
+		        , #{zman_delivery_idx}
+		        , #{zman_id}
+		    )
+	</insert>
+	
+	<!-- ZMAN 배달 완료 내역 페이지로 이동 -->
+	<select id="selectDeliveryDoneList" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
+		SELECT
+			zd.*, os.order_secondhand_product
+		FROM
+			ZMAN_DELIVERY zd 
+		JOIN
+			ORDER_SECONDHAND os
+			ON 
+				zd.order_secondhand_idx = os.order_secondhand_idx
+		WHERE zman_delivery_status = "배달 완료"
+	</select>
+
 	<!-- updateDeliveryDetailStart -->
 <!-- 	<update id="updateDeliveryDetailStart"> -->
 <!-- 		UPDATE -->

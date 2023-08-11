@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+
 <meta charset="UTF-8">
 <title> ZERO | 경매상세 </title>
 	
@@ -56,7 +56,21 @@ $(function(){
 	  let currentTime = padZero(hours, 2)+':'+padZero(minutes, 2)+':'+padZero(seconds, 2);
 	  
 	  $('#clock').html('<h3>'+currentTime+'</h3>');
-
+      if(currentTime=="00:00:00"){
+    	  $("#clock").css("display", "none");
+    		$("#clockTitle").css("display", "none");
+    		$("#bottomRight").css("display", "none");
+    		$("#usersArea").css("display", "none");
+    		$("#presentPriceTitle").html("<b>최종낙찰가격</b>");
+    		
+    		var str = "<div  style=' text-align: center;'>";
+    		str += "<b> --------경매종료-------- </b>";
+    		str += "</div>";
+      $("#msgArea").append(str);
+  	$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
+    		
+    	  
+      }
 // 	  setInterval(updateTime, 1000);
 	  setTimeout(updateTime, 1000);
 	  
@@ -298,7 +312,7 @@ $("#bid_price").on("keyup",function(key){
 $("#button-send2").on("click", function(e) {
 	
 	
-	  let result = confirm($("#maxPrice").html()+"원 입니다 즉시구매 하시겠습니까?");
+	  let result = confirm("즉시구매가격은 "+$("#maxPrice").html()+"원 입니다 즉시구매 하시겠습니까?");
 
       if(!result){return false;}
       $.ajax({
@@ -309,9 +323,12 @@ $("#button-send2").on("click", function(e) {
   		type: "POST",
   		success: function(result) {
   			if(result == "false"){
+  				alert("입찰가능금액이 부족합니다");
+  				return;
+  			}else if (result ==false2) {
   				alert("경매종료");
   				return;
-  			}
+			}
   			 $.ajax({
   		  		data: {
   		  			'order_auction_idx':result
@@ -361,6 +378,22 @@ function sendMessage() {
 		success: function(result) {
 			if(result == "true") {
 				sock.send(bid_price)
+				
+			}else if (result == "false") {
+				alert("입찰가능금액이 부족합니다");
+				
+			}else if(result == "false2") {
+				$("#button-send2").click();
+				
+			}else if(result == "false3") {
+				alert("현재가격 부터 입찰 가능합니다");
+				
+			}else if(result == "false4") {
+				alert("현재가격 보다 높게 입찰 가능합니다");
+				
+			}else if(result == "false5") {
+				alert("경매 종료");
+				 location.reload();
 				
 			} else {
 				alert("실패!");

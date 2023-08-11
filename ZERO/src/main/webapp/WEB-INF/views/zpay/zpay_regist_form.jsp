@@ -88,7 +88,6 @@
 										</c:when>
 										<c:otherwise>
 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌등록하기</a>		
-<!-- 											<a href="bankUserInfo" class="btn"  id="bankUserInfoButton">계좌관리</a> -->
 										</c:otherwise>
 									</c:choose>	
 								</div>
