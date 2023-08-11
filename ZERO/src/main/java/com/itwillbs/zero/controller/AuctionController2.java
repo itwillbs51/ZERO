@@ -146,8 +146,10 @@ public class AuctionController2 {
 		int bidedZpay=service.getBidedZpay(member_id,id);
 		int possibleZpay=balance-bidedZpay;
 		
-		if(possibleZpay<maxPrice || auction_manage_status!=null) {
+		if(possibleZpay<maxPrice) {
 		return "false";
+		}else if(auction_manage_status!=null){
+			return "false2";
 		}
 		HashMap<String, String> winner = new HashMap<String, String>();
 		winner.put("member_id", member_id);

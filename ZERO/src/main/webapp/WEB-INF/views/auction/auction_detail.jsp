@@ -323,9 +323,12 @@ $("#button-send2").on("click", function(e) {
   		type: "POST",
   		success: function(result) {
   			if(result == "false"){
+  				alert("입찰가능금액이 부족합니다");
+  				return;
+  			}else if (result ==false2) {
   				alert("경매종료");
   				return;
-  			}
+			}
   			 $.ajax({
   		  		data: {
   		  			'order_auction_idx':result
