@@ -143,8 +143,8 @@ public class MemberService {
 	}
 
 	// 회원 중고상품 리뷰 등록
-	public int writeShReview(MemberReviewVO review, String review_reader_id, String review_writer_id, int order_secondhand_idx) {
-		return mapper.insertShReview(review, review_reader_id, review_writer_id, order_secondhand_idx);
+	public int writeShReview(MemberReviewVO review, String review_reader_id, String review_writer_id, int order_secondhand_idx, int member_review_rating, String member_review_content) {
+		return mapper.insertShReview(review, review_reader_id, review_writer_id, order_secondhand_idx, member_review_rating, member_review_content);
 	}
 
 	// 회원 대표 주소록 추가(add_num : 주소록 번호) - 수정
