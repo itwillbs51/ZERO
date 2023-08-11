@@ -177,6 +177,16 @@ public class SecondhandService {
 		// TODO Auto-generated method stub
 		return mapper.selectSearchSecondhandCount(productSearchKeyword);
 	}
+	
+	
+	
+	
+	
+	// 신고하기 insert 작업
+	public int registReport(String reportType, String reportReason, String secondhand_idx, String member_id, String report_member_id) {
+		
+		return mapper.insertReport(reportType, reportReason, secondhand_idx, member_id, report_member_id);
+	}
 
 
 

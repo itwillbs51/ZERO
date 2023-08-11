@@ -18,6 +18,87 @@
 <title>ZERO</title>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <script type="text/javascript">
+//신고타입선택시 표시될 신고사유 셀렉트 박스
+function categoryChange(e) {
+    var report_member = ["도배 행위", "사기 행위", "욕설", "비매너"];
+    var report_zman = ["불친절", "배달 누락"];
+    var report_goods = ["주류, 담배", "전문 의약품, 의료기기", "위조상품", "부정확한 상품 정보", "전문업자 의심"];
+    var target = document.getElementById("report");
+ 
+    if(e.value == "member") var d = report_member;
+    else if(e.value == "zman") var d = report_zman;
+    else if(e.value == "goods") var d = report_goods;
+ 
+    target.options.length = 0;
+ 
+    for (var x in d) {
+        var opt = document.createElement("option");
+        opt.value = d[x];
+        opt.innerHTML = d[x];
+        target.appendChild(opt);
+    }    
+}
+
+
+//신고컨텐츠 전달
+$(document).ready(function() {
+	
+	alert("Document ready")
+
+	  $("#reportForm").submit(function(e) {
+	    e.preventDefault(); // 폼 기본 동작 방지
+	    
+	    // 콘솔에 메시지 출력 (디버깅 용도)
+	    alert("디버깅");
+	    console.log("Form submit event triggered.");
+
+	    const selectedReportType = $("#reportType").val();//선택된 신고타입
+	    const reportReason = $("#report").val();//선택된 신고사유 값
+	    const secondhand_idx = $("#secondhand_idx").val(); //신고된 상품번호(상품에대한 신고시 필요)
+	    const member_id = $("#member_id").val();//신고된 회원아이디(회원에대한 신고시 필요)
+	    const report_member_id = '<%= request.getSession().getAttribute("member_id") %>';
+// 	    const report_member_id = $("#report_member_id").val();//신고한 회원 아이디
+	    console.log("reportType : " + reportReason);
+	   
+	    
+	    
+	    if (!selectedReportType) {
+	      alert("신고 사유를 선택해주세요.");
+	      return;
+	    } 
+
+	    $.ajax({
+	      type: "POST", // 요청 메서드
+	      url: "reportContent", // 서블릿 URL
+	      data: {	//전송할 데이터
+	    	  
+	    	"reportType" : selectedReportType,// 신고타입
+	        "reportReason" : reportReason, //  신고 사유
+	        "secondhand_idx" : secondhand_idx, //신고된 상품번호
+	        "member_id" : member_id, //신고된 회원아이디
+	        "report_member_id" : report_member_id //신고한 회원아이디
+	        
+	      },
+	      success: function(response) {
+	        // 서버의 응답 처리 (성공 시)
+	        alert("요청성공!!");
+
+	        console.log("Server response: " + response);
+	        console.log("신고가 접수되었습니다.");
+	      },
+	      error: function(err) {
+	        // 서버의 응답 처리 (실패 시)
+	        alert("요청실패!!");
+	        console.error("Error: " + JSON.stringify(err));
+	        console.error("신고 접수 중 오류가 발생했습니다.");
+	      }
+	    })
+	  })
+	});
+
+
+</script>
+<script type="text/javascript">
 //슬라이드인덱스
 let slideIndex = 1;//슬라이드인덱스 기본값 1
 showSlides(slideIndex);
@@ -53,31 +134,9 @@ function showSlides(n) {
 }
 
 
-
-
-
-
-// 신고사유 셀렉트 박스
-function categoryChange(e) {
-    var report_member = ["도배 행위", "사기 행위", "욕설", "비매너"];
-    var report_zman = ["불친절", "배달 누락"];
-    var report_goods = ["주류, 담배", "전문 의약품, 의료기기", "위조상품", "부정확한 상품 정보", "전문업자 의심"];
-    var target = document.getElementById("report");
- 
-    if(e.value == "member") var d = report_member;
-    else if(e.value == "zman") var d = report_zman;
-    else if(e.value == "goods") var d = report_goods;
- 
-    target.options.length = 0;
- 
-    for (x in d) {
-        var opt = document.createElement("option");
-        opt.value = d[x];
-        opt.innerHTML = d[x];
-        target.appendChild(opt);
-    }    
-}
 </script>
+
+
 <style>
 article {
 	margin-top: 150px;
@@ -186,6 +245,10 @@ a {
 </head>
 <body>
 	<header><%@ include file="../inc/header.jsp"%></header>
+	<%--신고작업을 위해 히든타입으로 데이터 넘기기 --%>
+	<input type="hidden" id="secondhand_idx" value="${param.secondhand_idx }">
+	<input type="hidden" id="member_id" value="${param.member_id }">
+<%-- 	<input type="hidden" id="report_member_id" value="${sessionScope.member_id }"> --%>
 	
 	<article id="mainArticle">
 		<div class="container">
@@ -525,7 +588,7 @@ a {
 							</div>
 							
 							<!-- body -->
-							<form action="zero_report" method="POST" name="fr">								
+							<form action="zero_report" method="POST" name="fr" id="reportForm">								
 								<div class="modal-body">
 								
 								    <%-- 신고하려는 내용 알려주기 --%>
@@ -539,7 +602,8 @@ a {
 									<div class="reportReason">
 										<h4>사유선택</h4>
 										<div>
-											<select onchange="categoryChange(this)">
+											
+											<select id="reportType" onchange="categoryChange(this)">
 											    <option>신고 타입을 선택해주세요</option>
 											    <option value="member">회원</option>
 											    <option value="zman">ZMAN</option>
@@ -549,7 +613,7 @@ a {
 					 					
 					 					<div>
 											<select id="report">
-												<option>사유 선택</option>
+												<option>신고 사유를 선택하세요</option>
 											</select>
 										</div>
 									</div>
@@ -557,7 +621,7 @@ a {
 								
 								<!-- Footer -->
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-default" data-dismiss="modal" > 신고하기 </button>
+									<button type="submit" id="reportSubmit" class="btn btn-default"> 신고하기 </button>
 								</div>
 							</form>
 						</div> <%-- <div class="modal-content"> --%>

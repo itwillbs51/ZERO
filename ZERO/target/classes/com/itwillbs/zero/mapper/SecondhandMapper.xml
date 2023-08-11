@@ -274,6 +274,55 @@
 
 
 
+	<!-- 신고하기 insert작업 -->
+	<!-- 
+	reportType=에따라 report_type insert
+	report_content는 그대로 입력
+	 -->
+<!-- 	<update id="insertReport"> -->
+<!-- 	      SET FOREIGN_KEY_CHECKS = 0; -->
+	
+<!-- 		INSERT INTO -->
+<!-- 			REPORT( -->
+<!-- 			<if test="reportType.equals('member')"> -->
+<!-- 				report_type -->
+<!-- 				, report_content -->
+<!-- 				, report_status -->
+<!-- 				, report_member_id -->
+<!-- 				, reported_member_id -->
+<!-- 			</if> -->
+<!-- 			<if test="reportType.equals('goods')"> -->
+<!-- 				report_type -->
+<!-- 				, secondhand_idx -->
+<!-- 				, report_content -->
+<!-- 				, report_status -->
+<!-- 				, report_member_id		 -->
+<!-- 				</if> -->
+<!-- 			) -->
+<!-- 		VALUES  -->
+<!-- 			(	 -->
+<!-- 			<if test="reportType.equals('member')"> -->
+<!-- 				report_type = '회원' -->
+<!-- 				, report_content = #{reportReason} -->
+<!-- 				, report_status = '처리전' -->
+<!-- 				, report_member_id = #{report_member_id} -->
+<!-- 				, reported_member_id = #{member_id} -->
+<!-- 			</if> -->
+<!--  			<if test="reportType.equals('zman')"> --> 
+<!--  				report_type = 'ZMAN' --> 
+<!--  			</if> --> 
+<!-- 			<if test="reportType.equals('goods')"> -->
+<!-- 				report_type = '상품' -->
+<!-- 				, secondhand_idx = #{secondhand_idx} -->
+<!-- 				, report_content = #{reportReason} -->
+<!-- 				, report_status = '처리전' -->
+<!-- 				, report_member_id = #{report_member_id} -->
+<!-- 			</if> -->
+<!-- 			)		 -->
+<!--       SET FOREIGN_KEY_CHECKS = 1; -->
+<!-- 	</update> -->
+	
+	
 	
 	
 	
