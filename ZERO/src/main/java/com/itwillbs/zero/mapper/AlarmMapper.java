@@ -24,6 +24,6 @@ public interface AlarmMapper {
 											, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
 	
 	// 알람 총 갯수
-	int selectAlarmCount(@Param("pageNum") int pageNum, @Param("category") String category);
+	int selectAlarmCount(@Param("member_id") String member_id, @Param("pageNum") int pageNum, @Param("category") String category);
 
 }

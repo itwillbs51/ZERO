@@ -492,7 +492,7 @@
 			}
 			
 			// 알림 보내는 함수
-			sendAlarmMessage(holder, "채팅 도착!", messager + " : " + message, "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
+			sendAlarmMessage(holder, "채팅", messager + " : " + message, "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 			
 		} else{
 			
@@ -739,7 +739,7 @@
 		$("#doDeal").attr("disabled", true);
 		
 		// 알림 보내는 함수
-		sendAlarmMessage("${chatRoom.buyer_id}", "거래하기!", "${chatRoom.seller_nickname}" + "님이 거래하기를 선택하셨습니다!", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
+		sendAlarmMessage("${chatRoom.buyer_id}", "거래", "${chatRoom.seller_nickname}" + "님이 거래하기를 선택하셨습니다!", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 		// 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화
 				
 	}	// 거래버튼 시 실행 함수 끝
@@ -846,8 +846,11 @@
 							console.log("거래완료 의사 전달 완료 - Z맨, Z페이");
 						},
 						error: function(request,status,error) {
-							alert("놀라지마세요! z맨, z페이 거래완료 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
+// 							alert("놀라지마세요! z맨, z페이 거래완료 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
 							console.log("DB 저장 실패 - z맨");
+							chatMessage = "거래가 완료되었습니다! 후기로 서로에게 따뜻한 마음을 전해보세요!";
+							sendMessage('notice@test.com');
+							// 알림 보내는 함수
 						}
 					});	// ajax끝
 				}	// if문 끝
