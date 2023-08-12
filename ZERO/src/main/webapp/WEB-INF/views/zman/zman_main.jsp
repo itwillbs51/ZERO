@@ -99,21 +99,16 @@
 							<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
 								<div class="user_detail" data-v-32a5de90="">
 									<div class="user_thumb01" data-v-32a5de90="">
-										<br>
-										
-										<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
-										<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
-										<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
-										<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp;
-										<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
-											<%-- 프로필 관리는 사이드바로 빼기 --%>
-	<!-- 										<a href="/my/profile-edit" type="button" -->
-	<!-- 											class="btn btn outlinegrey small" data-v-43813796="" -->
-	<!-- 											data-v-32a5de90=""> 프로필 관리 </a> -->
-									</div>
+									<br>
+									<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
+									<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
 								</div>
 							</div>
-						</section>
+						</div>
+					</section>
 					<hr>
 					
 <!-- 					<section id="sec02"> -->
