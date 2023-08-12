@@ -43,8 +43,8 @@ public class AlarmService {
 	}
 
 	// 알람 총 갯수
-	public int getAlarmCount(int pageNum, String category) {
-		return mapper.selectAlarmCount(pageNum, category);
+	public int getAlarmCount(String member_id, int pageNum, String category) {
+		return mapper.selectAlarmCount(member_id, pageNum, category);
 	}
 	
 	

@@ -227,19 +227,44 @@ $(function(){
 
 });
 
+//정규표현식으로 전화번호 판별
+function validatePhone() {
+    var phoneInput = document.getElementById("phone");
+//     var phoneMessage = document.getElementById("input_error_phone");
+    var regex = /^(010|011)-[\d]{4}-[\d]{3,4}$/;
+
+    if (!regex.test(phoneInput.value)) {
+    	console.log('1'+phoneInput.value);
+    	$("#input_error_phone").css({
+		    "display": "block",
+		});
+//     	obj.focus();
+//         return false;
+        
+    } else {
+    	console.log('2'+phoneInput.value);
+        $("#input_error_phone").css({
+		    "display": "none",
+		});
+    }
+}
+
+<%-- 버튼 활성화 함수 호출 --%>
 function handleInput() {
 	  const input = document.getElementById('phone');
 	  autoHyphen2(input);
+	  validatePhone()
 	  btnChange(input);
 }
 
-
+<%-- 입력 전화번호 형태 표시 --%>
 const autoHyphen2 = (target) => {
 	 target.value = target.value
 	   .replace(/[^0-9]/g, '')
 	  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 }
 
+<%-- 전화번호 11자리 이상일 경우에만 버튼 클릭 --%>
 function btnChange(input) {
 	  if (input.value.length > 11) {
 	    $('#btnFind').removeClass('disabled');
@@ -247,12 +272,15 @@ function btnChange(input) {
 	    $('#btnFind').addClass('disabled');
 	  }
 }
-
+<%-- 마스킹된 이메일 출력 --%>
 function clickBtn() {
 	$("#emailDiv, #btnRewrite, #btnLogin").removeClass('blind');
 	$("#phone").addClass('readonly');
 	$("#btnFind").addClass('blind');
 // 	$("#goLoginBtn").removeClass('blind');
+	$("#input_error_phone").css({
+		    "display": "none",
+	});
 	
 	var testPhone = $('#phone').val().replaceAll('-','');
 	console.log(testPhone);
@@ -267,10 +295,11 @@ function clickBtn() {
        },
        success: function (result) {
            console.log('ajax - checkUserEmail:' + result);
+           
            if(result != 'false') {
 	           var masked_email = result.replace(/^(.{2})(.*)(.{3})(@.*)$/, (_, prefix, middle, suffix, domain) => prefix + '*'.repeat(middle.length) + suffix + '*'.repeat(domain.length));
 	
-	           console.log(masked_email); // Output: "ad***@nav**.com"
+	           console.log(masked_email); // Output: "ad***@nav******"
 	           $("#email").text(masked_email);
            } else {
         	   $("#email").text('등록된 이메일이 없습니다!');
@@ -313,6 +342,7 @@ function clickBtn() {
 									<div class="input_item">
 										<input type="tel" placeholder="가입하신 휴대폰 번호" autocomplete="off" class="input_txt" id="phone" oninput="handleInput();" maxlength="13">
 									</div>
+									<p class="input_error" id="input_error_phone" data-v-4e1fd2e6="" data-v-2b15bea4="">휴대폰 번호를 정확히 입력해주세요.</p>
 								</div>
 								<div class="input_box blind" id="emailDiv">
 									<h3 class="input_title">이메일</h3>

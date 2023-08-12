@@ -9,6 +9,7 @@ public class ZpayVO {
 	private String zpay_bank_account;
 	private String member_id;
 	private int zpay_iscertification;
+	private String zpay_passwd;
 
 	private String access_token;
 	private String fintech_use_num;

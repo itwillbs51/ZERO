@@ -39,7 +39,7 @@
 		<div class="container">
 			<div class="contentArea">
 			<%-- 메인영역 --%>
-				<div class="contentAreaZpay">
+				<div class="successContentArea">
 					<div class="targetArea">
 						<div class="icon">
 							<img alt="zpay_success" src="${pageContext.request.contextPath }/resources/img/zpay_success.png">
@@ -76,7 +76,7 @@
 						</div>
 					</div>
 					<div class="buttonArea">
-						<a href="zpay_charge_form" class="btn btn-outline-secondary btn-lg moreCharge">충전하기</a>
+<!-- 						<a href="zpay_charge_form" class="btn btn-outline-secondary btn-lg moreCharge">충전하기</a> -->
 						<a href="zpay_main" class="btn btn-secondary btn-lg zpayHistory">ZPAY 내역</a>
 					</div>
 				</div><%-- successContentArea 영역 끝 --%>	
@@ -84,6 +84,7 @@
 		</div><%-- container 영역 끝 --%>
 	</article>
 	<footer>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 
 </body>

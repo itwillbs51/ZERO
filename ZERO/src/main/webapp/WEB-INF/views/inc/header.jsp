@@ -206,7 +206,7 @@
 		// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
 		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
 		let alarmListCount = $(".alarmItem").length;
-		if(alarmListCount > 6) {
+		if(alarmListCount >= 7) {
 			$(".alarmItem").last().remove();
 			console.log("클래스가 alarmItem인 요소의 개수: " + alarmListCount);
 		}

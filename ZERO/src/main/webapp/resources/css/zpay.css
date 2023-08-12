@@ -761,8 +761,10 @@
 	
 	
 	
-/* ============================ zpay_charge_form.jsp ============================= */
-	
+/* ============================ zpay_passwd_regist.jsp ============================= */
+	#zpay_passwd_check1, #zpay_passwd_check2 {
+		font-size: 14px;
+	}
 	
 	
 	

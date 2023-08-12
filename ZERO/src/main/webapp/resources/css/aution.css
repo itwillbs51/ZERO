@@ -119,7 +119,7 @@ li, ul {
     display: grid;
     grid-template-columns: repeat(4,minmax(0,1fr));
     grid-row-gap: 16px;
-    row-gap: 25px;
+    row-gap: 40px;
     grid-column-gap: 10px;
     -webkit-column-gap: 10px;
     -moz-column-gap: 10px;
@@ -157,7 +157,7 @@ li, ul {
 	line-height: 16px;
 /* 	vertical-align: middle; */
 	display: flex;
-	align-items: center;
+/* 	align-items: center; */
 	height: 32px;
     font-size: 14px;
     overflow: hidden;
@@ -165,7 +165,7 @@ li, ul {
 /*     display: -webkit-box; */
     -webkit-line-clamp: 2; /* 두 줄까지는 보이게 */
     -webkit-box-orient: vertical;
-/* 	white-space: nowrap; 영역보다 커도 줄 바꿈하지마라 */
+/*  	white-space: nowrap; 영역보다 커도 줄 바꿈하지마라 */
 }
 
 .item_inner {
@@ -206,6 +206,10 @@ li, ul {
 	display: flex;
 	justify-content: center;
 	margin: 5px 10px;
+}
+.applyInfo>span {
+/* 	vertical-align: middle; */
+	padding: 3px 10px 0 0;
 }
 /* 입찰 예정(버튼도 같이 정렬) */
 .applyInfos {

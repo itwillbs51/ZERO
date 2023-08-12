@@ -51,8 +51,8 @@
 <!-- 					<hr> -->
 					<div class="art_firstRow">
 						<div class="product_photo co01">
-							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" onclick="secondhandDetail()">
-<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}"> --%>
+<%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" onclick="secondhandDetail()"> --%>
+							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}">
 						</div>
 						<div class="co02" onclick="secondhandDetail()">
 							<div class="co02-1">${secondhandInfo.secondhand_deal_status }</div>
@@ -327,14 +327,15 @@
 		chatMessage = $('#msg').val();
 		chatImgMessage = $("#imgform input").val();
 		
-		if(chatMessage != "") {
+		if(chatMessage != "") {	// 빈칸이 아닐때만 전송하기
 			sendMessage(sender);
 			$('#msg').val('');
-// 		} else if(chatImgMessage != "") {
+		}
+// 		else if(chatImgMessage != "") {	// 이미지가 있을 때 버튼을 누르면
 // 			console.log(chatImgMessage);
 // 			var form = document.getElementById("imgform");
 // 	        form.submit();
-		}
+// 		}
 	});
 	
 	// 엔터 누르면 보내지는 이벤트
@@ -492,7 +493,7 @@
 			}
 			
 			// 알림 보내는 함수
-			sendAlarmMessage(holder, "채팅 도착!", messager + " : " + message, "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
+			sendAlarmMessage(holder, "채팅", messager + " : " + message, "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 			
 		} else{
 			
@@ -673,9 +674,10 @@
 		});	// 버튼 클릭 시 호출되는 함수 끝
 		
 		// Z맨 호출 정보를 입력 외에는 사용못하게 하기
-		if("${zmanCallInfo.zman_delivery_status}" == '입력 중' || "${orderSecondhandInfo.order_secondhand_status}" == '거래진행중') {
-			$(".callZBtn").attr("disabled", false);
-		}
+		if("${zmanCallInfo.zman_delivery_status}" != '입력 중' || "${orderSecondhandInfo.order_secondhand_status}" != ('거래진행중' || '결제완료')) {
+			$(".callZBtn").attr("disabled", true);
+		} 
+		
 		
 	});	// 함수 호출 끝
 	
@@ -723,7 +725,7 @@
 				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>택배로 받기</b>를 선택하셨습니다.<br> 안전거래 되세요!<br>';
 				chatMessage += '최종가격 : <span id="payPrice">' + finalPrice + '</span>원<br>';
 				chatMessage += '<c:if test="${secondhandInfo.member_id eq sessionScope.member_id}">';
-				chatMessageBtn = '<button class="btn btn-dark" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
+				chatMessageBtn = '<button class="btn btn-dark applyTB" onclick="location.href=\'https://www.cjlogistics.com/ko/tool/parcel/reservation-general\'">CJ대한통운 택배예약</button>';
 				chatMessageBtn1 = '</c:if>';
 				setOrderSecondhand("택배");
 				// 세션에 따라 보이는 값 달리하기 위한 변수들 합쳐서 DB에 저장하기
@@ -734,12 +736,18 @@
 		}	// switch문 끝
 		// 메세지 보내기
 		sendMessage('notice@test.com');
-		$("#msgArea").append(chatMessageBtn);
+		// 버튼이 있는 경우는 버튼을 먼저 페이지에 보여주기
+		$("#msgArea").append(
+				'<div class="noticeMsg">'
+				+ '<span>'
+				+ chatMessageBtn
+				+ '</span></div>'
+		);
 		// 거래하기 비활성화
 		$("#doDeal").attr("disabled", true);
 		
 		// 알림 보내는 함수
-		sendAlarmMessage("${chatRoom.buyer_id}", "거래하기!", "${chatRoom.seller_nickname}" + "님이 거래하기를 선택하셨습니다!", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
+		sendAlarmMessage("${chatRoom.buyer_id}", "거래", "${chatRoom.seller_nickname}" + "님이 거래하기를 선택하셨습니다!", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 		// 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화
 				
 	}	// 거래버튼 시 실행 함수 끝
@@ -802,7 +810,7 @@
 				sendMessage('notice@test.com');
 				$(".callZBtn").attr("disabled", true);
 				// 알림 보내는 함수
-				sendAlarmMessage("${chatRoom.buyer_id}", "Z맨 호출"
+				sendAlarmMessage("${chatRoom.buyer_id}", "Z맨"
 						, "Z맨 호출이 접수되었습니다! 상품명 - " + "${secondhandInfo.secondhand_subject }", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 				break;
 			case 'zpay':
@@ -846,8 +854,11 @@
 							console.log("거래완료 의사 전달 완료 - Z맨, Z페이");
 						},
 						error: function(request,status,error) {
-							alert("놀라지마세요! z맨, z페이 거래완료 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
+// 							alert("놀라지마세요! z맨, z페이 거래완료 테스트중인데 DB에 잘들어가요!\n" + "error:" + error);
 							console.log("DB 저장 실패 - z맨");
+							chatMessage = "거래가 완료되었습니다! 후기로 서로에게 따뜻한 마음을 전해보세요!";
+							sendMessage('notice@test.com');
+							// 알림 보내는 함수
 						}
 					});	// ajax끝
 				}	// if문 끝
@@ -882,8 +893,8 @@
 </script>
 	
 	<!-- footer -->
-	<footer>
-		<div>여기 footer</div>
-	</footer>
+<!-- 	<footer> -->
+<%-- 		<%@ include file="../inc/footer.jsp"%> --%>
+<!-- 	</footer> -->
 </body>
 </html>

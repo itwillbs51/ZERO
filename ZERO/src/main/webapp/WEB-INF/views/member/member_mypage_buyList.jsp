@@ -212,19 +212,23 @@
       </div>
       <div class="modal-body">
         <form id="review-form" action="member_buyList_review" method="post">
-        	 <input type="hidden" name="review_writer_id" value="${sessionScope.member_id }"> 
+        	 <input type="hidden" name="review_writer_id" id="review_writer_id"> 
+        	 <input type="hidden" name="review_reader_id" id="review_reader_id"> 
+        	 <input type="hidden" name="order_secondhand_idx" id="order_secondhand_idx"> 
+        	 <input type="hidden" name="member_review_rating" id="member_review_rating"> 
+        	 <input type="hidden" name="member_review_content" id="member_review_content"> 
             <div class="form-group">
             <fieldset id="myform" name="member_review_rating">
 			  <span class="text-bold">별점을 선택해주세요</span>
-			  <input type="radio" name="reviewStar" value="1" id="rate1" />
+			  <input type="radio" name="member_review_rating" value="1" id="rate1" />
 			  <label for="rate1">★</label>
-			  <input type="radio" name="reviewStar" value="2" id="rate2" />
+			  <input type="radio" name="member_review_rating" value="2" id="rate2" />
 			  <label for="rate2">★</label>
-			  <input type="radio" name="reviewStar" value="3" id="rate3" />
+			  <input type="radio" name="member_review_rating" value="3" id="rate3" />
 			  <label for="rate3">★</label>
-			  <input type="radio" name="reviewStar" value="4" id="rate4" />
+			  <input type="radio" name="member_review_rating" value="4" id="rate4" />
 			  <label for="rate4">★</label>
-			  <input type="radio" name="reviewStar" value="5" id="rate5" />
+			  <input type="radio" name="member_review_rating" value="5" id="rate5" />
 			  <label for="rate5">★</label>
 			</fieldset>
             </div>
@@ -240,7 +244,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <button type="submit" id="reviewBtn" class="btn btn-primary" form="review-form">리뷰 작성</button>
+        <button type="submit" id="reviewBtn" class="btn btn-primary" form="review-form" >리뷰 작성</button>
       </div>
     </div>
   </div>
@@ -275,6 +279,11 @@ function openReviewPopup(event
   event.preventDefault();
   event.stopPropagation();
 
+  // Set hidden input values
+  $("#review_reader_id").val(review_reader_id);
+  $("#review_writer_id").val(review_writer_id);
+  $("#order_secondhand_idx").val(parseInt(order_secondhand_idx));
+  
   // Show the modal
   $("#reviewModal").modal("show");
 
@@ -312,32 +321,39 @@ document.addEventListener("DOMContentLoaded", function () {
     const labels = document.querySelectorAll("#myform label");
 
     stars.forEach((star, index) => {
-      star.addEventListener("change", () => {
-        labels.forEach((label, idx) => {
-          if (idx <= index) {
-            label.style.color = "rgba(250, 208, 0, 0.99)";
-          } else {
-            label.style.color = "transparent";
-          }
+        // 변경된 부분
+        star.addEventListener("change", (e) => {
+            const selectedStar = parseInt(e.target.value, 10); // 추가된 코드
+            labels.forEach((label, idx) => {
+                // 변경된 부분
+                if (idx === selectedStar - 1) $("#member_review_rating").val(selectedStar); // 추가된 코드
+                if (idx <= index) {
+                    label.style.color = "rgba(250, 208, 0, 0.99)";
+                } else {
+                    label.style.color = "transparent";
+                }
+            });
         });
-      });
     });
 
     const form = document.getElementById('review-form');
     const reviewBtn = document.getElementById('reviewBtn');
     
     reviewBtn.addEventListener('click', (event) => {
-      if (!form.checkValidity() || !form.querySelector('input[name="reviewStar"]:checked')) {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        if (!form.querySelector('input[name="reviewStar"]:checked')) {
-          alert('별점을 클릭해주세요');
+        if (!form.checkValidity() || !form.querySelector('input[name="member_review_rating"]:checked')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (!form.querySelector('input[name="member_review_rating"]:checked')) {
+                alert('별점을 클릭해주세요');
+            }
+        } else {
+        	document.getElementById('member_review_content').value = document.getElementById('message-text').value;
         }
-      }
-      form.classList.add('was-validated');
+        form.classList.add('was-validated');
     });
-  });
+});
+
 </script>
 
 </body>

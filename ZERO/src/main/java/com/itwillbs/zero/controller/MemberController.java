@@ -671,9 +671,11 @@ public class MemberController {
 		// 핸드폰번호와 일치하는 이메일 주소가 있을 경우 이메일 주소 리턴
 		Map result = service.isMemberCheck(column, value);
 		System.out.println(result);
-		System.out.println(result.get("member_id"));
+//		System.out.println(result.get("member_id"));
 		if(result != null) {
 			phone = result.get("member_id").toString();
+		} else {
+			phone = "false";
 		}
 		
 		return phone;
@@ -1349,9 +1351,11 @@ public class MemberController {
 									  , Model model
 									  , @RequestParam("review_reader_id") String review_reader_id
 									  , @RequestParam("review_writer_id") String review_writer_id
-									  , @RequestParam("order_secondhand_idx") int order_secondhand_idx) {
+									  , @RequestParam("order_secondhand_idx") int order_secondhand_idx
+									  , @RequestParam("member_review_rating") int member_review_rating
+									  , @RequestParam("member_review_content") String member_review_content) {
 		// MemberService(writeShReview()) - Member_mapper(insertwriteShReview())
-		int insertCount = service.writeShReview(review, review_reader_id, review_writer_id, order_secondhand_idx);
+		int insertCount = service.writeShReview(review, review_reader_id, review_writer_id, order_secondhand_idx, member_review_rating, member_review_content);
 		
 		if(insertCount > 0) {
 			return "redirect:/member_mypage_buyList";
