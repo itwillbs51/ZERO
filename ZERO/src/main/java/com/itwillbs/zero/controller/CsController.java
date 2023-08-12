@@ -178,6 +178,8 @@ public class CsController {
 	// 고객센터관리 - cs_faq.jsp로 디스패치
 	@GetMapping("cs_faq")
 	public String cs_faq() {
+		System.out.println("CsController - cs_faq");
+		
 		return "cs/cs_faq";
 	}
 	

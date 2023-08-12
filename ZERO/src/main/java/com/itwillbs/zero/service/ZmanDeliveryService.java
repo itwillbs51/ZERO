@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.zero.mapper.ZmanDeliveryMapper;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Service
 public class ZmanDeliveryService {
@@ -63,10 +64,21 @@ public class ZmanDeliveryService {
 		return mapper.selectMarkerClickInfo(markerTitle);
 	}
 
-	// ZMAN 배달 완료 내역 페이지로 이동
-	public List<ZmanDeliveryVO> getDeliveryDoneList() {
-		return mapper.selectDeliveryDoneList();
+
+	// ZMAN 배달 완료 리스트 가져오기
+//	public List<ZmanDeliveryVO> getDeliveryDoneList() {
+//		return mapper.selectDeliveryDoneList();
+//	}
+	public List<ZmanDeliveryVO> getDeliveryDoneList(String zman_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectDeliveryDoneList(zman_id);
 	}
+
+	// ZMAN 마이페이지의 ZPAY 정보 가져오기
+	public ZpayVO getZpay(String member_id) {
+		return mapper.selectZpay(member_id);
+	}
+
 
 
 	

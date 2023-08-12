@@ -64,6 +64,7 @@ public class ZmanController {
 		    return "member/member_zman_join_identification";
 		} else if (member_type.equals("Z맨") || member_type.equals("직원") || zman.getZman_status().equals("활동")) {
 		    model.addAttribute("zman", zman);
+		    
 		    return "zman/zman_main";
 		} else if (zman.getZman_status().equals("대기") || zman.getZman_status().equals("탈퇴")) {
 		    model.addAttribute("zman", zman);
@@ -76,7 +77,13 @@ public class ZmanController {
 	
 	// ZMAN 정산내역 페이지로 이동
 	@GetMapping("zman_earning")
-	public String zmanEarning() {
+	public String zmanEarning(HttpSession session, Model model) {
+		System.out.println("ZmanController - zman_earning");
+		
+		String member_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(member_id);
+		model.addAttribute("zman", zman);
+		
 		return "zman/zman_earning";
 	}
 	
@@ -89,6 +96,10 @@ public class ZmanController {
 		System.out.println("ZmanDeliveryVO : " + zmanDeliveryYetList);
 //		System.out.println(zmanDeliveryYetList.);
 		model.addAttribute("zmanDeliveryYetList", zmanDeliveryYetList);
+		
+		String member_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(member_id);
+		model.addAttribute("zman", zman);
 		
 		return "zman/zman_delivery_want";
 	}
@@ -128,9 +139,13 @@ public class ZmanController {
 	// ZMAN zman_delivery_status "배달 수락"로 변경하기
 	@PostMapping("zman_delivery_ing")
 	public String zmanDeliveyAccept(HttpSession session, Model model, 
-									@RequestParam int zman_delivery_idx, @RequestParam String zman_id) {
+									@RequestParam int zman_delivery_idx) {
 		System.out.println("ZmanController - zman_delivery_ing");
-		System.out.println("zman_id - " + zman_id);
+//		System.out.println("zman_id - " + zman_id);
+		
+		String zman_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(zman_id);
+		model.addAttribute("zman", zman);
 		
 		// 배달 상세 정보 - 출발지와 배달지 가져오기
 		ZmanDeliveryVO zd = service.getDeliveryDetail(zman_delivery_idx);
@@ -140,6 +155,9 @@ public class ZmanController {
 		
 		// 배달 수락 상태로 변경하기
 		int updateCount = service.acceptDelivery(zman_delivery_idx, zman_id);
+		
+		System.out.println("zman_id 넣어진 값 확인 중입니다  -- " + zman_id);
+		
 		
 		if(updateCount > 0) {
 			model.addAttribute("zd", zd);
@@ -156,7 +174,7 @@ public class ZmanController {
 	}
 	
 	// ZMAN zman_delivery_status "배달 시작" 로 변경하기
-	@RequestMapping(value = "zman_delivery_start", method = RequestMethod.GET)
+	@RequestMapping(value = "zman_delivery_start", method = {RequestMethod.GET, RequestMethod.POST})
 	public String zmanDeliveryStart(@RequestParam int zman_delivery_idx, Model model, HttpSession session) {
 		System.out.println("ZmanController - zman_delivery_start");
 		System.out.println("zman_delivery_idx : " + zman_delivery_idx);
@@ -167,12 +185,26 @@ public class ZmanController {
 		if(updateCount > 0) {
 			System.out.println("zman_delivery_status - 배달 시작 으로 변경");
 			
-//			return "zman/zman_delivery_ing";
-			return "redirect:/zman_delivery_ing";
+//			return "zman/zman_delivery_ing2";
+			return "redirect:/zman/zman_delivery_ing";
 		} else {
 			model.addAttribute("msg", "배달 시작 실패!");
 			return "fail_back";
 		}
+		
+//		 if (updateCount > 0) {
+//		        System.out.println("zman_delivery_status - 배달 시작 으로 변경");
+//
+//		        // 배달 시작 후 해당 배달 정보를 다시 조회하여 모델에 추가
+//		        ZmanDeliveryVO zd = service.getDeliveryDetail(zman_delivery_idx);
+//		        model.addAttribute("zd", zd);
+//
+//		        // 배달 시작 후 배달 진행 페이지로 리다이렉트
+//		        return "redirect:/zman_delivery_ing";
+//	    } else {
+//	        model.addAttribute("msg", "배달 시작 실패!");
+//	        return "fail_back";
+//	    }
 		
 	}
 
@@ -181,6 +213,9 @@ public class ZmanController {
 	public String zmanDeliveryEnd(@RequestParam int zman_delivery_idx,@RequestParam String zman_id ,Model model, HttpSession session) { 
 		System.out.println("ZmanController - zman_delivery_end");
 		System.out.println("zman_delivery_idx : " + zman_delivery_idx);
+		
+		String member_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(member_id);
 		
 		// ZMAN 배달 상태 를 '배달 완료'으로 변경하기
 		int updateCount = service.updateDeliveryStatusEnd(zman_delivery_idx);
@@ -192,8 +227,10 @@ public class ZmanController {
 		// ZMAN 정산을 위해 ZMAN_EARNING 테입르에 값 삽입
 		int insertCount = service.insertDeliveryEarning(zman_delivery_idx, zman_id, zd.getZman_delivery_commission());
 		
+		
 		if(updateCount > 0 && insertCount > 0) {
 			System.out.println("zman_delivery_status - 배달 완료 으로 변경");
+			model.addAttribute("zman", zman);
 			
 			return "zman/zman_delivery_done";
 		} else {
@@ -208,44 +245,92 @@ public class ZmanController {
 	public String zmanDeliveryDone(HttpSession session, Model model) {
 		System.out.println("ZmanController - zman_delivery_done");
 		
+		String member_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(member_id);
+		model.addAttribute("zman", zman);
 //		String sId = session.getId();
 		
-		List<ZmanDeliveryVO> zmanDeliveryDoneList = service.getDeliveryDoneList();
-		System.out.println("zmanDeliveryDoneList - " + zmanDeliveryDoneList);
-		
-		model.addAttribute("zmanDeliveryDoneList", zmanDeliveryDoneList);
+//		List<ZmanDeliveryVO> zmanDeliveryDoneList = service.getDeliveryDoneList();
+//		System.out.println("zmanDeliveryDoneList - " + zmanDeliveryDoneList);
+//		
+//		model.addAttribute("zmanDeliveryDoneList", zmanDeliveryDoneList);
 		
 		return "zman/zman_delivery_done";
 	}
 	
+	// ZMAN 배달 완료 리스트 가져오기
+	@ResponseBody
+	@GetMapping("getDeliveryDoneList")
+	public String getDeliveryDoneList(HttpSession session) {
+		System.out.println("ZmanController - getDeliveryDoneList");
+		
+		String zman_id = (String) session.getAttribute("member_id");
+		
+//		List<ZmanDeliveryVO> zmanDeliveryDoneList = service.getDeliveryDoneList();
+		List<ZmanDeliveryVO> zmanDeliveryDoneList = service.getDeliveryDoneList(zman_id);
+		System.out.println("zmanDeliveryDoneList - " + zmanDeliveryDoneList);
+		
+		JSONArray json = new JSONArray(zmanDeliveryDoneList);
+		System.out.println(json);
+		
+		return json.toString();
+	}
+	
+	// ZMAN 배달 완료 상세 페이지로 이동
+	@GetMapping("GetDeliveryDoneDetail")
+	public String getDeliveryDetail(String zman_delivery_idx, Model model, HttpSession session) {
+		System.out.println("Zmancontroller - GetDeliveryDoneDetail ");
+		
+		String member_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(member_id);
+		model.addAttribute("zman", zman);
+		
+		int zmanDeliveryIdx = Integer.parseInt(zman_delivery_idx);
+		
+		ZmanDeliveryVO zmanDeliveryDetail = service.getDeliveryDetail(zmanDeliveryIdx);
+		model.addAttribute("zmanDeliveryDetail", zmanDeliveryDetail);
+		
+		return "zman/zman_delivery_done_detail";
+	}
+	
+	
 	// ZMAN 마이페이지로 이동
 	@GetMapping("zman_myPage")
-	public String zmanMyPage() {
+	public String zmanMyPage(HttpSession session, Model model) {
+		System.out.println("Zmancontroller - zman_myPage ");
+		
+		String member_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(member_id);
+		model.addAttribute("zman", zman);
+		
+		ZpayVO zpay = service.getZpay(member_id);
+		model.addAttribute("zpay", zpay);
+		
 		return "zman/zman_myPage";
 	}
 	
 	// ZMAN 지도 test 페이지로 이동하기
-//	@GetMapping("zman_test_location")
-//	public String zman_test_location(Model model) {
-//		
-//		System.out.println("Zmancontroller -zman_test_location ");
-//		
-//		// DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx
-////		ZmanDeliveryVO zd = service.getDeliveryLocation();
-////		System.out.println("zd - " + zd);
-//		
-////		model.addAttribute("depart", zd.getZman_delivery_startspot());
-////		model.addAttribute("arrive", zd.getZman_delivery_endspot());
-//		
-////		ZMANDELIVERYVO ZD = SERVICE.GETDELIVERYDETAIL(ZMAN_DELIVERY_IDX);
-////		SYSTEM.OUT.PRINTLN("출발지  - " + ZD.GETZMAN_DELIVERY_STARTSPOT());
-////		SYSTEM.OUT.PRINTLN("도착  - " + ZD.GETZMAN_DELIVERY_ENDSPOT());
-//		
-//		model.addAttribute("depart", "부산 부산진구 동천로 109 "); // zman_delivery_startspot 
-//		model.addAttribute("arrive", "부산 부산진구 동천로 4"); // zman_delivery_endspot
-//		
-//		return "zman/zman_test_location";
-//	}
+	@GetMapping("zman_test_location")
+	public String zman_test_location(Model model) {
+		
+		System.out.println("Zmancontroller - zman_test_location ");
+		
+		// DB 에 저장된 출발지와 도착지 가져오기 - 파라미터 zman_delivery_idx
+//		ZmanDeliveryVO zd = service.getDeliveryLocation();
+//		System.out.println("zd - " + zd);
+		
+//		model.addAttribute("depart", zd.getZman_delivery_startspot());
+//		model.addAttribute("arrive", zd.getZman_delivery_endspot());
+		
+//		ZMANDELIVERYVO ZD = SERVICE.GETDELIVERYDETAIL(ZMAN_DELIVERY_IDX);
+//		SYSTEM.OUT.PRINTLN("출발지  - " + ZD.GETZMAN_DELIVERY_STARTSPOT());
+//		SYSTEM.OUT.PRINTLN("도착  - " + ZD.GETZMAN_DELIVERY_ENDSPOT());
+		
+		model.addAttribute("depart", "부산 부산진구 동천로 109 "); // zman_delivery_startspot 
+		model.addAttribute("arrive", "부산 부산진구 동천로 4"); // zman_delivery_endspot
+		
+		return "zman/zman_delivery_want_test";
+	}
 	
 	// 신청 폼
 	@GetMapping("zero_report_form")

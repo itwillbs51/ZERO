@@ -14,117 +14,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <meta charset="UTF-8">
-
-
-<!-- 토스트그리드 -->
-<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-<!-- 
-토스트그리드 - 페이징
-<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script> 보다 위에 있어야 작동함
- -->
-<link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
-<script src="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.js"></script>
-<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-
 <title>Insert title here</title>
-<script type="text/javascript">
-	window.onload = function(){
-		$.ajax({
-			url : "getDeliveryDoneList",
-			method :"GET",
-			dataType : "JSON",
-			success : function(result){
-				grid.resetData(result);
-			}, 
-			error : function () {
-				alert("요청 실패");
-			}
-		});
-		
-		const grid = new tui.Grid({
-			el: document.getElementById('grid'),
-			scrollX: true,
-			scrollY: false,
-			rowHeaders: ['rowNum'],
-			pageOptions: {
-				useClient: true,
-				perPage: 5
-			},
-			columns: [
-// 				{
-// 					header: '배달 번호',
-// 					name: 'zman_delivery_idx',
-// 					sortingType: 'desc',
-// 					sortable: true
-// 				},
-// 				{
-// 					header: '출발지',
-// 					name: 'zman_delivery_startspot'
-// 				},
-// 				{
-// 					header: '도착지',
-// 					name: 'zman_delivery_endspot'
-// 				},
-				{
-					header: '배달 물품',
-					name: 'order_secondhand_product'
-				},
-				{
-					header: '배달료',
-					name: 'zman_delivery_commission'
-				},
-				{
-					header: '수락 시간',
-					name: 'zman_delivery_accepttime'
-// 					sortingType: 'desc',
-// 		            sortable: true
-				},
-				{
-					header: '출발 시간',
-					name: 'zman_delivery_starttime'
-// 					sortingType: 'desc',
-// 		            sortable: true
-				},
-				{
-					header: '도착 시간',
-					name: 'zman_delivery_endtime'
-// 					sortingType: 'desc',
-// 		            sortable: true
-				},
-// 				{
-// 					header: '배달 상태',
-// 					name: 'zman_delivery_status', 
-// 				}, 
-// 				{
-// 					header: '회원타입',
-// 					name: 'member_type', 
-// 					filter: 'select', 
-// 				}, 
-// 				 {
-// 		            header: '상세보기',
-// 		            name: 'member_idx',
-// 		            formatter: function(row, column, value) {
-// 		                let zman_delivery_idx = row.value.zman_delivery_idx;
-// 		                let url = 'GetDeliveryDoneDetail?zman_delivery_idx=' + 'zman_delivery_idx';
-// 		                return '<a class="btn btn-sm btn-outline-dark" href="' + url + '">상세보기</a>';
-// 		            }
-				{
-					header: '상세보기',
-					name: 'zman_delivery_idx', 
-					formatter: function(row, column, value){
-						let url = 'GetDeliveryDoneDetail?zman_delivery_idx=' + JSON.stringify(row.value);
-						return '<a class="btn btn-sm btn-outline-dark" href="' + url + '">상세보기</a>'; 
-					}
-				},
-			]
-		});
-		
-	};
-	
-</script>
 <style type="text/css">
 	#user_membership {
 		margin: 25px;
+	}
+	
+	#sec01 {
+		display: flex;
+		justify-content: center;
+		align-items: center;	
 	}
 
 	.content_title[data-v-88eb18f6] {
@@ -133,14 +32,10 @@
 	    padding-bottom: 16px;
 	    border-bottom: 3px solid #222!important;
 	}
-
-	#sec01 {
-		display: flex;
-		justify-content: center;
-		align-items: center;	
-	}
+	
 </style>
 <script>
+
 
 </script>
 </head>
@@ -158,24 +53,26 @@
 			</nav>
 			<div class="contentArea">
 				<div id="main">
-<!-- 				<h1>배달 완료</h1> -->
+<!-- 				<h1>완료된 배달내역 확인</h1>	 -->
 				<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
 					<div data-v-88eb18f6="" class="title">
-						<h3 data-v-88eb18f6="">배달 완료</h3>
+						<h3 data-v-88eb18f6="">완료된 배달내역 확인</h3>
 					</div>
-				</div>
-									
+				</div>				
+				
 				<%--ZMAN 프로필 영역 --%>
 				<section id="sec01">
 					<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
 						<div class="user_detail" data-v-32a5de90="">
 							<div class="user_thumb01" data-v-32a5de90="">
 								<br>
+<!-- 									<img -->
+<%-- 										src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
+<!-- 										alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
 								
 								<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
 								<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
 								<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
-								<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp;
 								<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
 									<%-- 프로필 관리는 사이드바로 빼기 --%>
 <!-- 										<a href="/my/profile-edit" type="button" -->
@@ -185,11 +82,10 @@
 						</div>
 					</div>
 				</section>
-				
-				<hr>
-					<%-- main 내용 작성 영역 --%>
-					<div id="grid"></div>
 					
+				<hr>
+					
+				
 				
 				</div> <%-- <div id="main">  --%>
 			</div>

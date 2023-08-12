@@ -19,6 +19,23 @@
 	#user_membership {
 		margin: 25px;
 	}
+	
+	/* u 태그 스타일 */
+	  u {
+	    font-size: 1.2em; /* 원하는 크기로 조정 */
+	    font-weight: bold; /* 약간 두껍게 만들기 */
+	  }
+	  
+	button {
+		align-self: center;
+	}
+	
+	.content_title[data-v-88eb18f6] {
+	    display: flex;
+	    padding: 5px 0 6px;
+	    padding-bottom: 16px;
+	    border-bottom: 3px solid #222!important;
+	}
 </style>
 <script>
 
@@ -41,86 +58,111 @@
 					<div id="main">
 						<%-- ZMAN 마이페이지 --%>
 						<%-- 개인정보와 배달정보를 분리해서 나타내기 --%>
-						<h1> 마이페이지 </h1>
-						<form class="row g-3">
+<!-- 						<h1> ZMAN 마이페이지 </h1> -->
+						
+						<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
+							<div data-v-88eb18f6="" class="title">
+								<h3 data-v-88eb18f6="">ZMAN 마이페이지</h3>
+							</div>
+						</div>
+						
+					<%--ZMAN 프로필 영역 --%>
+<!-- 					<section id="sec01"> -->
+<!-- 							<div class="user_membership" data-v-32a5de90="" data-v-412d8616=""> -->
+<!-- 								<div class="user_detail" data-v-32a5de90=""> -->
+<!-- 									<div class="user_thumb01" data-v-32a5de90=""> -->
+<!-- 									<br> -->
+<%-- 									<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp; --%>
+<%-- 									<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp; --%>
+<%-- 									<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp; --%>
+<%-- 									<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp; --%>
+<%-- 									<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong> --%>
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</section> -->
+<!-- 					<hr> -->
+						
+					<section id="sec01">
+						<form class="row g-3" action="zman_delivery_start" method="GET">
 							<%-- 12 --%>
 						    <div class="col-md-4">
-						   		<label for="inputAddress" class="form-label">ZMAN 번호</label>
-						    	<input type="zman_name" class="form-control" id="inputZmanName" disabled="disabled" value="ZMAN.zman_idx">
+						   		<label for="inputAddress" class="form-label"><b><u> 회원번호</u></b></label>
+						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_idx" disabled="disabled" value="${zman.zman_idx}">
 						    </div>
 						    <div class="col-md-4">
-						   		<label for="inputAddress" class="form-label">ZMAN 활동 상태</label>
-						    	<input type="zman_name" class="form-control" id="inputZmanName" disabled="disabled" value="ZMAN.zman_status">
+						   		<label for="inputAddress" class="form-label"><u> 활동 상태</u></label>
+						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_status" disabled="disabled" value="${zman.zman_status}">
 						     </div>
 						    <div class="col-md-4">
 						    	<%-- 탈퇴한 회원이라면 탈퇴한 날짜 --%>
-						   		<label for="inputAddress" class="form-label">가입일</label>
-						    	<input type="zman_id" class="form-control" id="inputZmanId" disabled="disabled" value="ZMAN.zman_date">
+						   		<label for="inputAddress" class="form-label"><u>가입일</u></label>
+						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_date" disabled="disabled" value="${zman.zman_date}">
 						     </div>
 						     <%-- 12 --%>
+						     
+						     
 							 <div class="col-md-4">
-								<label for="inputEmail4" class="form-label">이름</label>
-								<input type="zman_name" class="form-control" id="inputZmanName" disabled="disabled" value="김둘리">
+								<label for="inputEmail4" class="form-label"><u> 이름</u></label>
+								<input type="zman_name" readonly class="form-control-plaintext" id="zman_name" disabled="disabled" value="${zman.zman_name}">
 							 </div>
 						     <div class="col-md-4">
-						    	<label for="inputPassword4" class="form-label">아이디</label>
-						    	<input type="zman_id" class="form-control" id="inputZmanId" disabled="disabled" value="dooly0725@naver.com">
+						    	<label for="inputPassword4" class="form-label"><u> 아이디</u></label>
+						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_id" disabled="disabled" value="${zman.zman_id}">
 						     </div>
 						     <div class="col-md-4">
-						    	<label for="inputPassword4" class="form-label">배달수단</label>
-						    	<input type="zman_id" class="form-control" id="inputZmanId" disabled="disabled" value="차량 - 01가1111 또는 도보">
+						    	<label for="inputPassword4" class="form-label"><u>배달수단</u></label>
+						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_transport" disabled="disabled" value="${zman.zman_transport}">
 						     </div>
+						     
+						     
 						     <%-- 12 --%>
-	  						 <div class="col-12">
-						    	<label for="inputCity" class="form-label">ZMAN 주소</label>
-						   		<input type="text" class="form-control" id="inputCity">
+	  						 <div class="col-4">
+						    	<label for="inputCity" class="form-label"><u>ZMAN 주소</u></label>
+						   		<input type="zman_name" readonly class="form-control-plaintext" id="zman_transport" disabled="disabled" value="${zman.zman_address}">
 						  	 </div>
-	  						 <%-- 12 --%>
-	  						 <div class="col-12">
-						    	<label for="inputCity" class="form-label">활동 지역</label>
-						   		<input type="text" class="form-control" id="inputCity">
+	  						 <div class="col-4">
+						    	<label for="inputCity" class="form-label"><u>활동 지역</u></label>
+						   		<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zman.zman_area}">
 						  	 </div>
+	  						 <div class="col-4">
+						    	<label for="inputCity" class="form-label"><mark>변경하기</mark></label>
+<%-- 						   		<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zman.zman_area}"> --%>
+						  	 </div>
+						  	 
 						     <%-- 12 --%>
 							 <div class="col-md-6">
-								<label for="inputEmail4" class="form-label">은행명</label>
-								<input type="zman_name" class="form-control" id="inputZmanName" disabled="disabled" value="산업은행">
+								<label for="inputEmail4" class="form-label"><u>은행명</u></label>
+								<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_name}">
 							 </div>
 						     <div class="col-md-6">
-						    	<label for="inputPassword4" class="form-label">계좌번호</label>
-						    	<input type="zman_id" class="form-control" id="inputZmanId" disabled="disabled" value="111-1111-1111-11">
+						    	<label for="inputPassword4" class="form-label"><u>계좌번호</u></label>
+						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_account}">
 						     </div>
 						     <%-- 12 --%>
-	  						 <div class="col-md-6">
-	    						<label for="inputAddress2" class="form-label">휴대폰</label>
-	    						<input type="zman_name" class="form-control" id="inputZmanName" disabled="disabled" value="010-1234-5678">
-	  						 </div>
-	  						 <div class="col-md-6">
-	    						<label for="inputAddress2" class="form-label">&nbsp;</label>
-	    						<input type="zman_name" class="form-control" id="inputZmanName" disabled="disabled" value="휴대폰 번호 변경하기">
-	  						 </div>
-	  						 <%-- 12 --%>
-	  						 <div class="col-12">
-						    	<label for="inputCity" class="form-label">ZMAN 주소</label>
-						   		<input type="text" class="form-control" id="inputCity">
-						  	 </div>
-	  						 <%-- 12 --%>
-	  						 <div class="col-12">
-						    	<label for="inputCity" class="form-label">활동 지역</label>
-						   		<input type="text" class="form-control" id="inputCity">
-						  	 </div>
+<!-- 	  						 <div class="col-md-6"> -->
+<!-- 	    						<label for="inputAddress2" class="form-label"><u>휴대폰</u></label> -->
+<%-- 						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zman.zman_phone}"> --%>
+<!-- 	  						 </div> -->
+<!-- 	  						 <div class="col-md-6"> -->
+<!-- 	    						<label for="inputAddress2" class="form-label">&nbsp;</label> -->
+<!-- 	    						<input type="zman_name" class="form-control" id="inputZmanName" disabled="disabled" value="휴대폰 번호 변경하기"> -->
+<!-- 	  						 </div> -->
+	  						 
+	  						 
 						  	 <%-- 12 --%>
 	  						 <div class="col-12">
-	    					 	<div class="form-check">
-	      							<input class="form-check-input" type="checkbox" id="gridCheck">
-	      							<label class="form-check-label" for="gridCheck">
-	        							Check me out
-		      						</label>
-	    						</div>
+
+
 	  						 </div>
-	  						 <div class="col-12">
-	    						<button type="submit" class="btn btn-primary">Sign in</button>
-	  						 </div>
-					</form>
+	  						 <hr>
+	  						 
+
+	  						 <div class="col-12 ">
+	    						 <button class="btn btn-outline-dark btn-lg" type="submit">수정하기</button>
+    						 </div>
+						</form>
+					</section>
 					
 					</div> <%-- <div id="main">  --%>
 				</div>
