@@ -74,32 +74,54 @@ public class SecondhandController {
 	
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
 			//String uploadDir = "/resources/upload"; 
 			//String saveDir = request.getServletContext().getRealPath(uploadDir); // 사용 가능
-			String saveDir = session.getServletContext().getRealPath("/resources/upload");
-			System.out.println("실제 업로드 경로 : "+ saveDir);
-			//실제업로드경로 : 실제 업로드 경로 : C:\Users\JIN\Documents\workspace_sts\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ZERO\resources\ upload
-			String image1 = saveDir + secondhand.getSecondhand_image1();
-			String image2 = saveDir + secondhand.getSecondhand_image2();
-			String image3 = saveDir + secondhand.getSecondhand_image3();
-			model.addAttribute("image1",image1);
-			model.addAttribute("image2",image2);
-			model.addAttribute("image3",image3);
-			
-			
+//			String saveDir = session.getServletContext().getRealPath("/resources/upload");
+//			System.out.println("실제 업로드 경로 : "+ saveDir);
+//			//실제업로드경로 : 실제 업로드 경로 : C:\Users\JIN\Documents\workspace_sts\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ZERO\resources\ upload
+//			String image1 = saveDir + secondhand.getSecondhand_image1();
+//			String image2 = saveDir + secondhand.getSecondhand_image2();
+//			String image3 = saveDir + secondhand.getSecondhand_image3();
+//			model.addAttribute("image1",image1);
+//			model.addAttribute("image2",image2);
+//			model.addAttribute("image3",image3);
 			return "secondhand/secondhand_list";
 		}
 		
 		
 		
+		//목록메서드
+		@ResponseBody
+		@GetMapping("secondhandListJson")
+		public String changedSecondhandList(
+				@RequestParam(defaultValue = "1") int pageNum
+				, @RequestParam(defaultValue = "") String category
+				, @RequestParam(defaultValue = "") String sort ) {
+			
+			int listLimit = 12; // 한 페이지에서 표시할 목록 갯수 지정
+			int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+			
+			//전달할 목록 값 받아오기 (거래중일경우)
+			String type = "거래중";
+			List<HashMap<String, String>> changedSecondhandList =  service.getChangedSecondhandList(pageNum, category, sort, startRow, listLimit, type);
+		
+			//전체 게시물 개수 계산
+			int listCount = service.getChangedSecondhandListCount(pageNum, category, sort, type);
+			
+			//전체페이지 목록 개수 계산
+			int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+			// => 이것도 리턴값으로 들고가고 싶다 => 객체로 넣기(boardList = XX, maxPage = xx) => JSONObject
+			
+			// 최대 페이지번호(maxPage) 값도 JSON 데이터로 함께 넘기기
+			JSONObject jsonObject = new JSONObject();
+			
+			jsonObject.put("changedSecondhandList", changedSecondhandList);
+			jsonObject.put("maxPage", maxPage);
+			jsonObject.put("listCount", listCount);
+			System.out.println(jsonObject);
+			
+			return jsonObject.toString();
+		}
 		
 		
 		

@@ -21,6 +21,25 @@ public interface SecondhandMapper {
 	// 중고 목록 개수조회 요청(페이징처리)
 	int selectSecondhandListCount();
 	
+	
+	
+	// 정렬변경시 정렬변경된 중고상품 목록 조회 요청
+	List<HashMap<String, String>> selectChangedSecondhandList(
+								@Param("pageNum") int pageNum, 
+								@Param("category") String category,
+								@Param("sort") String sort,
+								@Param("startRow") int startRow,
+								@Param("listLimit") int listLimit,
+								@Param("type") String type);
+	// 정렬변경시 정렬변경된 중고상품 목록개수 조회 요청
+	int selectChangedSecondhandListCount(
+								@Param("pageNum") int pageNum,
+								@Param("category") String category, 
+								@Param("sort")	String sort, 
+								@Param("type") String type);
+	
+	
+	
 //	// 상품번호에 해당하는 카테고리 정보 조회요청
 //	String selectCategory(int secondhand_idx);
 
@@ -101,6 +120,7 @@ public interface SecondhandMapper {
 			@Param("secondhand_idx") String secondhand_idx,
 			@Param("member_id") String member_id, 
 			@Param("report_member_id") String report_member_id);
+
 			
 
 	

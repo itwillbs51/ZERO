@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.zero.mapper.SecondhandMapper">
 
-	<!-- 중고 카테고리 조회 작업 -->
+	<!-- 중고 카테고리 리스트 조회 작업 -->
 	<select id="selectCategoryList" resultType="hashmap">
 		SELECT * 
 		FROM 
@@ -76,6 +76,100 @@
 		FROM 
 			SECONDHAND
 	</select>
+	
+	
+	<!-- 중고상품목록 정렬변경시 변경된정렬로 목록 조회작업 selectChangedSecondhandList -->
+	<select id="selectChangedSecondhandList" resultType="Hashmap">
+		SELECT 
+			*
+			FROM 
+				SECONDHAND_CATEGORY
+			<!-- 카테고리별 or 정렬별 조회할 WHERE 절, ORDER BY 절 수행, 아니면 생략 -->
+			<if test="!category.equals('')">
+			<!-- 카테고리(category_idx)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="category.equals('패션의류/신발/잡화/뷰티/미용')">
+						WHERE category_name = '패션의류/신발/잡화/뷰티/미용'
+					</when>
+					<when test="category.equals('유아동/유아장난감/유아의류/유아용품')">
+						WHERE category_name = '유아동/유아장난감/유아의류/유아용품'
+					</when>
+					<when test="category.equals('반려동물/반려동물용품')">
+						WHERE category_name = '반려동물/반려동물용품'
+					</when>
+					<when test="category.equals('모바일/태블릿/전자악세사리/가전제품')">
+						WHERE category_name = '모바일/태블릿/전자악세사리/가전제품'
+					</when>
+				</choose>
+			</if>
+			
+<!-- 			거래가능상품만 보기 체크박스 클릭시 --> 
+<!-- 			체크박스해제시 전체페이지 돌아감 -->
+<!-- 			<if test=""> -->
+<!-- 				<when test="type.equals('거래중')"> -->
+<!-- 						AUCTION_PREPARE_LIST -->
+<!-- 				</when> -->
+<!-- 			</if> -->
+			
+			
+			<if test="!sort.equals('')"> 
+				<choose>
+					<when test="sort.equals('최신순')">
+						ORDER BY secondhand_first_date DESC 
+					</when>
+					<when test="sort.equals('가격순')">
+						ORDER BY secondhand_price ASC
+					</when>
+					<!-- 찜하기구현전이라 임의설정 - 조회순 많은순 정렬 -->
+					<when test="sort.equals('인기순')">
+						ORDER BY secondhand_readcount DESC 
+					</when>
+				</choose>
+			</if>
+				LIMIT 
+					#{startRow} 
+					, #{listLimit}
+	</select>
+	
+	
+	<!-- 중고상품목록 정렬변경시 변경된정렬 목록 개수 조회작업 selectChangedSecondhandListCount -->
+	
+		<select id="selectChangedSecondhandListCount" resultType="int">
+		SELECT 
+			COUNT(*)
+			FROM 
+				SECONDHAND_CATEGORY
+			<!-- 카테고리별 or 정렬별 조회할 WHERE 절, ORDER BY 절 수행, 아니면 생략 -->
+			<if test="!category.equals('')">
+			<!-- 카테고리(category_idx)에 따른 WHERE 절 조건 대상 변경 -->
+				<choose>
+					<when test="category.equals('패션의류/신발/잡화/뷰티/미용')">
+						WHERE category_name = '패션의류/신발/잡화/뷰티/미용'
+					</when>
+					<when test="category.equals('유아동/유아장난감/유아의류/유아용품')">
+						WHERE category_name = '유아동/유아장난감/유아의류/유아용품'
+					</when>
+					<when test="category.equals('도서/문구/게임/취미/쿠폰')">
+						WHERE category_name = '도서/문구/게임/취미/쿠폰'
+					</when>
+					<when test="category.equals('반려동물/반려동물용품')">
+						WHERE category_name = '반려동물/반려동물용품'
+					</when>
+					<when test="category.equals('모바일/태블릿/전자악세사리/가전제품')">
+						WHERE category_name = '모바일/태블릿/전자악세사리/가전제품'
+					</when>
+				</choose>
+			</if>
+			
+			
+	</select>
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- 중고상품 상세페이지 - 상품상세정보 조회작업 -->	
 	<select id="selectProduct" resultType="com.itwillbs.zero.vo.SecondhandVO">

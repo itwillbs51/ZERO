@@ -423,7 +423,8 @@ a {
 
 					
 				<h3>${secondhandProduct.secondhand_subject }</h3>
-				<h5>${secondhandProduct.secondhand_price }<b>원</b></h5>
+				<p><fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>원</p>
+<%-- 				<h5>${secondhandProduct.secondhand_price }<b>원</b></h5> --%>
 				<span class="readcount">조회수 ${secondhandProduct.secondhand_readcount } </span>
 				<span class="registDate">등록일 ${secondhandProduct.secondhand_first_date }</span>
 				<hr>
@@ -586,7 +587,14 @@ a {
 					
 					<%-- 판매자 프로필 --%>
 					<div class="column">
-						<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
+						<c:choose>
+							<c:when test="${not empty seller.member_image }">
+								<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
+							</c:when>
+							<c:otherwise>
+								<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
+							</c:otherwise>
+						</c:choose>
 					 </div>
 					
 					<%-- 판매자 닉네임 --%>
@@ -601,7 +609,8 @@ a {
 				<%-- 판매자의 판매중 다른상품정보 --%>
 				<br>
 				<div class="row" style="margin-left:10px; margin-bottom:10px;">
-					<b>${seller.member_nickname }</b> 님의 판매중인 상품 ... <a href="secondhandSeller?member_id=${secondhandProduct.member_id}">더보기</a>
+					<b>${seller.member_nickname }</b> 님의 판매중인 상품 ... 
+					<a href="secondhandSeller?member_id=${secondhandProduct.member_id}"> 더보기 </a>
 				</div>
 
 				 <%--썸네일이미지 --%>
