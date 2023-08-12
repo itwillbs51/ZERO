@@ -109,4 +109,8 @@ int updateBankAuth(String member_id);
 
 	// 주소록 변경
 	int modifyAddress(Map<String, String> map);
+
+	// 리뷰 작성했는지 확인
+	int selectWriteReview(@Param("member_id") String member_id, @Param("order_secondhand_idx") Integer order_secondhand_idx);
+
 }

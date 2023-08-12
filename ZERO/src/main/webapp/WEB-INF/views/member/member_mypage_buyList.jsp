@@ -173,10 +173,15 @@
 													   class="last_title display_paragraph"
 													   style="color: rgb(34, 34, 34); 
 													   cursor:pointer; position: absolute; bottom: 0; right: 0;" 
-													   onclick="openReviewPopup(event, '${myOdShList.order_secondhand_product}'
-													   								 , '${myOdShList.order_secondhand_seller}'
-													   								 , '${myOdShList.order_secondhand_buyer }'
-													   								 , '${myOdShList.order_secondhand_idx }');">
+<%-- 													   onclick="openReviewPopup(event, '${isWriteReviewMap[myOdShList.order_secondhand_idx]}', '${myOdShList.order_secondhand_product}' --%>
+<%-- 													   								 , '${myOdShList.order_secondhand_seller}' --%>
+<%-- 													   								 , '${myOdShList.order_secondhand_buyer }' --%>
+<%-- 													   								 , '${myOdShList.order_secondhand_idx }');"> --%>
+															 onclick="openReviewPopup(event, '${isWriteReviewMap[myOdShList.order_secondhand_idx]}'
+															 								, '${myOdShList.order_secondhand_product}'
+															 								, '${myOdShList.order_secondhand_seller}'
+															 								, '${myOdShList.order_secondhand_buyer}'
+															 								, '${myOdShList.order_secondhand_idx}');">
 													후기 작성하기
 													</a>
                                                     
@@ -216,7 +221,7 @@
         	 <input type="hidden" name="review_reader_id" id="review_reader_id"> 
         	 <input type="hidden" name="order_secondhand_idx" id="order_secondhand_idx"> 
         	 <input type="hidden" name="member_review_rating" id="member_review_rating"> 
-        	 <input type="hidden" name="member_review_content" id="member_review_content"> 
+<!--         	 <input type="hidden" name="member_review_content" id="member_review_content">  -->
             <div class="form-group">
             <fieldset id="myform" name="member_review_rating">
 			  <span class="text-bold">별점을 선택해주세요</span>
@@ -271,62 +276,51 @@
 <!-- 후기작성 팝업 -->
 <script type="text/javascript">
 jQuery.noConflict();
-function openReviewPopup(event
-						 , order_secondhand_product
-						 , review_reader_id
-						 , review_writer_id
-						 , order_secondhand_idx) {
-  event.preventDefault();
-  event.stopPropagation();
+function openReviewPopup(event, isWriteReview, order_secondhand_product, review_reader_id, review_writer_id, order_secondhand_idx) {
+    event.preventDefault();
+    event.stopPropagation();
 
-  // Set hidden input values
-  $("#review_reader_id").val(review_reader_id);
-  $("#review_writer_id").val(review_writer_id);
-  $("#order_secondhand_idx").val(parseInt(order_secondhand_idx));
-  
-  // Show the modal
-  $("#reviewModal").modal("show");
+    if (isWriteReview == 1) {
+        alert("이미 작성한 후기가 있습니다.");
+    } else {
+        // Set hidden input values
+        $("#review_reader_id").val(review_reader_id);
+        $("#review_writer_id").val(review_writer_id);
+        $("#order_secondhand_idx").val(parseInt(order_secondhand_idx));
 
-  // Set the title (order_secondhand_product and member_id can be used for customization)
-  $("#reviewModalLabel").text("상품명 : " + order_secondhand_product);
+        // Show the modal
+        $("#reviewModal").modal("show");
+
+        // Set the title (order_secondhand_product and member_id can be used for customization)
+        $("#reviewModalLabel").text("상품명 : " + order_secondhand_product);
+    }
 }
 
 function updateCharCount() {
-	  const maxLength = 100;
-	  const currentLength = $("#message-text").val().length;
-	  const clampedLength = Math.min(currentLength, maxLength);
+    const maxLength = 100;
+    const currentLength = $("#message-text").val().length;
+    const clampedLength = Math.min(currentLength, maxLength);
 
-	  if (currentLength > maxLength) {
-	    $("#message-text").val($("#message-text").val().substring(0, maxLength));
-	  }
+    if (currentLength > maxLength) {
+        $("#message-text").val($("#message-text").val().substring(0, maxLength));
+    }
 
-	  $("#currentCount").html(clampedLength);
-	}
+    $("#currentCount").html(clampedLength);
+}
 
 $(document).ready(function () {
-  // 이벤트 바인딩
-  $("#message-text").on("input", updateCharCount);
-//   $(".btn-primary").on("click", submitReview);
+    // 이벤트 바인딩
+    $("#message-text").on("input", updateCharCount);
 
-  // 초깃값 설정
-  updateCharCount();
-});
+    // 별점 처리
+    const stars = $("#myform input[type=radio]");
+    const labels = $("#myform label");
 
-
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const stars = document.querySelectorAll("#myform input[type=radio]");
-    const labels = document.querySelectorAll("#myform label");
-
-    stars.forEach((star, index) => {
-        // 변경된 부분
-        star.addEventListener("change", (e) => {
-            const selectedStar = parseInt(e.target.value, 10); // 추가된 코드
-            labels.forEach((label, idx) => {
-                // 변경된 부분
-                if (idx === selectedStar - 1) $("#member_review_rating").val(selectedStar); // 추가된 코드
+    stars.each((index, star) => {
+        $(star).on("change", (e) => {
+            const selectedStar = parseInt(e.target.value, 10);
+            labels.each((idx, label) => {
+                if (idx === selectedStar - 1) $("#member_review_rating").val(selectedStar);
                 if (idx <= index) {
                     label.style.color = "rgba(250, 208, 0, 0.99)";
                 } else {
@@ -336,25 +330,26 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    const form = document.getElementById('review-form');
-    const reviewBtn = document.getElementById('reviewBtn');
-    
-    reviewBtn.addEventListener('click', (event) => {
-        if (!form.checkValidity() || !form.querySelector('input[name="member_review_rating"]:checked')) {
+    // 리뷰 작성 버튼 클릭 이벤트
+    $('#reviewBtn').off('click').on('click', function (event) {
+        const form = $('#review-form');
+        if (!form.get(0).checkValidity() || !form.find('input[name="member_review_rating"]:checked').length) {
             event.preventDefault();
             event.stopPropagation();
-            
-            if (!form.querySelector('input[name="member_review_rating"]:checked')) {
+
+            if (!form.find('input[name="member_review_rating"]:checked').length) {
                 alert('별점을 클릭해주세요');
             }
         } else {
-        	document.getElementById('member_review_content').value = document.getElementById('message-text').value;
+            $('#member_review_content').val($('#message-text').val());
         }
-        form.classList.add('was-validated');
+        form.addClass('was-validated');
     });
+
+    // 초깃값 설정
+    updateCharCount();
 });
 
 </script>
-
 </body>
 </html>

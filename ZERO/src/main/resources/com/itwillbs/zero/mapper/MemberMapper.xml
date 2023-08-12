@@ -326,6 +326,19 @@
 			
 	</insert>
 	
+	<!-- 리뷰 있는지 조회 -->
+	<select id="selectWriteReview" resultType="int">
+	    SELECT 
+	        COUNT(*)
+	    FROM 
+	        MEMBER_REVIEW
+	    WHERE 
+	        review_writer_id = #{member_id}
+	    AND
+	        order_secondhand_idx = #{order_secondhand_idx}
+	</select>
+	
+	
 	<!-- 대표 주소록 추가 -->
 	<update id="updateMainAddress">
 		 UPDATE MEMBER

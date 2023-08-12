@@ -132,9 +132,9 @@ public class MemberService {
 		System.out.println("isSecondhandBuyer:" + isSecondhandBuyer);
 		System.out.println("isAuctionSeller:" + isAuctionSeller);
 		System.out.println("isAuctionBuyer:" + isAuctionBuyer);
-//		if(isSecondhandDeliverd == null || isAuctionSeller == null) { // 없으면 탈퇴 가능
-//			return true;
-//		}
+		if(0 == isSecondhandSeller + isSecondhandBuyer + isAuctionSeller + isAuctionBuyer ) { // 없으면 탈퇴 가능
+			return true;
+		}
 		return false; // 있으면 탈퇴 불가
 	}
 
@@ -167,6 +167,16 @@ public class MemberService {
 	public int deleteAddress(String rmv, Map<String, String> map) {
 		return mapper.deleteAddress(rmv, map);
 		
+	}
+
+	// 멤버 아이디로 리뷰 썻는지 확인 member_id = review_writer_id
+	public Map<Integer, Integer> getWriteReviewStatus(String member_id, List<Integer> orderSecondhandIdxList) {
+	    Map<Integer, Integer> resultMap = new HashMap<>();
+	    for (Integer order_secondhand_idx : orderSecondhandIdxList) {
+	        int isWriteReview = mapper.selectWriteReview(member_id, order_secondhand_idx);
+	        resultMap.put(order_secondhand_idx, isWriteReview);
+	    }
+	    return resultMap;
 	}
 
 	

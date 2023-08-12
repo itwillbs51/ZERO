@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.spi.FileSystemProvider;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -671,9 +672,11 @@ public class MemberController {
 		// 핸드폰번호와 일치하는 이메일 주소가 있을 경우 이메일 주소 리턴
 		Map result = service.isMemberCheck(column, value);
 		System.out.println(result);
-		System.out.println(result.get("member_id"));
+//		System.out.println(result.get("member_id"));
 		if(result != null) {
 			phone = result.get("member_id").toString();
+		} else {
+			phone = "false";
 		}
 		
 		return phone;
@@ -1159,6 +1162,17 @@ public class MemberController {
 		
 		model.addAttribute("myOdShList", myOdShList);
 		
+		// myOdShList의 order_secondhand_idx 값을 가져오기 위해 리스트를 반복
+		List<Integer> orderSecondhandIdxList = new ArrayList<>(); // order_secondhand_idx 값을 저장할 목록
+		for(OrderSecondhandVO item : myOdShList) {
+		    int order_secondhand_idx = item.getOrder_secondhand_idx(); // 각 요소의 order_secondhand_idx 값을 가져옴
+		    orderSecondhandIdxList.add(order_secondhand_idx); // 리스트에 order_secondhand_idx 값을 추가
+		}
+		
+		// 작성한 후기가 있는경우 후기작성하기버튼 -> 후기작성완료 상태로 변경하기 를 위한 isWriteReview
+		Map<Integer, Integer> isWriteReviewMap = service.getWriteReviewStatus(member_id, orderSecondhandIdxList);
+		model.addAttribute("isWriteReviewMap", isWriteReviewMap);
+		
 		return "member/member_mypage_buyList";
 	}
 	
@@ -1354,7 +1368,7 @@ public class MemberController {
 									  , @RequestParam("member_review_content") String member_review_content) {
 		// MemberService(writeShReview()) - Member_mapper(insertwriteShReview())
 		int insertCount = service.writeShReview(review, review_reader_id, review_writer_id, order_secondhand_idx, member_review_rating, member_review_content);
-		
+//		System.out.println("리뷰 작성 요청: " + review + ", " + review_reader_id + ", " + review_writer_id + ", " + order_secondhand_idx + ", " + member_review_rating + ", " + member_review_content);
 		if(insertCount > 0) {
 			return "redirect:/member_mypage_buyList";
 		} else {
