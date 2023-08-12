@@ -77,6 +77,10 @@
 					<c:if test="${!empty order_auction_idx }">
 						<input type="hidden" name="order_auction_idx" value="${order_auction_idx }">
 					</c:if>
+					<c:if test="${!empty zman_earning_idx }">
+						<input type="hidden" name="zman_earning_idx" value="${zman_earning_idx }">
+						<input type="hidden" name="zman_net_profit" value="${zpayAmount }">
+					</c:if>
 					<div class="chargeContentArea">
 						<div class="chargeInputArea text-center">
 							<div class="title">
@@ -104,6 +108,7 @@
 		</div><%-- container 영역 끝 --%>
 	</article>
 	<footer>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 
 </body>

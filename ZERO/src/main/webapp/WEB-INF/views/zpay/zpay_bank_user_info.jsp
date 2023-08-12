@@ -166,7 +166,7 @@
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
 	</article>
-	<footer>
+	<footer><%@ include file="../inc/footer.jsp"%>
 	</footer>
 
 </body>

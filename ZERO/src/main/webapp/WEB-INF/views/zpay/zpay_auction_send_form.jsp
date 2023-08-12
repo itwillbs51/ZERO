@@ -138,6 +138,7 @@
 				<form action="zpay_passwd_check_form" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="">
+					<input type="hidden" name="order_auction_idx" value="${order_auction.order_auction_idx }">
 <!-- 					<input type="hidden" name="zpay_deal_type" value="송금"> -->
 					<input type="hidden" name="targetURL" value="zpay_auction_send_pro">
 					<div class="chargeContentArea">
@@ -195,6 +196,7 @@
 		</div><%-- container 영역 끝 --%>
 	</article>
 	<footer>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 
 </body>

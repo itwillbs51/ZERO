@@ -29,6 +29,7 @@ import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.PageInfoVO;
 import com.itwillbs.zero.vo.ResponseDepositVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanEarningVO;
 import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.BankApiService;
@@ -202,36 +203,14 @@ public class ZpayController {
 		}
 	}
 	
-	// zpay_charge_form.jsp 페이지로 디스페치
-	@GetMapping("zpay_charge_form")
-	public String zpayChargeForm(Model model, HttpSession session) {
-		System.out.println("ZpayController - zpayChargeForm()");
-		
-		String access_token = (String)session.getAttribute("access_token");
 
-		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
-		if(access_token == null) {
-			model.addAttribute("msg", "계좌 인증 필수!");
-			return "bank_auth_fail_back";
-		}
-		
-		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
-		model.addAttribute("zpay", zpay);
-		
-		// 계좌 여러개 등록 시 사용
-		List<ZpayVO> myAccountList = service.getMyAccountList((String)session.getAttribute("member_id"));
-		model.addAttribute("myAccountList", myAccountList);
-		
-		return "zpay/zpay_charge_form";
-	}
-	
-	
 	// 비밀번호 확인 페이지로 이동
 	@PostMapping("zpay_passwd_check_form")
 	public String zpayPasswdCheck(@RequestParam String member_id, 
 								@RequestParam String zpayAmount, 
 								@RequestParam(defaultValue = "0") int order_secondhand_idx, 
 								@RequestParam(defaultValue = "0") int order_auction_idx, 
+								@RequestParam(defaultValue = "0") int zman_earning_idx, 
 								@RequestParam String targetURL,
 								Model model) {
 		System.out.println("ZpayController - zpayPasswdCheck()");
@@ -240,8 +219,10 @@ public class ZpayController {
 		
 		if(order_secondhand_idx != 0) {
 			model.addAttribute("order_secondhand_idx", order_secondhand_idx);
-		} else {
+		} else if(order_auction_idx != 0) {
 			model.addAttribute("order_auction_idx", order_auction_idx);
+		} else if(zman_earning_idx != 0) {
+			model.addAttribute("zman_earning_idx", zman_earning_idx);	
 		}
 		
 		return "zpay/zpay_passwd_check_form";
@@ -274,6 +255,31 @@ public class ZpayController {
 			return "true";
 		}
 	}
+	
+	
+	// zpay_charge_form.jsp 페이지로 디스페치
+	@GetMapping("zpay_charge_form")
+	public String zpayChargeForm(Model model, HttpSession session) {
+		System.out.println("ZpayController - zpayChargeForm()");
+		
+		String access_token = (String)session.getAttribute("access_token");
+
+		// 엑세스토큰이 없을 경우 "계좌인증필수" 출력 후 이전페이지로 돌아가기
+		if(access_token == null) {
+			model.addAttribute("msg", "계좌 인증 필수!");
+			return "bank_auth_fail_back";
+		}
+		
+		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
+		model.addAttribute("zpay", zpay);
+		
+		// 계좌 여러개 등록 시 사용
+		List<ZpayVO> myAccountList = service.getMyAccountList((String)session.getAttribute("member_id"));
+		model.addAttribute("myAccountList", myAccountList);
+		
+		return "zpay/zpay_charge_form";
+	}
+	
 	
 	// ZPAY 충전 비즈니스 로직 요청
 	@PostMapping("zpay_charge_pro")
@@ -874,10 +880,12 @@ public class ZpayController {
 		
 		// 정산받을 계좌 정보 조회
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
-//		Map<String, String> map = service.getZmanEarning(zman_earning_idx);
 		
+		// ZmanEarning 조회
+		ZmanEarningVO zmanEarning = service.getZmanEarning(zman_earning_idx);
 		
 		model.addAttribute("zpay", zpay);
+		model.addAttribute("zmanEarning", zmanEarning);
 		return "zpay/zpay_refund_form";
 	}
 	

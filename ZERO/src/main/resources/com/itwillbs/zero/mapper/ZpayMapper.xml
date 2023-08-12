@@ -388,6 +388,12 @@
 		WHERE order_secondhand_idx = #{order_secondhand_idx}
 	</update>
 
+	<!-- selectZmanEarning -->
+	<select id="selectZmanEarning" resultType="com.itwillbs.zero.vo.ZmanEarningVO">
+		SELECT * FROM ZMAN_EARNING
+		WHERE zman_earning_idx = #{zman_earning_idx}
+	</select>
+
 	<!-- ZMAN 정산 -->
 	<insert id="insertZmanRefund">
 		INSERT INTO 

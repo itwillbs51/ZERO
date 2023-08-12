@@ -11,6 +11,7 @@ import com.itwillbs.zero.vo.ZpayVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanEarningVO;
 import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
@@ -143,6 +144,11 @@ public class ZpayService {
 	public int depositWithdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
 		return mapper.insertZeroAccountHistory(zeroAccount);
 	}
+	
+	// ZmanEarning 조회
+	public ZmanEarningVO getZmanEarning(int zman_earning_idx) {
+		return mapper.selectZmanEarning(zman_earning_idx);
+	}
 
 	// ZMAN 정산
 	public int zmanRefund(ZmanRefundHistoryVO zmanRefundHistory) {
@@ -163,6 +169,8 @@ public class ZpayService {
 	public String getZpayPasswd(String member_id) {
 		return mapper.selectZpayPasswd(member_id);
 	}
+
+	
 
 
 	

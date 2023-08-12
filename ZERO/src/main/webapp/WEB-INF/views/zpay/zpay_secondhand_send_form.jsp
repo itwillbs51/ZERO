@@ -22,7 +22,7 @@
 	$(function() {
 		checkButtonStatus();
 
-		let order_secondhand_price = ${order_secondhand.order_secondhand_price }
+		let order_secondhand_price = ${order_secondhand.order_secondhand_price } + ${order_secondhand.order_delivery_commission}
 		
 		if(order_secondhand_price != ""){
 			
@@ -134,6 +134,7 @@
 			<%-- 메인영역 --%>
 				<form action="zpay_passwd_check_form" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
+					<input type="hidden" name="order_secondhand_idx" value="${order_secondhand.order_secondhand_idx }">
 					<input type="hidden" name="zpayAmount" value="">
 <!-- 					<input type="hidden" name="zpay_deal_type" value="송금"> -->
 					<input type="hidden" name="targetURL" value="zpay_send_pro">
@@ -191,7 +192,7 @@
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
 	</article>
-	<footer>
+	<footer><%@ include file="../inc/footer.jsp"%>
 	</footer>
 
 </body>

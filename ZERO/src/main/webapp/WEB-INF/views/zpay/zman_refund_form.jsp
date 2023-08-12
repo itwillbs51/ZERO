@@ -21,6 +21,16 @@
 	
 	$(function() {
 		checkButtonStatus();
+		
+		let zman_net_profit = ${zmanEarning.zman_net_profit }
+		
+		if(zman_net_profit != ""){
+			
+			$("#amountInput").val(comma(zman_net_profit));
+			$("#amountInput").attr("readOnly", "readOnly");
+			$("input[name=options]").attr("disabled", "disabled");
+			$(".amountInputArea > button").attr("disabled", "disabled");
+		}
 	});
 
 	// 입력된 금액의 형태 지정하는 함수 ==================================================================================
@@ -70,7 +80,6 @@
 	$(function(){
 		// 금액이 선택될 경우 [금액입력] 란에 입력 및 [환급하기] 버튼 활성화 ================================================
 		$("input[name=options]").on("click", function() {
-// 			alert($(this).val());
 			$("#amountInput").val($(this).val());
 			checkButtonStatus();
 		});
@@ -116,17 +125,19 @@
 			<%-- 메인영역 --%>
 				<form action="zpay_passwd_check_form" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
-					<input type="hidden" name="zman_net_profit" value="">
+					<input type="hidden" name="zpayAmount" value="">
+					<input type="hidden" name="zman_earning_idx" value="${zmanEarning.zman_earning_idx }">
+<!-- 					<input type="hidden" name="zman_net_profit" value=""> -->
 					<input type="hidden" name="targetURL" value="zman_refund_pro">
 <%-- 					<input type="hidden" name="zman_balance" value="${zman_balance }"> --%>
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
-								정산금액&nbsp;&nbsp;<div class="zpay_amount"><fmt:formatNumber value="${zman_net_profit }" pattern="#,##0"/></div>
+								정산금액&nbsp;&nbsp;<div class="zpay_amount"><fmt:formatNumber value="${zmanEarning.zman_net_profit }" pattern="#,##0"/></div>
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
-									<input type="text" id="amountInput" maxlength="10" placeholder="송금할 금액을 입력해 주세요" value="${zman_net_profit }">
+									<input type="text" id="amountInput" maxlength="10" placeholder="송금할 금액을 입력해 주세요" value="${zmanEarning.zman_net_profit }">
 									<button type="button" class="btn" onclick="amountReset()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -153,6 +164,7 @@
 		</div><%-- container 영역 끝 --%>
 	</article>
 	<footer>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 
 </body>
