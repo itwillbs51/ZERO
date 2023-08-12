@@ -810,7 +810,7 @@
 				sendMessage('notice@test.com');
 				$(".callZBtn").attr("disabled", true);
 				// 알림 보내는 함수
-				sendAlarmMessage("${chatRoom.buyer_id}", "Z맨 호출"
+				sendAlarmMessage("${chatRoom.buyer_id}", "Z맨"
 						, "Z맨 호출이 접수되었습니다! 상품명 - " + "${secondhandInfo.secondhand_subject }", "chatRoom?room_idx=chat_" + "${chatRoom.chat_room_idx}");
 				break;
 			case 'zpay':
