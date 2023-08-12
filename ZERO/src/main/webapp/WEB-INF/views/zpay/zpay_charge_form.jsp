@@ -90,7 +90,7 @@
 			
 			if (parseFloat(uncomma(amountInput)) < 1000) {
 				$(".chargeButtonArea>button").attr("disabled", "disabled");
-				alert("1000원 이상 환급 가능합니다.");
+				alert("1000원 이상 충전 가능합니다.");
 			}
 			
 		});

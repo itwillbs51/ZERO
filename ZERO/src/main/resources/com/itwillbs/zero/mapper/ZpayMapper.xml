@@ -23,6 +23,13 @@
 			)
 	</insert>
 	
+	<!-- ZPAY 비밀번호 변경 -->
+	<update id="updateZpayPasswd">
+		UPDATE ZPAY
+		SET zpay_passwd = #{new_zpay_passwd}
+		WHERE member_id = #{member_id}
+	</update>
+	
 	<!-- ZPAY 잔액 조회 -->
 	<select id="selectZpayBalance" resultType="Integer">
 		SELECT ifnull(zpay_balance, 0)

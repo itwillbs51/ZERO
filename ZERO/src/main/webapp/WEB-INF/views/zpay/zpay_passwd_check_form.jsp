@@ -21,6 +21,40 @@
 	
 	$(function() {
 		checkButtonStatus();
+		
+		// 비번이 입력될 경우 [비밀번호확인] 버튼 활성화 ========================================================================
+		$("#zpay_passwd").on("input", function() {
+			checkButtonStatus();
+		});
+		
+		// [비밀번호 변경] ======================================================================================================
+		$(".passwdChangeButtonArea>button").on("click", function() {
+			
+			let existingZpayPasswd =  $("#existing_zpay_passwd").val();
+			let newZpayPasswd =  $("#new_zpay_passwd").val();
+			
+			$.ajax({
+				type : "GET", 
+				url : "zpay_passwd_change_pro", 
+				data : {existing_zpay_passwd : existingZpayPasswd, new_zpay_passwd : newZpayPasswd}, 
+				dataType : "text", 
+				success : function(data) {
+					if(data == "true"){
+// 						$("#exampleModalCenter").modal("hide");
+// 						$("#exampleModalCenter").removeClass("show");
+						alert("비밀번호 변경 성공");
+						location.reload();
+					} else {
+						alert("비밀번호 변경 실패");						
+					}
+				}, 
+				error : function() {
+					alert("요청실패");
+				}
+			});
+		});
+			
+			
 	});
 
 
@@ -35,24 +69,37 @@
 			chargeButton.attr("disabled", "disabled");
 		}
 	}
-	
-	
-	$(function(){		
-		// 비번이 입력될 경우 [비밀번호확인] 버튼 활성화 ====================================================================
-		$("#zpay_passwd").on("input", function() {
-			checkButtonStatus();
-		});
-	});
-	
-	
+		
 	// [비밀번호입력] 란의 [x]버튼
 	// 클릭 시 [비밀번호입력] 란의 내용 null로 바꾸기
 	function passwdReset() {
 		$("#zpay_passwd").val(null);
 		checkButtonStatus();
 	}
-
 	
+	// [기존비번입력] 란의 [x]버튼
+	// 클릭 시 [기존비밀번호입력] 란의 내용 null로 바꾸기
+	function existingPasswdReset() {
+		$("#existing_zpay_passwd").val(null);
+	}
+	
+	// [새비번입력] 란의 [x]버튼
+	// 클릭 시 [새비밀번호입력] 란의 내용 null로 바꾸기
+	function newPasswdReset() {
+		$("#new_zpay_passwd").val(null);
+	}
+	
+	// 비밀번호가 숫자 6자리인지 확인하는 함수
+	function checkPasswd(passwd) {
+		if(/^\d{6}$/.test(passwd)){
+			$("#new_zpay_passwd_check").html("사용 가능한 비밀번호입니다");
+			$("#new_zpay_passwd_check").css("color", "#09aa5c");
+			$(".passwdChangeButtonArea>button").removeAttr("disabled");
+		}else {
+			$("#new_zpay_passwd_check").html("사용 불가능한 비밀번호입니다");			
+			$("#new_zpay_passwd_check").css("color", "#333");
+		}
+	}
 </script>
 <style type="text/css">
 	.container {
@@ -96,8 +143,9 @@
 									</button>							
 								</div>							
 							</div><%-- amountArea 영역 끝 --%>
-							<div class="withdrawalAccountArea">
-							</div><%-- withdrawalAccountArea 영역 끝 --%>
+							<div class="changePasswd">
+								<a href="#" data-toggle="modal" data-target="#exampleModalCenter">비밀번호 변경</a>
+							</div>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
 							<button type="submit" class="btn btn-dark btn-lg btn-block">비밀번호확인</button>
@@ -110,6 +158,52 @@
 	<footer>
 		<%@ include file="../inc/footer.jsp"%>
 	</footer>
+	
+	<%-- 모달 --%>
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalScrollableTitle">비밀번호 변경</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="changePasswdModal">
+						<div class="changePasswdInputArea text-center">
+							<div class="changePasswdArea">
+								<div class="inputArea">
+									<input type="password" id="existing_zpay_passwd" name="existing_zpay_passwd" maxlength="6" placeholder="기존 비밀번호">
+									<button type="button" class="btn" onclick="existingPasswdReset()">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+										</svg>
+									</button>	
+								</div>							
+								<div class="inputArea mt-3">
+									<input type="password" id="new_zpay_passwd" name="new_zpay_passwd" maxlength="6" onkeyup="checkPasswd(this.value);" placeholder="새로운 비밀번호">
+									<button type="button" class="btn" onclick="newZpayPasswd()">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+										</svg>
+									</button>		
+								</div>
+								<div id="new_zpay_passwd_check" class="text-left"></div>					
+							</div><%-- changePasswdArea 영역 끝 --%>
+						</div><%-- changePasswdInputArea 영역 끝 --%>
+						<div class="passwdChangeButtonArea mt-3">
+							<button type="button" class="btn btn-dark btn-lg btn-block" disabled="disabled">비밀번호변경</button>
+						</div><%-- passwdChangeButtonArea 영역 끝 --%>
+					</div><%-- changePasswdModal 영역 끝 --%>
+				</div>
+<!-- 				  <div class="modal-footer"> -->
+<!-- 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+<!-- 					<button type="button" class="btn btn-primary">Save changes</button> -->
+<!-- 				</div> -->
+			</div>
+		</div>
+	</div><%-- 모달영역 끝 --%>
 
 </body>
 </html>

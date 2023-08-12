@@ -170,6 +170,11 @@ public class ZpayService {
 		return mapper.selectZpayPasswd(member_id);
 	}
 
+	// ZPAY 비밀번호 변경
+	public int updateZpayPasswd(String member_id, String new_zpay_passwd) {
+		return mapper.updateZpayPasswd(member_id, new_zpay_passwd);
+	}
+
 	
 
 

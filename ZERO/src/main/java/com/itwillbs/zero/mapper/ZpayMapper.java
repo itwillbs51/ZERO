@@ -107,6 +107,9 @@ public interface ZpayMapper {
 	// 암호화된 ZPAY 비번 조회
 	String selectZpayPasswd(String member_id);
 
+	// ZPAY 비밀번호 변경
+	int updateZpayPasswd(@Param("member_id") String member_id, @Param("new_zpay_passwd") String new_zpay_passwd);
+
 	
 
 

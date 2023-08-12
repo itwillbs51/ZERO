@@ -204,7 +204,7 @@ public class ZpayController {
 	}
 	
 
-	// 비밀번호 확인 페이지로 이동
+	// 비밀번호 확인(입력) 페이지로 이동
 	@PostMapping("zpay_passwd_check_form")
 	public String zpayPasswdCheck(@RequestParam String member_id, 
 								@RequestParam String zpayAmount, 
@@ -228,6 +228,44 @@ public class ZpayController {
 		return "zpay/zpay_passwd_check_form";
 	}
 	
+	
+	// AJAX를 통한 비밀번호변경 비즈니스 로직
+	@ResponseBody
+	@GetMapping("zpay_passwd_change_pro")
+	public String zpayPasswdChangePro(@RequestParam String existing_zpay_passwd, 
+									@RequestParam String new_zpay_passwd,
+									Model model, HttpSession session) {
+		
+		String member_id = (String)session.getAttribute("member_id");
+		
+		// 암호화된 ZPAY 비번 조회
+		String existingSecurePasswd = service.getZpayPasswd(member_id);
+		System.out.println(existingSecurePasswd);
+		System.out.println("existing_zpay_passwd : " + existing_zpay_passwd);
+		System.out.println("new_zpay_passwd : " + new_zpay_passwd);
+	
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder existingSecurePasswdEncoder = new BCryptPasswordEncoder();
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		System.out.println("existingSecurePasswd : " + existingSecurePasswd);
+	
+		if (existing_zpay_passwd ==  null || !existingSecurePasswdEncoder.matches(existing_zpay_passwd, existingSecurePasswd)) {
+			// 패스워드가 existing_zpay_passwd와 다를 때(비밀번호가 틀림)
+			return "false";
+		} else {
+			// 패스워드가 existing_zpay_passwd와 같을 때(비밀번호 일치)
+			BCryptPasswordEncoder newPasswordEncoder = new BCryptPasswordEncoder();
+			// 2. getCtyptoPassword() 메서드에 평문 전달하며 암호문 얻어오기
+			int updatePasswd = service.updateZpayPasswd(member_id, newPasswordEncoder.encode(new_zpay_passwd));
+			
+			if (updatePasswd > 0) {
+				return "true";
+			} else {
+				return "false";
+			}
+			
+		}
+	}
 	
 	// AJAX를 통한 비밀번호확인 비즈니스 로직
 	@ResponseBody
