@@ -106,7 +106,7 @@
 											
 										</c:otherwise>
 									</c:choose>
-								<div class="balanceAccountNum">페이잔액 : xxx,xxx원</div>
+<!-- 								<div class="balanceAccountNum">페이잔액 : xxx,xxx원</div> -->
 								
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>

@@ -38,7 +38,7 @@
 				ORDER BY 
 					alarm_idx DESC
 				LIMIT
-					6
+					7
 			</if>
 	</select>
 	
