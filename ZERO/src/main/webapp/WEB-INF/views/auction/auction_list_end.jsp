@@ -149,7 +149,7 @@
 				for(let product of data.endAuctionList) {
 					let final_price = product.auction_final_price;
 					let max_price = product.auction_max_price;
-					
+					console.log("가격 : " + final_price);
 					if(final_price == null) {
 						final_price = 0;
 					}
@@ -162,10 +162,10 @@
 					let isSuccess;
 					if(product.auction_issuccess == '낙찰') {
 						isSuccess = 
-							'			입찰자 수'
-							+ '			<div class="person">'
+// 							'			<span>입찰자 수</span> '+
+							 '			<div class="person">'
 							+ '				<i class="material-icons">people</i>'
-							+ '				<span>참가 ' + product.apply_count + '명</span>'
+							+ '				<span>참가 ' + product.auction_apply_count + '명</span>'
 							+ '			</div>';
 					} else {	// '낙찰실패' 면
 						isSuccess = 
@@ -201,7 +201,7 @@
 							+ '			</div>'
 							+ '		</div>'
 							+ '		<div class="applyInfo">'
-							+ isSuccess
+							+ 			isSuccess
 // 							+ '			입찰자 수'
 // 							+ '			<div class="person">'
 // 							+ '				<i class="material-icons">people</i>'
@@ -333,7 +333,7 @@
 	
 	<!-- footer -->
 	<footer>
-		<div>여기 footer</div>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 </body>
 </html>

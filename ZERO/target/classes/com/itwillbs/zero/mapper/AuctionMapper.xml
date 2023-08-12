@@ -103,7 +103,7 @@
 		    , auction_image1
 		    , auction_title
 		    , auction_manage_check_date
-		    , IFNULL(auction_final_price, 0)
+		    , IFNULL(auction_final_price, 0) AS auction_final_price
 		    , auction_final_datetime
 		    , auction_max_price
 		    , category_idx

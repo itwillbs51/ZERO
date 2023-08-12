@@ -18,6 +18,103 @@
 <title>ZERO</title>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
+//신고타입선택시 표시될 신고사유 셀렉트 박스
+function categoryChange(e) {
+    var report_member = ["도배 행위", "사기 행위", "욕설", "비매너"];
+    var report_zman = ["불친절", "배달 누락"];
+    var report_goods = ["주류, 담배", "전문 의약품, 의료기기", "위조상품", "부정확한 상품 정보", "전문업자 의심"];
+    var target = document.getElementById("report");
+ 
+    if(e.value == "member") var d = report_member;
+    else if(e.value == "zman") var d = report_zman;
+    else if(e.value == "goods") var d = report_goods;
+ 
+    target.options.length = 0;
+ 
+    for (var x in d) {
+        var opt = document.createElement("option");
+        opt.value = d[x];
+        opt.innerHTML = d[x];
+        target.appendChild(opt);
+    }    
+}
+
+
+//신고컨텐츠 전달
+$(document).ready(function() {
+	
+// 	alert("Document ready")
+
+	  $("#reportForm").submit(function(e) {
+	    e.preventDefault(); // 폼 기본 동작 방지
+	    
+	    // 콘솔에 메시지 출력 (디버깅 용도)
+// 	    alert("디버깅");
+// 	    console.log("Form submit event triggered.");
+
+	    const selectedReportType = $("#reportType").val();//선택된 신고타입
+	    const reportReason = $("#report").val();//선택된 신고사유 값
+	    const secondhand_idx = $("#secondhand_idx").val(); //신고된 상품번호(상품에대한 신고시 필요)
+	    const member_id = $("#member_id").val();//신고된 회원아이디(회원에대한 신고시 필요)
+	    const report_member_id = '<%= request.getSession().getAttribute("member_id") %>';
+// 	    const report_member_id = $("#report_member_id").val();//신고한 회원 아이디
+	    console.log("reportType : " + reportReason);
+	   
+	    
+	    
+	    if (!selectedReportType) {
+	      alert("신고 사유를 선택해주세요.");
+	      return;
+	    } 
+
+	    $.ajax({
+	      type: "POST", // 요청 메서드
+	      url: "reportContent", // 서블릿 URL
+	      data: {	//전송할 데이터
+	    	  
+	    	"reportType" : selectedReportType,// 신고타입
+	        "reportReason" : reportReason, //  신고 사유
+	        "secondhand_idx" : secondhand_idx, //신고된 상품번호
+	        "member_id" : member_id, //신고된 회원아이디
+	        "report_member_id" : report_member_id //신고한 회원아이디
+	        
+	      },
+	      success: function(response) {
+	        // 서버의 응답 처리 (성공 시)
+	        alert("신고가 정상 접수 되었습니다");
+
+	      },
+	      error: function(err) {
+	        // 서버의 응답 처리 (실패 시)
+	        alert("요청실패!!");
+	        console.error("Error: " + JSON.stringify(err));
+	        console.error("신고 접수 중 오류가 발생했습니다.");
+	      }
+	    })
+	  })
+	});
+
+
+</script>
+
+
+
+<script type="text/javascript">
+
+//삭제작업 -- 게시물삭제확인창
+function confirmDelete() {
+	let isDelete = confirm("정말 삭제하시겠습니까?");
+	
+	// isDelete 가 true 일 때 BoardDelete 서블릿 요청
+	if(isDelete) {
+		location.href='secondhandDelete?secondhand_idx=${param.secondhand_idx}';
+	}
+}
+
+</script>
+
+
+<script type="text/javascript">
 //슬라이드인덱스
 let slideIndex = 1;//슬라이드인덱스 기본값 1
 showSlides(slideIndex);
@@ -54,30 +151,15 @@ function showSlides(n) {
 
 
 
-
-
-
-// 신고사유 셀렉트 박스
-function categoryChange(e) {
-    var report_member = ["도배 행위", "사기 행위", "욕설", "비매너"];
-    var report_zman = ["불친절", "배달 누락"];
-    var report_goods = ["주류, 담배", "전문 의약품, 의료기기", "위조상품", "부정확한 상품 정보", "전문업자 의심"];
-    var target = document.getElementById("report");
- 
-    if(e.value == "member") var d = report_member;
-    else if(e.value == "zman") var d = report_zman;
-    else if(e.value == "goods") var d = report_goods;
- 
-    target.options.length = 0;
- 
-    for (x in d) {
-        var opt = document.createElement("option");
-        opt.value = d[x];
-        opt.innerHTML = d[x];
-        target.appendChild(opt);
-    }    
+//거래상태 예약중일경우 채팅불가 처리하는 reservedProduct() 함수
+function reservedProduct(){
+	alert= '예약중인 상품이므로 채팅하실 수 없습니다';
+	console.log='예약중인 상품이므로 채팅하실 수 없습니다';
 }
+
 </script>
+
+
 <style>
 article {
 	margin-top: 150px;
@@ -186,6 +268,10 @@ a {
 </head>
 <body>
 	<header><%@ include file="../inc/header.jsp"%></header>
+	<%--신고작업을 위해 히든타입으로 데이터 넘기기 --%>
+	<input type="hidden" id="secondhand_idx" value="${param.secondhand_idx }">
+	<input type="hidden" id="member_id" value="${param.member_id }">
+<%-- 	<input type="hidden" id="report_member_id" value="${sessionScope.member_id }"> --%>
 	
 	<article id="mainArticle">
 		<div class="container">
@@ -263,22 +349,69 @@ a {
 				<!-- 거래상태 -->
 				<button class="btn btn-dark" style="margine-bottom:10px;">${secondhandProduct.secondhand_deal_status }</button>
 				<span class="icon">
-<%-- 					<a href="reportPopup"><img src="${pageContext.request.contextPath }/resources/img/report_icon.png" width="30px" height="30px"></a> --%>
 					
-				
-				
-				
-				<%-- 신고 모달로 해보기 --%>
-				<%-- 모달 출력 버튼 --%>
-				<button class="btn btn-default" data-target="#layerpop" data-toggle="modal">
-					<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
-					 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
-				</button>
-				<%-- 공유하기버튼 --%>
-					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
+<%-- 					신고 모달로 해보기 --%>
+<%-- 					모달 출력 버튼 --%>
+<%-- 					로그인상태-세션아이디 존재하는 경우 --%>
+<!-- 					<button class="btn btn-default" data-target="#layerpop" data-toggle="modal"> -->
+<!-- 						<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png" -->
+<!-- 						 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px"> -->
+<!-- 					</button> -->
+					
+					
+					<%-- 신고 모달로 해보기 --%>
+					<%-- 모달 출력 버튼 --%>
+						<%-- 1.세션아이디 없을경우(미로그인) -> 로그인 모달창띄우고 로그인페이지로 이동 --%>
+						<c:choose>
+							<c:when test="${empty sessionScope.member_id }">
+	
+								<button class="btn btn-dark" 
+										data-toggle="modal" 
+										data-target="#needLogin">
+									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
+									 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
+								</button>
+								
+							</c:when>
+							<%-- 2. 세션아이디 존재하는 경우(로그인상태) - 신고하기 모달창 --%>
+							<c:otherwise>
+								<button class="btn btn-dark" 
+										data-target="#layerpop" 
+										data-toggle="modal">
+									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
+									 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
+								</button>
+							</c:otherwise>
+						</c:choose>
+					
+					
+					
+					
+					
+					
+					<%-- 공유하기버튼 --%>
+						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
 				</span>
+				
+				
+				
+				
 
 
+
+
+						
+					
+
+
+							
+							
+							
+	
+						
+
+						
+				
 	
 
 
@@ -312,17 +445,17 @@ a {
 				<c:when test="${not empty sessionScope.member_id && sessionScope.member_id eq secondhandProduct.member_id}">
 					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
 
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
+					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
 							onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						수정하기 
 					</button>
 	
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
-							onclick="location.href='secondhandDelete?secondhand_idx=${secondhandProduct.secondhand_idx}'">
+					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
+							onclick="confirmDelete()">
 						 삭제하기 
 					 </button>
 	
-					<button class="btn btn-primary btn-lg" style="font-size:1em; margin:10px 10px" 
+					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
 						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						끌어올리기 
 					</button>
@@ -363,13 +496,27 @@ a {
 								<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
 							</a>
 							
-							<form action="doChat" method="POST">
-								<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
-								<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
-								<div class="d-grid gap-2">
-									<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">
-								</div>
-							</form>
+							<%--
+							 거래상태 '예약중'일경우, 채팅하기 버튼 누를경우 
+							'예약중인상품이므로 채팅하기를 하실 수 없습니다' 알람창만 띄우기 
+							--%>
+							<c:choose>
+								<c:when test="${secondhandProduct.secondhand_deal_status eq '예약중' }">
+									<input type="button" class="btn btn-dark" style="font-size:1em;" value="채팅하기" onclick="reservedProduct()">
+								</c:when>
+								<%--- 거래상태 예약중이아닐경우 채팅하기로 정상적으로 이동 --%> 
+								<c:otherwise>
+									<form action="doChat" method="POST">
+									<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
+									<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
+									<div class="d-grid gap-2">
+										<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">
+									</div>
+									</form>
+								</c:otherwise>
+							</c:choose>
+							
+
 						
 						
 					</c:if>
@@ -525,7 +672,7 @@ a {
 							</div>
 							
 							<!-- body -->
-							<form action="zero_report" method="POST" name="fr">								
+							<form action="zero_report" method="POST" name="fr" id="reportForm">								
 								<div class="modal-body">
 								
 								    <%-- 신고하려는 내용 알려주기 --%>
@@ -539,7 +686,8 @@ a {
 									<div class="reportReason">
 										<h4>사유선택</h4>
 										<div>
-											<select onchange="categoryChange(this)">
+											
+											<select id="reportType" onchange="categoryChange(this)">
 											    <option>신고 타입을 선택해주세요</option>
 											    <option value="member">회원</option>
 											    <option value="zman">ZMAN</option>
@@ -549,7 +697,7 @@ a {
 					 					
 					 					<div>
 											<select id="report">
-												<option>사유 선택</option>
+												<option>신고 사유를 선택하세요</option>
 											</select>
 										</div>
 									</div>
@@ -557,7 +705,7 @@ a {
 								
 								<!-- Footer -->
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-default" data-dismiss="modal" > 신고하기 </button>
+									<button type="submit" id="reportSubmit" class="btn btn-default"> 신고하기 </button>
 								</div>
 							</form>
 						</div> <%-- <div class="modal-content"> --%>

@@ -132,9 +132,9 @@ public class MemberService {
 		System.out.println("isSecondhandBuyer:" + isSecondhandBuyer);
 		System.out.println("isAuctionSeller:" + isAuctionSeller);
 		System.out.println("isAuctionBuyer:" + isAuctionBuyer);
-//		if(isSecondhandDeliverd == null || isAuctionSeller == null) { // 없으면 탈퇴 가능
-//			return true;
-//		}
+		if(0 == isSecondhandSeller + isSecondhandBuyer + isAuctionSeller + isAuctionBuyer ) { // 없으면 탈퇴 가능
+			return true;
+		}
 		return false; // 있으면 탈퇴 불가
 	}
 

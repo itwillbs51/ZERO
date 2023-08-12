@@ -151,6 +151,7 @@
 		$("#modal2").addClass("blind");
 		$("#modal3").addClass("blind");
 		$('#' + pop).toggleClass('blind');
+		$("#passwd1, #passwd2, #phone1").val('');
 	}
 	
 	function closeModal(pop) {

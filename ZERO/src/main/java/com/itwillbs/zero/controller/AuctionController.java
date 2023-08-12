@@ -151,7 +151,7 @@ public class AuctionController {
 		logger.info(endAuctionList.toString());
 		// 1. BoardService - getBoardListCount() 메서드를 호출하여
 		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
-		String type = "경매중";
+		String type = "경매종료";
 		int listCount = service.getAucionListCount(pageNum, category, sort, type);
 		System.out.println("전체 게시물 수 : " + listCount);
 		

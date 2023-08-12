@@ -103,7 +103,7 @@ public class AlarmController {
 		List<HashMap<String, String>> alarmList =  service.getAlarmList(member_id, pageNum, category, startRow, listLimit);
 		logger.info(alarmList.toString());
 		// -------------------------------------------------------------------------
-		int listCount = service.getAlarmCount(pageNum, category);
+		int listCount = service.getAlarmCount(member_id, pageNum, category);
 //		System.out.println("전체 게시물 수 : " + listCount);
 //				
 		// 2. 전체 페이지 목록 갯수 계산

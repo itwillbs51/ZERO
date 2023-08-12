@@ -38,7 +38,7 @@
 				ORDER BY 
 					alarm_idx DESC
 				LIMIT
-					6
+					7
 			</if>
 	</select>
 	
@@ -90,8 +90,10 @@
 			COUNT(*)
 			FROM
 				ALARM
+			WHERE
+				member_id = #{member_id}
 				<if test="!category.equals('전체')">
-					WHERE 
+					AND 
 						alarm_type = #{category}
 				</if>
 				
