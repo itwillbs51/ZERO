@@ -72,16 +72,18 @@
 	
 	<!-- ZPAY 사용 내역(목록) 조회 - 필터링 적용 -->
 	<select id="selectZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
-		SELECT zh.*, ap.auction_title, os.order_secondhand_product
+		SELECT zh.*, ap.auction_title, os.order_secondhand_product, s.secondhand_idx, s.member_id AS seller_id, ap.auction_idx
 			FROM ZPAY_HISTORY zh
 				LEFT JOIN ORDER_SECONDHAND os 
 					ON zh.order_secondhand_idx = os.order_secondhand_idx
+				LEFT JOIN SECONDHAND s
+					ON s.secondhand_idx = os.secondhand_idx
 				LEFT JOIN ORDER_AUCTION oa 
 					ON zh.order_auction_idx = oa.order_auction_idx
 				LEFT JOIN AUCTION_PRODUCT ap
 					ON ap.auction_idx = oa.auction_idx
 			WHERE
-				member_id = #{member_id}
+				zh.member_id = #{member_id}
 			<if test="!searchType.equals('')">
 				<choose>
 					<when test="searchType.equals('충전')">

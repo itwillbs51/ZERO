@@ -180,9 +180,9 @@
 											if(zpayHistory.zpay_deal_type == '충전' || zpayHistory.zpay_deal_type == '환급') {
 												res += "<a class='itemTitle itemLink'>" + zpayHistory.zpay_deal_type + "</a>"
 											} else if(zpayHistory.zpay_deal_type == '중고입금' || zpayHistory.zpay_deal_type == '중고출금') {
-												res += "<a href='#' class='itemTitle itemLink'>" + zpayHistory.order_secondhand_product + "</a>"
+												res += "<a href='secondhand_detail?secondhand_idx=" + zpayHistory.secondhand_idx + "&member_id=" + zpayHistory.seller_id + "' class='itemTitle itemLink'>" + zpayHistory.order_secondhand_product + "</a>"
 											} else if(zpayHistory.zpay_deal_type == '경매입금' || zpayHistory.zpay_deal_type == '경매출금') {
-												res += "<a href='#' class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
+												res += "<a href='auction_detail?id=" + zpayHistory.auction_idx + "' class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
 											}
 											
 									res +=	"<div class='zpayHistoryItem_info_sub'>" +
