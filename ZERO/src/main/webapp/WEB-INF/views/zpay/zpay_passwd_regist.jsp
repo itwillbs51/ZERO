@@ -19,45 +19,67 @@
 <title>ZERO</title>
 <script type="text/javascript">
 	
-	$(function() {
-		checkButtonStatus();
-	});
-
-
-	// [비밀번호확인] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
+	//[비밀번호확인] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
 	function checkButtonStatus(){
-		let zpayPasswd =  $("#zpay_passwd").val();
-		let zpayPasswdCheck =  $("#zpay_passwd_check").val();
+		let zpayPasswd1 =  $("#zpay_passwd1").val();
+		let zpayPasswd2 =  $("#zpay_passwd2").val();
 		let chargeButton = $(".chargeButtonArea>button");
 		
-		if(zpayPasswd === "" && ){
-			chargeButton.attr("disabled", "disabled");
+		if (/^\d{6}$/.test(zpayPasswd1) && /^\d{6}$/.test(zpayPasswd2) && zpayPasswd1 === zpayPasswd2) {
+			$(".chargeButtonArea button").prop("disabled", false);
 		} else {
-			chargeButton.removeAttr("disabled");
+			$(".chargeButtonArea button").prop("disabled", true);
 		}
 	}
 	
 	
 	$(function(){		
 		// 비밀번호가 입력될 경우 [비밀번호확인] 버튼 활성화 ====================================================================
-		$("#zpay_passwd").on("input", function() {
-			checkButtonStatus();
+		$(function() {
+			$("#zpay_passwd1, #zpay_passwd2").on("input", function() {
+				checkButtonStatus();
+			});
 		});
 	});
 	
 	
 	// [비밀번호입력] 란의 [x]버튼
 	// 클릭 시 [비밀번호입력] 란의 내용 null로 바꾸기
-	function passwdReset() {
-		$("#zpay_passwd").val(null);
+	function passwdReset1() {
+		$("#zpay_passwd1").val(null);
 		checkButtonStatus();
 	}
-
-	function passwdCheckReset() {
-		$("#zpay_passwd_check").val(null);
+	
+	function passwdReset2() {
+		$("#zpay_passwd2").val(null);
 		checkButtonStatus();
 	}
-
+	
+	// 비밀번호가 숫자 6자리인지 확인하는 함수
+	function checkPasswd1(passwd1) {
+		if(/^\d{6}$/.test(passwd1)){
+			$("#zpay_passwd_check1").html("사용 가능한 비밀번호입니다");
+			$("#zpay_passwd_check1").css("color", "#09aa5c");
+			checkButtonStatus();
+		}else {
+			$("#zpay_passwd_check1").html("사용 불가능한 비밀번호입니다");			
+			$("#zpay_passwd_check2").css("color", "#333");
+			checkButtonStatus();
+		}
+	}
+	
+	// 재입력한 비빌번호가 숫자 6자리 이면서 처음 입력한 비밀번호와 일치하는지 확인하는 함수
+	function checkPasswd2(passwd2) {
+		if(/^\d{6}$/.test(passwd2) && passwd2 == $("#zpay_passwd1").val()){
+			$("#zpay_passwd_check2").html("비밀번호가 일치합니다");
+			$("#zpay_passwd_check2").css("color", "#09aa5c");
+			checkButtonStatus();
+		}else {
+			$("#zpay_passwd_check2").html("비밀번호가 일치하지 않습니다");			
+			$("#zpay_passwd_check2").css("color", "#333");
+			checkButtonStatus();
+		}
+	}
 	
 </script>
 <style type="text/css">
@@ -74,11 +96,11 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zpay_passwd_regist" method="post">
-					<input type="hidden" name="user_name" value="${userInfo.user_name }">
-					<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">
-					<input type="hidden" name="bank_name" value="${account.bank_name }">
-					<input type="hidden" name="account_num_masked" value="${account.account_num_masked }">
+				<form action="zpay_regist" method="post">
+					<input type="hidden" name="user_name" value="${user_name }">
+					<input type="hidden" name="fintech_use_num" value="${fintech_use_num }">
+					<input type="hidden" name="bank_name" value="${bank_name }">
+					<input type="hidden" name="account_num_masked" value="${account_num_masked }">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea text-center">
 							<div class="title">
@@ -86,27 +108,29 @@
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
-									<input type="password" id="zpay_passwd" name="zpay_passwd" onkeyup="checkPasswd(this);" placeholder="비밀번호를 입력해 주세요">
-									<button type="button" class="btn" onclick="passwdReset()">
+									<input type="password" id="zpay_passwd1" name="zpay_passwd1" maxlength="6" onkeyup="checkPasswd1(this.value);" placeholder="숫자 6자리를 입력해주세요">
+									<button type="button" class="btn" onclick="passwdReset1()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
 										</svg>
-									</button>							
+									</button>	
 								</div>							
-								<div class="amountInputArea">
-									<input type="password" id="zpay_passwd_check" onkeyup="checkPasswd(this);" placeholder="비밀번호를 입력해 주세요">
-									<button type="button" class="btn" onclick="passwdReset()">
+								<div id="zpay_passwd_check1" class="text-left"></div>					
+								<div class="amountInputArea mt-3">
+									<input type="password" id="zpay_passwd2" name="zpay_passwd2" maxlength="6" onkeyup="checkPasswd2(this.value);" placeholder="비밀번호를 재입력해주세요">
+									<button type="button" class="btn" onclick="passwdReset2()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
 										</svg>
-									</button>							
+									</button>		
 								</div>							
+								<div id="zpay_passwd_check2" class="text-left"></div>					
 							</div><%-- amountArea 영역 끝 --%>
 							<div class="withdrawalAccountArea">
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
-							<button type="submit" class="btn btn-dark btn-lg btn-block">비밀번호확인</button>
+							<button type="submit" class="btn btn-dark btn-lg btn-block" disabled>비밀번호설정</button>
 						</div><%-- chargeButtenArea 영역 끝 --%>
 					</div><%-- chargeContetnArea 영역 끝 --%>
 				</form>

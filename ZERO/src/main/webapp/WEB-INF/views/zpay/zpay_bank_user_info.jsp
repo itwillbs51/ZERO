@@ -146,7 +146,7 @@
 												</strong>
 												<div class="zpayBalance">
 													<%-- 2.3.1. 잔액조회 API 요청을 위한 폼 --%>
-													<form action="zpay_regist" method="post">
+													<form action="zpay_passwd_regist" method="post">
 														<%-- hidden 타입으로 예금주명, 계좌번호(마스킹), 핀테크이용번호 전달 --%>
 														<input type="hidden" name="user_name" value="${userInfo.user_name }">
 														<input type="hidden" name="fintech_use_num" value="${account.fintech_use_num }">

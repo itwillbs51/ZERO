@@ -39,7 +39,7 @@
 		<div class="container">
 			<div class="contentArea">
 			<%-- 메인영역 --%>
-				<div class="contentAreaZpay">
+				<div class="successContentArea">
 					<div class="targetArea">
 						<div class="icon">
 							<img alt="zpay_success" src="${pageContext.request.contextPath }/resources/img/zpay_success.png">

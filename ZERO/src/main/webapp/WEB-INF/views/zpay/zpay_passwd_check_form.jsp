@@ -24,22 +24,22 @@
 	});
 
 
-	// [환급하기] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
+	// [비밀번호확인] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
 	function checkButtonStatus(){
-		let amountInput =  $("#passwd").val();
+		let zpayPasswd =  $("#zpay_passwd").val();
 		let chargeButton = $(".chargeButtonArea>button");
 		
-		if(amountInput === ""){
-			chargeButton.attr("disabled", "disabled");
-		} else {
+		if(zpayPasswd != "" && zpayPasswd.length == 6){
 			chargeButton.removeAttr("disabled");
+		} else {
+			chargeButton.attr("disabled", "disabled");
 		}
 	}
 	
 	
 	$(function(){		
-		// 금액이 입력될 경우 [비밀번호확인] 버튼 활성화 ====================================================================
-		$("#passwd").on("input", function() {
+		// 비번이 입력될 경우 [비밀번호확인] 버튼 활성화 ====================================================================
+		$("#zpay_passwd").on("input", function() {
 			checkButtonStatus();
 		});
 	});
@@ -48,7 +48,7 @@
 	// [비밀번호입력] 란의 [x]버튼
 	// 클릭 시 [비밀번호입력] 란의 내용 null로 바꾸기
 	function passwdReset() {
-		$("#passwd").val(null);
+		$("#zpay_passwd").val(null);
 		checkButtonStatus();
 	}
 
@@ -68,9 +68,15 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zpay_charge_pro" method="post">
+				<form action="${targetURL }" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="${zpayAmount }">
+					<c:if test="${!empty order_secondhand_idx }">
+						<input type="hidden" name="order_secondhand_idx" value="${order_secondhand_idx }">
+					</c:if>
+					<c:if test="${!empty order_auction_idx }">
+						<input type="hidden" name="order_auction_idx" value="${order_auction_idx }">
+					</c:if>
 					<div class="chargeContentArea">
 						<div class="chargeInputArea text-center">
 							<div class="title">
@@ -78,7 +84,7 @@
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
-									<input type="password" id="passwd" onkeyup="checkPasswd(this);" placeholder="비밀번호를 입력해 주세요">
+									<input type="password" id="zpay_passwd" name="zpay_passwd" maxlength="6" onkeyup="checkPasswd(this);" placeholder="비밀번호를 입력해 주세요">
 									<button type="button" class="btn" onclick="passwdReset()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>

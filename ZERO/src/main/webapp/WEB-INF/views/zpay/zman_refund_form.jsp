@@ -114,9 +114,10 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zman_refund_pro" method="post">
+				<form action="zpay_passwd_check_form" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zman_net_profit" value="">
+					<input type="hidden" name="targetURL" value="zman_refund_pro">
 <%-- 					<input type="hidden" name="zman_balance" value="${zman_balance }"> --%>
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
@@ -125,7 +126,7 @@
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
-									<input type="text" id="amountInput" maxlength="10" onkeyup="inputNumberFormat(this);" value="${zman_net_profit }">
+									<input type="text" id="amountInput" maxlength="10" placeholder="송금할 금액을 입력해 주세요" value="${zman_net_profit }">
 									<button type="button" class="btn" onclick="amountReset()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>

@@ -97,8 +97,11 @@ public interface ZpayMapper {
 	// ZERO_ACCOUNT_HISTORY ZMAN 정산 내역 추가
 	int insertZeroAccountZmanHistory(ZeroAccountHistoryVO zeroAccount);
 
-	// 
+	// (계좌 여러개 등록할 경우) 사용자의 계좌 목록 가져오기
 	List<ZpayVO> selectMyAccountList(String member_id);
+
+	// 암호화된 ZPAY 비번 조회
+	String selectZpayPasswd(String member_id);
 
 
 	

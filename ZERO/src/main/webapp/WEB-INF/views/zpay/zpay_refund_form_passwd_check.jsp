@@ -23,6 +23,7 @@
 		
 		// 금액이 선택될 경우 [금액입력] 란에 입력 및 [환급하기] 버튼 활성화 ================================================
 		$("input[name=options]").on("click", function() {
+// 			alert($(this).val());
 			$("#amountInput").val($(this).val());
 			checkButtonStatus();
 		});
@@ -32,38 +33,81 @@
 			checkButtonStatus();
 		});
 		
-		
-		// 금액이 1000원 미만일 경우 [환급하기] 버튼 활성화 =================================================================
-		$("#amountInput").on("blur", function() {
-			let amountInput =  $("#amountInput").val();
-			
-			if (parseFloat(uncomma(amountInput)) < 1000) {
-				$(".chargeButtonArea>button").attr("disabled", "disabled");
-				alert("1000원 이상 환급 가능합니다.");
-			}
-			
-// 			$.ajax({
-// 				type : "GET", 
-// 				url : "zpay_availableBalance_check", 
-// 				data : {"zpayAmount" : uncomma(amountInput)}, 
-// 				dataType : "text", 
-// 				success : function(data) {
-// 					console.log(data);
-// 					if(data == ""){
-// 					} else {
-// 						alert(data);
-// 					}
-// 				}, 
-// 				error : function() {
-// 					alert("요청실패");
-// 				}
-// 			});
-			
+		// 비번이 입력될 경우 [비밀번호확인] 버튼 활성화 ====================================================================
+		$("#zpay_passwd").on("input", function() {
+			checkPasswdButtonStatus();
 		});
+		
 				
+		$(".passwdButtonArea>button").on("click", function() {			
+			
+			let zpayPasswd =  $("#zpay_passwd").val();
+			console.log("zpayPasswd : " + zpayPasswd);
+			
+			$.ajax({
+				type : "POST", 
+				url : "zpay_passwd_check_pro", 
+				data : {zpay_passwd : zpayPasswd}, 
+				dataType : "text", 
+				success : function(data) {
+					if(data == "true"){
+						alert("비밀번호 일치");
+						let zpayAmount = $("#amountInput").val().replaceAll(",", "");
+			 			$("input[name=zpayAmount]").val(zpayAmount);
+			 			$("form").submit();
+					} else {
+						alert("비밀번호 불일치");
+					}
+				}, 
+				error : function() {
+					alert("요청실패");
+				}
+			});
+		});
+		
 	});
-
-	// 입력된 금액의 형태 지정하는 함수 ==================================================================================
+	
+	
+	// [환급하기] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
+	function checkButtonStatus(){
+		let amountInput =  $("#amountInput").val();
+		let chargeButton = $(".chargeButtonArea>button");
+		
+		if(amountInput === ""){
+			chargeButton.attr("disabled", "disabled");
+		} else {
+			chargeButton.removeAttr("disabled");
+		}
+	}
+	
+	// [비밀번호확인] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
+	function checkPasswdButtonStatus(){
+		let zpayPasswd =  $("#zpay_passwd").val();
+		let passwdButton = $(".passwdButtonArea>button");
+		
+		if(zpayPasswd != "" && zpayPasswd.length == 6){
+			passwdButton.removeAttr("disabled");
+		} else {
+			passwdButton.attr("disabled", "disabled");
+		}
+	}
+	
+	// [비밀번호입력] 란의 [x]버튼
+	// 클릭 시 [비밀번호입력] 란의 내용 null로 바꾸기
+	function passwdReset() {
+		$("#zpay_passwd").val(null);
+		checkPasswdButtonStatus();
+	}
+	
+	// [금액입력] 란의 [x]버튼
+	// 클릭 시 [금액입력] 란의 내용 null로 바꾸고
+	// 선택된 금액의 active 클래스 해제
+	function amountReset() {
+		$("#amountInput").val(null);
+		$("input[name=options]").parent().removeClass("active");
+		checkButtonStatus();
+	}
+	
 	function inputNumberFormat(obj) {
 		obj.value = comma(uncomma(obj.value));
 	}
@@ -93,49 +137,8 @@
 		str = String(str);
 		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
 	}
-
-	// [환급하기] 버튼의 상태확인 및 변경을 수행하는 함수 ===================================================================
-	function checkButtonStatus(){
-		let amountInput =  $("#amountInput").val();
-		let chargeButton = $(".chargeButtonArea>button");
-		
-		console.log(parseInt(uncomma(amountInput)))
-		console.log(${availableBalance})
-		
-		if(amountInput !== ""){
-				chargeButton.removeAttr("disabled");				
-// 			if(parseFloat(uncomma(amountInput)) < ${availableBalance}){
-// 				chargeButton.removeAttr("disabled");				
-// 			} else {
-// 				alert("환급 가능한 금액을 초과했습니다.");
-// 				chargeButton.attr("disabled", "disabled");
-// 			}		
-		} else {
-			chargeButton.attr("disabled", "disabled");
-		}
-	}
 	
-		
-	// [금액입력] 란의 [x]버튼
-	// 클릭 시 [금액입력] 란의 내용 null로 바꾸고
-	// 선택된 금액의 active 클래스 해제
-	function amountReset() {
-		$("#amountInput").val(null);
-		$("input[name=options]").parent().removeClass("active");
-		checkButtonStatus();
-	}
 
-	$(function() {
-		$("form").submit(function() {
-			let zpayAmount = $("#amountInput").val().replaceAll(",", "");
-			$("input[name=zpayAmount]").val(zpayAmount);
-		});
-		
-	})
-
-
-	
-	
 </script>
 <style type="text/css">
 	.container {
@@ -151,24 +154,16 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zpay_passwd_check_form" method="post">
+<!-- 				<form action="zpay_passwd_check_form" method="post"> -->
+				<form action="zpay_refund_pro" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="">
-					<input type="hidden" name="targetURL" value="zpay_refund_pro">
+					<input type="hidden" name="zpay_deal_type" value="환급">
+					<input type="hidden" name="zpay_balance" value="${zpay_balance }">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
-							<div class="title" style="display: flex;">
-								<div class="text-left" style="flex: 1 1">
-									ZPAY잔액&nbsp;&nbsp;<div class="zpay_balance"><fmt:formatNumber value="${zpay_balance }" pattern="#,##0"/>원</div>
-								</div>
-								<c:if test="${!empty auctionLogBidSum and !empty availableBalance}">
-<!-- 									<div class="text-center"> -->
-<%-- 										입찰금액&nbsp;&nbsp;<div class="zpay_balance"><fmt:formatNumber value="${auctionLogBidSum }" pattern="#,##0"/>원</div> --%>
-<!-- 									</div> -->
-									<div class="text-right">
-										환급가능금액&nbsp;&nbsp;<div class="zpay_balance"><fmt:formatNumber value="${availableBalance }" pattern="#,##0"/>원</div>
-									</div>
-								</c:if>
+							<div class="title">
+								ZPAY잔액&nbsp;&nbsp;<div class="zpay_balance"><fmt:formatNumber value="${zpay_balance }" pattern="#,##0"/></div>
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
@@ -207,10 +202,50 @@
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
-<!-- 							<button type="button" class="btn btn-dark btn-lg btn-block">환급하기</button> -->
-							<button type="submit" class="btn btn-dark btn-lg btn-block">환급하기</button>
+							<button type="button" class="btn btn-dark btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter">
+								환급하기
+							</button>
+<!-- 							<button type="submit" class="btn btn-dark btn-lg btn-block">환급하기</button> -->
 						</div><%-- chargeButtenArea 영역 끝 --%>
-					</div><%-- chargeContetnArea 영역 끝 --%>	
+					</div><%-- chargeContetnArea 영역 끝 --%>
+					
+					<%-- 모달 --%>
+					<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-titl" id="exampleModalScrollableTitle">비밀번호입력</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="chargeContentArea">
+										<div class="chargeInputArea text-center">
+											<div class="title">
+												비밀번호입력
+											</div>
+											<div class="amountArea">
+												<div class="amountInputArea">
+													<input type="password" id="zpay_passwd" name="zpay_passwd" maxlength="6" onkeyup="checkPasswd(this);" placeholder="비밀번호를 입력해 주세요">
+													<button type="button" class="btn" onclick="passwdReset()">
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+															<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+														</svg>
+													</button>							
+												</div>							
+											</div><%-- amountArea 영역 끝 --%>
+											<div class="withdrawalAccountArea">
+											</div><%-- withdrawalAccountArea 영역 끝 --%>
+										</div><%-- chargeInputArea 영역 끝 --%>
+										<div class="passwdButtonArea">
+											<button type="button" class="btn btn-dark btn-lg btn-block">비밀번호확인</button>
+										</div><%-- chargeButtenArea 영역 끝 --%>
+									</div><%-- chargeContetnArea 영역 끝 --%>
+								</div>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>

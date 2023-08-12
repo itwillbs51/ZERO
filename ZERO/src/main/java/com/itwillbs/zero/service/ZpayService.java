@@ -154,8 +154,14 @@ public class ZpayService {
 		return mapper.insertZeroAccountZmanHistory(zeroAccount);
 	}
 
+	// (계좌 여러개 등록할 경우) 사용자의 계좌 목록 가져오기
 	public List<ZpayVO> getMyAccountList(String member_id) {
 		return mapper.selectMyAccountList(member_id);
+	}
+
+	// 암호화된 ZPAY 비번 조회
+	public String getZpayPasswd(String member_id) {
+		return mapper.selectZpayPasswd(member_id);
 	}
 
 

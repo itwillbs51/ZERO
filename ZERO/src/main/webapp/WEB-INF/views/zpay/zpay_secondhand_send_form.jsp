@@ -21,6 +21,18 @@
 	
 	$(function() {
 		checkButtonStatus();
+
+		let order_secondhand_price = ${order_secondhand.order_secondhand_price }
+		
+		if(order_secondhand_price != ""){
+			
+			$("#amountInput").val(comma(order_secondhand_price));
+			$("#amountInput").attr("readOnly", "readOnly");
+			$("input[name=options]").attr("disabled", "disabled");
+			$(".amountInputArea > button").attr("disabled", "disabled");
+		}
+		
+		
 	});
 
 	// 입력된 금액의 형태 지정하는 함수 ==================================================================================
@@ -79,6 +91,12 @@
 		$("#amountInput").on("input", function() {
 			checkButtonStatus();
 		});
+		
+		// 금액이 1000원 미만일 경우 [환급하기] 버튼 활성화 =================================================================
+		$("#amountInput").on("blur", function() {
+			let amountInput =  $("#amountInput").val();
+			
+		});
 	});
 	
 	
@@ -114,10 +132,11 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zpay_send_pro" method="post">
+				<form action="zpay_passwd_check_form" method="post">
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="">
-					<input type="hidden" name="zpay_deal_type" value="송금">
+<!-- 					<input type="hidden" name="zpay_deal_type" value="송금"> -->
+					<input type="hidden" name="targetURL" value="zpay_send_pro">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
@@ -125,7 +144,8 @@
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">
-									<input type="text" id="amountInput" maxlength="10" onkeyup="inputNumberFormat(this);" placeholder="송금할 금액을 입력해 주세요" value="${order_secondhand.order_secondhand_price }">
+									<input type="text" id="amountInput" maxlength="10" placeholder="송금할 금액을 입력해 주세요" value="${order_secondhand.order_secondhand_price }">
+<%-- 									<input type="text" id="amountInput" maxlength="10" onkeyup="inputNumberFormat(this.value);" oninput="inputNumberFormat(this.value)" placeholder="송금할 금액을 입력해 주세요" value="${order_secondhand.order_secondhand_price }"> --%>
 									<button type="button" class="btn" onclick="amountReset()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 											<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -160,10 +180,10 @@
 							</div><%-- withdrawalAccountArea 영역 끝 --%>
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
-							<input type="hidden" name="seller_id" value="${sessionScope.member_id }">
-							<input type="hidden" name="order_secondhand_idx" value="${order_secondhand.order_secondhand_idx }">
-							<input type="hidden" name="buyer_id" value="${order_secondhand.order_secondhand_buyer }">
-							<input type="hidden" name="zpay_amount" value="${order_secondhand.order_secondhand_price }">
+<%-- 							<input type="hidden" name="seller_id" value="${sessionScope.member_id }"> --%>
+<%-- 							<input type="hidden" name="order_secondhand_idx" value="${order_secondhand.order_secondhand_idx }"> --%>
+<%-- 							<input type="hidden" name="buyer_id" value="${order_secondhand.order_secondhand_buyer }"> --%>
+<%-- 							<input type="hidden" name="zpay_amount" value="${order_secondhand.order_secondhand_price }"> --%>
 							<button type="submit" class="btn btn-dark btn-lg btn-block">송금하기</button>
 						</div><%-- chargeButtenArea 영역 끝 --%>
 					</div><%-- chargeContetnArea 영역 끝 --%>
