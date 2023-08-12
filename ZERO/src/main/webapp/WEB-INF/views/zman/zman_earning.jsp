@@ -145,7 +145,7 @@
 <!-- 						<h1> 정산 내역 </h1> -->
 						<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
 							<div data-v-88eb18f6="" class="title">
-								<h3 data-v-88eb18f6="">정산하기</h3>
+								<h3 data-v-88eb18f6="">정산 내역</h3>
 							</div>
 						</div>
 					

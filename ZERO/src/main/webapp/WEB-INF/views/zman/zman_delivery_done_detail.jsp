@@ -20,7 +20,7 @@
 		margin: 25px;
 	}
 	
-	#sec01 {
+	#sec01, #sec03 {
 		display: flex;
 		justify-content: center;
 		align-items: center;	
@@ -32,6 +32,9 @@
 	    padding-bottom: 16px;
 	    border-bottom: 3px solid #222!important;
 	}
+	
+
+	
 	
 </style>
 <script>
@@ -56,7 +59,7 @@
 <!-- 				<h1>완료된 배달내역 확인</h1>	 -->
 				<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
 					<div data-v-88eb18f6="" class="title">
-						<h3 data-v-88eb18f6="">완료된 배달내역 확인</h3>
+						<h3 data-v-88eb18f6="">완료된 배달내역 확인 및 정산</h3>
 					</div>
 				</div>				
 				
@@ -66,25 +69,85 @@
 						<div class="user_detail" data-v-32a5de90="">
 							<div class="user_thumb01" data-v-32a5de90="">
 								<br>
-<!-- 									<img -->
-<%-- 										src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
-<!-- 										alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
-								
 								<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
 								<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
 								<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
+								<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp;
 								<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
-									<%-- 프로필 관리는 사이드바로 빼기 --%>
-<!-- 										<a href="/my/profile-edit" type="button" -->
-<!-- 											class="btn btn outlinegrey small" data-v-43813796="" -->
-<!-- 											data-v-32a5de90=""> 프로필 관리 </a> -->
 							</div>
 						</div>
 					</div>
 				</section>
-					
 				<hr>
 					
+				<section id="sec02">
+					<div class="mb-3 row">
+						<label for="staticEmail" class="col-sm-2 col-form-label">해당 배달 번호</label>
+						<div class="col-sm-7">
+							<input type="text" readonly class="form-control-plaintext" id="zman_delivery_idx" value="${zd.zman_delivery_idx }">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="inputPassword" class="col-sm-2 col-form-label">배달 상품</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="order_secondhand_product" value="${zd.order_secondhand_product }">
+						</div>
+					</div>
+					
+					<div class="mb-3 row">
+					    <label for="inputPassword" class="col-sm-2 col-form-label">배달 수락시간</label>
+					    <div class="col-sm-10">
+					        <fmt:parseDate value="${zd.zman_delivery_accepttime }" pattern="yyyy-MM-dd HH:mm:ss.S" var="deliveryAcceptTime"/>
+					        <fmt:formatDate value="${deliveryAcceptTime}" pattern="yy년 MM월 dd일 HH시 mm분" var="formattedDeliveryAcceptTime"/>
+					        <input type="text" readonly class="form-control-plaintext" id="zman_delivery_accepttime" value="${formattedDeliveryAcceptTime}">
+					    </div>
+					</div>
+					<div class="mb-3 row">
+					    <label for="inputPassword" class="col-sm-2 col-form-label">배달 시작시간</label>
+					    <div class="col-sm-10">
+					        <fmt:parseDate value="${zd.zman_delivery_starttime }" pattern="yyyy-MM-dd HH:mm:ss.S" var="deliveryStartTime"/>
+					        <fmt:formatDate value="${deliveryStartTime}" pattern="yy년 MM월 dd일 HH시 mm분" var="formattedDeliveryStartTime"/>
+					        <input type="text" readonly class="form-control-plaintext" id="zman_delivery_starttime" value="${formattedDeliveryStartTime}">
+					    </div>
+					</div>
+					<div class="mb-3 row">
+					    <label for="inputPassword" class="col-sm-2 col-form-label">배달 종료시간</label>
+					    <div class="col-sm-10">
+					        <fmt:parseDate value="${zd.zman_delivery_endtime }" pattern="yyyy-MM-dd HH:mm:ss.S" var="deliveryEndTime"/>
+					        <fmt:formatDate value="${deliveryEndTime}" pattern="yy년 MM월 dd일 HH시 mm분" var="formattedDeliveryEndTime"/>
+					        <input type="text" readonly class="form-control-plaintext" id="zman_delivery_endtime" value="${formattedDeliveryEndTime}">
+					    </div>
+					</div>
+					
+					<div class="mb-3 row">
+						<label for="inputPassword" class="col-sm-2 col-form-label">배달 출발지</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="zman_delivery_startspot" value="${zd.zman_delivery_startspot }">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="inputPassword" class="col-sm-2 col-form-label">배달 도착지</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="zman_delivery_endspot" value="${zd.zman_delivery_endspot }">
+						</div>
+					</div>
+					<div class="mb-3 row">
+					    <label for="inputPassword" class="col-sm-2 col-form-label">배달료</label>
+					    <div class="col-sm-10">
+					        <fmt:formatNumber value="${zd.zman_delivery_commission}" type="number" pattern="#,###원" var="formattedDeliveryCommission"/>
+					        <input type="text" readonly class="form-control-plaintext" id="zman_delivery_commission" value="${formattedDeliveryCommission}">
+					    </div>
+					</div>
+				</section>
+				
+				<section id='sec03'>
+					<form action="" method="get">
+<%-- 						<input type="hidden" name=" " value="${ }"> --%>
+						
+					    <button class="btn btn-outline-dark btn-lg" type="submit">돌아가기</button>
+					    <button class="btn btn-outline-dark btn-lg" type="submit">정산하기</button>
+					</form>
+				</section>
 				
 				
 				</div> <%-- <div id="main">  --%>

@@ -23,13 +23,13 @@ $(document).ready(function(){
 		    <hr>
 		    <li class="nav-item">
 		    	<a class="nav-link" href="zman_delivery_want">
-		        배달 예정 목록
+		        배달 예정
 		      	</a>
 		    </li>
     		<hr>
 		    <li class="nav-item">
 		    	<a class="nav-link" href="zman_delivery_done">
-		        배달 완료 목록
+		        배달 완료
 		      	</a>
 		    </li>
 		    <hr>

@@ -288,7 +288,8 @@ public class ZmanController {
 		int zmanDeliveryIdx = Integer.parseInt(zman_delivery_idx);
 		
 		ZmanDeliveryVO zmanDeliveryDetail = service.getDeliveryDetail(zmanDeliveryIdx);
-		model.addAttribute("zmanDeliveryDetail", zmanDeliveryDetail);
+		System.out.println("zmanDeliveryDetail - " + zmanDeliveryDetail);
+		model.addAttribute("zd", zmanDeliveryDetail);
 		
 		return "zman/zman_delivery_done_detail";
 	}
