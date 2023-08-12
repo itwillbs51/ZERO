@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Mapper
 public interface ZmanDeliveryMapper {
@@ -42,8 +43,14 @@ public interface ZmanDeliveryMapper {
 	// 마커 클릭 시 보여줄 정보 가져오기
 	List<ZmanDeliveryVO> selectMarkerClickInfo(String markerTitle);
 
+
 	// ZMAN 배달 완료 내역 페이지로 이동
-	List<ZmanDeliveryVO> selectDeliveryDoneList();
+//	List<ZmanDeliveryVO> selectDeliveryDoneList();
+//	List<ZmanDeliveryVO> selectDeliveryDoneList(String member_id);
+	List<ZmanDeliveryVO> selectDeliveryDoneList(String zman_id);
+
+	// ZMAN 마이페이지의 ZPAY 정보 가져오기
+	ZpayVO selectZpay(String member_id);
 
 
 	// ZMAN 중고물품 배달 시작하기

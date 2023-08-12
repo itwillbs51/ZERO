@@ -69,7 +69,7 @@ public class AuctionController2 {
 		System.out.println(auction_manage_status);
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
 		
-		if(auction_manage_status.equals("경매종료")) {
+		if(auction_manage_status!=null) {
 			System.out.println("경매종료");
 			return "false5";
 		}
@@ -146,8 +146,10 @@ public class AuctionController2 {
 		int bidedZpay=service.getBidedZpay(member_id,id);
 		int possibleZpay=balance-bidedZpay;
 		
-		if(possibleZpay<maxPrice || auction_manage_status!=null) {
+		if(possibleZpay<maxPrice) {
 		return "false";
+		}else if(auction_manage_status!=null){
+			return "false2";
 		}
 		HashMap<String, String> winner = new HashMap<String, String>();
 		winner.put("member_id", member_id);

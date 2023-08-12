@@ -83,6 +83,17 @@
 		$("#amountInput").on("input", function() {
 			checkButtonStatus();
 		});
+		
+		// 금액이 1000원 미만일 경우 [환급하기] 버튼 활성화 =================================================================
+		$("#amountInput").on("blur", function() {
+			let amountInput =  $("#amountInput").val();
+			
+			if (parseFloat(uncomma(amountInput)) < 1000) {
+				$(".chargeButtonArea>button").attr("disabled", "disabled");
+				alert("1000원 이상 충전 가능합니다.");
+			}
+			
+		});
 	});
 	
 	
@@ -122,11 +133,11 @@
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
-				<form action="zpay_passwd_check" method="post">
+				<form action="zpay_passwd_check_form" method="post">
 <!-- 				<form action="zpay_charge_pro" method="post"> -->
 					<input type="hidden" name="member_id" value="${sessionScope.member_id }">
 					<input type="hidden" name="zpayAmount" value="">
-					<input type="hidden" name="zpay_deal_type" value="충전">
+					<input type="hidden" name="targetURL" value="zpay_charge_pro">
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
@@ -180,6 +191,7 @@
 		</div><%-- container 영역 끝 --%>
 	</article>
 	<footer>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 	
 <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">

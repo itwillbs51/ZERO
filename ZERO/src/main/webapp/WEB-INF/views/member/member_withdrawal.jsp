@@ -27,7 +27,6 @@
 	href="${pageContext.request.contextPath }/resources/css/member.css"
 	rel="stylesheet" type="text/css">
 
-	
 <%-- vue.js 링크 --%>
 <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
 <!-- <style type="text/css"> /*# sourceMappingURL=contenteditable.vue.map */</style> -->

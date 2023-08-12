@@ -400,6 +400,7 @@
 		line-height: 19px;
 		font-weight: bold;
 		color: #252525;
+		font-size: 20px;
 	}
 
 	.chargeContentArea .chargeInputArea .title .zpay_balance {
@@ -755,15 +756,76 @@
 	
 	
 	
+/* ============================ zpay_passwd_regist.jsp ============================= */
+	#zpay_passwd_check1, #zpay_passwd_check2 {
+		font-size: 14px;
+	}
 	
 	
 	
+/* ============================ zpay_passwd_check_form.jsp ============================= */
+	.changePasswd {
+		margin-top: 14px;
+		color: #929294;
+		line-height: 21px;
+		font-size: 15px;
+	}
 	
+	.changePasswd a:hover {
+		color: #333;
+	}
 	
+	.changePasswdModal {
+		display: flex;
+		display: -ms-flexbox;
+		flex-direction: column;
+		flex: 1 1;
+		-ms-flex: 1 1 0%;
+/* 		padding: 0 20px 20px; */
+		height: 100%;
+		box-sizing: border-box;
+		letter-spacing: -0.5px;
+		margin-bottom: 12px;
+		padding: 20px;
+		border-radius: 16px;
+		background-color: #fff;
+		box-shadow: 0 4px 16px 0 rgba(0,0,0,.05);
+	}
 	
-/* ============================ zpay_charge_form.jsp ============================= */
+	.changePasswdModal .changePasswdInputArea .changePasswdArea {
+		margin-top: 13px;
+	}
+
+	.changePasswdModal .changePasswdInputArea .changePasswdArea .inputArea {
+		display: flex;
+	}	
 	
-	
+	.changePasswdModal input {
+		flex: 1 1;
+		outline: none;
+		display: block;
+		width: 100%;
+		height: calc(1.5em + 0.75rem + 2px);
+		padding: 0.375rem 0.75rem;
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color: #495057;
+		background-color: #fff;
+		background-clip: padding-box;
+		border: 1px solid #ced4da;
+		border-right: none;
+		border-radius: 0.25rem 0 0 0.25rem;
+		transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
+
+	.changePasswdModal button {
+		border: 1px solid #ced4da;
+		border-left: none;
+		border-radius: 0 0.25rem 0.25rem 0;
+		padding-right: 6px;
+		transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
 	
 	
 	

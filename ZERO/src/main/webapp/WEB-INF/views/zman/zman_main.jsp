@@ -19,7 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ZMAN MAIN</title>
 <style type="text/css">
 	#user_membership {
 		margin: 25px;
@@ -31,27 +31,39 @@
 		align-items: center;	
 	}
 
-	/* datepicker */
-	.daterangepicker td.in-range {
-		background-color: #EBF4E9;
-		border-color: transparent;
-		color: #000;
-		border-radius: 0;
+	.content_title[data-v-88eb18f6] {
+	    display: flex;
+	    padding: 5px 0 6px;
+	    padding-bottom: 16px;
+	    border-bottom: 3px solid #222!important;
+	}
+
+	/* 지도 영역 CSS 시작 */ 		
+	#map-container {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+/* 	  height: 100vh; /* 화면 높이에 맞게 설정 */ */
 	}
 	
-	.daterangepicker td.active, .daterangepicker td.active:hover {
-		background-color: #09aa5c;
-		border-color: transparent;
-		color: #fff;
+	#map {
+	  max-width: 100%; /* 지도의 최대 너비 설정 */
+	  height: auto; /* 높이를 자동 조정하여 비율을 유지 */
 	}
 	
-	.daterangepicker td.end-date {
-		border-radius: 0 4px 4px 0;
-	}
+	/* 화면 너비가 500px 이하인 경우 */
+	@media (max-width: 500px) {
+	  #map-container {
+	    padding: 0 15px; /* 너비가 작은 경우 가운데 정렬을 유지하기 위한 여백 설정 */
+	  }
 	
-	.daterangepicker td.start-date {
-		border-radius: 4px 0 0 4px;
+	  #map {
+	    width: 100%; /* 지도의 너비를 화면 너비에 맞게 조정 */
+	    height: auto; /* 높이를 자동 조정하여 비율을 유지 */
+	  }
 	}
+	/* 지도 영역 CSS 끝 */ 		
+	
 </style>
 <script type="text/javascript">
 
@@ -75,46 +87,79 @@
 			<div class="container-fluid">
 			<div class="contentArea">
 				<div id="main">
-					<h1>ZMAN</h1>
+<!-- 					<h1><u>ZMAN</u></h1> -->
+					<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
+						<div data-v-88eb18f6="" class="title">
+							<h3 data-v-88eb18f6="">ZMAN</h3>
+						</div>
+					</div>
+					
 					<%--ZMAN 프로필 영역 --%>
 					<section id="sec01">
-						<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
-							<div class="user_detail" data-v-32a5de90="">
-								<div class="user_thumb01" data-v-32a5de90="">
+							<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
+								<div class="user_detail" data-v-32a5de90="">
+									<div class="user_thumb01" data-v-32a5de90="">
 									<br>
-<!-- 									<img -->
-<%-- 										src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
-<!-- 										alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
-									
-									<strong class="name" data-v-32a5de90="">ZMAN 이름</strong> |
-									<strong class="email" data-v-32a5de90="">ZMAN 아이디</strong> |
-									<strong class="phone" data-v-32a5de90="">ZMAN 전화번호</strong>
-										<%-- 프로필 관리는 사이드바로 빼기 --%>
-<!-- 										<a href="/my/profile-edit" type="button" -->
-<!-- 											class="btn btn outlinegrey small" data-v-43813796="" -->
-<!-- 											data-v-32a5de90=""> 프로필 관리 </a> -->
+									<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
+									<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
 								</div>
 							</div>
 						</div>
 					</section>
 					<hr>
 					
-					<section id="sec02">
-						<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
-							<div class="user_detail" data-v-32a5de90="">
-								<div class="user_thumb01" data-v-32a5de90="">
-									<h2>정산 내역</h2>
-										<div class="zpayHistoryDateSelect" style="display: flex;">
-											<input type="text" name="datetimes"  class="form-control">
-										</div>
-								</div>
-							</div>
-						</div>
-					</section>
+<!-- 					<section id="sec02"> -->
+<!-- 						<div class="user_membership" data-v-32a5de90="" data-v-412d8616=""> -->
+<!-- 							<div class="user_detail" data-v-32a5de90=""> -->
+<!-- 								<div class="user_thumb01" data-v-32a5de90=""> -->
+<!-- 									<h2>정산 내역</h2> -->
+<!-- 										<div class="zpayHistoryDateSelect" style="display: flex;"> -->
+<!-- <!-- 											<input type="text" name="datetimes"  class="form-control"> --> -->
+<!-- 										<table class="table"> -->
+<!-- 											<thead> -->
+<!-- 												<tr> -->
+<!-- 											    	<th scope="col">배달 번호</th> -->
+<!-- 											        <th scope="col">상품 이름</th> -->
+<!-- 											        <th scope="col">출발지</th> -->
+<!-- 											        <th scope="col">도착지</th> -->
+<!-- 											        <th scope="col">배달료</th> -->
+<!-- 											        <th scope="col">순수익</th> -->
+<!-- 											        <th scope="col" width="75px"></th> -->
+<!-- 												</tr> -->
+<!-- 											</thead> -->
+<!-- 											<tbody class="table-group-divider"> -->
+<%-- 												수정 예정 --%>
+<%-- 												<c:forEach var="zd" items="${zmanDeliveryYetList }" varStatus="vs"> --%>
+<%-- 												<input type="hidden" name="zman_delivery_idx" value="${zd.zman_delivery_idx }" > --%>
+<%-- 							    				<input type="hidden" name="zman_id" value="${sessionScope.member_id }"> --%>
+<!-- 												    <tr> -->
+<%-- 												        <th scope="row">${zd.zman_delivery_idx }</th> --%>
+<%-- 												        <td>${zd.order_secondhand_product }</td> --%>
+<%-- 												        <td>${zd.zman_delivery_startspot }</td> --%>
+<%-- 									    				<td>${zd.zman_delivery_endspot }</td> --%>
+<%-- 									    				<td>${zd.zman_delivery_commission }</td> --%>
+<!-- 									    				<td> -->
+<!-- 								    				 		<button class="btn btn-dark" type="submit">배달</button> -->
+<!-- 								    					</td> -->
+<!-- 												    </tr> -->
+<%-- 												</c:forEach> --%>
+<!-- 											</tbody> -->
+<!-- 										</table> -->
+<!-- 										</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</section> -->
 					<hr>
 					
 				<%--카카오맵 지도 API 시작 --%>
-				<div id="map" style="width:100%;height:450px;" data-v-32a5de90=""></div>
+				<div id="map-container">
+					<div id="map" style="width:650px;height:350px;" data-v-32a5de90=""></div>
+				</div>
+				
 					<%-- 발급받은 appkey 를 넣어주기 --%>
 					<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c7b64b9fe8be0d3ba0e69ecffe2e6efe&libraries=services"></script>
 					<script>
@@ -150,7 +195,7 @@
 						            fillColor: '#666699', // 채움 색
 						            fillOpacity: 0.5, // 채움 불투명도
 						            strokeWeight: 1, // 선의 두께
-						            strokeColor: '#00ff00', // 선 색
+						            strokeColor: '#666699', // 선 색
 						            strokeOpacity: 1, // 선 투명도 
 						            strokeStyle: 'solid' // 선 스타일
 						        });
@@ -211,9 +256,9 @@
 						// 데이터베이스에서 가져온 주소로 마커를 표시하는 함수
 					    function displayMarkersFromDB() {
 					        var positionsFromDB = [
-					            { title: '서면로 62', address: '부산광역시 부산진구 서면로 62' }
-					            , { title: '예시 위치1', address: '부산광역시 부산진구 동천로 109' }
-// 					            , { title: '예시 위치2', address: '부산광역시 부산진구 예시주소2' }
+					            { title: ' 출발지', address: '부산광역시 부산진구 서면로 62' }
+					            , { title: '출발지1', address: '부산광역시 부산진구 동천로 109' }
+					            , { title: '출발지2', address: '부산광역시 부산진구 동천로 97' }
 // 					            , { title: '예시 위치3', address: '부산광역시 부산진구 예시주소3' }
 					            // ... (데이터베이스에서 가져온 주소 정보 추가)
 					        ];

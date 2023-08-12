@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanEarningVO;
 import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
@@ -91,14 +92,25 @@ public interface ZpayMapper {
 	// ZERO_ACCOUNT_HISTORY 입금/출금 내역 추가
 	int insertZeroAccountHistory(ZeroAccountHistoryVO zeroAccount);
 
+	// ZmanEarning 조회
+	ZmanEarningVO selectZmanEarning(int zman_earning_idx);
+	
 	// ZMAN 정산
 	int insertZmanRefund(ZmanRefundHistoryVO zmanRefundHistory);
 
 	// ZERO_ACCOUNT_HISTORY ZMAN 정산 내역 추가
 	int insertZeroAccountZmanHistory(ZeroAccountHistoryVO zeroAccount);
 
-	// 
+	// (계좌 여러개 등록할 경우) 사용자의 계좌 목록 가져오기
 	List<ZpayVO> selectMyAccountList(String member_id);
+
+	// 암호화된 ZPAY 비번 조회
+	String selectZpayPasswd(String member_id);
+
+	// ZPAY 비밀번호 변경
+	int updateZpayPasswd(@Param("member_id") String member_id, @Param("new_zpay_passwd") String new_zpay_passwd);
+
+	
 
 
 	

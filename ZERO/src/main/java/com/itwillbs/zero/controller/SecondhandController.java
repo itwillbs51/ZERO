@@ -765,7 +765,36 @@ public class SecondhandController {
 		}
 		
 		//신고 등록작업(INSERT)
-		
+		@ResponseBody
+		@RequestMapping(value = "reportContent", method = {RequestMethod.GET, RequestMethod.POST})
+		public String report(@RequestParam Map<String,String> map) {
+			System.out.println("전달된 신고 타입 : " + map.get("reportType"));
+			System.out.println("전달된 신고 사유 : " + map.get("reportReason"));
+			System.out.println("전달된 신고 상품번호 : " + map.get("secondhand_idx"));
+			System.out.println("전달된 신고된 회원아이디 : " + map.get("member_id"));
+			System.out.println("전달된 신고한 회원아이디 : " + map.get("report_member_id"));
+			
+			String reportType = map.get("reportType");
+			String reportReason = map.get("reportReason");
+			String secondhand_idx = map.get("secondhand_idx");
+			String member_id = map.get("member_id");
+			String report_member_id = map.get("report_member_id");
+			
+			//전달받은 신고사유 구분하여 신고테이블 insert
+			int insertCount = service.registReport(reportType, 
+					reportReason, 
+					secondhand_idx, 
+					member_id,
+					report_member_id);
+			
+			System.out.println(insertCount);
+			if(insertCount>0) {
+				return "success";	
+			} else {
+				return "fail";
+			}
+		}
+	
 		
 		
 		//

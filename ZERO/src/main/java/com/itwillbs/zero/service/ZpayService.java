@@ -11,6 +11,7 @@ import com.itwillbs.zero.vo.ZpayVO;
 import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZmanEarningVO;
 import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.mapper.ZpayMapper;
 
@@ -143,6 +144,11 @@ public class ZpayService {
 	public int depositWithdrawZeroAccount(ZeroAccountHistoryVO zeroAccount) {
 		return mapper.insertZeroAccountHistory(zeroAccount);
 	}
+	
+	// ZmanEarning 조회
+	public ZmanEarningVO getZmanEarning(int zman_earning_idx) {
+		return mapper.selectZmanEarning(zman_earning_idx);
+	}
 
 	// ZMAN 정산
 	public int zmanRefund(ZmanRefundHistoryVO zmanRefundHistory) {
@@ -154,9 +160,22 @@ public class ZpayService {
 		return mapper.insertZeroAccountZmanHistory(zeroAccount);
 	}
 
+	// (계좌 여러개 등록할 경우) 사용자의 계좌 목록 가져오기
 	public List<ZpayVO> getMyAccountList(String member_id) {
 		return mapper.selectMyAccountList(member_id);
 	}
+
+	// 암호화된 ZPAY 비번 조회
+	public String getZpayPasswd(String member_id) {
+		return mapper.selectZpayPasswd(member_id);
+	}
+
+	// ZPAY 비밀번호 변경
+	public int updateZpayPasswd(String member_id, String new_zpay_passwd) {
+		return mapper.updateZpayPasswd(member_id, new_zpay_passwd);
+	}
+
+	
 
 
 	

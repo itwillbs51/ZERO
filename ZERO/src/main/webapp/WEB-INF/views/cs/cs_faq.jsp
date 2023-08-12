@@ -156,7 +156,7 @@ $(function() {
 				// 지정한 div안에 내용 추가([카테고리] Q. 질문)
 				// 결과값이 List타입으로 배열 안 데이터에 접근하듯 사용
 				$("#faqContents").append(
-						"<label class='qPart' id='check" + i + "'>"
+						"<label class='qPart' id='check" + i + "' data-target='target" + i + "'>"
 						+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
 						+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
 						+ "</label>"
@@ -273,16 +273,19 @@ $(function() {
 	});
 });
 
-$(document).on("change", ".checkbox", function() {
-	let targetId = $(this).data('target');
-	
-	if( $(this).prop("checked") ) {
-		$("#" + targetId).show();
-	} else {
-		$("#" + targetId).hide();
-		
-	}
+$(document).ready(function() {
+    // 토글 버튼이 클릭되면 토글 동작 수행
+    $(document).on("change", ".checkbox", function() {
+        let targetId = $(this).data('target');
+
+        if ($(this).prop("checked")) {
+            $("#" + targetId).show();
+        } else {
+            $("#" + targetId).hide();
+        }
+    });
 });
+
 
 </script>
 </head>
@@ -322,41 +325,33 @@ $(document).on("change", ".checkbox", function() {
 					<div id="csCategory">
 						<div class="btn-group" role="group" aria-label="Basic example">
 							<button type="button" id="faqAll" value="전체" class="btn btn-dark text-nowrap" >전체</button>
-							<button type="button" id="faqReserv" value="이용정책" class="btn btn-outline-dark text-nowrap">이용정책</button>
-							<button type="button" id="faqMemship" value="공통" class="btn btn-outline-dark text-nowrap">공통</button>
-							<button type="button" id="faqTheater" value="중고판매" class="btn btn-outline-dark text-nowrap">중고판매</button>
-							<button type="button" id="faqTheater" value="경매판매" class="btn btn-outline-dark text-nowrap">경매판매</button>
-							<button type="button" id="faqPayment" value="경매구매" class="btn btn-outline-dark text-nowrap">경매구매</button>
-							<button type="button" id="faqTheater" value="ZPAY" class="btn btn-outline-dark text-nowrap">ZPAY</button>
+							<button type="button" id="faqReserv" value="1" class="btn btn-outline-dark text-nowrap">이용정책</button>
+							<button type="button" id="faqMemship" value="2" class="btn btn-outline-dark text-nowrap">공통</button>
+							<button type="button" id="faqTheater" value="3" class="btn btn-outline-dark text-nowrap">중고판매</button>
+							<button type="button" id="faqTheater" value="4" class="btn btn-outline-dark text-nowrap">경매판매</button>
+							<button type="button" id="faqPayment" value=5 class="btn btn-outline-dark text-nowrap">경매구매</button>
+							<button type="button" id="faqTheater" value="6" class="btn btn-outline-dark text-nowrap">ZPAY</button>
 						</div>
 					</div>
 					
 					<hr>
 					<%--  --%>
 					<div>
-						<div class="faq-list-box">
-							<p class="reset mb10">
-								<strong>
-									<span id="totalTitle">전체</span>
-									<span class="font-green" id="totalCnt"></span>건
-								</strong>
-							</p>
-<!-- 							<div class="content_main"> -->
-<!-- 								<ul> -->
-<!-- 									<li> -->
-<!-- 										<a href="#"> -->
-<!-- 											<p>[공지] 서비스 수수료 안내</p> -->
-<!-- 										</a> -->
-<!-- 									</li> -->
-<!-- 								</ul> -->
-<!-- 							</div> -->
-							</div>
-							
-				   		<div id="faqContents">
-				   		</div>
-				   		<hr>
-						<div id="pageBtn-group">
-						</div>
+	                    <div class="faq-list-box">
+	                        <p class="reset mb10">
+	                            <strong>
+	                                <span id="totalTitle">전체</span>
+	                                <span class="font-green" id="totalCnt"></span>건
+	                            </strong>
+	                        </p>
+                        </div>
+
+                    <div id="faqContents">
+                    </div>
+                    <hr>
+                    <div id="pageBtn-group">
+                    </div>
+
 						
 						<script type="text/javascript">
 							// $(function){} 안에 넣으면 페이지가 로딩될 때 구현되므로
@@ -364,130 +359,66 @@ $(document).on("change", ".checkbox", function() {
 							// "click", "지정요소(#, ., 태그이름 등)", 익명함수를 파라미터로 사용
 							// 페이지 버튼 클릭 시 ajax 실행
 							$(document).on("click", ".pageBtn", function() {
-								// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
-								// 카테고리 버튼이 클릭되면 btn-danger 클래스를 추가함
-								// btn-group안 btn-danger 클래스를 추가된 버튼의 value값을 가져옴
-								let cs_type = $(".btn-group>.btn-danger").val();
-								let pageNum = $(this).text();	// <button>안 글자를 페이지 변수로 사용
-								
-								$("#pageBtn-group>button").removeClass("btn-danger");
-								$("#pageBtn-group>button").addClass("btn-outline-danger");
-								$(this).removeClass("btn-outline-danger");
-								$(this).addClass("btn-danger");
-					// 			console.log(cs_type);
-					// 			console.log(pageNum);
-								
-								$.ajax({
-									type: 'GET',
-									url: '<c:url value="/faq_data"/>',
-									data: {'cs_type': cs_type},
-									dataType: 'JSON',
-									success: function(result) {	// 요청 성공 시
-										
-										// 페이징 처리를 위한 변수 정의
-										let start = pageNum * 5 - 4;
-										let limit = pageNum * 5;
-										
-										if(result.length <= limit){
-											limit = result.length;
-										}
-									
-						
-										$("#faqContents").empty();
-										for(let i = (start - 1); i < limit; i++) {
-											// 답변 내용을 db에서 받아올때 줄바꿈 형식을 태그로 바꿔서 줄바꿈 구현
-											let content = result[i].cs_content;
-											let fomattedContent = content.replace(/\n/g, "<br>");
-					// 						
-											$("#faqContents").append(
-													"<label class='qPart' id='check" + i + "'>"
-													+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
-													+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
-													+ "</label>"
-													);
-											// 지정한 div안에 내용 추가(A. 답변)
-											$("#faqContents").append(
-													"<div class='target' id='target" + i + "' > A. " + fomattedContent + "</div>"
-													);
-										}
-										// 답변 영역 사라지게하기
-										$(".target").hide();
-									},
-									error: function() {
-										alert('에러');
-									}
-								});
-							});
-						</script>
+                            // 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
+                            // 카테고리 버튼이 클릭되면 btn-danger 클래스를 추가함
+                            // btn-group안 btn-danger 클래스를 추가된 버튼의 value값을 가져옴
+                            let cs_type = $(".btn-group>.btn-danger").val();
+                            let pageNum = $(this).text();    // <button>안 글자를 페이지 변수로 사용
+
+                            $("#pageBtn-group>button").removeClass("btn-danger");
+                            $("#pageBtn-group>button").addClass("btn-outline-danger");
+                            $(this).removeClass("btn-outline-danger");
+                            $(this).addClass("btn-danger");
+
+                            $.ajax({
+                                type: 'GET',
+                                url: '<c:url value="/faq_data"/>',
+                                data: {'cs_type': cs_type},
+                                dataType: 'JSON',
+                                success: function(result) {    // 요청 성공 시
+                                    // 페이징 처리를 위한 변수 정의
+                                    let start = pageNum * 5 - 4;
+                                    let limit = pageNum * 5;
+
+                                    if (result.length <= limit) {
+                                        limit = result.length;
+                                    }
+
+                                    $("#faqContents").empty();
+                                    for (let i = (start - 1); i < limit; i++) {
+                                        let content = result[i].cs_content;
+                                        let formattedContent = content.replace(/\n/g, "<br>");
+
+                                        $("#faqContents").append(
+                                            "<label class='qPart' id='check" + i + "'>"
+                                            + "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
+                                            + "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject
+                                            + "</label>"
+                                        );
+
+                                        // 지정한 div안에 내용 추가(A. 답변)
+                                        $("#faqContents").append(
+                                            "<div class='target' id='target" + i + "' > A. " + formattedContent + "</div>"
+                                        );
+                                        // 초기에는 답변 영역을 숨기도록 설정
+                                        $(".target").hide();
+                                    }
+,
+                                error: function() {
+                                    alert('에러');
+                                }
+                            });
+                        });
+                    </script>
 
 					</div>
 				</div>
 			</div>
 		</div>
 	</article>
+	
 	<footer>
 	
 	</footer>
-		<script type="text/javascript">
-		// $(function){} 안에 넣으면 페이지가 로딩될 때 구현되므로
-		// 버튼 클릭 시 안의 내용이 실행되도록 on()메서드에
-		// "click", "지정요소(#, ., 태그이름 등)", 익명함수를 파라미터로 사용
-		// 페이지 버튼 클릭 시 ajax 실행
-		$(document).on("click", ".pageBtn", function() {
-			// 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
-			// 카테고리 버튼이 클릭되면 btn-danger 클래스를 추가함
-			// btn-group안 btn-danger 클래스를 추가된 버튼의 value값을 가져옴
-			let cs_type = $(".btn-group>.btn-danger").val();
-			let pageNum = $(this).text();	// <button>안 글자를 페이지 변수로 사용
-			
-			$("#pageBtn-group>button").removeClass("btn-danger");
-			$("#pageBtn-group>button").addClass("btn-outline-danger");
-			$(this).removeClass("btn-outline-danger");
-			$(this).addClass("btn-danger");
-// 			console.log(cs_type);
-// 			console.log(pageNum);
-			
-			$.ajax({
-				type: 'GET',
-				url: '<c:url value="/faq_data"/>',
-				data: {'cs_type': cs_type},
-				dataType: 'JSON',
-				success: function(result) {	// 요청 성공 시
-					
-					// 페이징 처리를 위한 변수 정의
-					let start = pageNum * 5 - 4;
-					let limit = pageNum * 5;
-					
-					if(result.length <= limit){
-						limit = result.length;
-					}
-				
-	
-					$("#faqContents").empty();
-					for(let i = (start - 1); i < limit; i++) {
-						// 답변 내용을 db에서 받아올때 줄바꿈 형식을 태그로 바꿔서 줄바꿈 구현
-						let content = result[i].cs_content;
-						let fomattedContent = content.replace(/\n/g, "<br>");
-				
-						$("#faqContents").append(
-								"<label class='qPart' id='check" + i + "'>"
-								+ "<input type='checkbox' class='checkbox' id='check" + i + "' data-target='target" + i + "' />"
-								+ "<strong>[" + result[i].cs_type + "]</strong> <br>" + " Q. " + result[i].cs_subject 
-								+ "</label>"
-								);
-						// 지정한 div안에 내용 추가(A. 답변)
-						$("#faqContents").append(
-								"<div class='target' id='target" + i + "' > A. " + fomattedContent + "</div>"
-								);
-					}
-					// 답변 영역 사라지게하기
-					$(".target").hide();
-				},
-				error: function() {
-					alert('에러');
-				}
-			});
-		});
-	</script>
 </body>
 </html>

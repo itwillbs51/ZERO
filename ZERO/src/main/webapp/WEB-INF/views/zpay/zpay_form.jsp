@@ -36,6 +36,7 @@
 		</div><%-- container 영역 끝 --%>
 	</article>
 	<footer>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 
 </body>

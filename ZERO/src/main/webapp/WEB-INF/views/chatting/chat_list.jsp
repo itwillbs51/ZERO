@@ -158,7 +158,7 @@
 	
 	<!-- footer -->
 	<footer>
-		<div>여기 footer</div>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 </body>
 </html>

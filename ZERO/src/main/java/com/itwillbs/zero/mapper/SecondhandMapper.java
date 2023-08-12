@@ -88,7 +88,20 @@ public interface SecondhandMapper {
 
 	//검색키워드 포함된 중고상품 개수 조회요청
 	int selectSearchSecondhandCount(String productSearchKeyword);
+
 	
+	
+	
+	
+	
+	
+	//신고하기 insert 작업
+	int insertReport(@Param("reportType") String reportType,
+			@Param("reportReason") String reportReason,
+			@Param("secondhand_idx") String secondhand_idx,
+			@Param("member_id") String member_id, 
+			@Param("report_member_id") String report_member_id);
+			
 
 	
 	
