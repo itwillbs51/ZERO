@@ -400,7 +400,7 @@ function loadList(selectedCategory, selectedSort) {
 						+					secondhand.secondhand_subject		
 						+'				</a>'
 						+'			</div>'			
-						+'			<p>' + formatted_price + '원 </p>'			
+						+'			<p>' + secondhand.secondhand_price + '원 </p>'			
 						+'			<p>' + secondhand.secondhand_first_date + '</p>'
 						+'		</div>'
 						+'	</div>'
@@ -640,7 +640,7 @@ row{
 <%-- 						</c:forEach> --%>
 <!-- 					</select> -->
 <%-- <%-- 					<c:forEach var="category" items="${categorylist }"> --%> 
-<%-- <%-- 						<button class="btn btn-light" style="margin-top:10px;">${category.category_name }</button><br> --%> --%>
+<%-- <%-- 						<button class="btn btn-light" style="margin-top:10px;">${category.category_name }</button><br> --%> 
 <%-- <%-- 					</c:forEach> --%>
 <!-- 				</div> -->
 				
