@@ -47,6 +47,7 @@ import com.google.gson.JsonObject;
 import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
+import com.itwillbs.zero.service.AuctionService;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.TestService;
 import com.itwillbs.zero.vo.MemberReviewVO;
@@ -68,6 +69,9 @@ public class MemberController {
 	@Autowired
 	private TestService testService; 
 	
+	// 현재 참가중인 경매목록을 위한 Autowired
+	@Autowired
+	private AuctionService auctionService;
 	
 	
 	// 멤버 로그인 - 수정
@@ -1176,7 +1180,7 @@ public class MemberController {
 		return "member/member_mypage_buyList";
 	}
 	
-	// 멤버 중고상품 판매내역
+	// 멤버 중고상품 판매내역 - 정의효 필요없음 삭제예정
 	@GetMapping("member_mypage_sellList")
 	public String memberMypageSellList(HttpSession session, Model model) {
 		
@@ -1197,12 +1201,35 @@ public class MemberController {
 		return "member/member_mypage_sellList";
 	}
 	
-	// 멤버 경매 내역
+	// 멤버 참가중인 경매 내역
 	@GetMapping("member_mypage_auctionList")
-	public String memberMypageAuctionList() {
+	public String memberMypageAuctionList(HttpSession session, Model model) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+//						if(member_id == null) {
+//							model.addAttribute("msg", " 로그인이 필요합니다!");
+//							model.addAttribute("targetURL", "member_login_form");
+//									
+//							return "fail_location";
+//						}
+		
+		// 세션아이디로 현재 진행중인 경매에 참여한 결과가 있는지 확인
+		List<Map<String, String>> participateAuction = auctionService.getPartAuction(member_id);
+		model.addAttribute("participateAuction", participateAuction);
+		
+		// 세션아이디랑 비교하여 낙찰받은 경매물품이 있는지 확인
+		List<Map<String, String>> successBid = auctionService.getSuccessBid(member_id);
+		model.addAttribute("successBid", successBid);
 		return "member/member_mypage_auctionList";
 	}
-
+	
+	// 찜 목록
+	@GetMapping("member_mypage_wishList")
+	public String member_mypage_wishList() {
+		
+		return "member/member_mypage_wishList";
+	}
+	
 	// 회원가입 메인창
 	@GetMapping("join")
 	public String join() {
