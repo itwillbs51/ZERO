@@ -11,20 +11,6 @@
 			category_type = '중고'
 	</select>
 	
-		<!-- 상품번호에 해당하는 카테고리 정보 조회작업 --> 
-<!-- 	<select id="selectCategory" resultType="String"> -->
-<!-- 		SELECT  -->
-<!-- 			c.category_name -->
-<!-- 		FROM -->
-<!-- 			CATEGORY c -->
-<!-- 		JOIN -->
-<!-- 			SECONDHAND s -->
-<!-- 		ON  -->
-<!-- 			c.category_idx = s.category_idx -->
-<!-- 		WHERE  -->
-<!-- 			s.secondhand_idx = #{secondhand_idx} -->
-<!-- 	</select> -->
-	
 	
 	<!-- 중고 상품 등록 작업  -->
 	<insert id="insertProduct">
@@ -275,6 +261,24 @@
 		WHERE 
 			member_id = #{member_id}
 			AND (secondhand_deal_status = '판매완료')
+	</select>
+
+
+	<!-- 판매자페이지 - 리뷰 리스트 조회작업 selectReviewList  -->
+	<select id="selectReviewList" resultType="hashmap">
+		SELECT *
+		FROM 
+			SELLER_REVIEW
+		WHERE 
+			review_reader_id = #{member_id}
+	</select>
+	<!-- 판매자페이지 - 리뷰 리스트 개수 조회작업 selectReviewCount  -->
+	<select id="selectReviewCount" resultType="int">
+		SELECT COUNT(*)
+		FROM 
+			SELLER_REVIEW
+		WHERE 
+			review_reader_id = #{member_id}
 	</select>
 
 

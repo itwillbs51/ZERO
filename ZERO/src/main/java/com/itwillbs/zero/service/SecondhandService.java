@@ -207,6 +207,17 @@ public class SecondhandService {
 		return mapper.insertReport(reportType, reportReason, secondhand_idx, member_id, report_member_id);
 	}
 
+	
+	
+	// 판매자페이지 - 리뷰 조회작업
+	public List<HashMap<String, String>> getReviewList(String member_id) {
+		return mapper.selectReviewList(member_id);
+	}
+	// 판매자페이지 - 리뷰개수 카운팅
+	public int getReviewListCount(String member_id) {
+		return mapper.selectReviewCount(member_id);
+	}
+
 
 
 

@@ -98,7 +98,11 @@ public interface SecondhandMapper {
 	int selectSoldOutProductCount(String member_id);
 
 	
+	//판매자페이지 - 리뷰리스트 조회요청
+	List<HashMap<String,String>> selectReviewList(String member_id);
 	
+	//판매자페이지 - 리뷰리스트 개수조회요청
+	int selectReviewCount(String member_id);
 	
 	//검색결과페이지------------------------------------------------------------
 	

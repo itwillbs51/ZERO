@@ -637,7 +637,7 @@ public class SecondhandController {
 				HttpSession session, Model model
 				) {
 		
-//			//미로그인시 "로그인필수"출력 후 이전페이지 돌아감
+			//미로그인시 "로그인필수"출력 후 이전페이지 돌아감
 			String member_id = (String) session.getAttribute("member_id");
 			System.out.println("member_id : +++++++++++++++++++++++++++++++++++"+ member_id);
 			System.out.println("secondhand_idx : +++++++++++++++++++++++++++++++++++"+ secondhand_idx);
@@ -666,7 +666,6 @@ public class SecondhandController {
 			// SecondhandService - removeBoard() 호출하여 글 삭제요청
 			// 파라미터 : 글번호, 리턴타입 : int(deleteCount)
 			int deleteCount = service.removeSecondhand(secondhand_idx);
-//			int deleteCount = service.removeBoard(board_num);
 			
 			// 삭제 실패 시 "삭제 실패!" 처리 후 이전페이지 이동
 			// 아니면(삭제성공시), secondhand_list 서블릿 요청(파라미터 : 페이지번호)
@@ -695,11 +694,11 @@ public class SecondhandController {
 			System.out.println(sId);
 		
 			
-//			String sId = (String) session.getAttribute("sId");
-//			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);
-//
-//			session.setAttribute("sId", session.getAttribute(sId));
-//			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);
+			//			String sId = (String) session.getAttribute("sId");
+			//			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);
+			//
+			//			session.setAttribute("sId", session.getAttribute(sId));
+			//			System.out.println(" sId : +++++++++++++++++++++++++++++++++++"+ sId);
 
 			//판매자의 정보 조회작업
 			//필요정보 - 판매자 프로필, 판매자 닉네임, 판매자 주소
@@ -709,7 +708,7 @@ public class SecondhandController {
 			model.addAttribute("seller",sellerInfo_sellerPage);
 			
 			
-//			List<HashMap<String, String>> selectSeller;
+			//List<HashMap<String, String>> selectSeller;
 			
 			//---------------------------------------------------------------------------------------------------------------------
 			
@@ -723,16 +722,16 @@ public class SecondhandController {
 			//기본(판매자의 판매 상품 전체목록조회)
 			List<HashMap<String, String>> sellerProductList = service.getSellerProductList(member_id);
 			model.addAttribute("sellerProductList",sellerProductList);
-			System.out.println(sellerProductList);
+			//System.out.println(sellerProductList);
 			
 			//판매자의 판매중/예약중 상품목록 조회
 			List<HashMap<String, String>> dealProductList = service.getdealProductList(member_id);
 			model.addAttribute("dealProductList",dealProductList);
-			System.out.println(dealProductList);
+			//System.out.println(dealProductList);
 			//판매자의 판매완료 상품목록 조회
 			List<HashMap<String, String>> soldOutProductList = service.getsoldOutProductList(member_id);
 			model.addAttribute("soldOutProductList",soldOutProductList);
-			System.out.println(soldOutProductList);
+			//System.out.println(soldOutProductList);
 			
 			
 			
@@ -751,7 +750,7 @@ public class SecondhandController {
 			int soldOutProductCount = service.getsoldOutProductCount(member_id);
 			model.addAttribute("soldOutProductCount", soldOutProductCount);
 			
-			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&"+ sellerProduct);
+//			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&"+ sellerProduct);
 
 //			
 			
@@ -760,20 +759,14 @@ public class SecondhandController {
 //			//판매자가 받은 리뷰 조회(list)
 //			//SecondService.getReviewList() - 파라미터:member_id /  리턴타입:List<HashMap<String,String>>
 //			//필요정보 - 리뷰작성한 회원의 닉네임/프로필이미지/리뷰내용/리뷰날짜/
-//			List<HashMap<String,String>> reviewList = service.getReviewList(member_id);
-//			model.addAttribute("reviewList", reviewList);
-//			System.out.println(reviewList);
-			
-		
-//			List<HashMap<String,String>> reviewList = service.getReviewList(member_id);
-//			//해당 판매자에 대한 리뷰값 조회이므로
-			//MEMBER_REVIEW의 review_reader_id 값이 member_id값(판매자)과 동일한 값
-			
+			List<HashMap<String,String>> reviewList = service.getReviewList(member_id);
+			model.addAttribute("reviewList", reviewList);
+			System.out.println("++++++++++++++++++++++리뷰리스트조회 : " + reviewList);
 			
 //			//판매자가 받은 리뷰 개수 조회(int)
-//			int reviewListCount = service.getReviewListCount(member_id);
-//			model.addAttribute("reviewListCount", reviewListCount);
-			
+			int reviewListCount = service.getReviewListCount(member_id);
+			model.addAttribute("reviewListCount", reviewListCount);
+			System.out.println("++++++++++++++++++++++리뷰개수조회 : " + reviewListCount);
 			
 			
 			return "secondhand/secondhand_seller_page";

@@ -526,58 +526,86 @@ row{
 <!-- 						  </div> -->
 <!-- 						</div> -->
 					
-					
 				</div><%-- 거래완료상품(dealEndTab) 끝 --%>
 				
+				
+				
+				<%-- 받은 리뷰 탭 --%>
 				<div id="reviewTab" class="tabcontent">
-					<p>전체 후기 nn 개</p>
+					<%-- 리뷰개수 --%>
+					<div class="reviewCount"> 전체 후기 <span>${reviewListCount } 개</span></div>
+					
+					<c:if test="${reviewListCount eq 0 }">
+						<div style="color:gray; margin:10px;"> 받은 리뷰내역이 존재하지 않습니다</div>
+					</c:if>
+					
+					<c:forEach var="review" items="${reviewList }">			
+						<div class = "row">
+							<%-- 리뷰리스트 --%>
+							<div class = "col-2">
+								<img src="${pageContext.request.contextPath }/resources/upload/${review.member_image}" width="50px" height="50px" style="margin:20px;">
+							</div>
+							<div class = "col-10" style="margin-top:20px;">
+								<p> ${review.member_nickname} </p>
+								<p>	${review.member_review_content }</p>
+								<hr>
+							</div>
+						</div>
+					</c:forEach>
+				
+				</div>	
+				
+				
+				
+				
+<!-- 				<div id="reviewTab" class="tabcontent"> -->
+<!-- 					<p>전체 후기 nn 개</p> -->
 						
-					<div class = "row">
-						<div class = "col-2">
-							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;">
-						</div>
-						<div class = "col-10" style="margin-top:20px;">
-							<p> 닉네임 </p>
-							<p> 리뷰내용</p>
-							<hr>
-						</div>
-					</div>
+<!-- 					<div class = "row"> -->
+<!-- 						<div class = "col-2"> -->
+<%-- 							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;"> --%>
+<!-- 						</div> -->
+<!-- 						<div class = "col-10" style="margin-top:20px;"> -->
+<!-- 							<p> 닉네임 </p> -->
+<!-- 							<p> 리뷰내용</p> -->
+<!-- 							<hr> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					<div class = "row">
-						<div class = "col-2">
-							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;">
-						</div>
-						<div class = "col-10" style="margin-top:20px;">
-							<p> 닉네임 </p>
-							<p> 리뷰내용</p>
-							<hr>
-						</div>
-					</div>
+<!-- 					<div class = "row"> -->
+<!-- 						<div class = "col-2"> -->
+<%-- 							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;"> --%>
+<!-- 						</div> -->
+<!-- 						<div class = "col-10" style="margin-top:20px;"> -->
+<!-- 							<p> 닉네임 </p> -->
+<!-- 							<p> 리뷰내용</p> -->
+<!-- 							<hr> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 					
-					<div class = "row">
-						<div class = "col-2">
-							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;">
-						</div>
-						<div class = "col-10" style="margin-top:20px;">
-							<p> 닉네임 </p>
-							<p> 리뷰내용</p>
-							<hr>
-						</div>
-					</div>
+<!-- 					<div class = "row"> -->
+<!-- 						<div class = "col-2"> -->
+<%-- 							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;"> --%>
+<!-- 						</div> -->
+<!-- 						<div class = "col-10" style="margin-top:20px;"> -->
+<!-- 							<p> 닉네임 </p> -->
+<!-- 							<p> 리뷰내용</p> -->
+<!-- 							<hr> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 					
-					<div class = "row">
-						<div class = "col-2">
-							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;">
-						</div>
-						<div class = "col-10" style="margin-top:20px;">
-							<p> 닉네임 </p>
-							<p> 리뷰내용</p>
-							<hr>
-						</div>
-					</div>
+<!-- 					<div class = "row"> -->
+<!-- 						<div class = "col-2"> -->
+<%-- 							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="50px" height="50px" style="margin:20px;"> --%>
+<!-- 						</div> -->
+<!-- 						<div class = "col-10" style="margin-top:20px;"> -->
+<!-- 							<p> 닉네임 </p> -->
+<!-- 							<p> 리뷰내용</p> -->
+<!-- 							<hr> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
-					
-				</div>		
+<!-- 				</div>reviewTab 끝		 -->
 			</div><!--grid나누기위한컬럼-->
 	
 			
