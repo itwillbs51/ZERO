@@ -15,12 +15,17 @@
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
 		min-width: 360px;
 	}
+	
 </style>
+<script type="text/javascript">
+</script>
 </head>
 <body class="sb-nav-fixed">
 	<header>
@@ -40,6 +45,7 @@
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
 							경매 상품목록
+							<a href="auctionList_present" class="btn btn-sm btn-outline-dark" style="float: right;">경매 바로가기</a>
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
@@ -49,6 +55,8 @@
 										<th>상품명</th>
 										<th>등록자</th>
 										<th>등록일</th>
+										<th>검수상태</th>
+										<th>경매진행여부</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
@@ -65,8 +73,14 @@
 												${auctionProduct.auction_seller_id }
 											</td>
 											<td>
-												${auctionProduct.auction_regist_date }
-<%-- 												<fmt:formatDate value="${auctionProduct.auction_regist_date }" pattern="yy.MM.dd"/> --%>
+												<fmt:parseDate value="${fn:replace(auctionProduct.auction_regist_date, 'T', ' ') }" pattern="yyyy-MM-dd" var="parsedDate"/>
+												<fmt:formatDate value="${parsedDate}" pattern="yy-MM-dd" />
+											</td>
+											<td>
+												${auctionProduct.auction_manage_check_status }
+											</td>
+											<td>
+												${auctionProduct.auction_manage_status }
 											</td>
 											<td>
 												<a class="btn btn-sm btn-outline-dark" href="admin_auction_product_detail?auction_idx=${auctionProduct.auction_idx }">상세보기</a>

@@ -14,6 +14,7 @@
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath }/resources/css/adminstyles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
 <style type="text/css">
 	body{
@@ -32,47 +33,47 @@
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">경매 관리</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active">경매예정 상품목록</li>
+						<li class="breadcrumb-item active">경매 내역 목록</li>
 					</ol>
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
-							경매예정 상품목록
+							경매 내역 목록
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>판매자</th>
+										<th>거래번호</th>
 										<th>상품명</th>
-										<th>등록일</th>
-										<th>검수상태</th>
-										<th>경매진행여부</th>
+										<th>판매자</th>
+										<th>구매자</th>
+										<th>거래일시</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="auctionProduct" items="${auctionManagingList }" varStatus="vs">
+									<c:forEach var="auctoionOrder" items="${auctoionOrderList }" varStatus="vs">
 										<tr>
 											<td>
-												${auctionProduct.auction_seller_id }
+												${auctoionOrder.order_auction_idx }
 											</td>
 											<td>
-												${auctionProduct.auction_title }
+												${auctoionOrder.auction_title }
 											</td>
 											<td>
-												<fmt:parseDate value="${fn:replace(auctionProduct.auction_regist_date, 'T', ' ') }" pattern="yyyy-MM-dd" var="parsedDate"/>
+												${auctoionOrder.order_auction_seller }
+											</td>
+											<td>
+												${auctoionOrder.order_auction_buyer }
+											</td>
+											<td>
+												<fmt:parseDate value="${fn:replace(auctoionOrder.auction_end_datetime, 'T', ' ') }" pattern="yyyy-MM-dd HH:mm" var="parsedDate"/>
 												<fmt:formatDate value="${parsedDate}" pattern="yy-MM-dd" />
 											</td>
 											<td>
-												${auctionProduct.auction_manage_check_status }
-											</td>
-											<td>
-												${auctionProduct.auction_manage_status }
-											</td>
-											<td>
-												<a class="btn btn-sm btn-outline-dark" href="admin_auction_managing_detail?auction_idx=${auctionProduct.auction_idx }">상세보기</a>
+												<a class="btn btn-sm btn-outline-dark" href="admin_auction_order_detail?order_auction_idx=${auctoionOrder.order_auction_idx }">상세보기</a>
 											</td>
 										</tr>
 									</c:forEach>
@@ -80,7 +81,6 @@
 							</table>
 						</div>
 					</div>
-					
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

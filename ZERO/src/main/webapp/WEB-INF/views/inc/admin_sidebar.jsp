@@ -57,6 +57,7 @@
 						<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="admin_auction_product_list">상품 목록</a>
 							<a class="nav-link" href="admin_auction_managing_list">경매 예정상품</a>
+							<a class="nav-link" href="admin_auction_order_list">경매 거래 내역</a>
 <!-- 							<a class="nav-link" href="#">경매 참가신청 목록</a> -->
 						</nav>
 					</div>

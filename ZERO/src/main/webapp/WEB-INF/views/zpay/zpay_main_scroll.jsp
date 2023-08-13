@@ -42,6 +42,20 @@
 	.daterangepicker td.start-date {
 		border-radius: 4px 0 0 4px;
 	}
+	
+	#-to-top {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  text-align: center;
+  text-decoration: none;
+  color: #FFFFFF;
+  background-color: #2d2d2d;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 99;
+}
 </style>
 <script type="text/javascript">
 	let pageNum = 1;	// 기본 페이지 번호 미리 저장 - 전역변수(함수 밖에 있음)
@@ -251,7 +265,23 @@
 		});
 		
 	}
-		
+	
+	$(function() {
+		// 맨 위로 가기 버튼 표시/숨기기
+		$(window).on("scroll", function() {
+			if ($(this).scrollTop() > 100) {
+				$('#scrollTopButton').fadeIn();
+			} else {
+				$('#scrollTopButton').fadeOut();
+			}
+		});
+	
+		// 맨 위로 가기 버튼 클릭 시 스크롤 맨 위로 이동
+		$('#scrollTopButton').click(function() {
+			$('html, body').animate({ scrollTop: 0 }, 'normal');
+			return false;
+		});
+	});
 </script>
 </head>
 <body>
@@ -279,6 +309,12 @@
 		<%@ include file="../inc/header.jsp"%>
 	</header>
 	<article>
+		<a id="scrollTopButton" style="position: fixed; bottom: 20px; right: 20px; display: none;">
+			<img src="${pageContext.request.contextPath }/resources/img/up.png" alt="up"  style="border-radius: 50%;" height="50">
+		</a>
+<!-- 		<button id="scrollTopButton" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px; display: none;"> -->
+<!-- 			맨 위로 -->
+<!-- 		</button> -->
 		<div class="container">
 			<div class="contentAreaZpay">
 			<%-- 메인영역 --%>
@@ -353,6 +389,7 @@
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
 	</article>
+	
 	<footer>
 		<%@ include file="../inc/footer.jsp"%>
 	</footer>
