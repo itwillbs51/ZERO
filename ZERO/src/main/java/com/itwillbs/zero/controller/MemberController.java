@@ -48,7 +48,9 @@ import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.AuctionService;
+import com.itwillbs.zero.service.LikesService;
 import com.itwillbs.zero.service.MemberService;
+import com.itwillbs.zero.service.SecondhandService;
 import com.itwillbs.zero.service.TestService;
 import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
@@ -73,6 +75,10 @@ public class MemberController {
 	@Autowired
 	private AuctionService auctionService;
 	
+	// 중고상품 좋아요 Autowired
+	@Autowired
+	private LikesService likesService;
+
 	
 	// 멤버 로그인 - 수정
 	@GetMapping("member_login")
@@ -1403,6 +1409,40 @@ public class MemberController {
 			return "fail_back";
 		}
 		
+	}
+	
+	// 찜하기 ajax
+	@PostMapping("secondhandLike")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> secondhandLike(@RequestBody Map<String, Object> likeInfo) {
+	    String memberId = (String) likeInfo.get("member_id");
+	    Object secondhandIdxObj = likeInfo.get("secondhand_idx");
+	    String likeStatus = (String) likeInfo.get("like_status");
+
+	    // secondhandIdxObj가 null이거나 비어 있으면 예외 처리
+	    if (secondhandIdxObj == null) {
+	        // 적한 예외 처리를 구현하세요. 예를 들면,
+	        throw new RuntimeException("secondhand_idx 값이 없습니다.");
+	    }
+
+	    int secondhandIdx = ((Number) secondhandIdxObj).intValue();
+	    int cnt;
+
+	    // 찜 상태 확인
+	    if ("liked".equals(likeStatus)) {
+	        // 찜 취소 처리 및 cnt 감소
+	        cnt = likesService.cancelLike(memberId, secondhandIdx);
+	    } else {
+	        // 찜 추가 처리 및 cnt 증가
+	        cnt = likesService.addLike(memberId, secondhandIdx);
+	    }
+
+	    String newLikeStatus = likesService.getLikeStatus(memberId, secondhandIdx) > 0 ? "liked" : "unliked";
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("likeStatus", newLikeStatus);
+
+	    return ResponseEntity.ok(response);
 	}
 	
 }
