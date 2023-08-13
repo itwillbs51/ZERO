@@ -249,7 +249,8 @@
 		      최종 거래금액을 입력하고 진행하실 거래방법을 눌러주세요<br>
 		      <div class="modal-price">
 		      	최종거래금액 : 
-			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
+<%-- 			    <input type="number" id="finalPrice" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br> --%>
+			    <input type="text" id="finalPrice" oninput="numFormat(this)" placeholder="ex) ${secondhandInfo.secondhand_price }" min="0">원<br>
 			    <div>(Z맨 거래의 경우 거래완료 시<br>최종거래금액에서 3000원 뺀 금액이 Z페이로 입금됩니다.)</div>
 			    <input type="hidden" id="dealPrice">
 		      </div>
@@ -441,7 +442,7 @@
 		
 		let now = new Date();
 		// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
-		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
+		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: '2-digit', minute: '2-digit' });
 		
 		if(message.startsWith("&-안내")) {	// 안내메세지인 경우
 			let noticeMessage = message.split("&-안내")[1];
@@ -675,6 +676,11 @@
 		location.href = "secondhand_detail?secondhand_idx=" + ${chatRoom.secondhand_idx} + "&member_id=" + "${chatRoom.seller_id}";
 	}
 	
+	// 최종 거래금액 금액 포맷 함수
+	function numFormat(price) {
+		let num = price.value.replace(/\d/g,'');
+		price.value = Number(price).toLocaleString('en');
+	}
 	
 	// ================= 버튼들 기능 함수 =========================
 	// 거래를 위한 변수와 함수들
@@ -683,7 +689,7 @@
 		// 전역변수
 		finalPrice = $("#finalPrice").val();
 		$("#order_secondhand_price").attr("value", finalPrice);
-		$("#dealPrice").attr("value", finalPrice);
+		$("#dealPrice").attr("value", finalPrice.replace(/,/g, ""));
 		
 		
 		if(finalPrice == "") {
@@ -704,7 +710,7 @@
 			case 2 :
 				// 1-2. z맨 클릭 => 안내 메세지 띄우고 판매자-출발주소, 구매자-도착주소 받는 폼 보여주기(보고나서는 수정불가)
 				chatMessage = '&-안내' + '${chatRoom.seller_nickname}' + '님이 <b>Z맨으로 거래하기</b>를 선택하셨습니다.<br> 출발지와 도착지를 입력해주세요!<br>';
-				chatMessage += '최종가격  <span id="payPrice">' + finalPrice + '</span>(+ 3000)원<br>';
+				chatMessage += '최종가격  <span id="payPrice">' + finalPrice + '</span>(+ 3,000)원<br>';
 				chatMessageBtn = '<button class="btn btn-dark callZBtn" onclick="toZ()">';
 				chatMessageBtn += 'Z맨 호출 접수</button>';
 				setOrderSecondhand("Z맨");
@@ -743,7 +749,7 @@
 		$.ajax({
 			data: {
 				"type": type,
-				"order_secondhand_price": finalPrice,
+				"order_secondhand_price": finalPrice.replace(/,/g, ""),
 				"order_secondhand_seller": "${chatRoom.seller_id}",
 				"order_secondhand_buyer": "${chatRoom.buyer_id}",
 				"order_secondhand_product": "${secondhandInfo.secondhand_subject }",
@@ -764,7 +770,7 @@
 		
 	}	// setOrderSecondhand() 끝
 	
-	let payPrice = $("#payPrice").text();
+	let payPrice = $("#payPrice").text().replace(/,/g, "");
 	// Z맨 호출 폼으로 이동하기 위함 함수
 	function toZ() {
 		console.log("금액 : " + payPrice);

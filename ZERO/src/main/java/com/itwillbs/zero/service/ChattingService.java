@@ -14,12 +14,15 @@ public class ChattingService {
 	@Autowired
 	private ChattingMapper mapper;
 	
-	
 	// 채팅방 정보 조회
-	public List<ChatRoomListVO> selectChatRoomList(String member_id) {
-		return mapper.selectChatRoomList(member_id);
+	public List<ChatRoomListVO> selectChatRoomList(String member_id, int pageNum, int startRow, int listLimit) {
+		return mapper.selectChatRoomList(member_id, pageNum, startRow, listLimit);
 	}
-	
+
+	// 채팅방 갯수 조회
+	public int getChatRoomListCount(String member_id) {
+		return mapper.selectChatRoomListCount(member_id);
+	}
 	// 채팅 내역 조회
 	public List<ChatVO> selectChatList(int chat_room_idx, int pageNum, int startRow, int listLimit) {
 		return mapper.selectChatList(chat_room_idx, pageNum, startRow, listLimit);
@@ -113,6 +116,7 @@ public class ChattingService {
 		}
 		return false;
 	}
+
 
 
 	

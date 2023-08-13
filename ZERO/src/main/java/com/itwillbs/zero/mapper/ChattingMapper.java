@@ -10,7 +10,11 @@ import com.itwillbs.zero.vo.*;
 public interface ChattingMapper {
 	
 	// 채팅방 조회
-	List<ChatRoomListVO> selectChatRoomList(String member_id);
+	List<ChatRoomListVO> selectChatRoomList(@Param("member_id") String member_id, @Param("pageNum") int pageNum
+										, @Param("startRow") int startRow, @Param("listLimit") int listLimit);
+	
+	// 채팅방 갯수 조회
+	int selectChatRoomListCount(String member_id);
 	
 	// 채팅 조회
 	List<ChatVO> selectChatList(@Param("chat_room_idx")int chat_room_idx, @Param("pageNum") int pageNum
@@ -52,6 +56,7 @@ public interface ChattingMapper {
 	OrderSecondhandVO selectOrderSecondhandInfo(int secondhand_idx);
 	// 주문내역 상태 변경 - ORDER_SECONDHAND - order_secondhand_status '거래완료'
 	int updateOrderStatus(@Param("secondhand_idx") int secondhand_idx, @Param("order_status_type") String order_status_type);
+
 
 	
 }

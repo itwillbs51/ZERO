@@ -290,10 +290,13 @@
 									총금액
 								</div>
 								<div class="withdrawalAccount_info">
-<!-- 									<div class="withdrawalBankName">36,000원 </div> -->
-<%-- 									<div class="withdrawalAccountNum">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div> --%>
-									<div class="withdrawalBankName">${param.order_secondhand_price + 3000 }원 </div>
-									<div class="withdrawalAccountNum priceDetail">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div>
+									
+									<div class="withdrawalBankName">
+										<fmt:formatNumber value="${param.order_secondhand_price + 3000 }" pattern="###,###"/>원
+									</div>
+									<div class="withdrawalAccountNum priceDetail">
+										= <fmt:formatNumber value="${param.order_secondhand_price }" pattern="###,###"/>(상품가격) + 3,000(배달비)
+									</div>
 								</div>
 <!-- 								<div class="title"> -->
 <!-- 									희망배달시간 -->

@@ -125,14 +125,6 @@
 			url: url,
 			dataType: "JSON",
 			success: function(data) {
-				// 현재는 json 배열안에 json객체로 존재하므로 그냥 boardList를 치면 나오지 않음
-// 				$("table").after(JSON.stringify(boardList));
-				// JSONArray 객체를 사용하여 리턴받은 JSON 데이터(객체)를
-				// 반복문을 사용하여 차례대로 접근 후 데이터 출력
-				// 번호, 제목, 작성자, 날짜, 조회수
-				
-				// ------------------------
-				// 1. 
 				maxPage = data.maxPage;
 				console.log(maxPage);
 				// => 무한스크롤 시 

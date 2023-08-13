@@ -13,8 +13,21 @@
 				OR buyer_id = #{member_id}
 			ORDER BY
 				chat_datetime DESC
+			LIMIT
+				#{startRow} 
+					, #{listLimit}
 	</select>
-		<!-- 나중에 페이징처리하기(무한 스크롤) -->	
+	
+	<!-- 채팅방 갯수 조회 -->
+	<select id="selectChatRoomListCount" resultType="int">
+		SELECT
+			COUNT(*)
+			FROM
+				CHATROOMLIST
+			WHERE
+				seller_id = #{member_id}
+				OR buyer_id = #{member_id}
+	</select>
 	
 	<!-- 채팅 조회 - SELECT -->
 	<select id="selectChatList" resultType="Chat">
