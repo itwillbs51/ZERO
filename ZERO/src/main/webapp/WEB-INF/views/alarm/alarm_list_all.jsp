@@ -17,7 +17,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
+
 <meta charset="UTF-8">
 <title>ZERO</title>
 <style type="text/css">
@@ -45,6 +46,23 @@
 	.daterangepicker td.start-date {
 		border-radius: 4px 0 0 4px;
 	}
+	.profileInfo {
+		padding-top: 10px;
+	}
+	#alarmMember {
+		font-size: 20px;
+	}
+	#alarmNotice {
+		color: gray;
+		font-size: 15px;
+		padding-top: 5px;
+	}
+	#alarmNotice i{
+		color: #999;
+		font-style: normal;
+		font-size: 13px;
+	}
+	
 </style>
 <script type="text/javascript">
 	
@@ -130,14 +148,17 @@
 			<%-- 메인영역 --%>
 				<div class="zpayManageArea">
 					<div class="profileArea">
-						<span class="profileImg">
-						</span>
-						<span class="profileInfo">
-							<strong class="profileName">
-								${sessionScope.member_id }님이 받은 알림
-							</strong><br>
-							(지난 <b>3개월</b>까지의 구매내역을 확인하실 수 있습니다)
-						</span>
+						<div class="profileInfo">
+							<div id="alarmMember">
+								<strong class="profileName">
+									${sessionScope.member_id }님이 받은 알림
+								</strong>
+							</div>
+							<div id="alarmNotice">
+								지난 <b>3개월</b>까지의 구매내역을 확인하실 수 있습니다.<br>
+								<i>채팅은 채팅 카테고리에서 확인가능</i>
+							</div>
+						</div>
 					</div>
 				</div><%-- zpayManageArea 영역 끝 --%>
 				<div class="zpayHistoryArea">
@@ -150,33 +171,14 @@
 						</div>
 					</div>
 					<div class="zpayHistoryDateSelect" style="display: flex;">
-						<input type="text" name="datetimes"  class="form-control">
+						
 					</div>
 					<div class="zpayHistoryPeriodArea">
 						총 <strong id="listCount"></strong> 건
 					</div>
 					<div class="zpayHistoryListArea">
 						<ul>
-							<c:forEach var="zpayHistory" items="">
-<!-- 								<li> -->
-<!-- 									<div class="zpayHistoryItem"> -->
-<!-- 										<div class="zpayHistoryItem_date"> -->
-<%-- 											<fmt:formatDate value="" pattern="MM.dd"/> --%>
-<!-- 										</div> -->
-<!-- 										<div class="zpayHistoryItem_infoArea"> -->
-<!-- 											<div class="zpayHistoryItem_info"> -->
-<!-- 												<a href="#" class="itemTitle itemLink"></a> -->
-<!-- 												<div class="zpayHistoryItem_info_sub"> -->
-<!-- 													<span class="payTime"> -->
-<%-- 														<fmt:formatDate value="" pattern="HH:mm"/> --%>
-<!-- 													</span> -->
-<!-- 													<span class="paymentType"></span> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</li> -->
-							</c:forEach>
+						
 						</ul>
 					</div><%-- zpayHistoryListArea 영역 끝 --%>
 				</div><%-- zpayHistoryArea 영역 끝 --%>
