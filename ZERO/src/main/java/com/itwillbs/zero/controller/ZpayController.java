@@ -470,6 +470,8 @@ public class ZpayController {
 		// 잔액을 초과할 경우 환급 진행 불가 
 		if(zpay_balance < Integer.parseInt(zpayAmount)) {
 			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n금액을 다시 입력해주세요.");
+			model.addAttribute("targetURL", "zpay_refund_form");
+			return "fail_location";
 		}
 
 		// 경매입찰 중일 경우 입찰한 금액 빼고 환급 가능 ----------------------------------------------------------------------------
@@ -612,6 +614,7 @@ public class ZpayController {
 	// 중고거래 송금(구매자 출금)
 	@PostMapping("zpay_send_pro")
 	public String zpaySendPro(@RequestParam int order_secondhand_idx, 
+							@RequestParam String zpay_passwd, 
 							Model model) {
 		System.out.println("ZpayController - zpaySendPro()");
 		
@@ -639,7 +642,8 @@ public class ZpayController {
 		// 잔액을 초과할 경우 송금 진행 불가
 		if(buyer_zpay_balance < product_price + order_delivery_commission) {
 			model.addAttribute("msg", "ZPAY 잔액을 초과하였습니다.\\n추가 충전이 필요합니다");
-			model.addAttribute("targetURL", "zpay_charge_form");
+			model.addAttribute("targetURL", "zpay_main");
+//			model.addAttribute("targetURL", "zpay_charge_form");
 			return "fail_location";
 		}
 
@@ -674,61 +678,79 @@ public class ZpayController {
 			
 		}
 		// =================================================================================================================
+		// 암호화된 ZPAY 비번 조회
+		String securePasswd = service.getZpayPasswd(buyer_id);
+		System.out.println(securePasswd);
+		System.out.println("zpay_passwd : " + zpay_passwd);
+	
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
-		// zpayBuyerHistory 객체에 저장
-		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
-		zpayBuyerHistory.setZpay_idx(buyer_zpay_idx);
-		zpayBuyerHistory.setMember_id(buyer_id);
-		zpayBuyerHistory.setZpay_amount(product_price + order_delivery_commission);
-		zpayBuyerHistory.setZpay_balance(buyer_zpay_balance);
-		zpayBuyerHistory.setZpay_deal_type("중고출금");	
-		zpayBuyerHistory.setOrder_secondhand_idx(order_secondhand_idx);
-
-		// ZPYA_HISTORY 테이블에 송금내역 추가
-		int insertSendCount = service.insertSendReceiveHistory(zpayBuyerHistory);
-//		int insertSendCount = service.sendZpay(zpayBuyerHistory);
-		
-		// 거래방법이 ZMAN / 택배 일 경우 송금(구매자에게서 출금)만 진행하고
-		// 판매자에게 입금은 [거래완료]버튼 클릭 시 진행되도록 zpay/zpay_send_success.jsp로 이동
-		if(insertSendCount > 0) {
-			// 중고상품 결제 완료 시 "결제완료"로 변경
-			int updateOrderSecondhandStatusCount = service.modifyOrderSecondhandStatus(order_secondhand_idx);
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		System.out.println("securePasswd : " + securePasswd);
+	
+		if (zpay_passwd ==  null || !passwordEncoder.matches(zpay_passwd, securePasswd)) {
+			// 패스워드가 zpay_passwd와 다를 때(비밀번호가 틀림)
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다."
+					+ "입력하신 내용을 다시 확인해주세요.");
+			return "fail_back";
+		} else {
+				
+			// zpayBuyerHistory 객체에 저장
+			ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
+			zpayBuyerHistory.setZpay_idx(buyer_zpay_idx);
+			zpayBuyerHistory.setMember_id(buyer_id);
+			zpayBuyerHistory.setZpay_amount(product_price + order_delivery_commission);
+			zpayBuyerHistory.setZpay_balance(buyer_zpay_balance);
+			zpayBuyerHistory.setZpay_deal_type("중고출금");	
+			zpayBuyerHistory.setOrder_secondhand_idx(order_secondhand_idx);
+	
+			// ZPYA_HISTORY 테이블에 송금내역 추가
+			int insertSendCount = service.insertSendReceiveHistory(zpayBuyerHistory);
+	//		int insertSendCount = service.sendZpay(zpayBuyerHistory);
 			
-			if(updateOrderSecondhandStatusCount > 0) {					
-				// -------------------------- ZERO 약정계좌 배달비 거래내역 추가 ---------------------------------------
-				ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
-				zpayHistoryInserted = service.getzpayHistoryInserted();
+			// 거래방법이 ZMAN / 택배 일 경우 송금(구매자에게서 출금)만 진행하고
+			// 판매자에게 입금은 [거래완료]버튼 클릭 시 진행되도록 zpay/zpay_send_success.jsp로 이동
+			if(insertSendCount > 0) {
+				// 중고상품 결제 완료 시 "결제완료"로 변경
+				int updateOrderSecondhandStatusCount = service.modifyOrderSecondhandStatus(order_secondhand_idx);
 				
-				Integer zero_account_balance = service.getZeroAccountBalance();
-				
-				ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
-				zeroAccount.setMember_id(buyer_id);
-				zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
-				zeroAccount.setOrder_secondhand_idx(order_secondhand_idx);
-				zeroAccount.setZero_account_amount(order_delivery_commission);
-				zeroAccount.setZero_account_balance(zero_account_balance);
-				zeroAccount.setZero_account_type("배달비");
-				
-				int insertZeroCount = service.depositWithdrawZeroAccount(zeroAccount);
-//					int insertZeroCount = service.depositZeroAccount(zeroAccount);
-				// --------------------------------------------------------------------------------------------------
-				if(insertZeroCount > 0) {
-					buyer_zpay_balance = service.getZpayBalance(buyer_id);
+				if(updateOrderSecondhandStatusCount > 0) {					
+					// -------------------------- ZERO 약정계좌 배달비 거래내역 추가 ---------------------------------------
+					ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
+					zpayHistoryInserted = service.getzpayHistoryInserted();
 					
-					model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
-					model.addAttribute("seller_id", seller_id);
-					model.addAttribute("buyer_zpay", buyer_zpay);
-					model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
+					Integer zero_account_balance = service.getZeroAccountBalance();
+					
+					ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
+					zeroAccount.setMember_id(buyer_id);
+					zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
+					zeroAccount.setOrder_secondhand_idx(order_secondhand_idx);
+					zeroAccount.setZero_account_amount(order_delivery_commission);
+					zeroAccount.setZero_account_balance(zero_account_balance);
+					zeroAccount.setZero_account_type("배달비");
+					
+					int insertZeroCount = service.depositWithdrawZeroAccount(zeroAccount);
+	//					int insertZeroCount = service.depositZeroAccount(zeroAccount);
+					// --------------------------------------------------------------------------------------------------
+					if(insertZeroCount > 0) {
+						buyer_zpay_balance = service.getZpayBalance(buyer_id);
+						
+						model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
+						model.addAttribute("seller_id", seller_id);
+						model.addAttribute("buyer_zpay", buyer_zpay);
+						model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
+					}
+					
+					return "zpay/zpay_send_success";							
+				} else {
+					model.addAttribute("msg", "중고상품 결제완료 상태변경 실패");
+					return "fail_back";
 				}
-				
-				return "zpay/zpay_send_success";							
 			} else {
-				model.addAttribute("msg", "중고상품 결제완료 상태변경 실패");
+				model.addAttribute("msg", "ZPAY 송금 실패");
 				return "fail_back";
 			}
-		} else {
-			model.addAttribute("msg", "ZPAY 송금 실패");
-			return "fail_back";
 		}
 	}
 	
@@ -784,6 +806,7 @@ public class ZpayController {
 	// 경매 거래 송금(구매자 출금)
 	@PostMapping("zpay_auction_send_pro")
 	public String zpayAuctionSendPro(@RequestParam int order_auction_idx, 
+									@RequestParam String zpay_passwd, 
 							Model model) {
 		System.out.println("ZpayController - zpayAuctionSendPro()");
 		
@@ -812,53 +835,69 @@ public class ZpayController {
 			return "fail_location";
 		}
 		
-		// 경매입찰 중일 경우 입찰한 금액 빼고 송금 가능
+		// 암호화된 ZPAY 비번 조회
+		String securePasswd = service.getZpayPasswd(buyer_id);
+		System.out.println(securePasswd);
+		System.out.println("zpay_passwd : " + zpay_passwd);
+	
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
-		// zpaySellerHistory 객체에 저장
-		ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
-		zpayBuyerHistory.setZpay_idx(buyer_zpay_idx);
-		zpayBuyerHistory.setMember_id(buyer_id);
-		zpayBuyerHistory.setZpay_amount(product_price);
-		zpayBuyerHistory.setZpay_balance(buyer_zpay_balance);
-		zpayBuyerHistory.setZpay_deal_type("경매출금");
-		zpayBuyerHistory.setOrder_auction_idx(order_auction_idx);
-		
-		// ZPYA_HISTORY 테이블에 송금내역 추가
-		int insertSendCount = service.insertSendReceiveHistory(zpayBuyerHistory);
-//		int insertSendCount = service.sendZpay(zpayBuyerHistory);
-		
-		// -------------------------- ZERO 약정계좌 배달비 거래내역 추가 ---------------------------------------
-		ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
-		zpayHistoryInserted = service.getzpayHistoryInserted();
-		
-		Integer zero_account_balance = service.getZeroAccountBalance();
-		
-		ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
-		zeroAccount.setMember_id(buyer_id);
-		zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
-		zeroAccount.setOrder_secondhand_idx(order_auction_idx);
-		zeroAccount.setZero_account_amount(order_auction_commission);
-		zeroAccount.setZero_account_balance(zero_account_balance);
-		zeroAccount.setZero_account_type("경매수수료");
-		
-		int insertZeroCount = service.depositWithdrawZeroAccount(zeroAccount);
-//		int insertZeroCount = service.depositZeroAccount(zeroAccount);
-		// --------------------------------------------------------------------------------------------------
-				
-		if(insertSendCount > 0) {
-				
-			model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
-			model.addAttribute("seller_id", seller_id);
-			model.addAttribute("buyer_zpay", buyer_zpay);
-			model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
-			
-			return "zpay/zpay_send_success";
-			
-		} else {
-			model.addAttribute("msg", "ZPAY 송금 실패");
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		System.out.println("securePasswd : " + securePasswd);
+	
+		if (zpay_passwd ==  null || !passwordEncoder.matches(zpay_passwd, securePasswd)) {
+			// 패스워드가 zpay_passwd와 다를 때(비밀번호가 틀림)
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다."
+					+ "입력하신 내용을 다시 확인해주세요.");
 			return "fail_back";
+		} else {
+			
+			// zpaySellerHistory 객체에 저장
+			ZpayHistoryVO zpayBuyerHistory = new ZpayHistoryVO();
+			zpayBuyerHistory.setZpay_idx(buyer_zpay_idx);
+			zpayBuyerHistory.setMember_id(buyer_id);
+			zpayBuyerHistory.setZpay_amount(product_price);
+			zpayBuyerHistory.setZpay_balance(buyer_zpay_balance);
+			zpayBuyerHistory.setZpay_deal_type("경매출금");
+			zpayBuyerHistory.setOrder_auction_idx(order_auction_idx);
+			
+			// ZPYA_HISTORY 테이블에 송금내역 추가
+			int insertSendCount = service.insertSendReceiveHistory(zpayBuyerHistory);
+	//		int insertSendCount = service.sendZpay(zpayBuyerHistory);
+			
+			// -------------------------- ZERO 약정계좌 배달비 거래내역 추가 ---------------------------------------
+			ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
+			zpayHistoryInserted = service.getzpayHistoryInserted();
+			
+			Integer zero_account_balance = service.getZeroAccountBalance();
+			
+			ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
+			zeroAccount.setMember_id(buyer_id);
+			zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
+			zeroAccount.setOrder_auction_idx(order_auction_idx);
+			zeroAccount.setZero_account_amount(order_auction_commission);
+			zeroAccount.setZero_account_balance(zero_account_balance);
+			zeroAccount.setZero_account_type("경매수수료");
+			
+			int insertZeroCount = service.depositWithdrawZeroAccount(zeroAccount);
+	//		int insertZeroCount = service.depositZeroAccount(zeroAccount);
+			// --------------------------------------------------------------------------------------------------
+					
+			if(insertSendCount > 0) {
+					
+				model.addAttribute("buyer_zpay_balance", buyer_zpay_balance);
+				model.addAttribute("seller_id", seller_id);
+				model.addAttribute("buyer_zpay", buyer_zpay);
+				model.addAttribute("zpayBuyerHistory", zpayBuyerHistory);
+				
+				return "zpay/zpay_send_success";
+				
+			} else {
+				model.addAttribute("msg", "ZPAY 송금 실패");
+				return "fail_back";
+			}
 		}
-		
 	}
 	
 	
@@ -933,6 +972,7 @@ public class ZpayController {
 			@RequestParam int  zman_earning_idx, 
 			@RequestParam String member_id, 
 			@RequestParam int zman_net_profit, 
+			@RequestParam String zpay_passwd, 
 			Map<String, String> map,
 			Model model) {
 		System.out.println("ZpayController - zmanRefundPro()");
@@ -953,34 +993,52 @@ public class ZpayController {
 		model.addAttribute("depositResult", depositResult);
 		
 		// --------------------------------------------------------------------------------------------------------------------------
-		zmanRefundHistory.setZman_id(member_id);
-		zmanRefundHistory.setZman_earning_idx(zman_earning_idx);
-		zmanRefundHistory.setZman_net_profit(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
-//		zmanRefundHistory.setZman_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
-		System.out.println(zmanRefundHistory);
+		// 암호화된 ZPAY 비번 조회
+		String securePasswd = service.getZpayPasswd(member_id);
+		System.out.println(securePasswd);
+		System.out.println("zpay_passwd : " + zpay_passwd);
+	
+		// 2. BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
-		// ZPYA_HISTORY 테이블에 환급내역 추가
-		int insertCount = service.zmanRefund(zmanRefundHistory);
-		
-		if(insertCount > 0) {
-			// ----------------- ZERO 약정계좌 ZMAN 정산 내역 추가 ----------------------------------------------
-			Integer zero_account_balance = service.getZeroAccountBalance();
-			
-			ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
-			zeroAccount.setMember_id(member_id);
-			zeroAccount.setZero_account_amount(zman_net_profit);
-			zeroAccount.setZero_account_balance(zero_account_balance);
-			zeroAccount.setZero_account_type("Z맨정산");
-			
-			int insertZeroCount = service.zeroAccountZmanHistory(zeroAccount);
-			// --------------------------------------------------------------------------------------------------
-			
-			model.addAttribute("zpay", zpay);
-			model.addAttribute("zmanRefundHistory", zmanRefundHistory);
-			return "zpay/zpay_refund_success";				
-		} else {
-			model.addAttribute("msg", "ZMAN 정산 실패");
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		System.out.println("securePasswd : " + securePasswd);
+	
+		if (zpay_passwd ==  null || !passwordEncoder.matches(zpay_passwd, securePasswd)) {
+			// 패스워드가 zpay_passwd와 다를 때(비밀번호가 틀림)
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다."
+					+ "입력하신 내용을 다시 확인해주세요.");
 			return "fail_back";
+		} else {
+			zmanRefundHistory.setZman_id(member_id);
+			zmanRefundHistory.setZman_earning_idx(zman_earning_idx);
+			zmanRefundHistory.setZman_net_profit(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
+	//		zmanRefundHistory.setZman_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
+			System.out.println(zmanRefundHistory);
+			
+			// ZPYA_HISTORY 테이블에 환급내역 추가
+			int insertCount = service.zmanRefund(zmanRefundHistory);
+			
+			if(insertCount > 0) {
+				// ----------------- ZERO 약정계좌 ZMAN 정산 내역 추가 ----------------------------------------------
+				Integer zero_account_balance = service.getZeroAccountBalance();
+				
+				ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
+				zeroAccount.setMember_id(member_id);
+				zeroAccount.setZero_account_amount(zman_net_profit);
+				zeroAccount.setZero_account_balance(zero_account_balance);
+				zeroAccount.setZero_account_type("Z맨정산");
+				
+				int insertZeroCount = service.zeroAccountZmanHistory(zeroAccount);
+				// --------------------------------------------------------------------------------------------------
+				
+				model.addAttribute("zpay", zpay);
+				model.addAttribute("zmanRefundHistory", zmanRefundHistory);
+				return "zpay/zpay_refund_success";				
+			} else {
+				model.addAttribute("msg", "ZMAN 정산 실패");
+				return "fail_back";
+			}
 		}
 		
 	}

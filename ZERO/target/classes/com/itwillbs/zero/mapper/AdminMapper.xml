@@ -252,7 +252,11 @@
 	<select id="selectAuctionProductList" resultType="map">
 		SELECT *
 			FROM 
-				AUCTION_PRODUCT
+				AUCTION_PRODUCT ap 
+			LEFT JOIN 
+				AUCTION_MANAGING am 
+			ON 
+				am.auction_idx = ap.auction_idx	
 	</select>
 
 	<!-- 경매관리 - 경매 상품 상세보기 -->
@@ -271,7 +275,11 @@
 			LEFT JOIN 
 				AUCTION_PRODUCT ap 
 			ON 
-				am.auction_idx = ap.auction_idx		
+				am.auction_idx = ap.auction_idx	
+			WHERE 
+				auction_manage_status IS NULL 
+			OR 
+				auction_manage_status != '경매종료'
 	</select>
 	
 	<!-- 경매관리 - 경매예정 상품 정보 조회 -->
@@ -309,6 +317,43 @@
 				</if>
 			WHERE auction_managing_idx = #{auction_managing_idx}
 	</update>
+	
+	<!-- 경매관리 - 경매 내역 목록 조회 -->
+	<select id="selectOrderAutionList" resultType="map">
+		SELECT * 
+			FROM 
+				ORDER_AUCTION oa
+			LEFT JOIN 
+				AUCTION_PRODUCT ap
+			ON 
+				oa.auction_idx = ap.auction_idx
+			LEFT JOIN 
+				AUCTION_MANAGING am
+			ON 
+				am.auction_idx = ap.auction_idx
+			<if test="!member_id.equals('')">
+				WHERE oa.order_auction_seller = #{member_id}
+				OR oa.order_auction_buyer = #{member_id}
+			</if>
+		
+	</select>
+
+	<!-- 경매관리 - 경매 내역 목록 조회 -->
+	<select id="selectAuctionOrder" resultType="map">
+		SELECT * 
+			FROM 
+				ORDER_AUCTION oa
+			LEFT JOIN 
+				AUCTION_PRODUCT ap
+			ON 
+				oa.auction_idx = ap.auction_idx
+			LEFT JOIN 
+				AUCTION_MANAGING am
+			ON 
+				am.auction_idx = ap.auction_idx
+			WHERE 
+				order_auction_idx = #{order_auction_idx}
+	</select>
 	
 	
 	<!-- 고객센터관리 - 공지사항 목록 조회 -->

@@ -10,6 +10,7 @@ import com.itwillbs.zero.mapper.AdminMapper;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -154,7 +155,28 @@ public class AdminService {
 	public int modifyAuctionManaging(AuctionManagingVO auctionManaging) {
 		return mapper.updateAuctionManaging(auctionManaging);
 	}
+	
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	public List<AuctionManagingVO> getAuctionProductList() {
+		return mapper.selectAuctionProductList();
+	}
 
+	// 경매관리 - 경매 상품 상세보기
+	public Map<String, String> getAuctionProduct(int auction_idx) {
+		return mapper.selectAuctionProduct(auction_idx);
+	}
+	
+	// 경매관리 - 경매 내역 목록 조회
+	public List<Map<String, String>> getAuctionOrderList(String member_id) {
+		return mapper.selectOrderAutionList(member_id);
+	}
+	
+	// 경매관리 - 경매 거래 내역 상세보기
+	public Map<String, String> getAuctionOrder(int order_auction_idx) {
+		return mapper.selectAuctionOrder(order_auction_idx);
+	}
+
+	
 	//  ========== ========== 고객센터 관리  ========== ==========
 	// 고객센터관리 - 공지사항 목록 조회
 	public List<CsVO> getCsList() {
@@ -292,16 +314,10 @@ public class AdminService {
 		return mapper.selectZmanZpayList();
 	}
 
-	// 경매관리 - 경매 상품 목록 페이지로 디스패치
-	public List<AuctionManagingVO> getAuctionProductList() {
-		return mapper.selectAuctionProductList();
-	}
-	
-	// 경매관리 - 경매 상품 상세보기
-	public Map<String, String> getAuctionProduct(int auction_idx) {
-		return mapper.selectAuctionProduct(auction_idx);
-	}
 
+
+	
+	
 	
 	
 	

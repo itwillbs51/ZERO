@@ -79,79 +79,6 @@
 		}
 	}
 	
-	<%-- 개인정보 변경 --%>
-	function saveInfo(pop) {
-		console.log(pop);
-		var column = "";
-		var value = "";
-		
-		if(pop == 'phone1') { // 변경할 정보가 핸드폰인 경우
-			column = 'member_phone';
-			value = $('#phone1').val().replaceAll('-','');
-			
-			if(value == '') { // 입력 안한경우
-				alert('휴대폰번호를 입력하세요');
-				return;
-			}
-			
-		} else if(pop == 'passwd2') { // 변경할 정보가 비밀번호인 경우
-			column = 'member_passwd2';
-			value = $('#passwd2').val();
-			
-			var column2 = 'origin_passwd'; 
-			var value2 = $('#passwd1').val(); // 이전 비밀번호
-			
-			if(value == '' || value2 == '') { // 입력 안한경우
-				alert('비밀번호를 입력하세요');
-				return;
-			}
-			
-		} else if(pop == 'agree1') { // 변경할 정보가 마케팅 수신 동의인 경우
-			column = 'member_agreement_marketing';
-			value = 1;
-		} else if(pop == 'disagree1') { // 변경할 정보가 마케팅 수신 동의인 경우
-			column = 'member_agreement_marketing';
-			value = 0;
-		}
-		
-		console.log('2:' + column);
-		console.log('2:' + value);
-		
-		$.ajax({
-	       type: 'post',
-	       url: 'ajax/chgInfo',
-           datatype: "text",
-           data: {
-           	column: column,
-           	value: value,
-           	column2: column2,
-           	value2: value2
-           },
-           success: function (result) {
-               console.log('ajax - chgInfo:' + result);
-               closeModal('modal2');
-               closeModal('modal3');
-				
-				
-			   
-				if(result == 'member_phone') { // 휴대폰 변경시 표시
-				   phoneFrom(value);
-			   } else if (result == 'false') { // 비밀번호 불일치
-				   alert('비밀번호가 일치하지 않습니다');
-			   		return;
-			   } 
-				
-				modal('modal1');
-				
-
-           },
-           error: function () {
-               alert("오류가 발생했습니다. 다시 시도해주세요.");
-           }
-		});
-		
-		
-	}
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -182,7 +109,15 @@
 										<tr>
 											<th>이름</th>
 											<td colspan="2">
-												${member.member_image} ${member.member_name }
+											<c:choose>
+												<c:when test="${not empty member.member_image }">
+													<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img" width=50px height=50px>${member.member_name }
+												</c:when>
+												<c:otherwise>
+													<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img" width=50px height=50px>${member.member_name }
+												</c:otherwise>
+											</c:choose>		
+<%-- 												${member.member_image} ${member.member_name } --%>
 											</td>
 										</tr>
 										<tr>
@@ -274,13 +209,14 @@
 											<th>중고거래내역 목록보기</th>
 											<td>${orderSecondhandCount } 건</td>
 											<td class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap"  onclick="location.href='admin_secondhand_order_list?member_id=${member.member_id}'">목록보기</button>
+												<button type="button" class="btn btn-sm btn-dark text-nowrap" onclick="location.href='admin_secondhand_order_list?member_id=${member.member_id}'">목록보기</button>
 											</td>
 										</tr>
 										<tr>
 											<th>경매내역 목록보기</th>
-											<td colspan="2" class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap">목록보기</button>
+											<td>${orderAuctionCount } 건</td>
+											<td class="text-end">
+												<button type="button" class="btn btn-sm btn-dark text-nowrap" onclick="location.href='admin_auction_order_list?member_id=${member.member_id}'">목록보기</button>
 											</td>
 										</tr>
 										<tr>

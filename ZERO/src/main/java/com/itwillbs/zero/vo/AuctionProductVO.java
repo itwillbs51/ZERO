@@ -31,4 +31,6 @@ public class AuctionProductVO {
 	private Date auction_manage_check_date;
 	private Date auction_start_date;
 	private int auction_log_count;
+	private String auction_manage_check_status;
+	private String auction_manage_status;
 }

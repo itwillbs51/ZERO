@@ -87,18 +87,18 @@ public class ChattingController {
 		SecondhandVO secondhandInfo = secondhandService.getSecondhandProduct(secondhand_idx);
 		logger.info("*** 중고상품 정보 : " + secondhandInfo);
 		
-		// z맨 호출여부 등을 조회
-		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(secondhand_idx);
-		if(zmanCallInfo != null) {
-			model.addAttribute("zmanCallInfo", zmanCallInfo);
-			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
-		}
-		
 		// ORDER_SECONDHAND 테이블에 order_secondhand_idx 등의 정보 들고와야할듯
 		OrderSecondhandVO orderSecondhandInfo = service.getOrderSecondhandInfo(secondhand_idx);
 		if(orderSecondhandInfo != null) {
 			model.addAttribute("orderSecondhandInfo", orderSecondhandInfo);
 			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
+		}
+		
+		// z맨 호출여부 등을 조회
+		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(orderSecondhandInfo.getOrder_secondhand_idx());
+		if(zmanCallInfo != null) {
+			model.addAttribute("zmanCallInfo", zmanCallInfo);
+			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
 		}
 		
 		// 판매자가 z페이 사용자일 때 송금하기 가능

@@ -32,6 +32,7 @@ import com.itwillbs.zero.service.AdminService;
 import com.itwillbs.zero.vo.AuctionManagingVO;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberVO;
+import com.itwillbs.zero.vo.OrderAuctionVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.ReportVO;
 import com.itwillbs.zero.vo.SecondhandVO;
@@ -93,10 +94,12 @@ public class AdminController {
 		MemberVO member = service.getMember(memberIdx);
 		int memberReportCount = service.getMemberReportCount(member.getMember_id());
 		List<SecondhandVO> orderSecondhandList = service.getOrderSecondhandList(member.getMember_id());
+		List<Map<String, String>> orderAuctionList = service.getAuctionOrderList(member.getMember_id());
 		System.out.println(member);
 		model.addAttribute("member", member);
 		model.addAttribute("memberReportCount", memberReportCount);
 		model.addAttribute("orderSecondhandCount", orderSecondhandList.size());
+		model.addAttribute("orderAuctionCount", orderAuctionList.size());
 		
 		return "admin/admin_member_detail";
 	}
@@ -449,6 +452,32 @@ public class AdminController {
 			return "fail_back";
 		}
 		
+	}
+	
+	// 경매관리 - 경매 거래 내역 조회
+	@GetMapping("admin_auction_order_list")
+	public String adminAuctionOrderList(@RequestParam(defaultValue = "") String member_id, Model model) {
+		System.out.println("AdminController - adminAuctionOrderList");
+		
+		List<Map<String, String>> auctoionOrderList = service.getAuctionOrderList(member_id);
+		System.out.println(auctoionOrderList);
+		
+		model.addAttribute("auctoionOrderList", auctoionOrderList);
+		
+		return "admin/admin_auction_order_list";
+	}
+
+	// 경매관리 - 경매 거래 내역 상세보기
+	@GetMapping("admin_auction_order_detail")
+	public String adminAuctionOrderDetail(@RequestParam int order_auction_idx ,Model model) {
+		System.out.println("AdminController - adminAuctionOrderDetail");
+		
+		Map<String, String> auctoionOrder = service.getAuctionOrder(order_auction_idx);
+		System.out.println(auctoionOrder);
+		
+		model.addAttribute("auctoionOrder", auctoionOrder);
+		
+		return "admin/admin_auction_order_detail";
 	}
 	
 	// 부트스트랩 테이블 예제

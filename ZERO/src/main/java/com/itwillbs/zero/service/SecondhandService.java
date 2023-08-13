@@ -26,11 +26,14 @@ public class SecondhandService {
 	// 중고 상품 등록작업 요청
 	public int registBoard(SecondhandVO secondhand) {
 		int insertcount= mapper.insertProduct(secondhand);
-		mapper.insertProduct(secondhand);
+//		mapper.insertProduct(secondhand);
 		
 		return  insertcount;
 	}
 
+	
+	
+	// 목록페이지 --------------------------------------------------------------
 	// 중고 목록 페이지
 	public List<SecondhandVO> getSecondhandList(int startRow, int listLimit) {
 		return mapper.selectSecondhandList(startRow, listLimit);
@@ -41,10 +44,26 @@ public class SecondhandService {
 		return mapper.selectSecondhandListCount();
 	}
 
-	//상품번호에 해당하는 카테고리 정보 조회
-//	public String getCategory(int secondhand_idx) {
-//		return mapper.selectCategory(secondhand_idx);
-//	}
+	
+	
+	
+	// 거래중 게시물 목록조회
+	public List<HashMap<String, String>> getChangedSecondhandList(int pageNum, String category, String sort,
+			int startRow, int listLimit, String type) {
+		
+		return mapper.selectChangedSecondhandList(pageNum, category, sort, startRow, listLimit, type);
+	}
+
+	public int getChangedSecondhandListCount(int pageNum, String category, String sort, String type) {
+		// TODO Auto-generated method stub
+		return mapper.selectChangedSecondhandListCount(pageNum, category, sort, type);
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	//상세페이지 - 상품번호에 해당하는 상품정보 조회
@@ -187,6 +206,19 @@ public class SecondhandService {
 		
 		return mapper.insertReport(reportType, reportReason, secondhand_idx, member_id, report_member_id);
 	}
+
+	
+	
+	// 판매자페이지 - 리뷰 조회작업
+	public List<HashMap<String, String>> getReviewList(String member_id) {
+		return mapper.selectReviewList(member_id);
+	}
+	// 판매자페이지 - 리뷰개수 카운팅
+	public int getReviewListCount(String member_id) {
+		return mapper.selectReviewCount(member_id);
+	}
+
+
 
 
 

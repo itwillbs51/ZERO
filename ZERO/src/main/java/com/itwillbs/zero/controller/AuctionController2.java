@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.zero.service.AuctionService2;
+import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.AuctionProductVO;
+import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZpayVO;
 
 @Controller
 public class AuctionController2 {
@@ -31,15 +34,29 @@ public class AuctionController2 {
 	private AuctionService2 service;
 	@Autowired
 	private ZpayService service2;
+	@Autowired
+	private BankService bankService;
 	
 	// 경매 상세 페이지로 이동
 	@GetMapping("auction_detail")
 	public String auction_detail(Model model, int id, HttpSession session) {
 		String member_id = (String) session.getAttribute("member_id");
+		ZpayVO zpay = service2.isZpayUser(member_id);
 		if(member_id == null) {
 			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "member_login");
+			return "fail_location";
+		}else if(zpay == null) {
+			model.addAttribute("msg", "zpay 등록이 필요한 작업입니다!");
+			model.addAttribute("targetURL", "zpay_main");
+			return "fail_location";
 		}
+		ResponseTokenVO token = bankService.getTokenForBankAuth(member_id);	
+		if(token != null) {
+			session.setAttribute("access_token", token.getAccess_token());
+			session.setAttribute("user_seq_no", token.getUser_seq_no());
+		}	
+		
 		HashMap<String, String> product= service.getAuctionProduct(id);
 		List<HashMap<String, String>> logList=service.getAuctionLog(id);
 		int balance=service2.getZpayBalance(member_id); 
@@ -69,17 +86,10 @@ public class AuctionController2 {
 		System.out.println(auction_manage_status);
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
 		
-		if(auction_manage_status!=null) {
-			System.out.println("경매종료");
-			return "false5";
-		}
+		
 		if(possibleZpay<currentBid) {
 			System.out.println("입찰가능금액보다 높게 입찰 불가");
 			return "false";
-		}else if(maxPrice<=currentBid) {
-			System.out.println("즉시구매로");
-			return "false2";
-		
 		}else if(maxBidPrice == 0) {
 			if(startPrice<=currentBid) {
 				System.out.println("입찰성공");
@@ -120,9 +130,15 @@ public class AuctionController2 {
 	public String auction_regist_form(Model model, HttpSession session) {
 		
 		String member_id = (String) session.getAttribute("member_id");
+		ZpayVO zpay = service2.isZpayUser(member_id);
 		if(member_id == null) {
 			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
-			return "fail_back";
+			model.addAttribute("targetURL", "member_login");
+			return "fail_location";
+		}else if(zpay == null) {
+			model.addAttribute("msg", "zpay 등록이 필요한 작업입니다!");
+			model.addAttribute("targetURL", "zpay_main");
+			return "fail_location";
 		}
 		List<HashMap<String, String>> category=service.getCategory();
 		List<HashMap<String, String>> brand=service.getBrand();
@@ -156,8 +172,8 @@ public class AuctionController2 {
 		winner.put("auction_idx",Integer.toString( id));
 		service.registWinner(winner);
 		product= service.getAuctionProduct(id);
-		String uuid = UUID.randomUUID().toString();
-		product.put("order_auction_delivery_idx", uuid);
+//		String uuid = UUID.randomUUID().toString();
+//		product.put("order_auction_delivery_idx", uuid);
 		product.put("order_auction_commission",Double.toString(maxPrice*0.1));
 	
 		service.registOrder(product);

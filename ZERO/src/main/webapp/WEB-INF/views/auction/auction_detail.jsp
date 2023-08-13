@@ -284,6 +284,8 @@ $("#button-send").on("click", function(e) {
 	
 	if($("#bidCheck").html().length == 0){
 		alert("금액을 입력하세요");
+	}else if($("#bid_price").val()>="${product.auction_max_price }"){
+		$("#button-send2").click();
 	}else{
 	  let result = confirm($("#bidCheck").html()+"을 입찰하시겠습니까?");
 
@@ -297,6 +299,8 @@ $("#bid_price").on("keyup",function(key){
     if(key.keyCode==13) {
     	if($("#bidCheck").html().length == 0){
     		alert("금액을 입력하세요");
+    	}else if($("#bid_price").val()>="${product.auction_max_price }"){
+    		$("#button-send2").click();
     	}else{
     	let result = confirm($("#bidCheck").html()+"을 입찰하시겠습니까?");
 
@@ -325,8 +329,9 @@ $("#button-send2").on("click", function(e) {
   			if(result == "false"){
   				alert("입찰가능금액이 부족합니다");
   				return;
-  			}else if (result ==false2) {
+  			}else if (result =="false2") {
   				alert("경매종료");
+  				location.reload();
   				return;
 			}
   			 $.ajax({
@@ -336,7 +341,23 @@ $("#button-send2").on("click", function(e) {
   		  		url: "zpay_auction_send_pro",
   		  		type: "POST",
   		  		success: function() {
-  		  			alert("성공");
+		  		  		$.ajax({
+		  		  		data: {
+		  		  			'auction_idx':"${param.id}",
+		  		  			'auction_log_bid': "${product.auction_max_price}",
+		  		  		},
+		  		  		url: "logHistory",
+		  		  		type: "POST",
+		  		  		success: function(result) {
+		  		  			if(result == "true") {
+		  		  			sock.send("${product.auction_max_price}")
+		  		  			}
+		  		  		},
+		  		  		fail: function() {
+		  		  			alert("실패!");
+		  		  		}	
+		  		  		
+		  		  	});
   		  			
   		  		},
   		  		fail: function() {
@@ -367,7 +388,7 @@ function sendMessage() {
 // 	if(bid_price<=presentPrice){
 // 		alert("현재 가격 보다 높은 금액으로 입찰 가능합니다.")
 // 	}
-	;
+	
 	$.ajax({
 		data: {
 			'auction_idx':"${param.id}",
@@ -381,9 +402,6 @@ function sendMessage() {
 				
 			}else if (result == "false") {
 				alert("입찰가능금액이 부족합니다");
-				
-			}else if(result == "false2") {
-				$("#button-send2").click();
 				
 			}else if(result == "false3") {
 				alert("현재가격 부터 입찰 가능합니다");
@@ -450,6 +468,20 @@ function onMessage(msg) {
 	   setTimeout(function() {
 	      $("#presentPrice").removeClass('blink');
 	   }.bind("#presentPrice"), 500);
+	  
+	  
+	   if(message.replace(/,/g, '')=="${product.auction_max_price}"){
+		   $("#clock").css("display", "none");
+			$("#clockTitle").css("display", "none");
+			$("#bottomRight").css("display", "none");
+			$("#usersArea").css("display", "none");
+			$("#presentPriceTitle").html("<b>최종낙찰가격</b>");
+			
+			var str = "<div  style=' text-align: center;'>";
+			str += "<b> --------경매종료-------- </b>";
+			str += "</div>";
+			$("#msgArea").append(str);
+	   }
     }else{
     	if("${product.auction_manage_status}"=="경매종료"){return;}
     	$("#users").html(currentUsers.replace(/[\[\]']+/g, ''));
