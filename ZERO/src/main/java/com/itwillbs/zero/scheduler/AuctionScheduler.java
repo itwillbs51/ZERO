@@ -83,7 +83,7 @@ public class AuctionScheduler {
 			String receiver_id=winner.get("member_id");
 			String alarmType ="경매";
 			String alarmMsg=String.valueOf(winner.get("max_bid"))+"원 으로 낙찰성공";
-			String alarmMsgLink="";
+			String alarmMsgLink="member_mypage_auctionList";
 			Iterator<String> sessionIds = AlarmHandler.alarmUsers.keySet().iterator();
 			String sessionId ="";
 			String alarmMessage = receiver_id + "p]]/[" + alarmType + "p]]/[" + alarmMsg + "p]]/[" + alarmMsgLink;
@@ -103,6 +103,7 @@ public class AuctionScheduler {
 			map.put("member_id", receiver_id);
 			map.put("alarm_message", alarmMsg);
 			map.put("alarm_link", alarmMsgLink);
+			map.put("alarm_type", alarmType);
 			service3.insertAlarm(map);
 
 		}
