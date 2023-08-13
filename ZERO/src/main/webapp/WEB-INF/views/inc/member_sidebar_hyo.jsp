@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link href="${pageContext.request.contextPath }/resources/css/sidebar.css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%> <!-- 마이페이지 후기작성하기 안되서 주석처리해놓음 -0813정의효 -->
 <script type="text/javascript">
 $(document).ready(function(){
 	let currentPosition = parseInt($(".sidebar").css("top"));
@@ -44,15 +44,15 @@ $(document).ready(function(){
         경매내역
       </a>
     </li>
+<!--     <hr> -->
+<!--     <li class="nav-item"> -->
+<!--       <a class="nav-link" href="member_mypage_write_review"> -->
+<!--         작성한후기 -->
+<!--       </a> -->
+<!--     </li> -->
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="member_mypage_write_review">
-        작성한후기
-      </a>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <a class="nav-link" href="">
+      <a class="nav-link" href="member_mypage_wishList">
         관심 상품
       </a>
     </li>

@@ -157,7 +157,7 @@
 		
 		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
 			<h3 data-v-6752ceb2="" class="title">판매 내역</h3>
-			<a data-v-6752ceb2="" href="member_mypage_sellList" class="btn_more"><span
+			<a data-v-6752ceb2="" href="member_mystore" class="btn_more"><span
 				data-v-6752ceb2="" class="btn_txt">더보기</span> <svg
 					data-v-6752ceb2="" xmlns="http://www.w3.org/2000/svg"
 					class="icon sprite-icons arr-right-gray">
