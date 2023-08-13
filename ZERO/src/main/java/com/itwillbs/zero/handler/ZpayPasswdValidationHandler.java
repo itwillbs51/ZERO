@@ -10,6 +10,6 @@ public class ZpayPasswdValidationHandler {
 		
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         
-        return zpay_passwd ==  null || passwordEncoder.matches(zpay_passwd, securePasswd);
+        return zpay_passwd ==  null || !passwordEncoder.matches(zpay_passwd, securePasswd);
     }
 }
