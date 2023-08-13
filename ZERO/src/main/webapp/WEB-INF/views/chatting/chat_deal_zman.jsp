@@ -310,8 +310,10 @@
 							
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
+							<c:if test="">
+							</c:if>
 							<button type="button" onclick="submitBtn(1)" class="btn btn-dark">주소저장하기</button>
-							<c:if test="${sessionScope.member_id eq param.seller_id }"">
+							<c:if test="${sessionScope.member_id eq param.seller_id }">
 								<button type="button" onclick="submitBtn(2)" class="btn btn-dark">호출하기</button>
 							</c:if>
 							<button type="button" class="btn btn-dark" onclick="window.close()">취소</button>

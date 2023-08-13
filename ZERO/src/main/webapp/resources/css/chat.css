@@ -203,7 +203,7 @@
 }
 
 #chatMsgArea {
-	height: 600px;
+/* 	height: 600px; */
 	flex-grow: 1;
 }
 /* ------ 채팅 구현 전 -> 테이블 */
