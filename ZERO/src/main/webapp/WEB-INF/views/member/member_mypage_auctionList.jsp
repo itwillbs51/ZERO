@@ -255,7 +255,8 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
 	                                                            <div data-v-e5d3a8ae="" class="list_item_column column_last">
 	                                                                <p data-v-7b1f182e="" data-v-e5d3a8ae=""
 	                                                                   class="last_title display_paragraph"
-	                                                                   style="color: rgb(34, 34, 34);">낙찰 받은 금액 : ${successBid.auction_max_price }원</p>
+	                                                                   style="color: rgb(34, 34, 34);">낙찰 받은 금액 : ${successBid.auction_final_price }원</p>
+	                                                                <button onclick="auction_success_cancel(event)">낙찰 취소</button>
 	                                                            </div>
 	                                                        </div>
 	                                                    </div>
@@ -401,6 +402,16 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
 <link href="${pageContext.request.contextPath }/resources/mypage_css/10a7d17.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/mypage_css/4bb4200.css" rel="stylesheet" type="text/css">
 
+<!-- 낙찰취소버튼 -->
+<script type="text/javascript">
+  function auction_success_cancel(event) {
+    // 이벤트 전파 중단
+    event.stopPropagation();
+
+    // 여기에 낙찰 취소 처리 로직을 작성하세요.
+    console.log("낙찰 취소 버튼이 클릭되었습니다.");
+  }
+</script>
 
 </body>
 </html>

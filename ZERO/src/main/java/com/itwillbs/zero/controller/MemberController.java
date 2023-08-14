@@ -1230,10 +1230,10 @@ public class MemberController {
 	}
 	
 	// 찜 목록
-	@GetMapping("member_mypage_wishList")
-	public String member_mypage_wishList() {
+	@GetMapping("member_mypage_writeReviewList")
+	public String member_mypage_writeReviewList() {
 		
-		return "member/member_mypage_wishList";
+		return "member/member_mypage_writeReviewList";
 	}
 	
 	// 회원가입 메인창
