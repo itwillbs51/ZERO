@@ -179,6 +179,16 @@ public class MemberService {
 	    return resultMap;
 	}
 
+	// 작성한 리뷰 가져오기
+	public List<Map<String, String>> getReview(String member_id) {
+		return mapper.selectReview(member_id);
+	}
+
+	// 작성한 리뷰 삭제
+	public int deleteReview(String member_id, String order_secondhand_idx) {
+		return mapper.deleteReview(member_id, order_secondhand_idx);
+	}
+
 	
 
 	
