@@ -132,14 +132,15 @@ public class ChattingController {
 		if(orderSecondhandInfo != null) {
 			model.addAttribute("orderSecondhandInfo", orderSecondhandInfo);
 			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
+			
+			// z맨 호출여부 등을 조회
+			ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(orderSecondhandInfo.getOrder_secondhand_idx());
+			if(zmanCallInfo != null) {
+				model.addAttribute("zmanCallInfo", zmanCallInfo);
+				logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
+			}
 		}
 		
-		// z맨 호출여부 등을 조회
-		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(orderSecondhandInfo.getOrder_secondhand_idx());
-		if(zmanCallInfo != null) {
-			model.addAttribute("zmanCallInfo", zmanCallInfo);
-			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
-		}
 		
 		// 판매자가 z페이 사용자일 때 송금하기 가능
 		String seller_id = chatRoom.getSeller_id();

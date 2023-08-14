@@ -662,10 +662,12 @@
 		});	// 버튼 클릭 시 호출되는 함수 끝
 		
 		// Z맨 호출 정보를 입력 외에는 사용못하게 하기
-		if("${zmanCallInfo.zman_delivery_status}" == '입력 중') {
-			$(".callZBtn").attr("disabled", false);
-		} else {
-			$(".callZBtn").attr("disabled", true);
+		if("${zmanCallInfo}" != null) {
+			if("${zmanCallInfo.zman_delivery_status}" == '입력 중') {
+				$(".callZBtn").attr("disabled", false);
+			} else {
+				$(".callZBtn").attr("disabled", true);
+			}
 		}
 		
 		
