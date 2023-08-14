@@ -125,6 +125,14 @@ public interface SecondhandMapper {
 			@Param("member_id") String member_id, 
 			@Param("report_member_id") String report_member_id);
 
+	
+	//찜등록기능
+	int insertLikeProduct(LikeVO productLike);
+	//찜취소기능
+	int deleteLikeProduct(LikeVO productLike);
+	//찜조회기능
+	LikeVO selectLikeProduct(String member_id);
+
 			
 
 	

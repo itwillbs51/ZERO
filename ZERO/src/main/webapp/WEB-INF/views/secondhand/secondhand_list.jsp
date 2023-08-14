@@ -44,8 +44,6 @@
 // 			})
 // 		});
 	
-
-	
 		
 // 		$(function(){
 // 			 // 찜하기에 사용
@@ -86,97 +84,9 @@
 				 
 // 			 })//셀렉트변경 처리 끝
 // 		});//
-		
-		
-		
-		//무한스크롤
-// 		$(function(){
-		
-// 		let searchType = $("#searchType").val();
-// 		let searchKeyword= $("#searchKeyword").val();
-// // 		loadList(searchType, searchKeyword);
-		
-// 		// 무한스크롤 추가
-// 		// 스크롤바가 바닥에 닿으면->다음목록조회(loadList())
-// 		$(window).on("scroll", function(){ // 스크롤 동작시 이벤트처리
-// 			console.log("scroll");
-// 			//1.
-// 			let scrollTop = $(window).scrollTop(); // 스크롤바의 현재위치
-// 			let windowHeight = $(window).height(); // 브라우저 창의 높이
-// 			let documentHeight = $(document).height(); // 문서의 높이(창의 높이보다 크거나 같음)
-// 			console.log("scrollTop=" + scrollTop + "windowHeight=" + windowHeight + "documentHeight=" + documentHeight);
-			
-// 			//2.x+스크롤바위치값+창높이>문서전체 높이 일경우 ⇒ 다음페이지 게시물목록 로딩 → 하단에 추가			
-// 			let x = 1;
-// 			if(scrollTop + windowHeight + x >= documentHeight){
-// 				// 다음페이지 글 목록 로딩 loadList()호출
-// 				// 스크롤바가 바닥에 닿을때마다 pageNum+1 => 다음페이지목록 지정
-				
-// 				//최대페이지 번호 초과시 다음페이지로딩 요청않도록
-// 				if(pageNum < maxPage){
-// 					pageNum++;
-// 					loadList(searchType, searchKeyword);
-// 				} else {
-// 					alert("다음페이지 X");
-// 				}
-// 			}
-// 		});//무한스크롤 이벤트처리 끝
-// 	});
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-
-	
-// 	function loadList(searchType,searchKeyword){
-// 		let url;
-// 		// searchKeyword 없을경우, pageNum전달 -> BoardListJson 서블릿 요청
-// 		// or pageNum, searchType, searchKeyword 전달
-		
-// 		// -> 검색타입/검색키워드 존재유무 컨트롤러에서 판별
-// 		url="BoardListJson?pageNum=" + pageNum + "&searchType=" + searchType +"&searchKeyword=" + searchKeyword;
-
-// 		$.ajax({
-// 			type:"get",
-// 			dataType:"json",
-// 			url:url,
-// 			success:function(data){
-				
-// 				// 글목록, 최대 페이지 번호를 함께 받은경우
-// 				//1. 최대페이지번호 꺼내기
-// 				maxPage = data.maxPage; 
-// 				console.log("maxPage=" + maxPage)
-				
-// 				//json 데이터 반복문사용하여 차례접근 후 데이터 출력
-// 					for(secondhand of data){
-// 						// 테이블에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
-// 						let item = "<tr height='50'>"
-// 									+ "<td>" + board.board_num + "</td>" 
-// 									+ "<td id='subject'>"
-// 										+ space
-// 										+ "<a href='BoardDetail?board_num=" + board.board_num + "'>"
-// 										+ board.board_subject 
-// 										+ "</a>"
-// 									+ "</td>" 
-// 									+ "<td>" + board.board_name + "</td>" 
-// //	 								+ "<td>" + board.board_date + "</td>" 
-// 									+ "<td>" + getFormatDate(board.board_date) + "</td>" 
-// 									+ "<td>" + board.board_readcount + "</td>" 
-// 									+ "</tr>"
-// 						$("table").append(item);	
-// 					}
-// 			},
-		
-// 	}//loadList함수 끝	
 
 
-// 	});
+
 	
 
 </script>
@@ -196,9 +106,6 @@ $(function() {
 	// (처음 들어왔을 때) 목록 불러오기
 	// 게시물 목록 조회를 처음 수행하기 위해 문서 로딩 시 loadList() 함수 호출
 // 	loadList(category, sort);
-	
-	
-	
 	
 	//정렬목록 open/close 함수 =============================================================================
 	// 버튼 클릭 시 정렬 목록보이게하는 함수
@@ -536,57 +443,6 @@ row{
 		<hr>
 		
 		
-<!-- 		<div><h1 style="margin-top: 48px;font-size: 30px;"></h1></div> -->
-<!-- 			<div class="webWrapper"> -->
-<!-- 				<div class="barWrapper"> -->
-<!-- 					<div class="FilterBoxWrapper FilterCategory"> -->
-<!-- 						<div class="FilterBoxTopic" > -->
-<!-- 							<div class="FilterBoxName">#카테고리</div> -->
-<!-- 						</div> -->
-<!-- 						<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow"> -->
-<!-- 					</div> -->
-<!-- 					<div class="FilterBoxWrapper FilterPrice"> -->
-<!-- 						<div class="FilterBoxTopic"> -->
-<!-- 							<div class="FilterBoxName">#가격</div> -->
-<!-- 						</div> -->
-<!-- 						<img src="https://ccimage.hellomarket.com/img/web/search/filter/blue_arrow.svg" alt="화살표 아래 아이콘" class="FilterBoxArrow"> -->
-<!-- 					</div> -->
-		          	 
-<!-- 		        거래완료 제외하고 보기 -->
-<!-- 					<div class="FilterBoxWrapper FilterCompleted"> -->
-<!-- 						<div class="FilterBoxTopic"> -->
-<!-- 							<div class="FilterBoxName"><label for="complete"><input type="checkbox" value="checked" id="complete" checked="checked"/>거래 완료 물품 제외</label></div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 		   		</div> -->
-<!-- 	         </div> -->
-<!-- 		<div id="__next"> -->
-
-<!-- 				<div id="hello" class="tagListWrapper"> -->
-<!-- 				<div class="tagListFilterBox"> -->
-<!-- 					<div class="tagListReset"> -->
-<!-- 						<div class="tagListResetText">필터초기화</div> -->
-<!-- 						<img -->
-<!-- 							src="https://ccimage.hellomarket.com/img/web/search/filter/refresh.svg" alt="reset" class="tagListResetImg"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-		  			<!-- 정렬 -->
-<!-- 					<div class="SortListWrapper"> -->
-<!-- 						<div class="SortListList" id="default" 	 title="최근 등록순">최근 등록순</div> -->
-<!-- 						<div class="SortListList" id="lowPrice"  title="낮은 가격순">낮은 가격순</div> -->
-<!-- 						<div class="SortListList" id="highPrice" title="높은 가격순">높은 가격순</div> -->
-<!-- 						<div class="SortListList" id="highGrade" title="높은 등급순">높은 등급순</div> -->
-<!--                    	</div> -->
-<!--                    	현재 정렬 -->
-<!--                     <div class="sortSortBox"> -->
-<!--                     	<div class="sortSort">최근 등록순</div> -->
-<!--                         정렬버튼 이미지 -->
-<!--                         <img src="https://ccimage.hellomarket.com/img/web/search/itemList/ico_sort.png" alt="정렬 아이콘" class="sortSortImg"/> -->
-<!--                         </div> -->
-		
-	
-		
 
 			<div class="category">
 			
@@ -620,36 +476,6 @@ row{
 								<li id="list3">인기순 </li>
 							</ul>
 					</div>
-			
-<!-- 				<ul class="tabs"> -->
-<!-- 					<li class="tab-link current" data-tab="tab-1"> 카테고리 선택하기</li> -->
-					
-<!-- 					<li class="tab-link" data-tab="tab-2"> 가격대 선택하기</li>		 -->
-<!-- 				</ul> -->
-				
-				
-				
-				
-				
-<!-- 				카테고리 선택 영역 -->
-<!-- 				<div id="tab-1" class="tab-content"> -->
-<!-- 					<select class="input-tag" id="c_idx" name="c_idx" style="width: 30%; height: 35px;"> -->
-<!-- 						<option value="0">카테고리 선택</option> -->
-<%-- 						<c:forEach var="category" items="${categorylist }"> --%>
-<%-- 							<option value="${category.category_idx }"> ${category.category_name }</option> --%>
-<%-- 						</c:forEach> --%>
-<!-- 					</select> -->
-<%-- <%-- 					<c:forEach var="category" items="${categorylist }"> --%> 
-<%-- <%-- 						<button class="btn btn-light" style="margin-top:10px;">${category.category_name }</button><br> --%> 
-<%-- <%-- 					</c:forEach> --%>
-<!-- 				</div> -->
-				
-				
-
-				
-				
-				
-				
 				
 				
 				
@@ -662,36 +488,9 @@ row{
 				
 			</div>
 			
-<!-- 			<!-- 거래중 상품만 보기 -->
-<!-- 			<div class="form-check form-switch"> -->
-<!--      			 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"> -->
-<!--       			<label class="form-check-label" for="flexSwitchCheckDefault"> 거래가능 상품만 보기 </label> -->
-<!--     		</div> -->
-			
 			<hr>
 			<!-- 상품개수표시 -->
 			<div class="Secondhandcount"> 상품 개수 <b style="color:gray;">${listCount }</b> 개</div>
-			
-
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 			
 			
@@ -739,11 +538,7 @@ row{
 											<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id}">
 												${secondhand.secondhand_subject}
 											</a>
-											<!-- 찜하기 버튼 -->
-		<!-- 									<br> -->
-		<!-- 									<a href="#" style="align:right;"> -->
-		<%-- 										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="20px" height="20px"> --%>
-		<!-- 									</a> -->
+
 										</div>
 										<p><fmt:formatNumber pattern="#,###" value="${secondhand.secondhand_price }"/>원</p>
 										
