@@ -218,6 +218,22 @@ public class SecondhandService {
 		return mapper.selectReviewCount(member_id);
 	}
 
+	
+	
+	
+	// 찜하기기능 - insert
+	public int checkLikeProduct(LikeVO productLike) {
+		return mapper.insertLikeProduct(productLike);
+	}
+	// 찜취소기능 - delete
+	public int unCheckLikeProduct(LikeVO productLike) {
+		return mapper.deleteLikeProduct(productLike);
+	}
+	// 찜목록 - select
+	public LikeVO getLikeProduct(String member_id) {
+		return mapper.selectLikeProduct(member_id);
+	}
+
 
 
 

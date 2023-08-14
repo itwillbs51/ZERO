@@ -153,10 +153,110 @@ function showSlides(n) {
 
 //거래상태 예약중일경우 채팅불가 처리하는 reservedProduct() 함수
 function reservedProduct(){
-	alert= '예약중인 상품이므로 채팅하실 수 없습니다';
+	alert("예약중인 상품이므로 채팅하실 수 없습니다");
 	console.log='예약중인 상품이므로 채팅하실 수 없습니다';
 }
 
+
+
+
+
+
+
+
+
+
+// 찜하기 받아오기
+$(function() {
+	
+	let sId = $("#sessionId").val();
+		console.log(sId);
+	$.ajax ({
+		type: 'GET',
+		url: 'likeProductShow',
+		data: {'member_id' : sId},
+		dataType: 'JSON',
+		success: function(result) {
+//			console.log(result);
+			
+			for(let i = 1; i <= 4; i++) {
+				let ProductNo = $("" + $("#likeProduct" + i).data("target")).val();	
+//					console.log(movieNo);
+				
+				for(let like of result) {
+					if(like.secondhand_idx == ProductNo) {	// 일치하면
+//							console.log(i);
+// 						$("#likeMovie" + i).removeClass("btn-outline-danger");
+// 						$("#likeMovie" + i).addClass("btn-danger");
+// 						$("#likeMovie" + i).text("♡찜");
+			    		$(element).find("img").attr("src", "${pageContext.request.contextPath}/resources/img/heartIcon2.png");
+
+						$("#clickCk" + i).attr("disabled", true);
+					}
+				}
+			}
+		},
+		error: function() {
+			alert("찜하기받아오기 에러!!");
+// 			console.log("에러");
+		}
+	});
+	
+});// function 끝
+
+
+// 찜하기 기능
+function checkProduct(element, i) {
+	
+	let sId = $("#sessionId").val();
+//		console.log($(element).val());
+	let secondhand_idx = $("" + $(element).data('target')).val();
+	let targetId = 'clickCk' + i;
+//		console.log(targetId);	// 타겟아이디
+	let isLike = $("#" + targetId).prop("disabled");	// 찜 안했을 땐 false
+		console.log(sId);	// 세션아이디 확인
+		console.log(secondhand_idx);
+		console.log(isLike);
+	
+	$.ajax({
+		type: 'POST',
+		url: 'likeProduct',
+		data: {'member_id': sId, 
+			   'secondhand_idx': secondhand_idx, 
+			   'isLike': isLike },
+		dataType: 'JSON',
+		success : function(result) {
+			alert("성공")
+			console.log("성공!");
+			console.log(isLike);
+			
+			if(isLike) {	// 찜 상태가 false면 => 이미지아이콘 변경하기 
+// 				$(element).removeClass("btn-danger");
+// 				$(element).addClass("btn-outline-danger");
+// 				$(element).text("♡찜하기");
+				$(element).find("img").attr("src", "${pageContext.request.contextPath}/resources/img/heartIcon.png");
+
+				// 찜 상태 전환(false로)
+				$("#" + targetId).attr("disabled", false);
+				
+			} else {	// 찜 상태가 true이면
+// 				$(element).removeClass("btn-outline-danger");
+// 				$(element).addClass("btn-danger");
+// 				$(element).text("♡찜");
+			    $(element).find("img").attr("src", "${pageContext.request.contextPath}/resources/img/heartIcon2.png");
+
+				
+				// 찜 상태 전환(true로)
+				$("#" + targetId).attr("disabled", true);
+			}
+		},
+		error : function(xhr, status, error) {
+		    console.error(error);
+		}
+		
+	});	// ajax끝
+	
+} // 찜하기 버튼 클릭 함수 끝
 </script>
 
 
@@ -263,6 +363,9 @@ a {
   text-align: right;
 }
 
+.chatButtonArea{
+/* 	display: flex; */
+}
 
 </style>
 </head>
@@ -279,31 +382,6 @@ a {
 		<%-- 큰이미지 --%>	
 		<div class="row" style="margin-top:20px;">
 			<div class="column">
-			
-<!-- 				<div class="mySlides"> -->
-<%-- 				  <img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:450px; height:450px;"> --%>
-<!-- 				</div> -->
-				
-<!-- 				<div class="mySlides"> -->
-<%-- 				 	<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:450px; height:450px;"> --%>
-<!-- 				</div> -->
-		
-<!-- 				<div class="mySlides"> -->
-<%-- 					 <img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:450px; height:450px;"> --%>
-<!-- 				 </div> -->
-		    
-<!-- 				<div class="mySlides"> -->
-<%-- 		   			<img src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg" style="width:450px; height:450px;"> --%>
-<!-- 				</div> -->
-					
-<!-- 				 썸네일이미지 -->
-<!-- 				 <div class="row"> -->
-<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" style="width:100px; height:80px;" onclick="currentSlide(1)" ></span> --%>
-<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" style="width:100px; height:80px;" onclick="currentSlide(2)" ></span> --%>
-<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" style="width:100px; height:80px;" onclick="currentSlide(3)" ></span> --%>
-<%-- 				  <span class="sumnail"><img class="democursor" src="${pageContext.request.contextPath }/resources/img/중고상품1.jpg"  style="width:100px; height:80px;" onclick="currentSlide(4)"></span> --%>
-<!-- 				</div> -->
-				
 				
 				
 				<%-- 상품이미지영역 - 슬라이드 --%>
@@ -365,7 +443,7 @@ a {
 						<c:choose>
 							<c:when test="${empty sessionScope.member_id }">
 	
-								<button class="btn btn-dark" 
+								<button style="border:none;"
 										data-toggle="modal" 
 										data-target="#needLogin">
 									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
@@ -375,7 +453,7 @@ a {
 							</c:when>
 							<%-- 2. 세션아이디 존재하는 경우(로그인상태) - 신고하기 모달창 --%>
 							<c:otherwise>
-								<button class="btn btn-dark" 
+								<button style="border:none;"
 										data-target="#layerpop" 
 										data-toggle="modal">
 									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
@@ -387,37 +465,14 @@ a {
 					
 					
 					
-					
-					
 					<%-- 공유하기버튼 --%>
 						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
 				</span>
 				
-				
-				
-				
-
-
-
-
-						
 					
 
 
 							
-							
-							
-	
-						
-
-						
-				
-	
-
-
-
-
-
 
 
 
@@ -439,13 +494,13 @@ a {
 					sessionId 일치하지 않는경우 or 없는경우 : 채팅하기 버튼 보여줌
 					=> 없는경우 채팅버튼 누를경우 : 로그인알람창 -> 로그인페이지 이동
 				--%>
-				
+				]
 			<c:choose>
 				<%-- 1. 세션아이디 존재하고, 세션아이디=판매자아이디 동일할 경우 --%>
 				<%-- 1-1. 수정하기, 삭제하기, 끌어올리기 영역 노출 --%>
 				<c:when test="${not empty sessionScope.member_id && sessionScope.member_id eq secondhandProduct.member_id}">
-					<a href="#"><img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"></a>
-
+				
+							
 					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
 							onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						수정하기 
@@ -474,15 +529,57 @@ a {
 				
 				<%-- 2.판매자 본인 아닐경우 - 채팅하기 가능 --%>
 				<c:otherwise>
+				<div class="chatButtonArea row">
 				
 					<%-- 2-1.세션아이디 없을경우(미로그인) -> 로그인알람창띄우고 로그인페이지로 이동 --%>
 					<c:if test="${empty sessionScope.member_id }">
 						<%--<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button> --%>
-						<a href="#">
-							<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
-						</a>
-						<div class="d-grid gap-2">
-							<button class="btn btn-dark" id="chatting" 
+<%-- 					찜하기기능 --%>
+<!-- 					<a href="#"> -->
+<%-- 						<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px"> --%>
+<!-- 					</a> -->
+						<%-- 찜하기 버튼 클릭 시 movie_num 파라미터로 받아 전달 --%>
+							<input type="hidden" name="member_id" value="${sessionScope.member_id }" id ="sessionId">
+							<input type="hidden" name="secondhand_idx" value="${secondhandProduct.secondhand_idx}" id="secondhand_idx${i.count }">
+							<c:choose>
+								<%--
+								회원이나 직원이('비회원'이 아닐 때)
+								세션 아이디가 있을 때(로그인o) 찜하기 기능
+									- 찜하기 목록에 있으면 찜 표시
+									- 찜하기 목록에 없으면 그대로 표시
+								세션 아이디가 없을 때(로그인x) 모달창으로 로그인권유,
+								--%>
+								<c:when test="${not empty sessionScope.member_id}">
+									<button type="button" 
+											class="btn btn-outline-danger" 
+											id="likeProduct${i.count }" 
+											data-target="secondhand_idx${i.count }" 
+											value="${i.count }" 
+											onclick="checkProduct(this, ${i.count })">
+										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
+									</button>
+									<input type="hidden" id="clickCk${i.count }">
+								</c:when>
+<%-- 									<c:otherwise> --%>
+<%-- 										<button type="button" class="btn btn-outline-danger" id="likeMovie${i.count }" data-target="#movie_num${i.count }" data-number="${i.count }" onclick="checkMovie(this.dataset.number)">♡찜하기</button> --%>
+<%-- 										<input type="hidden" id="clickCk${i.count }"> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 									</c:choose> --%>
+<%-- 								</c:when> --%>
+								<%-- 세션아이디가 없거나 비회원일 때 -> 클릭 시 모달창 팝업 --%>
+								<c:otherwise>
+									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
+									<button type="button" 
+											class="btn btn-outline-danger" 
+											id="likeProductNo${i.index }" 
+											data-toggle="modal" 
+											data-target="#needLogin">
+											<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
+									</button>
+								</c:otherwise>
+							</c:choose>
+						<div class="d-grid gap-2 col-10">
+							<button class="btn btn-lg btn-dark" id="chatting" 
 									data-toggle="modal" data-target="#needLogin" 
 									style="font-size:1em; margin:10px 10px">
 								채팅하기
@@ -490,12 +587,54 @@ a {
 						</div>
 					</c:if>
 				
+				
+				
+				
+				
+				
 					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
 					<c:if test="${not empty sessionScope.member_id && sessionScope.member_id ne secondhandProduct.member_id }">
 						
-							<a href="#" style="display: inline-block;">
-								<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
-							</a>
+							<%-- 찜하기 버튼 클릭 시 movie_num 파라미터로 받아 전달 --%>
+							<input type="hidden" name="member_id" value="${sessionScope.member_id }" id ="sessionId">
+							<input type="hidden" name="secondhand_idx" value="${secondhandProduct.secondhand_idx}" id="secondhand_idx${i.count }">
+							<c:choose>
+								<%--
+								회원이나 직원이('비회원'이 아닐 때)
+								세션 아이디가 있을 때(로그인o) 찜하기 기능
+									- 찜하기 목록에 있으면 찜 표시
+									- 찜하기 목록에 없으면 그대로 표시
+								세션 아이디가 없을 때(로그인x) 모달창으로 로그인권유,
+								--%>
+								<c:when test="${not empty sessionScope.member_id}">
+									<button type="button" 
+											class="btn btn-outline-danger" 
+											id="likeProduct${i.count }" 
+											data-target="secondhand_idx${i.count }" 
+											value="${i.count }" 
+											onclick="checkProduct(this, ${i.count })">
+										<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
+									</button>
+									<input type="hidden" id="clickCk${i.count }">
+								</c:when>
+<%-- 									<c:otherwise> --%>
+<%-- 										<button type="button" class="btn btn-outline-danger" id="likeMovie${i.count }" data-target="#movie_num${i.count }" data-number="${i.count }" onclick="checkMovie(this.dataset.number)">♡찜하기</button> --%>
+<%-- 										<input type="hidden" id="clickCk${i.count }"> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 									</c:choose> --%>
+<%-- 								</c:when> --%>
+								<%-- 세션아이디가 없거나 비회원일 때 -> 클릭 시 모달창 팝업 --%>
+								<c:otherwise>
+									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
+									<button type="button" 
+											class="btn btn-outline-danger" 
+											id="likeProductNo${i.index }" 
+											data-toggle="modal" 
+											data-target="#needLogin">
+											<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
+									</button>
+								</c:otherwise>
+							</c:choose>
 							
 							<%--
 							 거래상태 '예약중'일경우, 채팅하기 버튼 누를경우 
@@ -503,24 +642,22 @@ a {
 							--%>
 							<c:choose>
 								<c:when test="${secondhandProduct.secondhand_deal_status eq '예약중' }">
-									<input type="button" class="btn btn-dark" style="font-size:1em;" value="채팅하기" onclick="reservedProduct()">
+									<input type="button" class="btn btn-lg btn-dark col-10" style="font-size:1em;" value="채팅하기" onclick="reservedProduct()">
 								</c:when>
 								<%--- 거래상태 예약중이아닐경우 채팅하기로 정상적으로 이동 --%> 
 								<c:otherwise>
-									<form action="doChat" method="POST">
+									<form action="doChat" method="POST" class="col col-10">
 									<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
 									<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
 									<div class="d-grid gap-2">
-										<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">
+										<input type="submit" class="btn btn-lg btn-dark" style="font-size:1em;" value="채팅하기">
 									</div>
 									</form>
 								</c:otherwise>
 							</c:choose>
 							
-
-						
-						
 					</c:if>
+				</div>
 				</c:otherwise>
 			</c:choose>
 			
@@ -587,12 +724,18 @@ a {
 					
 					<%-- 판매자 프로필 --%>
 					<div class="column">
+					
+
+					
+					
+					
+					
 						<c:choose>
 							<c:when test="${not empty seller.member_image }">
 								<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
 							</c:when>
 							<c:otherwise>
-								<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
+								<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
 							</c:otherwise>
 						</c:choose>
 					 </div>
@@ -632,9 +775,6 @@ a {
 			</div>
 		</div>
 		
-
-			
-
 		</div> <%--container 끝 --%>
 		
 		

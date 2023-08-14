@@ -29,6 +29,8 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 
+
+//<!-- 이미지 추가버튼 스크립트 -->--------------------
 // var image_list = [
 // 		if(${secondhandProduct.secondhand_image1} != null){
 // 			${secondhandProduct.secondhand_image1}	

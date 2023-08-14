@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1263,11 +1264,30 @@ public class MemberController {
 		return "member/member_mypage_auctionList";
 	}
 	
-	// 찜 목록
-	@GetMapping("member_mypage_wishList")
-	public String member_mypage_wishList() {
+	// 마이페이지 후기 리스트
+	@GetMapping("member_mypage_writeReviewList")
+	public String member_mypage_writeReviewList(HttpSession session, Model model) {
+		String member_id = (String) session.getAttribute("member_id");
 		
-		return "member/member_mypage_wishList";
+		List<Map<String, String>> myReview = service.getReview(member_id);
+		model.addAttribute("myReview", myReview);
+		
+		return "member/member_mypage_writeReviewList";
+	}
+	
+	// 마이페이지 후기 삭제
+	@PostMapping("member_mypage_delete_review")
+	@ResponseBody
+	public ResponseEntity<String> member_mypage_delete_review(HttpSession session, @Param("order_secondhand_idx") String order_secondhand_idx) {
+	    String member_id = (String) session.getAttribute("member_id");
+	    
+	    int deleteReviewCount = service.deleteReview(member_id, order_secondhand_idx);
+	    
+	    if(deleteReviewCount > 0) {
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+	    }
 	}
 	
 	// 회원가입 메인창

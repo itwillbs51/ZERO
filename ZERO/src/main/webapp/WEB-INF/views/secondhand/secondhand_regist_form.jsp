@@ -77,35 +77,7 @@
 				}
 			}
 			
-// 			/* i가 3일때 */
-// 			if(i==3){
-// 				/* 3번사진 비어있으면 */
-// 				if(preview_array[3]==false){
-// 					/* 3번사진 인풋태그 호출 */
-// 					send_3();
-// 					return;
-// 				}
-// 			}
-			
-// 			/* i가 4일때 */
-// 			if(i==4){
-// 				/* 4번사진 비어있으면 */
-// 				if(preview_array[4]==false){
-// 					/* 4번사진 인풋태그 호출 */
-// 					send_4();
-// 					return;
-// 				}
-// 			}
-			
-// 			/* i가 5일때 */
-// 			if(i==5){
-// 				/* 5번사진 비어있으면 */
-// 				if(preview_array[5]==false){
-// 					/* 5번사진 인풋태그 호출 */
-// 					send_5();
-// 					return;
-// 				}
-// 			}
+
 		}/*  for end */
 		
 		alert("더이상 등록할 수 없습니다.");
@@ -626,9 +598,9 @@
 			success  : function(res){
 				
 				if(res == true){
-					alert('물품등록 성공!');
+					alert('상품이 정상적으로 등록되었습니다!');
 // 					location.href='../mainpage/list.do';
-// 					location.href='../secondhand/secondhand_regist_form';
+					location.href='../secondhand/secondhand_list';
 				}
 				
 			},error	: function(err){

@@ -470,6 +470,39 @@
 	
 	
 	
+	<!-- 찜하기 등록 기능 insertLikeMovie -->
+	<insert id="insertLikeProduct">
+		INSERT INTO 
+			LIKES
+		VALUES(
+			null
+			, #{member_id}
+			, #{secondhand_idx}
+				)
+	</insert>
+	<!-- 찜하기 취소 기능 deleteLikeMovie -->
+	<delete id="deleteLikeProduct">
+		DELETE
+			FROM LKIES
+		WHERE
+			member_id = #{member_id}
+			AND secondhand_idx = #{secondhand_idx}
+	</delete>
+	
+<!-- 	 찜 갯수 카운트 -->
+<!-- 	<select id="countLikeProduct"> -->
+<!-- 		SELECT COUNT(*) -->
+<!-- 			FROM LIKES -->
+<!-- 			WHERE member_id = #{member_id} -->
+<!-- 	</select> -->
+	
+	<!-- 찜한 상품 찾기  -->
+	<select id="selectLikeProduct" resultType="com.itwillbs.zero.vo.LikeVO">
+		SELECT *
+			FROM LIKES
+			WHERE member_id = #{member_id}
+	</select>
+	
 	<!-- 끌어올리기 작업 시 업데이트 처리 (등록날짜)-->
 	
 </mapper>

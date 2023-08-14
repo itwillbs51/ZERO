@@ -114,6 +114,12 @@ int updateBankAuth(String member_id);
 	// 리뷰 작성했는지 확인
 	int selectWriteReview(@Param("member_id") String member_id, @Param("order_secondhand_idx") Integer order_secondhand_idx);
 
+	// 리뷰 가져오기
+	List<Map<String, String>> selectReview(String member_id);
+
+	// 리뷰 삭제하기
+	int deleteReview(@Param("member_id") String member_id, @Param("order_secondhand_idx") String order_secondhand_idx);
+	
 	// 나의 문의 내역 조회 - 회원 아이디로 레코드 조회
 	List<CsVO> selectMyInq(String member_id);
 	

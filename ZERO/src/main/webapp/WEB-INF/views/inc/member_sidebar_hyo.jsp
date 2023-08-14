@@ -52,8 +52,8 @@ $(document).ready(function(){
 <!--     </li> -->
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="member_mypage_wishList">
-        관심 상품
+      <a class="nav-link" href="member_mypage_writeReviewList">
+        작성한 리뷰
       </a>
     </li>
     <hr>

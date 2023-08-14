@@ -71,5 +71,13 @@ public class AuctionService2  {
 		mapper.insertOrder2(winner);
 		
 	}
+	public int getAllBidedZpay(String member_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllBidedZpay(member_id);
+	}
+	public int getAuctionIdx() {
+		// TODO Auto-generated method stub
+		return mapper.selectAuctionIdx();
+	}
 
 }
