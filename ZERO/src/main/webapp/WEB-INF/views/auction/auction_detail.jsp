@@ -351,6 +351,7 @@ $("#button-send2").on("click", function(e) {
 		  		  		success: function(result) {
 		  		  			if(result == "true") {
 		  		  			sock.send("${product.auction_max_price}")
+		  		  		   location.href = "member_mypage_auctionList";
 		  		  			}
 		  		  		},
 		  		  		fail: function() {

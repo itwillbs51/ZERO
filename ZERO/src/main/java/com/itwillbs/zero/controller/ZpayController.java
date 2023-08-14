@@ -708,8 +708,7 @@ public class ZpayController {
 	
 	// 경매 거래 송금(구매자 출금)
 	@PostMapping("zpay_auction_send_pro")
-	public String zpayAuctionSendPro(@RequestParam int order_auction_idx, 
-									@RequestParam String zpay_passwd, 
+	public String zpayAuctionSendPro(@RequestParam int order_auction_idx,  
 							Model model) {
 		System.out.println("ZpayController - zpayAuctionSendPro()");
 		
