@@ -220,7 +220,7 @@
 									</button>
 								</div>
 								<div class="modal-body">
-									<div class="chargeContentArea">
+									<div class="successContentArea">
 										<div class="chargeInputArea text-center">
 											<div class="title">
 												비밀번호입력
@@ -245,7 +245,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div><%-- 모달영역 끝 --%>
 				</form>
 			</div><%-- contentArea 영역 끝 --%>
 		</div><%-- container 영역 끝 --%>
