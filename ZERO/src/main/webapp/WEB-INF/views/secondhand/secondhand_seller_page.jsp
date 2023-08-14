@@ -193,14 +193,14 @@ row{
 			<!-- 왼쪽섹션 - 회원프로필 -->
 			<div class="col-3">
 					<%-- 프로필이미지 - 설정된 프로필 없을경우 기본이미지 설정 --%>
-					<c:choose>
-						<c:when test="${not empty seller.member_image }">
-							<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
-						</c:when>
-						<c:otherwise>
-							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
-						</c:otherwise>
-					</c:choose>
+						<c:choose>
+							<c:when test="${not empty seller.member_image }">
+								<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
+							</c:when>
+							<c:otherwise>
+								<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
+							</c:otherwise>
+						</c:choose>
 					
 					<h5> ${seller.member_nickname } 님</h5>
 					<!--<button class="btn btn-primary btn-lg" style="font-size:1em;" > 채팅하기 </button> -->

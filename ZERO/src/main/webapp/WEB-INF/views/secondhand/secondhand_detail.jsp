@@ -440,7 +440,7 @@ a {
 						<c:choose>
 							<c:when test="${empty sessionScope.member_id }">
 	
-								<button class="btn btn-dark" 
+								<button style="border:none;"
 										data-toggle="modal" 
 										data-target="#needLogin">
 									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
@@ -450,7 +450,7 @@ a {
 							</c:when>
 							<%-- 2. 세션아이디 존재하는 경우(로그인상태) - 신고하기 모달창 --%>
 							<c:otherwise>
-								<button class="btn btn-dark" 
+								<button style="border:none;"
 										data-target="#layerpop" 
 										data-toggle="modal">
 									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
@@ -726,12 +726,18 @@ a {
 					
 					<%-- 판매자 프로필 --%>
 					<div class="column">
+					
+
+					
+					
+					
+					
 						<c:choose>
 							<c:when test="${not empty seller.member_image }">
 								<img src="${pageContext.request.contextPath }/resources/upload/${seller.member_image}" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
 							</c:when>
 							<c:otherwise>
-								<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
+								<img src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" width="120px" height="120px" style="margin:20px; border-radius: 50%; ">
 							</c:otherwise>
 						</c:choose>
 					 </div>

@@ -24,72 +24,7 @@
 
 <!-- 제이쿼리 -->
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
-<script type="text/javascript">
 
-	//전역변수 pageNum, maxPage 미리저장
-// 	let pageNum = 1;	// 임의로 설정
-// 	let maxPage = 1;	// 최대 페이지 번호 미리 저장
-
-	
-	//카테고리, 가격대 선택 탭
-// 	$(document).ready(function(){
-// 		$('ul.tabs li').click(function(){
-// 			var tab_id = $(this).attr('data-tab');
-			
-// 			$('ul.tabs li').removeClass('current');
-// 			$('.tab-content').removeClass('current');
-		
-// 			$(this).addClass('current');
-// 			$("#"+tab_id).addClass('current');
-// 			})
-// 		});
-	
-		
-// 		$(function(){
-// 			 // 찜하기에 사용
-// 			 let sId = $("#sessionId").val();
-// 			 let member_type = $("#member_type").val();
-			
-// 			 //카테고리 셀렉트박스 변경시 해당카테고리 목록으로 리로드
-// 			 $(".c_idx option").on("change",function(){
-				 	
-// 				 //변경된 셀렉트박스 val값 가져와서 저장
-// 				 let value = $(".c_idx option option:selected").val();
-// 				 let url = '';
-				 
-// 				 if(value=="${category.category_idx }".trim()){ //value값이 카테고리값과 동일할경우
-// 					 url = "categoryList";//요청주소
-// 				 }
-				 
-// 				 $.ajax({
-// 					type : "get",
-// 					url : url,
-// 					dataType : "json",	 
-// 				 })
-// 				 .done(function(productList){
-// 					aler("요청성공");
-// 					let res = "";
-					
-// 					for(let i = 0; i < productList.length; i++) {
-// 						//res에 로딩할 목록 저장(상품개수?까지 포함해서 가져오기)
-// 						res +=
-					
-// 					}
-// 					//지정한 영역에 로딩할 목록 표시
-// 					$(".row").html(res);
-// 				 })
-// 				 .fail(function(){//요청실패시
-// 					 alert("요청실패");
-// 				 });//fail끝
-				 
-// 			 })//셀렉트변경 처리 끝
-// 		});//
-
-
-
-	
-
-</script>
 
 <script type="text/javascript">
 
@@ -169,7 +104,7 @@ $(function() {
 //       $('<i>', {class: 'material-icons'}).text('swap_vert').appendTo('.listInfoBtn');
       
       $('.listSort').hide(); 
-      console.log("정렬 기준은 " + selectedSort);
+//       console.log("정렬 기준은 " + selectedSort);
     });
 
 
@@ -201,7 +136,7 @@ $(function() {
 	  $(this).addClass("select");
 	  selectedCategory = $(this).text().trim();
 	  loadList(selectedCategory, selectedSort);
-	  console.log("카테고리는 : " + selectedCategory);
+// 	  console.log("카테고리는 : " + selectedCategory);
 	});
 		
 		
@@ -228,7 +163,7 @@ $(function() {
 				pageNum++;
 				loadList(selectedCategory, selectedSort);
 			} else {
-					alert("다음 페이지가 없습니다!");
+// 					alert("다음 페이지가 없습니다!");
 			}
 		}
 		
@@ -258,11 +193,11 @@ function loadList(selectedCategory, selectedSort) {
 		url: url,
 		dataType: "JSON",
 		success: function(data) {
-			alert("글목록요청 성공");
+// 			alert("글목록요청 성공");
 
 			// 1. 
 			maxPage = data.maxPage;
-			console.log("maxPage : " + maxPage);
+// 			console.log("maxPage : " + maxPage);
 			// => 무한스크롤 시 
 			
 			
