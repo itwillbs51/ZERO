@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
 
+
 import com.itwillbs.zero.service.*;
 import com.itwillbs.zero.vo.*;
 
@@ -773,6 +774,8 @@ public class SecondhandController {
 		}
 		
 		
+		
+		// 신고하기 작업--------------------------------------------------------------------
 		//신고하기 팝업 이동(모달?)
 		@GetMapping("reportPopup")
 		public String reportPopup() {
@@ -812,33 +815,75 @@ public class SecondhandController {
 	
 		
 		
-		//
-		//카테고리/가격검색에 따른 marketItemList ajax요청
-		
-//		@ResponseBody
-//		@RequestMapping(value = "marketItemList", method = RequestMethod.POST)
-//		public String marketItemList() {
-//			return response;
-//		}
 		
 		
 		
-//		//검색기능-검색시 상품리스트(경매/중고) 출력
-//		@RequestMapping(value="searchProductList", method = {RequestMethod.GET, RequestMethod.POST})
-//		public String searchProductList (@RequestParam(defaultValue="") String productSearchKeyword, Model model) {
-//			
-//			//중고상품 목록 조회
-//			List<SecondhandVO> searchSecondhandList = service.getSearchSecondhandList(productSearchKeyword);
-//			model.addAttribute("searchSecondhandList", searchSecondhandList);
-//			//중고상품 목록 개수조회
-//			int searchSecondhandCount = service.getSearchSecondhandCount(productSearchKeyword);
-//			model.addAttribute("searchSecondhandCount", searchSecondhandCount);
-//
-//			
+//		// 페이지 - 찜보여주기
+		@RequestMapping(value = "likeProductShow", method = {RequestMethod.GET, RequestMethod.POST})
+		@ResponseBody
+		public LikeVO likeMovieShow(HttpSession session) {
+			// 찜한 영화 있을 경우 찜하기 표시하기(비회원이 아닐 때)
+			String member_id = (String) session.getAttribute("member_id");
+			
+
+			if (member_id != null) {
+//				System.out.println("어디서 문제니 : member_id " + member_id);
+//				System.out.println("어디서 문제니 : member_type " + session.getAttribute("member_type"));
+				
+				// 찜한 영화 찾기
+				// LikeService - getLikeMovie()
+				// 파라미터 : member_id		리턴타입 : List<LikeVO>(likeList)
+				LikeVO likeList = service.getLikeProduct(member_id); 
+				System.out.println(likeList);
+//						
+//				if(likeList != null) {
+					// 모델에 저장 (-> 메인, 영화목록, 영화디테일)
+					// 세션x : 찜하기 목록이 업데이트 될때마다 달라지므로 페이지마다 조회해서 파라미터로 받을 예정
+//				} else {
+//					
+//				}
+				return likeList;
+			}
+			return null;
+		}
 //		
-//			return "search_result";
-//			
-//		} 
+		
+		
+//		찜기능
+		@RequestMapping(value = "likeProduct", method = {RequestMethod.GET, RequestMethod.POST})
+		@ResponseBody
+		public Integer likeProduct(
+				// 찜 구현 시 필요한 파라미터
+				String member_id, 
+				int secondhand_idx, 
+				boolean isLike
+				, LikeVO productLike
+				) {
+			
+			// 넘어온 파라미터 확인
+			System.out.println("member_id : " + member_id + ", secondhand_idx : " + secondhand_idx + ", isLike : " + isLike);
+			
+			// isLike의 값에 따라
+			// FALSE (찜 안된 영화 -> 찜) : INSERT
+			// 	 LikeService - checkLikeMovie()		파라미터 : MovieLikeVO(movieLike)		리턴타입 : int(insertCount)
+			// TRUE (찜 된 영화 -> 찜 취소) : DELETE
+			//	 LikeService - unCheckLikeMovie()		파라미터 : MovieLikeVO(movieLike)		리턴타입 : int(deleteCount)
+			if(!isLike) {
+				// 찜 기능(insert)
+				int insertCount = service.checkLikeProduct(productLike);
+				System.out.println("찜 된 영화 갯수 : " + insertCount);
+				
+				return insertCount;
+			} else {
+				// 찜 취소(delete)
+				int deleteCount = service.unCheckLikeProduct(productLike);
+				System.out.println("취소된 영화 갯수 : " + deleteCount);
+				
+				return deleteCount;
+			}
+			
+		}
+
 
 		
 		

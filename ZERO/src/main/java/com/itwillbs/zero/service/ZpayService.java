@@ -71,9 +71,9 @@ public class ZpayService {
 		return mapper.selectZpay(member_id);
 	}
 
-	// ZPYA_HISTORY 테이블에 충전내역 추가
-	public int chargeZpay(ZpayHistoryVO zpayHistory) {
-		return mapper.insertChargeHistory(zpayHistory);
+	// ZPYA_HISTORY 테이블에 충전/환급/중고입출금/경매입출금 내역 추가
+	public int insertZpayHistory(ZpayHistoryVO zpayHistory) {
+		return mapper.insertZpayHistory(zpayHistory);
 	}
 	
 	//  현재 참여하고 있는 경매 입찰이 있는지 확인
@@ -81,6 +81,10 @@ public class ZpayService {
 		return mapper.selectAuctionParticipant(member_id);
 	}
 
+	// ZPYA_HISTORY 테이블에 충전내역 추가
+	public int chargeZpay(ZpayHistoryVO zpayHistory) {
+		return mapper.insertChargeHistory(zpayHistory);
+	}
 
 	// ZPYA_HISTORY 테이블에 환급내역 추가
 	public int refundZpay(ZpayHistoryVO zpayHistory) {
@@ -116,10 +120,15 @@ public class ZpayService {
 	public int modifyOrderSecondhandStatus(int order_secondhand_idx) {
 		return mapper.updateOrderSecondhandStatus(order_secondhand_idx);
 	}
-	
+
 	// 추가한 ZPAY_HISTORY 내역의 idx 찾기
 	public ZpayHistoryVO getzpayHistoryInserted() {
 		return mapper.selectzpayHistoryInserted();
+	}
+	
+	// 추가한 ZPAY_HISTORY 내역의 idx 찾기
+	public ZpayHistoryVO getzpayHistoryInserted2(String member_id) {
+		return mapper.selectzpayHistoryInserted2(member_id);
 	}
 	
 	// ZERO_ACCOUNT_HISTORY 잔액조회
@@ -174,6 +183,8 @@ public class ZpayService {
 	public int updateZpayPasswd(String member_id, String new_zpay_passwd) {
 		return mapper.updateZpayPasswd(member_id, new_zpay_passwd);
 	}
+
+	
 
 	
 

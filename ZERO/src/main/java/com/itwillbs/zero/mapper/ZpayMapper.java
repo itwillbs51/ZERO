@@ -50,12 +50,15 @@ public interface ZpayMapper {
 	// ZPAY 번호 조회
 	int selectZpayIdx(String member_id);
 
-	// ZPYA_HISTORY 테이블에 충전내역 추가
-	int insertChargeHistory(ZpayHistoryVO zpayHistory);
+	// ZPYA_HISTORY 테이블에 충전/환급/중고입출금/경매입출금 내역 추가
+	int insertZpayHistory(ZpayHistoryVO zpayHistory);
 	
 	// 현재 참여하고 있는 경매 입찰이 있는지 확인
 	List<Map<String, Object>> selectAuctionParticipant(String member_id);
-
+	
+	// ZPYA_HISTORY 테이블에 충전내역 추가
+	int insertChargeHistory(ZpayHistoryVO zpayHistory);
+	
 	// ZPYA_HISTORY 테이블에 환급내역 추가
 	int insertRefundHistory(ZpayHistoryVO zpayHistory);
 	
@@ -79,6 +82,7 @@ public interface ZpayMapper {
 	
 	// 추가한 ZPAY_HISTORY 내역의 idx 찾기
 	ZpayHistoryVO selectzpayHistoryInserted();
+	ZpayHistoryVO selectzpayHistoryInserted2(String member_id);
 	
 	// ZERO_ACCOUNT_HISTORY 잔액조회
 	Integer selectZeroAccountBalance();
@@ -109,6 +113,8 @@ public interface ZpayMapper {
 
 	// ZPAY 비밀번호 변경
 	int updateZpayPasswd(@Param("member_id") String member_id, @Param("new_zpay_passwd") String new_zpay_passwd);
+
+	
 
 	
 
