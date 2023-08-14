@@ -43,6 +43,10 @@ public interface AuctionMapper2 {
 
 	void insertOrder2(HashMap<String, String> winner);
 
+	int selectAllBidedZpay(String member_id);
+
+	int selectAuctionIdx();
+
 	
 
 }

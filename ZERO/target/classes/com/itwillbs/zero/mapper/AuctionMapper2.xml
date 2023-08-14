@@ -112,6 +112,17 @@
 		  GROUP BY auction_idx
 		)as t
 	</select>
+
+	<select id="selectAllBidedZpay" resultType="int">
+		SELECT IFNULL(SUM(max_bid),0)
+		FROM (
+		  SELECT MAX(auction_log_bid) AS max_bid
+		  FROM AUCTION_LOG_ROOM
+		  WHERE member_id = #{member_id}
+		  AND DATE(auction_log_datetime) = CURDATE()
+		  GROUP BY auction_idx
+		)as t
+	</select>
 	
 	<insert id="insertOrder" >
 		INSERT 
@@ -134,6 +145,10 @@
 			SELECT order_auction_idx
 				FROM ORDER_AUCTION
 				WHERE auction_idx=#{id}
+				
+	</select>
+	<select id="selectAuctionIdx" resultType="int">
+			SELECT  MAX(auction_idx) FROM AUCTION_PRODUCT;
 				
 	</select>
 	

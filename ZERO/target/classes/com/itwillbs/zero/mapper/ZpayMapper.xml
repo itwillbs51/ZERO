@@ -415,11 +415,12 @@
 				, zpay_deal_type
 				, member_id
 				<if test="order_auction_idx != 0">
-					, order_auction_idx)
+					, order_auction_idx
 				</if>
 				<if test="order_secondhand_idx != 0">
-					, order_secondhand_idx)
+					, order_secondhand_idx
 				</if>
+				)
 			VALUES(
 				null
 				, #{zpay_idx}

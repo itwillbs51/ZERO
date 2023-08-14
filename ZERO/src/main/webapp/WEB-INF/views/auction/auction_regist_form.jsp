@@ -535,7 +535,7 @@
 		}
 		
 		
-		if(confirm('등록 하시겠습니까?')==false) return;
+		if(confirm('사용가능 ZPAY: ${possibleZpay}원  \n검수비'+comma(Math.floor(p_price*0.1)) +'원을 결제 하시겠습니까?')==false) return;
 		
 		var form = $("#imgform")[0];
 		var formData = new FormData(form);
@@ -575,8 +575,24 @@
 			dataType : 'json',
 			success  : function(res){
 				if(res == true){
-					alert('물품등록 성공!');
-// 					location.href='../mainpage/list.do';
+					$.ajax({
+				  		data: {
+				  			'amount': Math.floor(p_price*0.1),
+				  		},
+				  		url: "inspectionFee",
+				  		type: "POST",
+				  		success: function(result) {
+				  			alert("등록성공!");
+				  			location.href="member_mystore";
+				  			
+				  			
+				  		},
+				  		fail: function() {
+				  			alert("실패!");
+				  			
+				  		}	
+				  		
+				  	});
 				}
 				
 			},error	: function(err){
@@ -960,7 +976,7 @@ body{
 						<span class="pro_info" id="img_number">(0/3)</span>
 						<span style="color: red">*</span>
 						<input type="image" id="imgup" onclick="img_preview();"
-								src="/zero/resources/img/image_upload.png" width="150px" height="150px">
+								src="${ pageContext.request.contextPath }/resources/img/image_upload.png" width="150px" height="150px">
 						</td>
 					<td class="td2" align="left">
 					

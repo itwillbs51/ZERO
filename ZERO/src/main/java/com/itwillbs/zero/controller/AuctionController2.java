@@ -26,6 +26,8 @@ import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.AuctionProductVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
 @Controller
@@ -128,8 +130,8 @@ public class AuctionController2 {
 	// 경매 상품 등록폼
 	@GetMapping("auction_regist_form")
 	public String auction_regist_form(Model model, HttpSession session) {
-		
 		String member_id = (String) session.getAttribute("member_id");
+		
 		ZpayVO zpay = service2.isZpayUser(member_id);
 		if(member_id == null) {
 			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
@@ -142,7 +144,11 @@ public class AuctionController2 {
 		}
 		List<HashMap<String, String>> category=service.getCategory();
 		List<HashMap<String, String>> brand=service.getBrand();
+		int balance=service2.getZpayBalance(member_id); 
+		int bidedZpay=service.getAllBidedZpay(member_id);
+		int possibleZpay=balance-bidedZpay;
 		
+		model.addAttribute("possibleZpay", possibleZpay);
 		model.addAttribute("categorylist", category);
 		model.addAttribute("brandlist", brand);
 		return "auction/auction_regist_form";
@@ -181,6 +187,44 @@ public class AuctionController2 {
 		System.out.println(order_auction_idx);
 		String idx=Integer.toString(order_auction_idx);
 		return idx;
+	}
+	@ResponseBody
+	@PostMapping("inspectionFee")
+	public void inspectionFee(Model model, HttpSession session, @RequestParam long amount) {
+		String member_id = (String) session.getAttribute("member_id");
+		System.out.println("inspectionFee");
+		System.out.println(amount);
+		
+		ZpayHistoryVO auctionSellerHistory = new ZpayHistoryVO();
+		ZpayHistoryVO zpayHistoryInserted = new ZpayHistoryVO();
+		int auction_idx=service.getAuctionIdx();
+		int seller_zpay_idx = service2.getZpayIdx(member_id);
+		Integer seller_zpay_balance = service2.getZpayBalance(member_id);
+		// zpaySellerHistory 객체에 저장
+		auctionSellerHistory.setZpay_idx(seller_zpay_idx);
+		auctionSellerHistory.setMember_id(member_id);
+		auctionSellerHistory.setZpay_amount(amount);
+		auctionSellerHistory.setZpay_balance(seller_zpay_balance);
+		auctionSellerHistory.setZpay_deal_type("경매출금");
+		
+		
+		// ZPYA_HISTORY 테이블에 송금내역 추가
+		service2.insertSendReceiveHistory(auctionSellerHistory);
+		
+		
+		zpayHistoryInserted = service2.getzpayHistoryInserted();
+		
+		Integer zero_account_balance = service2.getZeroAccountBalance();
+		
+		ZeroAccountHistoryVO zeroAccount = new ZeroAccountHistoryVO();
+		zeroAccount.setMember_id(member_id);
+		zeroAccount.setZpay_history_idx(zpayHistoryInserted.getZpay_history_idx());
+		zeroAccount.setZero_account_amount(amount);
+		zeroAccount.setZero_account_balance(zero_account_balance);
+		zeroAccount.setAuction_idx(auction_idx);
+		zeroAccount.setZero_account_type("검수비");
+		
+		service2.depositWithdrawZeroAccount(zeroAccount);
 	}
 	
 	// 경매 상품 등록
