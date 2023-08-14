@@ -290,10 +290,13 @@
 									총금액
 								</div>
 								<div class="withdrawalAccount_info">
-<!-- 									<div class="withdrawalBankName">36,000원 </div> -->
-<%-- 									<div class="withdrawalAccountNum">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div> --%>
-									<div class="withdrawalBankName">${param.order_secondhand_price + 3000 }원 </div>
-									<div class="withdrawalAccountNum priceDetail">= ${param.order_secondhand_price }(상품가격) + 3,000(배달비)</div>
+									
+									<div class="withdrawalBankName">
+										<fmt:formatNumber value="${param.order_secondhand_price + 3000 }" pattern="###,###"/>원
+									</div>
+									<div class="withdrawalAccountNum priceDetail">
+										= <fmt:formatNumber value="${param.order_secondhand_price }" pattern="###,###"/>(상품가격) + 3,000(배달비)
+									</div>
 								</div>
 <!-- 								<div class="title"> -->
 <!-- 									희망배달시간 -->
@@ -310,8 +313,10 @@
 							
 						</div><%-- chargeInputArea 영역 끝 --%>
 						<div class="chargeButtonArea">
+							<c:if test="">
+							</c:if>
 							<button type="button" onclick="submitBtn(1)" class="btn btn-dark">주소저장하기</button>
-							<c:if test="${sessionScope.member_id eq param.seller_id }"">
+							<c:if test="${sessionScope.member_id eq param.seller_id }">
 								<button type="button" onclick="submitBtn(2)" class="btn btn-dark">호출하기</button>
 							</c:if>
 							<button type="button" class="btn btn-dark" onclick="window.close()">취소</button>

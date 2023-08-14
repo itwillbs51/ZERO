@@ -197,6 +197,40 @@
      		</if>
 	</select>
 	
+	<!-- 경매에 참여한 결과가 있는지 확인 - 정의효 -->
+	<select id="getPartAuction" resultType="map">
+		WITH CTE AS (
+		  SELECT member_id, AUCTION_IDX, COUNT(*) as count
+		  FROM AUCTION_LOG_ROOM
+		  WHERE member_id = #{member_id}
+		  GROUP BY member_id, AUCTION_LOG_IDX
+		)
+		SELECT A.*
+		FROM AUCTION_PRESENT_LIST A
+		JOIN (
+		  SELECT * 
+		  FROM CTE
+		  WHERE count = 1
+		  GROUP BY member_id, AUCTION_IDX
+		) B ON A.auction_idx = B.AUCTION_IDX;
+	</select>
 	
+	<!-- 낙찰받은 경매물품이 있는지 확인 - 정의효 -->
+	<select id="getSuccessBid" resultType="map">
+		SELECT 
+		    AUCTION_LOG_ROOM.*,
+		    AUCTION_END_LIST.*
+		FROM 
+		    AUCTION_END_LIST 
+		JOIN
+		    AUCTION_LOG_ROOM 
+		    ON
+		    AUCTION_LOG_ROOM.auction_idx  = AUCTION_END_LIST.auction_idx
+		WHERE 
+		    AUCTION_LOG_ROOM.auction_log_bid = AUCTION_END_LIST.auction_final_price
+		    AND AUCTION_LOG_ROOM.member_id = #{member_id}
+		
+		
+	</select>
 	
 </mapper>

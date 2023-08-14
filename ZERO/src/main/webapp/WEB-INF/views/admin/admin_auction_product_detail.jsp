@@ -181,25 +181,6 @@
 		</div>
 	</div>
 		
-	<%-- 회원 삭제 확인 모달창 --%>
-	<div class="modal fade" id="confirmDeleteMember" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteMemberTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title fs-5" id="confirmDeleteMemberTitle">회원 삭제</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					삭제 후 복구가 불가합니다.<br>
-					정말 삭제하시겠습니까?<br>
-				</div>
-				<div class="modal-footer">
-					<button type="button" id="${member.member_idx }" class="btn btn-dark" onclick="location.href='admin_member_delete?member_idx=${member.member_idx }'">삭제</button>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-				</div>
-			</div>
-		</div>
-	</div>
 <!-- 이 스크립트들은 위로 올리면 작동하지 않음 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath }/resources/js/scripts.js"></script>

@@ -101,6 +101,18 @@ public interface AdminMapper {
 	// 경매관리 - 경매예정 상품 정보 수정
 	int updateAuctionManaging(AuctionManagingVO auctionManaging);
 	
+	// 경매관리 - 경매 상품 목록 페이지로 디스패치
+	List<AuctionManagingVO> selectAuctionProductList();
+
+	// 경매관리 - 경매 상품 상세보기
+	Map<String, String> selectAuctionProduct(int auction_idx);
+
+	// 경매관리 - 경매 내역 목록 조회
+	List<Map<String, String>> selectOrderAutionList(String member_id);
+	
+
+	// 경매관리 - 경매 거래 내역 상세보기
+	Map<String, String> selectAuctionOrder(int order_auction_idx);
 	
 	//  ========== ========== 고객센터 관리  ========== ==========
 	// 고객센터관리 - 공지사항 목록 조회
@@ -180,11 +192,8 @@ public interface AdminMapper {
 	// 계좌 관리 - ZMAN 계좌 목록 조회
 	List<ZpayVO> selectZmanZpayList();
 
-	// 경매관리 - 경매 상품 목록 페이지로 디스패치
-	List<AuctionManagingVO> selectAuctionProductList();
 
-	// 경매관리 - 경매 상품 상세보기
-	Map<String, String> selectAuctionProduct(int auction_idx);
+	
 
 
 

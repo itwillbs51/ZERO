@@ -110,20 +110,20 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
 		<div class="my_purchase">
 			<div class="content_title" data-v-88eb18f6="">
 				<div class="title" data-v-88eb18f6="">
-					<h3 data-v-88eb18f6="">상품구매 내역</h3>
+					<h3 data-v-88eb18f6="">찜 목록</h3>
 					<!---->
 				</div>
 				<!---->
 			</div>
-	<!-- 거래내역 없을때 -->
-		<c:if test="${empty myOdShList }">
+	<!-- 관심상품 없을때 -->
+		<c:if test="$.{empty  }">
 		<div data-v-412d8616="" class="recent_purchase">
 			<div data-v-412d8616="">
 				<div data-v-7a02263e="" data-v-412d8616=""
 					class="purchase_list all ask">
 					<!---->
 					<div data-v-6abf8c64="" data-v-7a02263e="" class="empty_area">
-						<p data-v-6abf8c64="" class="desc">구매 내역이 없습니다.</p>
+						<p data-v-6abf8c64="" class="desc">관심 상품이 없습니다.</p>
 						<!---->
 					</div>
 					<div data-v-7a02263e="" class="v-portal" style="display: none;"></div>
@@ -133,8 +133,8 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
 		</div>
 		</c:if>
 		
-		<!-- 거래내역 있을때 -->
-		 <c:if test="${not empty myOdShList }">
+		<!-- 관심상품 있을때 -->
+		 <c:if test="$.{not empty }">
                         <div data-v-412d8616="" class="recent_purchase">
                             <div data-v-412d8616="">
                                 <div data-v-7a02263e="" data-v-412d8616=""
@@ -142,7 +142,7 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
                                     <!---->
                                     <div data-v-7a02263e="">
                                         <div data-v-e5d3a8ae="" data-v-7a02263e="">
-                                            <c:forEach var="myOdShList" items="${myOdShList }">
+                                            <c:forEach var="" items="$.{ }">
                                                 <div style="position: relative;">
                                                     <div data-v-e5d3a8ae=""
                                                          class="purchase_list_display_item"
@@ -158,7 +158,7 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
                                                             </div>
                                                             <div data-v-e5d3a8ae="" class="list_item_title_wrap">
                                                                 <!---->
-                                                                <p data-v-e5d3a8ae="" class="list_item_title">${myOdShList.order_secondhand_product}</p>
+                                                                <p data-v-e5d3a8ae="" class="list_item_title">$.{}</p>
                                                             </div>
                                                         </div>
                                                         <div data-v-e5d3a8ae="" class="list_item_status">
@@ -166,33 +166,15 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
                                                                  class="list_item_column column_secondary">
                                                                 <p data-v-7b1f182e="" data-v-e5d3a8ae=""
                                                                    class="secondary_title display_paragraph"
-                                                                   style="color: rgba(34, 34, 34, 0.5);">${myOdShList.order_secondhand_date }</p>
+                                                                   style="color: rgba(34, 34, 34, 0.5);">$.{}</p>
                                                             </div>
                                                             <div data-v-e5d3a8ae="" class="list_item_column column_last">
                                                                 <p data-v-7b1f182e="" data-v-e5d3a8ae=""
                                                                    class="last_title display_paragraph"
-                                                                   style="color: rgb(34, 34, 34);">${myOdShList.order_secondhand_status }</p>
+                                                                   style="color: rgb(34, 34, 34);">$.{}</p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <c:if test="${myOdShList.order_secondhand_status == '거래완료'}">
-                                                    <a href="javascript:void(0)" data-v-7b1f182e="" data-v-e5d3a8ae=""
-													   class="last_title display_paragraph"
-													   style="color: rgb(34, 34, 34); 
-													   cursor:pointer; position: absolute; bottom: 0; right: 0;" 
-<%-- 													   onclick="openReviewPopup(event, '${isWriteReviewMap[myOdShList.order_secondhand_idx]}', '${myOdShList.order_secondhand_product}' --%>
-<%-- 													   								 , '${myOdShList.order_secondhand_seller}' --%>
-<%-- 													   								 , '${myOdShList.order_secondhand_buyer }' --%>
-<%-- 													   								 , '${myOdShList.order_secondhand_idx }');"> --%>
-															 onclick="openReviewPopup(event, '${isWriteReviewMap[myOdShList.order_secondhand_idx]}'
-															 								, '${myOdShList.order_secondhand_product}'
-															 								, '${myOdShList.order_secondhand_seller}'
-															 								, '${myOdShList.order_secondhand_buyer}'
-															 								, '${myOdShList.order_secondhand_idx}');">
-													후기 작성하기
-													</a>
-                                                    
-                                                    </c:if>
                                                 </div>
                                             </c:forEach>
                                             <!---->
@@ -212,55 +194,6 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
     </div>
 </article>
 
-<!-- 리뷰쓰기 모달 -->
-<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="reviewModalLabel">New message</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="review-form" action="member_buyList_review" method="post">
-        	 <input type="hidden" name="review_writer_id" id="review_writer_id"> 
-        	 <input type="hidden" name="review_reader_id" id="review_reader_id"> 
-        	 <input type="hidden" name="order_secondhand_idx" id="order_secondhand_idx"> 
-        	 <input type="hidden" name="member_review_rating" id="member_review_rating"> 
-<!--         	 <input type="hidden" name="member_review_content" id="member_review_content">  -->
-            <div class="form-group">
-            <fieldset id="myform" name="member_review_rating">
-			  <span class="text-bold">별점을 선택해주세요</span>
-			  <input type="radio" name="member_review_rating" value="1" id="rate1" />
-			  <label for="rate1">★</label>
-			  <input type="radio" name="member_review_rating" value="2" id="rate2" />
-			  <label for="rate2">★</label>
-			  <input type="radio" name="member_review_rating" value="3" id="rate3" />
-			  <label for="rate3">★</label>
-			  <input type="radio" name="member_review_rating" value="4" id="rate4" />
-			  <label for="rate4">★</label>
-			  <input type="radio" name="member_review_rating" value="5" id="rate5" />
-			  <label for="rate5">★</label>
-			</fieldset>
-            </div>
-            <div class="form-group">
-		      <label for="message-text" class="col-form-label" id="">리뷰를 남겨주세요 (최대 100자)</label>
-		      <textarea class="form-control" id="message-text" name="member_review_content" required="required"></textarea>
-		      <div class="char-counter text-muted" style="float: right; display: flex;">
-		        <div id="currentCount">0</div>
-		        <div>&nbsp;/ 100</div>
-		      </div>
-		    </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <button type="submit" id="reviewBtn" class="btn btn-primary" form="review-form" >리뷰 작성</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <script src="${pageContext.request.contextPath }/resources/mypage_js/49ee6ec.js" defer=""></script>
@@ -282,80 +215,6 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
 
 <!-- 후기작성 팝업 -->
 <script type="text/javascript">
-jQuery.noConflict();
-function openReviewPopup(event, isWriteReview, order_secondhand_product, review_reader_id, review_writer_id, order_secondhand_idx) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (isWriteReview == 1) {
-        alert("이미 작성한 후기가 있습니다.");
-    } else {
-        // Set hidden input values
-        $("#review_reader_id").val(review_reader_id);
-        $("#review_writer_id").val(review_writer_id);
-        $("#order_secondhand_idx").val(parseInt(order_secondhand_idx));
-
-        // Show the modal
-        $("#reviewModal").modal("show");
-
-        // Set the title (order_secondhand_product and member_id can be used for customization)
-        $("#reviewModalLabel").text("상품명 : " + order_secondhand_product);
-    }
-}
-
-function updateCharCount() {
-    const maxLength = 100;
-    const currentLength = $("#message-text").val().length;
-    const clampedLength = Math.min(currentLength, maxLength);
-
-    if (currentLength > maxLength) {
-        $("#message-text").val($("#message-text").val().substring(0, maxLength));
-    }
-
-    $("#currentCount").html(clampedLength);
-}
-
-$(document).ready(function () {
-    // 이벤트 바인딩
-    $("#message-text").on("input", updateCharCount);
-
-    // 별점 처리
-    const stars = $("#myform input[type=radio]");
-    const labels = $("#myform label");
-
-    stars.each((index, star) => {
-        $(star).on("change", (e) => {
-            const selectedStar = parseInt(e.target.value, 10);
-            labels.each((idx, label) => {
-                if (idx === selectedStar - 1) $("#member_review_rating").val(selectedStar);
-                if (idx <= index) {
-                    label.style.color = "rgba(250, 208, 0, 0.99)";
-                } else {
-                    label.style.color = "transparent";
-                }
-            });
-        });
-    });
-
-    // 리뷰 작성 버튼 클릭 이벤트
-    $('#reviewBtn').off('click').on('click', function (event) {
-        const form = $('#review-form');
-        if (!form.get(0).checkValidity() || !form.find('input[name="member_review_rating"]:checked').length) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            if (!form.find('input[name="member_review_rating"]:checked').length) {
-                alert('별점을 클릭해주세요');
-            }
-        } else {
-            $('#member_review_content').val($('#message-text').val());
-        }
-        form.addClass('was-validated');
-    });
-
-    // 초깃값 설정
-    updateCharCount();
-});
 
 </script>
 </body>

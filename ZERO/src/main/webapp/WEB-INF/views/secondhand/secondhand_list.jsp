@@ -288,7 +288,7 @@ function loadList(selectedCategory, selectedSort) {
 						+'				<img src="${pageContext.request.contextPath }/resources/upload/' + secondhand.secondhand_image1 +'" class="card-img-top" >'
 						+'			</a>	'
 						<!-- 찜하기 버튼 -->
-						+'			<span class="likebtn">'	
+						+'			<span class="likebtn" data-secondhand-idx="' + secondhand.secondhand_idx + '">'	
 						+'				<a href="#" style="align:right;">'	
 						+'					<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="30px" height="30px">'	
 						+'				</a>'	
@@ -324,6 +324,41 @@ function loadList(selectedCategory, selectedSort) {
 	
 } // loadList() 끝
 
+//찜하기 - 정의효
+$(document).on("click", ".likebtn a", function(e) {
+    e.preventDefault(); // 기본 이벤트 동작 막기
+    let member_id = "${member_id}"; // 세션에서 현재 로그인한 사용자의 member_id 가져오기
+    let secondhand_idx = $(this).closest(".likebtn").data("secondhand-idx"); // 해당 상품의 secondhand_idx 얻기
+    let likeStatus = $(this).find("img").data("like-status"); // 현재 클릭한 이미지의 좋아요 상태 얻기
+    let likeInfo = {
+        "member_id": member_id,
+        "secondhand_idx": secondhand_idx,
+        "like_status": likeStatus // 현재 찜 상태를 전달 (liked 또는 unliked)
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "secondhandLike",
+        data: JSON.stringify(likeInfo),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response) {
+            let heartIcon = $('.likebtn[data-secondhand-idx="' + secondhand_idx + '"]').find("img");
+            // 찜 추가 (response.likeStatus == 'liked')
+            if (response.likeStatus == 'liked') {
+                heartIcon.attr('src', '${pageContext.request.contextPath}/resources/img/fullheartIcon.png')
+                    .data('like-status', 'liked');
+            } else {
+                // 찜 취소 (response.likeStatus == 'unliked')
+                heartIcon.attr('src', '${pageContext.request.contextPath}/resources/img/heartIcon.png')
+                    .data('like-status', 'unliked');
+            }
+        },
+        error: function() {
+            alert("찜 처리 실패");
+        }
+    });
+});
 
 
 </script>
@@ -514,7 +549,7 @@ row{
 										</a>
 										
 										<!-- 찜하기 버튼 -->
-										<span class="likebtn">
+										<span class="likebtn" data-secondhand-idx="${secondhand.secondhand_idx}">
 											<a href="#" style="align:right;">
 												<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="30px" height="30px">
 											</a>

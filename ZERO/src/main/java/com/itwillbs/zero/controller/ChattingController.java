@@ -45,12 +45,52 @@ public class ChattingController {
 		
 		// 회원아이디(sId)로 채팅방 조회
 		// 파라미터 : member_id		리턴타입 : List<ChatRoomListVO>(chatRoomList)
-		List<ChatRoomListVO> chatRoomList = service.selectChatRoomList(member_id);
+		// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+		int pageNum = 1;
+		int listLimit = 12; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		List<ChatRoomListVO> chatRoomList = service.selectChatRoomList(member_id, pageNum, startRow, listLimit);
 		logger.info("*** 채팅방 리스트 : " + chatRoomList);
 		
 		model.addAttribute("chatRoomList", chatRoomList);
 		
 		return "chatting/chat_list";
+	}
+	
+	@GetMapping("chatListJson")
+	public String chatListJson (HttpSession session, @RequestParam(defaultValue = "1") int pageNum) {
+		
+		String member_id = (String) session.getAttribute("member_id");
+		// 페이징 처리를 위해 조회 목록 갯수 조절 시 사용될 변수 선언
+		int listLimit = 12; // 한 페이지에서 표시할 목록 갯수 지정
+		int startRow = (pageNum - 1) * listLimit; // 조회 시작 행(레코드) 번호
+		
+		List<ChatRoomListVO> chatRoomList = service.selectChatRoomList(member_id, pageNum, startRow, listLimit);
+		// -------------------------------------------------------------------------
+		// 페이징 처리를 위한 계산 작업
+		// 한 페이지에서 표시할 페이지 목록(번호) 계산
+		// 1. BoardService - getBoardListCount() 메서드를 호출하여
+		//    전체 게시물 수 조회 요청(페이지 목록 계산에 활용)
+		int listCount = service.getChatRoomListCount(member_id);
+//		System.out.println("전체 게시물 수 : " + listCount);
+//				
+		// 2. 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+//		System.out.println("전체 페이지 목록 갯수 : " + maxPage);
+		// => 이것도 리턴값으로 들고가고 싶다 => 객체로 넣기(boardList = XX, maxPage = xx) => JSONObject
+		
+		// 최대 페이지번호(maxPage) 값도 JSON 데이터로 함께 넘기기
+		// 기존 목록을 JSONObject 객체를 통해 객체 형태로 변환하고, 최대 페이지번호도 함께 추가
+		JSONObject jsonObject = new JSONObject();
+		// JSONXXX 객체의 put() 메서드를 사용하여 데이터 추가 가능
+		// JSONObject 안에는 Collection 객체를 넣을수도 있기 때문에 굳이 JSONArray를 쓰지 않아도 된다
+		// (물론 그냥 JSONArray를 써도 됨) => 그냥 여러개의 목록을 한꺼번에 내보낼 수 있다
+		jsonObject.put("chatRoomList", chatRoomList);
+		jsonObject.put("maxPage", maxPage);
+		jsonObject.put("listCount", listCount);
+//		System.out.println(jsonObject);
+		
+		return jsonObject.toString();
 	}
 	
 	// 채팅창으로 연결
@@ -87,18 +127,18 @@ public class ChattingController {
 		SecondhandVO secondhandInfo = secondhandService.getSecondhandProduct(secondhand_idx);
 		logger.info("*** 중고상품 정보 : " + secondhandInfo);
 		
-		// z맨 호출여부 등을 조회
-		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(secondhand_idx);
-		if(zmanCallInfo != null) {
-			model.addAttribute("zmanCallInfo", zmanCallInfo);
-			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
-		}
-		
 		// ORDER_SECONDHAND 테이블에 order_secondhand_idx 등의 정보 들고와야할듯
 		OrderSecondhandVO orderSecondhandInfo = service.getOrderSecondhandInfo(secondhand_idx);
 		if(orderSecondhandInfo != null) {
 			model.addAttribute("orderSecondhandInfo", orderSecondhandInfo);
 			logger.info("*** 중고상품 거래정보 orderSecondhandInfo : " + orderSecondhandInfo);
+		}
+		
+		// z맨 호출여부 등을 조회
+		ZmanDeliveryVO zmanCallInfo = service.getZmanOrderInfo(orderSecondhandInfo.getOrder_secondhand_idx());
+		if(zmanCallInfo != null) {
+			model.addAttribute("zmanCallInfo", zmanCallInfo);
+			logger.info("*** 호출 여부 zmanCallInfo : " + zmanCallInfo);
 		}
 		
 		// 판매자가 z페이 사용자일 때 송금하기 가능

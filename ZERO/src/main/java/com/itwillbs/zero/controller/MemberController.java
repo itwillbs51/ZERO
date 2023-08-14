@@ -47,7 +47,10 @@ import com.google.gson.JsonObject;
 import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
+import com.itwillbs.zero.service.AuctionService;
+import com.itwillbs.zero.service.LikesService;
 import com.itwillbs.zero.service.MemberService;
+import com.itwillbs.zero.service.SecondhandService;
 import com.itwillbs.zero.service.TestService;
 import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
@@ -68,7 +71,14 @@ public class MemberController {
 	@Autowired
 	private TestService testService; 
 	
+	// 현재 참가중인 경매목록을 위한 Autowired
+	@Autowired
+	private AuctionService auctionService;
 	
+	// 중고상품 좋아요 Autowired
+	@Autowired
+	private LikesService likesService;
+
 	
 	// 멤버 로그인 - 수정
 	@GetMapping("member_login")
@@ -1176,7 +1186,7 @@ public class MemberController {
 		return "member/member_mypage_buyList";
 	}
 	
-	// 멤버 중고상품 판매내역
+	// 멤버 중고상품 판매내역 - 정의효 필요없음 삭제예정
 	@GetMapping("member_mypage_sellList")
 	public String memberMypageSellList(HttpSession session, Model model) {
 		
@@ -1197,12 +1207,35 @@ public class MemberController {
 		return "member/member_mypage_sellList";
 	}
 	
-	// 멤버 경매 내역
+	// 멤버 참가중인 경매 내역
 	@GetMapping("member_mypage_auctionList")
-	public String memberMypageAuctionList() {
+	public String memberMypageAuctionList(HttpSession session, Model model) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+//						if(member_id == null) {
+//							model.addAttribute("msg", " 로그인이 필요합니다!");
+//							model.addAttribute("targetURL", "member_login_form");
+//									
+//							return "fail_location";
+//						}
+		
+		// 세션아이디로 현재 진행중인 경매에 참여한 결과가 있는지 확인
+		List<Map<String, String>> participateAuction = auctionService.getPartAuction(member_id);
+		model.addAttribute("participateAuction", participateAuction);
+		
+		// 세션아이디랑 비교하여 낙찰받은 경매물품이 있는지 확인
+		List<Map<String, String>> successBid = auctionService.getSuccessBid(member_id);
+		model.addAttribute("successBid", successBid);
 		return "member/member_mypage_auctionList";
 	}
-
+	
+	// 찜 목록
+	@GetMapping("member_mypage_wishList")
+	public String member_mypage_wishList() {
+		
+		return "member/member_mypage_wishList";
+	}
+	
 	// 회원가입 메인창
 	@GetMapping("join")
 	public String join() {
@@ -1376,6 +1409,40 @@ public class MemberController {
 			return "fail_back";
 		}
 		
+	}
+	
+	// 찜하기 ajax
+	@PostMapping("secondhandLike")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> secondhandLike(@RequestBody Map<String, Object> likeInfo) {
+	    String memberId = (String) likeInfo.get("member_id");
+	    Object secondhandIdxObj = likeInfo.get("secondhand_idx");
+	    String likeStatus = (String) likeInfo.get("like_status");
+
+	    // secondhandIdxObj가 null이거나 비어 있으면 예외 처리
+	    if (secondhandIdxObj == null) {
+	        // 적한 예외 처리를 구현하세요. 예를 들면,
+	        throw new RuntimeException("secondhand_idx 값이 없습니다.");
+	    }
+
+	    int secondhandIdx = ((Number) secondhandIdxObj).intValue();
+	    int cnt;
+
+	    // 찜 상태 확인
+	    if ("liked".equals(likeStatus)) {
+	        // 찜 취소 처리 및 cnt 감소
+	        cnt = likesService.cancelLike(memberId, secondhandIdx);
+	    } else {
+	        // 찜 추가 처리 및 cnt 증가
+	        cnt = likesService.addLike(memberId, secondhandIdx);
+	    }
+
+	    String newLikeStatus = likesService.getLikeStatus(memberId, secondhandIdx) > 0 ? "liked" : "unliked";
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("likeStatus", newLikeStatus);
+
+	    return ResponseEntity.ok(response);
 	}
 	
 }

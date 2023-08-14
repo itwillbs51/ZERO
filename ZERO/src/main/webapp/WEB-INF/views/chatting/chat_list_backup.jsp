@@ -23,7 +23,7 @@
 <title>채팅 | ZERO</title>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
-	
+	z
 	let isOpen = false;
 	// 버튼 클릭 시 목록보이게하는 함수
 	$(function() {
@@ -58,116 +58,6 @@
 		location.href = "chatRoom?room_idx=chat_" + roomIdx;
 		
 	} // 채팅방 클릭 시 함수 끝
-	
-	// 무한 페이지 스크롤
-	let pageNum = 1;	// 임의로 설정
-	let maxPage = 1;	// 최대 페이지 번호 미리 저장
-	
-	// 무한스크롤 기능 추가
-	// 웹브라우저의 스크롤바가 바닥에 닿으면 다음 목록 조회를 위해 loadList() 함수 호출
-	$(function() {
-		$(window).on("scroll", function() {
-			// 1. window 객체와 document 객체를 활용하여 스크롤 관련 값 가져와서 제어
-			// => 스크롤바의 현재 위치, 문서가 표시되는 창(window)의 높이, 문서 전체 높이
-			let scrollTop = $(window).scrollTop();	// 스크롤바 현 높이(위치)를 가지고 옴
-			let windowHeight = $(window).height();	// 브라우저 창의 높이
-			let documentHeight = $(document).height();	// 문서의 높이(창의 높이보다 크거나 같음)
-			
-			// 2. 스크롤바 위치값 + 창높이 + x 가 문서 전체 높이(documentHeight) 이상일 경우
-			//		다음 페이지 게시물 목록 로딩하여 목록 하단에 추가
-			let x = 50;	// 픽셀단위(여유값)
-			if (scrollTop + windowHeight + x >= documentHeight) {
-				// 최대 페이지번호를 초과하면
-				if(pageNum <= maxPage) {
-					console.log("값 받아오기");
-					pageNum++;
-					loadList();
-				} else {
-	//					alert("다음 페이지가 없습니다!");
-				}
-			}
-			
-		}); // window 끝
-	}); // $(function(){}) 끝
-
-	// 목록 불러오는 함수 정의
-	function loadList() {
-		// 컨트롤러로 보낼때 파라미터 처리
-		let url;
-		url = "chatListJson?pageNum=" + pageNum;
-		
-		$.ajax({
-			type: "GET",
-			url: url,
-			dataType: "JSON",
-			success: function(data) {
-				maxPage = data.maxPage;
-				// => 무한스크롤 시 
-				console.log("maxPage : " + maxPage);
-				
-				// 기존에 있던 리스트 삭제
-				let image = "";
-				for(let room of data.chatRoomList) {
-					
-					// 아이디가 판매자일때
-					if(room.buyer_id == "${member_id}") {
-						image = '<td class="listImg" rowspan="2">';
-						if(room.seller_image == null) {
-							image += '<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png">';
-						} else {
-							image += '<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.seller_image }">';
-						}
-						image += '</td>';
-						image += '<td class="chatRoomShort">';
-						image += '	<span class="chatUserId">';
-						image += 		room.seller_nickname;
-						image += '	</span>';
-						image += '	<span class="chatTimeFromNow">';
-						image += 		room.chat_time_fromNow;
-						image += '	</span>';
-						image += '</td>';
-						
-					} else {	// 아이디가 구매자일 때
-						image = '<td class="listImg" rowspan="2">';
-						if(room.buyer_image == null) {
-							image += '<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png">';
-						} else {
-							image += '<img alt="프로필사진" src="${pageContext.request.contextPath }/resources/upload/${room.buyer_image }">';
-						}
-						image += '</td>';
-						image += '<td class="chatRoomShort">';
-						image += '	<span class="chatUserId">';
-						image += 		room.buyer_nickname;
-						image += '	</span>';
-						image += '	<span class="chatTimeFromNow">';
-						image += 		room.chat_time_fromNow;
-						image += '	</span>';
-						image += '</td>';
-						
-					}
-					
-					let roomInfo = '<tr class="listTr" onclick="openChatRoom(${room.chat_room_idx})">';
-					roomInfo += image;
-					roomInfo += '	<td class="productImg" rowspan="2">';
-					roomInfo += '		<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${room.secondhand_image1 }">';
-					roomInfo += '	</td>';
-					roomInfo += '</tr>';
-					roomInfo += '<tr onclick="openChatRoom(${room.chat_room_idx})">';
-					roomInfo += '	<td class="shortChatMsg">';
-					roomInfo += '		<div>' + room.chat_content + '</div>';
-					roomInfo += '	</td>';
-					roomInfo += '</tr>';
-					
-					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 채팅방) => 반복
-					$("#chatList").append(roomInfo);
-				}	// for문 종료
-				
-			}, error: function() {
-				console.log("글 목록 요청 실패!");
-			}
-		});	// ajax 끝
-		
-	} // loadList() 끝
 	
 </script>
 </head>

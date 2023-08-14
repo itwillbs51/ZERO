@@ -188,7 +188,7 @@
 		var receiveLink = null;
 		
 		var arr = data.split("p]]/[");
-		console.log("받는 원 메세지 : " + data);
+// 		console.log("받는 원 메세지 : " + data);
 		
 //		var cur_session = '${member_id}'; //현재 세션에 로그인 한 사람
 		
@@ -197,10 +197,10 @@
 		receiveMessage = arr[2];
 		receiveLink = arr[3];
 		
-		console.log("받는 사람 : " + receiveId);
-		console.log("받는 알림 타입 : " + receiveType);
-		console.log("받는 알림 메세지 : " + receiveMessage);
-		console.log("받는 알림 링크 : " + receiveLink);
+// 		console.log("받는 사람 : " + receiveId);
+// 		console.log("받는 알림 타입 : " + receiveType);
+// 		console.log("받는 알림 메세지 : " + receiveMessage);
+// 		console.log("받는 알림 링크 : " + receiveLink);
 		
 		let now = new Date();
 		// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)

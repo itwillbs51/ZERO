@@ -49,5 +49,15 @@ public class AuctionService {
 		// TODO Auto-generated method stub
 		return mapper.selectAuctionCount(productSearchKeyword);
 	}
+
+	// 세션아이디로 현재 진행중인 경매에 참여한 결과가 있는지 확인
+	public List<Map<String, String>> getPartAuction(String member_id) {
+		return mapper.getPartAuction(member_id);
+	}
+
+	// 세션아이디로 낙찰받은 경매물품이 있는지 확인
+	public List<Map<String, String>> getSuccessBid(String member_id) {
+		return mapper.getSuccessBid(member_id);
+	}
 	
 }
