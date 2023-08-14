@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.mapper.MemberMapper;
+import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
@@ -179,7 +181,24 @@ public class MemberService {
 	    return resultMap;
 	}
 
+	// 마이페이지 - 회원 나의 문의 페이지 조회
+	public List<CsVO> getMyInqList(String member_id, int startRow, int listLimit) {
+		return mapper.selectMyInqList(member_id, startRow, listLimit);
+	}
 	
+	// 마이페이지 - 회원 나의 문의 내역 상세 조회
+	public List<CsVO> getMyInquiryDetail(String cs_num) {
+		return mapper.selectMyInquiryDetail(cs_num);
+	}
+	
+	// 마이페이지 - 회원 나의 문의 내역 수정 
+	public int updateMyInqList(CsVO cs) {
+		return mapper.updateMyInqList(cs);
+	}
 
+	// 마이페이지 - 회원 나의 문의 내역 삭제
+	public int deleteMyInquiry(String cs_num) {
+		return mapper.deleteMyInq(cs_num);
+	}
 	
 }

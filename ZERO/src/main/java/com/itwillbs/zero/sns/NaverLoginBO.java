@@ -1,4 +1,4 @@
-package com.itwillbs.zero.naver;
+package com.itwillbs.zero.sns;
 
 import java.io.IOException;
 import java.util.UUID;

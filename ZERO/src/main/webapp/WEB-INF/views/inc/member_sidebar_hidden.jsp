@@ -127,6 +127,11 @@
         Z-MAN 신청
       </a>
     </li>
+    <li class="snb_item">
+      <a class="snb_link" href="myPage_inquiry">
+        나의 1:1문의
+      </a>
+    </li>
      <li class="snb_item">
       <a class="snb_link" href="member_Info">
         개인정보 수정

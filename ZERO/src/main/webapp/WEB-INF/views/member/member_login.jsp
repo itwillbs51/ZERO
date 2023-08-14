@@ -52,69 +52,6 @@
 <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-<!-- 구글 -->
-<%-- 구글 api 사용을 위한 스크립트 --%>
-<!-- content에 자신의 OAuth2.0 클라이언트ID를 넣습니다. -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<script type="text/javascript">
-	function handleCredentialResponse(response) {
-	    // decodeJwtResponse() is a custom function defined by you
-	    // to decode the credential response.
-	    const responsePayload = parseJwt(response.credential);
-	
-	    console.log("ID: " + responsePayload.sub);
-	    console.log('Full Name: ' + responsePayload.name);
-	    console.log('Given Name: ' + responsePayload.given_name);
-	    console.log('Family Name: ' + responsePayload.family_name);
-	    console.log("Image URL: " + responsePayload.picture);
-	    console.log("Email: " + responsePayload.email); 
-	    
-	    var member_id = responsePayload.email;
-	    var member_name = responsePayload.name;
-	    var sns_type = 'google';
-	     
-	    $.ajax({
-	         type: 'post',
-//	          url: 'checkUserNaver',
-	         url: 'ajax/checkUser',
-	         data: {"member_id":member_id
-	         		, "member_name":member_name
-	         		, "sns_type":sns_type
-	         	},
-	         dataType: 'text',
-	         success: function(response) {
-	           console.log(response);
-	           if (response === 'new') {
-//	          	  sessionStorage.setItem('email', member_id);
-	         	  location.href = 'join?member_id=' + member_id + '&member_name=' + member_name;
-	         	  alert('구글 로그인 성공! 회원가입을 완료해주세요. ');
-// 	         	  window.close();
-
-	           }  else if (response === 'existing') { 
-//	          	  sessionStorage.removeItem("email");
-//	          	  sessionStorage.setItem('member_id', member_id);
-	         	  location.href = './';
-	         	  alert('구글 로그인 성공!')
-// 	         	  window.close();
-	           }
-	         },
-	         error: function(xhr, status, error) {
-	           console.log(error);
-	         }
-	     });
-	};
-
-	function parseJwt (token) {
-	    var base64Url = token.split('.')[1];
-	    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-	    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-	        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-	    }).join(''));
-	
-	    return JSON.parse(jsonPayload);
-	};
-</script>
-<meta name ="google-signin-client_id" content="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com">
 <script type="text/javascript">
 	<%-- 공백 입력 방지 --%>
 	$(function() {
@@ -184,19 +121,7 @@
 
 </head>
 <body>
-<%-- 구글 로그인 --%>
- <%
-    String clientId = "763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com";//애플리케이션 클라이언트 아이디값";
-//     String redirectURI = URLEncoder.encode("http://localhost:8089/zero/callback_login_google", "UTF-8");
-    String redirectURI = URLEncoder.encode("http://c5d2302t1.itwillbs.com/zero/callback_login_google", "UTF-8");
-    SecureRandom random = new SecureRandom();
-    String state = new BigInteger(130, random).toString();
-    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
-         + "&client_id=" + clientId
-         + "&redirect_uri=" + redirectURI
-         + "&state=" + state;
-    session.setAttribute("state", state);
- %>
+
 
 
  <%--네비게이션 바 영역 --%>
@@ -279,13 +204,11 @@
 <!-- <!-- 						</svg>  -->
 						구글로 로그인 
 					</button>
-<!-- 					<div class="blind" style="visibility: hidden;"> -->
-						<div id="g_id_onload"
-						     data-client_id="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com"
-						     data-callback="handleCredentialResponse">
-						</div>
-						<div class="g_id_signin" data-size="large" data-type="standard" data-logo_alignment="center" data-text="signup_with" data-shape="rectangular" ></div>
-<!-- 					</div> -->
+<!-- 						<div id="g_id_onload" -->
+<!-- 						     data-client_id="763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com" -->
+<!-- 						     data-callback="handleCredentialResponse"> -->
+<!-- 						</div> -->
+<!-- 						<div class="g_id_signin" data-size="large" data-type="standard" data-logo_alignment="center" data-text="signup_with" data-shape="rectangular" ></div> -->
 				</div>
 				</div>
 			</div>
@@ -356,7 +279,7 @@
 </script>
 
 
-<!--  구글 로그인 -->
+<!--  구글 로그인 - 작업중 -->
 <script type="text/javascript">
 // 	var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8089/zero/callback_login_naver"); // YOUR_CLIENT_ID, YOUR_CALLBACK_URL 
 //     var state = naver_id_login.getUniqState();
@@ -367,12 +290,11 @@
 //     naver_id_login.init_naver_id_login();
 				        
     var client_id = "763453617602-e7goeun627q5nji64obqjr3ir1nc9rd7.apps.googleusercontent.com";
-    var redirect_uri = "http://localhost:8089/zero/callback_login_google";
-//     var redirect_uri = "http://c5d2302t1.itwillbs.com/zero/callback_login_google";
+    var redirect_uri = "http://c5d2302t1.itwillbs.com/ZERO/callback_login_google";
+//     var redirect_uri = "http://localhost:8089/zero/callback_login_google";
     var url = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + client_id + "&redirect_uri=" + redirect_uri + "&response_type=code&scope=email profile";
     $(".btn_login_google").on("click",function(){
     	window.open(url, "googleloginpop", "titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100 left=600");
-//     	location.href=url;
     })
     
 //     	https://accounts.google.com/o/oauth2/v2/auth?client_id=
@@ -383,7 +305,7 @@
 //     		&scope=email profile
 </script>
 <%-- 네이버 로그인 --%>
-
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <script type="text/javascript">
 // 	var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8089/zero/callback_login_naver"); // YOUR_CLIENT_ID, YOUR_CALLBACK_URL 
 //     var state = naver_id_login.getUniqState();
@@ -394,11 +316,16 @@
 //     naver_id_login.init_naver_id_login();
 				        
     var client_id = "lmCZvEMfrqOMLdWO1M_n";
-    var redirect_uri = "http://localhost:8089/zero/callback_login_naver";
+    var redirect_uri = "http://c5d2302t1.itwillbs.com/ZERO/callback_login_naver";
 	var state = "90aada36-5411-4fe5-bec6-11bc1e78e029";
     $(".btn_login_naver").on("click",function(){
     	window.open("https://nid.naver.com/oauth2.0/authorize?response_type=token&amp;client_id=" + client_id + "&amp;redirect_uri=" + redirect_uri + "&amp;state=" + state, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550, top=100 left=600');
+//     $('#naverIdLogin_loginButton').on('click', function() {
+// 			  naverLogin.getLoginStatus(function(status) {
+				  
+// 			  }
     })
+    
 </script>
 <%-- 카카오 로그인 --%>
 <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
