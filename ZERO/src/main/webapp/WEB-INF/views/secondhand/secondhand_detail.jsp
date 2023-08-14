@@ -263,6 +263,9 @@ a {
   text-align: right;
 }
 
+.chatButtonArea{
+/* 	display: flex; */
+}
 
 </style>
 </head>
@@ -474,15 +477,16 @@ a {
 				
 				<%-- 2.판매자 본인 아닐경우 - 채팅하기 가능 --%>
 				<c:otherwise>
+				<div class="chatButtonArea row">
 				
 					<%-- 2-1.세션아이디 없을경우(미로그인) -> 로그인알람창띄우고 로그인페이지로 이동 --%>
 					<c:if test="${empty sessionScope.member_id }">
 						<%--<button type="button" class="btn btn-outline-danger" id="likeMovieNo${i.index }" data-toggle="modal" data-target="#needLogin">♡찜하기</button> --%>
-						<a href="#">
+						<a href="#" class="col-2">
 							<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
 						</a>
-						<div class="d-grid gap-2">
-							<button class="btn btn-dark" id="chatting" 
+						<div class="d-grid gap-2 col-10">
+							<button class="btn btn-lg btn-dark" id="chatting" 
 									data-toggle="modal" data-target="#needLogin" 
 									style="font-size:1em; margin:10px 10px">
 								채팅하기
@@ -493,7 +497,7 @@ a {
 					<%--2.2 세션아이디 있을경우(판매자아닌 일반회원) -> 채팅하기 누를경우 채팅창으로 이동 --%>
 					<c:if test="${not empty sessionScope.member_id && sessionScope.member_id ne secondhandProduct.member_id }">
 						
-							<a href="#" style="display: inline-block;">
+							<a href="#" style="display: inline-block;" class="col col-2">
 								<img src="${pageContext.request.contextPath }/resources/img/heartIcon.png" width="40px" height="40px">
 							</a>
 							
@@ -503,15 +507,15 @@ a {
 							--%>
 							<c:choose>
 								<c:when test="${secondhandProduct.secondhand_deal_status eq '예약중' }">
-									<input type="button" class="btn btn-dark" style="font-size:1em;" value="채팅하기" onclick="reservedProduct()">
+									<input type="button" class="btn btn-lg btn-dark col-10" style="font-size:1em;" value="채팅하기" onclick="reservedProduct()">
 								</c:when>
 								<%--- 거래상태 예약중이아닐경우 채팅하기로 정상적으로 이동 --%> 
 								<c:otherwise>
-									<form action="doChat" method="POST">
+									<form action="doChat" method="POST" class="col col-10">
 									<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
 									<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
 									<div class="d-grid gap-2">
-										<input type="submit" class="btn btn-dark" style="font-size:1em;" value="채팅하기">
+										<input type="submit" class="btn btn-lg btn-dark" style="font-size:1em;" value="채팅하기">
 									</div>
 									</form>
 								</c:otherwise>
@@ -521,6 +525,7 @@ a {
 						
 						
 					</c:if>
+				</div>
 				</c:otherwise>
 			</c:choose>
 			

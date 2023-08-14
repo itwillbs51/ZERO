@@ -655,26 +655,26 @@ public class ZpayController {
 		Integer buyer_zpay_balance = service.getZpayBalance(buyer_id);
 		
 		// ============================================ 송금 불가 ===================================================================
-		String sendValidationMsg = zpayUtils.validateSend(buyer_zpay_balance, buyer_id, product_price, order_auction_commission);
-		if (sendValidationMsg != null) {
-			model.addAttribute("msg", sendValidationMsg);
-			model.addAttribute("targetURL", "zpay_main");
-			
-			return "fail_location";
-			
-		}
-		
-		// ============================================ 비밀번호 확인 =================================================================
-		String securePasswd = service.getZpayPasswd(buyer_id);
-		System.out.println("zpay_passwd : " + zpay_passwd + "securePasswd : " + securePasswd);
-	
-		if (ZpayPasswdValidationHandler.isPasswordValid(zpay_passwd, securePasswd)) {
-			// 패스워드가 zpay_passwd와 다를 때(비밀번호가 틀림)
-			model.addAttribute("msg", "비밀번호가 일치하지 않습니다."
-					+ "입력하신 내용을 다시 확인해주세요.");
-			return "fail_back";
-			
-		} else {
+//		String sendValidationMsg = zpayUtils.validateSend(buyer_zpay_balance, buyer_id, product_price, order_auction_commission);
+//		if (sendValidationMsg != null) {
+//			model.addAttribute("msg", sendValidationMsg);
+//			model.addAttribute("targetURL", "zpay_main");
+//			
+//			return "fail_location";
+//			
+//		}
+//		
+//		// ============================================ 비밀번호 확인 =================================================================
+//		String securePasswd = service.getZpayPasswd(buyer_id);
+//		System.out.println("zpay_passwd : " + zpay_passwd + "securePasswd : " + securePasswd);
+//	
+//		if (ZpayPasswdValidationHandler.isPasswordValid(zpay_passwd, securePasswd)) {
+//			// 패스워드가 zpay_passwd와 다를 때(비밀번호가 틀림)
+//			model.addAttribute("msg", "비밀번호가 일치하지 않습니다."
+//					+ "입력하신 내용을 다시 확인해주세요.");
+//			return "fail_back";
+//			
+//		} else {
 			
 			// ZPYA_HISTORY 테이블에 송금내역 추가 =====================================================================================
 			boolean sendSuccess = transactionHandler.performZpayTransaction(buyer_id, product_price, "경매출금", 0, order_auction_idx);
@@ -702,7 +702,7 @@ public class ZpayController {
 				model.addAttribute("msg", "ZPAY 송금 실패");
 				return "fail_back";
 			}
-		}
+//		}
 	}
 	
 	
