@@ -180,6 +180,7 @@
 					</when>
 				</choose>
 			</if>
+			ORDER BY secondhand_first_date DESC
 	</select>
 	
 	<!-- 회원 아이디로 중고 판매 내역 리뷰 조회 - 수정 -->
@@ -194,6 +195,7 @@
 					ON o.order_secondhand_idx = r.order_secondhand_idx
 						WHERE s.member_id = #{member_id}
 						AND r.review_reader_id = #{member_id}
+						ORDER BY s.secondhand_idx DESC
 	</select>
 	
 	
@@ -209,22 +211,25 @@
 					ON a.auction_idx = o.auction_idx
 						WHERE a.auction_seller_id = #{member_id}
 <!-- 				검색어(searchKeyword)가 널스트링이 아닐 때 -->
-<!-- 				<if test="!searchKeyword.equals('')"> -->
-<!-- 					검색타입(searchType)에 따른 WHERE 절 조건 대상 변경 -->
-<!-- 					<choose> -->
-<!-- 						<when test="searchType.equals('전체')"> -->
-<!-- 						</when> -->
-<!-- 						<when test="searchType.equals('판매중')"> -->
-<!-- 							AND secondhand_deal_status = '판매중' -->
-<!-- 						</when> -->
-<!-- 						<when test="searchType.equals('예약중')"> -->
-<!-- 							AND secondhand_deal_status = '예약중' -->
-<!-- 						</when> -->
-<!-- 						<when test="searchType.equals('판매완료')"> -->
-<!-- 							AND secondhand_deal_status = '판매완료' -->
-<!-- 						</when> -->
-<!-- 					</choose> -->
-<!-- 				</if> -->
+				<if test="!searchKeyword.equals('')">
+					<choose>
+						<when test="searchType.equals('전체')">
+						</when>
+						<when test="searchType.equals('등록')">
+							AND secondhand_deal_status = '등록'
+						</when>
+						<when test="searchType.equals('검수중')">
+							AND secondhand_deal_status = '검수중'
+						</when>
+						<when test="searchType.equals('검수완료')">
+							AND secondhand_deal_status = '검수완료'
+						</when>
+						<when test="searchType.equals('판매완료')">
+							AND secondhand_deal_status = '판매완료'
+						</when>
+					</choose>
+				</if>
+					ORDER BY auction_regist_date DESC
 	</select>
 	
 	<!-- 찜 목록리스트 조회 - 수정 -->
@@ -235,6 +240,7 @@
 			LEFT OUTER JOIN SECONDHAND s 
 				ON l.secondhand_idx = s.secondhand_idx
 					WHERE l.member_id = #{member_id}
+					ORDER BY like_idx DESC
 	</select>
 	
 	<!-- 찜 목록 삭제 -->
@@ -526,22 +532,19 @@
   
     <!-- 나의 문의 내역 상세 조회-->
 	  <select id="selectMyInquiryDetail" resultType="com.itwillbs.zero.vo.CsVO">
-	<!--   <select id="selectMyInquiryDetail" resultType="com.itwillbs.dongbaekcinema.vo.CsInfoVO"> -->
 	  		SELECT 
-	 			cs_num
+	 			cs_idx
 	 			, cs_subject
 	 			, cs_content
 	 			, cs_date
 	 			, cs_type
 	 			, cs_file
-	 			, cs_file_real
 	 			, cs_phone
 	 			, cs_reply
 	 			, m.member_id
-	 			, member_email
 	 		FROM CS c
-			JOIN MEMBERS m ON c.member_id = m.member_id
-			WHERE cs_num = #{cs_num}
+			JOIN MEMBER m ON c.member_id = m.member_id
+			WHERE cs_idx = #{cs_idx}
 	  </select>
 
 	<!--  나의 문의 내역 수정 -->
@@ -550,10 +553,10 @@
 			CS
 			SET 
   				cs_content = #{cs_content}
-				<if test="cs_file_real neq ''">
-  					, cs_file_real = #{cs_file_real}
+				<if test="cs_file neq ''">
+  					, cs_file = #{cs_file}
   				</if>
-  			WHERE cs_num = #{cs_num}
+  			WHERE cs_idx = #{cs_idx}
 	</update>
 
 	<!-- 나의 문의 내역 1:1 문의 글 삭제 -->
@@ -562,7 +565,7 @@
 			FROM
 				CS
 			WHERE 
-				cs_num = #{cs_num} 
+				cs_idx = #{cs_idx} 
 	</delete>
 	
 	

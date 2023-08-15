@@ -130,12 +130,12 @@ int updateBankAuth(String member_id);
 								, @Param("listLimit") int listLimit);
 
 	// 나의 문의 상세 조회 - cs_num으로 레코드 조회
-	List<CsVO> selectMyInquiryDetail(String cs_num);
+	List<CsVO> selectMyInquiryDetail(String cs_idx);
 
 	// 나의 문의 내역 - 수정
 	int updateMyInqList(CsVO cs);
 	
 	// 나의 문의 내역 삭제 - cs_num 으로 레코드 조회 후 삭제
-	int deleteMyInq(String cs_num);
+	int deleteMyInq(String cs_idx);
 	
 }

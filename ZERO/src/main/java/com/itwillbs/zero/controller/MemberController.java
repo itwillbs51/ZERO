@@ -841,6 +841,7 @@ public class MemberController {
 							) {
 		
 		System.out.println("profileUpdatePost:" + map);
+		JsonArray data = new JsonArray();
 		
 		// 조건 파라미터 - 아이디
 		String column1 = "member_id";
@@ -848,6 +849,15 @@ public class MemberController {
 		
 		String column2 = map.get("column2");
 		String value2 = map.get("value2");
+		
+		// 닉네임 중복 검사
+		
+		
+		int cnt = service.nickCheck(value2);
+		if(cnt > 0) {
+			data.add("닉네임 증복으로 변경 실패");
+			return data.toString();
+		}
 		
 		// -----------------------------------------------------------------------------------
 		// MemberService - updateMember() 메서드를 호출하여 회원정보 변경 작업 요청
@@ -859,9 +869,11 @@ public class MemberController {
 		if(updateCount > 0) { // 성공
 						
 			// 프로필 변경 작업 성공 시 "성공" 출력
-			return "성공";
+			data.add("프로필 정보 변경 성공");
+			return data.toString();
 		} else { // 실패
-			return "프로필 정보 변경 실패";
+			data.add("프로필 정보 변경 실패");
+			return data.toString();
 		}
 	}
 	
@@ -1558,7 +1570,7 @@ public class MemberController {
 
 	// 마이페이지 - 문의 내역 - 상세 조회
 	@PostMapping("inquiry_detail")
-	public String inquiry_detail(String cs_num, @RequestParam(required= false) String cs_reply,
+	public String inquiry_detail(String cs_idx, @RequestParam(required= false) String cs_reply,
 						HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
@@ -1570,7 +1582,7 @@ public class MemberController {
 		}
 		
 		// cs_num 받아와 조회해서 보여주기
-		List<CsVO> myInquiryDetailList = service.getMyInquiryDetail(cs_num);
+		List<CsVO> myInquiryDetailList = service.getMyInquiryDetail(cs_idx);
 //		List<CsInfoVO> myInquiryDetailList = service.getMyInquiryDetail(cs_num);
 		
 		// 문의 내역 저장
@@ -1584,7 +1596,7 @@ public class MemberController {
 		@PostMapping("myPage_inquiry_detailModify")
 		public String myPage_inquiry_detailModify(
 						@ModelAttribute("CsVO") CsVO board
-						, @RequestParam("cs_num") String cs_num
+						, @RequestParam("cs_idx") String cs_idx
 						, HttpSession session
 						, Model model
 						, HttpServletRequest request) {
@@ -1677,7 +1689,7 @@ public class MemberController {
 		@GetMapping("delete_myInquiry")
 		public String deleteMyInquiry(HttpSession session
 									, Model model
-									, @RequestParam("cs_num") String cs_num) {
+									, @RequestParam("cs_idx") String cs_idx) {
 			// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 			String member_id = (String) session.getAttribute("member_id");
 			if(member_id == null) {
@@ -1687,7 +1699,7 @@ public class MemberController {
 				return "fail_location";
 			}
 			
-			int deleteCount = service.deleteMyInquiry(cs_num);
+			int deleteCount = service.deleteMyInquiry(cs_idx);
 			
 			if(deleteCount > 0) { // 삭제 성공
 				return "redirect:/member_inquiry";
