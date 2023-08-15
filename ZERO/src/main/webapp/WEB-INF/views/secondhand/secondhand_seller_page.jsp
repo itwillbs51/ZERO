@@ -21,10 +21,15 @@
 <script type="text/javascript">
 
 
+// 거래중상품탭이 웹페이지 로드시 자동으로 선택되어 보여지도록
+	document.addEventListener('DOMContentLoaded', function() {
+	    document.querySelector('.tablinks.active').click();
+	});
 
+// 탭 설정
 function openTab(evt, dealStatus) {
 	
-	  document.getElementById(dealStatus).style.display = "block";
+	  document.getElementById("dealingTab").style.display = "block";
 	  evt.currentTarget.className += " active";
 	
 	  var i, tabcontent, tablinks;
@@ -237,7 +242,7 @@ row{
 			<!-- 오른쪽섹션  -->
 			<div class="col-9">
 				<div class="tab">
-				  <button class="tablinks" onclick="openTab(event, 'dealingTab')">거래 중 상품</button>
+				  <button class="tablinks active" onclick="openTab(event, 'dealingTab')">거래 중 상품</button>
 				  <button class="tablinks" onclick="openTab(event, 'dealEndTab')">거래 완료 상품</button>
 				  <button class="tablinks" onclick="openTab(event, 'reviewTab')">받은 후기</button>
 				</div>
@@ -479,7 +484,11 @@ row{
 	
 	
 </article>
-	
+
+	<!-- footer -->
+	<footer>
+		<%@ include file="../inc/footer.jsp"%>
+	</footer>
 	
 </body>
 </html>

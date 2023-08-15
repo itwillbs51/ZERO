@@ -114,80 +114,53 @@ $(function(){
 <script type="text/javascript">
 //<!-- 이미지 미리보기 -->-----------------------------------
 	function send_0() {
-		
-		
 		$("#sumimage").click();
-	
-			
 	}
 	
 	$(function(){
-		
 		$("#sumimage").on('change',function(){
-			
 			if( $("#sumimage")[0].files[0]==undefined) {
-				
-				
 				return;
-			
 			}
-			
 			imgcheck0(this);
 			
 		})
 		
 	});
 
-
 	function imgcheck0(input) {
-		/* 이미지파일명 체크 */
-		var myfile_sub = input.value.lastIndexOf('\\');
-		var myreal_file = input.value.substring(myfile_sub+1, input.length);
-		console.log("myreal_file : " + myreal_file);
 		
 		/* 이미지 확장자 파일체크 */
 		var file_kind = input.value.lastIndexOf('.');
 		var file_name = input.value.substring(file_kind+1,input.length);
 		var file_type = file_name.toLowerCase();
-	
+
 		var check_array = new Array( 'jpg','png','jpeg' );
-	
+
 		$('#sumimage').val();
 		
 		if(check_array.indexOf(file_type)==-1){
 			
 			/* 사용자에게 알려주고 */
 			alert('이미지 파일만 선택할 수 있습니다.');
-	
 			/* 실제 업로드 되는 input태그 vlaue값 지우기 */
 			$('#sumimage').val('');
 			
 			return;
 		
 		} 
-	
+
 		
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
 		        $('#imgup_sum').attr('src', e.target.result);
-		        	
-// 				/* 수정한 사진이면.. */
-// 		        if('${ not empty jsonData[0].i_idx}' == 'true'){
-// 		        	change_image[0] = '${jsonData[0].i_idx}';
-// 		        }else{
-// 		        	/* 추가한 사진이면.. */
-// 		        	change_image[0] = "changePhoto";
-// 		        }
-// 		        change_image[1] = myreal_file;
-				
-	
+		        
 		        $("#img_preview0").css("display","inline-block");
 				$("#imgup_sum").show();
 		        $("#del_sum").show();
 		       
 				preview_array[0] = true;
-				
 				
 				/* 이미지넘버 변경 */
 				img_num();
@@ -204,48 +177,33 @@ $(function(){
 	/* 1번사진 */
 	
 	function send_1() {
-	
 		$("#imageFile1").click();
-		
 	}
 	
 	$(function(){
-		
 		$("#imageFile1").on('change',function(){
-			
 			/* 파일선택 취소했을때 */
 			if( $("#imageFile1")[0].files[0]==undefined) {
-				
-				
 				return;
 			}
-			
 			imgcheck1(this);
-			
 		})
 		
 	});
 	
 	function imgcheck1(input) {
 		
-		/* 이미지파일명 체크 */
-		var myfile_sub = input.value.lastIndexOf('\\');
-		var myreal_file = input.value.substring(myfile_sub+1, input.length);
-		
-		
 		/* 이미지 확장자 파일체크 */
 		var file_kind = input.value.lastIndexOf('.');
 		var file_name = input.value.substring(file_kind+1,input.length);
 		var file_type = file_name.toLowerCase();
-	
+
 		var check_array = new Array( 'jpg','png','jpeg' );
-	
+
 		
 		if(check_array.indexOf(file_type)==-1){
 			
 			alert('이미지 파일만 선택할 수 있습니다.');
-			
-			
 			/* 실제 업로드 되는 input태그 vlaue값 지우기 */
 			$('#imageFile1').val('');
 			
@@ -258,18 +216,23 @@ $(function(){
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
-	        
+	        	        
 	        	$('#imgup_1').attr('src', e.target.result);
+
 	        	
-// 	        	/* 수정한 사진이면.. */
-// 	        	if('${ not empty jsonData[1].i_idx}' == 'true'){
-// 	        		change_image[2] = '${jsonData[1].i_idx}';
-// 	        	}else{
-// 	        		/* 추가한 사진이면.. */
-// 	        		change_image[2] = "changePhoto";
-// 	        	}
+	        	/* 수정한 사진이면.. */
+	        	<c:choose>
+		        	<c:when test="${not empty jsonData[1].i_idx}">
+		        	    change_image[2] = '${jsonData[1].i_idx}';
+		        	</c:when>
+		        	<c:otherwise>
+		        		change_image[2] = "changePhoto";
+		        	</c:otherwise>
+	        	</c:choose>
+	        	change_image[3] = myreal_file;
+	    
 	        	
-// 	        	change_image[3] = myreal_file;
+	        	
 				
 	        	
 	        	$("#img_preview1").css("display","inline-block");
@@ -289,23 +252,18 @@ $(function(){
 	}
 	
 	/* 2번사진 */
-	
+
 	function send_2() {
 		$("#imageFile2").click();
 	}
 	
 	$(function(){
-		
 		$("#imageFile2").on('change',function(){
-			
 			/* 파일선택 취소했을때 */
 			if( $("#imageFile2")[0].files[0]==undefined) {
-				
 				return;
 			}
-			
 			imgcheck2(this);
-			
 		})
 		
 	});
@@ -314,30 +272,21 @@ $(function(){
 	
 	function imgcheck2(input) {
 		
-		/* 이미지파일명 체크 */
-		var myfile_sub = input.value.lastIndexOf('\\');
-		var myreal_file = input.value.substring(myfile_sub+1, input.length);
-		
 		/* 이미지 확장자 파일체크 */
 		var file_kind = input.value.lastIndexOf('.');
 		var file_name = input.value.substring(file_kind+1,input.length);
 		var file_type = file_name.toLowerCase();
-	
+
 		var check_array = new Array( 'jpg','png','jpeg' );
-	
 		
 		if(check_array.indexOf(file_type)==-1){
-			
 			alert('이미지 파일만 선택할 수 있습니다.');
-			
-			
 			/* 실제 업로드 되는 input태그 vlaue값 지우기 */
 			$('#imageFile2').val('');
 			
 			return;
 		
 		} 
-		
 		
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
@@ -354,19 +303,19 @@ $(function(){
 // 	        	change_image[5] = myreal_file;
 				
 				
-				$("#img_preview2").css("display","inline-block");
-				$("#imgup_2").show();
-				$("#del_img2").show();
-				
-				preview_array[2] = true;
-	        	/* 이미지넘버 변경 */
-				img_num();
-	       
-	        }
-	        
-	        reader.readAsDataURL(input.files[0]);
-	    }
-	}
+				 $("#img_preview2").css("display","inline-block");
+					$("#imgup_2").show();
+					$("#del_img2").show();
+					
+					preview_array[2] = true;
+		        	/* 이미지넘버 변경 */
+					img_num();
+		       
+		        }
+		        
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
 	
 	
 	
@@ -690,7 +639,99 @@ if(p_name==''){
 		
 			
 		}
-		
+
+		//----------------------------------------------------------
+
+
+//<!-- 가격 함수 (실시간 콤마, 한글입력불가) -->------------
+	$(function() {
+
+		$("#p_price").on("propertychange change keyup paste input", function() {
+			
+			
+			var p_price = $(this).val() ;
+			
+			if(p_price<100 ){
+				$("#price_under").show();
+				$("#price_under").text('100원 이상만 입력하세요.').css('color','red');
+		 		$("#p_price").css('outline','1px solid red');
+				$("#p_price").css('border-color','red');
+				
+			}
+			
+			if(p_price>=100 || p_price=='' ){
+				$("#price_under").hide();
+				$("#p_price").css('border-color','black');
+				$("#p_price").css('outline','black');
+			}
+			
+			/* 숫자 comma 찍는 함수 */
+			p_price = comma(uncomma(p_price));
+			
+			
+			/* console.log(p_price); */
+			
+			$("#p_price").val(p_price);
+
+		});
+
+	})
+	
+	
+	/* 실제 입력값을 변경해주는 함수 */
+	function comma(str) {
+	    str = String(str);
+	    
+	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+	
+	function uncomma(str) {
+	    str = String(str);
+	    
+	    if(regular_han.test(str)){
+	    	alert('숫자만 입력하세요');
+	    }
+	    
+	    return str.replace(/[^\d]+/g, '');
+	}
+//----------------------------------------------------------
+
+
+//<!-- 실시간 글자수 체크 코드 -->--------------------------	
+	
+	
+	function numberMaxLength(e) {
+		if (e.value.length > e.maxLength) {
+			e.value = e.value.slice(0, e.maxLength);
+		}
+	}
+
+	$(function() {
+
+		$("#p_name").on("propertychange change keyup paste input", function() {
+
+			var p_name = $(this).val().length;
+
+			/* console.log(p_name); */
+
+			$("#name_length").html(p_name + '/40')
+
+		});
+
+	})
+
+	$(function() {
+
+		$("#p_exp").on("propertychange change keyup paste input", function() {
+
+			var p_exp = $(this).val().length;
+
+			$("#exp_length").html(p_exp + '/1000')
+
+		});
+
+	})
+//----------------------------------------------------------	
 </script>
 
 <style>
@@ -1054,21 +1095,21 @@ body{
 				
 				
 				<!-- 거래지역 -->
-				<tr>
-					<td class="td1" align="left" style="vertical-align: top;"><span
-						class="pro_info"> 희망 거래지역 </span></td>
+<!-- 				<tr> -->
+<!-- 					<td class="td1" align="left" style="vertical-align: top;"><span -->
+<!-- 						class="pro_info"> 희망 거래지역 </span></td> -->
 					
-					<td align="left">
-						<input type="button" id="myaddr" value="내주소" onclick="myAddr();">
-						<input type="button" id="addrfind" value="주소찾기" onclick="addrFind();">
-						<br>
-						<input type="text" id="p_location" class="input-tag" style="margin-top: 5px;" readonly="readonly">
-					</td>
-				</tr>
+<!-- 					<td align="left"> -->
+<!-- 						<input type="button" id="myaddr" value="내주소" onclick="myAddr();"> -->
+<!-- 						<input type="button" id="addrfind" value="주소찾기" onclick="addrFind();"> -->
+<!-- 						<br> -->
+<!-- 						<input type="text" id="p_location" class="input-tag" style="margin-top: 5px;" readonly="readonly"> -->
+<!-- 					</td> -->
+<!-- 				</tr> -->
 
-				<tr>
-					<td colspan="2"><hr></td>
-				</tr>
+<!-- 				<tr> -->
+<!-- 					<td colspan="2"><hr></td> -->
+<!-- 				</tr> -->
 
 
 

@@ -83,6 +83,9 @@
 					<when test="category.equals('반려동물/반려동물용품')">
 						WHERE category_name = '반려동물/반려동물용품'
 					</when>
+					<when test="category.equals('도서/문구/게임/취미/쿠폰')">
+						WHERE category_name = '도서/문구/게임/취미/쿠폰'
+					</when>
 					<when test="category.equals('모바일/태블릿/전자악세사리/가전제품')">
 						WHERE category_name = '모바일/태블릿/전자악세사리/가전제품'
 					</when>
@@ -504,5 +507,13 @@
 	</select>
 	
 	<!-- 끌어올리기 작업 시 업데이트 처리 (등록날짜)-->
+	<update id="updateDate">
+		UPDATE SECONDHAND
+		SET
+			secondhand_first_date = now()
+		WHERE 
+			secondhand_idx = #{secondhand_idx}
+	</update>
+	
 	
 </mapper>

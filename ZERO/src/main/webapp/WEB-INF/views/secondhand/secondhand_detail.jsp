@@ -421,54 +421,56 @@ a {
 
 
 		
+		<!-- ----------------------------------------------------------------------- -->
 			
 			<%--1행 2열 -- 오른쪽 column 추가하기 --%>
 			<div class="column">
 				<!-- 거래상태 -->
-				<button class="btn btn-dark" style="margine-bottom:10px;">${secondhandProduct.secondhand_deal_status }</button>
-				<span class="icon">
-					
-<%-- 					신고 모달로 해보기 --%>
-<%-- 					모달 출력 버튼 --%>
-<%-- 					로그인상태-세션아이디 존재하는 경우 --%>
-<!-- 					<button class="btn btn-default" data-target="#layerpop" data-toggle="modal"> -->
-<!-- 						<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png" -->
-<!-- 						 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px"> -->
-<!-- 					</button> -->
-					
-					
-					<%-- 신고 모달로 해보기 --%>
-					<%-- 모달 출력 버튼 --%>
-						<%-- 1.세션아이디 없을경우(미로그인) -> 로그인 모달창띄우고 로그인페이지로 이동 --%>
-						<c:choose>
-							<c:when test="${empty sessionScope.member_id }">
-	
-								<button style="border:none;"
-										data-toggle="modal" 
-										data-target="#needLogin">
-									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
-									 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
-								</button>
-								
-							</c:when>
-							<%-- 2. 세션아이디 존재하는 경우(로그인상태) - 신고하기 모달창 --%>
-							<c:otherwise>
-								<button style="border:none;"
-										data-target="#layerpop" 
-										data-toggle="modal">
-									<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
-									 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
-								</button>
-							</c:otherwise>
-						</c:choose>
-					
-					
-					
-					
-					<%-- 공유하기버튼 --%>
-						<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
-				</span>
-				
+				<div class="row" style="padding:20px;">
+					<button class="btn btn-dark">${secondhandProduct.secondhand_deal_status }</button>
+					<span class="icon">
+						
+	<%-- 					신고 모달로 해보기 --%>
+	<%-- 					모달 출력 버튼 --%>
+	<%-- 					로그인상태-세션아이디 존재하는 경우 --%>
+	<!-- 					<button class="btn btn-default" data-target="#layerpop" data-toggle="modal"> -->
+	<!-- 						<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png" -->
+	<!-- 						 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px"> -->
+	<!-- 					</button> -->
+						
+						
+						<%-- 신고 모달로 해보기 --%>
+						<%-- 모달 출력 버튼 --%>
+							<%-- 1.세션아이디 없을경우(미로그인) -> 로그인 모달창띄우고 로그인페이지로 이동 --%>
+							<c:choose>
+								<c:when test="${empty sessionScope.member_id }">
+		
+									<button style="border:none;"
+											data-toggle="modal" 
+											data-target="#needLogin">
+										<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
+										 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
+									</button>
+									
+								</c:when>
+								<%-- 2. 세션아이디 존재하는 경우(로그인상태) - 신고하기 모달창 --%>
+								<c:otherwise>
+									<button style="border:none;"
+											data-target="#layerpop" 
+											data-toggle="modal">
+										<img src="https://ccimage.hellomarket.com/img/web/item/detail/ico_report.png"
+										 	 alt="신고하기" class="TopNavigationIcon report" width="35px" height="35px">
+									</button>
+								</c:otherwise>
+							</c:choose>
+						
+						
+						
+						
+						<%-- 공유하기버튼 --%>
+							<a href="#"><img src="${pageContext.request.contextPath }/resources/img/share_icon.png" width="30px" height="30px"></a>
+					</span>
+				</div>
 					
 
 
@@ -476,12 +478,15 @@ a {
 
 
 
-					
+				<!-- --------------------------------------------------------------------------------- -->
+				
 				<h3>${secondhandProduct.secondhand_subject }</h3>
 				<p><fmt:formatNumber pattern="#,###" value="${secondhandProduct.secondhand_price }"/>원</p>
 <%-- 				<h5>${secondhandProduct.secondhand_price }<b>원</b></h5> --%>
-				<span class="readcount">조회수 ${secondhandProduct.secondhand_readcount } </span>
-				<span class="registDate">등록일 ${secondhandProduct.secondhand_first_date }</span>
+				<div class="row" style="margin-left:2px;">
+					<span class="readcount">조회수 ${secondhandProduct.secondhand_readcount } </span>
+					<span class="registDate">등록일 ${secondhandProduct.secondhand_first_date }</span>
+				</div>
 				<hr>
 				<p>${secondhandProduct.secondhand_content }</p>
 				<br>
@@ -494,34 +499,27 @@ a {
 					sessionId 일치하지 않는경우 or 없는경우 : 채팅하기 버튼 보여줌
 					=> 없는경우 채팅버튼 누를경우 : 로그인알람창 -> 로그인페이지 이동
 				--%>
-				]
+				
 			<c:choose>
 				<%-- 1. 세션아이디 존재하고, 세션아이디=판매자아이디 동일할 경우 --%>
 				<%-- 1-1. 수정하기, 삭제하기, 끌어올리기 영역 노출 --%>
 				<c:when test="${not empty sessionScope.member_id && sessionScope.member_id eq secondhandProduct.member_id}">
 				
 							
-					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
+					<button class="btn btn-dark col-3" style="font-size:1em; margin:10px 10px" 
 							onclick="location.href='secondhandModifyForm?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						수정하기 
 					</button>
 	
-					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
+					<button class="btn btn-dark col-3" style="font-size:1em; margin:10px 10px" 
 							onclick="confirmDelete()">
 						 삭제하기 
 					 </button>
 	
-					<button class="btn btn-dark" style="font-size:1em; margin:10px 10px" 
-						onclick="location.href='secondhandUpdatedate?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
+					<button class="btn btn-dark col-3" style="font-size:1em; margin:10px 10px" 
+						onclick="location.href='secondhandUpdateDate?secondhand_idx=${secondhandProduct.secondhand_idx}&member_id=${secondhandProduct.member_id }'"> 
 						끌어올리기 
 					</button>
-					<%--1-2.셀렉트박스로 거래상태변경가능 --%>
-<!-- 					<select class="changeDealStatus" aria-label="Default select example"> -->
-<!-- 					  <option selected> 거래중 </option> -->
-<!-- 					  <option value="1"> 거래완료 </option> -->
-<!-- 					  <option value="2"> 끌어올리기 </option> -->
-<!-- 					</select> -->
-				
 				</c:when>					
 				
 				
@@ -551,7 +549,6 @@ a {
 								--%>
 								<c:when test="${not empty sessionScope.member_id}">
 									<button type="button" 
-											class="btn btn-outline-danger" 
 											id="likeProduct${i.count }" 
 											data-target="secondhand_idx${i.count }" 
 											value="${i.count }" 
@@ -570,7 +567,6 @@ a {
 								<c:otherwise>
 									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 									<button type="button" 
-											
 											id="likeProductNo${i.index }" 
 											data-toggle="modal" 
 											data-target="#needLogin">
@@ -579,15 +575,13 @@ a {
 								</c:otherwise>
 							</c:choose>
 						<div class="d-grid gap-2 col-10">
-							<button class="btn btn-lg btn-dark col-10" id="chatting" 
+							<button class="btn btn-lg btn-dark col-12" id="chatting" 
 									data-toggle="modal" data-target="#needLogin" 
 									style="font-size:1em; margin:10px 10px">
 								채팅하기
 							</button>
 						</div>
 					</c:if>
-				
-				
 				
 				
 				
@@ -608,7 +602,6 @@ a {
 								--%>
 								<c:when test="${not empty sessionScope.member_id}">
 									<button type="button" 
-											class="btn btn-outline-danger" 
 											id="likeProduct${i.count }" 
 											data-target="secondhand_idx${i.count }" 
 											value="${i.count }" 
@@ -627,7 +620,6 @@ a {
 								<c:otherwise>
 									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 									<button type="button" 
-											class="btn btn-outline-danger" 
 											id="likeProductNo${i.index }" 
 											data-toggle="modal" 
 											data-target="#needLogin">
@@ -651,7 +643,7 @@ a {
 									<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
 									<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
 									<div class="d-grid gap-2">
-										<input type="submit" class="btn btn-lg btn-dark col-10" style="font-size:1em;" value="채팅하기">
+										<input type="submit" class="btn btn-lg btn-dark col-12" style="font-size:1em;" value="채팅하기">
 									</div>
 									</form>
 								</c:otherwise>
@@ -715,6 +707,7 @@ a {
 			
 			
 			
+		<!-- 판매자탭--------------------------------------------------------------------------------- -->
 			
 			
 			<%-- 2행 2열 (판매자정보) --%>
@@ -725,11 +718,6 @@ a {
 					
 					<%-- 판매자 프로필 --%>
 					<div class="column">
-					
-
-					
-					
-					
 					
 						<c:choose>
 							<c:when test="${not empty seller.member_image }">
@@ -779,6 +767,7 @@ a {
 		</div> <%--container 끝 --%>
 		
 		
+	<!-- 모달 --------------------------------------------------------------------------------- -->
 		
 	<%-- 찜하기 안내 모달 영역 --%>
 	<div class="modal fade" id="needLogin" tabindex="-1" role="dialog" aria-labelledby="needSessionId" aria-hidden="true">
@@ -840,7 +829,6 @@ a {
 											<select id="reportType" onchange="categoryChange(this)">
 											    <option>신고 타입을 선택해주세요</option>
 											    <option value="member">회원</option>
-											    <option value="zman">ZMAN</option>
 											    <option value="goods">상품</option>
 											</select>
 					 					</div>
@@ -867,7 +855,10 @@ a {
 	
 	
 	</article>
-<footer></footer>
+	<!-- footer -->
+	<footer>
+		<%@ include file="../inc/footer.jsp"%>
+	</footer>
 </body>
 
 </html>
