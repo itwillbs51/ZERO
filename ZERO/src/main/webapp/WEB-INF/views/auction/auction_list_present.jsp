@@ -114,13 +114,17 @@
 		$(".listSort li").on("click", function() {
 			$(".listSort li").removeClass("selected");
 			$(this).addClass("selected");
+			
+			// 선택한 정렬기준을 버튼에 표시해주기
+			let text = $(this).text() + '<i class="material-icons">swap_vert</i>';
+			$(".listInfoBtn").html(text);
+			// 정렬기준 변수 정의
+			sort = $(".selected").text();	// 인기순, 가격순, 최신순
+			// 체크표시 이동
 			$(".listSort i").remove();
 			$(this).append(
 					'<i class="material-icons">check</i>'
 			);
-			
-			// 정렬기준 변수 정의
-			sort = $(".selected span").text();	// 인기순, 가격순, 최신순
 			
 			// 목록 불러오기
 			loadList(category, sort);
@@ -192,7 +196,7 @@
 				
 				let auction_card = "";
 				// 없을 때 안내문
-				console.log("data.nowAuctionList : " + data.nowAuctionList);
+// 				console.log("data.nowAuctionList : " + data.nowAuctionList);
 				if(data.nowAuctionList == "" || data.nowAuctionList == null) {
 					auction_card = 
 						'<div class="auctionNotice">'

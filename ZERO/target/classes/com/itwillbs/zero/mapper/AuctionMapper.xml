@@ -83,7 +83,7 @@
 						ORDER BY auction_log_count DESC
 					</when>
 					<when test="sort.equals('가격순')">
-						ORDER BY auction_start_price DESC
+						ORDER BY auction_now_price DESC
 					</when>
 					<when test="sort.equals('최신순')">
 						ORDER BY auction_manage_check_date DESC
@@ -128,10 +128,10 @@
 						ORDER BY auction_log_count DESC
 					</when>
 					<when test="sort.equals('가격순')">
-						ORDER BY auction_start_price DESC
+						ORDER BY auction_final_price DESC
 					</when>
 					<when test="sort.equals('최신순')">
-						ORDER BY auction_manage_check_date DESC
+						ORDER BY auction_final_datetime DESC
 					</when>
 				</choose>
 				LIMIT 

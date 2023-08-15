@@ -75,11 +75,13 @@
 				<div class="productListArea">
 					<c:forEach var="secondhand" items="${homeSecondhandList }">
 					<div class="card">
-						<img src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" alt="...">
-						<div class="card-body">
-							<p class="card-text">${secondhand.secondhand_subject }</p>
-							<p class="card-price">${secondhand.secondhand_price }원</p>
-						</div>
+						<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id }">
+							<img src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" alt="...">
+							<div class="card-body">
+								<p class="card-text">${secondhand.secondhand_subject }</p>
+								<p class="card-price">${secondhand.secondhand_price }원</p>
+							</div>
+						</a>
 					</div>
 					</c:forEach>
 				</div>
@@ -97,22 +99,28 @@
 				<div class="productListArea">
 					<c:forEach var="auction" items="${homeAuctionList }">
 						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
-							<div class="card-body">
-								<p class="card-text">${auction.auction_title }</p>
-								<p class="card-price">현재 입찰가 <fmt:formatNumber value="${auction.auction_now_price }" pattern="###,###"/>원</p>
-							</div>
+							<a href="auction_detail?id=${auction.auction_idx}">
+								<img src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
+								<div class="card-body">
+									<p class="card-text">경매중</p>
+									<p class="card-text">${auction.auction_title }</p>
+									<p class="card-price">현재 입찰가 <fmt:formatNumber value="${auction.auction_now_price }" pattern="###,###"/>원</p>
+								</div>
+							</a>
 						</div>
 					</c:forEach>
 					<%-- 경매중인 물건이 5개 이하일때 가져오는 경매종료 물품 --%>
 					<c:if test="${not empty endAuctionList }">
 						<c:forEach var="auction" items="${endAuctionList }">
 							<div class="card">
-								<img src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
-								<div class="card-body">
-									<p class="card-text">${auction.auction_title }</p>
-									<p class="card-price">최종 낙찰가 <fmt:formatNumber value="${auction.auction_final_price }" pattern="###,###"/>원</p>
-								</div>
+								<a href="auction_detail?id=${auction.auction_idx}">
+									<img src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<p class="card-text">경매종료</p>
+										<p class="card-text">${auction.auction_title }</p>
+										<p class="card-price">최종 낙찰가 <fmt:formatNumber value="${auction.auction_final_price }" pattern="###,###"/>원</p>
+									</div>
+								</a>
 							</div>
 						</c:forEach>
 					</c:if>
