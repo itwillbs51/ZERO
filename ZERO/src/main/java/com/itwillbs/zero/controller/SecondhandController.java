@@ -456,6 +456,12 @@ public class SecondhandController {
 			// 상품설명 줄바꿈처리
 			secondhandProduct.setSecondhand_content(secondhandProduct.getSecondhand_content().replaceAll("<br>", "\r\n"));
 			model.addAttribute("secondhandProduct",secondhandProduct);
+			String image1Url = secondhandProduct.getSecondhand_image1();
+			String image2Url = secondhandProduct.getSecondhand_image2();
+			String image3Url = secondhandProduct.getSecondhand_image3();
+			String jsonData = "{\"image1Url\": \"" + image1Url + "\", \"image2Url\": \"" + image2Url + "\", \"image3Url\": \"" + image3Url + "\"}";
+			model.addAttribute("jsonData",jsonData);
+			
 			
 			
 //			String image1 = secondhandProduct.getSecondhand_image1();
@@ -488,10 +494,26 @@ public class SecondhandController {
 					SecondhandVO secondhand,
 					HttpSession session, 
 					Model model,
+					String[] change_image,
+					@RequestParam String secondhand_idx,
 					@RequestParam(defaultValue = "1") int pageNum){
 		
+			
+			
+			
+			//JsonConverter 사용하기 위한 Map생성
+			Map<String,String> map = new HashMap<>();
+			//기본 리턴값 false
+			String bResult = "false";	
 		
-	
+		//상품설명 줄바꿈 하기
+		//p_exp = p_exp.replaceAll("\r\n", "<br>");
+		secondhand.setSecondhand_content(secondhand.getSecondhand_content().replaceAll("\r\n", "<br>"));
+		
+
+		
+		
+		
 		// 파일(이미지)저장작업 
 		String uploadDir = "/resources/upload"; 
 		String saveDir = session.getServletContext().getRealPath(uploadDir);
@@ -559,16 +581,88 @@ public class SecondhandController {
 		System.out.println("실제 업로드 파일명3 : " + secondhand.getSecondhand_image3());
 
 		
+
+		//=====================================================================================
+		
+		
+//		int fileCnt = 0; // MutipartFile 파일명 인덱스용 카운트 변수
+//
+//		for (int i = 0; i < change_image.length; i++) {
+//			// i가 짝수면
+//			if (i % 2 == 0) {
+//				// 수정된 사진이면
+//				if (!change_image[i].equals("changePhoto")) {
+//					//수정된 idx가 정수형이며, 초기화됐던 0이 아닐때
+//					if (change_image[i].matches("-?\\d+") && Integer.parseInt(change_image[i])!=0 && !change_image[i+1].equals("delPhoto")) {
+//						
+//						/* 
+//						 해당 idx에 대한 절대경로 이미지파일 삭제 
+//						 
+//						 DB에 저장되어 있는 파일명에 해당하는 실제 파일삭제
+//						 */
+//						ImageVo imgFileName = image_dao.selectOneImage(Integer.parseInt(change_image[i]));
+//						
+//						MyFileDelete.myFileDelete(absPath, imgFileName.getImagedata());
+//						
+//						
+//						Map updateInfo = new HashMap();
+//						
+//						updateInfo.put("i_idx", Integer.parseInt(change_image[i]));
+//						updateInfo.put("imagedata", upload_str.get(fileCnt));
+//						
+//						fileCnt++;
+//						//DB에 이미지 파일명 update
+//						int res = image_dao.imageUpdate(updateInfo);
+//						
+//					}
+//
+//				// 추가된 사진이면
+//				} else {
+//
+//					
+//					ImageVo imageVo = new ImageVo();
+//					imageVo.setP_idx(p_idx);
+//					imageVo.setImagedata(upload_str.get(fileCnt));
+//					
+//					
+//					fileCnt++;
+//					
+//					int res = image_dao.insert(imageVo);
+//					
+//					
+//				}
+//			
+//			//i가 홀수면..
+//			}else {
+//				//삭제된 파일이면
+//				if(change_image[i].equals("delPhoto")) {
+//					
+//					ImageVo imgFileName = image_dao.selectOneImage(Integer.parseInt(change_image[i-1]));
+//					
+//					//실제 파일 삭제
+//					MyFileDelete.myFileDelete(absPath, imgFileName.getImagedata());
+//					
+//					//DB삭제
+//					int res = image_dao.deleteImage(Integer.parseInt(change_image[i-1]));
+//				}
+//			}
+//
+//		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//=====================================================================================
 		// 글 수정 작업 요청
 		// SecondhandService.modifySecondhand() -리턴타입:int(uptdateCount), 파라미터:SecondhandVO객체
 		int updateCount = service.modifySecondhand(secondhand);
 		
-		//JsonConverter 사용하기 위한 Map생성
-		Map<String,String> map = new HashMap<>();
-		//기본 리턴값 false
-		String bResult = "false";		
-		
+
 		
 		//상품 수정 작업
 		//성공시 업로드 파일을 실제 디렉토리로 이동 => BoardList 서블릿으로 리다이렉트
@@ -586,19 +680,16 @@ public class SecondhandController {
 				
 				if(!mFile3.getOriginalFilename().equals("")) {
 					mFile3.transferTo(new File(saveDir, fileName3));
+					bResult = "true";
+					model.addAttribute("res", bResult);
 				}
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	
-			//리턴값 true 로 변경
-			bResult = "true";
-			
-			//맵에 result값 넣기
-			map.put("res", bResult);
-			//String 받을경우 웬만하면 trim()처리->공백조심
-			model.addAttribute("map", map);
+
+
 			
 			//수정성공시 글목록페이지로 리다이렉트(상품번호,페이지번호)
 			return "true";

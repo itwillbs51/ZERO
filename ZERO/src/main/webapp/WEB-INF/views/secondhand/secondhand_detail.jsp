@@ -570,7 +570,7 @@ a {
 								<c:otherwise>
 									<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 									<button type="button" 
-											class="btn btn-outline-danger" 
+											
 											id="likeProductNo${i.index }" 
 											data-toggle="modal" 
 											data-target="#needLogin">
@@ -579,7 +579,7 @@ a {
 								</c:otherwise>
 							</c:choose>
 						<div class="d-grid gap-2 col-10">
-							<button class="btn btn-lg btn-dark" id="chatting" 
+							<button class="btn btn-lg btn-dark col-10" id="chatting" 
 									data-toggle="modal" data-target="#needLogin" 
 									style="font-size:1em; margin:10px 10px">
 								채팅하기
@@ -636,6 +636,7 @@ a {
 								</c:otherwise>
 							</c:choose>
 							
+							
 							<%--
 							 거래상태 '예약중'일경우, 채팅하기 버튼 누를경우 
 							'예약중인상품이므로 채팅하기를 하실 수 없습니다' 알람창만 띄우기 
@@ -650,7 +651,7 @@ a {
 									<input type="hidden" value="${secondhandProduct.member_id }" name="seller_id">
 									<input type="hidden" value="${secondhandProduct.secondhand_idx }" name="secondhand_idx">
 									<div class="d-grid gap-2">
-										<input type="submit" class="btn btn-lg btn-dark" style="font-size:1em;" value="채팅하기">
+										<input type="submit" class="btn btn-lg btn-dark col-10" style="font-size:1em;" value="채팅하기">
 									</div>
 									</form>
 								</c:otherwise>
