@@ -31,6 +31,7 @@
 	header>nav {
 		background-color: #fff;
 		min-width: 360px;
+		height: 64px;
 	}
 	
 	#headerArea1>#headerArea1_inner{

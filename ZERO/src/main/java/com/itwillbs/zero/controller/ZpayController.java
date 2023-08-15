@@ -471,19 +471,19 @@ public class ZpayController {
 			
 			// BankApiService - requestDeposit() 메서드를 호출하여 입금이체 요청
 			// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-//			ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+			ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
 			
 			// Model 객체에 ResponseWithdrawVO 객체 저장
-//			model.addAttribute("depositResult", depositResult);
+			model.addAttribute("depositResult", depositResult);
 			
 			// ZPYA_HISTORY 테이블에 환급내역 추가 =====================================================================================
-			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0);
-//			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0);
+//			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0);
+			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0);
 			
 			if(refundSuccess) {
 				// -------------------------- ZERO 약정계좌 거래(출금)내역 추가 --------------------------------------
-				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0, 0);
-//				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0, 0);
+//				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0, 0);
+				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0, 0);
 				
 				if(insertZeroCountSuccess) {
 					// --------------------------------------------------------------------------------------------------
@@ -887,7 +887,7 @@ public class ZpayController {
 				
 				model.addAttribute("zpay", zpay);
 				model.addAttribute("zmanRefundHistory", zmanRefundHistory);
-				return "zpay/zpay_refund_success";				
+				return "zpay/zman_refund_success";				
 			} else {
 				model.addAttribute("msg", "ZMAN 정산 실패");
 				return "fail_back";
