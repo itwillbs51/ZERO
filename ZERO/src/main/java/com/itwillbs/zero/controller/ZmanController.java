@@ -21,6 +21,7 @@ import com.itwillbs.zero.service.ZmanService;
 import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
+import com.itwillbs.zero.vo.ZmanEarningVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
@@ -140,7 +141,7 @@ public class ZmanController {
 	@PostMapping("zman_delivery_ing")
 	public String zmanDeliveyAccept(HttpSession session, Model model, 
 									@RequestParam int zman_delivery_idx) {
-		System.out.println("ZmanController - zman_delivery_ing");
+		System.out.println("ZmanController - zman_delivery_go");
 //		System.out.println("zman_id - " + zman_id);
 		
 		String zman_id = (String) session.getAttribute("member_id");
@@ -185,8 +186,8 @@ public class ZmanController {
 		if(updateCount > 0) {
 			System.out.println("zman_delivery_status - 배달 시작 으로 변경");
 			
-//			return "zman/zman_delivery_ing2";
-			return "redirect:/zman/zman_delivery_ing";
+			 return "redirect:/zman_delivery_ing";
+//			return "zman/zman_delivery_ing";
 		} else {
 			model.addAttribute("msg", "배달 시작 실패!");
 			return "fail_back";
@@ -290,6 +291,12 @@ public class ZmanController {
 		ZmanDeliveryVO zmanDeliveryDetail = service.getDeliveryDetail(zmanDeliveryIdx);
 		System.out.println("zmanDeliveryDetail - " + zmanDeliveryDetail);
 		model.addAttribute("zd", zmanDeliveryDetail);
+		
+		ZmanEarningVO zmanEarning = service.getEarningIdx(zmanDeliveryIdx);
+		System.out.println("zmanEarning - " + zmanEarning);
+		model.addAttribute("zmanEarning", zmanEarning);
+		
+//		ZmanEarningVO zmanEarning = service.acceptDelivery(, zman_delivery_idx)
 		
 		return "zman/zman_delivery_done_detail";
 	}

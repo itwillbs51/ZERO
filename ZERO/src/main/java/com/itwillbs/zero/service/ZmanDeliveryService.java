@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.zero.mapper.ZmanDeliveryMapper;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
+import com.itwillbs.zero.vo.ZmanEarningVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
@@ -73,6 +74,12 @@ public class ZmanDeliveryService {
 		// TODO Auto-generated method stub
 		return mapper.selectDeliveryDoneList(zman_id);
 	}
+	
+	// 배달 내역 상세 페이지에서 정산으로 넘겨줄 파라미터
+	public ZmanEarningVO getEarningIdx(int zmanDeliveryIdx) {
+		return mapper.selectZmanEarningIdx(zmanDeliveryIdx);
+	}
+
 
 	// ZMAN 마이페이지의 ZPAY 정보 가져오기
 	public ZpayVO getZpay(String member_id) {

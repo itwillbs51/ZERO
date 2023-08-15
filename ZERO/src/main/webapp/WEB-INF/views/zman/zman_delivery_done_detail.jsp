@@ -142,7 +142,7 @@
 				
 				<section id='sec03'>
 					<form action="zman_refund_form" method="get">
-						<input type="hidden" name="zman_earning_idx" value="${zd.zman_delivery_idx }">
+						<input type="hidden" name="zman_earning_idx" value="${zmanEarning.zman_earning_idx }">
 						
 <!-- 					    <button>돌아가기</button> -->
 					    <button class="btn btn-outline-dark btn-lg" type="submit">정산하기</button>
