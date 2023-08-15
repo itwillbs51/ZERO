@@ -90,10 +90,11 @@
 	    // AJAX 요청 보내기
 	    $.ajax({
 	      type: "GET",
-	      url: "your_server_url_here", // 실제 서버 URL로 대체
+	      url: "zman_earning_list", // 실제 서버 URL로 대체
 	      data: { week: weekValue }, // 선택된 주간 값을 서버로 전송
 	      dataType: "json",
 	      success: function (data) {
+	    	  console.log("DB getget"); 
 	        // 서버로부터 받은 JSON 데이터 처리
 	        updateTableWithData(data); // 테이블 업데이트 함수 호출
 	      },
@@ -108,20 +109,23 @@
 	    var tableBody = $("tbody.table-group-divider");
 	    tableBody.empty(); // 기존 테이블 내용 비우기
 	    
-	    // 받은 JSON 데이터를 이용하여 테이블 행 추가
-	    data.forEach(function (item) {
-	      var row = $("<tr>");
-	      var startDate = item.startDate;
-	      var endDate = item.endDate;
-	      var deliveryFee = item.deliveryFee;
-	      
-	      row.append("<th scope='row'>" + startDate + " ~ " + endDate + "</th>");
-	      row.append("<td>" + deliveryFee + " 원</td>");
-	      row.append("<td><button class='btn btn-dark' type='button'>상세보기</button></td>");
-	      
-	      tableBody.append(row);
-	    });
-	  }
+		  // 받은 JSON 데이터를 이용하여 테이블 행 추가
+	      data.forEach(function (item) {
+	          var row = $("<tr>");
+	          var deliveryNum = item.zman_delivery_idx; // 배달 번호
+	          var getMoneyDate = item.zman_refund_date; // 정산받은 날짜
+	          var zman_delivery_commission = item.zman_delivery_commission; // 배달료
+	          var zman_net_profit = item.zman_net_profit; // 정산받은 금액
+	          
+	          row.append("<th scope='row'>" + deliveryNum + "</th>");
+	          row.append("<td>" + getMoneyDate + "</td>");
+	          row.append("<td>" + zman_delivery_commission + " 원</td>");
+	          row.append("<td>" + zman_net_profit + " 원</td>");
+	          row.append("<td><button class='btn btn-dark' type='button'>상세보기</button></td>");
+	          
+	          tableBody.append(row);
+	        });
+	      }
 	});
 </script>
 </head>
@@ -213,10 +217,10 @@
 						<thead>
 							<tr>
 								<%-- 배달 번호 , 배달물품, 배달거리, 배달료,   --%>
-						        <th scope="col">배달날짜</th>
+						        <th scope="col">배달번호</th>
+						        <th scope="col">정산 날짜</th>
 						        <th scope="col">배달료</th>
-						        <th scope="col">배달수단</th>
-						        <th scope="col">상세보기</th>
+						        <th scope="col">순 정산금액</th>
 						 	</tr>
 						 </thead>
 						 <tbody class="table-group-divider">

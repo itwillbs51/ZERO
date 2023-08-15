@@ -79,5 +79,9 @@ public class AuctionService2  {
 		// TODO Auto-generated method stub
 		return mapper.selectAuctionIdx();
 	}
+	public HashMap<String, String> getSellerInfo(String member_id) {
+		// TODO Auto-generated method stub
+		return mapper.selectSellerInfo(member_id);
+	}
 
 }

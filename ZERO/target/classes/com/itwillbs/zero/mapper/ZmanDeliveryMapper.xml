@@ -121,7 +121,7 @@
 		AND zman_id = #{zman_id}
 	</select>
 
-
+	<!-- 배달 완료 페이지에서 정산하기 버튼 으로 파라미터 넘겨주기 -->
 	<select id="selectZmanEarningIdx" resultType="com.itwillbs.zero.vo.ZmanEarningVO">
 		SELECT *
 		FROM 
@@ -130,6 +130,17 @@
 			zman_delivery_idx = #{zmanDeliveryIdx};
 	</select>
 
+	<!-- 정산 내역 페이지 AJAX 데이터 가져오기 -->
+	<select id="selectZmanEarningList" resultType="map">
+		SELECT * 
+		FROM 
+			ZMAN_EARNING ze 
+		JOIN
+			ZMAN_REFUND_HISTORY zrh 
+		ON
+			ze.zman_earning_idx = zrh.zman_earning_idx
+		WHERE ze.zman_id = #{zman_id};
+	</select>
 
 	<!--  -->
 	<select id="selectZpay" resultType="com.itwillbs.zero.vo.ZpayVO">

@@ -44,6 +44,9 @@ public interface ZmanDeliveryMapper {
 	// 배달 완료 상세 페이지에서 정산으로 넘겨줄 파라미터
 	ZmanEarningVO selectZmanEarningIdx(int zmanDeliveryIdx);
 	
+	// ZMAN 정산리스트 가져오기
+	List<ZmanDeliveryVO> selectZmanEarningList(String zman_id);
+	
 	// 마커 클릭 시 보여줄 정보 가져오기
 	List<ZmanDeliveryVO> selectMarkerClickInfo(String markerTitle);
 
@@ -55,6 +58,7 @@ public interface ZmanDeliveryMapper {
 
 	// ZMAN 마이페이지의 ZPAY 정보 가져오기
 	ZpayVO selectZpay(String member_id);
+
 
 
 

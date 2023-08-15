@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -42,7 +45,7 @@
 	</header>
 	
   <article id="mainArticle">
-  <input type="hidden" id="cs_num" value="${myInquiryDetailList[0].cs_num}">
+  <input type="hidden" id="cs_idx" value="${myInquiryDetailList[0].cs_idx}">
   <input type="hidden" id="cs_reply" value="${cs_reply }">
   <%--본문내용 --%>
   	<div class="container my lg">
@@ -70,7 +73,7 @@
 							<c:otherwise>
 								<%-- 상세보기 내역 --%>
 								<form action="myPage_inquiry_detailModify" method="post" name="fr" enctype="multipart/form-data">
-								<input type="hidden" value="${myInquiryDetailList[0].cs_num }" name="cs_num">
+								<input type="hidden" value="${myInquiryDetailList[0].cs_idx }" name="cs_idx">
 								<table class="table" >
 										<tr>
 											<th>
@@ -88,21 +91,21 @@
 												${myInquiryDetailList[0].member_id }
 											</td>
 										</tr>
-										<tr>
-											<th>
-												휴대전화
-											</th>
-											<td>
-												${myInquiryDetailList[0].cs_phone }
-											</td>
-										</tr>
+<!-- 										<tr> -->
+<!-- 											<th> -->
+<!-- 												휴대전화 -->
+<!-- 											</th> -->
+<!-- 											<td> -->
+<%-- 												${myInquiryDetailList[0].cs_phone } --%>
+<!-- 											</td> -->
+<!-- 										</tr> -->
 										<tr>
 											<th>
 												작성 날짜
 											</th>
 											<td>
-<%-- 												${myInquiryDetailList[0].cs_date } --%>
-												<fmf:formatDate value="${myInquiryDetailList[0].cs_date }" pattern="yyyy년 MM월 dd일 HH:mm"/>
+												${myInquiryDetailList[0].cs_date}
+<%-- 												<fmt:formatDate value="${myInquiryDetailList[0].cs_date }" pattern="yyyy년 MM월 dd일 HH:mm"/> --%>
 											</td>
 										</tr>
 								  		<tr>
@@ -120,9 +123,7 @@
 									    	</th>
 									    	<td>
 <!-- 												<textarea class="form-control" rows="10" cols="200" name="cs_content"> -->
-									    		<textarea rows="5" cols="50" name="cs_content">
-									    			${myInquiryDetailList[0].cs_content }
-									    		</textarea>
+									    		<textarea rows="5" cols="50" name="cs_content">${myInquiryDetailList[0].cs_content }</textarea>
 								    		</td>
 								  		</tr>
 								  		<tr>
@@ -134,8 +135,8 @@
 				                            	<%-- 첨부파일 다운로드 구현 아직 --%>
 						                        <c:choose>
 													<c:when test="${not empty myInquiryDetailList[0].cs_file }">
-														<a href="${pageContext.request.contextPath }/resources/upload/${myInquiryDetailList[0].cs_file_real }" download="${myInquiryDetailList[0].cs_file_real }">
-															${fn:split(myInquiryDetailList[0].cs_file_real, '_')[1] }
+														<a href="${pageContext.request.contextPath }/resources/upload/${myInquiryDetailList[0].cs_file }" download="${myInquiryDetailList[0].cs_file }">
+															${fn:split(myInquiryDetailList[0].cs_file, '_')[1] }
 														</a>
 													</c:when>
 						                          		<c:otherwise>
@@ -146,7 +147,7 @@
 				                        <tr>
 				                            <th scope="col" class="align-middle" width="100">사진첨부(변경)</th>
 				                            <td scope="col" class="align-middle">
-				                            	<input type="file" class="form-control" aria-label="cs_file" name="cs_file" />
+				                            	<input type="file" class="form-control" aria-label="cs_file" name="file" />
 				                            </td>
 				                        </tr>
 								  		<tr>
@@ -170,13 +171,13 @@
 			              					<div class="col-10">
 			              						<c:choose>
 								  					<c:when test="${empty myInquiryDetailList[0].cs_reply }">
-														<button class="btn btn-danger" type="submit">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
-														<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
-								                        <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#deleteWrite">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
+														<button data-v-43813796="" class="btn outlinegrey" type="submit">&nbsp;&nbsp;&nbsp;수정&nbsp;&nbsp;&nbsp;</button>
+														<button data-v-43813796="" class="btn outlinegrey" type="button" onclick="history.back()">돌아가기</button>
+								                        <button data-v-43813796="" class="btn outlinegrey" type="button" data-toggle="modal" data-target="#deleteWrite">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
 													</c:when>
 								  					<c:otherwise>
-								  						<button class="btn btn-outline-danger" type="button" onclick="history.back()">돌아가기</button>
-								                        <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#deleteWrite">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
+								  						<button data-v-43813796="" class="btn outlinegrey" type="button" onclick="history.back()">돌아가기</button>
+								                        <button data-v-43813796="" class="btn outlinegrey" type="button" data-toggle="modal" data-target="#deleteWrite">&nbsp;&nbsp;&nbsp;삭제&nbsp;&nbsp;&nbsp;</button>
 								  					</c:otherwise>
 								  				</c:choose>
 			              					</div>
@@ -185,6 +186,12 @@
 							</c:otherwise>
 						</c:choose>
 		  		</div>
+		  		<%-- 서브 네비바 --%>
+				<div data-v-7bcac446 class="snb_var">
+					<nav id="subNav" class="snb">
+					    <jsp:include page="/WEB-INF/views/inc/member_sidebar_hidden.jsp"></jsp:include>
+					</nav>
+                     </div>
 			</div>
 		  </article>
   
@@ -192,7 +199,9 @@
     
   <div id="sieAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"><jsp:include page="/WEB-INF/views/inc/footer.jsp"></footer>
+  <footer id="pageFooter">
+		<%@ include file="../inc/footer.jsp"%>
+	</footer>
   
     <%-- 모달 --%>
 	<div class="modal fade" id="deleteWrite" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -208,8 +217,8 @@
 	       	1 : 1 문의 글을 삭제하시겠습니까?
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="">취소</button>
-	        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="location.href='delete_myInquiry?cs_num=${myInquiryDetailList[0].cs_num }'">&nbsp;&nbsp;예&nbsp;&nbsp;</button>
+	        <button type="button" data-v-43813796="" class="btn outlinegrey" data-dismiss="modal" onclick="">취소</button>
+	        <button type="button" data-v-43813796="" class="btn outlinegrey" data-dismiss="modal" onclick="location.href='delete_myInquiry?cs_idx=${myInquiryDetailList[0].cs_idx }'">&nbsp;&nbsp;예&nbsp;&nbsp;</button>
 	      </div>
 	    </div>
 	  </div>

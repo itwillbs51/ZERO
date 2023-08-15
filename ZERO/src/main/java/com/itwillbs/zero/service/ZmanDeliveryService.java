@@ -80,11 +80,17 @@ public class ZmanDeliveryService {
 		return mapper.selectZmanEarningIdx(zmanDeliveryIdx);
 	}
 
+	// ZMAN 정산리스트 가져오기
+	public List<ZmanDeliveryVO> getEarningList(String zman_id) {
+		return mapper.selectZmanEarningList(zman_id);
+	}
 
 	// ZMAN 마이페이지의 ZPAY 정보 가져오기
 	public ZpayVO getZpay(String member_id) {
 		return mapper.selectZpay(member_id);
 	}
+
+
 
 
 
