@@ -81,11 +81,29 @@ public class ZmanController {
 	public String zmanEarning(HttpSession session, Model model) {
 		System.out.println("ZmanController - zman_earning");
 		
-		String member_id = (String) session.getAttribute("member_id");
-		ZmanVO zman = zman_service.getZman(member_id);
+		String zman_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(zman_id);
 		model.addAttribute("zman", zman);
 		
 		return "zman/zman_earning";
+	}
+	
+	// ZMAN 정산리스트 가져오기
+	@ResponseBody
+	@GetMapping("zman_earning_list")
+	public String zmanEarningList(HttpSession session) {
+		System.out.println("ZmanController - zmanEarningList");
+		
+		String zman_id = (String) session.getAttribute("member_id");
+		
+//		List<ZmanDeliveryVO> zmanDeliveryDoneList = service.getDeliveryDoneList();
+		List<ZmanDeliveryVO> zmanEarningList = service.getEarningList(zman_id);
+		System.out.println("zmanEarningList - " + zmanEarningList);
+		
+		JSONArray json = new JSONArray(zmanEarningList);
+		System.out.println(json);
+		
+		return json.toString();
 	}
 	
 	// ZMAN 배달 예정 페이지로 이동
@@ -339,6 +357,9 @@ public class ZmanController {
 		
 		return "zman/zman_delivery_want_test";
 	}
+	
+	
+	
 	
 	// 신청 폼
 	@GetMapping("zero_report_form")
