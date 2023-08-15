@@ -568,5 +568,19 @@
 				cs_idx = #{cs_idx} 
 	</delete>
 	
+	<!-- 이메일과 휴대폰번호가 일치하는 회원정보 조회 -->
+	<select id="isCheckIdPhone" resultType="map">
+		SELECT *
+		FROM MEMBER
+			WHERE member_id = #{member_id}
+			AND member_phone = #{member_phone}
+	</select>
+	
+	<!-- 임시비밀번호로 회원정보 변경 -->
+	<update id="updateMemberPasswd">
+		UPDATE MEMBER
+			SET member_passwd = #{securePasswd}
+			WHERE member_id = #{member_id}
+	</update>
 	
 </mapper>

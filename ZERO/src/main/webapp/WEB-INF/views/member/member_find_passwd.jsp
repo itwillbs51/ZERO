@@ -46,10 +46,10 @@ $(function(){
 	      
 	});
 	
-	$("#sendSns").on("click", function() { // 문자 발송하기 버튼 클릭
+	$("#sendMail").on("click", function() { // 메일 발송하기 버튼 클릭
 		
 		$("#btnRewrite, #btnLogin").removeClass("blind");
-		$("#sendSns").addClass("blind");
+		$("#sendMail").addClass("blind");
 		$("#member_id, #member_phone").addClass("readonly");
 		
 		sendAuth();
@@ -68,23 +68,16 @@ function sendAuth() { // 인증번호 전송 전송
 	console.log(memberId + ', ' + memberPhone);
 	// 2. 버튼 클릭 시 폼 데이터 전송
 	$.ajax({
-        type: 'post',
-        url: 'ajax/sendSmsPasswd',
-       datatype: "text",
+        type: 'POST',
+        url: 'ajax/sendMailPasswd',
+       datatype: "json",
        data: {
     	   "member_id": memberId,
     	   "member_phone": memberPhone
        },
        success: function (result) {
-           console.log('ajax - sendSmsPasswd:' + result);
-           if(result != 'false') {
-	           var masked_email = result.replace(/^(.{2})(.*)(.{3})(@.*)$/, (_, prefix, middle, suffix, domain) => prefix + '*'.repeat(middle.length) + suffix + '*'.repeat(domain.length));
-	
-	           console.log(masked_email); // Output: "ad***@nav**.com"
-	           $("#email").text(masked_email);
-           } else {
-        	   $("#email").text('등록된 이메일이 없습니다!');
-           }
+           console.log('ajax - sendMailPasswd:' + result);
+           alert(result);
            
        },
        error: function () {
@@ -174,7 +167,7 @@ function validEmailCheck(obj){
 									</div>
 									<div class="help_btn_box">
 	<!-- 									<a disabled="disabled" href="#" class="btn full solid disabled"> 문자 발송하기 </a> -->
-										<a class="btn full solid " data-v-43813796="" id="sendSns" onclick="sendAuth()"> 문자 발송하기 </a>
+										<a class="btn full solid " data-v-43813796="" id="sendMail"> 메일 발송하기 </a>
 										<a class="btn full outlinegrey blind" data-v-43813796="" id="btnRewrite" href="member_find_passwd"> 다시 작성하기 </a>
 										<a class="btn full solid btnLogin blind" data-v-43813796="" id="btnLogin" href="member_login"> 로그인화면으로 이동 </a>
 									</div>

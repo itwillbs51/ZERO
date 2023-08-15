@@ -51,8 +51,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.PageInfoVO;
+import com.itwillbs.zero.service.SendMailService;
 import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
+import com.itwillbs.zero.handler.GenerateRandomCode;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.AuctionService;
 import com.itwillbs.zero.service.LikesService;
@@ -893,6 +895,78 @@ public class MemberController {
 		System.out.println("MemberController - memberFindPasswd");
 		
 		return "member/member_find_passwd";
+	}
+	
+	@ResponseBody
+	@PostMapping("/ajax/sendMailPasswd")
+	public String sendMailPasswd(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println("sendMailPasswd:" + map);
+		JsonArray data = new JsonArray();
+		
+		// 조건 파라미터 - 아이디, 휴대폰번호
+		String member_id = (String)session.getAttribute("member_id");
+		
+		String id = map.get("member_id");
+		System.out.println("id : " + id);
+		
+		// 이메일과 휴대폰이 동일한지 검사
+		Map<String, String> result = service.isCheckIdPhone(map);
+		System.out.println("result : " + result);
+		if(result == null) {
+			data.add("일치하는 회원 정보가 없습니다");
+			return data.toString();
+		}
+		
+		
+		// 난수 생성 후 리턴받기 위해 사용자 정의 클래스 GenerateRandomCode 의 static 메서드 getRandomCode() 호출
+		// => 파라미터 : 난수 길이(정수)   리턴타입 : String(authCode)
+		String authCode = GenerateRandomCode.getRandomCode(10); // 50글자에 맞는 난수(영문자, 숫자) 리턴
+		System.out.println(authCode);
+		
+		
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPassword(authCode);
+		System.out.println("암호화된 비밀번호 : " + securePasswd);
+		
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		// => 파라미터 : 평문, 암호화 된 암호 		리턴타입 : boolean
+		// 로그인 성공/ 실패 여부 판별하여 포워딩
+		// => 성공 : MemberVO 객체에 데이터가 저장되어 있고 입력받은 패스워드가 같음
+		// => 실패 : MemberVO 객체가 null 이거나 입력받은 패스워드와 다름
+		
+		System.out.println("securePasswd : " + securePasswd);
+		result.put("securePasswd", securePasswd);
+		
+		// -----------------------------------------------------------------------------------
+		// MemberService - updateMember() 메서드를 호출하여 회원정보 변경 작업 요청 패스워드 암호화 처리
+		// => 파라미터 : fileName1    리턴타입 : int(updateCount)
+		int updateCount = service.updateMemberPasswd(result);
+		
+		
+		// 패스워드 변경 작업 요청 결과 판별
+		if(updateCount > 0) { // 성공
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					SendMailService mailService = new SendMailService();
+					mailService.sendPasswdMail(authCode, id);
+				}
+			}).start(); // start() 메서드 호출 필수!			
+			// 임시비밀번호 전송 작업 성공 시 "성공" 출력
+			data.add("임시 비밀번호가 메일로 전송되었습니다");
+			return data.toString();
+		} else { // 실패
+			data.add("메일 전송이 실패했습니다");
+			return data.toString();
+		}
+		
+		
 	}
 	
 	// 회원 이메일 인증 페이지 이동  - 수정
