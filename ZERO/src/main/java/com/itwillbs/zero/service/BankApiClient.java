@@ -192,8 +192,7 @@ public class BankApiClient {
 		jo.put("tran_amt", map.get("zpayAmount"));	// 거래금액
 //		jo.put("tran_amt", "50000");	// 거래금액
 		jo.put("tran_dtime", valueGenerator.getTranDTime());	// 거래 요청 일시
-//		jo.put("req_client_name", "이수정");	// 송금인 실명
-		jo.put("req_client_name", "신혜진");	// 송금인 실명
+		jo.put("req_client_name", "이수정");	// 송금인 실명
 		jo.put("req_client_fintech_use_num", map.get("fintech_use_num"));
 		jo.put("req_client_num", "1");
 		jo.put("transfer_purpose", "TR");	// 이체 용도(TR : 송금)
@@ -253,7 +252,7 @@ public class BankApiClient {
 		jo.put("cntr_account_type", "N"); // 약정 계좌/계정 구분(N:계좌, C:계정 => N 고정)
 		jo.put("cntr_account_num", "50000012"); // 약정계좌 계좌번호(테스트데이터 출금계좌 항목에 등록할 계좌번호)
 		jo.put("wd_pass_phrase", "NONE"); // 테스트용은 "NONE" 값 고정
-		jo.put("wd_print_content", "신혜진고객환급"); // 출금계좌인자내역
+		jo.put("wd_print_content", "이수정고객환급"); // 출금계좌인자내역
 //		jo.put("wd_print_content", map.get("req_client_name") + "고객환급"); // 출금계좌인자내역
 		jo.put("name_check_option", "on"); // 수취인성명 검증 여부(on:검증함) - 생략 시 기본값 on
 		jo.put("tran_dtime", valueGenerator.getTranDTime()); // 거래요청일시

@@ -813,16 +813,18 @@ public class ZpayController {
 	public String zmanRefundForm(@RequestParam int  zman_earning_idx, 
 							Model model, HttpSession session) {
 		System.out.println("ZpayController - zmanRefundForm()");
+		System.out.println(zman_earning_idx);
 		
 		// 정산받을 계좌 정보 조회
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
 		
 		// ZmanEarning 조회
 		ZmanEarningVO zmanEarning = service.getZmanEarning(zman_earning_idx);
+		System.out.println(zmanEarning);
 		
 		model.addAttribute("zpay", zpay);
 		model.addAttribute("zmanEarning", zmanEarning);
-		return "zpay/zpay_refund_form";
+		return "zpay/zman_refund_form";
 	}
 	
 	// ZMAN 정산

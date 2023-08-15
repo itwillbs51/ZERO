@@ -28,7 +28,7 @@
 	let maxPage = 1;	// 최대 페이지 번호 미리 저장
 	// 카테고리 변수 정의
 	let category;
-	let sort = '인기순'; 	// 기본값
+	let sort = '최신순'; 	// 기본값
 	
 	$(function() {
 		
@@ -56,25 +56,30 @@
 	        }
 	    });	 // 정렬 목록이 열려있을 때 다른 곳을 누르면 목록 닫히게 하는 함수
 		
-		// AJAX + JSON을 활용한 게시물 목록 조회(무한스크롤 기능 포함)
+		// AJAX + JSON을 활용한 게시물 목록 조회(무한스크롤 기능 포함) =====================
 		// 정렬기준 선택 시 호출되는 함수
 		$(".listSort li").on("click", function() {
 			$(".listSort li").removeClass("selected");
 			$(this).addClass("selected");
+			
+			// 선택한 정렬기준을 버튼에 표시해주기
+			let text = $(this).text() + '<i class="material-icons">swap_vert</i>';
+			$(".listInfoBtn").html(text);
+			// 정렬기준 변수 정의
+			sort = $(".selected").text();	// 인기순, 가격순, 최신순
+			// 체크표시 이동
 			$(".listSort i").remove();
 			$(this).append(
 					'<i class="material-icons">check</i>'
 			);
 			
-			// 정렬기준 변수 정의
-			sort = $(".selected span").text();	// 인기순, 가격순, 최신순
 			
 			// 목록 불러오기
 			loadList(category, sort);
 			
 		});	// onclick 함수 끝
 	
-		// 카테고리 선택 시 클래스 지정해주기
+		// 카테고리 선택 시 클래스 지정해주기   ======================================
 		$("#categoryNav span").on("click", function() {
 			$("#categoryNav span").removeClass("select");
 			$(this).addClass("select");
@@ -84,8 +89,6 @@
 			loadList(category, sort);
 		});
 		
-// 		console.log("카테고리는 : " + category);
-// 		console.log("정렬 기준은 " + sort);
 		
 		// 무한스크롤 기능 추가
 		// 웹브라우저의 스크롤바가 바닥에 닿으면 다음 목록 조회를 위해 loadList() 함수 호출
@@ -133,55 +136,71 @@
 				
 				// 기존에 있던 리스트 삭제
 				$(".productListArea").empty();
+				$(".auctionNotice").remove();
 				
-				for(let product of data.preAuctionList) {
-					let start_price = product.auction_start_price;
-					let max_price = product.auction_max_price;
-					
-					let formatted_start_price = Number(start_price).toLocaleString('en');
-					let formatted_max_price = Number(max_price).toLocaleString('en');
-					
-					let start_date = new Date(product.auction_start_date);
-					start_date.setHours(0, 0, 0, 0);
-					
-					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
-					$(".productListArea").append(
-							'<div class="product_card_wrap"> '
-							+ '	<div class="product_card">'
-							+ ' 	<a href="auction_prepare_detail?id=' + product.auction_idx + '" class="item_inner">'
-							+ '			<div class="item_img">'
-							+ '				<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/' + product.auction_image1 + '">'
-							+ '			</div>'
-							+ '			<div class="item_title">'
-							+ '				<p class="product_info_brand">' + product.brand_name + '</p>'
-							+ '				<div class="product_info_name">' + product.auction_title + '</div>'
-							+ '			</div>'
-							+ '		</a>'
-							+ ' 	<div class="autionTime">'
-							+ '			경매시작까지'
-							+ '			<span>' + updateCountDown(start_date) + '</span> 남았습니다'
-// 							+ '			<span>n일 nn시간 nn분</span>'
-							+ '			<div>'
-							+ '				입찰 예정 시간 : ' + product.auction_start_date
-							+ '			</div>'
-							+ '		</div>'
-							+ '		<div class="price row">'
-							+ '			<div class="col-4">'
-							+ '				입찰 최저가<br>'
-							+ '				즉시구매가'
-							+ '			</div>'
-							+ '			<div class="col-7 colRight">'
-							+ '				<span>' + formatted_start_price  + '원</span><br>'
-							+ '				<span>' + formatted_max_price + '원</span>'
-							+ '			</div>'
-							+ '		</div>'
-							
-							+ '	</div>'
-							+ '</div>'
-							
-					);
-				}	// for문 종료
+				let auction_card = "";
+				// 없을 때 안내문
+// 				console.log("data.nowAuctionList : " + data.nowAuctionList);
+				if(data.nowAuctionList == "" || data.nowAuctionList == null) {
+					auction_card = 
+						'<div class="auctionNotice">'
+						+ '<div class="noticeMsg">'
+						+ '		현재 예정중인 경매 상품이 없습니다<br>'
+						+ '		빠른 시일 안에 좋은 상품으로 찾아오겠습니다.'
+						+ '	</div>'
+						+ '</div>';
+						
+					$(".listInfo").after(auction_card);
+				} else {
 				
+					for(let product of data.preAuctionList) {
+						let start_price = product.auction_start_price;
+						let max_price = product.auction_max_price;
+						
+						let formatted_start_price = Number(start_price).toLocaleString('en');
+						let formatted_max_price = Number(max_price).toLocaleString('en');
+						
+						let start_date = new Date(product.auction_start_date);
+						start_date.setHours(0, 0, 0, 0);
+						
+						// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
+						$(".productListArea").append(
+								'<div class="product_card_wrap"> '
+								+ '	<div class="product_card">'
+								+ ' 	<a href="auction_prepare_detail?id=' + product.auction_idx + '" class="item_inner">'
+								+ '			<div class="item_img">'
+								+ '				<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/' + product.auction_image1 + '">'
+								+ '			</div>'
+								+ '			<div class="item_title">'
+								+ '				<p class="product_info_brand">' + product.brand_name + '</p>'
+								+ '				<div class="product_info_name">' + product.auction_title + '</div>'
+								+ '			</div>'
+								+ '		</a>'
+								+ ' 	<div class="autionTime">'
+								+ '			경매시작까지'
+								+ '			<span>' + updateCountDown(start_date) + '</span> 남았습니다'
+	// 							+ '			<span>n일 nn시간 nn분</span>'
+								+ '			<div>'
+								+ '				입찰 예정 시간 : ' + product.auction_start_date
+								+ '			</div>'
+								+ '		</div>'
+								+ '		<div class="price row">'
+								+ '			<div class="col-4">'
+								+ '				입찰 최저가<br>'
+								+ '				즉시구매가'
+								+ '			</div>'
+								+ '			<div class="col-7 colRight">'
+								+ '				<span>' + formatted_start_price  + '원</span><br>'
+								+ '				<span>' + formatted_max_price + '원</span>'
+								+ '			</div>'
+								+ '		</div>'
+								
+								+ '	</div>'
+								+ '</div>'
+								
+						);
+					}	// for문 종료
+				}
 			}, error: function() {
 				alert("글 목록 요청 실패!");
 			}
@@ -264,13 +283,13 @@
 					<span class="listInfoCount">상품 <span id="listCount"></span>개</span>
 <!-- 					<input type="search" placeholder="모델명, 브랜드명 등"> -->
 					<button class="listInfoBtn">
-						인기순 <i class="material-icons">swap_vert</i>
+						최신순 <i class="material-icons">swap_vert</i>
 					</button>
 						<%-- 정렬 방법(기본 : 보이지 않음, 클릭 : style 지우기) --%>
 						<ul class="listSort" style="display: none;"> <%-- style="display: none;" --%>
-							<li id="list1" class="selected"><span>인기순</span> <i class="material-icons">check</i></li>
-							<li id="list2"><span>가격순</span> </li>
-							<li id="list3"><span>최신순</span> </li>
+							<li id="list1" class="selected"><span>최신순</span> <i class="material-icons">check</i></li>
+							<li id="list2"><span>인기순</span> </li>
+							<li id="list3"><span>가격순</span> </li>
 						</ul>
 				</div>
 				<!-- 2-2. 상품 목록 -->
