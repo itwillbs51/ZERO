@@ -471,19 +471,19 @@ public class ZpayController {
 			
 			// BankApiService - requestDeposit() 메서드를 호출하여 입금이체 요청
 			// => 파라미터 : Map 객체   리턴타입 : ResponseWithdrawVO
-			ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+//			ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
 			
 			// Model 객체에 ResponseWithdrawVO 객체 저장
-			model.addAttribute("depositResult", depositResult);
+//			model.addAttribute("depositResult", depositResult);
 			
 			// ZPYA_HISTORY 테이블에 환급내역 추가 =====================================================================================
-//			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0);
-			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0);
+			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0);
+//			boolean refundSuccess = transactionHandler.performZpayTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0);
 			
 			if(refundSuccess) {
 				// -------------------------- ZERO 약정계좌 거래(출금)내역 추가 --------------------------------------
-//				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0, 0);
-				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0, 0);
+				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, Integer.parseInt(zpayAmount), "환급", 0, 0, 0);
+//				boolean insertZeroCountSuccess = transactionHandler.performZeroAccountTransaction(member_id, depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt(), "환급", 0, 0, 0);
 				
 				if(insertZeroCountSuccess) {
 					// --------------------------------------------------------------------------------------------------
@@ -838,21 +838,6 @@ public class ZpayController {
 			Model model) {
 		System.out.println("ZpayController - zmanRefundPro()");
 		
-		// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
-		ZpayVO zpay = service.getZpay(member_id);
-		map.put("access_token", zpay.getAccess_token());
-		map.put("fintech_use_num", zpay.getFintech_use_num());
-		// 금결원 테스트데이터 등록 후
-		String zmanNetProfit = String.valueOf(zman_net_profit);
-		map.put("zpayAmount", zmanNetProfit);
-		
-		// BankApiService - requestDeposit() 메서드를 호출하여 입금이체 요청
-		// => 파라미터 : Map 객체   리턴타입 : requestDeposit
-//		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
-		
-		// Model 객체에 ResponseDepositVO 객체 저장
-//		model.addAttribute("depositResult", depositResult);
-		
 		// ============================================ 비밀번호 확인 =================================================================
 		String securePasswd = service.getZpayPasswd(member_id);
 		System.out.println("zpay_passwd : " + zpay_passwd + "securePasswd : " + securePasswd);
@@ -864,10 +849,27 @@ public class ZpayController {
 			return "fail_back";
 			
 		} else {
+			
+			// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
+			ZpayVO zpay = service.getZpay(member_id);
+			map.put("access_token", zpay.getAccess_token());
+			map.put("fintech_use_num", zpay.getFintech_use_num());
+			// 금결원 테스트데이터 등록 후
+			String zmanNetProfit = String.valueOf(zman_net_profit);
+			map.put("zpayAmount", zmanNetProfit);
+			
+			// BankApiService - requestDeposit() 메서드를 호출하여 입금이체 요청
+			// => 파라미터 : Map 객체   리턴타입 : requestDeposit
+//			ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+			
+			// Model 객체에 ResponseDepositVO 객체 저장
+//			model.addAttribute("depositResult", depositResult);
+			
+			
 			zmanRefundHistory.setZman_id(member_id);
 			zmanRefundHistory.setZman_earning_idx(zman_earning_idx);
+			zmanRefundHistory.setZman_net_profit(zman_net_profit);
 //			zmanRefundHistory.setZman_net_profit(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
-//			zmanRefundHistory.setZman_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
 			System.out.println(zmanRefundHistory);
 			
 			// ZPYA_HISTORY 테이블에 환급내역 추가
