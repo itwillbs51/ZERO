@@ -175,7 +175,7 @@ function checkNicknameDup() {
 function validateBirth() {
 	var birthInput = document.getElementById("member_birth");
 	var birthMessage = document.getElementById("birth_check");
-	var regex = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+	var regex = /^(19[0-9][0-9]|200[0-8])(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/; <%-- 만15세이상 가입가능 2008년  --%>
 
 	if(birthInput.value.trim() === ""){
 		birthMessage.innerHTML = "";
@@ -697,7 +697,7 @@ input[type=checkbox] {
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
 <!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" > 회원가입 </button>
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled="disabled"> 회원가입 </button>
 					</div>
 				</form>
 
@@ -767,32 +767,6 @@ input[type=checkbox] {
 <!--   <link href="/_nuxt/css/caea5a4.css" rel="stylesheet" type="text/css"> -->
 
 	<script type="text/javascript">
-// 	  // 동의 모두선택/해제 지울예정
-// 	  const agreeChkAll = document.querySelector('input[name=agree_all]');
-// 	  const agreeChk = document.querySelectorAll('input[name=agree]');
-
-// 	  agreeChkAll.addEventListener('change', (e) => {
-// 	    for (let i = 0; i < agreeChk.length; i++) {
-// 	      agreeChk[i].checked = e.target.checked;
-// 	    }
-// 	  });
-
-// 	  const updateAgreeAllStatus = () => {
-// 	    let allChecked = true;
-// 	    for (let i = 0; i < agreeChk.length; i++) {
-// 	      if (!agreeChk[i].checked) {
-// 	        allChecked = false;
-// 	        break;
-// 	      }
-// 	    }
-// 	    agreeChkAll.checked = allChecked;
-// 	  };
-
-// 	  for (let i = 0; i < agreeChk.length; i++) {
-// 	    agreeChk[i].addEventListener('change', () => {
-// 	      updateAgreeAllStatus();
-// 	    });
-// 	  }
 	 
 	// 비밀번호 정규식 되는데 편의를 위해 주석해놓음
 	  
@@ -812,21 +786,21 @@ input[type=checkbox] {
 		}
 	}
 
-// 	// 비밀번호 와 비밀번호 확인 일치
-// 	function checkconfirmPasswd(passwdCheck) {
-// 		let member_passwd = document.querySelector('#member_passwd').value;	
+	// 비밀번호 와 비밀번호 확인 일치
+	function checkconfirmPasswd(passwdCheck) {
+		let member_passwd = document.querySelector('#member_passwd').value;	
 		 
-// 		if(member_passwd == passwdCheck) {
-// 			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
-// 			document.querySelector("#pass_confirm").style.color = "green";
-// 		} else {
-// 			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
-// 			document.querySelector("#pass_confirm").style.color = "red";
-// // 			alert("비밀번호를 다시 입력해주세요!");
-// 			$("#member_pass").val('');
-// 			$("#member_pass2").val('');
-// 		}
-// 	}
+		if(member_passwd == passwdCheck) {
+			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치합니다!"
+			document.querySelector("#pass_confirm").style.color = "green";
+		} else {
+			document.querySelector("#pass_confirm").innerHTML = "비밀번호가 일치하지 않습니다!"
+			document.querySelector("#pass_confirm").style.color = "red";
+// 			alert("비밀번호를 다시 입력해주세요!");
+			$("#member_pass").val('');
+			$("#member_pass2").val('');
+		}
+	}
 	  
 	  
 	  
@@ -1075,21 +1049,21 @@ function getMarketingAgreementValue() {
   });
 </script>
 
-<!-- <script type="text/javascript"> -->
-<!-- // //인증 성공 여부를 저장할 변수 추가  -->
-<!-- // let phoneAuthSuccess = false; -->
-<!-- // let emailAuthSuccess = false; -->
+<script type="text/javascript">
+  //인증 성공 여부를 저장할 변수 추가   -->
+  let phoneAuthSuccess = false;  
+  let emailAuthSuccess = false;  
 
-<!-- // // 회원가입 버튼 활성화 확인 함수 추가  -->
-<!-- //  function checkAuthSuccess() {  -->
-<!-- //      // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 -->
-<!-- //      if (phoneAuthSuccess && emailAuthSuccess) {  -->
-<!-- //          $("#registerButton").prop("disabled", false);  -->
-<!-- //      } else {  -->
-<!-- //          $("#registerButton").prop("disabled", true);  -->
-<!-- //      }  -->
-<!-- //  } -->
-<!-- </script>  -->
+  // 회원가입 버튼 활성화 확인 함수 추가   
+   function checkAuthSuccess() {   
+       // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 
+       if (phoneAuthSuccess && emailAuthSuccess) { 
+           $("#registerButton").prop("disabled", false);   
+       } else {  
+           $("#registerButton").prop("disabled", true);   
+       }   
+   }  
+</script>   
   <!-- 편의를위해 위에 주석해놓음, 테스트시 위 주석풀고, 회원가입 disabled 추가해야됨 -->
  
 </body>

@@ -236,11 +236,11 @@ input[type=checkbox] {
 				<h2 class="login_title" data-v-2b15bea4="">
 					<span class="blind" data-v-2b15bea4="">회원 가입 완료</span>
 				</h2>
-				인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다.
+				ZERO의 회원이 되신것을 축하드립니다!<br> 
+				로그인 후 이용해주세요!
 				<br>
 				<button onclick="location.href='/zero'">홈으로</button>
 				<br>
-				<button onclick="location.href='member_login'">로그인</button>
 
 			</div>
 		</div>
