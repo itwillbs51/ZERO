@@ -129,6 +129,7 @@
 		overflow: hidden;
 		min-width: 210px;
 		max-width: 215px;
+		margin: auto;
 	}
 	
 	.carousel-inner img {
