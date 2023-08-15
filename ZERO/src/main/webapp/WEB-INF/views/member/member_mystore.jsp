@@ -657,8 +657,8 @@ ul.tabs li.current{
 				
 				if(url == urls[0]) {
 // 					alert('중고판매 내용 있음');
+					num_all = 0;
 					for (var i = 0; i < data.length; i++) {
-						num_all = 0;
 						num_all += 1; 
 		                var item = data[i];
 		                var formatDate = item.secondhand_first_date.split('T');
@@ -721,7 +721,6 @@ ul.tabs li.current{
 		                                            <div class="card-text sell_price">평점 : ' + item.member_review_rating + '</div>\
 		                                            <div class="card-text sell_price">내용 : ' + item.member_review_content + '</div>\
 		                                            <div class="card-text sell_date"><span>작성일자 : ' + formatDate[0] + '</span></div>\
-// 		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div></div>\
 		                                        </div>\
 		                                    </div>\
 		                                </div>\
@@ -737,10 +736,10 @@ ul.tabs li.current{
 				} else if(url == urls[2]) {
 // 					alert('경매 내용 있음');
 // 					var myList = data.myStore; // myList 변수에 리스트 데이터 저장
+	            	num_all = 0;
 		            
 		            // 리스트 데이터를 처리하고 출력하는 로직 작성
 		            for (var i = 0; i < data.length; i++) {
-		            	num_all = 0;
 		            	num_all += 1;
 		            	var item = data[i];
 		                var formatDate = item.auction_regist_date.split('T');
@@ -801,9 +800,9 @@ ul.tabs li.current{
 					
 				} else if(url == urls[3]) {
 // 					alert('찜 내용 있음');
+					num_all = 0;
 					
 					for (var i = 0; i < data.length; i++) {
-						num_all = 0;
 						num_all += 1;
 						var item = data[i];
 		                var formatDate = item.secondhand_first_date.split('T');

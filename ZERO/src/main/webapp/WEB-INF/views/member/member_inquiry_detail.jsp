@@ -147,7 +147,7 @@
 				                        <tr>
 				                            <th scope="col" class="align-middle" width="100">사진첨부(변경)</th>
 				                            <td scope="col" class="align-middle">
-				                            	<input type="file" class="form-control" aria-label="cs_file" name="cs_file" />
+				                            	<input type="file" class="form-control" aria-label="cs_file" name="file" />
 				                            </td>
 				                        </tr>
 								  		<tr>

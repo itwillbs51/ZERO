@@ -113,11 +113,6 @@
       </a>
     </li>
     <li class="snb_item">
-      <a class="snb_link" href="">
-        경매판매내역
-      </a>
-    </li>
-    <li class="snb_item">
       <a class="snb_link" href="zpay_main">
         나의 Z-PAY
       </a>

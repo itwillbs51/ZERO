@@ -1604,7 +1604,7 @@ public class MemberController {
 			String member_id = (String) session.getAttribute("member_id");
 			if(member_id == null) {
 				model.addAttribute("msg", " 로그인이 필요합니다!");
-				model.addAttribute("targetURL", "member_login_form");
+				model.addAttribute("targetURL", "member_login");
 								
 				return "fail_location";
 			}
@@ -1677,7 +1677,7 @@ public class MemberController {
 					e.printStackTrace();
 				}
 				
-				return "redirect:/member_inquiry";
+				return "redirect:/myPage_inquiry";
 			} else { // 실패
 				model.addAttribute("msg", "글 쓰기 실패!");
 				return "fail_back";
@@ -1694,7 +1694,7 @@ public class MemberController {
 			String member_id = (String) session.getAttribute("member_id");
 			if(member_id == null) {
 				model.addAttribute("msg", " 로그인이 필요합니다!");
-				model.addAttribute("targetURL", "member_login_form");
+				model.addAttribute("targetURL", "member_login");
 						
 				return "fail_location";
 			}
@@ -1702,7 +1702,7 @@ public class MemberController {
 			int deleteCount = service.deleteMyInquiry(cs_idx);
 			
 			if(deleteCount > 0) { // 삭제 성공
-				return "redirect:/member_inquiry";
+				return "redirect:/myPage_inquiry";
 			} else {
 				model.addAttribute("msg", "글 삭제 실패!");
 				return "fail_back";

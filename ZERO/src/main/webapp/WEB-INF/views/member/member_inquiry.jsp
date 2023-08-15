@@ -105,12 +105,6 @@
 			</div>
 		 </div>
 	  </div>
-	  	<%-- 서브 네비바 --%>
-		<div data-v-7bcac446 class="snb_var">
-			<nav id="subNav" class="snb">
-			    <jsp:include page="/WEB-INF/views/inc/member_sidebar_hidden.jsp"></jsp:include>
-			</nav>
-		</div>
 	  </div>
   </article>
   
