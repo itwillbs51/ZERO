@@ -61,12 +61,14 @@ import com.itwillbs.zero.service.LikesService;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.SecondhandService;
 import com.itwillbs.zero.service.TestService;
+import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.sns.OAuthService;
 import com.itwillbs.zero.vo.GoogleOAuthResponseVO;
 import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 
 @Controller
 public class MemberController {
@@ -93,6 +95,8 @@ public class MemberController {
 	@Autowired
 	private OAuthService oauthService;
 
+	@Autowired
+	private ZpayService zpayService;
 	
 	// 멤버 로그인 - 수정
 	@GetMapping("member_login")
@@ -1269,8 +1273,16 @@ public class MemberController {
 		// 세션 아이디로 판매내역 받아오기(최근 두개)
 		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 3);
 		
+		// 세션 아이디로 회원내역 가져오기
+		MemberVO member = service.getMember(member_id);
+		
+		// ZPAY잔액 가져오기 위해
+		ZpayHistoryVO myZpayList = zpayService.getMyZpayHistory(member_id);
+		
 		model.addAttribute("myOdShList", myOdShList);
 		model.addAttribute("myShList", myShList);
+		model.addAttribute("member", member);
+		model.addAttribute("myZpayList", myZpayList);
 		
 		return "member/member_mypage_main";
 	}

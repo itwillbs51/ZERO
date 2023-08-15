@@ -220,11 +220,11 @@ max-width: 1280px;
                 	 		<h4><b>입찰가격 </b></h4>
                 	 		<br>
                 	 	</div>
-                	 	<div class="col-4 col-md-2">
+                	 	<div class="col-4 col-md-3">
                 	 		<input type="number" id="bid_price" class="bid" >원<br><span id=bidCheck ></span>
                 	 		
                 	 	</div>
-                	 	<div class="col-4 col-md-6"> 
+                	 	<div class="col-4 col-md-5"> 
                 	 		<button type="button" id="button-send"class="btn btn-secondary btn-block">입찰하기</button>
                 	 	</div> 
                 	 	  
@@ -232,29 +232,29 @@ max-width: 1280px;
                 	 		<h4><b>즉시구매가격</b></h4>
                 	 		<br>
                 	 	</div>
-                	 	<div class="col-4 col-md-2">
+                	 	<div class="col-4 col-md-3">
                 	 		<span id="maxPrice">${product.auction_max_price }</span> 원
                 	 	</div>
-                	 	<div class="col-4 col-md-6"> 
+                	 	<div class="col-4 col-md-5"> 
                 	 		<button type="submit" id="button-send2" class="btn btn-dark  btn-block">즉시구매</button>
                 	 	</div>   
 	                	
 	                	<div class="col-4 col-md-4"  style=" text-align: right;">    
                 	 		<h4><b>Z-PAY 잔액</b></h4>
                 	 	</div>
-                	 	<div class="col-4 col-md-2">
+                	 	<div class="col-4 col-md-3">
                 	 		<span id="zpayBalance">${balance} 원</span>
                 	 	</div>
-                	 	<div class="col-4 col-md-6"> 
+                	 	<div class="col-4 col-md-5"> 
                 	 	 	<a href="zpay_charge_form" class="btn btn-primary  btn-block">충전하기</a>
                 	 	</div>   
 	                	<div class="col-4 col-md-4"  style=" text-align: right;">    
                 	 		<h4><b>입찰가능금액</b></h4>
                 	 	</div>
-                	 	<div class="col-4 col-md-2">
+                	 	<div class="col-4 col-md-3">
                 	 		<b><span id=possibleZpay >${possibleZpay} 원</span></b>
                 	 	</div>
-                	 	<div class="col-4 col-md-6"> 
+                	 	<div class="col-4 col-md-5"> 
                 	 	 	*zpay 잔액에서 금일 다른 상품 경매 입찰에 사용한 금액을 뺀 금액입니다.
                 	 	</div>   
 	                </div>
