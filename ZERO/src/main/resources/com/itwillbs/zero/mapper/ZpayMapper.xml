@@ -494,4 +494,19 @@
 			)		
 	</insert>
 	
+	<!-- 마이페이지 ZPAY잔액 확인 -->
+	<select id="selectMyZpayHistory" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
+		SELECT
+			*
+		FROM
+			ZPAY_HISTORY
+		WHERE
+			member_id = #{member_id}
+		ORDER
+			BY
+			zpay_history_idx DESC
+		LIMIT
+			1
+	</select>
+	
 </mapper>

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,6 +41,16 @@
 	});
 	
 	$(function() {
+		$("#zmanTransportSelect").on("change", function() {
+			$("#modifyButton").removeAttr("disabled");
+			
+			let changedStatus = $("#zmanStatusSelect>option:selected").val();
+			$("#zmanTransport").empty();
+			$("#zmanTransport").html(changedStatus);
+		});
+	});
+	
+	$(function() {
 		$("#zmanStatusSelect").on("change", function() {
 			let changedStatus = $("#zmanStatusSelect>option:selected").val();
 			$("#zmanStatus").empty();
@@ -63,6 +77,7 @@
 		})
 		
 	});
+	
 	
 	function modify(){
 // 		alert($("#memberStatus").text());
@@ -113,7 +128,7 @@
 										</tr>
 										<tr>
 											<th>생년월일</th>
-											<td colspan="2">${zman.zman_birth }</td>
+											<td colspan="2">${zman.member_birth }</td>
 										</tr>
 										<tr>
 											<th>전화번호</th>
@@ -146,56 +161,79 @@
 	<!-- 											</span> -->
 											</td>
 										</tr>
-										<tr>
-											<th>탈퇴일</th>
-											<td colspan="2" id="zmanWithdrawal">
-												${zman.zman_withdrawal }
-											</td>
-										</tr>
-										<tr>
-											<th>배달 내역 상세보기</th>
-											<td colspan="2" class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
-											</td>
-										</tr>
-										<tr>
-											<th>수익 내역 상세보기</th>
-											<td colspan="2" class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
-											</td>
-										</tr>
-										<tr>
-											<th>계좌등록일</th>
-											<td colspan="2"></td>
-										</tr>
+<!-- 										<tr> -->
+<!-- 											<th>탈퇴일</th> -->
+<%-- 											<c:choose> --%>
+												
+<%-- 												<c:when test="${empty zman.zman_withdrawal }"> --%>
+<!-- 													<td colspan="2" id="zmanWithdrawal"> -->
+<!-- 														활동 중인 ZMAN / 탈퇴일 없음 -->
+<!-- 													</td> -->
+<%-- 												</c:when> --%>
+<%-- 												<c:choose> --%>
+<!-- 													<td> -->
+<%-- 														${zman.zman_withdrawal } --%>
+<!-- 													</td> -->
+<%-- 												</c:choose> --%>
+<%-- 											</c:choose> --%>
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>배달 내역 상세보기</th> -->
+<!-- 											<td colspan="2" class="text-end"> -->
+<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>수익 내역 상세보기</th> -->
+<!-- 											<td colspan="2" class="text-end"> -->
+<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>계좌등록일</th> -->
+<!-- 											<td colspan="2"></td> -->
+<!-- 										</tr> -->
 										<tr>
 											<th>은행명</th>
-											<td colspan="2">
+											<td colspan="2">${zman.zpay_bank_name }
 											</td>
 										</tr>
 										<tr>
 											<th>계좌번호</th>
-											<td colspan="2">
+											<td colspan="2">${zman.zpay_bank_account }
 											</td>
 										</tr>
 										<tr>
 											<th>배달수단</th>
-											<td colspan="2">${zman.zman_transport }</td>
+											<td id="zmanTransport">${zman.zman_transport }</td>
+											<td class="text-end">
+												<span style="display: inline-block;">
+													<select class="form-select form-select-sm" name="zman_transport"  id="zmanTransportSelect" aria-label="Default select example" style="width: 170px;">
+														<option value="도보,자전거" <c:if test="${zman.zman_status eq '도보,자전거' }">selected</c:if>>도보,자전거</option>
+														<option value="오토바이" <c:if test="${zman.zman_status eq '오토바이' }">selected</c:if>>오토바이</option>
+														<option value="자동차" <c:if test="${zman.zman_status eq '자동차' }">selected</c:if>>자동차</option>
+													</select>
+												</span>
+	<!-- 											<span style="display: inline-block;"> -->
+	<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#changezmanStatus">변경</button>											 -->
+	<!-- 											</span> -->
+											</td>
+											
 										</tr>
 										<tr>
 											<th>운전면허증 번호</th>
-											<td colspan="2"></td>
+											<td colspan="2">${zman.zman_driver_license }</td>
 										</tr>
 										<tr>
-											<th>교육이수여부</th>
+											<th>교육이수 날짜</th>
 											<td colspan="2">${zman.zman_education_completion }</td>
 										</tr>
 										<tr>
-											<th>보험가입여부</th>
+											<th>보험가입 날짜</th>
 											<td colspan="2">${zman.zman_insurance_status }</td>
 										</tr>
 										<tr>
-											<th>위치 기반 정보 수집 동의 여부</th>
+											<th>위치 기반 정보 수집 동의 날짜</th>
 											<td colspan="2">${zman.zman_location_agreement }</td>
 										</tr>
 									</tbody>

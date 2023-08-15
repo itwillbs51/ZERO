@@ -21,7 +21,8 @@ public class ZpayService {
 	
 	@Autowired
 	private ZpayMapper mapper;
-
+	
+	
 	// ZPAY 사용자 여부 조회
 	public ZpayVO isZpayUser(String member_id) {
 		return mapper.selectZpay(member_id);
@@ -183,6 +184,12 @@ public class ZpayService {
 	public int updateZpayPasswd(String member_id, String new_zpay_passwd) {
 		return mapper.updateZpayPasswd(member_id, new_zpay_passwd);
 	}
+
+	// 마이페이지 ZPAY잔액 조회 - 정의효
+	public ZpayHistoryVO getMyZpayHistory(String member_id) {
+		return mapper.selectMyZpayHistory(member_id);
+	}
+
 
 	
 

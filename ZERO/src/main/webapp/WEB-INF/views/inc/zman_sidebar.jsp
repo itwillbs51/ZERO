@@ -15,15 +15,15 @@ $(document).ready(function(){
 <div class="sidebar">
 	<p class="title"> ZMAN </p>
   		<ul class="nav flex-column">
-    		<li class="nav-item">
-      			<a class="nav-link" href="zman_main">
-        			ZMAN 메인<span class="sr-only">(current)</span>
-      			</a>
-   			</li>
+<!--     		<li class="nav-item"> -->
+<!--       			<a class="nav-link" href="zman_main"> -->
+<!--         			ZMAN 메인<span class="sr-only">(current)</span> -->
+<!--       			</a> -->
+<!--    			</li> -->
 		    <hr>
 		    <li class="nav-item">
 		    	<a class="nav-link" href="zman_delivery_want">
-		        배달 예정
+		        ZMAN 메인
 		      	</a>
 		    </li>
     		<hr>

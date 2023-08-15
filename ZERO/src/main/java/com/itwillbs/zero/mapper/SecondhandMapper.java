@@ -133,6 +133,10 @@ public interface SecondhandMapper {
 	//찜조회기능
 	LikeVO selectLikeProduct(String member_id);
 
+	
+	//끌어올리기
+	int updateDate(int secondhand_idx);
+
 			
 
 	

@@ -55,9 +55,9 @@
 				</div>
 				<div class="user_info" data-v-32a5de90="">
 					<div class="info_box" data-v-32a5de90="">
-						<strong class="name" data-v-32a5de90="">nickname</strong>
-						<p class="email" data-v-32a5de90="">kream@kream.co.kr</p>
-						<a href="/my/profile-edit" type="button"
+						<strong class="name" data-v-32a5de90="">${member.member_nickname }</strong>
+						<p class="email" data-v-32a5de90="">${member.member_id }</p>
+						<a href="member_profile" type="button"
 							class="btn btn outlinegrey small" data-v-43813796=""
 							data-v-32a5de90=""> 프로필 관리 </a>
 					</div>
@@ -66,9 +66,9 @@
 			<div class="membership_detail" data-v-32a5de90="">
 				<a href="#" class="membership_item disabled" data-v-32a5de90=""><strong
 					class="info" data-v-32a5de90=""> 일반 회원 </strong>
-					<p class="title" data-v-32a5de90="">회원 등급</p></a><a href="#"
+					<p class="title" data-v-32a5de90="">회원 등급</p></a><a href="zpay_main"
 					class="membership_item" data-v-32a5de90=""><strong class="info"
-					data-v-32a5de90=""> 0원 </strong>
+					data-v-32a5de90=""> ${myZpayList.zpay_balance }원 </strong>
 					<p class="title" data-v-32a5de90="">Z-PAY</p></a>
 			</div>
 		</div>
@@ -237,25 +237,25 @@
 			</div>
 		</c:if>
 		
-		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title">
-			<h3 data-v-6752ceb2="" class="title">관심 상품</h3>
-			<a data-v-6752ceb2="" href="/saved" class="btn_more"><span
-				data-v-6752ceb2="" class="btn_txt">더보기</span> <svg
-					data-v-6752ceb2="" xmlns="http://www.w3.org/2000/svg"
-					class="icon sprite-icons arr-right-gray">
-					<use data-v-6752ceb2=""
-						href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"
-						xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"></use></svg></a>
-		</div>
+<!-- 		<div data-v-6752ceb2="" data-v-412d8616="" class="my_home_title"> -->
+<!-- 			<h3 data-v-6752ceb2="" class="title">관심 상품</h3> -->
+<!-- 			<a data-v-6752ceb2="" href="/saved" class="btn_more"><span -->
+<!-- 				data-v-6752ceb2="" class="btn_txt">더보기</span> <svg -->
+<!-- 					data-v-6752ceb2="" xmlns="http://www.w3.org/2000/svg" -->
+<!-- 					class="icon sprite-icons arr-right-gray"> -->
+<!-- 					<use data-v-6752ceb2="" -->
+<!-- 						href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray" -->
+<!-- 						xlink:href="/_nuxt/acb390973b7035ca670703769afdcb18.svg#i-arr-right-gray"></use></svg></a> -->
+<!-- 		</div> -->
 
-		<div data-v-412d8616="" class="interest_product">
-			<!---->
-			<div data-v-6abf8c64="" data-v-412d8616="" class="empty_area has_bg">
-				<p data-v-6abf8c64="" class="desc">추가하신 관심 상품이 없습니다.</p>
-				<a data-v-43813796="" data-v-6abf8c64="" href="#"
-					class="btn outlinegrey small"> SHOP 바로가기 </a>
-			</div>
-		</div>
+<!-- 		<div data-v-412d8616="" class="interest_product"> -->
+<!-- 			<!---->
+<!-- 			<div data-v-6abf8c64="" data-v-412d8616="" class="empty_area has_bg"> -->
+<!-- 				<p data-v-6abf8c64="" class="desc">추가하신 관심 상품이 없습니다.</p> -->
+<!-- 				<a data-v-43813796="" data-v-6abf8c64="" href="#" -->
+<!-- 					class="btn outlinegrey small"> SHOP 바로가기 </a> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 
 
 	</article>

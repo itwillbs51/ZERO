@@ -40,7 +40,7 @@ public class OAuthService {
         params.put("grant_type", "authorization_code");
 
         ResponseEntity<GoogleOAuthResponseVO> responseEntity=restTemplate.postForEntity(GOOGLE_TOKEN_URL, params, GoogleOAuthResponseVO.class);
-
+        
         if(responseEntity.getStatusCode() == HttpStatus.OK){
             return responseEntity;
         }

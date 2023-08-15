@@ -234,6 +234,14 @@ public class SecondhandService {
 		return mapper.selectLikeProduct(member_id);
 	}
 
+	
+	
+	//끌어올리기
+	public int updateRegistdate(int secondhand_idx) {
+		System.out.println("(&(*&(&*&*^&(^&^(^(^& 끌어올리기 service");
+		return mapper.updateDate(secondhand_idx);
+	}
+
 
 
 

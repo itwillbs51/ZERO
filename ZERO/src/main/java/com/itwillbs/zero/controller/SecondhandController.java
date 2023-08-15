@@ -708,9 +708,27 @@ public class SecondhandController {
 		//DB의 registdate날짜 업데이트하기
 		//끌어올리기버튼-
 		@GetMapping("secondhandUpdateDate")
-		public String secondhandUpdateDate() {
+		public String secondhandUpdateDate(
+							@RequestParam int secondhand_idx,
+							Model model,
+							@RequestParam String member_id
+							) {
 			//날짜(등록일)업데이트후 secondhand_list페이지로 리다이렉트(서블릿-서블릿)
-			return "secondhand/secondhand_list";
+			System.out.println("*&*&&********업데이트 상품번호" + secondhand_idx);
+			System.out.println("*&*&&********업데이트 멤버아이디" + secondhand_idx);
+			
+			
+			
+			int updateCount = service.updateRegistdate(secondhand_idx);
+			if(updateCount > 0) {
+				model.addAttribute("msg", "끌어올리기가 정상적으로 처리되었습니다");
+				model.addAttribute("targetURL", "secondhand_list");
+				return "fail_location";	
+			} else {
+				model.addAttribute("msg", "끌어올리기 실패");
+				return "fail_back";
+			}
+			
 		}
 		
 		

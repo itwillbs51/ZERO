@@ -87,7 +87,7 @@
 <!-- 						<h1> 배달 예정 </h1> -->
 						<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
 							<div data-v-88eb18f6="" class="title">
-								<h3 data-v-88eb18f6="">배달 예정</h3>
+								<h3 data-v-88eb18f6="">ZMAN</h3>
 								
 								<nav class="navbar navbar-light"><%-- 사이드바 사라졌을 때 햄버거 메뉴 --%>
 									<a class="navbar-brand" href="#"></a>
@@ -442,15 +442,7 @@
 <!-- 													</script> -->
 								        </div>
 								    </div>
-								
-<!-- 								    <div class="row"> -->
-<!-- 								        <div class="col"> -->
-<!-- 								            <div id="deliveryInfo"> -->
-<!-- 								                AJAX로 받아온 배달 정보가 여기에 표시될 것입니다. -->
-<!-- 								            </div> -->
-<!-- 								        </div> -->
-<!-- 								    </div> -->
-<!-- 								</div> -->
+
 
 						
 						<hr>
@@ -462,12 +454,12 @@
 									<table class="table">
 										<thead>
 											<tr>
-										    	<th scope="col">배달 주문 번호</th>
+										    	<th scope="col" width="65px">배달 주문 번호</th>
 										        <th scope="col">상품 이름</th>
 										        <th scope="col">출발지</th>
 										        <th scope="col">도착지</th>
 <!-- 										        <th scope="col">배달거리</th> -->
-										        <th scope="col">수수료</th>
+										        <th scope="col" width="130px">수수료</th>
 										        <th scope="col" width="100px"></th>
 											</tr>
 										</thead>
@@ -481,7 +473,10 @@
 											        <td>${zd.zman_delivery_startspot }</td>
 								    				<td>${zd.zman_delivery_endspot }</td>
 	<!-- 							    				<td>거리</td> -->
-								    				<td>${zd.zman_delivery_commission }</td>
+								    				<td>
+<%-- 								    					${zd.zman_delivery_commission } --%>
+								    					<fmt:formatNumber value="${zd.zman_delivery_commission }" pattern="#,##0"/>원
+								    				</td>
 								    				<td>
 							    				 		<button class="btn btn-dark" type="submit">배달</button>
 							    					</td>

@@ -40,16 +40,16 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">${zmanDeliveryDetail.zman_name } 님 회원정보</h1>
+					<h1 class="mt-4"> 배달 상세 내역</h1>
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="admin_zman_list">zman목록</a></li>
-						<li class="breadcrumb-item active" aria-current="page">상세정보</li>
+<!-- 						<li class="breadcrumb-item"><a href="admin_zman_list">zman목록</a></li> -->
+<!-- 						<li class="breadcrumb-item active" aria-current="page">상세정보</li> -->
 					</ol>
 					
 					<%-- main 내용 작성 영역 --%>
 					<div class="card mb-4">
 						<div class="card-header">
-							<b>${zmanDeliveryDetail.zman_name }</b> 님 회원정보
+							<b>배달 ${zmanDeliveryDetail.zman_delivery_idx }</b> 번의 상세 내역
 						</div>
 						<div class="card-body">
 							<table id="zmanDetailInfo" class="table table-border">
@@ -76,49 +76,94 @@
 									</tr>
 									<tr>
 										<th>배달시작 주소</th>
-										<td>${zmanDeliveryDetail.buyer_id }</td>
-									</tr>
-									<tr>
-										<th>구매자 아이디</th>
-										<td>${zmanDeliveryDetail.buyer_id }</td>
+										<td>${zmanDeliveryDetail.zman_delivery_startspot }</td>
 									</tr>
 									<tr>
 										<th>배달완료 주소</th>
-										<td>${zmanDeliveryDetail.buyer_id }</td>
+										<td>${zmanDeliveryDetail.zman_delivery_endspot }</td>
+									</tr>
+									<tr>
+										<th>배달 수락 시간</th>
+											<c:choose>
+												<c:when test="${not empty zmanDeliveryDetail.zman_delivery_accepttime}">
+													<td>
+														${zmanDeliveryDetail.zman_delivery_accepttime }
+													</td>
+												</c:when>
+												<c:otherwise>
+													<td>
+														배달 시작 전입니다.
+													</td>
+												</c:otherwise>
+											</c:choose>
 									</tr>
 									<tr>
 										<th>배달 시작 시간</th>
-										<td>
 											<c:choose>
 												<c:when test="${not empty zmanDeliveryDetail.zman_delivery_starttime}">
-													<td>${zmanDeliveryDetail.zman_delivery_starttime }</td>
+													<td>
+														${zmanDeliveryDetail.zman_delivery_starttime }
+													</td>
 												</c:when>
 												<c:otherwise>
-													배달 시작 전입니다.
+													<td>
+														배달 시작 전입니다.
+													</td>
 												</c:otherwise>
 											</c:choose>
-										</td>
 									</tr>
 									<tr>
 										<th>배달 도착 시간</th>
-										<td>
-											<c:choose>
+										<c:choose>
 												<c:when test="${not empty zmanDeliveryDetail.zman_delivery_endtime}">
-													<td>${zmanDeliveryDetail.zman_delivery_endtime }</td>
+													<td>
+														${zmanDeliveryDetail.zman_delivery_endtime }
+													</td>
 												</c:when>
 												<c:otherwise>
-													배달 시작 전입니다.
+													<td>
+														배달 시작 전입니다.
+													</td>
 												</c:otherwise>
 											</c:choose>
-										</td>
 									</tr>
-									<tr>
-										<th>배달거리</th>
-										<td>${zmanDeliveryDetail.zman_delivery_distance }</td>
-									</tr>
+<!-- 									<tr> -->
+<!-- 										<th>배달거리</th> -->
+<%-- 										<td>${zmanDeliveryDetail.zman_delivery_distance }</td> --%>
+<!-- 									</tr> -->
 									<tr>
 										<th>배달수수료</th>
-										<td>${zmanDeliveryDetail.zman_delivery_commission }</td>
+										<td><fmt:formatNumber value="${zmanDeliveryDetail.zman_delivery_commission }" pattern="#,##0"/>원</td>
+									</tr>
+									<tr>
+										<th>정산 시간</th>
+										<c:choose>
+												<c:when test="${not empty zmanDeliveryDetail.zman_refund_date}">
+													<td>
+														${zmanDeliveryDetail.zman_refund_date }
+													</td>
+												</c:when>
+												<c:otherwise>
+													<td>
+														정산 전입니다.
+													</td>
+												</c:otherwise>
+											</c:choose>
+									</tr>
+									<tr>
+										<th>정산 금액</th>
+										<c:choose>
+												<c:when test="${not empty zmanDeliveryDetail.zman_net_profit}">
+													<td>
+														<fmt:formatNumber value="${zmanDeliveryDetail.zman_net_profit }" pattern="#,##0"/>원
+													</td>
+												</c:when>
+												<c:otherwise>
+													<td>
+														정산 전입니다.
+													</td>
+												</c:otherwise>
+											</c:choose>
 									</tr>
 								</tbody>
 							</table>

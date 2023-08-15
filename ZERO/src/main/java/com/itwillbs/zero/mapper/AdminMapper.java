@@ -63,7 +63,7 @@ public interface AdminMapper {
 	int updateZmanMemberType(String zman_id);
 	
 	// zman 관리 - 배달 내역 목록 조회
-	ZmanDeliveryVO selectDeliveryList();
+	List<ZmanDeliveryVO> selectDeliveryList();
 
 	// zman 관리 - zman 배달 내역 상세 조회 
 	ZmanDeliveryVO selectDeliveryDetail(int zman_delivery_idx);

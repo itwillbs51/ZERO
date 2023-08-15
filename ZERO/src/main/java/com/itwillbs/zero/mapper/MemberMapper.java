@@ -137,5 +137,11 @@ int updateBankAuth(String member_id);
 	
 	// 나의 문의 내역 삭제 - cs_num 으로 레코드 조회 후 삭제
 	int deleteMyInq(String cs_idx);
+
+	// 이메일과 휴대폰 번호가 일치하는 회원 정보 조회
+	Map<String, String> isCheckIdPhone(Map<String, String> map);
+
+	// 임시 비밀번호로 회원정보 변경
+	int updateMemberPasswd(Map<String, String> result);
 	
 }
