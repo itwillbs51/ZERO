@@ -98,15 +98,15 @@
 							<a class="nav-link" href="admin_zpay_use_list">ZPAY 수익지출 관리</a>
 						</nav>
 					</div>
-					<div class="sb-sidenav-menu-heading">Addons</div>
-					<a class="nav-link" href="charts_ex">
-						<div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-						Charts
-					</a>
-					<a class="nav-link" href="tables_ex">
-						<div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-						Tables
-					</a>
+<!-- 					<div class="sb-sidenav-menu-heading">Addons</div> -->
+<!-- 					<a class="nav-link" href="charts_ex"> -->
+<!-- 						<div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div> -->
+<!-- 						Charts -->
+<!-- 					</a> -->
+<!-- 					<a class="nav-link" href="tables_ex"> -->
+<!-- 						<div class="sb-nav-link-icon"><i class="fas fa-table"></i></div> -->
+<!-- 						Tables -->
+<!-- 					</a> -->
 				</div>
 			</div>
 			<div class="sb-sidenav-footer">

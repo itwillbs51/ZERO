@@ -71,8 +71,8 @@
 									<tr>
 										<td scope="col" class="align-middle" width="100">작성자</th>
 										<td scope="col" class="align-middle">
-											<input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${member.member_id }">
-<%-- 											<input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly> --%>
+<%-- 											<input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${member.member_id }"> --%>
+											<input type="text" class="form-control" aria-label="cs_name" name="member_id" value="${sessionScope.member_id }" readonly>
 										</td>
 									</tr>
 									<tr>
