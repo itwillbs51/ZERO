@@ -66,7 +66,12 @@ public class ZmanController {
 		} else if (member_type.equals("Z맨") || member_type.equals("직원") || zman.getZman_status().equals("활동")) {
 		    model.addAttribute("zman", zman);
 		    
-		    return "zman/zman_main";
+			List<ZmanDeliveryVO> zmanDeliveryYetList = service.getDeliveryYetList();
+			System.out.println("ZmanDeliveryVO : " + zmanDeliveryYetList);
+//			System.out.println(zmanDeliveryYetList.);
+			model.addAttribute("zmanDeliveryYetList", zmanDeliveryYetList);
+		    
+		    return "zman/zman_delivery_want";
 		} else if (zman.getZman_status().equals("대기") || zman.getZman_status().equals("탈퇴")) {
 		    model.addAttribute("zman", zman);
 		    return "member/member_zman_standby";
@@ -193,7 +198,7 @@ public class ZmanController {
 	}
 	
 	// ZMAN zman_delivery_status "배달 시작" 로 변경하기
-	@RequestMapping(value = "zman_delivery_start", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "zman_delivery_start", method = RequestMethod.GET)
 	public String zmanDeliveryStart(@RequestParam int zman_delivery_idx, Model model, HttpSession session) {
 		System.out.println("ZmanController - zman_delivery_start");
 		System.out.println("zman_delivery_idx : " + zman_delivery_idx);
@@ -204,8 +209,8 @@ public class ZmanController {
 		if(updateCount > 0) {
 			System.out.println("zman_delivery_status - 배달 시작 으로 변경");
 			
-			 return "redirect:/zman_delivery_ing";
-//			return "zman/zman_delivery_ing";
+//			 return "zman/zman_delivery_ing_go";
+			return  "redirect:/zman_delivery_ing";
 		} else {
 			model.addAttribute("msg", "배달 시작 실패!");
 			return "fail_back";

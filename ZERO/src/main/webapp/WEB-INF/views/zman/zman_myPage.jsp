@@ -38,6 +38,13 @@
 	    padding-bottom: 16px;
 	    border-bottom: 3px solid #222!important;
 	}
+	
+	
+	#sec01 {
+		display: flex;
+		justify-content: center;
+		align-items: center;	
+	}
 </style>
 <script>
 
@@ -76,27 +83,27 @@
 						</div>
 						
 					<%--ZMAN 프로필 영역 --%>
-<!-- 					<section id="sec01"> -->
-<!-- 							<div class="user_membership" data-v-32a5de90="" data-v-412d8616=""> -->
-<!-- 								<div class="user_detail" data-v-32a5de90=""> -->
-<!-- 									<div class="user_thumb01" data-v-32a5de90=""> -->
-<!-- 									<br> -->
-<%-- 									<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp; --%>
-<%-- 									<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp; --%>
-<%-- 									<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp; --%>
-<%-- 									<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp; --%>
-<%-- 									<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong> --%>
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</section> -->
-<!-- 					<hr> -->
-						
 					<section id="sec01">
+							<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
+								<div class="user_detail" data-v-32a5de90="">
+									<div class="user_thumb01" data-v-32a5de90="">
+									<br>
+									<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
+									<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
+								</div>
+							</div>
+						</div>
+					</section>
+					<hr>
+						
+					<section id="sec02">
 						<form class="row g-3" action="zman_delivery_start" method="GET">
 							<%-- 12 --%>
 						    <div class="col-md-4">
-						   		<label for="inputAddress" class="form-label"><b><u> 회원번호</u></b></label>
+						   		<label for="inputAddress" class="form-label"><b><u> ZMAN 번호</u></b></label>
 						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_idx" disabled="disabled" value="${zman.zman_idx}">
 						    </div>
 						    <div class="col-md-4">
@@ -108,46 +115,56 @@
 						   		<label for="inputAddress" class="form-label"><u>가입일</u></label>
 						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_date" disabled="disabled" value="${zman.zman_date}">
 						     </div>
+						     
+						     <br>
 						     <%-- 12 --%>
 						     
 						     
+<!-- 							 <div class="col-md-4"> -->
+<!-- 								<label for="inputEmail4" class="form-label"><u> 이름</u></label> -->
+<%-- 								<input type="zman_name" readonly class="form-control-plaintext" id="zman_name" disabled="disabled" value="${zman.zman_name}"> --%>
+<!-- 							 </div> -->
+<!-- 						     <div class="col-md-4"> -->
+<!-- 						    	<label for="inputPassword4" class="form-label"><u> 아이디</u></label> -->
+<%-- 						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_id" disabled="disabled" value="${zman.zman_id}"> --%>
+<!-- 						     </div> -->
 							 <div class="col-md-4">
-								<label for="inputEmail4" class="form-label"><u> 이름</u></label>
-								<input type="zman_name" readonly class="form-control-plaintext" id="zman_name" disabled="disabled" value="${zman.zman_name}">
+								<label for="inputEmail4" class="form-label"><u>은행명</u></label>
+								<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_name}">
 							 </div>
 						     <div class="col-md-4">
-						    	<label for="inputPassword4" class="form-label"><u> 아이디</u></label>
-						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_id" disabled="disabled" value="${zman.zman_id}">
+						    	<label for="inputPassword4" class="form-label"><u>계좌번호</u></label>
+						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_account}">
 						     </div>
 						     <div class="col-md-4">
 						    	<label for="inputPassword4" class="form-label"><u>배달수단</u></label>
 						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_transport" disabled="disabled" value="${zman.zman_transport}">
 						     </div>
 						     
-						     
+						     <br>
 						     <%-- 12 --%>
-	  						 <div class="col-4">
+	  						 <div class="col-6">
 						    	<label for="inputCity" class="form-label"><u>ZMAN 주소</u></label>
 						   		<input type="zman_name" readonly class="form-control-plaintext" id="zman_transport" disabled="disabled" value="${zman.zman_address}">
 						  	 </div>
-	  						 <div class="col-4">
+	  						 <div class="col-6">
 						    	<label for="inputCity" class="form-label"><u>활동 지역</u></label>
 						   		<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zman.zman_area}">
 						  	 </div>
-	  						 <div class="col-4">
-						    	<label for="inputCity" class="form-label"><mark>변경하기</mark></label>
-<%-- 						   		<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zman.zman_area}"> --%>
-						  	 </div>
+<!-- 	  						 <div class="col-4"> -->
+<!-- 						    	<label for="inputCity" class="form-label"><mark>변경하기</mark></label> -->
+<%-- <%-- 						   		<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zman.zman_area}"> --%> 
+<!-- 						  	 </div> -->
 						  	 
 						     <%-- 12 --%>
-							 <div class="col-md-6">
-								<label for="inputEmail4" class="form-label"><u>은행명</u></label>
-								<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_name}">
-							 </div>
-						     <div class="col-md-6">
-						    	<label for="inputPassword4" class="form-label"><u>계좌번호</u></label>
-						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_account}">
-						     </div>
+<!-- 							 <div class="col-md-4"> -->
+<!-- 								<label for="inputEmail4" class="form-label"><u>은행명</u></label> -->
+<%-- 								<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_name}"> --%>
+<!-- 							 </div> -->
+<!-- 						     <div class="col-md-4"> -->
+<!-- 						    	<label for="inputPassword4" class="form-label"><u>계좌번호</u></label> -->
+<%-- 						    	<input type="zman_name" readonly class="form-control-plaintext" id="zman_area" disabled="disabled" value="${zpay.zpay_bank_account}"> --%>
+<!-- 						     </div> -->
 						     <%-- 12 --%>
 <!-- 	  						 <div class="col-md-6"> -->
 <!-- 	    						<label for="inputAddress2" class="form-label"><u>휴대폰</u></label> -->

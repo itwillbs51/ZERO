@@ -95,7 +95,7 @@ public class AdminService {
 
 	
 	// zman 관리 - 배달 내역 목록 조회
-	public ZmanDeliveryVO getDeliveryList() {
+	public List<ZmanDeliveryVO> getDeliveryList() {
 		return mapper.selectDeliveryList();
 	}
 	

@@ -29,4 +29,9 @@ public class ZmanVO {
 	private String zman_bank_name;
 	private String zman_account;
 	private String zman_driver_license;
+	
+	
+	private Date member_birth;
+	private String zpay_bank_name;
+	private String zpay_bank_account;
 }

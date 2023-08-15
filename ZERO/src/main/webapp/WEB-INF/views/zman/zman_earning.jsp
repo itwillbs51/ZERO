@@ -16,7 +16,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ZERO ZMAN</title>
 <style type="text/css">
 	#user_membership {
 		margin: 25px;
@@ -121,7 +121,7 @@
 	          row.append("<td>" + getMoneyDate + "</td>");
 	          row.append("<td>" + zman_delivery_commission + " 원</td>");
 	          row.append("<td>" + zman_net_profit + " 원</td>");
-	          row.append("<td><button class='btn btn-dark' type='button'>상세보기</button></td>");
+// 	          row.append("<td><button class='btn btn-dark' type='button'>상세보기</button></td>");
 	          
 	          tableBody.append(row);
 	        });
@@ -228,7 +228,7 @@
 						         <th scope="row"></th>
 						         <td></td>
 						         <td>
-			    				 	<button class="btn btn-dark" type="submit">상세보기</button>
+<!-- 			    				 	<button class="btn btn-dark" type="submit">상세보기</button> -->
 			    				 </td>
 						    </tr>
 						</tbody>

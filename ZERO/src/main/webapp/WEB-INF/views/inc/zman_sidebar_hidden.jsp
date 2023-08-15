@@ -4,14 +4,14 @@
 <div class="collapse navbar-collapse" id="csCollapse">
 <!-- 	<p class="title"> ZMAN </p> -->
   		<ul class="nav flex-column navbar-nav mr-auto">
-    		<li class="nav-item">
-      			<a class="nav-link" href="zman_main">
-        			ZMAN 메인<span class="sr-only">(current)</span>
-      			</a>
-   			</li>
+<!--     		<li class="nav-item"> -->
+<!--       			<a class="nav-link" href="zman_main"> -->
+<!--         			ZMAN 메인<span class="sr-only">(current)</span> -->
+<!--       			</a> -->
+<!--    			</li> -->
 		    <li class="nav-item">
 		    	<a class="nav-link" href="zman_delivery_want">
-		        배달 예정
+		        ZMAN 메인
 		      	</a>
 		    </li>
 		    <li class="nav-item">
