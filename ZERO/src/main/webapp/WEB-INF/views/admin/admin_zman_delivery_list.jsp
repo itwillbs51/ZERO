@@ -41,9 +41,9 @@
 								<thead>
 									<tr>
 										<th>배달 번호</th>
-										<th>ZMAN 이름</th>
-										<th>ZMAN 아이디</th>
 										<th>배달 상품 이름</th>
+										<th>배달 상태</th>
+										<th>배달료</th>
 										<th>배달 상태</th>
 										<th>상세보기</th>
 									</tr>
@@ -52,10 +52,12 @@
 									<c:forEach var="zd" items="${zmanDeliveryList }" varStatus="vs">
 										<tr>
 											<td>${zd.zman_delivery_idx }</td>
-											<td>${zd.zman_name }</td>
-											<td>${zd.zman_id }</td>
+											<td>${zd.order_secondhand_product }</td>
+											<td>${zd.zman_delivery_status }</td>
 <%-- 											<td>${zd.order_secondhand_product }</td> --%>
-											<td>  </td>
+											<td>
+												<fmt:formatNumber value="${zd.zman_delivery_commission }" pattern="#,##0"/>원
+											</td>
 											<td>${zd.zman_delivery_status }</td>
 <%-- 											<td><fmt:formatDate value="${cs.cs_date }" pattern="yy-MM-dd" /></td> --%>
 											<td>

@@ -47,6 +47,7 @@
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
 
 	<%-- 프로필 사진 변경 --%>
@@ -119,14 +120,15 @@
 			
 			$.ajax({
 			      type: "POST",
-			      url: "/zero/ajax/profileUpdateInfo",
+			      url: "${pageContext.request.contextPath }/ajax/profileUpdateInfo",
 			      data: {
 			    	  "column2":column2,
 			    	  "value2":value2
 			      },
-			      dataType: "text",
+			      dataType: "json",
 			      success: function(result){
-// 			    	  alert(result);
+			    	  console.log(result);
+			    	  alert(result);
 			      },
 			      error: function(err){
 			    	  alert('닉네임 중복으로 변경 실패');

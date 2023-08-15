@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +16,18 @@
 <meta charset="UTF-8">
 <title>ZERO</title>
 <script type="text/javascript">
+	
+	function moreClick(type) {
+		switch(type) {
+			case 'secondhand' :
+				location.href = "secondhand_list";
+				break;
+			case 'auction' :
+				location.href = "auctionList_present";
+				break;
+		}
+	}
+
 </script>
 </head>
 <body>
@@ -31,15 +45,13 @@
 				</ol>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
-						<img src="${pageContext.request.contextPath }/resources/img/2023-08-05 232316.png" class="d-block w-100" alt="...">
-<%-- 						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="d-block w-100" alt="..."> --%>
-					</div>
-					<div class="carousel-item">
 						<img src="${pageContext.request.contextPath }/resources/img/2023-08-05 232415.png" class="d-block w-100" alt="...">
-<%-- 						<img src="${pageContext.request.contextPath }/resources/img/슬라이드2.jpg" class="d-block w-100" alt="..."> --%>
 					</div>
 					<div class="carousel-item">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" class="d-block w-100" alt="...">
+						<img src="${pageContext.request.contextPath }/resources/img/2023-08-15 133021.png" class="d-block w-100" alt="...">
+					</div>
+					<div class="carousel-item">
+						<img src="${pageContext.request.contextPath }/resources/img/2023-08-15 133235.png" class="d-block w-100" alt="...">
 					</div>
 				</div>
 				<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -53,109 +65,66 @@
 			</div>
 		</div>
 		<div id="main">
-			<div class="shortcut_collection" >
-				<div class="shortcut_items_wrap" >
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-					<div class="shortcut_item">
-						<div class="card">
-							<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img" alt="..." style="border-radius: 10px;">
-							<p class="shortcut_item_title">이미지</p>
-						</div>
-					</div>
-				</div>
-			</div>
 			<hr>
 			<div class="productArea">
 				<div class="titleArea">
 					<div class="title">중고</div>
 				</div>
-				<div class="productListArea">
+				<div class="HomeProductListArea">
+					<c:forEach var="secondhand" items="${homeSecondhandList }">
 					<div class="card">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-						<div class="card-body">
-							<p class="card-text">Some</p>
-						</div>
+						<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id }">
+							<img class="homeImg" src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" alt="...">
+							<div class="card-body">
+								<p class="card-text">${secondhand.secondhand_subject }</p>
+								<p class="card-price">${secondhand.secondhand_price }원</p>
+							</div>
+						</a>
 					</div>
-					<div class="card">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-						<div class="card-body">
-							<p class="card-text">Some</p>
-						</div>
-					</div>
-					<div class="card">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-						<div class="card-body">
-							<p class="card-text">Some</p>
-						</div>
-					</div>
-					<div class="card">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-						<div class="card-body">
-							<p class="card-text">Some</p>
-						</div>
-					</div>
-					<div class="card">
-						<img src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg" class="card-img-top" alt="...">
-						<div class="card-body">
-							<p class="card-text">Some</p>
-						</div>
-					</div>
+					</c:forEach>
 				</div>
 				<div class="btnArea">
-					<button class="btn btn-sm btn-outline-secondary">더보기</button>
+					<button class="btn btn-sm btn-outline-secondary" onclick="moreClick('secondhand')">더보기</button>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<div class="productArea">
+				<div class="titleArea">
+					<div class="title">경매</div>
+				</div>
+				<div class="HomeProductListArea">
+					<c:forEach var="auction" items="${homeAuctionList }">
+						<div class="card">
+							<a href="auction_detail?id=${auction.auction_idx}">
+								<img class="homeImg" src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
+								<div class="card-body">
+									<p class="card-text">경매중</p>
+									<p class="card-text">${auction.auction_title }</p>
+									<p class="card-price">현재 입찰가 <fmt:formatNumber value="${auction.auction_now_price }" pattern="###,###"/>원</p>
+								</div>
+							</a>
+						</div>
+					</c:forEach>
+					<%-- 경매중인 물건이 5개 이하일때 가져오는 경매종료 물품 --%>
+					<c:if test="${not empty endAuctionList }">
+						<c:forEach var="auction" items="${endAuctionList }">
+							<div class="card">
+								<a href="auction_detail?id=${auction.auction_idx}">
+									<img src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<p class="card-text">경매종료</p>
+										<p class="card-text">${auction.auction_title }</p>
+										<p class="card-price">최종 낙찰가 <fmt:formatNumber value="${auction.auction_final_price }" pattern="###,###"/>원</p>
+									</div>
+								</a>
+							</div>
+						</c:forEach>
+					</c:if>
+				</div>
+				<div class="btnArea">
+					<button class="btn btn-sm btn-outline-secondary" onclick="moreClick('auction')">더보기</button>
 				</div>
 			</div>
 		</div>

@@ -90,28 +90,27 @@
 				<div id="main">
 					<h1>배달 진행중.. </h1>
 					<%--ZMAN 프로필 영역 --%>
-				<section id="sec01">
-							<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
-								<div class="user_detail" data-v-32a5de90="">
-									<div class="user_thumb01" data-v-32a5de90="">
-										<br>
-	<!-- 									<img -->
-	<%-- 										src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
-	<!-- 										alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
-										
-										<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
-										<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
-										<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
-										<strong class="phone" data-v-32a5de90="">${zman.zman_transport }</strong>&nbsp;|&nbsp;
-										<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
-											<%-- 프로필 관리는 사이드바로 빼기 --%>
-	<!-- 										<a href="/my/profile-edit" type="button" -->
-	<!-- 											class="btn btn outlinegrey small" data-v-43813796="" -->
-	<!-- 											data-v-32a5de90=""> 프로필 관리 </a> -->
-									</div>
+					<section id="sec01">
+						<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
+							<div class="user_detail" data-v-32a5de90="">
+								<div class="user_thumb01" data-v-32a5de90="">
+									<br>
+<!-- 									<img -->
+<%-- 										src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" --%>
+<!-- 										alt="사용자 이미지" class="thumb_img" data-v-32a5de90=""> -->
+									
+									<strong class="name" data-v-32a5de90="">${zman.zman_name }</strong> &nbsp;|&nbsp;
+									<strong class="email" data-v-32a5de90="">${sessionScope.member_id }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_phone }</strong>&nbsp;|&nbsp;
+									<strong class="phone" data-v-32a5de90="">${zman.zman_status }</strong>
+										<%-- 프로필 관리는 사이드바로 빼기 --%>
+<!-- 										<a href="/my/profile-edit" type="button" -->
+<!-- 											class="btn btn outlinegrey small" data-v-43813796="" -->
+<!-- 											data-v-32a5de90=""> 프로필 관리 </a> -->
 								</div>
 							</div>
-						</section>
+						</div>
+					</section>
 					<hr>
 						
 					<%-- 배달 내역 출력 시작 --%>

@@ -583,7 +583,7 @@
 				  		type: "POST",
 				  		success: function(result) {
 				  			alert("등록성공!");
-				  			location.href="member_mystore";
+				  			location.href="member_mystore?auction=true";
 				  			
 				  			
 				  		},

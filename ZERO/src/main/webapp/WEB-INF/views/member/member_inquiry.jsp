@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -47,7 +49,7 @@
 			<div data-v-473e7c14="" class="contentArea">
 			<%-- 메인영역 --%>
 			<div  class=" my lg">
-			<div   class="content_area" data-v-2b15bea4="">
+			<div   class="content_area" data-v-2b15bea4="" style="height:600px;">
 			<div data-v-88eb18f6="" class="title">
 				<h3 data-v-88eb18f6="">문의 내역</h3>
 			</div>
@@ -84,9 +86,9 @@
 								 		<%-- 버튼 영역 --%>
 									 	<td>
 											<form action="inquiry_detail" method="post" >
-												<input type="hidden" value="${myInqList.cs_num }" name="cs_num">
+												<input type="hidden" value="${myInqList.cs_idx }" name="cs_idx">
 <%-- 												<input type="hidden" value="${myInqList.cs_reply }" name="cs_reply"> --%>
-												<button class="btn btn-danger" type="submit">수정 및 삭제</button>
+												<button data-v-43813796="" class="btn outlinegrey" type="submit">수정 및 삭제</button>
 <!-- 												<input type="submit" value="수정 및 삭제"> -->
 											</form>	 	
 									 	</td>
@@ -102,6 +104,7 @@
 				</nav>
 			</div>
 		 </div>
+	  </div>
 	  </div>
   </article>
   

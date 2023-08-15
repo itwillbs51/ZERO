@@ -47,7 +47,7 @@
 										<tr>
 											<th>이름</th>
 											<th>아이디</th>
-											<th>탈퇴여부</th>
+											<th>활동여부</th>
 											<th>상세보기</th>
 										</tr>
 									</thead>

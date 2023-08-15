@@ -21,6 +21,7 @@ import com.itwillbs.zero.service.ZmanService;
 import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
+import com.itwillbs.zero.vo.ZmanEarningVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
@@ -65,7 +66,12 @@ public class ZmanController {
 		} else if (member_type.equals("Z맨") || member_type.equals("직원") || zman.getZman_status().equals("활동")) {
 		    model.addAttribute("zman", zman);
 		    
-		    return "zman/zman_main";
+			List<ZmanDeliveryVO> zmanDeliveryYetList = service.getDeliveryYetList();
+			System.out.println("ZmanDeliveryVO : " + zmanDeliveryYetList);
+//			System.out.println(zmanDeliveryYetList.);
+			model.addAttribute("zmanDeliveryYetList", zmanDeliveryYetList);
+		    
+		    return "zman/zman_delivery_want";
 		} else if (zman.getZman_status().equals("대기") || zman.getZman_status().equals("탈퇴")) {
 		    model.addAttribute("zman", zman);
 		    return "member/member_zman_standby";
@@ -80,11 +86,29 @@ public class ZmanController {
 	public String zmanEarning(HttpSession session, Model model) {
 		System.out.println("ZmanController - zman_earning");
 		
-		String member_id = (String) session.getAttribute("member_id");
-		ZmanVO zman = zman_service.getZman(member_id);
+		String zman_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(zman_id);
 		model.addAttribute("zman", zman);
 		
 		return "zman/zman_earning";
+	}
+	
+	// ZMAN 정산리스트 가져오기
+	@ResponseBody
+	@GetMapping("zman_earning_list")
+	public String zmanEarningList(HttpSession session) {
+		System.out.println("ZmanController - zmanEarningList");
+		
+		String zman_id = (String) session.getAttribute("member_id");
+		
+//		List<ZmanDeliveryVO> zmanDeliveryDoneList = service.getDeliveryDoneList();
+		List<ZmanDeliveryVO> zmanEarningList = service.getEarningList(zman_id);
+		System.out.println("zmanEarningList - " + zmanEarningList);
+		
+		JSONArray json = new JSONArray(zmanEarningList);
+		System.out.println(json);
+		
+		return json.toString();
 	}
 	
 	// ZMAN 배달 예정 페이지로 이동
@@ -140,7 +164,7 @@ public class ZmanController {
 	@PostMapping("zman_delivery_ing")
 	public String zmanDeliveyAccept(HttpSession session, Model model, 
 									@RequestParam int zman_delivery_idx) {
-		System.out.println("ZmanController - zman_delivery_ing");
+		System.out.println("ZmanController - zman_delivery_go");
 //		System.out.println("zman_id - " + zman_id);
 		
 		String zman_id = (String) session.getAttribute("member_id");
@@ -174,7 +198,7 @@ public class ZmanController {
 	}
 	
 	// ZMAN zman_delivery_status "배달 시작" 로 변경하기
-	@RequestMapping(value = "zman_delivery_start", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "zman_delivery_start", method = RequestMethod.GET)
 	public String zmanDeliveryStart(@RequestParam int zman_delivery_idx, Model model, HttpSession session) {
 		System.out.println("ZmanController - zman_delivery_start");
 		System.out.println("zman_delivery_idx : " + zman_delivery_idx);
@@ -185,8 +209,8 @@ public class ZmanController {
 		if(updateCount > 0) {
 			System.out.println("zman_delivery_status - 배달 시작 으로 변경");
 			
-//			return "zman/zman_delivery_ing2";
-			return "redirect:/zman/zman_delivery_ing";
+//			 return "zman/zman_delivery_ing_go";
+			return  "redirect:/zman_delivery_ing";
 		} else {
 			model.addAttribute("msg", "배달 시작 실패!");
 			return "fail_back";
@@ -291,6 +315,12 @@ public class ZmanController {
 		System.out.println("zmanDeliveryDetail - " + zmanDeliveryDetail);
 		model.addAttribute("zd", zmanDeliveryDetail);
 		
+		ZmanEarningVO zmanEarning = service.getEarningIdx(zmanDeliveryIdx);
+		System.out.println("zmanEarning - " + zmanEarning);
+		model.addAttribute("zmanEarning", zmanEarning);
+		
+//		ZmanEarningVO zmanEarning = service.acceptDelivery(, zman_delivery_idx)
+		
 		return "zman/zman_delivery_done_detail";
 	}
 	
@@ -332,6 +362,9 @@ public class ZmanController {
 		
 		return "zman/zman_delivery_want_test";
 	}
+	
+	
+	
 	
 	// 신청 폼
 	@GetMapping("zero_report_form")

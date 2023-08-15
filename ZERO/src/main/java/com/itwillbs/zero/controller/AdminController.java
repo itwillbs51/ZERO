@@ -275,7 +275,7 @@ public class AdminController {
 	public String adminZmanDeliveryList(HttpSession session, Model model) {
 		System.out.println("AdminController - adminZmanDeliveryList");
 		
-		ZmanDeliveryVO zmanDeliveryList = service.getDeliveryList();
+		List<ZmanDeliveryVO> zmanDeliveryList = service.getDeliveryList();
 		model.addAttribute("zmanDeliveryList", zmanDeliveryList);
 		
 		return "admin/admin_zman_delivery_list";

@@ -212,5 +212,15 @@ public class MemberService {
 	public int deleteMyInquiry(String cs_num) {
 		return mapper.deleteMyInq(cs_num);
 	}
+
+	// 아이디와 비밀번호가 일치하는 회원 조회
+	public Map<String, String> isCheckIdPhone(Map<String, String> map) {
+		return mapper.isCheckIdPhone(map);
+	}
+
+	// 임시 비밀번호 저장
+	public int updateMemberPasswd(Map<String, String> result) {
+		return mapper.updateMemberPasswd(result);
+	}
 	
 }

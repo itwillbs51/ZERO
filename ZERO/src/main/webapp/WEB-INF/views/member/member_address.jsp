@@ -329,7 +329,7 @@
 		<div data-v-473e7c14="" class="contentArea">
 
 			<%-- 본문 - 주소록 관리 --%>
-			<div data-v-2e8df47b="" data-v-473e7c14="" class="content_area">
+			<div data-v-2e8df47b="" data-v-473e7c14="" class="content_area" style="height:600px;">
 				<div data-v-2e8df47b="" class="my_addressbook">
 					<div data-v-88eb18f6="" data-v-2e8df47b="" class="content_title">
 						<div data-v-88eb18f6="" class="title">

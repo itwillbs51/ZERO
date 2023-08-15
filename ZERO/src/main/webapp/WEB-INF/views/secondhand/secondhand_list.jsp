@@ -212,6 +212,7 @@ function loadList(selectedCategory, selectedSort) {
 				let price = secondhand.secondhand_price;
 				let formatted_price = Number(price).toLocaleString('en');
 				
+				
 				// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
 				$(".productListArea").append(
 						
@@ -460,7 +461,7 @@ row{
 			
 			<hr>
 			<!-- 상품개수표시 -->
-			<div class="Secondhandcount"> 상품 개수 <b style="color:gray;">${listCount }</b> 개</div>
+			<div class="Secondhandcount">전체 상품 개수 <b style="color:gray;">${listCount }</b> 개</div>
 			
 			
 			
@@ -524,7 +525,9 @@ row{
 		
 	</article>
 	
+	<!-- footer -->
 	<footer>
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 </body>
 

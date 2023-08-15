@@ -34,7 +34,7 @@
 	let maxPage = 1;	// 최대 페이지 번호 미리 저장
 	// 카테고리 변수 정의
 	let category;
-	let sort = '인기순'; 	// 기본값
+	let sort = '최신순'; 	// 기본값
 	
 	$(function() {
 		
@@ -62,25 +62,31 @@
 	        }
 	    });	 // 정렬 목록이 열려있을 때 다른 곳을 누르면 목록 닫히게 하는 함수
 	    
-		// AJAX + JSON을 활용한 게시물 목록 조회(무한스크롤 기능 포함)
+	    
+		// AJAX + JSON을 활용한 게시물 목록 조회(무한스크롤 기능 포함) =====================
 		// 정렬기준 선택 시 호출되는 함수
 		$(".listSort li").on("click", function() {
 			$(".listSort li").removeClass("selected");
 			$(this).addClass("selected");
+			
+			// 선택한 정렬기준을 버튼에 표시해주기
+			let text = $(this).text() + '<i class="material-icons">swap_vert</i>';
+// 			console.log("정렬에 들어갈 값 : " + text);
+			$(".listInfoBtn").html(text);
+			// 정렬기준 변수 정의
+			sort = $(".selected").text();	// 인기순, 가격순, 최신순
+			// 체크표시 이동
 			$(".listSort i").remove();
 			$(this).append(
 					'<i class="material-icons">check</i>'
 			);
-			
-			// 정렬기준 변수 정의
-			sort = $(".selected span").text();	// 인기순, 가격순, 최신순
 			
 			// 목록 불러오기
 			loadList(category, sort);
 			
 		});	// onclick 함수 끝
 	
-		// 카테고리 선택 시 클래스 지정해주기
+		// 카테고리 선택 시 클래스 지정해주기 =====================
 		$("#categoryNav span").on("click", function() {
 			$("#categoryNav span").removeClass("select");
 			$(this).addClass("select");
@@ -149,7 +155,7 @@
 				for(let product of data.endAuctionList) {
 					let final_price = product.auction_final_price;
 					let max_price = product.auction_max_price;
-					console.log("가격 : " + final_price);
+// 					console.log("가격 : " + final_price);
 					if(final_price == null) {
 						final_price = 0;
 					}
@@ -272,13 +278,13 @@
 					<span class="listInfoCount">상품 <span id="listCount"></span>개</span>
 <!-- 					<input type="search" placeholder="모델명, 브랜드명 등"> -->
 					<button class="listInfoBtn">
-						인기순 <i class="material-icons">swap_vert</i>
+						최신순 <i class="material-icons">swap_vert</i>
 					</button>
 						<%-- 정렬 방법(기본 : 보이지 않음, 클릭 : style 지우기) --%>
 						<ul class="listSort" style="display: none;"> <%-- style="display: none;" --%>
-							<li id="list1">인기순 <i class="material-icons">check</i></li>
-							<li id="list2">가격순 </li>
-							<li id="list3">최신순 </li>
+							<li id="list1" class="selected">최신순 <i class="material-icons">check</i></li>
+							<li id="list2">인기순 </li>
+							<li id="list3">가격순 </li>
 						</ul>
 				</div>
 				<!-- 2-2. 상품 목록 -->

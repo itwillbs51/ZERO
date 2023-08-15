@@ -9,12 +9,14 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/cs.css" rel="stylesheet" type="text/css">
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ZERO ZMAN</title>
 <style type="text/css">
 	#user_membership {
 		margin: 25px;
@@ -88,10 +90,11 @@
 	    // AJAX 요청 보내기
 	    $.ajax({
 	      type: "GET",
-	      url: "your_server_url_here", // 실제 서버 URL로 대체
+	      url: "zman_earning_list", // 실제 서버 URL로 대체
 	      data: { week: weekValue }, // 선택된 주간 값을 서버로 전송
 	      dataType: "json",
 	      success: function (data) {
+	    	  console.log("DB getget"); 
 	        // 서버로부터 받은 JSON 데이터 처리
 	        updateTableWithData(data); // 테이블 업데이트 함수 호출
 	      },
@@ -106,20 +109,23 @@
 	    var tableBody = $("tbody.table-group-divider");
 	    tableBody.empty(); // 기존 테이블 내용 비우기
 	    
-	    // 받은 JSON 데이터를 이용하여 테이블 행 추가
-	    data.forEach(function (item) {
-	      var row = $("<tr>");
-	      var startDate = item.startDate;
-	      var endDate = item.endDate;
-	      var deliveryFee = item.deliveryFee;
-	      
-	      row.append("<th scope='row'>" + startDate + " ~ " + endDate + "</th>");
-	      row.append("<td>" + deliveryFee + " 원</td>");
-	      row.append("<td><button class='btn btn-dark' type='button'>상세보기</button></td>");
-	      
-	      tableBody.append(row);
-	    });
-	  }
+		  // 받은 JSON 데이터를 이용하여 테이블 행 추가
+	      data.forEach(function (item) {
+	          var row = $("<tr>");
+	          var deliveryNum = item.zman_delivery_idx; // 배달 번호
+	          var getMoneyDate = item.zman_refund_date; // 정산받은 날짜
+	          var zman_delivery_commission = item.zman_delivery_commission; // 배달료
+	          var zman_net_profit = item.zman_net_profit; // 정산받은 금액
+	          
+	          row.append("<th scope='row'>" + deliveryNum + "</th>");
+	          row.append("<td>" + getMoneyDate + "</td>");
+	          row.append("<td>" + zman_delivery_commission + " 원</td>");
+	          row.append("<td>" + zman_net_profit + " 원</td>");
+// 	          row.append("<td><button class='btn btn-dark' type='button'>상세보기</button></td>");
+	          
+	          tableBody.append(row);
+	        });
+	      }
 	});
 </script>
 </head>
@@ -146,6 +152,14 @@
 						<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
 							<div data-v-88eb18f6="" class="title">
 								<h3 data-v-88eb18f6="">정산 내역</h3>
+								<nav class="navbar navbar-light"><%-- 사이드바 사라졌을 때 햄버거 메뉴 --%>
+									<a class="navbar-brand" href="#"></a>
+									<button class="navbar-toggler collapsed border-0 hidden_nav" type="button" data-toggle="collapse" data-target="#csCollapse" aria-controls="csCollapse" aria-expanded="false" aria-label="Toggle navigation">
+										<span class="navbar-toggler-icon"></span>
+									</button>
+									<jsp:include page="/WEB-INF/views/inc/zman_sidebar_hidden.jsp"></jsp:include>
+								</nav>
+								
 							</div>
 						</div>
 					
@@ -203,10 +217,10 @@
 						<thead>
 							<tr>
 								<%-- 배달 번호 , 배달물품, 배달거리, 배달료,   --%>
-						        <th scope="col">배달날짜</th>
+						        <th scope="col">배달번호</th>
+						        <th scope="col">정산 날짜</th>
 						        <th scope="col">배달료</th>
-						        <th scope="col">배달수단</th>
-						        <th scope="col">상세보기</th>
+						        <th scope="col">순 정산금액</th>
 						 	</tr>
 						 </thead>
 						 <tbody class="table-group-divider">
@@ -214,7 +228,7 @@
 						         <th scope="row"></th>
 						         <td></td>
 						         <td>
-			    				 	<button class="btn btn-dark" type="submit">상세보기</button>
+<!-- 			    				 	<button class="btn btn-dark" type="submit">상세보기</button> -->
 			    				 </td>
 						    </tr>
 						</tbody>

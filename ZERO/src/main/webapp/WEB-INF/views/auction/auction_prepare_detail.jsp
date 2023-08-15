@@ -20,10 +20,12 @@ $(function() {
 		let dDay = new Date(date);
 		
 		// D-Day까지 남은 시간 계산
-		var timeDiff = dDay.getDate()-new Date().getDate();
+		var timeDiff = new Date().getDate()-dDay.getDate();
 		
 		if(timeDiff==0){
 			timeDiff=" day";
+		}else if(timeDiff>0){
+			timeDiff='+'+timeDiff
 		}
 
 		// D-Day까지 남은 일 수 표시
@@ -42,6 +44,9 @@ function comma(str) {
 
 </script>
 <style type="text/css">
+	.container-fluid{
+	max-width: 1280px;
+	}
 
 	#center{
 		
@@ -118,19 +123,7 @@ function comma(str) {
 		<%@ include file="../inc/header.jsp"%>
 	</header>
 	
-	<!-- nav - 메뉴영역 -->
-	<nav>
-		<a>경매중</a>
-		<a>입찰 예정 경매</a>
-		<a>종료된 경매</a>
-	</nav>
-	<hr>
-	<nav>
-		<a>전체</a>
-		<a>럭셔리</a>
-		<a>테크</a>
-		<a>한정판</a>
-	</nav>
+
 	
 	<section>
 		<div class="container-fluid">
@@ -176,11 +169,18 @@ function comma(str) {
 					</div>
 					<div class="row col-6 col-md-6">
 						<div class="column">
-							<img src="${pageContext.request.contextPath }/resources/img/profile.png" width="120px" height="120px" style="border-radius:50%">
+							<c:choose>
+												<c:when test="${not empty member.member_image }">
+													<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img">
+												</c:when>
+												<c:otherwise>
+													<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
+												</c:otherwise>
+											</c:choose>
 						 </div>
 						 <div class="column">
-							<b><a href=""> 판매자</a></b>
-						 	<br>판매상품 n개
+							<b><a href=""> ${member.member_nickname }</a></b>
+						 	<br> ${member.member_intro }
 						 </div>
 					</div>
 				</div>
@@ -197,7 +197,7 @@ function comma(str) {
 				<h3 id=dDay></h3>
 				</div>
 				<div class="d-flex justify-content-center">
-				<button type="button" class="btn btn-light">참가신청</button>
+				
 				<button type="button" class="btn btn-dark" onclick="history.back();">돌아가기</button>
 				</div>
 				<br><br><br><br><br><br>
