@@ -63,7 +63,7 @@
 										<div class="card mb-4">
 						<div class="card-header">
 							<i class="fas fa-table me-1"></i>
-							공지사항 작성
+							자주 묻는 질문 작성
 						</div>
 						<div class="card-body">		
 							<%-- main 내용 작성 영역 --%>

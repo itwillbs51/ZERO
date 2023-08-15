@@ -67,6 +67,10 @@
 										<td>${zmanDeliveryDetail.zman_id }</td>
 									</tr>
 									<tr>
+										<th>배달 상품</th>
+										<td>${zmanDeliveryDetail.order_secondhand_product }</td>
+									</tr>
+									<tr>
 										<th>판매자 아이디</th>
 										<td>${zmanDeliveryDetail.seller_id }</td>
 									</tr>
