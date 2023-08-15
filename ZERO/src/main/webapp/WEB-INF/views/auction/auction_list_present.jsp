@@ -188,16 +188,31 @@
 				
 				// 기존에 있던 리스트 삭제
 				$(".productListArea").empty();
+				$(".auctionNotice").remove();
 				
-				for(let product of data.nowAuctionList) {
-					let now_price = product.auction_now_price;
-					let max_price = product.auction_max_price;
-					
-					let formatted_now_price = Number(now_price).toLocaleString('en');
-					let formatted_max_price = Number(max_price).toLocaleString('en');
-					
-					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
-					$(".productListArea").append(
+				let auction_card = "";
+				// 없을 때 안내문
+				console.log("data.nowAuctionList : " + data.nowAuctionList);
+				if(data.nowAuctionList == "" || data.nowAuctionList == null) {
+					auction_card = 
+						'<div class="auctionNotice">'
+						+ '<div class="noticeMsg">'
+						+ '		현재 진행중인 경매 상품이 없습니다<br>'
+						+ '		빠른 시일 안에 좋은 상품으로 찾아오겠습니다.'
+						+ '	</div>'
+						+ '</div>';
+						
+					$(".listInfo").after(auction_card);
+				} else {
+				
+					for(let product of data.nowAuctionList) {
+						let now_price = product.auction_now_price;
+						let max_price = product.auction_max_price;
+						
+						let formatted_now_price = Number(now_price).toLocaleString('en');
+						let formatted_max_price = Number(max_price).toLocaleString('en');
+						
+						auction_card = 
 							'<div class="product_card_wrap"> '
 							+ '	<div class="product_card">'
 							+ ' 	<a href="auction_detail?id='+product.auction_idx+'" class="item_inner">'
@@ -221,10 +236,11 @@
 							+ '		</div>'
 							
 							+ '	</div>'
-							+ '</div>'
-							
-					);
+							+ '</div>';
+					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
+					$(".productListArea").append(auction_card);
 				}	// for문 종료
+			}
 				
 			}, error: function() {
 				alert("글 목록 요청 실패!");
