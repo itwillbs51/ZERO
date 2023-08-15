@@ -82,6 +82,12 @@ $(document).ready(function(){
       </a>
     </li>
     <hr>
+    <li class="nav-item">
+      <a class="nav-link" href="myPage_inquiry">
+        나의 1:1문의
+      </a>
+    </li>
+    <hr>
      <li class="nav-item">
       <a class="nav-link" href="member_Info">
         개인정보 수정

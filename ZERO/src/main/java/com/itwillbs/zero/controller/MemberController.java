@@ -2,6 +2,7 @@ package com.itwillbs.zero.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,9 +19,11 @@ import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +46,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.itwillbs.zero.vo.CsVO;
+import com.itwillbs.zero.vo.PageInfoVO;
 import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
@@ -52,6 +59,8 @@ import com.itwillbs.zero.service.LikesService;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.SecondhandService;
 import com.itwillbs.zero.service.TestService;
+import com.itwillbs.zero.sns.OAuthService;
+import com.itwillbs.zero.vo.GoogleOAuthResponseVO;
 import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
@@ -78,6 +87,9 @@ public class MemberController {
 	// 중고상품 좋아요 Autowired
 	@Autowired
 	private LikesService likesService;
+	
+	@Autowired
+	private OAuthService oauthService;
 
 	
 	// 멤버 로그인 - 수정
@@ -241,14 +253,37 @@ public class MemberController {
 	}
 
 	// 구글 로그인 콜백  - 수정
-	@GetMapping("callback_login_google")
+//	@ResponseBody
+	@RequestMapping("callback_login_google")
 	public String callbackLoginGoogle(HttpSession session
+			, @RequestParam("code") String accessCode
 			, Model model
 			) {
 		
 		System.out.println("MemberController - callback_login_google");
+		System.out.println("code : " + accessCode);
 		
+		ResponseEntity<GoogleOAuthResponseVO> response = oauthService.getGoogleAccessToken(accessCode);
+		
+		String decodedToken = decodeIdToken(response.getBody().getId_token());
+		model.addAttribute("data", decodedToken);
 		return "member/member_callback";
+	}
+	
+	// 구글 로그인 정보 암호화 해제
+	private String decodeIdToken(String idToken) {
+	    String[] idTokenParts = idToken.split("\\.");
+	    String payloadBase64 = idTokenParts[1];
+
+	    // Base64 디코딩 후 JSON 파싱
+	    byte[] decodedBytes = java.util.Base64.getDecoder().decode(payloadBase64);
+	    String payloadJson = new String(decodedBytes, StandardCharsets.UTF_8);
+
+	    // JSON 파싱을 위해 Gson 라이브러리 사용
+	    Gson gson = new Gson();
+	    JsonObject jsonObject = gson.fromJson(payloadJson, JsonObject.class);
+
+	    return jsonObject.toString();
 	}
 	
 	// ajax로 로그인 정보 가져오기  - 수정
@@ -1229,11 +1264,30 @@ public class MemberController {
 		return "member/member_mypage_auctionList";
 	}
 	
-	// 찜 목록
+	// 마이페이지 후기 리스트
 	@GetMapping("member_mypage_writeReviewList")
-	public String member_mypage_writeReviewList() {
+	public String member_mypage_writeReviewList(HttpSession session, Model model) {
+		String member_id = (String) session.getAttribute("member_id");
+		
+		List<Map<String, String>> myReview = service.getReview(member_id);
+		model.addAttribute("myReview", myReview);
 		
 		return "member/member_mypage_writeReviewList";
+	}
+	
+	// 마이페이지 후기 삭제
+	@PostMapping("member_mypage_delete_review")
+	@ResponseBody
+	public ResponseEntity<String> member_mypage_delete_review(HttpSession session, @Param("order_secondhand_idx") String order_secondhand_idx) {
+	    String member_id = (String) session.getAttribute("member_id");
+	    
+	    int deleteReviewCount = service.deleteReview(member_id, order_secondhand_idx);
+	    
+	    if(deleteReviewCount > 0) {
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+	    }
 	}
 	
 	// 회원가입 메인창
@@ -1444,6 +1498,206 @@ public class MemberController {
 
 	    return ResponseEntity.ok(response);
 	}
+	
+	// 마이페이지 - 문의 내역 페이지로 이동
+	@GetMapping("myPage_inquiry")
+	public String myPage_inquiry(HttpSession session, Model model, @RequestParam(defaultValue = "1") int pageNo) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login_form");
+				
+			return "fail_location";
+		}
+			
+		// 페이징
+		int pageNum = 5;
+			
+		// 한 페이지에 보여줄 게시물 수
+		int listLimit = 5;
+			
+		int startRow = (pageNo - 1) * listLimit;
+			
+			
+		// 세션에 저장된 아이디로 문의내역 조회
+		// myPageService - getMyInq(member_id)
+		// 파라미터(member_id)		리턴타입(CsVO)
+		List<CsVO> myInqList = service.getMyInqList(member_id, startRow, listLimit);
+		System.out.println(myInqList);
+			
+		List<CsVO> myInqListAll = service.getMyInqList(member_id, 0, 0);
+		int listCount = myInqListAll.size();
+			
+		// 한 페이지에서 표시할 목록 개수 설정(페이지 번호의 개수)
+		int pageListLimit = 5;
+			
+		// 전체 페이지 목록 갯수 계산
+		int maxPage = listCount / listLimit + (listCount % listLimit > 0 ? 1 : 0);
+					
+		// 시작 페이지 번호 계산
+		int startPage = (pageNo - 1) / pageListLimit * pageListLimit + 1;
+					
+		// 끝 페이지 번호 계산
+		int endPage = startPage + listLimit -1; // 끝페이지
+					
+		// 끝페이지 번호가 전체 페이지 번호보다 클 경우 끝 페이지 번호를 최대 페이지로 교체)
+		if(endPage > maxPage) { 
+				endPage = maxPage;
+		}
+			
+		// 페이징 정보 저장
+		PageInfoVO pageInfo = new PageInfoVO(listCount, pageListLimit, maxPage, startPage, endPage);
+			
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("myInqList", myInqList);
+		
+		return "member/member_inquiry";
+	}
+		
+
+	// 마이페이지 - 문의 내역 - 상세 조회
+	@PostMapping("inquiry_detail")
+	public String inquiry_detail(String cs_num, @RequestParam(required= false) String cs_reply,
+						HttpSession session, Model model) {
+		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+		String member_id = (String) session.getAttribute("member_id");
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login_form");
+					
+			return "fail_location";
+		}
+		
+		// cs_num 받아와 조회해서 보여주기
+		List<CsVO> myInquiryDetailList = service.getMyInquiryDetail(cs_num);
+//		List<CsInfoVO> myInquiryDetailList = service.getMyInquiryDetail(cs_num);
+		
+		// 문의 내역 저장
+		model.addAttribute("myInquiryDetailList", myInquiryDetailList);
+		model.addAttribute("cs_reply", cs_reply);
+		
+		return "member/member_inquiry_detail";
+	}
+	
+	// 마이페이지 - 문의 내역 - 수정
+		@PostMapping("myPage_inquiry_detailModify")
+		public String myPage_inquiry_detailModify(
+						@ModelAttribute("CsVO") CsVO board
+						, @RequestParam("cs_num") String cs_num
+						, HttpSession session
+						, Model model
+						, HttpServletRequest request) {
+			// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+			String member_id = (String) session.getAttribute("member_id");
+			if(member_id == null) {
+				model.addAttribute("msg", " 로그인이 필요합니다!");
+				model.addAttribute("targetURL", "member_login_form");
+								
+				return "fail_location";
+			}
+			
+			// ======================================== 파일 처리 ========================================
+			// 이클립스 프로젝트 상 업로드 폴더의 실제 경로 알아내기(request나 session 객체필요)
+			String uploadDir = "/resources/upload";	// 현재 폴더상 경로
+			String saveDir = request.getServletContext().getRealPath(uploadDir);  // 실제 경로
+//					System.out.println(saveDir);
+			// (지영) - 서버상 경로 알아두기
+			
+			String subDir = ""; // 서브디렉토리(업로드 날짜에 따라 디렉토리 구분하기)
+			
+			try {
+				Date date = new Date();	// 1. Date 객체 생성
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");	// 날짜 형식 포맷 지정(/로 디렉토리 구분)
+				// 실제 업로드 경로에 날짜 경로 결합
+				subDir = sdf.format(date);	// 날짜 디렉토리
+				saveDir += "/" + subDir;					// 실제 경로 + 날짜 경로
+				
+				// 실제 경로를 관리하는 객체 리턴받기(파라미터 : 
+				Path path = Paths.get(saveDir);
+				
+				// path 객체로 관리하는 경로 생성
+				Files.createDirectories(path);	// try-catch 필수
+			} catch (IOException e) {
+				System.out.println("e 이거 오류 : ");
+				e.printStackTrace();
+			}
+			
+			// 파라미터로 받은 CsVO board 에서 전달된 MultipartFile 객체 꺼내기
+			MultipartFile mFile = board.getFile();
+//					System.out.println("원본파일명1 : " + mFile.getOriginalFilename());
+			
+			// 파일명 중복 방지 처리 - 랜덤ID(8글자) 붙이기 (ex.랜덤ID_파일명.확장자)
+			String uuid = UUID.randomUUID().toString().substring(0, 8);
+			
+			// 파일명이 없을 때를 대비하여 기본 파일명 "" 처리
+			board.setCs_file(""); 	
+			
+			// 파일명을 저장할 변수 선언
+			String fileName = uuid + "_" + mFile.getOriginalFilename();
+			
+			if(!mFile.getOriginalFilename().equals("")) {	// 파일이 있을 경우
+				// 실제 이름을 (날짜디렉토리/uuid_실제받은파일명.확장자) 로 저장
+				board.setCs_file(subDir + "/" + fileName);
+			}
+//					System.out.println("실제 업로드 파일명1 : " + board.getCs_file_real());
+			
+			// ======================================== 파일 처리 끝 ========================================
+			
+			// Service - updateMyInqList() 메서드를 호출하여 게시물 등록 작업 요청
+			// => 파라미터 : cs_num, CsInfoVO    리턴타입 : int(insertCount)
+//			int updateCount = service.updateMyInqList(cs_num, csInfo);
+			int updateCount = service.updateMyInqList(board);
+			
+//			System.out.println(cs_num);
+			
+			// 게시물 등록 작업 요청 결과 판별
+			if(updateCount > 0) { // 성공
+				try {
+					// 이동할 위치의 파일명도 UUID 가 결합된 파일명을 지정해야한다!
+					if(!mFile.getOriginalFilename().equals("")) {
+						mFile.transferTo(new File(saveDir, fileName));
+					}
+
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return "redirect:/member_inquiry";
+			} else { // 실패
+				model.addAttribute("msg", "글 쓰기 실패!");
+				return "fail_back";
+			}
+			
+		}
+		
+		// 마이 페이지 - 문의 내역 - 삭제
+		@GetMapping("delete_myInquiry")
+		public String deleteMyInquiry(HttpSession session
+									, Model model
+									, @RequestParam("cs_num") String cs_num) {
+			// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+			String member_id = (String) session.getAttribute("member_id");
+			if(member_id == null) {
+				model.addAttribute("msg", " 로그인이 필요합니다!");
+				model.addAttribute("targetURL", "member_login_form");
+						
+				return "fail_location";
+			}
+			
+			int deleteCount = service.deleteMyInquiry(cs_num);
+			
+			if(deleteCount > 0) { // 삭제 성공
+				return "redirect:/member_inquiry";
+			} else {
+				model.addAttribute("msg", "글 삭제 실패!");
+				return "fail_back";
+			}
+			
+		}
+	
 	
 }
 

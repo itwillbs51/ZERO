@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -629,9 +630,10 @@ ul.tabs li.current{
 	 	  	  } else { // 리스트가 있는 경우
 				
 				if(url == urls[0]) {
-					alert('중고판매 내용 있음');
+// 					alert('중고판매 내용 있음');
 					for (var i = 0; i < data.length; i++) {
 		                var item = data[i];
+		                var formatDate = item.secondhand_first_date.split('T');
 		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
 		                html += '<div class="row">\
 		                        <div class="col-lg-12">\
@@ -644,12 +646,15 @@ ul.tabs li.current{
 		                                        <div class="card-body">\
 		                                            <h5 class="card-title">' + item.secondhand_subject  + '</h5>\
 		                                            <div class="card-text sell_price">판매 가격 : ' + item.secondhand_price  + ' 원</div>\
-		                                            <div class="card-text sell_date">판매 등록일 : ' + item.secondhand_first_date  + ' 일</div>\
-		                                            <div class="card-text buyer">구매자 : ' + item.order_secondhand_buyer  + '</div>\
+		                                            <div class="card-text sell_date">판매 등록일 : ' + formatDate[0] + ' 일</div>';
+		                                            
+		                if(item.secondhand_deal_status != '판매중') {                            
+		                	html +=   '<div class="card-text buyer">구매자 : ' + item.order_secondhand_buyer  + '</div>\
 		                                            <div class="card-text delivery">거래방법 : ' + item.order_secondhand_type  + '</div>\
 		                                            <div class="card-text commission">수수료 : ' + item.order_delivery_commission  + '</div>\
-		                                            <div class="card-text commission">배송상태 : ' + item.zman_delivery_status  + '</div>\
-		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.secondhand_deal_status  + '</div></div>\
+		                                            <div class="card-text commission">배송상태 : ' + item.zman_delivery_status  + '</div>';
+		                }
+		                html +=  '<div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.secondhand_deal_status  + '</div></div>\
 		                                        </div>\
 		                                    </div>\
 		                                </div>\
@@ -662,11 +667,12 @@ ul.tabs li.current{
 					$("." + listClass).html(html);
 					
 				} else if(url == urls[1]) {
-					alert('판매후기 내용 있음');
+// 					alert('판매후기 내용 있음');
 					
 					// 리스트 데이터를 처리하고 출력하는 로직 작성
 		            for (var i = 0; i < data.length; i++) {
 		                var item = data[i];
+		                var formatDate = item.member_reivew_date.split('T');
 		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
 		                html += '<div class="row">\
 		                        <div class="col-lg-12">\
@@ -681,7 +687,7 @@ ul.tabs li.current{
 		                                            <div class="card-text sell_price">작성자 : ' + item.review_writer_id + '</div>\
 		                                            <div class="card-text sell_price">평점 : ' + item.member_review_rating + '</div>\
 		                                            <div class="card-text sell_price">내용 : ' + item.member_review_content + '</div>\
-		                                            <div class="card-text sell_date"><span> ' + item.member_reivew_date + ' 일</span></div>\
+		                                            <div class="card-text sell_date"><span>작성일자 : ' + formatDate[0] + '</span></div>\
 // 		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div></div>\
 		                                        </div>\
 		                                    </div>\
@@ -695,12 +701,13 @@ ul.tabs li.current{
 					
 					
 				} else if(url == urls[2]) {
-					alert('경매 내용 있음');
+// 					alert('경매 내용 있음');
 // 					var myList = data.myStore; // myList 변수에 리스트 데이터 저장
 		            
 		            // 리스트 데이터를 처리하고 출력하는 로직 작성
 		            for (var i = 0; i < data.length; i++) {
 		                var item = data[i];
+		                var formatDate = item.auction_start_datetime.split('T');
 		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
 		                html += '<div class="row">\
 		                        <div class="col-lg-12">\
@@ -713,7 +720,7 @@ ul.tabs li.current{
 		                                        <div class="card-body">\
 		                                            <h5 class="card-title">' + item.auction_title + '</h5>\
 		                                            <div class="card-text sell_price">시작가격 : ' + item.auction_start_price + ' 원</div>\
-		                                            <div class="card-text sell_date"><span>경매 시작일 : ' + item.auction_start_datetime + ' 일</span></div>\
+		                                            <div class="card-text sell_date"><span>경매 시작일 : ' + formatDate[0] + '일 ' + formatDate[1] + ' 초</span></div>\
 		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div></div>\
 		                                        </div>\
 		                                    </div>\
@@ -727,10 +734,11 @@ ul.tabs li.current{
 					
 					
 				} else if(url == urls[3]) {
-					alert('찜 내용 있음');
+// 					alert('찜 내용 있음');
 					
 					for (var i = 0; i < data.length; i++) {
 		                var item = data[i];
+		                var formatDate = item.secondhand_first_date.split('T');
 		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
 		                html += '<div class="row">\
 		                        <div class="col-lg-12">\
@@ -742,8 +750,8 @@ ul.tabs li.current{
 		                                    <div class="text-container">\
 		                                        <div class="card-body">\
 		                                            <h5 class="card-title">' + item.secondhand_subject + '</h5>\
-		                                            <div class="card-text sell_price">판매 가격 : ' + item.secondhand_price  + ' 원</div>\
-		                                            <div class="card-text sell_date">판매 등록일 : ' + item.secondhand_first_date  + ' 일</div>\
+		                                            <div class="card-text sell_price">판매 가격 : ' + item.secondhand_price + ' 원</div>\
+		                                            <div class="card-text sell_date">판매 등록일 : ' + formatDate[0]  + ' 일</div>\
 		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.secondhand_deal_status  + '</div></div>\
 		                                        </div>\
 		                                    </div>\
@@ -843,7 +851,7 @@ ul.tabs li.current{
 											</div>
 										<div class="sc-jMMfwr zhbnl row">
 											<div class="sc-jGxEUC adWrx col col-lg-4 col-md-12 col-sm-12">
-												<img src="/pc-static/resource/4b323fe1ef79c2b715fe.png" width="14" height="13" alt="상점오픈일 아이콘">상점오픈일
+												<img src="${pageContext.request.contextPath }/resources/mypage_img/shop.png" width="24" height="24" alt="상점오픈일 아이콘">상점오픈일
 												<div class="sc-jdeSqf dBzPWd">${member.member_date } 일</div>
 											</div>
 <!-- 											<div class="sc-jGxEUC adWrx col col-lg-3 col-sm-6"> -->
@@ -851,11 +859,11 @@ ul.tabs li.current{
 <!-- 												<div class="sc-jdeSqf dBzPWd">1 명</div> -->
 <!-- 											</div> -->
 											<div class="sc-jGxEUC adWrx col col-lg-3 col-md-12 col-sm-12">
-												<img src="/pc-static/resource/ef9d606d24890f02bde0.png" width="14" height="13" alt="상품판매 아이콘">상품판매
+												<img src="${pageContext.request.contextPath }/resources/mypage_img/sell.png" width="24" height="24" alt="상품판매 아이콘">상품판매
 												<div class="sc-jdeSqf dBzPWd">0 회</div>
 											</div>
 											<div class="sc-jGxEUC adWrx col col-lg-3 col-md-12 col-sm-12">
-												<img src="/pc-static/resource/b6ca1c340805703d7c62.png" width="14" height="13" alt="상퓸발송 아이콘">택배발송
+												<img src="${pageContext.request.contextPath }/resources/mypage_img/shipped.png" width="24" height="24" alt="상퓸발송 아이콘">택배발송
 												<div class="sc-jdeSqf dBzPWd">0 회</div>
 											</div>
 										</div>
@@ -930,7 +938,7 @@ ul.tabs li.current{
 												                    <div class="card-body">
 												                        <h5 class="card-title">${sell.secondhand_subject}</h5>
 																		<div class="card-text sell_price">${sell.secondhand_price} 원</div>
-																		<div class="card-text sell_date"><span>${sell.secondhand_first_date} 일</span></div>
+																		<div class="card-text sell_date"><span>${fn:split(sell.secondhand_first_date, 'T')[0]} 일</span></div>
 																		<div class="card-text delivery"><span>거래방법 : ${sell.order_secondhand_type}</span></div>
 		                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission}</span></div>
 							                                            <div class="card-text commission"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
@@ -1038,7 +1046,8 @@ ul.tabs li.current{
 		</div>
 	</article>
 	
-	<footer>
+  <footer id="pageFooter">
+		<%@ include file="../inc/footer.jsp"%>
 	</footer>
 </body>
 </html>

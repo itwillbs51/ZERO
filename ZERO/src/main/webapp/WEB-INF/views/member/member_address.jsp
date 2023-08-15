@@ -586,16 +586,12 @@
 </div>
 </article>
   
-  <nav id="mainNav" class="d-none d-md-block sidebar">
-  <%--왼쪽 사이드바 --%>
-<%--    <%@ include file="../inc/member_sidebar.jsp"%> --%>
 
-  </nav>
   
   <div id="sieAds"></div>
   <%--페이지 하단 --%>
-<%--   <footer id="pageFooter"><%@ include file="assets/inc/footer.jsp"%></footer> --%>
-  
-
+  <footer id="pageFooter">
+		<%@ include file="../inc/footer.jsp"%>
+	</footer>
   
 </body>

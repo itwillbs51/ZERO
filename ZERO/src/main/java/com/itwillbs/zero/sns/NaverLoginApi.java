@@ -1,4 +1,4 @@
-package com.itwillbs.zero.naver;
+package com.itwillbs.zero.sns;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 

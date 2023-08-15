@@ -133,7 +133,7 @@
 					<div class="chargeContentArea">
 						<div class="chargeInputArea">
 							<div class="title">
-								정산금액&nbsp;&nbsp;<div class="zpay_amount"><fmt:formatNumber value="${zmanEarning.zman_net_profit }" pattern="#,##0"/></div>
+								정산금액&nbsp;&nbsp;<div class="zpay_balance"><fmt:formatNumber value="${zmanEarning.zman_net_profit }" pattern="#,##0"/></div>
 							</div>
 							<div class="amountArea">
 								<div class="amountInputArea">

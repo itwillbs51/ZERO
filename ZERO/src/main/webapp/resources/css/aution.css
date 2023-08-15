@@ -4,7 +4,7 @@
 /* html {scroll-behavior: smooth;} */
 
 #main{
-	padding: 100px 40px 20px 40px;
+	padding: 100px 40px 100px 40px;
 }
 
 #main hr{
@@ -228,6 +228,18 @@ li, ul {
 	color: skyblue
 }
 
+/* 옥션 상품이 없을 때 안내 */
+.auctionNotice {
+	height: 400px;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+.noticeMsg {
+	color: gray;
+	display: inline-block;
+	text-align: center;
+}
 
 /* aution_list_present.jsp css */
 /* 경매 안내 배너 */

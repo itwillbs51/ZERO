@@ -337,8 +337,9 @@
   
   <div id="sieAds"></div>
   <%--페이지 하단 --%>
-  <footer id="pageFooter"></footer>
-  
+  <footer id="pageFooter">
+		<%@ include file="../inc/footer.jsp"%>
+	</footer>
   
 
   

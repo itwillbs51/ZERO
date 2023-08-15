@@ -176,12 +176,12 @@ $(function() {
 			// 페이지(버튼) 개수만큼 버튼 생성
 			for(let i = 1; i <= pageCount; i++) {
 				$("#pageBtn-group").append(
-						"<button class='pageBtn btn btn-outline-danger' id='btn" + i + "'>" + i + "</button>"
+						"<button class='pageBtn btn btn-outline-dark' id='btn" + i + "'>" + i + "</button>"
 						);
 			}
 			// 첫번째 버튼 색있는 버튼으로 만들기(클래스 변경)
-			$("button[id='btn1']").removeClass("btn-outline-danger");
-			$("button[id='btn1']").addClass("btn-danger");
+			$("button[id='btn1']").removeClass("btn-outline-dark");
+			$("button[id='btn1']").addClass("btn-dark");
 			
 		},
 		// ajax로 값을 가져오지 못했을 경우 alert창 띄우기
@@ -259,12 +259,12 @@ $(function() {
 					for(let i = 1; i <= pageCount; i++) {
 //							console.log(i);
 						$("#pageBtn-group").append(
-								"<button class='pageBtn btn btn-outline-danger' id='btn" + i + "'>" + i + "</button>"
+								"<button class='pageBtn btn btn-outline-dark' id='btn" + i + "'>" + i + "</button>"
 								);
 					}
 					// 첫번째 버튼 색있는 버튼으로 만들기(클래스 변경)
-					$("button[id='btn1']").removeClass("btn-outline-danger");
-					$("button[id='btn1']").addClass("btn-danger");
+					$("button[id='btn1']").removeClass("btn-outline-dark");
+					$("button[id='btn1']").addClass("btn-dark");
 				},
 				error: function() {
 					alert('에러');
@@ -315,10 +315,10 @@ $(document).ready(function() {
 					
 					<%-- 검색 영역 --%>
 					<div class="searchFaq">
-						<form class="form-inline my-2 my-md-0">
-							<input class="form-control form-control mr-2 mr-sm-2" type="search" placeholder="Search">
-							<button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
-						</form>
+<!-- 						<form class="form-inline my-2 my-md-0"> -->
+<!-- 							<input class="form-control form-control mr-2 mr-sm-2" type="search" placeholder="Search"> -->
+<!-- 							<button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button> -->
+<!-- 						</form> -->
 					</div>
 					
 					<%-- 카테고리 표시 영역 --%>
@@ -362,13 +362,13 @@ $(document).ready(function() {
                             // 클릭된 버튼의 value값(카테고리명)을 받아 DB에서 받아오기
                             // 카테고리 버튼이 클릭되면 btn-danger 클래스를 추가함
                             // btn-group안 btn-danger 클래스를 추가된 버튼의 value값을 가져옴
-                            let cs_type = $(".btn-group>.btn-danger").val();
+                            let cs_type = $(".btn-group>.btn-dark").val();
                             let pageNum = $(this).text();    // <button>안 글자를 페이지 변수로 사용
 
-                            $("#pageBtn-group>button").removeClass("btn-danger");
-                            $("#pageBtn-group>button").addClass("btn-outline-danger");
-                            $(this).removeClass("btn-outline-danger");
-                            $(this).addClass("btn-danger");
+                            $("#pageBtn-group>button").removeClass("btn-dark");
+                            $("#pageBtn-group>button").addClass("btn-outline-dark");
+                            $(this).removeClass("btn-outline-dark");
+                            $(this).addClass("btn-dark");
 
                             $.ajax({
                                 type: 'GET',
@@ -403,7 +403,7 @@ $(document).ready(function() {
                                         // 초기에는 답변 영역을 숨기도록 설정
                                         $(".target").hide();
                                     }
-,
+								,
                                 error: function() {
                                     alert('에러');
                                 }

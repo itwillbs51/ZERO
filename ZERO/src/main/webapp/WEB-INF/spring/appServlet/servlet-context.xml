@@ -68,7 +68,7 @@
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<!-- class 에 있는 경로에 NaverLoginBO를 @bean 으로 등록해서  -->
 	<!-- naverLoginBO 를 id로 사용하겠다는 의미  -->
- 	<beans:bean id="naverLoginBO" class="com.itwillbs.zero.naver.NaverLoginBO" />
+ 	<beans:bean id="naverLoginBO" class="com.itwillbs.zero.sns.NaverLoginBO" />
 
 	<!-- 속성값을 외부 파일에 저장 후 사용을 위한 properties 파일 등록 -->
 	<!-- webapp/resources 디렉토리가 아닌 src/main/resources 패키지 접근 시 classpath:/ 로 접근 -->

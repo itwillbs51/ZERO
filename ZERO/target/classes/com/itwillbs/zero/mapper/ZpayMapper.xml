@@ -486,7 +486,7 @@
 				, zero_account_type)
 			VALUES(
 				null
-				, #{zman_id}
+				, #{member_id}
 				, #{zero_account_balance} - #{zero_account_amount}
 				, #{zero_account_amount}
 				, now()

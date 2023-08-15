@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 
+import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
@@ -113,4 +114,28 @@ int updateBankAuth(String member_id);
 	// 리뷰 작성했는지 확인
 	int selectWriteReview(@Param("member_id") String member_id, @Param("order_secondhand_idx") Integer order_secondhand_idx);
 
+	// 리뷰 가져오기
+	List<Map<String, String>> selectReview(String member_id);
+
+	// 리뷰 삭제하기
+	int deleteReview(@Param("member_id") String member_id, @Param("order_secondhand_idx") String order_secondhand_idx);
+	
+	// 나의 문의 내역 조회 - 회원 아이디로 레코드 조회
+	List<CsVO> selectMyInq(String member_id);
+	
+	// 나의 문의 조회 - 회원 아이디로 레코드 조회
+	List<CsVO> selectMyInqList(
+								@Param("member_id") String member_id 
+								, @Param("startRow") int startRow
+								, @Param("listLimit") int listLimit);
+
+	// 나의 문의 상세 조회 - cs_num으로 레코드 조회
+	List<CsVO> selectMyInquiryDetail(String cs_num);
+
+	// 나의 문의 내역 - 수정
+	int updateMyInqList(CsVO cs);
+	
+	// 나의 문의 내역 삭제 - cs_num 으로 레코드 조회 후 삭제
+	int deleteMyInq(String cs_num);
+	
 }

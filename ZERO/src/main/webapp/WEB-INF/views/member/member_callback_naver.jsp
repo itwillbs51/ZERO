@@ -8,7 +8,8 @@
 </head>
 <body>
 <script type="text/javascript">
-  var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8089/zero/callback_login_naver");
+//   var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://localhost:8080/zero/callback_login_naver");
+  var naver_id_login = new naver_id_login("lmCZvEMfrqOMLdWO1M_n", "http://c5d2302t1.itwillbs.com/ZERO/callback_login_naver");
   // 접근 토큰 값 출력
 //   alert(naver_id_login.oauthParams.access_token);
   // 네이버 사용자 프로필 조회
