@@ -146,7 +146,7 @@
 	}
 	
 	/* 상품목록 부분 */
-	.productListArea {
+	.HomeProductListArea {
 		margin-left: auto;
 	    margin-right: auto;
 		margin-top: 25px;
@@ -163,12 +163,12 @@
 	    column-gap: 10px;
 	}
 	/* 상품카드 하나 */
-	.card {
+	.HomeProductListArea .card {
 		max-width: 240px;
 		display: inline-block;
 		max-width: 100%;
 	}
-	.card img {
+	.homeImg {
 		display: block;
 		margin: auto;
 		border-radius: 10px;
@@ -176,18 +176,18 @@
 		width: 230px;
 		object-fit: cover;
 	}
-	.card-text, .card-price {
+	.HomeProductListArea .card-text, .HomeProductListArea .card-price {
 		margin-bottom: 8px;
 	}
-	.product_info_brand {
+	.HomeProductListArea .product_info_brand {
 		margin: 5px 0 5px 0;
 		font-weight: bold;
 		font-size: 13px;
 	}
-	.card-price {
+	.HomeProductListArea .card-price {
 		font-size: 12px;
 	}
-	.card-text {
+	.HomeProductListArea .card-text {
 		line-height: 16px;
 	/* 	vertical-align: middle; */
 		display: flex;
@@ -296,7 +296,7 @@
 /* 		padding: 0 15px 20px 15px; */
 /* 	} */
 	
-	.productListArea{
+	.HomeProductListArea{
 		margin-left: auto;
     	margin-right: auto;
 		padding: 0 40px;
@@ -313,12 +313,12 @@
 	    -moz-column-gap: 10px;
 	    column-gap: 10px;
 	}
-	.productListArea .card{
+	.HomeProductListArea .card{
 		overflow: hidden;
 		min-width: 210px;
 		max-width: 240px;
 	}
-	card img {
+	.HomeProductListArea img {
 		display: block;
 		margin: auto;
 		border-radius: 10px;
