@@ -453,7 +453,7 @@
 									<table class="table">
 										<thead>
 											<tr>
-<!-- 										    	<th scope="col">배달 번호</th> -->
+										    	<th scope="col">배달 주문 번호</th>
 										        <th scope="col">상품 이름</th>
 										        <th scope="col">출발지</th>
 										        <th scope="col">도착지</th>
@@ -467,7 +467,7 @@
 											<input type="hidden" name="zman_delivery_idx" value="${zd.zman_delivery_idx }" >
 						    				<input type="hidden" name="zman_id" value="${sessionScope.member_id }">
 											    <tr>
-<%-- 											        <th scope="row">${zd.zman_delivery_idx }</th> --%>
+											        <th scope="row">${zd.zman_delivery_idx }</th>
 											        <td>${zd.order_secondhand_product }</td>
 											        <td>${zd.zman_delivery_startspot }</td>
 								    				<td>${zd.zman_delivery_endspot }</td>
