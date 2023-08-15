@@ -192,7 +192,6 @@ public class BankApiClient {
 		jo.put("tran_amt", map.get("zpayAmount"));	// 거래금액
 //		jo.put("tran_amt", "50000");	// 거래금액
 		jo.put("tran_dtime", valueGenerator.getTranDTime());	// 거래 요청 일시
-//		jo.put("req_client_name", "이수정");	// 송금인 실명
 		jo.put("req_client_name", "신혜진");	// 송금인 실명
 		jo.put("req_client_fintech_use_num", map.get("fintech_use_num"));
 		jo.put("req_client_num", "1");

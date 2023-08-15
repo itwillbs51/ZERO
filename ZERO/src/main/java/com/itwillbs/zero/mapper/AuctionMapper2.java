@@ -47,6 +47,8 @@ public interface AuctionMapper2 {
 
 	int selectAuctionIdx();
 
+	HashMap<String, String> selectSellerInfo(String member_id);
+
 	
 
 }

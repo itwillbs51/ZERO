@@ -13,12 +13,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/cs.css" rel="stylesheet" type="text/css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ZERO ZMAN</title>
 <style type="text/css">
 	#user_membership {
 		margin: 25px;
@@ -87,6 +88,14 @@
 						<div data-v-88eb18f6="" data-v-cf6a6ef4="" class="content_title">
 							<div data-v-88eb18f6="" class="title">
 								<h3 data-v-88eb18f6="">배달 예정</h3>
+								
+								<nav class="navbar navbar-light"><%-- 사이드바 사라졌을 때 햄버거 메뉴 --%>
+									<a class="navbar-brand" href="#"></a>
+									<button class="navbar-toggler collapsed border-0 hidden_nav" type="button" data-toggle="collapse" data-target="#csCollapse" aria-controls="csCollapse" aria-expanded="false" aria-label="Toggle navigation">
+										<span class="navbar-toggler-icon"></span>
+									</button>
+									<jsp:include page="/WEB-INF/views/inc/zman_sidebar_hidden.jsp"></jsp:include>
+								</nav>
 							</div>
 						</div>					
 						<%--ZMAN 프로필 영역 --%>
@@ -445,7 +454,7 @@
 
 						
 						<hr>
-						<h2>배달 예정 게시판</h2>
+						<h2>배달 대기 목록</h2>
 					    	<%-- 배달 예정 게시판 영역 시작 --%>
 							<div class="container text-center">
 							<form action="zman_delivery_ing" method="post">
@@ -453,7 +462,7 @@
 									<table class="table">
 										<thead>
 											<tr>
-<!-- 										    	<th scope="col">배달 번호</th> -->
+										    	<th scope="col">배달 주문 번호</th>
 										        <th scope="col">상품 이름</th>
 										        <th scope="col">출발지</th>
 										        <th scope="col">도착지</th>
@@ -467,7 +476,7 @@
 											<input type="hidden" name="zman_delivery_idx" value="${zd.zman_delivery_idx }" >
 						    				<input type="hidden" name="zman_id" value="${sessionScope.member_id }">
 											    <tr>
-<%-- 											        <th scope="row">${zd.zman_delivery_idx }</th> --%>
+											        <th scope="row">${zd.zman_delivery_idx }</th>
 											        <td>${zd.order_secondhand_product }</td>
 											        <td>${zd.zman_delivery_startspot }</td>
 								    				<td>${zd.zman_delivery_endspot }</td>

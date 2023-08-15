@@ -813,16 +813,18 @@ public class ZpayController {
 	public String zmanRefundForm(@RequestParam int  zman_earning_idx, 
 							Model model, HttpSession session) {
 		System.out.println("ZpayController - zmanRefundForm()");
+		System.out.println(zman_earning_idx);
 		
 		// 정산받을 계좌 정보 조회
 		ZpayVO zpay = service.getZpay((String)session.getAttribute("member_id"));
 		
 		// ZmanEarning 조회
 		ZmanEarningVO zmanEarning = service.getZmanEarning(zman_earning_idx);
+		System.out.println(zmanEarning);
 		
 		model.addAttribute("zpay", zpay);
 		model.addAttribute("zmanEarning", zmanEarning);
-		return "zpay/zpay_refund_form";
+		return "zpay/zman_refund_form";
 	}
 	
 	// ZMAN 정산
@@ -836,21 +838,6 @@ public class ZpayController {
 			Model model) {
 		System.out.println("ZpayController - zmanRefundPro()");
 		
-		// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
-		ZpayVO zpay = service.getZpay(member_id);
-		map.put("access_token", zpay.getAccess_token());
-		map.put("fintech_use_num", zpay.getFintech_use_num());
-		// 금결원 테스트데이터 등록 후
-		String zmanNetProfit = String.valueOf(zman_net_profit);
-		map.put("zpayAmount", zmanNetProfit);
-		
-		// BankApiService - requestDeposit() 메서드를 호출하여 입금이체 요청
-		// => 파라미터 : Map 객체   리턴타입 : requestDeposit
-//		ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
-		
-		// Model 객체에 ResponseDepositVO 객체 저장
-//		model.addAttribute("depositResult", depositResult);
-		
 		// ============================================ 비밀번호 확인 =================================================================
 		String securePasswd = service.getZpayPasswd(member_id);
 		System.out.println("zpay_passwd : " + zpay_passwd + "securePasswd : " + securePasswd);
@@ -862,10 +849,27 @@ public class ZpayController {
 			return "fail_back";
 			
 		} else {
+			
+			// 입금이체 요청을 위한 계좌정보(ZPAY테이블 - fintech_use_num, access_token) 조회 => Map 객체에 저장
+			ZpayVO zpay = service.getZpay(member_id);
+			map.put("access_token", zpay.getAccess_token());
+			map.put("fintech_use_num", zpay.getFintech_use_num());
+			// 금결원 테스트데이터 등록 후
+			String zmanNetProfit = String.valueOf(zman_net_profit);
+			map.put("zpayAmount", zmanNetProfit);
+			
+			// BankApiService - requestDeposit() 메서드를 호출하여 입금이체 요청
+			// => 파라미터 : Map 객체   리턴타입 : requestDeposit
+//			ResponseDepositVO depositResult = bankApiService.requestDeposit(map);
+			
+			// Model 객체에 ResponseDepositVO 객체 저장
+//			model.addAttribute("depositResult", depositResult);
+			
+			
 			zmanRefundHistory.setZman_id(member_id);
 			zmanRefundHistory.setZman_earning_idx(zman_earning_idx);
+			zmanRefundHistory.setZman_net_profit(zman_net_profit);
 //			zmanRefundHistory.setZman_net_profit(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
-//			zmanRefundHistory.setZman_balance(zpay_balance);	// 기존 잔액 =>ZpayMapper.xml에서 zpay_amount를 더할 예정
 			System.out.println(zmanRefundHistory);
 			
 			// ZPYA_HISTORY 테이블에 환급내역 추가
@@ -885,7 +889,7 @@ public class ZpayController {
 				
 				model.addAttribute("zpay", zpay);
 				model.addAttribute("zmanRefundHistory", zmanRefundHistory);
-				return "zpay/zpay_refund_success";				
+				return "zpay/zman_refund_success";				
 			} else {
 				model.addAttribute("msg", "ZMAN 정산 실패");
 				return "fail_back";

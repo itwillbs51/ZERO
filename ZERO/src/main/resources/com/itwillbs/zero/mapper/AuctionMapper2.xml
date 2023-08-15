@@ -151,6 +151,12 @@
 			SELECT  MAX(auction_idx) FROM AUCTION_PRODUCT;
 				
 	</select>
+
+	<select id="selectSellerInfo" resultType="hashmap">
+			SELECT * FROM MEMBER
+			WHERE member_id = #{member_id}
+				
+	</select>
 	
 	<insert id="insertOrder2" >
 		INSERT 

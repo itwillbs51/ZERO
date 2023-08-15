@@ -114,13 +114,17 @@
 		$(".listSort li").on("click", function() {
 			$(".listSort li").removeClass("selected");
 			$(this).addClass("selected");
+			
+			// 선택한 정렬기준을 버튼에 표시해주기
+			let text = $(this).text() + '<i class="material-icons">swap_vert</i>';
+			$(".listInfoBtn").html(text);
+			// 정렬기준 변수 정의
+			sort = $(".selected").text();	// 인기순, 가격순, 최신순
+			// 체크표시 이동
 			$(".listSort i").remove();
 			$(this).append(
 					'<i class="material-icons">check</i>'
 			);
-			
-			// 정렬기준 변수 정의
-			sort = $(".selected span").text();	// 인기순, 가격순, 최신순
 			
 			// 목록 불러오기
 			loadList(category, sort);
@@ -188,16 +192,31 @@
 				
 				// 기존에 있던 리스트 삭제
 				$(".productListArea").empty();
+				$(".auctionNotice").remove();
 				
-				for(let product of data.nowAuctionList) {
-					let now_price = product.auction_now_price;
-					let max_price = product.auction_max_price;
-					
-					let formatted_now_price = Number(now_price).toLocaleString('en');
-					let formatted_max_price = Number(max_price).toLocaleString('en');
-					
-					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
-					$(".productListArea").append(
+				let auction_card = "";
+				// 없을 때 안내문
+// 				console.log("data.nowAuctionList : " + data.nowAuctionList);
+				if(data.nowAuctionList == "" || data.nowAuctionList == null) {
+					auction_card = 
+						'<div class="auctionNotice">'
+						+ '<div class="noticeMsg">'
+						+ '		현재 진행중인 경매 상품이 없습니다<br>'
+						+ '		빠른 시일 안에 좋은 상품으로 찾아오겠습니다.'
+						+ '	</div>'
+						+ '</div>';
+						
+					$(".listInfo").after(auction_card);
+				} else {
+				
+					for(let product of data.nowAuctionList) {
+						let now_price = product.auction_now_price;
+						let max_price = product.auction_max_price;
+						
+						let formatted_now_price = Number(now_price).toLocaleString('en');
+						let formatted_max_price = Number(max_price).toLocaleString('en');
+						
+						auction_card = 
 							'<div class="product_card_wrap"> '
 							+ '	<div class="product_card">'
 							+ ' 	<a href="auction_detail?id='+product.auction_idx+'" class="item_inner">'
@@ -221,10 +240,11 @@
 							+ '		</div>'
 							
 							+ '	</div>'
-							+ '</div>'
-							
-					);
+							+ '</div>';
+					// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
+					$(".productListArea").append(auction_card);
 				}	// for문 종료
+			}
 				
 			}, error: function() {
 				alert("글 목록 요청 실패!");
