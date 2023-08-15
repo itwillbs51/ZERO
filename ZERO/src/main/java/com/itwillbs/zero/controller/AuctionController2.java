@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,6 @@ import com.itwillbs.zero.service.BankService;
 import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.AuctionProductVO;
 import com.itwillbs.zero.vo.ResponseTokenVO;
-import com.itwillbs.zero.vo.SecondhandVO;
 import com.itwillbs.zero.vo.ZeroAccountHistoryVO;
 import com.itwillbs.zero.vo.ZpayHistoryVO;
 import com.itwillbs.zero.vo.ZpayVO;
@@ -41,9 +41,10 @@ public class AuctionController2 {
 	
 	// 경매 상세 페이지로 이동
 	@GetMapping("auction_detail")
-	public String auction_detail(Model model, int id, HttpSession session) {
+	public String auction_detail(Model model, int id, HttpSession session, HttpServletRequest request) {
 		String member_id = (String) session.getAttribute("member_id");
 		ZpayVO zpay = service2.isZpayUser(member_id);
+		String beforePage =(String)request.getHeader("REFERER");
 		if(member_id == null) {
 			model.addAttribute("msg", "로그인이 필요한 작업입니다!");
 			model.addAttribute("targetURL", "member_login");
@@ -52,7 +53,13 @@ public class AuctionController2 {
 			model.addAttribute("msg", "zpay 등록이 필요한 작업입니다!");
 			model.addAttribute("targetURL", "zpay_main");
 			return "fail_location";
+		}else if(beforePage==null) {
+			model.addAttribute("msg", "잘못된 접근");
+			model.addAttribute("targetURL", "./");
+			return "fail_location";
 		}
+		
+		
 		ResponseTokenVO token = bankService.getTokenForBankAuth(member_id);	
 		if(token != null) {
 			session.setAttribute("access_token", token.getAccess_token());
@@ -121,8 +128,10 @@ public class AuctionController2 {
 	@GetMapping("auction_prepare_detail")
 	public String auction_prepare_detail(Model model, int id) {
 		HashMap<String, String> product= service.getAuctionProduct(id);
-	
+		String member_id=product.get("auction_seller_id");
+		HashMap<String, String> seller= service.getSellerInfo(member_id);
 		model.addAttribute("product", product);
+		model.addAttribute("member", seller);
 		
 		return "auction/auction_prepare_detail";
 	}

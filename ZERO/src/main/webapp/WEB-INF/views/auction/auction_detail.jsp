@@ -100,9 +100,13 @@ function uncomma(str) {
 
 
 <style type="text/css">
+.container-fluid{
+max-width: 1280px;
+}
+
 	.blink {
 			
-			background-color: gray!important;
+		background-color: gray!important;
 		  color: white!important;
 		}
 		
@@ -120,7 +124,7 @@ function uncomma(str) {
 
 	@media only screen and (min-width: 768px) {
 		body{
-		margin-top: 86px!important;
+		margin-top: 120px!important;
 		
 	}
 	
@@ -141,19 +145,7 @@ function uncomma(str) {
 		<%@ include file="../inc/header.jsp"%>
 	</header>
 	
-	<!-- nav - 메뉴영역 -->
-	<nav>
-		<a>경매중</a>
-		<a>입찰 예정 경매</a>
-		<a>종료된 경매</a>
-	</nav>
-	<hr>
-	<nav>
-		<a>전체</a>
-		<a>럭셔리</a>
-		<a>테크</a>
-		<a>한정판</a>
-	</nav>
+
 	
 	<section>
 		<div class="container-fluid">
