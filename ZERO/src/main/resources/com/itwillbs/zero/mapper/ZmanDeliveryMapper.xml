@@ -89,34 +89,25 @@
 				zman_delivery_idx = #{zman_delivery_idx};
 	</update>
 	
-	<!--  -->
+	<!-- 배달 완료 버튼 클릭 시 정산 내역 테이블 INSERT -->
 	<insert id="insertDeliveryDone">
 	    INSERT INTO ZMAN_EARNING (
 	        zman_earning_idx
 	        , zman_delivery_commission
 	        , zman_delivery_idx
 	        , zman_id
+	        , zman_net_profit
 	    )
 	    VALUES (
 		        null
 		        , #{zman_delivery_commission}
 		        , #{zman_delivery_idx}
 		        , #{zman_id}
+		        , 2000
 		    )
 	</insert>
 	
 	<!-- ZMAN 배달 완료 내역 페이지로 이동 -->
-<!-- 	<select id="selectDeliveryDoneList" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO"> -->
-<!-- 		SELECT -->
-<!-- 			zd.*, os.order_secondhand_product -->
-<!-- 		FROM -->
-<!-- 			ZMAN_DELIVERY zd  -->
-<!-- 		JOIN -->
-<!-- 			ORDER_SECONDHAND os -->
-<!-- 			ON  -->
-<!-- 				zd.order_secondhand_idx = os.order_secondhand_idx -->
-<!-- 		WHERE zman_delivery_status = "배달 완료" -->
-<!-- 	</select> -->
 	<select id="selectDeliveryDoneList" resultType="com.itwillbs.zero.vo.ZmanDeliveryVO">
 		SELECT
 			zd.*, os.order_secondhand_product
@@ -130,16 +121,15 @@
 		AND zman_id = #{zman_id}
 	</select>
 
-	<!-- updateDeliveryDetailStart -->
-<!-- 	<update id="updateDeliveryDetailStart"> -->
-<!-- 		UPDATE -->
-<!-- 			ZMAN_DELIVERY -->
-<!-- 			SET -->
-<!-- 				zman_delivery_status = '배달 중' -->
-<!-- 				, zman_delivery_starttime = now() -->
-<!-- 			WHERE -->
-<!-- 				zman_delivery_idx = #{zman_delivery_idx}; -->
-<!-- 	</update> -->
+
+	<select id="selectZmanEarningIdx" resultType="com.itwillbs.zero.vo.ZmanEarningVO">
+		SELECT *
+		FROM 
+			ZMAN_EARNING
+		WHERE
+			zman_delivery_idx = #{zmanDeliveryIdx};
+	</select>
+
 
 	<!--  -->
 	<select id="selectZpay" resultType="com.itwillbs.zero.vo.ZpayVO">

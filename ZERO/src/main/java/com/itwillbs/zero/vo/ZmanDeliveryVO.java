@@ -30,5 +30,7 @@ public class ZmanDeliveryVO {
 	// JOIN
 	private String order_secondhand_product;
 	private String zman_name;
+	
+	private int zman_earning_idx;
 
 }
