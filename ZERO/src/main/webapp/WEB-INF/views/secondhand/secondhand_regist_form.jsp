@@ -100,6 +100,10 @@
 		$("#img_number").html('('+ img_number + '/3)');
 	}
 	
+	//-----------------------------------------------------------
+
+	
+	
 	function send_0() {
 		$("#sumimage").click();
 	}
@@ -114,7 +118,6 @@
 		})
 		
 	});
-//-----------------------------------------------------------
 
 
 
@@ -541,7 +544,10 @@
 		
 		//이미지
 		//필수이미지 = sumimage
-	
+
+		
+		
+		
 		formData.append('file1',$('#sumimage')[0].files[0]);
 		if($('#imageFile1')[0].files[0]!=undefined){
 			formData.append('file2',$('#imageFile1')[0].files[0]);	
@@ -580,6 +586,10 @@
 		
 		formData.append('secondhand_price',p_price);			// 가격
 		formData.append('secondhand_content',p_exp);				// 상품설명
+		
+		
+		
+		
 		
 		
 		/*	
@@ -1051,24 +1061,24 @@ body{
 					<td colspan="2"><hr></td>
 				</tr>
 				
-				<!-- 거래지역 -->
-				<tr>
-					<td class="td1" align="left" style="vertical-align: top;"><span
-						class="pro_info"> 희망 거래지역 </span></td>
+<!-- 				거래지역 -->
+<!-- 				<tr> -->
+<!-- 					<td class="td1" align="left" style="vertical-align: top;"><span -->
+<!-- 						class="pro_info"> 희망 거래지역 </span></td> -->
 					
-					<td align="left">
-						<input type="button" id="addrfind" value="주소찾기" onclick="addrFind();">
-						<br>
-						<input type="text" id="p_location" class="input-tag" style="margin-top: 5px;" readonly="readonly">
-						<input type="text" id="p_location_detail" class="input-tag"  placeholder="상세주소입력" style="margin-top: 5px;" >
-					</td>
+<!-- 					<td align="left"> -->
+<!-- 						<input type="button" id="addrfind" value="주소찾기" onclick="addrFind();"> -->
+<!-- 						<br> -->
+<!-- 						<input type="text" id="p_location" class="input-tag" style="margin-top: 5px;" readonly="readonly"> -->
+<!-- 						<input type="text" id="p_location_detail" class="input-tag"  placeholder="상세주소입력" style="margin-top: 5px;" > -->
+<!-- 					</td> -->
 
 
-				</tr>
+<!-- 				</tr> -->
 
-				<tr>
-					<td colspan="2"><hr></td>
-				</tr>
+<!-- 				<tr> -->
+<!-- 					<td colspan="2"><hr></td> -->
+<!-- 				</tr> -->
 				
 <!-- 				상품상태 -->
 <!-- 				<tr> -->

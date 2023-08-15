@@ -70,11 +70,11 @@
 				<div class="titleArea">
 					<div class="title">중고</div>
 				</div>
-				<div class="productListArea">
+				<div class="HomeProductListArea">
 					<c:forEach var="secondhand" items="${homeSecondhandList }">
 					<div class="card">
 						<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id }">
-							<img src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" alt="...">
+							<img class="homeImg" src="${pageContext.request.contextPath }/resources/upload/${secondhand.secondhand_image1}" class="card-img-top" alt="...">
 							<div class="card-body">
 								<p class="card-text">${secondhand.secondhand_subject }</p>
 								<p class="card-price">${secondhand.secondhand_price }원</p>
@@ -94,11 +94,11 @@
 				<div class="titleArea">
 					<div class="title">경매</div>
 				</div>
-				<div class="productListArea">
+				<div class="HomeProductListArea">
 					<c:forEach var="auction" items="${homeAuctionList }">
 						<div class="card">
 							<a href="auction_detail?id=${auction.auction_idx}">
-								<img src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
+								<img class="homeImg" src="${pageContext.request.contextPath }/resources/upload/${auction.auction_image1}" class="card-img-top" alt="...">
 								<div class="card-body">
 									<p class="card-text">경매중</p>
 									<p class="card-text">${auction.auction_title }</p>

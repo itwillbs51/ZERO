@@ -375,6 +375,7 @@ public class ZpayController {
 					long zpay_balance = service.getZpayBalance(member_id);
 					ZpayHistoryVO zpayHistory = service.getzpayHistoryInserted2(member_id);
 					
+					model.addAttribute("zpay", zpay);
 					model.addAttribute("zpayHistory", zpayHistory);
 					model.addAttribute("zpay_balance", zpay_balance);
 					return "zpay/zpay_charge_success";							
@@ -865,14 +866,13 @@ public class ZpayController {
 			// Model 객체에 ResponseDepositVO 객체 저장
 //			model.addAttribute("depositResult", depositResult);
 			
-			
 			zmanRefundHistory.setZman_id(member_id);
 			zmanRefundHistory.setZman_earning_idx(zman_earning_idx);
 			zmanRefundHistory.setZman_net_profit(zman_net_profit);
 //			zmanRefundHistory.setZman_net_profit(depositResult.getRes_list() == null? 0 : depositResult.getRes_list().get(0).getTran_amt());
 			System.out.println(zmanRefundHistory);
 			
-			// ZPYA_HISTORY 테이블에 환급내역 추가
+			// ZMAN_REFUND_HISTORY 테이블에 정산내역 추가
 			int insertCount = service.zmanRefund(zmanRefundHistory);
 			
 			if(insertCount > 0) {

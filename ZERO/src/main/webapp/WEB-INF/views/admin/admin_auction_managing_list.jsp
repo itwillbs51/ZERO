@@ -48,7 +48,6 @@
 										<th>상품명</th>
 										<th>등록일</th>
 										<th>검수상태</th>
-										<th>경매진행여부</th>
 										<th>상세보기</th>
 									</tr>
 								</thead>
@@ -67,9 +66,6 @@
 											</td>
 											<td>
 												${auctionProduct.auction_manage_check_status }
-											</td>
-											<td>
-												${auctionProduct.auction_manage_status }
 											</td>
 											<td>
 												<a class="btn btn-sm btn-outline-dark" href="admin_auction_managing_detail?auction_idx=${auctionProduct.auction_idx }">상세보기</a>
