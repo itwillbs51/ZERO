@@ -66,11 +66,11 @@
 		</div>
 		<div id="main">
 			<hr>
-			<div class="HomeProductListArea">
+			<div class="productArea">
 				<div class="titleArea">
 					<div class="title">중고</div>
 				</div>
-				<div class="productListArea">
+				<div class="HomeProductListArea">
 					<c:forEach var="secondhand" items="${homeSecondhandList }">
 					<div class="card">
 						<a href="secondhand_detail?secondhand_idx=${secondhand.secondhand_idx}&member_id=${secondhand.member_id }">
