@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,89 +16,88 @@
 <!-- <!-- 부트스트랩 --> 
 <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
-<!-- <!-- daum API --> 
+<!-- <!-- daum API -->
 <!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
-<!-- <!-- 제이쿼리 --> 
-<%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+<!-- <!-- 제이쿼리 -->
+<%-- <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
-<!-- <!-- 반응형웹페이지위한 설정 -->  
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 반응형웹페이지위한 설정 --> 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <script type="text/javascript">
+// $(function(){
+// 	alert("${secondhandProduct.secondhand_image1}");
+// 	console.log(" 이미지 1" + ${secondhandProduct.secondhand_image1});
+	
+//     var reader = new FileReader();
+//     reader.onload = function (e) {
+//         $('#imgup_sum').attr('src', "${secondhandProduct.secondhand_image1}");
+        
+//         $("#img_preview0").css("display","inline-block");
+// 		$("#imgup_sum").show();
+//         $("#del_sum").show();
+       
+// 		preview_array[0] = true;
+		
+// 		/* 이미지넘버 변경 */
+// 		img_num();
+	
+	
+		
+// });
 
-
-$(function(){
-	var savedImageUrl = "${jsonData}";
-});
-
+//<!-- 이미지 추가버튼 스크립트 -->--------------------
 	var preview_array  = [false, false, false];
 	
-	var change_image = ["0","0","0","0","0","0"];
-	
-	for(var y=0; y<${ fn:length(jsonData) }; y++){
-		preview_array[y] = true;
-	}
-	
+	<!-- 이미지 등록시 미리보기 추가 작업 -->
 	function img_preview() {
 
 		for(var i=0; i<preview_array.length; i++){
+
+// 			for(var i=0; i<preview_array.length; i++){
+// 				if(i=[i]){
+// 					if(preview_array[i]==false){
+// 						send_[i]();
+// 						return;
+// 					}
+// 				}
+// 			}
 			
 			
 			/* i가 0일때 */
 			if(i==0){
-				
 				/* 0번사진 비어있으면 */
 				if(preview_array[0]==false){
-					
 					/* 섬네일사진 */
 					/* 0번사진 인풋태그 호출 */
-					
 					send_0();
-					
 					return;
 				}
 			}
 			
 			/* i가1일때 */
 			if(i==1){
-				
 				/* 1번사진이 비어있으면 */
 				if(preview_array[1]==false){
-					
 					/* 1번사진 인풋태그 호출 */
 					send_1();
-					
 					return;
 				}
 			}
 			
 			/* i가 2일때 */
 			if(i==2){
-				
 				/* 2번사진 비어있으면 */
 				if(preview_array[2]==false){
-					
 					/* 2번사진 인풋태그 호출 */
 					send_2();
 					return;
 				}
 			}
 			
-			/* i가 3일때 */
-			if(i==3){
-				
-				/* 3번사진 비어있으면 */
-				if(preview_array[3]==false){
-					
-					/* 3번사진 인풋태그 호출 */
-					send_3();
-					return;
-				}
-			}
-			
-			
-					
+
 		}/*  for end */
 		
 		alert("더이상 등록할 수 없습니다.");
@@ -108,11 +105,25 @@ $(function(){
 		
 	}/* 프리뷰 end */
 
+//-----------------------------------------------------
 
-</script>
+//<!-- 이미지 장수 표현 함수 -->-----------------------
+	function img_num() {
+		var img_number = 0;
+		
+		for(var i=0; i<preview_array.length; i++ ){
+			if(preview_array[i]==true){
+				img_number++;
+			}	
+		}
+		/* 이미지 장수 표시 */
+		$("#img_number").html('('+ img_number + '/3)');
+	}
+	
+	//-----------------------------------------------------------
 
-<script type="text/javascript">
-//<!-- 이미지 미리보기 -->-----------------------------------
+	
+	
 	function send_0() {
 		$("#sumimage").click();
 	}
@@ -128,8 +139,18 @@ $(function(){
 		
 	});
 
+
+
+
+
+
+//<!-- 이미지 미리보기 -->-----------------------------------
+
 	function imgcheck0(input) {
+	
 		
+	
+	
 		/* 이미지 확장자 파일체크 */
 		var file_kind = input.value.lastIndexOf('.');
 		var file_name = input.value.substring(file_kind+1,input.length);
@@ -211,46 +232,26 @@ $(function(){
 		
 		} 
 		
-		
-		
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
 	        	        
 	        	$('#imgup_1').attr('src', e.target.result);
-
-	        	
-	        	/* 수정한 사진이면.. */
-	        	<c:choose>
-		        	<c:when test="${not empty jsonData[1].i_idx}">
-		        	    change_image[2] = '${jsonData[1].i_idx}';
-		        	</c:when>
-		        	<c:otherwise>
-		        		change_image[2] = "changePhoto";
-		        	</c:otherwise>
-	        	</c:choose>
-	        	change_image[3] = myreal_file;
-	    
-	        	
-	        	
-				
-	        	
+	        	//배열에 트루값주기, 트루면 업로드 못함
+	        
 	        	$("#img_preview1").css("display","inline-block");
 	        	$("#imgup_1").show();
 	        	$("#del_img1").show();
 	        	
-	        	//배열에 트루값주기, 트루면 업로드 못함
 	        	preview_array[1] = true;
 				
 	        	/* 이미지넘버 변경 */
 	        	img_num();
-	        	
 	        }
-	        
 	        reader.readAsDataURL(input.files[0]);
 	    }
 	}
-	
+
 	/* 2번사진 */
 
 	function send_2() {
@@ -288,64 +289,55 @@ $(function(){
 		
 		} 
 		
+		
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
 				$('#imgup_2').attr('src', e.target.result);
 				
-// 	        	/* 수정한 사진이면.. */
-// 	        	if('${ not empty jsonData[2].i_idx}' == 'true'){
-// 	        		change_image[4] = '${jsonData[2].i_idx}';
-// 	        	}else{
-// 	        		/* 추가한 사진이면.. */
-// 	        		change_image[4] = "changePhoto";
-// 	        	}
-// 	        	change_image[5] = myreal_file;
-				
-				
 				 $("#img_preview2").css("display","inline-block");
-					$("#imgup_2").show();
-					$("#del_img2").show();
-					
-					preview_array[2] = true;
-		        	/* 이미지넘버 변경 */
-					img_num();
-		       
-		        }
-		        
-		        reader.readAsDataURL(input.files[0]);
-		    }
-		}
+				$("#imgup_2").show();
+				$("#del_img2").show();
+				
+				preview_array[2] = true;
+	        	/* 이미지넘버 변경 */
+				img_num();
+	       
+	        }
+	        
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
 	
 	
 	
+//-----------------------------------------------------------
 
-</script>
 
-<script type="text/javascript">
+
+
+
 //<!-- 이미지미리보기삭제 -->--------------------------------
-	
+
 	function del_sum() {
 		/* alert('썸네일이미지 지움'); */
-		
 		/* 실제 DB에 들어가는 input value 지움 */
 		$('#sumimage').val('');
 		
-	    $("#img_preview0").css("display","none");
+      $("#img_preview0").css("display","none");
 		$('#imgup_sum').hide();
 		$("#del_sum").hide(); 
 		
 		/* 썸네일 비움 */
 		preview_array[0] = false;
 		
-		
 		/* 이미지 넘버변경 */
 		img_num();
 		
 		return;
 	}
-	
-	
+
+
 	function del_img1() {
 		/* alert('1번이미지 지움'); */
 		
@@ -357,14 +349,6 @@ $(function(){
 		
 		/* 1번사진 비움 */
 		preview_array[1] = false;
-		
-		/* 삭제한 사진이면.. */
-        if('${ not empty jsonData[1].i_idx}' == 'true'){
-        	change_image[2] = '${jsonData[1].i_idx}';
-        	change_image[3] = "delPhoto";
-        }
-		
-		
 		
 		/* 이미지 넘버변경 */
 		img_num();
@@ -384,31 +368,13 @@ $(function(){
 		/* 2번사진 비움 */
 		preview_array[2] = false;
 		
-		/* 삭제한 사진이면.. */
-        if('${ not empty jsonData[2].i_idx}' == 'true'){
-        	change_image[4] = '${jsonData[2].i_idx}';
-        	change_image[5] = "delPhoto";
-        }
-		
 		/* 이미지 넘버변경 */
 		img_num();
 		
 		return;
 	}
-	
-	//<!-- 이미지 장수 표현 함수 -->-----------------------
-	function img_num() {
-		
-		var img_number = 0;
-		for(var i=0; i<preview_array.length; i++ ){
-			if(preview_array[i]==true){
-				img_number++;
-			}	
-		}
-		/* 이미지 장수 표시 */
-		$("#img_number").html('('+ img_number + '/6)');
-	}
 //-----------------------------------------------------------
+
 
 
 
@@ -418,10 +384,13 @@ $(function(){
 		var width = 500; //팝업의 너비
 		var height = 300; //팝업의 높이
 		
+		
 	    new daum.Postcode({
 	        oncomplete: function(data) {
+	         
 	            $("#p_location").val(data.address);
 	        },
+	    
 	    	theme: {
 		        searchBgColor: "#7dd87d", //검색창 배경색
 		        queryTextColor: "white" //검색창 글자색
@@ -429,6 +398,9 @@ $(function(){
 		    
 		    width: width, 
 		    height: height
+		    
+	    
+	    
 	    }).open({
 	        left: (window.screen.width / 2) - (width / 2),
 	        top: (window.screen.height / 2) - (height / 2) - 200
@@ -436,7 +408,8 @@ $(function(){
 		
 	}
 
-//-----------------------------------------------------------	
+//-----------------------------------------------------------
+
 
 
 //<!-- 데이터 넣기 -->---------------------------------------
@@ -461,23 +434,20 @@ $(function(){
 		var p_paymentType = $("#p_paymentType").val();
 		var p_paymentType2 = $("#p_paymentType2").val();
 		
-		var p_location = $("#p_location").val().trim();
-		var p_location_detail = $("#p_location_detail").val().trim();
+// 		var p_location = $("#p_location").val().trim();
+// 		var p_location_detail = $("#p_location_detail").val().trim();
 		
 		var p_price = $("#p_price").val().trim();
 		var p_exp = $("#p_exp").val().trim();
-//		var sumimage = $("#sumimage").val();
+		var sumimage = $("#sumimage").val();
 		
-		//보안상 이유때문에 file의 value값은 미리 정할 수 없음.
-		//그래서 이미지 배열을 통해 해결
- 		if(preview_array[0]==false){
- 			alert('대표 이미지를 반드시 등록해주세요.');
- 			$("#imgup").focus();
- 			return;
- 		}
-
-if(p_name==''){
-			
+		if(sumimage==''){
+			alert('대표 이미지를 반드시 등록해주세요.');
+			$("#imgup").focus();
+			return;
+		}
+		
+		if(p_name==''){
 			alert('제목이 비어있습니다. (필수입력, 공백불가)');
 			$("#p_name").val('');
 			$("#p_name").focus();
@@ -486,26 +456,39 @@ if(p_name==''){
 		
 		if(c_idx==0){
 			alert('카테고리를 선택하세요. ');
-			$("input:radio[name=c_idx]").focus();
+			$("#c_idx").focus();
 			return;
 		}
 		
 		
-		if(p_location==''){
-			alert('거래지역을 입력해 주세요.');
-			$("#p_location").val('');
-			$("#p_location").focus();
+		if(p_paymentType=='' && p_paymentType2==''){ // 모두 null일경우
+			alert('결제 방법을 한 가지 이상 선택해주세요');
+			$("#p_paymentType").val('');
+			$("#p_paymentType").focus();
 			return;			
 		}
 		
-		//라디오를 checked해놓지 않았음.
-		if(p_condition==undefined){
-			alert('상품상태를 선택해 주세요.');
-			$("input:radio[name=p_condition]").focus();
-			return;
+		if(p_delivery_type=='' && p_delivery_type2=='' && p_delivery_type3=='' && p_delivery_type4=='' ){
+			alert('거래 방법을 한 가지 이상 선택해 주세요');
+			$("#p_delivery_type").val('');
+			$("#p_delivery_type").focus();
+			return;			
 		}
 		
-				
+// 		if(p_location==''){
+// 			alert('거래지역을 입력해 주세요.');
+// 			$("#p_location").val('');
+// 			$("#p_location").focus();
+// 			return;			
+// 		}
+		
+// 		if(p_location_detail==''){
+// 			alert('상세주소를 입력해 주세요.');
+// 			$("#p_location_detail").val('');
+// 			$("#p_location_detail").focus();
+// 			return;			
+// 		}
+		
 		if(p_price==''){
 			
 			alert('가격이 비어있습니다.');
@@ -541,14 +524,50 @@ if(p_name==''){
 			return;
 		}
 		
+		
 		if(confirm('등록 하시겠습니까?')==false) return;
+
+		
+		
+		// -----------------------------------------
+// 		// 체크박스 감지 이벤트
+// 		$(function() {
+
+// 			// 전체선택 체크박스 상태 변화 감지 이벤트
+// 			$(".allCheck").on("change", function() {
+// 				// 전체선택 체크 시 모든 체크박스 체크, 체크 해제 시 모두 해제
+// 			 			if($(".allCheck").prop("checked")) { // 체크 시
+// 			 				alert("체크!");
+// 			 			} else { // 체크해제 시
+// 			 				alert("체크해제!");
+// 			 			}
+				
+// 				if($(".allCheck").is(":checked")) { // 체크 시
+// 					// 체크박스들의 checked 속성값을 체크 상태(true)로 변경 - prop() 활용
+// 					// => input[type=checkbox] 대신 가상선택자 :checkbox 사용 가능
+// 					// => prop() 메서드 파라미터로 속성명, 속성값 전달 시 속성 변경 가능
+// 					$(":checkbox").prop("checked", true); // 체크 상태를 체크(true)로 변경
+
+// 					// each() 메서드를 통해 체크박스 반복으로 각 요소의 상태 변경도 가능함
+// 					$(":checkbox").each(function(index, item) {
+// 						$(item).prop("checked", true);
+// 							$(this).prop("checked", true);
+// 		 			});
+// 				} else { // 체크해제 시
+// 					$(":checkbox").prop("checked", false); // 체크 상태를 체크해제(false)로 변경
+// 				}
+// 			});
+// 		});
+		// -----------------------------------------
+		
+		
 		
 		var form = $("#imgform")[0];
-		var p_idx = $("#p_idx").val();
 		var formData = new FormData(form);
 		
-		
-		
+		//이미지
+		//필수이미지 = sumimage
+
 		
 		
 		
@@ -591,13 +610,15 @@ if(p_name==''){
 		formData.append('secondhand_price',p_price);			// 가격
 		formData.append('secondhand_content',p_exp);				// 상품설명
 		
-		//수정 에서 추가 되었음
-		formData.append('secondhand_idx',secondhand_idx);				// 수정하려는 상품 idx
-		formData.append('change_image',change_image)  // 이미지 수정정보
 		
 		
 		
 		
+		
+		/*	
+			파일 데이터를 ajax처리 하기 위해선
+			반드시 processData,contentType 들을 false 해주기
+		 */
 		
 		/*	
 		파일 데이터를 ajax처리 하기 위해선
@@ -615,13 +636,13 @@ if(p_name==''){
 				success  : function(res){
 					
 					if(res == true){
-						alert('상품이 정상적으로 등록되었습니다!');
+						alert('상품이 정상적으로 수정되었습니다!');
 		//					location.href='../mainpage/list.do';
-						location.href='../secondhand/secondhand_list';
+// 						location.href='../secondhand/secondhand_list';
 					}
 					
 				},error	: function(err){
-					alert('물품등록에 실패했습니다. 관리자에게 문의하세요.');
+					alert('상품수정에 실패했습니다. 관리자에게 문의하세요.');
 				}
 				
 			});
@@ -629,18 +650,19 @@ if(p_name==''){
 			
 		}
 		
-		
-		/* 상품등록 취소  */	
-		function procancel(){
-			
-			if(confirm('상품등록을 취소하시겠습니까?')==false) return;
-			
-			history.back();
-		
-			
-		}
+	
 
-		//----------------------------------------------------------
+	/* 상품등록 취소  */	
+	function procancel(){
+		
+		if(confirm('상품수정을 취소하시겠습니까?')==false) return;
+		
+		history.back();
+
+		
+	}
+	
+//----------------------------------------------------------
 
 
 //<!-- 가격 함수 (실시간 콤마, 한글입력불가) -->------------
@@ -732,8 +754,10 @@ if(p_name==''){
 
 	})
 //----------------------------------------------------------	
-</script>
 
+
+
+</script>
 <style>
 
 body{
@@ -746,7 +770,7 @@ body{
 	}
 	
 	/* 실제 전체 div */
-	#modify_box {
+	#insert_box {
 		width: 1020px;
 		margin: auto;
 		padding-top : 160px;
@@ -936,13 +960,13 @@ body{
 	}
 
 </style>
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/product_modify.js"></script> --%>
 
 <title>Insert title here</title>
 </head>
 
 <body>
 <header><%@ include file="../inc/header.jsp"%></header>
+
 	<!-- 파일업로드 용 폼 -->
 	<form enctype="multipart/form-data" id="imgform" method="post">
 		<input type="file" id="sumimage"   style="display: none;" accept=".jpg, .jpeg, .png">
@@ -953,9 +977,8 @@ body{
 	<div id="root">
 		<input type="hidden" id="member_id" value="${sessionScope.member_id }">
 		<input type="hidden" id="secondhand_idx" value="${secondhandProduct.secondhand_idx }">
-		<input type="hidden" id="pageNum" value="${param.pageNum }">
-		
-		<div id="modify_box">
+
+		<div id="insert_box">
 			<span id="title">상품수정</span>
 
 			<table style="margin-top: 30px;">
@@ -968,72 +991,43 @@ body{
 					<td colspan="2"><hr></td>
 				</tr>
 
+
+
+
 				<!-- 상품이미지 -->
-				<!-- 기존등록된 상품이미지 표시 된 상태 -->
 				<tr>
 					<td class="td1" align="left" ><span
 						class="pro_info">상품이미지</span> 
-						<span class="pro_info" id="img_number">(${ fn:length(jsonData)}/3)</span>
+						<span class="pro_info" id="img_number">(0/3)</span>
 						<span style="color: red">*</span>
 						<input type="image" id="imgup" onclick="img_preview();"
 								src="${ pageContext.request.contextPath }/resources/img/image_upload.png" width="150px" height="150px">
-					</td>
+						</td>
 					<td class="td2" align="left">
 					
 						<!-- 이미지 등록 영역 -->
 						<div id="img_zone">
 							<div id="img_preview0" >
 								<input type="image" id="imgup_sum" onclick="send_0();"
-									src="${pageContext.request.contextPath }/resources/upload/${secondhandProduct.secondhand_image1 }" width="150px" height="150px">
+									src="" width="150px" height="150px">
 								<span id="sum_style" >대표 이미지</span>
 								<!-- 삭제버튼 -->
 								<span id="del_sum" class="chk_style"  onclick="del_sum();">x</span>
 							</div>
 							
-							<!-- 1번이미지 데이터가 있으면 -->	
-							<c:if test="${ not empty secondhandProduct.secondhand_image2 }">
-								<div id="img_preview1" >
-									<input type="image" id="imgup_1" onclick="send_1();"
-										src="${pageContext.request.contextPath}/resources/upload/${secondhandProduct.secondhand_image2 }" width="150px" height="150px">
-									<!-- 삭제버튼 -->
-									<span id="del_img1" class="chk_style" onclick="del_img1();">x</span>
-								</div>
-							</c:if>	
+								
+							<div id="img_preview1" >
+								<input type="image" id="imgup_1" onclick="send_1();"
+									src="" width="150px" height="150px">								<!-- 삭제버튼 -->
+								<span id="del_img1" class="chk_style" onclick="del_img1();">x</span>
+							</div>
 							
-							<!-- 1번이미지 데이터 없으면  -->
-							<c:if test="${ empty secondhandProduct.secondhand_image2 }">
-								<div id="img_preview1" style="display: none;">
-									<input type="image" id="imgup_1"  style="display: none;" onclick="send_1();"
-										src="" width="150px" height="150px">
-									<!-- 삭제버튼 -->
-									<span id="del_img1"  class="chk_style" style="display: none;" onclick="del_img1();">x</span>
-								</div>
-							</c:if>	
-							
-							
-							<!-- 2번이미지 데이터가 있으면 -->	
-							<c:if test="${ not empty secondhandProduct.secondhand_image3 }">
-								<div id="img_preview2">
-									<input type="image" id="imgup_2" onclick="send_2();"
-										src="${pageContext.request.contextPath}/resources/upload/${secondhandProduct.secondhand_image3}" width="150px" height="150px">
-									<!-- 삭제버튼 -->
-									<span id="del_img2" class="chk_style" onclick="del_img2();">x</span>
-								</div>
-							</c:if>
-							
-							
-							<!-- 2번이미지 데이터가 없으면 -->	
-							<c:if test="${ empty secondhandProduct.secondhand_image3 }">
-								<div id="img_preview2" style="display: none;">
-									<input type="image" id="imgup_2" style="display: none;" onclick="send_2();"
-										src="" width="150px" height="150px">
-									<!-- 삭제버튼 -->
-									<span id="del_img2" class="chk_style" style="display: none;" onclick="del_img2();">x</span>
-								</div>
-							</c:if>
-					
-							
-							
+							<div id="img_preview2">
+								<input type="image" id="imgup_2" onclick="send_2();"
+									src="" width="150px" height="150px">
+								<span id="del_img2" class="chk_style" onclick="del_img2();">x</span>
+							</div>
+
 						</div>
 						<div id="img_intro">
 								
@@ -1041,11 +1035,10 @@ body{
 								- 이미지를 <b>클릭할</b> 경우 이미지를 <b>수정</b>하실 수 있습니다.<br>
 								- 이미지 등록은 좌측 <b>이미지 등록</b>을 눌러 등록할 수 있습니다.<br>
 								- 이미지 확장자는 <b>.jpg, .jpeg, .png</b> 만 등록 가능합니다.
-							</div>
+						</div>
 
 					</td>
-				</tr>
-				
+				</tr><!-- 이미지영역끝 -->
 				
 				
 				
@@ -1053,7 +1046,6 @@ body{
 				<tr>
 					<td colspan="2"><hr></td>
 				</tr>
-				
 				
 				<!-- 제목  -->
 				<tr>
@@ -1063,9 +1055,9 @@ body{
 						<div style="display: inline-block; min-width: 70px; ">
 							<span class="pro_info" id="name_length">0/40</span>
 						</div>
-						<input maxlength="40" value="${secondhandProduct.secondhand_subject}"
-						oninput="numberMaxLength(this);" type="text" id="p_name"
-						name="p_name" class="input-tag" placeholder="기존제목내용">
+						<input maxlength="40" value="${secondhandProduct.secondhand_subject}""
+						oninput="numberMaxLength(this);" type="text" id="p_name" 					
+						name="p_name" class="input-tag" placeholder="제목을 입력하세요.">
 					</td>
 				</tr>
 
@@ -1082,8 +1074,21 @@ body{
 						<select class="input-tag" id="c_idx" name="c_idx" style="width: 30%; height: 35px;">
 								<option value="0">카테고리 선택</option>
 								<c:forEach var="category" items="${categorylist }">
-									<option value="${category.category_idx }"> ${category.category_name }</option>
+									   <c:choose>
+							                <c:when test="${category.category_idx == secondhandProduct.category_idx}">
+							                    <option value="${category.category_idx}" selected> ${category.category_name }</option>
+							                </c:when>
+							                <c:otherwise>
+							                    <option value="${category.category_idx}"> ${category.category_name }</option>
+							                </c:otherwise>
+							            </c:choose>
 								</c:forEach>
+<!-- 								<option value="1">패션의류/신발/잡화/뷰티/미용</option> -->
+<!-- 								<option value="2">유아동/유아장난감/유아의류/유아용품</option> -->
+<!-- 								<option value="3">가구/인테리어/생활용품</option> -->
+<!-- 								<option value="4">도서/문구/게임/취미/쿠폰</option> -->
+<!-- 								<option value="5">반려동물/반려동물용품</option> -->
+<!-- 								<option value="6">모바일/태블릿/전자악세사리/가전제품</option> -->
 						</select>
 					</td>
 				</tr>
@@ -1092,25 +1097,36 @@ body{
 					<td colspan="2"><hr></td>
 				</tr>
 				
-				
-				
-				<!-- 거래지역 -->
+<!-- 				거래지역 -->
 <!-- 				<tr> -->
 <!-- 					<td class="td1" align="left" style="vertical-align: top;"><span -->
 <!-- 						class="pro_info"> 희망 거래지역 </span></td> -->
 					
 <!-- 					<td align="left"> -->
-<!-- 						<input type="button" id="myaddr" value="내주소" onclick="myAddr();"> -->
 <!-- 						<input type="button" id="addrfind" value="주소찾기" onclick="addrFind();"> -->
 <!-- 						<br> -->
 <!-- 						<input type="text" id="p_location" class="input-tag" style="margin-top: 5px;" readonly="readonly"> -->
+<!-- 						<input type="text" id="p_location_detail" class="input-tag"  placeholder="상세주소입력" style="margin-top: 5px;" > -->
 <!-- 					</td> -->
+
+
 <!-- 				</tr> -->
 
 <!-- 				<tr> -->
 <!-- 					<td colspan="2"><hr></td> -->
 <!-- 				</tr> -->
-
+				
+<!-- 				상품상태 -->
+<!-- 				<tr> -->
+<!-- 					<td class="td1" align="left" style="vertical-align: top;"><span -->
+<!-- 						class="pro_info">상품상태<span style="color: red">*</span></span></td> -->
+<!-- 					<td class="td2" align="left"> -->
+<!-- 						<input type="radio" name="p_condition" id="p_condition" value="중고상품" checked="checked"> -->
+<!-- 						<span class="pro_info">중고상품</span>  -->
+<!-- 						<input type="radio" name="p_condition" id="p_condition" value="새상품">  -->
+<!-- 						<span class="pro_info">새상품</span> -->
+<!-- 					</td> -->
+<!-- 				</tr> -->
 
 
 				<!-- 거래방법 -->
@@ -1122,18 +1138,52 @@ body{
 						<div class="pro_info" style="font-size: 15px; color:gray;"> 중복 선택 가능 </div>
 					</td>
 					<td class="td2" align="left">
-
-						<input type="checkbox" name="p_delivery_type" id="p_delivery_type" value="직거래" >
-						<span class="pro_info">직거래</span> 
-						
-						<input type="checkbox" name="p_delivery_type" id="p_delivery_type2" value="택배거래"> 
-						<span class="pro_info">택배거래</span>
-						
-						<input type="checkbox" name="p_delivery_type" id="p_delivery_type3" value="Z스테이션"> 
-						<span class="pro_info">Z스테이션</span>
-						
-						<input type="checkbox" name="p_delivery_type" id="p_delivery_type4" value="Z맨"> 
-						<span class="pro_info">Z맨</span>
+					
+						    <c:choose>
+						        <c:when test="${empty secondhandProduct.secondhand_deliveryType_ptp }">
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type" value="직거래" >
+									<span class="pro_info">직거래</span> 
+								</c:when>
+								 <c:otherwise>
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type" value="직거래" checked="checked">
+									<span class="pro_info">직거래</span> 
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+						        <c:when test="${empty secondhandProduct.secondhand_deliveryType_parcel }">
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type2" value="택배거래" >
+									<span class="pro_info">택배거래</span> 
+								</c:when>
+								 <c:otherwise>
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type2" value="택배거래" checked="checked">
+									<span class="pro_info">택배거래</span> 
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+						        <c:when test="${empty secondhandProduct.secondhand_deliveryType_zstation }">
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type3" value="Z스테이션" >
+									<span class="pro_info">Z스테이션</span> 
+								</c:when>
+								 <c:otherwise>
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type3" value="Z스테이션" checked="checked">
+									<span class="pro_info">Z스테이션</span> 
+								</c:otherwise>
+							</c:choose>
+							
+							<c:choose>
+						        <c:when test="${empty secondhandProduct.secondhand_deliveryType_zman }">
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type4" value="Z맨" >
+									<span class="pro_info">Z맨</span> 
+								</c:when>
+								 <c:otherwise>
+									<input type="checkbox" name="p_delivery_type" id="p_delivery_type4" value="Z맨" checked="checked">
+									<span class="pro_info">Z맨</span> 
+								</c:otherwise>
+							</c:choose>
+					
+					
 					</td>
 				</tr>
 				
@@ -1152,39 +1202,54 @@ body{
 					</td>
 					<td class="td2" align="left">
 					
-		
-						<input type="checkbox" name="p_paymentType" id=p_paymentType value="직접송금"> 
-						<span class="pro_info">직접송금</span>
+							<c:choose>
+						        <c:when test="${empty secondhandProduct.secondhand_paymentType_ptp }">
+									<input type="checkbox" name="p_paymentType" id=p_paymentType value="직접송금"> 
+									<span class="pro_info">직접송금</span>
+								</c:when>
+								 <c:otherwise>
+									<input type="checkbox" name="p_paymentType" id=p_paymentType value="직접송금" checked="checked"> 
+									<span class="pro_info">직접송금</span>
+								</c:otherwise>
+							</c:choose>
+							
+							
+							<c:choose>
+						        <c:when test="${empty secondhandProduct.secondhand_paymentType_zpay }">
+									<input type="checkbox" name="p_paymentType" id="p_paymentType2" value="Z페이" >
+									<span class="pro_info">Z페이</span> 
+								</c:when>
+								 <c:otherwise>
+									<input type="checkbox" name="p_paymentType" id="p_paymentType2" value="Z페이" checked="checked">
+									<span class="pro_info">Z페이</span> 
+								</c:otherwise>
+							</c:choose>
 						
-						<input type="checkbox" name="p_paymentType" id="p_paymentType2" value="Z페이" >
-						<span class="pro_info">Z페이</span> 
 					</td>
 				</tr>
-
-
-
+				
 
 				<tr>
 					<td colspan="2"><hr></td>
 				</tr>
 				
+				
+				
 				<!-- 가격  -->
-				<tr>
+				<tr>	
 					<td class="td1" align="left" style="vertical-align: top;">
-						<span class="pro_info">
-							가격
+						<span class="pro_info">가격
 							<span style="color: red">*</span>
 						</span>
 					</td>
-					
 					<td class="td2" align="left">
-						<input type="text" id="p_price"
-							maxlength="11" name="p_price" class="input-tag" placeholder="가격"
+						<input type="text" id="p_price" maxlength="11"
+							name="p_price" class="input-tag" placeholder="가격"
 							value="<fmt:formatNumber pattern="#,###" value="${ secondhandProduct.secondhand_price }"/>"
-							oninput="numberMaxLength(this);"
+							oninput="numberMaxLength(this);" 
 							style="width: 30%;"> &nbsp; 
-						<span class="pro_info"> 원
-						</span> <br> 
+						<span class="pro_info">원
+						</span><br>
 						<span class="pro_info" id="price_under"></span>
 					</td>
 				</tr>
@@ -1201,10 +1266,11 @@ body{
 					
 						<br>
 						<div>
-						<textarea class="input-tag"
-							id="p_exp" name="p_exp" maxlength="1000"
-							oninput="numberMaxLength(this);"
-							placeholder="구입연도, 브랜드, 사용감, 하자유무 등 필요한 정보를 넣어주세요. &#13;&#10;구매자의 문의를 좀더 줄일 수 있습니다.">${ secondhandProduct.secondhand_content }</textarea>
+							<textarea class="input-tag"
+								id="p_exp" name="p_exp" maxlength="1000"
+								oninput="numberMaxLength(this);"
+								placeholder="구입연도, 브랜드, 사용감, 하자유무 등 필요한 정보를 넣어주세요. &#13;&#10;구매자의 문의를 좀더 줄일 수 있습니다.">${ secondhandProduct.secondhand_content }
+							</textarea>
 						</div>
 						<div align="right"><span style="font-size: 18px;"id="exp_length">${ fn:length(secondhandProduct.secondhand_content) }/1000</span></div>
 					</td>
@@ -1214,17 +1280,14 @@ body{
 					<td colspan="2"><hr></td>
 				</tr>
 				
-
 				<!-- 등록 취소버튼 -->
 				<tr>
 					<td colspan="2">
-						<input class="btn btn-success" type="button" value="수정하기" onclick="proInfoModify();"> 
-						<input class="btn btn" type="reset" value="다시쓰기">&nbsp;&nbsp;
-						<input class="btn btn" type="button" value="취소하기" onclick="procancel()">
-					</td>
+						<input class="btn btn-success" type="button" value="수정하기" onclick="proInfoSend();"> 
+						<input class="btn btn" type="button" value="취소하기" onclick="procancel()"></td>
 				</tr>
-				
 			</table>
+
 		</div>
 	<div style="min-height: 200px;"></div>
 	</div>

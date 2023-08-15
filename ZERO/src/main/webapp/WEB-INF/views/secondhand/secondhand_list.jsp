@@ -300,7 +300,7 @@ $(document).on("click", ".likebtn a", function(e) {
 </script>
 <style>
 #mainArticle {
-	margin-top: 150px;
+	margin-top: 100px;
 }
 a {
 	color:black;
@@ -382,9 +382,10 @@ ul.tabs li.current{
 	height:300px;
 }
 row{
-	margin:20px;
-	padding:20px;
-}
+	margin-left:20px;
+/* 	padding:20px; */
+	align-content:center;
+	}
 /* 카드 카테고리 */
 .category {
 	color:gray;
@@ -411,7 +412,6 @@ row{
 
 	<article id="mainArticle">
 		<div class="container">
-		<hr>
 		
 		
 

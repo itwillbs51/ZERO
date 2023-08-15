@@ -438,8 +438,8 @@ public class SecondhandController {
 				model.addAttribute("msg", "잘못된 접근입니다!");
 				return "fail_back";
 			}
-			System.out.println("%&%&%&%&%&%& 수정 - 판매자아이디 : " + member_id);
-			System.out.println("%&%&%&%&%&%& 수정 - 상품번호 : " + secondhand_idx);
+//			System.out.println("%&%&%&%&%&%& 수정 - 판매자아이디 : " + member_id);
+//			System.out.println("%&%&%&%&%&%& 수정 - 상품번호 : " + secondhand_idx);
 			
 			
 			//중고 카테고리 값 전달(재사용) 
@@ -494,7 +494,7 @@ public class SecondhandController {
 					SecondhandVO secondhand,
 					HttpSession session, 
 					Model model,
-					String[] change_image,
+//					String[] change_image,
 					@RequestParam String secondhand_idx,
 					@RequestParam(defaultValue = "1") int pageNum){
 		
@@ -510,8 +510,8 @@ public class SecondhandController {
 		//p_exp = p_exp.replaceAll("\r\n", "<br>");
 		secondhand.setSecondhand_content(secondhand.getSecondhand_content().replaceAll("\r\n", "<br>"));
 		
-
-		
+		System.out.println("(*Y(&(*&(*&(*&(*&(*&(&*&(*&(&(*&(*&(&(*&(*&수정오류확인하기" + secondhand_idx);
+		 
 		
 		
 		// 파일(이미지)저장작업 
@@ -696,7 +696,11 @@ public class SecondhandController {
 //			return "redirect:/secondhand_list?secondhand_idx=" + secondhand.getSecondhand_idx() + "&pageNum=" + pageNum;
 		} else { // 실패
 			model.addAttribute("msg", "글 수정 실패!");
+			System.out.println("(*Y(&(*&(*&(*&(*&(*&(&*&(*&(&(*&(*&(&(*&(*&수정오류확인하기" + secondhand_idx);
+
 			return "fail_back";
+			
+			
 		}
 		
 	}
