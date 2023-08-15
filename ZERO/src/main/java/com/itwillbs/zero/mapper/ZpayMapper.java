@@ -114,6 +114,10 @@ public interface ZpayMapper {
 	// ZPAY 비밀번호 변경
 	int updateZpayPasswd(@Param("member_id") String member_id, @Param("new_zpay_passwd") String new_zpay_passwd);
 
+	// ZPAY잔액 조회
+	ZpayHistoryVO selectMyZpayHistory(String member_id);
+
+
 	
 
 	

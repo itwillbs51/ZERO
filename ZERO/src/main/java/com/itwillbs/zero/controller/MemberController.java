@@ -51,20 +51,24 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.itwillbs.zero.vo.CsVO;
 import com.itwillbs.zero.vo.PageInfoVO;
+import com.itwillbs.zero.service.SendMailService;
 import com.itwillbs.zero.email.EmailErrorResponse;
 import com.itwillbs.zero.email.SuccessResponse;
+import com.itwillbs.zero.handler.GenerateRandomCode;
 import com.itwillbs.zero.handler.MyPasswordEncoder;
 import com.itwillbs.zero.service.AuctionService;
 import com.itwillbs.zero.service.LikesService;
 import com.itwillbs.zero.service.MemberService;
 import com.itwillbs.zero.service.SecondhandService;
 import com.itwillbs.zero.service.TestService;
+import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.sns.OAuthService;
 import com.itwillbs.zero.vo.GoogleOAuthResponseVO;
 import com.itwillbs.zero.vo.MemberReviewVO;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.OrderSecondhandVO;
 import com.itwillbs.zero.vo.SecondhandVO;
+import com.itwillbs.zero.vo.ZpayHistoryVO;
 
 @Controller
 public class MemberController {
@@ -91,6 +95,8 @@ public class MemberController {
 	@Autowired
 	private OAuthService oauthService;
 
+	@Autowired
+	private ZpayService zpayService;
 	
 	// 멤버 로그인 - 수정
 	@GetMapping("member_login")
@@ -841,6 +847,7 @@ public class MemberController {
 							) {
 		
 		System.out.println("profileUpdatePost:" + map);
+		JsonArray data = new JsonArray();
 		
 		// 조건 파라미터 - 아이디
 		String column1 = "member_id";
@@ -848,6 +855,15 @@ public class MemberController {
 		
 		String column2 = map.get("column2");
 		String value2 = map.get("value2");
+		
+		// 닉네임 중복 검사
+		
+		
+		int cnt = service.nickCheck(value2);
+		if(cnt > 0) {
+			data.add("닉네임 증복으로 변경 실패");
+			return data.toString();
+		}
 		
 		// -----------------------------------------------------------------------------------
 		// MemberService - updateMember() 메서드를 호출하여 회원정보 변경 작업 요청
@@ -859,9 +875,11 @@ public class MemberController {
 		if(updateCount > 0) { // 성공
 						
 			// 프로필 변경 작업 성공 시 "성공" 출력
-			return "성공";
+			data.add("프로필 정보 변경 성공");
+			return data.toString();
 		} else { // 실패
-			return "프로필 정보 변경 실패";
+			data.add("프로필 정보 변경 실패");
+			return data.toString();
 		}
 	}
 	
@@ -881,6 +899,78 @@ public class MemberController {
 		System.out.println("MemberController - memberFindPasswd");
 		
 		return "member/member_find_passwd";
+	}
+	
+	@ResponseBody
+	@PostMapping("/ajax/sendMailPasswd")
+	public String sendMailPasswd(HttpSession session
+							, Model model
+							, @RequestParam Map<String, String> map
+							) {
+		
+		System.out.println("sendMailPasswd:" + map);
+		JsonArray data = new JsonArray();
+		
+		// 조건 파라미터 - 아이디, 휴대폰번호
+		String member_id = (String)session.getAttribute("member_id");
+		
+		String id = map.get("member_id");
+		System.out.println("id : " + id);
+		
+		// 이메일과 휴대폰이 동일한지 검사
+		Map<String, String> result = service.isCheckIdPhone(map);
+		System.out.println("result : " + result);
+		if(result == null) {
+			data.add("일치하는 회원 정보가 없습니다");
+			return data.toString();
+		}
+		
+		
+		// 난수 생성 후 리턴받기 위해 사용자 정의 클래스 GenerateRandomCode 의 static 메서드 getRandomCode() 호출
+		// => 파라미터 : 난수 길이(정수)   리턴타입 : String(authCode)
+		String authCode = GenerateRandomCode.getRandomCode(10); // 50글자에 맞는 난수(영문자, 숫자) 리턴
+		System.out.println(authCode);
+		
+		
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPassword(authCode);
+		System.out.println("암호화된 비밀번호 : " + securePasswd);
+		
+		// 3. BcryptPasswordEncoder 객체의 matches() 메서드 호출해서 암호 비교
+		// => 파라미터 : 평문, 암호화 된 암호 		리턴타입 : boolean
+		// 로그인 성공/ 실패 여부 판별하여 포워딩
+		// => 성공 : MemberVO 객체에 데이터가 저장되어 있고 입력받은 패스워드가 같음
+		// => 실패 : MemberVO 객체가 null 이거나 입력받은 패스워드와 다름
+		
+		System.out.println("securePasswd : " + securePasswd);
+		result.put("securePasswd", securePasswd);
+		
+		// -----------------------------------------------------------------------------------
+		// MemberService - updateMember() 메서드를 호출하여 회원정보 변경 작업 요청 패스워드 암호화 처리
+		// => 파라미터 : fileName1    리턴타입 : int(updateCount)
+		int updateCount = service.updateMemberPasswd(result);
+		
+		
+		// 패스워드 변경 작업 요청 결과 판별
+		if(updateCount > 0) { // 성공
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					SendMailService mailService = new SendMailService();
+					mailService.sendPasswdMail(authCode, id);
+				}
+			}).start(); // start() 메서드 호출 필수!			
+			// 임시비밀번호 전송 작업 성공 시 "성공" 출력
+			data.add("임시 비밀번호가 메일로 전송되었습니다");
+			return data.toString();
+		} else { // 실패
+			data.add("메일 전송이 실패했습니다");
+			return data.toString();
+		}
+		
+		
 	}
 	
 	// 회원 이메일 인증 페이지 이동  - 수정
@@ -1183,8 +1273,16 @@ public class MemberController {
 		// 세션 아이디로 판매내역 받아오기(최근 두개)
 		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 3);
 		
+		// 세션 아이디로 회원내역 가져오기
+		MemberVO member = service.getMember(member_id);
+		
+		// ZPAY잔액 가져오기 위해
+		ZpayHistoryVO myZpayList = zpayService.getMyZpayHistory(member_id);
+		
 		model.addAttribute("myOdShList", myOdShList);
 		model.addAttribute("myShList", myShList);
+		model.addAttribute("member", member);
+		model.addAttribute("myZpayList", myZpayList);
 		
 		return "member/member_mypage_main";
 	}
@@ -1558,7 +1656,7 @@ public class MemberController {
 
 	// 마이페이지 - 문의 내역 - 상세 조회
 	@PostMapping("inquiry_detail")
-	public String inquiry_detail(String cs_num, @RequestParam(required= false) String cs_reply,
+	public String inquiry_detail(String cs_idx, @RequestParam(required= false) String cs_reply,
 						HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
@@ -1570,7 +1668,7 @@ public class MemberController {
 		}
 		
 		// cs_num 받아와 조회해서 보여주기
-		List<CsVO> myInquiryDetailList = service.getMyInquiryDetail(cs_num);
+		List<CsVO> myInquiryDetailList = service.getMyInquiryDetail(cs_idx);
 //		List<CsInfoVO> myInquiryDetailList = service.getMyInquiryDetail(cs_num);
 		
 		// 문의 내역 저장
@@ -1584,7 +1682,7 @@ public class MemberController {
 		@PostMapping("myPage_inquiry_detailModify")
 		public String myPage_inquiry_detailModify(
 						@ModelAttribute("CsVO") CsVO board
-						, @RequestParam("cs_num") String cs_num
+						, @RequestParam("cs_idx") String cs_idx
 						, HttpSession session
 						, Model model
 						, HttpServletRequest request) {
@@ -1592,7 +1690,7 @@ public class MemberController {
 			String member_id = (String) session.getAttribute("member_id");
 			if(member_id == null) {
 				model.addAttribute("msg", " 로그인이 필요합니다!");
-				model.addAttribute("targetURL", "member_login_form");
+				model.addAttribute("targetURL", "member_login");
 								
 				return "fail_location";
 			}
@@ -1665,7 +1763,7 @@ public class MemberController {
 					e.printStackTrace();
 				}
 				
-				return "redirect:/member_inquiry";
+				return "redirect:/myPage_inquiry";
 			} else { // 실패
 				model.addAttribute("msg", "글 쓰기 실패!");
 				return "fail_back";
@@ -1677,20 +1775,20 @@ public class MemberController {
 		@GetMapping("delete_myInquiry")
 		public String deleteMyInquiry(HttpSession session
 									, Model model
-									, @RequestParam("cs_num") String cs_num) {
+									, @RequestParam("cs_idx") String cs_idx) {
 			// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 			String member_id = (String) session.getAttribute("member_id");
 			if(member_id == null) {
 				model.addAttribute("msg", " 로그인이 필요합니다!");
-				model.addAttribute("targetURL", "member_login_form");
+				model.addAttribute("targetURL", "member_login");
 						
 				return "fail_location";
 			}
 			
-			int deleteCount = service.deleteMyInquiry(cs_num);
+			int deleteCount = service.deleteMyInquiry(cs_idx);
 			
 			if(deleteCount > 0) { // 삭제 성공
-				return "redirect:/member_inquiry";
+				return "redirect:/myPage_inquiry";
 			} else {
 				model.addAttribute("msg", "글 삭제 실패!");
 				return "fail_back";
