@@ -168,7 +168,7 @@
 					<div >
 			
 					<%-- 본문 - 프로필 관리 --%>
-						<div   class="content_area" data-v-2b15bea4="">
+						<div class="content_area" data-v-2b15bea4="">
 							<form action="user/profileUpdate" method="post" enctype="multipart/form-data" id="profileForm">
 								<div data-v-75326462="" class="my_profile">
 									<div data-v-88eb18f6="" data-v-75326462="" class="content_title">

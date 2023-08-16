@@ -239,7 +239,8 @@ input[type=checkbox] {
 				ZERO의 회원이 되신것을 축하드립니다!<br> 
 				로그인 후 이용해주세요!
 				<br>
-				<button onclick="location.href='/zero'">홈으로</button>
+				<button onclick="location.href='/ZERO/'">홈으로</button>
+				<button onclick="location.href='member_login'">로그인</button>
 				<br>
 
 			</div>
