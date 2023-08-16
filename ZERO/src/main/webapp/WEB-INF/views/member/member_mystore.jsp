@@ -1064,7 +1064,6 @@ ul.tabs li.current{
 										</div>
 										<br>
 										<div class="sellReviewList">등록된 판매후기가 없습니다.</div>
-<!-- 													<button class="sc-crNyjn dRjcfF">선택삭제</button> -->
 										<div class="sc-ekkqgF cTdzXF">
 <!-- 													<a class="sc-iBmynh gjtVmz">최신순</a> -->
 <!-- 													<a class="sc-iBmynh iHPPlM">인기순</a> -->
@@ -1104,32 +1103,8 @@ ul.tabs li.current{
 											<br>
 											<div class="likeList">
 												찜 목록이 없습니다.
-<!-- 												<div class="row"> -->
-<%-- 													<c:forEach var="like" items="${likeList }"> --%>
-<!-- 														<div class=" col col-sm-6 col-lg-3"> -->
-<!-- 															<div class="card border-0 shadow-sm"> -->
-<%-- 																<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${like.secondhand_idx }&member_id=${like.member_id}"> --%>
-<!-- 	<!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
-<!-- 																	<div class="photoDiv"> -->
-<%-- 																		<img src="${pageContext.request.contextPath }/resources/upload/${like.secondhand_image1}" alt="상품 이미지" class="card-img"> --%>
-<!-- 																	</div> -->
-<!-- 																	<div class="  card-body"> -->
-<%-- 																		<div class=" ">${like.secondhand_subject }</div> --%>
-<!-- 																		<div class=" "> -->
-<%-- 																			<div class=" ">${like.secondhand_price}</div> --%>
-<%-- 																			<div class=" "><span>${like.secondhand_first_date}</span></div> --%>
-<!-- 																		</div> -->
-<!-- 																	</div> -->
-<!-- 																	<div class=" "> -->
-<!-- 			<!-- 															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국 -->
-<!-- 																	</div> -->
-<!-- 																</a> -->
-<!-- 															</div> -->
-<!-- 														</div> -->
-<%-- 													</c:forEach> --%>
 												</div>
 											</div>
-<!-- 											<div class="sc-clBsIJ hLgItk">찜 목록이 없습니다</div> -->
 									</div>
 								</div>
 							</div>
