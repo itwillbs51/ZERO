@@ -836,7 +836,7 @@ input[type=checkbox] {
                           }
                       },
                       error: function () {
-                          alert("오류가 발생했습니다. 다시 시도해주세요.");
+//                           alert("오류가 발생했습니다. 다시 시도해주세요.");
                       }
                   });
 
@@ -888,7 +888,7 @@ input[type=checkbox] {
 	                checkAuthSuccess(); // 활성화 확인 함수 호출
 	            },
 	            error: function () {
-	                alert("오류가 발생했습니다. 다시 시도해주세요.");
+// 	                alert("오류가 발생했습니다. 다시 시도해주세요.");
 	            }
 	        });
 	    }
