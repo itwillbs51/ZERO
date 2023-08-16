@@ -253,26 +253,26 @@
 												</span>
 											</td>
 										</tr>
-										<tr>
-											<th>계좌등록일</th>
-											<td colspan="2">
-											</td>
-										</tr>
-										<tr>
-											<th>은행명</th>
-											<td colspan="2">${member_bank_name }</td>
-										</tr>
-										<tr>
-											<th>계좌번호</th>
-											<td colspan="2"></td>
-										</tr>
-										<tr>
-											<th>ZPAY 잔액</th>
-											<td></td>
-											<td class="text-end">
-												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button>
-											</td>
-										</tr>
+<!-- 										<tr> -->
+<!-- 											<th>계좌등록일</th> -->
+<!-- 											<td colspan="2"> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>은행명</th> -->
+<%-- 											<td colspan="2">${member_bank_name }</td> --%>
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>계좌번호</th> -->
+<!-- 											<td colspan="2"></td> -->
+<!-- 										</tr> -->
+<!-- 										<tr> -->
+<!-- 											<th>ZPAY 잔액</th> -->
+<!-- 											<td></td> -->
+<!-- 											<td class="text-end"> -->
+<!-- 												<button type="button" class="btn btn-sm btn-dark text-nowrap">상세보기</button> -->
+<!-- 											</td> -->
+<!-- 										</tr> -->
 									</tbody>
 								</table>
 								<div class="text-center">

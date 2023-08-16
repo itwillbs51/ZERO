@@ -32,6 +32,13 @@
 <title>중고거래 사이트</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </script>
+<style>
+@media only screen and (min-width: 768px) {
+	.small_area[data-v-2b15bea4] {
+		height: 500px;
+	}
+}
+</style>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>
@@ -49,10 +56,16 @@
 			<div data-v-473e7c14="" class="contentArea">
 			<%-- 메인영역 --%>
 			<div  class=" my lg">
-			<div   class="content_area" data-v-2b15bea4="" style="height:600px;">
-			<div data-v-88eb18f6="" class="title">
-				<h3 data-v-88eb18f6="">문의 내역</h3>
+			<div   class="content_area small_area" data-v-2b15bea4="">
+			
+			<div data-v-88eb18f6="" data-v-2e8df47b="" class="content_title">
+				<div data-v-88eb18f6="" class="title">
+					<h3 data-v-88eb18f6="">문의 내역</h3>
+				</div>
 			</div>
+<!-- 			<div data-v-88eb18f6="" class="title"> -->
+<!-- 				<h3 data-v-88eb18f6="">문의 내역</h3> -->
+<!-- 			</div> -->
 			 <br>
 <!-- 			 <form action=""> -->
 			 	<table class="table">
@@ -97,6 +110,7 @@
 							</c:otherwise>
 						</c:choose>
 					</table>
+						<hr>
 <!-- 			 </form> -->
 			<div data-v-7bcac446 class="snb_var">
 				<nav id="subNav" class="snb">

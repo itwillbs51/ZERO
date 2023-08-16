@@ -547,6 +547,13 @@ ul.tabs li.current{
     box-shadow: rgba(4, 0, 0, 0.03) 0px 5px 10px 0px;
 }
 
+.card-text-reverse {
+    position: absolute;
+    bottom: 20%;
+    right: 5%;
+    display: grid;
+}
+
 
 /* 작원 화면에서 마이스토어 프로필 이미지 히든 */
 @media only screen and (max-width: 768px) {
@@ -581,8 +588,6 @@ ul.tabs li.current{
 	
 	
 	$(function(){
-		
-		
 		
 		num_all = ${sellList.size()};
 		$(".sec").empty();
@@ -749,6 +754,9 @@ ul.tabs li.current{
 			                var formatDate1 = item.auction_start_datetime.split('T');
 			                var formatDate2 = item.auction_end_datetime.split('T');
 			                var floorNumber = Math.floor(item.order_auction_commission);
+			                var dateTimeObject = new Date(item.auction_start_datetime);
+			                var now = new Date();
+
 			                
 			                if(item.order_auction_buyer != null) { // 낙찰 완료시
 			                	var formatDate3 = item.order_auction_deliver_date.split('T');
@@ -757,9 +765,14 @@ ul.tabs li.current{
 		                
 		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
 		                html += '<div class="row">\
-		                        <div class="col-lg-12">\
-		                            <a class="col" href="auction_prepare_detail?id=' + item.auction_idx + '">\
-		                                <div class="card custom-card">\
+		                        <div class="col-lg-12">';
+		                        if(dateTimeObject <= now) { // 경매중일 경우
+			                        html += '<a class="col" href="auction_detail?id=' + item.auction_idx + '">';
+		                        } else {
+			                        html += '<a class="col" href="auction_prepare_detail?id=' + item.auction_idx + '">';
+		                        };
+		                        
+		                        html += '<div class="card custom-card">\
 		                                    <div class="image-container">\
 		                                        <img src="${pageContext.request.contextPath }/resources/upload/' + item.auction_image1 + '" alt="Image">\
 		                                    </div>\
@@ -784,7 +797,13 @@ ul.tabs li.current{
 		                                   }
 		                                            
 		                                            
-		                                   html += '<div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div></div>\
+		                                   html += '<div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div>';
+		                                   
+		                                   if(item.order_auction_buyer != null) {
+		                                	   html += '<div data-v-43813796="" class="btn solid deal_status">낙찰완료</div>';
+		                                   }
+		                                   
+		                                   html += '</div>\
 		                                        </div>\
 		                                    </div>\
 		                                </div>\
@@ -819,7 +838,7 @@ ul.tabs li.current{
 		                                            <h5 class="card-title">' + item.secondhand_subject + '</h5>\
 		                                            <div class="card-text sell_price">판매 가격 : ' + item.secondhand_price + ' 원</div>\
 		                                            <div class="card-text sell_date">판매 등록일 : ' + formatDate[0]  + ' 일</div>\
-		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.secondhand_deal_status  + '</div></div>\
+		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn solid deal_status">' + item.secondhand_deal_status  + '</div></div>\
 		                                        </div>\
 		                                    </div>\
 		                                </div>\
@@ -1013,22 +1032,35 @@ ul.tabs li.current{
 												                    <div class="card-body">
 																        <a class="col" href="secondhand_detail?secondhand_idx=${sell.secondhand_idx }&member_id=${sell.member_id}">
 												                        <h5 class="card-title">${sell.secondhand_subject}</h5>
-																		<div class="card-text sell_price">${sell.secondhand_price} 원</div>
-																		<div class="card-text sell_date"><span>${fn:split(sell.secondhand_first_date, 'T')[0]} 일</span></div>
+																		<div class="card-text sell_price">등록가격 : ${sell.secondhand_price} 원</div>
+																		<div class="card-text sell_date"><span>등록일 : ${fn:split(sell.secondhand_first_date, 'T')[0]} 일</span></div>
 		                                            					<c:choose>
 		                                            						<c:when test="${sell.secondhand_deal_status eq '판매중'}">
 									                                            <div class="card-text delivery"><span>거래방법 : ${sell.secondhand_deliverytype_ptp} ${sell.secondhand_deliveryType_parcel} ${sell.secondhand_deliveryType_zman } </span></div>
 				                                            					<div class="card-text commission"><span>결제방법 : ${sell.secondhand_paymentType_ptp} ${sell.secondhand_paymentType_zpay}</span></div>
 		                                            						</c:when>
-																			<c:when test="${sell.secondhand_deal_status ne '판매중'}">
+		                                            						<c:when test="${sell.secondhand_deal_status eq '예약중'}">
 									         									<div class="card-text buyer">구매자 : ${sell.order_secondhand_buyer  }</div>
 									                                            <div class="card-text delivery"><span>거래방법 : ${sell.order_secondhand_type}</span></div>
-				                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission}</span></div>
 				                                            						
-			                                            						<c:if test="${not empty sell.zman_delivery_idx}">
+			                                            						<c:if test="${not empty sell.zman_delivery_status}">
 										                                            <div class="card-text status"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
 										                                            <div class="card-text status"><span>담당Z맨 : ${sell.zman_id}</span></div>
 										                                            <div class="card-text status"><span>담당Z맨 : ${sell.zman_id}</span></div>
+					                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission} 원</span></div>
+										                                            <div class="card-text status"><span>출발지 : ${sell.zman_delivery_startspot}</span></div>
+										                                            <div class="card-text status"><span>도착지 : ${sell.zman_delivery_endspot}</span></div>
+			                                            						</c:if>
+		                                            						</c:when>
+																			<c:when test="${sell.secondhand_deal_status eq '판매완료'}">
+									         									<div class="card-text buyer">구매자 : ${sell.order_secondhand_buyer  }</div>
+									                                            <div class="card-text delivery"><span>거래방법 : ${sell.order_secondhand_type}</span></div>
+				                                            					<div class="card-text commission"><span>거래완료일 : ${fn:split(sell.order_secondhand_date, 'T')[0]} 일</span></div>
+				                                            						
+			                                            						<c:if test="${not empty sell.zman_delivery_status}">
+										                                            <div class="card-text status"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
+										                                            <div class="card-text status"><span>담당Z맨 : ${sell.zman_id}</span></div>
+					                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission} 원</span></div>
 										                                            <div class="card-text status"><span>출발지 : ${sell.zman_delivery_startspot}</span></div>
 										                                            <div class="card-text status"><span>도착지 : ${sell.zman_delivery_endspot}</span></div>
 			                                            						</c:if>
@@ -1064,7 +1096,6 @@ ul.tabs li.current{
 										</div>
 										<br>
 										<div class="sellReviewList">등록된 판매후기가 없습니다.</div>
-<!-- 													<button class="sc-crNyjn dRjcfF">선택삭제</button> -->
 										<div class="sc-ekkqgF cTdzXF">
 <!-- 													<a class="sc-iBmynh gjtVmz">최신순</a> -->
 <!-- 													<a class="sc-iBmynh iHPPlM">인기순</a> -->
@@ -1104,32 +1135,8 @@ ul.tabs li.current{
 											<br>
 											<div class="likeList">
 												찜 목록이 없습니다.
-<!-- 												<div class="row"> -->
-<%-- 													<c:forEach var="like" items="${likeList }"> --%>
-<!-- 														<div class=" col col-sm-6 col-lg-3"> -->
-<!-- 															<div class="card border-0 shadow-sm"> -->
-<%-- 																<a data-pid="229889159" class="sc-bGbJRg iZZEyc" href="secondhand_detail?secondhand_idx=${like.secondhand_idx }&member_id=${like.member_id}"> --%>
-<!-- 	<!-- 																<div class="sc-bEjcJn jwhhcG" width="194" height="194" > -->
-<!-- 																	<div class="photoDiv"> -->
-<%-- 																		<img src="${pageContext.request.contextPath }/resources/upload/${like.secondhand_image1}" alt="상품 이미지" class="card-img"> --%>
-<!-- 																	</div> -->
-<!-- 																	<div class="  card-body"> -->
-<%-- 																		<div class=" ">${like.secondhand_subject }</div> --%>
-<!-- 																		<div class=" "> -->
-<%-- 																			<div class=" ">${like.secondhand_price}</div> --%>
-<%-- 																			<div class=" "><span>${like.secondhand_first_date}</span></div> --%>
-<!-- 																		</div> -->
-<!-- 																	</div> -->
-<!-- 																	<div class=" "> -->
-<!-- 			<!-- 															<img src="/pc-static/resource/5dcce33ad99f3020a4ab.png" width="15" height="17" alt="위치 아이콘">전국 -->
-<!-- 																	</div> -->
-<!-- 																</a> -->
-<!-- 															</div> -->
-<!-- 														</div> -->
-<%-- 													</c:forEach> --%>
 												</div>
 											</div>
-<!-- 											<div class="sc-clBsIJ hLgItk">찜 목록이 없습니다</div> -->
 									</div>
 								</div>
 							</div>

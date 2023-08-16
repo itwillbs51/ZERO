@@ -192,6 +192,16 @@ public interface AdminMapper {
 	// 계좌 관리 - ZMAN 계좌 목록 조회
 	List<ZpayVO> selectZmanZpayList();
 
+	
+	// =============================================================================================================
+	Map<String, String> selectDealRatio();
+
+	List<Map<String, String>> selectDatilyDealCount();
+
+	List<Map<String, String>> selectDailDealAmount();
+
+	List<Map<String, String>> selectDailyMemberRegistCount();
+
 
 	
 
