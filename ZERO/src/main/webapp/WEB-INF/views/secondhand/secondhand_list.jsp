@@ -325,7 +325,7 @@ a {
 		font-size: 0.7rem;
 		position: absolute;
 		top: 263px;
-		right: 0px;
+		right: 5px;
 		border-radius: 40%;
 }
 
@@ -375,11 +375,19 @@ ul.tabs li.current{
 	display: inherit;
 }
 
-
+/* 목록 튀어나온 것 방지 -지영 */
+.row {
+    margin-left: 0;
+}
+/* 카드 크기 조절 -지영 */
+.productListArea .card {
+	min-width: 250px !important;
+}
 /* 목록 카드 css */
 .card-img-top{
 	width:250x;
 	height:300px;
+	object-fit: cover; /* 카드 안 이미지 비율 고정 -지영 */
 }
 row{
 	margin-left:20px;
