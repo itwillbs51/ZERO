@@ -31,13 +31,13 @@ public class SendMailClient {
 			//    => put() 메서드 활용
 			// 메일 전송에 사용할 메일 서버에 대한 정보 설정(구글, 네이버, 아웃룩 등)
 			properties.put("mail.smtp.host", "smtp.gmail.com"); // 구글(Gmail) SMTP 서버 주소
-			properties.put("mail.smtp.auth", "true"); // SMTP 서버 접근 시 인증 여부 설정
+			properties.put("mail.smtp.auth", "TRUE"); // SMTP 서버 접근 시 인증 여부 설정
 			properties.put("mail.smtp.port", "587"); // Gmail 서버의 서비스 포트 설정(TLS) 
 			// 메일 서버 인증 관련 추가 정보 설정(설정 내용에 따라 port 정보가 바뀜)
-			properties.put("mail.smtp.starttls.enable", "true"); // TLS 라는 인증 프로토콜 사용 여부 설정
+			properties.put("mail.smtp.starttls.enable", "TRUE"); // TLS 라는 인증 프로토콜 사용 여부 설정
 			properties.put("mail.smtp.ssl.protocols", "TLSv1.2"); // TLS 인증 프로토콜 버전 설정
 			// 만약, 메일 발송 과정에서 TLS 관련 오류 발생 시
-				properties.put("mail.smtp.ssl.trust", "smtp.gmail.com"); // SSL 인증 신뢰 서버 주소 설정
+			properties.put("mail.smtp.ssl.trust", "smtp.gmail.com"); // SSL 인증 신뢰 서버 주소 설정
 			
 			// 3. 메일 서버 인증 정보를 관리하는 사용자 정의 클래스의 인스턴스 생성
 			//    => javax.Mail.Authenticator 타입으로 업캐스팅하여 사용
