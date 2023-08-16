@@ -22,5 +22,7 @@ public class ZpayHistoryVO {
 	private String auction_idx;
 	private String seller_id;
 	private String secondhand_idx;
+	private String order_auction_title;
+	private int auctionIdxForOrderAuction;
 	
 }
