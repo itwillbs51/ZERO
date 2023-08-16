@@ -754,6 +754,9 @@ ul.tabs li.current{
 			                var formatDate1 = item.auction_start_datetime.split('T');
 			                var formatDate2 = item.auction_end_datetime.split('T');
 			                var floorNumber = Math.floor(item.order_auction_commission);
+			                var dateTimeObject = new Date(item.auction_start_datetime);
+			                var now = new Date();
+
 			                
 			                if(item.order_auction_buyer != null) { // 낙찰 완료시
 			                	var formatDate3 = item.order_auction_deliver_date.split('T');
@@ -762,9 +765,14 @@ ul.tabs li.current{
 		                
 		                console.log(item); // 각 항목을 콘솔에 출력하거나 원하는 방식으로 처리
 		                html += '<div class="row">\
-		                        <div class="col-lg-12">\
-		                            <a class="col" href="auction_prepare_detail?id=' + item.auction_idx + '">\
-		                                <div class="card custom-card">\
+		                        <div class="col-lg-12">';
+		                        if(dateTimeObject <= now) { // 경매중일 경우
+			                        html += '<a class="col" href="auction_detail?id=' + item.auction_idx + '">';
+		                        } else {
+			                        html += '<a class="col" href="auction_prepare_detail?id=' + item.auction_idx + '">';
+		                        };
+		                        
+		                        html += '<div class="card custom-card">\
 		                                    <div class="image-container">\
 		                                        <img src="${pageContext.request.contextPath }/resources/upload/' + item.auction_image1 + '" alt="Image">\
 		                                    </div>\
@@ -789,7 +797,13 @@ ul.tabs li.current{
 		                                   }
 		                                            
 		                                            
-		                                   html += '<div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div></div>\
+		                                   html += '<div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.auction_manage_check_status + '</div>';
+		                                   
+		                                   if(item.order_auction_buyer != null) {
+		                                	   html += '<div data-v-43813796="" class="btn solid deal_status">낙찰완료</div>';
+		                                   }
+		                                   
+		                                   html += '</div>\
 		                                        </div>\
 		                                    </div>\
 		                                </div>\
@@ -824,7 +838,7 @@ ul.tabs li.current{
 		                                            <h5 class="card-title">' + item.secondhand_subject + '</h5>\
 		                                            <div class="card-text sell_price">판매 가격 : ' + item.secondhand_price + ' 원</div>\
 		                                            <div class="card-text sell_date">판매 등록일 : ' + formatDate[0]  + ' 일</div>\
-		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn outlinegrey deal_status">' + item.secondhand_deal_status  + '</div></div>\
+		                                            <div class="card-text-reverse"><div data-v-43813796="" class="btn solid deal_status">' + item.secondhand_deal_status  + '</div></div>\
 		                                        </div>\
 		                                    </div>\
 		                                </div>\
