@@ -921,11 +921,16 @@ input[type=checkbox] {
     box-shadow: rgba(4, 0, 0, 0.03) 0px 5px 10px 0px;
 }
 
-
+/* 큰 화면에서 푸터 위치 고정 */
+@media only screen and (min-width: 768px) {
+	.small_area[data-v-2b15bea4] {
+		height: 500px;
+	}
+}
 /* 작원 화면에서 마이스토어 프로필 이미지 히든 */
 @media only screen and (max-width: 768px) {
-	.profile_box{
+	.profile_box {
 		display: none;
+	}
 }
 
-}
