@@ -45,7 +45,9 @@
 					</li>
 					<li class="headerArea1_item" <c:if test="${empty sessionScope.member_id }">hidden</c:if>><a href="member_logout" class="headerArea1_link">로그아웃</a></li>
 					<li class="headerArea1_item"><a href="zman_main" class="headerArea1_link">ZMAN</a></li>
-					<li class="headerArea1_item"><a href="admin_main" class="headerArea1_link">관리자</a></li>
+					<c:if test="${sessionScope.member_type eq '직원' }">
+						<li class="headerArea1_item"><a href="admin_main" class="headerArea1_link">관리자</a></li>					
+					</c:if>
 					<li class="headerArea1_item"><a href="zpay_main" class="headerArea1_link">ZPAY</a></li>
 				</ul>
 			</div>
