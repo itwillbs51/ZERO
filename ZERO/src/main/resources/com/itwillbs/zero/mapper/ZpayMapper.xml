@@ -432,7 +432,7 @@
 					<when test="zpay_deal_type.equals('중고입금') or zpay_deal_type.equals('경매입금')">
 						, #{zpay_balance} + #{zpay_amount}						
 					</when>
-					<when test="zpay_deal_type.equals('중고출금') or zpay_deal_type.equals('경매출금')">
+					<when test="zpay_deal_type.equals('중고출금') or zpay_deal_type.equals('경매출금') or zpay_deal_type.equals('검수비')">
 						, #{zpay_balance} - #{zpay_amount}
 					</when>				
 					<when test="zpay_deal_type.equals('경매취소환불')">
