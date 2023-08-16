@@ -547,6 +547,13 @@ ul.tabs li.current{
     box-shadow: rgba(4, 0, 0, 0.03) 0px 5px 10px 0px;
 }
 
+.card-text-reverse {
+    position: absolute;
+    bottom: 20%;
+    right: 5%;
+    display: grid;
+}
+
 
 /* 작원 화면에서 마이스토어 프로필 이미지 히든 */
 @media only screen and (max-width: 768px) {
@@ -581,8 +588,6 @@ ul.tabs li.current{
 	
 	
 	$(function(){
-		
-		
 		
 		num_all = ${sellList.size()};
 		$(".sec").empty();
@@ -1013,22 +1018,35 @@ ul.tabs li.current{
 												                    <div class="card-body">
 																        <a class="col" href="secondhand_detail?secondhand_idx=${sell.secondhand_idx }&member_id=${sell.member_id}">
 												                        <h5 class="card-title">${sell.secondhand_subject}</h5>
-																		<div class="card-text sell_price">${sell.secondhand_price} 원</div>
-																		<div class="card-text sell_date"><span>${fn:split(sell.secondhand_first_date, 'T')[0]} 일</span></div>
+																		<div class="card-text sell_price">등록가격 : ${sell.secondhand_price} 원</div>
+																		<div class="card-text sell_date"><span>등록일 : ${fn:split(sell.secondhand_first_date, 'T')[0]} 일</span></div>
 		                                            					<c:choose>
 		                                            						<c:when test="${sell.secondhand_deal_status eq '판매중'}">
 									                                            <div class="card-text delivery"><span>거래방법 : ${sell.secondhand_deliverytype_ptp} ${sell.secondhand_deliveryType_parcel} ${sell.secondhand_deliveryType_zman } </span></div>
 				                                            					<div class="card-text commission"><span>결제방법 : ${sell.secondhand_paymentType_ptp} ${sell.secondhand_paymentType_zpay}</span></div>
 		                                            						</c:when>
-																			<c:when test="${sell.secondhand_deal_status ne '판매중'}">
+		                                            						<c:when test="${sell.secondhand_deal_status eq '예약중'}">
 									         									<div class="card-text buyer">구매자 : ${sell.order_secondhand_buyer  }</div>
 									                                            <div class="card-text delivery"><span>거래방법 : ${sell.order_secondhand_type}</span></div>
-				                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission}</span></div>
 				                                            						
-			                                            						<c:if test="${not empty sell.zman_delivery_idx}">
+			                                            						<c:if test="${not empty sell.zman_delivery_status}">
 										                                            <div class="card-text status"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
 										                                            <div class="card-text status"><span>담당Z맨 : ${sell.zman_id}</span></div>
 										                                            <div class="card-text status"><span>담당Z맨 : ${sell.zman_id}</span></div>
+					                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission} 원</span></div>
+										                                            <div class="card-text status"><span>출발지 : ${sell.zman_delivery_startspot}</span></div>
+										                                            <div class="card-text status"><span>도착지 : ${sell.zman_delivery_endspot}</span></div>
+			                                            						</c:if>
+		                                            						</c:when>
+																			<c:when test="${sell.secondhand_deal_status eq '판매완료'}">
+									         									<div class="card-text buyer">구매자 : ${sell.order_secondhand_buyer  }</div>
+									                                            <div class="card-text delivery"><span>거래방법 : ${sell.order_secondhand_type}</span></div>
+				                                            					<div class="card-text commission"><span>거래완료일 : ${fn:split(sell.order_secondhand_date, 'T')[0]} 일</span></div>
+				                                            						
+			                                            						<c:if test="${not empty sell.zman_delivery_status}">
+										                                            <div class="card-text status"><span>배송상태 : ${sell.zman_delivery_status}</span></div>
+										                                            <div class="card-text status"><span>담당Z맨 : ${sell.zman_id}</span></div>
+					                                            					<div class="card-text commission"><span>수수료 : ${sell.order_delivery_commission} 원</span></div>
 										                                            <div class="card-text status"><span>출발지 : ${sell.zman_delivery_startspot}</span></div>
 										                                            <div class="card-text status"><span>도착지 : ${sell.zman_delivery_endspot}</span></div>
 			                                            						</c:if>

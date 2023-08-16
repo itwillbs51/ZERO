@@ -78,28 +78,23 @@
       </a>
     </li>
     <li class="snb_item">
-      <a class="snb_link" href="member_mypage_buyList">
-        상품구매내역
-      </a>
-    </li>
-    <li class="snb_item">
-      <a class="snb_link" href="member_mypage_sellList">
-        상품판매내역
-      </a>
-    </li>
-    <li class="snb_item">
       <a class="snb_link" href="member_mypage_auctionList">
         경매내역
       </a>
     </li>
     <li class="snb_item">
-      <a class="snb_link" href="member_mypage_write_review">
-        작성한후기
+      <a class="snb_link" href="member_mypage_buyList">
+        상품구매내역
       </a>
     </li>
     <li class="snb_item">
-      <a class="snb_link" href="">
-        관심 상품
+      <a class="snb_link" href="member_mypage_write_review">
+        작성한리뷰
+      </a>
+    </li>
+    <li class="snb_item">
+      <a class="snb_link" href="zpay_main">
+        나의 Z-PAY
       </a>
     </li>
     <li class="snb_item">
@@ -110,16 +105,6 @@
     <li class="snb_item">
       <a class="snb_link" href="member_address">
         나의 주소록 관리
-      </a>
-    </li>
-    <li class="snb_item">
-      <a class="snb_link" href="zpay_main">
-        나의 Z-PAY
-      </a>
-    </li>
-    <li class="snb_item">
-      <a class="snb_link" href="zman_join">
-        Z-MAN 신청
       </a>
     </li>
     <li class="snb_item">
