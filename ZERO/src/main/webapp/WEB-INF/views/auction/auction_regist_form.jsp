@@ -533,10 +533,20 @@
 			$("#p_price").focus();
 			return;
 		}
+		if(p_price>p_price2){
+			alert('경매시작가격보다 즉시구매가격이 더 높아야 합니다.');
+			$("#p_price2").val('');
+			$("#p_price2").focus();
+			return;
+		}
 		
 		
 		if(confirm('사용가능 ZPAY: ${possibleZpay}원  \n검수비'+comma(Math.floor(p_price*0.1)) +'원을 결제 하시겠습니까?')==false) return;
-		
+		if(Math.floor(p_price*0.1)>"${possibleZpay}"){
+// 			임시
+			alert("zpay가 부족합니다");
+			return;
+		}
 		var form = $("#imgform")[0];
 		var formData = new FormData(form);
 	
