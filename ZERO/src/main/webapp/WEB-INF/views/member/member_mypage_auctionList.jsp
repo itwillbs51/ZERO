@@ -94,8 +94,8 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
   margin-top: 21px;
 }   
     
-.content_title {
-  margin-top: -83px;
+#mainArticle {
+  margin-top: 10px;
 }
     
 </style>

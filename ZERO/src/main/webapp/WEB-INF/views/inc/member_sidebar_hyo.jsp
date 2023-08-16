@@ -28,28 +28,16 @@ $(document).ready(function(){
     </li>
     <hr>
     <li class="nav-item">
-      <a class="nav-link" href="member_mypage_buyList">
-        상품구매내역
-      </a>
-    </li>
-<!--     <hr> -->
-<!--     <li class="nav-item"> -->
-<!--       <a class="nav-link" href="member_mypage_sellList"> -->
-<!--         상품판매내역 -->
-<!--       </a> -->
-<!--     </li> -->
-    <hr>
-    <li class="nav-item">
       <a class="nav-link" href="member_mypage_auctionList">
         경매내역
       </a>
     </li>
-<!--     <hr> -->
-<!--     <li class="nav-item"> -->
-<!--       <a class="nav-link" href="member_mypage_write_review"> -->
-<!--         작성한후기 -->
-<!--       </a> -->
-<!--     </li> -->
+    <hr>
+    <li class="nav-item">
+      <a class="nav-link" href="member_mypage_buyList">
+        상품구매내역
+      </a>
+    </li>
     <hr>
     <li class="nav-item">
       <a class="nav-link" href="member_mypage_writeReviewList">
@@ -57,7 +45,12 @@ $(document).ready(function(){
       </a>
     </li>
     <hr>
- 
+    <li class="nav-item">
+      <a class="nav-link" href="zpay_main">
+        나의 Z-PAY
+      </a>
+    </li>
+    <hr>
     <li class="nav-item">
       <a class="nav-link" href="member_mystore">
         판매스토어
@@ -67,12 +60,6 @@ $(document).ready(function(){
     <li class="nav-item">
       <a class="nav-link" href="member_address">
         나의 주소록 관리
-      </a>
-    </li>
-    <hr>
-    <li class="nav-item">
-      <a class="nav-link" href="zpay_main">
-        나의 Z-PAY
       </a>
     </li>
     <hr>
