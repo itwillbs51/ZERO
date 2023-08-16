@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -494,21 +495,6 @@ public class AdminController {
 		return "admin/admin_auction_order_detail";
 	}
 	
-	// 부트스트랩 테이블 예제
-	@GetMapping("tables_ex")
-	public String tables_ex() {
-		System.out.println("AdminController - tables_ex");
-		
-		return "admin/tables_ex";
-	}
-	
-	// 부트스트랩 파이차트 예제
-	@GetMapping("charts_ex")
-	public String charts_ex() {
-		System.out.println("AdminController - charts_ex");
-		
-		return "admin/charts_ex";
-	}
 	
 	
 	//============================= 고객센터 관리 =======================================================================================
@@ -1026,6 +1012,76 @@ public class AdminController {
 		model.addAttribute("zpayList", zpayList);
 		
 		return "admin/admin_account_zman_list";
+	}
+	
+	// ==================================================================================================
+	
+	// 부트스트랩 테이블 예제
+	@GetMapping("tables_ex")
+	public String tables_ex() {
+		System.out.println("AdminController - tables_ex");
+		
+		return "admin/tables_ex";
+	}
+	
+	// 부트스트랩 파이차트 예제
+	@GetMapping("charts_ex")
+	public String charts_ex() {
+		System.out.println("AdminController - charts_ex");
+		
+		return "admin/charts_ex";
+	}
+	
+	@ResponseBody
+	@PostMapping("secondhand_auction_deal_ratio")
+	public String dealRatio() {
+		System.out.println("AdminController - dealRation");
+		
+		Map<String, String> map = service.getDealRatio();
+		System.out.println(map);
+		
+		JSONObject jo = new JSONObject(map);
+		
+		return jo.toString();
+	}
+	
+	@ResponseBody
+	@PostMapping("daily_deal_count")
+	public String dealCount() {
+		System.out.println("AdminController - dealCount");
+		
+		List<Map<String, String>> map = service.getDealCount();
+		System.out.println(map);
+		
+		JSONArray ja = new JSONArray(map);
+		
+		return ja.toString();
+	}
+
+	@ResponseBody
+	@PostMapping("daily_deal_amount")
+	public String dealAmount() {
+		System.out.println("AdminController - dealAmount");
+		
+		List<Map<String, String>> map = service.getDealAmount();
+		System.out.println(map);
+		
+		JSONArray ja = new JSONArray(map);
+		
+		return ja.toString();
+	}
+
+	@ResponseBody
+	@PostMapping("daily_member_registration")
+	public String dailyMemberRegistration() {
+		System.out.println("AdminController - dailyMemberRegistration");
+		
+		List<Map<String, String>> map = service.getDailyMemberRegistCount();
+		System.out.println(map);
+		
+		JSONArray ja = new JSONArray(map);
+		
+		return ja.toString();
 	}
 	
 }

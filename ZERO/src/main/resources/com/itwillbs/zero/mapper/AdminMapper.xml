@@ -605,4 +605,61 @@
 		WHERE member_type = 'Z맨'
 	</select>
 	
+	
+	
+	<select id="selectDealRatio" resultType="map">
+		SELECT 
+			ROUND((SUM(CASE WHEN order_type = '중고거래' THEN 1 ELSE 0 END) / (COUNT(*) * 1.0)) * 100, 2) AS 중고거래비율,
+			ROUND((SUM(CASE WHEN order_type = '경매거래' THEN 1 ELSE 0 END) / (COUNT(*) * 1.0)) * 100, 2) AS 경매거래비율
+			FROM (
+					SELECT '중고거래' AS order_type FROM ORDER_SECONDHAND
+					UNION ALL
+					SELECT '경매거래' AS order_type FROM ORDER_AUCTION
+			) AS combined_orders
+	</select>
+
+	<select id="selectDatilyDealCount" resultType="map">
+		SELECT 
+			DATE(order_date) AS transaction_date,
+			COUNT(*) AS transaction_count
+		FROM (
+				SELECT order_secondhand_date AS order_date FROM ORDER_SECONDHAND
+				UNION ALL
+				SELECT order_auction_deliver_date AS order_date FROM ORDER_AUCTION
+				) AS combined_orders
+		GROUP BY transaction_date
+		ORDER BY transaction_date
+	</select>
+	
+	<select id="selectDailDealAmount" resultType="map">
+		SELECT 
+		    DATE(transaction_date) AS transaction_date,
+		    SUM(total_price) AS total_amount
+		FROM (
+		    SELECT 
+		        order_secondhand_date AS transaction_date,
+		        order_secondhand_price AS total_price
+		    FROM ORDER_SECONDHAND
+		    UNION ALL
+		    SELECT 
+		        order_auction_deliver_date AS transaction_date,
+		        order_auction_price AS total_price
+		    FROM ORDER_AUCTION
+		) AS combined_transactions
+		GROUP BY transaction_date
+		ORDER BY transaction_date;
+	</select>
+	
+	<select id="selectDailyMemberRegistCount" resultType="map">
+		SELECT
+		    DATE(member_date) AS registration_date,
+		    COUNT(*) AS member_count
+		FROM
+		    MEMBER
+		GROUP BY
+		    registration_date
+		ORDER BY
+		    registration_date;
+	</select>
+	
 </mapper>
