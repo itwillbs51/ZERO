@@ -141,7 +141,7 @@
 				let auction_card = "";
 				// 없을 때 안내문
 // 				console.log("data.nowAuctionList : " + data.nowAuctionList);
-				if(data.nowAuctionList == "" || data.nowAuctionList == null) {
+				if(data.preAuctionList == "" || data.preAuctionList == null) {
 					auction_card = 
 						'<div class="auctionNotice">'
 						+ '<div class="noticeMsg">'
@@ -160,7 +160,7 @@
 						let formatted_start_price = Number(start_price).toLocaleString('en');
 						let formatted_max_price = Number(max_price).toLocaleString('en');
 						
-						let start_date = new Date(product.auction_start_date);
+						let start_date = new Date(product.auction_start_datetime);
 						start_date.setHours(0, 0, 0, 0);
 						
 						// 목록에 표시할 JSON 객체 1개 출력문 생성(= 1개 게시물) => 반복
@@ -181,7 +181,7 @@
 								+ '			<span>' + updateCountDown(start_date) + '</span> 남았습니다'
 	// 							+ '			<span>n일 nn시간 nn분</span>'
 								+ '			<div>'
-								+ '				입찰 예정 시간 : ' + product.auction_start_date
+								+ '				입찰 예정 시간 : ' + formatDate(start_date)
 								+ '			</div>'
 								+ '		</div>'
 								+ '		<div class="price row">'
@@ -244,6 +244,20 @@
 			return "마감";
 		}
 	}	// updateCountDown() 끝
+	
+	function formatDate(data){
+		
+        let date = new Date(data);
+        let year = date.getFullYear();
+        let month = String(date.getMonth() + 1).padStart(2, '0');
+        let day = String(date.getDate()).padStart(2, '0');
+//         let hours = String(date.getHours()).padStart(2, '0');
+//         let minutes = String(date.getMinutes()).padStart(2, '0');
+//         let seconds = String(date.getSeconds()).padStart(2, '0');
+
+        let formattedDate = year + '년 ' + month + "월 " + day + "일 ";
+        return formattedDate;
+    }
 	
 </script>
 

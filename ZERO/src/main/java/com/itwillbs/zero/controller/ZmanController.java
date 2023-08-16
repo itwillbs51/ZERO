@@ -161,7 +161,7 @@ public class ZmanController {
 	}
 	
 	// ZMAN zman_delivery_status "배달 수락"로 변경하기
-	@PostMapping("zman_delivery_ing")
+	@GetMapping("zman_delivery_ing")
 	public String zmanDeliveyAccept(HttpSession session, Model model, 
 									@RequestParam int zman_delivery_idx) {
 		System.out.println("ZmanController - zman_delivery_go");
@@ -198,10 +198,20 @@ public class ZmanController {
 	}
 	
 	// ZMAN zman_delivery_status "배달 시작" 로 변경하기
-	@RequestMapping(value = "zman_delivery_start", method = RequestMethod.GET)
+	@RequestMapping(value = "zman_delivery_start", method = {RequestMethod.GET, RequestMethod.POST})
 	public String zmanDeliveryStart(@RequestParam int zman_delivery_idx, Model model, HttpSession session) {
 		System.out.println("ZmanController - zman_delivery_start");
 		System.out.println("zman_delivery_idx : " + zman_delivery_idx);
+		
+		String zman_id = (String) session.getAttribute("member_id");
+		ZmanVO zman = zman_service.getZman(zman_id);
+		model.addAttribute("zman", zman);
+		
+		// 배달 상세 정보 - 출발지와 배달지 가져오기
+		ZmanDeliveryVO zd = service.getDeliveryDetail(zman_delivery_idx);
+		System.out.println("출발지  - " + zd.getZman_delivery_startspot());
+		System.out.println("도착  - " + zd.getZman_delivery_endspot());
+		System.out.println("zd  - " + zd);
 		
 		// ZMAN 배달 상태 를 '배달 시작'으로 변경하기
 		int updateCount = service.updateDeliveryStatus(zman_delivery_idx);
@@ -209,26 +219,17 @@ public class ZmanController {
 		if(updateCount > 0) {
 			System.out.println("zman_delivery_status - 배달 시작 으로 변경");
 			
-//			 return "zman/zman_delivery_ing_go";
-			return  "redirect:/zman_delivery_ing";
+			model.addAttribute("zd", zd);
+			model.addAttribute("depart", zd.getZman_delivery_startspot()); // zman_delivery_startspot
+			model.addAttribute("arrive", zd.getZman_delivery_endspot()); // zman_delivery_endspot
+			 
+			
+			return "zman/zman_delivery_ing_go";
+//			 return "zman/zman_delivery_ing";
 		} else {
 			model.addAttribute("msg", "배달 시작 실패!");
 			return "fail_back";
 		}
-		
-//		 if (updateCount > 0) {
-//		        System.out.println("zman_delivery_status - 배달 시작 으로 변경");
-//
-//		        // 배달 시작 후 해당 배달 정보를 다시 조회하여 모델에 추가
-//		        ZmanDeliveryVO zd = service.getDeliveryDetail(zman_delivery_idx);
-//		        model.addAttribute("zd", zd);
-//
-//		        // 배달 시작 후 배달 진행 페이지로 리다이렉트
-//		        return "redirect:/zman_delivery_ing";
-//	    } else {
-//	        model.addAttribute("msg", "배달 시작 실패!");
-//	        return "fail_back";
-//	    }
 		
 	}
 

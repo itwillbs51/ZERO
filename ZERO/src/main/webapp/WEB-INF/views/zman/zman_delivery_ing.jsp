@@ -168,11 +168,11 @@
 								<div class="user_thumb02" data-v-32a5de90="">
 									<c:choose>
 				                    	<c:when test="${empty zd.zman_delivery_starttime }">
-						                    <form action="zman_delivery_start" method="GET">
+						                    <form action="zman_delivery_start" method="POST">
 						                    	<input type="hidden" id= "zman_delivery_idx" name="zman_delivery_idx" value="${zd.zman_delivery_idx }">
 						                    	
 						                    	
-					                    		<button class="btn btn-outline-dark btn-lg"  type="submit">배달 시작</button>
+					                    		<button class="btn btn-outline-dark btn-lg"  type="submit">배달 수락</button>
 						                    </form>
 					                    </c:when>
 					                    <c:otherwise>
