@@ -432,6 +432,9 @@
 				<if test="order_secondhand_idx != 0">
 					, order_secondhand_idx
 				</if>
+				<if test="auction_idx != 0">
+					, auction_idx
+				</if>
 				)
 			VALUES(
 				null
