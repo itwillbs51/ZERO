@@ -77,12 +77,25 @@
 				</div>
 			</div>
 			<div class="membership_detail" data-v-32a5de90="">
-				<a href="#" class="membership_item disabled" data-v-32a5de90=""><strong
-					class="info" data-v-32a5de90=""> 일반 회원 </strong>
-					<p class="title" data-v-32a5de90="">회원 등급</p></a><a href="zpay_main"
-					class="membership_item" data-v-32a5de90=""><strong class="info"
-					data-v-32a5de90=""> ${myZpayList.zpay_balance }원 </strong>
-					<p class="title" data-v-32a5de90="">Z-PAY</p></a>
+				<a href="#" class="membership_item disabled" data-v-32a5de90="">
+					<strong	class="info" data-v-32a5de90=""> 일반 회원 </strong>
+					<p class="title" data-v-32a5de90="">회원 등급</p></a>
+				<c:choose>
+				<c:when test="${not empty myZpayList.zpay_balance }">
+				<a href="zpay_main"
+					class="membership_item" data-v-32a5de90="">
+					<strong class="info" data-v-32a5de90=""> ${myZpayList.zpay_balance }원 </strong>
+					<p class="title" data-v-32a5de90="">Z-PAY</p>
+					</a>
+				</c:when>
+				<c:otherwise>
+				<a href="zpay_main"
+					class="membership_item" data-v-32a5de90="">
+					<strong class="info" data-v-32a5de90=""> 0원 </strong>
+					<p class="title" data-v-32a5de90="">Z-PAY</p>
+					</a>
+				</c:otherwise>
+			</c:choose>
 			</div>
 		</div>
 

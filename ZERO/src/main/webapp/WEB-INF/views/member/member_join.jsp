@@ -494,7 +494,7 @@ input[type=checkbox] {
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
 							   maxlength="6"
-							   > <!-- required="required" 편의를위해뺴놓음 테스트시 넣기 -->
+							   required="required">
 					</div>
 					<!-- 이메일 인증코드 확인 일치 여부-->
 					<div class="row mb-3">
@@ -539,8 +539,8 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   onkeyup="checkconfirmPasswd(this.value)">
-							   <!-- required="required"  편의를위해 뺴놓음 테스트시 켜기  -->
+							   onkeyup="checkconfirmPasswd(this.value)"
+							   required="required">
 					</div>
 						<!-- 비밀번호 와 비밀번호 확인 일치 여부-->
 					<div class="row mb-3">
@@ -607,7 +607,7 @@ input[type=checkbox] {
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
 								   maxlength="4"
-								   > <!-- required="required" 편의를위해 뺴놓음 테스트시 켜기 -->
+								   required="required">
 						</div>
 					</div>
 					<!-- 핸드폰 인증코드 확인 일치 여부-->
@@ -697,7 +697,7 @@ input[type=checkbox] {
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
 <!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton"> 회원가입 </button>
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled="disabled"> 회원가입 </button>
 					</div>
 				</form>
 
@@ -1050,19 +1050,19 @@ function getMarketingAgreementValue() {
 </script>
 
 <script type="text/javascript">
-  //인증 성공 여부를 저장할 변수 추가   -->
-//   let phoneAuthSuccess = false;  
-//   let emailAuthSuccess = false;  
+//   인증 성공 여부를 저장할 변수 추가   
+  let phoneAuthSuccess = false;  
+  let emailAuthSuccess = false;  
 
-  // 회원가입 버튼 활성화 확인 함수 추가   
-//    function checkAuthSuccess() {   
-//        // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 
-//        if (phoneAuthSuccess && emailAuthSuccess) { 
-//            $("#registerButton").prop("disabled", false);   
-//        } else {  
-//            $("#registerButton").prop("disabled", true);   
-//        }   
-//    }  
+//  회원가입 버튼 활성화 확인 함수 추가   
+   function checkAuthSuccess() {   
+       // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 
+       if (phoneAuthSuccess && emailAuthSuccess) { 
+           $("#registerButton").prop("disabled", false);   
+       } else {  
+           $("#registerButton").prop("disabled", true);   
+       }   
+   }  
 </script>   
   <!-- 편의를위해 위에 주석해놓음, 테스트시 위 주석풀고, 회원가입 disabled 추가해야됨 -->
  
