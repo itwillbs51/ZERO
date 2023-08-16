@@ -97,6 +97,7 @@ public class AuctionController2 {
 		System.out.println(balance);
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
 		
+		if(auction_manage_status ==  null) {
 		
 		if(possibleZpay<currentBid) {
 			System.out.println("입찰가능금액보다 높게 입찰 불가");
@@ -123,7 +124,10 @@ public class AuctionController2 {
 			
 		}
 		
-		
+		//발표임시
+		}else {
+		service.registLog(map);
+		return "true";}
 	}
 	
 	// 경매 예정 상세 페이지로 이동

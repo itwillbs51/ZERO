@@ -474,6 +474,7 @@ function onMessage(msg) {
 			str += "<b> --------경매종료-------- </b>";
 			str += "</div>";
 			$("#msgArea").append(str);
+			$('#auction_log').scrollTop($('#auction_log')[0].scrollHeight);
 	   }
     }else{
     	if("${product.auction_manage_status}"=="경매종료"){return;}
