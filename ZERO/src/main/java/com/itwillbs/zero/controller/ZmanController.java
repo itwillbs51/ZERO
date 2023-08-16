@@ -380,12 +380,12 @@ public class ZmanController {
 		
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
-//			if(member_id == null) {
-//				model.addAttribute("msg", " 로그인이 필요합니다!");
-//				model.addAttribute("targetURL", "member_login_form");
-//									
-//				return "fail_location";
-//			}
+			if(member_id == null) {
+				model.addAttribute("msg", " 로그인이 필요합니다!");
+				model.addAttribute("targetURL", "member_login");
+									
+				return "fail_location";
+			}
 		
 		// member_id로 member 데이터 조회후 member_bank_auth 유무에 따른 이동 - 필요없음 신청시 zpay신청으로보내면됨
 //		MemberVO memberBankAuth = member_service.isValidBank(member_id);
@@ -422,13 +422,13 @@ public class ZmanController {
 		
 		
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
-//		String member_id = (String) session.getAttribute("member_id");
-//				if(member_id == null) {
-//					model.addAttribute("msg", " 로그인이 필요합니다!");
-//					model.addAttribute("targetURL", "member_login_form");
-//									
-//					return "fail_location";
-//				}
+		String member_id = (String) session.getAttribute("member_id");
+				if(member_id == null) {
+					model.addAttribute("msg", " 로그인이 필요합니다!");
+					model.addAttribute("targetURL", "member_login");
+									
+					return "fail_location";
+				}
 
 		// Arrays를 사용하여 vehicles 배열을 문자열로 변환하고, 각 요소 사이에 쉼표를 추가합니다.
 	    String vehiclesStr = String.join(",", vehicles);

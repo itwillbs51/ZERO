@@ -1258,12 +1258,12 @@ public class MemberController {
 		
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
-//		if(member_id == null) {
-//			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("targetURL", "member_login_form");
-//			
-//			return "fail_location";
-//		}
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+			
+			return "fail_location";
+		}
 		
 		// 세션 아이디로 구매내역 받아오기(최근 세개),(myOrderSecondhandList 줄임)
 		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 3); 
@@ -1293,12 +1293,12 @@ public class MemberController {
 		
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
-//				if(member_id == null) {
-//					model.addAttribute("msg", " 로그인이 필요합니다!");
-//					model.addAttribute("targetURL", "member_login_form");
-//					
-//					return "fail_location";
-//				}
+				if(member_id == null) {
+					model.addAttribute("msg", " 로그인이 필요합니다!");
+					model.addAttribute("targetURL", "member_login");
+					
+					return "fail_location";
+				}
 		
 		// 세션 아이디로 구매내역 받아오기(myOrderSecondhandList 줄임), 페이징처리해야됨
 		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 5);
@@ -1320,37 +1320,37 @@ public class MemberController {
 	}
 	
 	// 멤버 중고상품 판매내역 - 정의효 필요없음 삭제예정
-	@GetMapping("member_mypage_sellList")
-	public String memberMypageSellList(HttpSession session, Model model) {
-		
-		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
-		String member_id = (String) session.getAttribute("member_id");
-//				if(member_id == null) {
-//					model.addAttribute("msg", " 로그인이 필요합니다!");
-//					model.addAttribute("targetURL", "member_login_form");
-//							
-//					return "fail_location";
-//				}
-		
-		// 세션 아이디로 판매내역 받아오기
-		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 5);
-		
-		model.addAttribute("myShList", myShList);
-		
-		return "member/member_mypage_sellList";
-	}
+//	@GetMapping("member_mypage_sellList")
+//	public String memberMypageSellList(HttpSession session, Model model) {
+//		
+//		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+//		String member_id = (String) session.getAttribute("member_id");
+////				if(member_id == null) {
+////					model.addAttribute("msg", " 로그인이 필요합니다!");
+////					model.addAttribute("targetURL", "member_login_form");
+////							
+////					return "fail_location";
+////				}
+//		
+//		// 세션 아이디로 판매내역 받아오기
+//		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 5);
+//		
+//		model.addAttribute("myShList", myShList);
+//		
+//		return "member/member_mypage_sellList";
+//	}
 	
 	// 멤버 참가중인 경매 내역
 	@GetMapping("member_mypage_auctionList")
 	public String memberMypageAuctionList(HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
-//						if(member_id == null) {
-//							model.addAttribute("msg", " 로그인이 필요합니다!");
-//							model.addAttribute("targetURL", "member_login_form");
-//									
-//							return "fail_location";
-//						}
+						if(member_id == null) {
+							model.addAttribute("msg", " 로그인이 필요합니다!");
+							model.addAttribute("targetURL", "member_login");
+									
+							return "fail_location";
+						}
 		
 		// 세션아이디로 현재 진행중인 경매에 참여한 결과가 있는지 확인
 		List<Map<String, String>> participateAuction = auctionService.getPartAuction(member_id);
