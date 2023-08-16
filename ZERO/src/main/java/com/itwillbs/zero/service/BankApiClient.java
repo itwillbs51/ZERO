@@ -52,7 +52,8 @@ public class BankApiClient {
 	// 2.1.2. 토큰발급 API - 사용자 토큰발급 API (3-legged)
 	public ResponseTokenVO requestToken(Map<String, String> authResponse) {
 		
-		String url = baseUrl + "/oauth/2.0/token";
+		String url = "https://testapi.openbanking.or.kr/oauth/2.0/token";
+//		String url = baseUrl + "/oauth/2.0/token";
 		
 		// 1. 헤더, 바디 생성
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -65,10 +66,18 @@ public class BankApiClient {
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		
 		parameters.add("code", authResponse.get("code")); // 응답데이터 활용
-		parameters.add("client_id", clientId); // @Value 어노테이션으로 포함한 속성값
-		parameters.add("client_secret", clientSecret); // @Value 어노테이션으로 포함한 속성값
+		parameters.add("client_id", "4066d795-aa6e-4720-9383-931d1f60d1a9"); // @Value 어노테이션으로 포함한 속성값
+		parameters.add("client_secret", "36b4a668-94ba-426d-a291-771405e498e4"); // @Value 어노테이션으로 포함한 속성값
+//		parameters.add("redirect_uri", "http://localhost:8089/zero/callback"); // 기존 콜백 URL 그대로 활용
 		parameters.add("redirect_uri", "http://c5d2302t1.itwillbs.com/ZERO/callback"); // 기존 콜백 URL 그대로 활용
 		parameters.add("grant_type", "authorization_code"); // 고정값
+		
+//		parameters.add("code", authResponse.get("code")); // 응답데이터 활용
+//		parameters.add("client_id", clientId); // @Value 어노테이션으로 포함한 속성값
+//		parameters.add("client_secret", clientSecret); // @Value 어노테이션으로 포함한 속성값
+////		parameters.add("redirect_uri", "http://localhost:8089/zero/callback"); // 기존 콜백 URL 그대로 활용
+//		parameters.add("redirect_uri", "http://c5d2302t1.itwillbs.com/ZERO/callback"); // 기존 콜백 URL 그대로 활용
+//		parameters.add("grant_type", "authorization_code"); // 고정값
 		logger.info("□□□□□□ parameters : " + parameters.toString());
 		
 		// 4. 요청에 사용될 헤더와 파라미터 정보를 갖는 HttpEntity 객체 생성
@@ -97,7 +106,8 @@ public class BankApiClient {
 	// - 2.2.1. 사용자정보조회 API - GET
 	public ResponseUserInfoVO requestUserInfo(String access_token, String user_seq_no) {
 		
-		String url = baseUrl + "/v2.0/user/me";
+		String url = "https://testapi.openbanking.or.kr/v2.0/user/me";
+//		String url = baseUrl + "/v2.0/user/me";
 		
 		// 1. 헤더 생성
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -133,7 +143,8 @@ public class BankApiClient {
 		
 		
 		// 잔액조회 요청 API 의 URL 생성 - GET 방식
-		String url = baseUrl + "/v2.0/account/balance/fin_num";
+		String url = "https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num";
+//		String url = baseUrl + "/v2.0/account/balance/fin_num";
 		
 		// 1. 헤더 설정(org.springframework.http.HttpHeaders 클래스 활용)을 위한 HttpHeaders 객체 생성
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -169,7 +180,8 @@ public class BankApiClient {
 	// 2.5. 이체서비스 - 2.5.1. 출금이체 API 요청을 위한 폼 생성(PDF p74)
 	public ResponseWithdrawVO requestWithdraw(Map<String, String> map) {
 		// 출금이체 요청 API 의 URL 생성 - POST 방식
-		String url = baseUrl + "/v2.0/transfer/withdraw/fin_num";
+		String url = "https://testapi.openbanking.or.kr/v2.0/transfer/withdraw/fin_num";
+//		String url = baseUrl + "/v2.0/transfer/withdraw/fin_num";
 		
 		// 헤더 생성
 		// => Content-Type 속성 JSON 형식으로 변경
@@ -220,7 +232,8 @@ public class BankApiClient {
 	// 2.5. 이체서비스 - 2.5.2. 입금이체 API 요청을 위한 폼 생성(PDF p83)
 	public ResponseDepositVO requestDeposit(Map<String, String> map) {
 		// 입금이체 요청 API 의 URL 생성 - POST 방식
-		String url = baseUrl + "/v2.0/transfer/deposit/fin_num";
+		String url = "https://testapi.openbanking.or.kr/v2.0/transfer/deposit/fin_num";
+//		String url = baseUrl + "/v2.0/transfer/deposit/fin_num";
 		
 		// 헤더 생성
 		// => Content-Type 속성 JSON 형식으로 변경
