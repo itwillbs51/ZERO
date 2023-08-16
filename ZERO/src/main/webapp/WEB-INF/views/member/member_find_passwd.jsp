@@ -77,7 +77,13 @@ function sendAuth() { // 인증번호 전송 전송
        },
        success: function (result) {
            console.log('ajax - sendMailPasswd:' + result);
-           alert(result);
+           if(result == 'true') {
+        	   alert("메일이 발송되었습니다!");
+           } else {
+        	   alert("메일 발송이 실패했습니다!");
+           }
+           
+//            alert(result);
            
        },
        error: function () {

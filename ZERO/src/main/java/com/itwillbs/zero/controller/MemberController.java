@@ -1041,11 +1041,15 @@ public class MemberController {
 				}
 			}).start(); // start() 메서드 호출 필수!			
 			// 임시비밀번호 전송 작업 성공 시 "성공" 출력
-			data.add("임시 비밀번호가 메일로 전송되었습니다");
-			return data.toString();
+			
+//			data.add("임시 비밀번호가 메일로 전송되었습니다");
+//			data.add("result");
+//			return data.toString();
+			return "true";
 		} else { // 실패
-			data.add("메일 전송이 실패했습니다");
-			return data.toString();
+//			data.add("메일 전송이 실패했습니다");
+//			return data.toString();
+			return "false";
 		}
 		
 		

@@ -12,13 +12,20 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.itwillbs.zero.controller.BankController;
+
 public class SendMailClient {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SendMailClient.class);
 	
 	// 메일 발송을 수행할 sendMail() 메서드 정의
 	// => 파라미터 : 이메일, 제목, 본문   리턴타입 : boolean(isSendSuccess)
 	public boolean sendMail(String email, String subject, String content) {
 		boolean isSendSuccess = false;
-		
+		logger.info("sendMail");
 		try {
 			// --------------- 메일 전송에 필요한 정보 설정 작업 ---------------
 			// 메일 전송 프로토콜 : SMTP(Simple Mail Transfer Protocol)
@@ -91,6 +98,11 @@ public class SendMailClient {
 			message.setSentDate(new Date());
 			
 			
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.host"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.auth"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.port"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.starttls.enable"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.ssl.protocols"));
 			// 7. 메일 전송
 			// javax.mail.Transport 클래스의 static 메서드 send() 호출
 			// => 파라미터 : 6번에서 생성한 Message 객체
@@ -100,6 +112,8 @@ public class SendMailClient {
 			
 			isSendSuccess = true;
 		} catch (Exception e) {
+			logger.info("△△△△△ sendMailClient : " + "실패");
+			logger.info("△△△△△ sendMailClient : " + e.getMessage());
 			e.printStackTrace();
 			System.out.println("인증 메일 발송 실패!");
 		}
