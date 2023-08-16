@@ -697,7 +697,7 @@ input[type=checkbox] {
 					
 					<div data-v-2b15bea4="" class="login_btn_box">
 <!-- 						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid"> 회원가입 </button> -->
-						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton" disabled="disabled"> 회원가입 </button>
+						<button type="submit" data-v-43813796="" data-v-2b15bea4="" class="btn full solid" id="registerButton"> 회원가입 </button>
 					</div>
 				</form>
 
@@ -1051,18 +1051,18 @@ function getMarketingAgreementValue() {
 
 <script type="text/javascript">
   //인증 성공 여부를 저장할 변수 추가   -->
-  let phoneAuthSuccess = false;  
-  let emailAuthSuccess = false;  
+//   let phoneAuthSuccess = false;  
+//   let emailAuthSuccess = false;  
 
   // 회원가입 버튼 활성화 확인 함수 추가   
-   function checkAuthSuccess() {   
-       // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 
-       if (phoneAuthSuccess && emailAuthSuccess) { 
-           $("#registerButton").prop("disabled", false);   
-       } else {  
-           $("#registerButton").prop("disabled", true);   
-       }   
-   }  
+//    function checkAuthSuccess() {   
+//        // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 
+//        if (phoneAuthSuccess && emailAuthSuccess) { 
+//            $("#registerButton").prop("disabled", false);   
+//        } else {  
+//            $("#registerButton").prop("disabled", true);   
+//        }   
+//    }  
 </script>   
   <!-- 편의를위해 위에 주석해놓음, 테스트시 위 주석풀고, 회원가입 disabled 추가해야됨 -->
  

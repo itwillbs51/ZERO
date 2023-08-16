@@ -33,6 +33,16 @@
 <title>ZERO</title>
 <script type="text/javascript">
 </script>
+<style type="text/css">
+/*  프로필 이미지 크기 지정 */
+.thumb_img {
+	width:100px;
+	height:100px;
+	border-radius: 50%;
+
+}
+
+</style>
 </head>
 <body>
 	<%--네비게이션 바 영역 --%>
@@ -48,11 +58,14 @@
 			<%-- 메인영역 --%>
 			<div class="user_membership" data-v-32a5de90="" data-v-412d8616="">
 			<div class="user_detail" data-v-32a5de90="">
-				<div class="user_thumb" data-v-32a5de90="">
-					<img
-						src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png"
-						alt="사용자 이미지" class="thumb_img" data-v-32a5de90="">
-				</div>
+				<c:choose>
+					<c:when test="${not empty member.member_image }">
+						<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img">
+					</c:when>
+					<c:otherwise>
+						<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img">
+					</c:otherwise>
+				</c:choose>
 				<div class="user_info" data-v-32a5de90="">
 					<div class="info_box" data-v-32a5de90="">
 						<strong class="name" data-v-32a5de90="">${member.member_nickname }</strong>
@@ -119,7 +132,7 @@
 										<div data-v-e5d3a8ae="" class="purchase_list_product">
 											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
 												<img data-v-e5d3a8ae="" alt="myOdShList_image"
-													src="${pageContext.request.contextPath }/resources/upload/' + myOdShList.secondhand_image1 + '"
+													src="${pageContext.request.contextPath }/resources/upload/${myOdShList.secondhand_image1 }"
 													class="list_item_img"
 													style="background-color: rgb(244, 244, 244);">
 												<!---->
@@ -201,7 +214,7 @@
 										<div data-v-e5d3a8ae="" class="purchase_list_product">
 											<div data-v-e5d3a8ae="" class="list_item_img_wrap">
 												<img data-v-e5d3a8ae="" alt="myShList_image"
-													src="${pageContext.request.contextPath }/resources/upload/' + myShList.secondhand_image1 + '"
+													src="${pageContext.request.contextPath }/resources/upload/${myShList.secondhand_image1 }"
 													class="list_item_img"
 													style="background-color: rgb(244, 244, 244);">
 												<!---->

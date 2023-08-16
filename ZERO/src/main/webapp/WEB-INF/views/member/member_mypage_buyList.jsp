@@ -151,7 +151,7 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
                                                         <div data-v-e5d3a8ae="" class="purchase_list_product">
                                                             <div data-v-e5d3a8ae="" class="list_item_img_wrap">
                                                                 <img data-v-e5d3a8ae="" alt="myOdShList_image"
-                                                                     src="${pageContext.request.contextPath }/resources/upload/' + myOdShList.secondhand_image1 + '"
+                                                                     src="${pageContext.request.contextPath }/resources/upload/${myOdShList.secondhand_image1}"
                                                                      class="list_item_img"
                                                                      style="background-color: rgb(244, 244, 244);">
                                                                 <!---->
