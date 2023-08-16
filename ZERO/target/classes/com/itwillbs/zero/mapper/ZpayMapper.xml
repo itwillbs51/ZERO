@@ -81,7 +81,7 @@
 	
 	<!-- ZPAY 사용 내역(목록) 조회 - 필터링 적용 -->
 	<select id="selectZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
-		SELECT zh.*, ap.auction_title, os.order_secondhand_product, s.secondhand_idx, s.member_id AS seller_id, ap.auction_idx
+		SELECT zh.*, ap.auction_title, os.order_secondhand_product, s.secondhand_idx, s.member_id AS seller_id
 			FROM ZPAY_HISTORY zh
 				LEFT JOIN ORDER_SECONDHAND os 
 					ON zh.order_secondhand_idx = os.order_secondhand_idx
@@ -90,7 +90,7 @@
 				LEFT JOIN ORDER_AUCTION oa 
 					ON zh.order_auction_idx = oa.order_auction_idx
 				LEFT JOIN AUCTION_PRODUCT ap
-					ON ap.auction_idx = oa.auction_idx
+					ON ap.auction_idx = zh.auction_idx
 			WHERE
 				zh.member_id = #{member_id}
 			<if test="!searchType.equals('')">
@@ -103,10 +103,12 @@
 					</when>
 					<when test="searchType.equals('사용')">
 						AND (zpay_deal_type = '중고출금'
-						OR zpay_deal_type = '경매출금')
+						OR zpay_deal_type = '경매출금'
+						OR zpay_deal_type = '검수비')
 					</when>
 					<when test="searchType.equals('수익')">
 						AND (zpay_deal_type = '중고입금'
+						OR zpay_deal_type = '경매취소환불'
 						OR zpay_deal_type = '경매입금')
 					</when>
 				</choose>
