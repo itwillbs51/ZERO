@@ -314,6 +314,24 @@ public class AdminService {
 		return mapper.selectZmanZpayList();
 	}
 
+	
+	// ===============================================================================================================
+	public Map<String, String> getDealRatio() {
+		return mapper.selectDealRatio();
+	}
+
+	public List<Map<String, String>> getDealCount() {
+		return mapper.selectDatilyDealCount();
+	}
+
+	public List<Map<String, String>> getDealAmount() {
+		return mapper.selectDailDealAmount();
+	}
+
+	public List<Map<String, String>> getDailyMemberRegistCount() {
+		return mapper.selectDailyMemberRegistCount();
+	}
+
 
 
 	
