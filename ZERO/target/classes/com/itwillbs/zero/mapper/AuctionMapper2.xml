@@ -103,14 +103,16 @@
 	</update>
 	
 	<select id="selectBidedZpay" resultType="int">
-		SELECT IFNULL(SUM(max_bid),0)
+		SELECT IFNULL(SUM(max_bid), 0)
 		FROM (
-		  SELECT MAX(auction_log_bid) AS max_bid
-		  FROM AUCTION_LOG_ROOM
-		  WHERE member_id = #{member_id} AND auction_idx != #{id}
-		  AND DATE(auction_log_datetime) = CURDATE()
-		  GROUP BY auction_idx
-		)as t
+		    SELECT MAX(al.auction_log_bid) AS max_bid
+		    FROM AUCTION_LOG_ROOM al
+		    JOIN AUCTION_MANAGING am ON al.auction_idx = am.auction_idx
+		    WHERE al.member_id = #{member_id} AND al.auction_idx != #{id}
+		    AND DATE(al.auction_log_datetime) = CURDATE()
+		    AND am.auction_manage_status IS  null
+		    GROUP BY al.auction_idx
+		) as t
 	</select>
 
 	<select id="selectAllBidedZpay" resultType="int">
