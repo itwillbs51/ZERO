@@ -47,6 +47,14 @@
 					<div class="profileArea">
 						<a class="profileLink" href="#">
 							<span class="profileImg">
+								<c:choose>
+									<c:when test="${not empty member.member_image }">
+										<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/upload/${member.member_image }" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+									</c:when>
+									<c:otherwise>
+										<img data-v-4b474860="" src="${pageContext.request.contextPath }/resources/mypage_img/blank_profile.4347742.png" alt="사용자 이미지" class="thumb_img" width=50px height=50px>
+									</c:otherwise>
+								</c:choose>
 							</span>
 							<span class="profileInfo">
 								<strong class="profileName">

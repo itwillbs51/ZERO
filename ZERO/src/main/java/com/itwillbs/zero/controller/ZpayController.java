@@ -156,6 +156,7 @@ public class ZpayController {
 							HttpSession session) {
 		System.out.println("ZpayController - zpayRegist");
 		String member_id = (String)session.getAttribute("member_id");
+		MemberVO member = memberService.getMember(member_id);
 		
 		// 세션에 저장된 엑세스토큰 및 사용자번호를 변수에 저장
 		// => 핀테크 이용자 정보 조회
@@ -197,6 +198,7 @@ public class ZpayController {
 			if(session.getAttribute("previousPage") != null) {
 				return "redirect:/" + session.getAttribute("previousPage");				
 			} else {
+				model.addAttribute("member", member);
 				return "redirect:/zpay_main";
 			}
 		} else {
