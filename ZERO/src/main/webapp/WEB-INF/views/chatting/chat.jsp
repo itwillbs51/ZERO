@@ -78,7 +78,7 @@
 							</c:if>
 							<%-- 2. 약속버튼, z페이 보내기, 후기보내기(보냈으면 후기확인) 버튼 활성화 --%>
 							<c:if test="${secondhandInfo.secondhand_deal_status eq '예약중' && orderSecondhandInfo.order_secondhand_buyer eq sessionScope.member_id}">
-								<button onclick="reservationNext('time')"><i class="material-icons">access_time</i><span>약속잡기 </span></button>
+<!-- 								<button onclick="reservationNext('time')"><i class="material-icons">access_time</i><span>약속잡기 </span></button> -->
 								<c:if test="${isZpayUser && sessionScope.member_id eq chatRoom.buyer_id && orderSecondhandInfo.order_secondhand_status eq '거래진행중'}">
 									<button onclick="reservationNext('zpay')" id="sendZpayBtn"><i class="material-icons">attach_money</i><span>송금하기 </span></button>
 								</c:if>
@@ -89,9 +89,9 @@
 									<i class="material-icons">done</i><span>거래완료 </span>
 								</button>
 							</c:if>
-							<c:if test="${orderSecondhandInfo.order_secondhand_status eq '거래완료'}">
-								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button>
-							</c:if>
+<%-- 							<c:if test="${orderSecondhandInfo.order_secondhand_status eq '거래완료'}"> --%>
+<!-- 								<button onclick="reservationNext('review')"><i class="material-icons">edit</i><span>후기쓰기 </span></button> -->
+<%-- 							</c:if> --%>
 							<%-- 찜하기 버튼과 버튼 클릭 시 상태 변경용 히든 타입 태그 --%>
 							<form id="openZform" method="post" action="ZpayForm" target="_blank">
 							<c:if test="${not empty orderSecondhandInfo }">
@@ -680,8 +680,8 @@
 	
 	// 최종 거래금액 금액 포맷 함수
 	function numFormat(price) {
-		let num = price.value.replace(/\d/g,'');
-		price.value = Number(price).toLocaleString('en');
+		let num = price.value.replace(/\D/g,'');
+		price.value = Number(num).toLocaleString('en');
 	}
 	
 	// ================= 버튼들 기능 함수 =========================
