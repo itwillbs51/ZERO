@@ -558,6 +558,7 @@
 		SELECT * FROM ZPAY_HISTORY
 		WHERE zpay_deal_type LIKE '중고%'
 		OR zpay_deal_type LIKE '경매%'
+		OR zpay_deal_type LIKE '검수비'
 		ORDER BY zpay_time DESC
 	</select>
 

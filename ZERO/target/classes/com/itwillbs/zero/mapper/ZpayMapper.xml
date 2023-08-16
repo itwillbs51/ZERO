@@ -61,10 +61,12 @@
 						</when>
 						<when test="searchType.equals('사용')">
 							AND (zpay_deal_type = '중고출금'
-							OR zpay_deal_type = '경매출금')
+							OR zpay_deal_type = '경매출금'
+							OR zpay_deal_type = '검수비')
 						</when>
 						<when test="searchType.equals('수익')">
 							AND (zpay_deal_type = '중고입금'
+							OR zpay_deal_type = '경매취소환불'
 							OR zpay_deal_type = '경매입금')
 						</when>
 					</choose>
