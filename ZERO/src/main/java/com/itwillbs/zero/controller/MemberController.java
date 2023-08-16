@@ -1398,6 +1398,16 @@ public class MemberController {
 	@PostMapping("join_pro")
 	public String memberJoinPro(MemberVO member, Model model) {
 		
+		// ------------ BCryptPasswordEncoder 객체 활용한 패스워드 암호화(= 해싱) --------------
+		// => MyPasswordEncoder 클래스에 모듈화
+		// 1. MyPasswordEncoder 객체 생성
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPassword(member.getMember_passwd());
+		// 3. 리턴받은 암호문을 MemberVO 객체에 덮어쓰기
+		member.setMember_passwd(securePasswd);
+		// -------------------------------------------------------------------------------------
+		
 		// MemberService(registMember()) - Member_mapper(insertMember())
 		int insertCount = service.registMember(member);
 		
