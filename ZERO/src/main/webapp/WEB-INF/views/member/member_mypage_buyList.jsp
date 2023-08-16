@@ -88,7 +88,16 @@ h3[data-v-88eb18f6]::after { /* 이 부분 추가 */
     height: 3px; /* 여기서 높이 값을 새로운 크기로 변경하세요 */
     background-color: black;
     margin-top: 10px;
-}    
+} 
+
+.sidebar {
+  margin-top: 21px;
+}   
+    
+.content_title {
+  margin-top: -83px;
+}
+
     
 </style>
 
