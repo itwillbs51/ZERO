@@ -155,7 +155,7 @@
 						</form>
 					</c:when>
 					<c:otherwise>
-						<a class="btn btn-sm btn-outline-dark" href="zman_earning">정산 완료</a>
+						<a class="btn btn-sm btn-outline-dark btn-lg" href="zman_earning">정산 완료</a>
 					</c:otherwise>
 					</c:choose>
 				</section>
