@@ -610,7 +610,7 @@
 				if(res == true){
 					alert('상품이 정상적으로 등록되었습니다!');
 // 					location.href='../mainpage/list.do';
-					location.href='../secondhand/secondhand_list';
+					location.href='${pageContext.request.contextPath }/secondhand_list';
 				}
 				
 			},error	: function(err){

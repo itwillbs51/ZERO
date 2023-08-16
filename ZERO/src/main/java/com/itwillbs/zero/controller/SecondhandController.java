@@ -408,7 +408,10 @@ public class SecondhandController {
 				// -----------------------------------------------------------------
 				
 				// 글쓰기 작업 성공 시 글목록(secondhand_list)으로 리다이렉트
+//				model.addAttribute("msg", "글 쓰기 성공!");
+				
 				return "true";
+				
 				
 			} else { // 실패
 				model.addAttribute("msg", "글 쓰기 실패!");

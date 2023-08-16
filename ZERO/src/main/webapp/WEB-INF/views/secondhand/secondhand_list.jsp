@@ -179,7 +179,6 @@ $(function() {
 // 목록 불러오는 함수 정의===================================================
 
 function loadList(selectedCategory, selectedSort) {
-	console.log(`카테고리: ${category}, 정렬: ${sort}`);
 	let url;
 	
 	// 컨트롤러로 보낼때 파라미터 처리
