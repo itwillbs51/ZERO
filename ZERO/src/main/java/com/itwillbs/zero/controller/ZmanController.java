@@ -161,7 +161,7 @@ public class ZmanController {
 	}
 	
 	// ZMAN zman_delivery_status "배달 수락"로 변경하기
-	@PostMapping("zman_delivery_ing")
+	@GetMapping("zman_delivery_ing")
 	public String zmanDeliveyAccept(HttpSession session, Model model, 
 									@RequestParam int zman_delivery_idx) {
 		System.out.println("ZmanController - zman_delivery_go");

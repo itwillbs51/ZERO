@@ -465,8 +465,8 @@
 										</thead>
 										<tbody class="table-group-divider">
 											<c:forEach var="zd" items="${zmanDeliveryYetList }" varStatus="vs">
-											<input type="hidden" name="zman_delivery_idx" value="${zd.zman_delivery_idx }" >
-						    				<input type="hidden" name="zman_id" value="${sessionScope.member_id }">
+<%-- 											<input type="hidden" name="zman_delivery_idx" value="${zd.zman_delivery_idx }" > --%>
+<%-- 						    				<input type="hidden" name="zman_id" value="${sessionScope.member_id }"> --%>
 											    <tr>
 											        <th scope="row">${zd.zman_delivery_idx }</th>
 											        <td>${zd.order_secondhand_product }</td>
@@ -478,7 +478,8 @@
 								    					<fmt:formatNumber value="${zd.zman_delivery_commission }" pattern="#,##0"/>원
 								    				</td>
 								    				<td>
-							    				 		<button class="btn btn-dark" type="submit">배달</button>
+								    					<a class="btn btn-sm btn-outline-dark" href="zman_delivery_ing?zman_delivery_idx=${zd.zman_delivery_idx }&zman_id=${sessionScope.member_id }">배달</a>
+<!-- 							    				 		<button class="btn btn-outline-dark" type="submit">배달</button> -->
 							    					</td>
 											    </tr>
 											</c:forEach>
