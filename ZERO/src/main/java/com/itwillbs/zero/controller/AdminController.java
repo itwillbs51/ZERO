@@ -53,9 +53,23 @@ public class AdminController {
 	
 	// 관리자 - 메인페이지로 디스패치
 	@GetMapping("admin_main")
-	public String adminMain() {
+	public String adminMain(HttpSession session, Model model) {
 		System.out.println("AdminController - adminMain");
 		
+		String member_id = (String)session.getAttribute("member_id");
+		String member_type = (String)session.getAttribute("member_type");
+		System.out.println("member_id - " + member_id + " / member_type - " + member_type);
+		
+		if(!(member_id.equals("admin@gmail.com") && member_type.equals("직원"))) {
+			model.addAttribute("msg", "관리자만 사용가능한 페이지 입니다!");
+			
+			return "fail_back";
+		} else if ((member_id == null || member_type == null)) {
+			model.addAttribute("msg", "로그인이 필요합니다!");
+			
+			return "fail_back";
+		}
+			
 		return "admin/admin_main";
 	}
 	
