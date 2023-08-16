@@ -22,6 +22,7 @@ import com.itwillbs.zero.service.ZpayService;
 import com.itwillbs.zero.vo.MemberVO;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanEarningVO;
+import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
@@ -316,6 +317,12 @@ public class ZmanController {
 		System.out.println("zmanDeliveryDetail - " + zmanDeliveryDetail);
 		model.addAttribute("zd", zmanDeliveryDetail);
 		
+		// 배달 완료 상세 페이지 - 정산 완료인지 확인하기
+		ZmanRefundHistoryVO zmanRefund = service.getEarningRefundIdx(zmanDeliveryIdx);
+		System.out.println("zmanRefund - " + zmanRefund); 
+		model.addAttribute("zmanRefund", zmanRefund);
+		
+		// 정산하기 파라미터 넘겨주기
 		ZmanEarningVO zmanEarning = service.getEarningIdx(zmanDeliveryIdx);
 		System.out.println("zmanEarning - " + zmanEarning);
 		model.addAttribute("zmanEarning", zmanEarning);

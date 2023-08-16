@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%-- JSTL 의 함수를 사용하기 위해 functions 라이브러리 추가 --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -141,12 +145,19 @@
 				</section>
 				
 				<section id='sec03'>
-					<form action="zman_refund_form" method="get">
-						<input type="hidden" name="zman_earning_idx" value="${zmanEarning.zman_earning_idx }">
-						
-<!-- 					    <button>돌아가기</button> -->
-					    <button class="btn btn-outline-dark btn-lg" type="submit">정산하기</button>
-					</form>
+					<c:choose>
+					<c:when test="${empty zmanRefund.zman_refund_date }">
+						<form action="zman_refund_form" method="get">
+							<input type="hidden" name="zman_earning_idx" value="${zmanEarning.zman_earning_idx }">
+							
+	<!-- 					    <button>돌아가기</button> -->
+						    <button class="btn btn-outline-dark btn-lg" type="submit">정산하기</button>
+						</form>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-sm btn-outline-dark" href="zman_earning">정산 완료</a>
+					</c:otherwise>
+					</c:choose>
 				</section>
 				
 				
