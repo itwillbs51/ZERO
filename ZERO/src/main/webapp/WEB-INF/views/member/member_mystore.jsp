@@ -1036,7 +1036,7 @@ ul.tabs li.current{
 		                                            					</c:choose>
 																        </a>
 							                                            <div class="card-text-reverse">
-								                                            <div data-v-43813796="" class="btn outlinegrey deal_status">${sell.secondhand_deal_status}</div>
+								                                            <div data-v-43813796="" class="btn solid deal_status">${sell.secondhand_deal_status}</div>
 								                                            <div data-v-43813796="" class="btn outlinegrey deal_status">글 삭제</div>
 								                                            <c:if test="${sell.secondhand_deal_status eq '판매완료'}">
 								                                            <div data-v-43813796="" class="btn outlinegrey deal_status">후기 등록</div>
@@ -1050,6 +1050,7 @@ ul.tabs li.current{
 												            </div>
 											        </div>
 											    </div>
+											    <br>
 											</c:forEach>
 										</div>
 									</div>
