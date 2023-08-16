@@ -12,7 +12,7 @@
 			, auction_image1
 			, auction_manage_check_date
 <!-- 			, CONCAT( DATE(auction_manage_check_date), " ", TIME(auction_manage_check_date) ) AS check_date -->
-			, auction_start_date
+			, auction_start_datetime
 			, auction_start_price
 			, auction_max_price
 			, category_idx
@@ -44,7 +44,7 @@
 						ORDER BY auction_start_price DESC
 					</when>
 					<when test="sort.equals('최신순')">
-						ORDER BY auction_manage_check_date DESC
+						ORDER BY auction_start_datetime DESC
 					</when>
 				</choose>
 			</if>
