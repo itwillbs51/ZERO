@@ -93,8 +93,11 @@ public class AuctionController2 {
 		int possibleZpay=balance-bidedZpay;
 		String auction_manage_status=product.get("auction_manage_status");
 		System.out.println(auction_manage_status);
+		System.out.println(possibleZpay);
+		System.out.println(balance);
 		long currentBid=Long.parseLong(map.get("auction_log_bid"));
 		
+		if(auction_manage_status ==  null) {
 		
 		if(possibleZpay<currentBid) {
 			System.out.println("입찰가능금액보다 높게 입찰 불가");
@@ -121,7 +124,10 @@ public class AuctionController2 {
 			
 		}
 		
-		
+		//발표임시
+		}else {
+		service.registLog(map);
+		return "true";}
 	}
 	
 	// 경매 예정 상세 페이지로 이동
@@ -214,7 +220,8 @@ public class AuctionController2 {
 		auctionSellerHistory.setMember_id(member_id);
 		auctionSellerHistory.setZpay_amount(amount);
 		auctionSellerHistory.setZpay_balance(seller_zpay_balance);
-		auctionSellerHistory.setZpay_deal_type("경매출금");
+		auctionSellerHistory.setZpay_deal_type("검수비");
+		auctionSellerHistory.setAuction_idx(Integer.toString(auction_idx)); 
 		
 		
 		// ZPYA_HISTORY 테이블에 송금내역 추가

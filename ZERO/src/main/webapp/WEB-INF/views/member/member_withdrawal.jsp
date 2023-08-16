@@ -91,7 +91,7 @@
 		
 		$.ajax({
 			type: "GET",
-			url: '/zero/ajax/checkWithrawal',
+			url: '${pageContext.request.contextPath }/ajax/checkWithrawal',
 			dataType: "text",
 			success: function(data) {
 				// ajax 결과값에 따라 모달 출력
@@ -105,7 +105,7 @@
 				}
 			},
 			error: function() {
-				alert("글 목록 요청 실패!");
+				alert("탈퇴 요청 실패!");
 			}
 		});
 		

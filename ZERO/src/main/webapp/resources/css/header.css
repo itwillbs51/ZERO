@@ -31,9 +31,13 @@
 	header>nav {
 		background-color: #fff;
 		min-width: 360px;
-		height: 64px;
+		min-height: 64px;
 	}
 	
+	#headerArea1{
+		white-space: nowrap;
+	}
+
 	#headerArea1>#headerArea1_inner{
 /* 		border: 1px solid blue; */
 		display: flex;

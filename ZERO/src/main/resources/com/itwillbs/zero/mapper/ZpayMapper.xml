@@ -61,10 +61,12 @@
 						</when>
 						<when test="searchType.equals('사용')">
 							AND (zpay_deal_type = '중고출금'
-							OR zpay_deal_type = '경매출금')
+							OR zpay_deal_type = '경매출금'
+							OR zpay_deal_type = '검수비')
 						</when>
 						<when test="searchType.equals('수익')">
 							AND (zpay_deal_type = '중고입금'
+							OR zpay_deal_type = '경매취소환불'
 							OR zpay_deal_type = '경매입금')
 						</when>
 					</choose>
@@ -79,7 +81,13 @@
 	
 	<!-- ZPAY 사용 내역(목록) 조회 - 필터링 적용 -->
 	<select id="selectZpayHistoryList" resultType="com.itwillbs.zero.vo.ZpayHistoryVO">
-		SELECT zh.*, ap.auction_title, os.order_secondhand_product, s.secondhand_idx, s.member_id AS seller_id, ap.auction_idx
+		SELECT zh.*
+				, ap1.auction_title AS order_auction_title
+				, ap2.auction_title AS auction_title
+				, os.order_secondhand_product
+				, s.secondhand_idx
+				, s.member_id AS seller_id
+				, oa.auction_idx AS auctionIdxForOrderAuction
 			FROM ZPAY_HISTORY zh
 				LEFT JOIN ORDER_SECONDHAND os 
 					ON zh.order_secondhand_idx = os.order_secondhand_idx
@@ -87,8 +95,10 @@
 					ON s.secondhand_idx = os.secondhand_idx
 				LEFT JOIN ORDER_AUCTION oa 
 					ON zh.order_auction_idx = oa.order_auction_idx
-				LEFT JOIN AUCTION_PRODUCT ap
-					ON ap.auction_idx = oa.auction_idx
+				LEFT JOIN AUCTION_PRODUCT ap1
+					ON ap1.auction_idx = oa.auction_idx	
+				LEFT JOIN AUCTION_PRODUCT ap2
+					ON ap2.auction_idx = zh.auction_idx					
 			WHERE
 				zh.member_id = #{member_id}
 			<if test="!searchType.equals('')">
@@ -101,10 +111,12 @@
 					</when>
 					<when test="searchType.equals('사용')">
 						AND (zpay_deal_type = '중고출금'
-						OR zpay_deal_type = '경매출금')
+						OR zpay_deal_type = '경매출금'
+						OR zpay_deal_type = '검수비')
 					</when>
 					<when test="searchType.equals('수익')">
 						AND (zpay_deal_type = '중고입금'
+						OR zpay_deal_type = '경매취소환불'
 						OR zpay_deal_type = '경매입금')
 					</when>
 				</choose>
@@ -430,7 +442,7 @@
 					<when test="zpay_deal_type.equals('중고입금') or zpay_deal_type.equals('경매입금')">
 						, #{zpay_balance} + #{zpay_amount}						
 					</when>
-					<when test="zpay_deal_type.equals('중고출금') or zpay_deal_type.equals('경매출금')">
+					<when test="zpay_deal_type.equals('중고출금') or zpay_deal_type.equals('경매출금') or zpay_deal_type.equals('검수비')">
 						, #{zpay_balance} - #{zpay_amount}
 					</when>				
 					<when test="zpay_deal_type.equals('경매취소환불')">

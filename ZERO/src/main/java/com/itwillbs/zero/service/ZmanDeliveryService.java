@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.zero.mapper.ZmanDeliveryMapper;
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanEarningVO;
+import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
@@ -75,6 +76,11 @@ public class ZmanDeliveryService {
 		return mapper.selectDeliveryDoneList(zman_id);
 	}
 	
+	// 배달 완료 상세 페이지 - 정산 완료인지 확인하기
+	public ZmanRefundHistoryVO getEarningRefundIdx(int zmanDeliveryIdx) {
+		return mapper.selectEaningRefundIdx(zmanDeliveryIdx);
+	}
+	
 	// 배달 내역 상세 페이지에서 정산으로 넘겨줄 파라미터
 	public ZmanEarningVO getEarningIdx(int zmanDeliveryIdx) {
 		return mapper.selectZmanEarningIdx(zmanDeliveryIdx);
@@ -89,6 +95,8 @@ public class ZmanDeliveryService {
 	public ZpayVO getZpay(String member_id) {
 		return mapper.selectZpay(member_id);
 	}
+
+
 
 
 

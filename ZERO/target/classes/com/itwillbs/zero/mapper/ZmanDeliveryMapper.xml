@@ -120,6 +120,19 @@
 		WHERE zman_delivery_status = "배달 완료"
 		AND zman_id = #{zman_id}
 	</select>
+	
+	<!-- 배달 완료 상세 페이지 - 정산 완료인지 확인하기 -->
+	<select id="selectEaningRefundIdx">
+		SELECT * 
+			FROM
+				ZMAN_EARNING ze 
+			JOIN
+				ZMAN_REFUND_HISTORY zrh 
+			ON
+				ze.zman_earning_idx  = zrh.zman_earning_idx
+			WHERE
+				zman_delivery_idx = #{zmanDeliveryIdx};
+	</select>
 
 	<!-- 배달 완료 페이지에서 정산하기 버튼 으로 파라미터 넘겨주기 -->
 	<select id="selectZmanEarningIdx" resultType="com.itwillbs.zero.vo.ZmanEarningVO">

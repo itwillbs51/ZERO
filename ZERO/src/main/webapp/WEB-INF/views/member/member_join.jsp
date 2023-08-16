@@ -494,7 +494,7 @@ input[type=checkbox] {
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
 							   maxlength="6"
-							   > <!-- required="required" 편의를위해뺴놓음 테스트시 넣기 -->
+							   required="required">
 					</div>
 					<!-- 이메일 인증코드 확인 일치 여부-->
 					<div class="row mb-3">
@@ -539,8 +539,8 @@ input[type=checkbox] {
 							   autocomplete="off" 
 							   class="input_txt" 
 							   data-v-4e1fd2e6=""
-							   onkeyup="checkconfirmPasswd(this.value)">
-							   <!-- required="required"  편의를위해 뺴놓음 테스트시 켜기  -->
+							   onkeyup="checkconfirmPasswd(this.value)"
+							   required="required">
 					</div>
 						<!-- 비밀번호 와 비밀번호 확인 일치 여부-->
 					<div class="row mb-3">
@@ -607,7 +607,7 @@ input[type=checkbox] {
 								   class="input_txt" 
 								   data-v-4e1fd2e6=""
 								   maxlength="4"
-								   > <!-- required="required" 편의를위해 뺴놓음 테스트시 켜기 -->
+								   required="required">
 						</div>
 					</div>
 					<!-- 핸드폰 인증코드 확인 일치 여부-->
@@ -1050,11 +1050,11 @@ function getMarketingAgreementValue() {
 </script>
 
 <script type="text/javascript">
-  //인증 성공 여부를 저장할 변수 추가   -->
+//   인증 성공 여부를 저장할 변수 추가   
   let phoneAuthSuccess = false;  
   let emailAuthSuccess = false;  
 
-  // 회원가입 버튼 활성화 확인 함수 추가   
+//  회원가입 버튼 활성화 확인 함수 추가   
    function checkAuthSuccess() {   
        // 핸드폰 및 이메일 인증이 모두 성공한 경우 회원가입 버튼 활성화 
        if (phoneAuthSuccess && emailAuthSuccess) { 

@@ -75,6 +75,16 @@
 	  var day = date.getDate().toString().padStart(2, "0");
 	  return year + "-" + month + "-" + day;
 	}
+	
+	function getFormatDate(date) {
+		  var formattedDate = new Date(date); // 문자열 형식의 날짜를 JavaScript Date 객체로 변환
+		  var year = formattedDate.getFullYear();
+		  var month = (formattedDate.getMonth() + 1).toString().padStart(2, "0");
+		  var day = formattedDate.getDate().toString().padStart(2, "0");
+		  var hour = formattedDate.getHours().toString().padStart(2, "0");
+		  var minute = formattedDate.getMinutes().toString().padStart(2, "0");
+		  return year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분";
+		}
 
 	// 초기 로드 시 주간 선택 옵션 생성
 	$(document).ready(function () {
@@ -113,7 +123,8 @@
 	      data.forEach(function (item) {
 	          var row = $("<tr>");
 	          var deliveryNum = item.zman_delivery_idx; // 배달 번호
-	          var getMoneyDate = item.zman_refund_date; // 정산받은 날짜
+// 	          var getMoneyDate = item.zman_refund_date; // 정산받은 날짜
+			  var getMoneyDate = getFormatDate(item.zman_refund_date);
 	          var zman_delivery_commission = item.zman_delivery_commission; // 배달료
 	          var zman_net_profit = item.zman_net_profit; // 정산받은 금액
 	          

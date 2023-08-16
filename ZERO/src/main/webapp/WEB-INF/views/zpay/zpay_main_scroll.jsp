@@ -196,7 +196,13 @@
 											} else if(zpayHistory.zpay_deal_type == '중고입금' || zpayHistory.zpay_deal_type == '중고출금') {
 												res += "<a href='secondhand_detail?secondhand_idx=" + zpayHistory.secondhand_idx + "&member_id=" + zpayHistory.seller_id + "' class='itemTitle itemLink'>" + zpayHistory.order_secondhand_product + "</a>"
 											} else if(zpayHistory.zpay_deal_type == '경매입금' || zpayHistory.zpay_deal_type == '경매출금') {
-												res += "<a href='auction_detail?id=" + zpayHistory.auction_idx + "' class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
+												res += "<a href='auction_detail?id=" + zpayHistory.auctionIdxForOrderAuction + "' class='itemTitle itemLink'>" + zpayHistory.order_auction_title + "</a>"
+// 												res += "<a href='auction_detail?id=" + zpayHistory.auction_idx + "' class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
+											} else if(zpayHistory.zpay_deal_type == '경매취소환불') {
+												res += "<a href='auction_detail?id=" + zpayHistory.auction_idx + "' class='itemTitle itemLink'>" + zpayHistory.order_auction_title + "</a>"
+// 												res += "<a href='auction_detail?id=" + zpayHistory.auction_idx + "' class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
+											} else if(zpayHistory.zpay_deal_type == '검수비') {
+												res += "<a class='itemTitle itemLink'>" + zpayHistory.auction_title + "</a>"
 											}
 											
 									res +=	"<div class='zpayHistoryItem_info_sub'>" +
@@ -256,10 +262,10 @@
 
 			let zpayDealType = $(this).attr("data-dealType");
 		
-			if (zpayDealType == "충전" || zpayDealType == "중고입금" || zpayDealType == "경매입금") {
+			if (zpayDealType == "충전" || zpayDealType == "중고입금" || zpayDealType == "경매입금" || zpayDealType == "경매취소환불") {
 				$(this).css("color", "#09aa5c");
 				$(this).children("span").html("+ ");
-			} else if (zpayDealType == "환급" || zpayDealType == "중고출금" || zpayDealType == "경매출금") {
+			} else if (zpayDealType == "환급" || zpayDealType == "중고출금" || zpayDealType == "경매출금" || zpayDealType == "검수비") {
 				$(this).children("span").html("- ");
 			}
 		});

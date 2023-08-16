@@ -18,7 +18,8 @@ public class BankValueGenerator {
 		 String bank_tran_id = "";
 		 
 		 // GenerateRandomCode - getRandomCode() 메서드 재사용 => 파라미터로 난수 길이 전달
-		 bank_tran_id = client_use_code + "U" + GenerateRandomCode.getRandomCode(9).toUpperCase();
+		 bank_tran_id = "M202113854" + "U" + GenerateRandomCode.getRandomCode(9).toUpperCase();
+//		 bank_tran_id = client_use_code + "U" + GenerateRandomCode.getRandomCode(9).toUpperCase();
 		 
 		 return bank_tran_id;
 	}

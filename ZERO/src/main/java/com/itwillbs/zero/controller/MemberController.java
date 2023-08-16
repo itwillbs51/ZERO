@@ -105,6 +105,12 @@ public class MemberController {
 			) {
 		System.out.println("MemberController - memberlogin");
 		
+		if(session.getAttribute("member_id") != null) { // 로그인 상태
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			return "fail_back";
+			
+		}
+		
 		return "member/member_login";
 	}
 	
@@ -122,6 +128,11 @@ public class MemberController {
 		System.out.println(member_id);
 		System.out.println(member_passwd);
 		
+		if(session.getAttribute("member_id") != null) { // 로그인 상태
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			return "fail_back";
+			
+		}
 		
 		Map<String, String> member = service.isMemberCheck("member_id", member_id);
 		System.out.println(member);
@@ -199,6 +210,14 @@ public class MemberController {
 	public String member_logout(HttpSession session
 			, Model model
 			) {
+		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
+		
 		// 세션에 저장한 member_id(저장한 정보들) 초기화
 		session.invalidate();
 		
@@ -340,6 +359,8 @@ public class MemberController {
 		// 카카오에서 받아온 데이터 출력
 		System.out.println("email : " + email + "name : " + nickname);
 		
+		
+		
 		// DB에서 리턴받아 판별
 		// MemberService - idCheck()
 		// 파라미터 : String(email -> member_id)		리턴타입 : int(idCheck)
@@ -368,6 +389,13 @@ public class MemberController {
 			, Model model) {
 		
 		System.out.println("MemberController - memberloginInfo");
+		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
 		
 		String column = "member_id";
 		String member_id = (String)session.getAttribute("member_id");
@@ -408,9 +436,14 @@ public class MemberController {
 //	}
 	
 	// 패스워드 일치여부 확인  - 수정
-	public String checkPasswd(String column,String member_id, String column1,String value1) {
+	public String checkPasswd(String column,String member_id, String column1,String value1, HttpSession session
+			, Model model) {
 		System.out.println("checkPasswd");
 
+		if(session.getAttribute("member_id") != null) { // 로그인 상태
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			return "fail_back";
+		}
 		
 		// 회원정보 가져오기
 		Map<String, String> member = service.isMemberCheck(column, member_id);
@@ -462,7 +495,7 @@ public class MemberController {
 		if(column1.equals("member_passwd2")) { // 비밀번호 변경 시 암호화
 			
 			// 1. 이전 비밀번호 일치 여부 확인
-			String result = checkPasswd(column, member_id, column2, value2);
+			String result = checkPasswd(column, member_id, column2, value2, session, model);
 			if(result.equals("false")) { // 비밀번호 불일치 시
 				return "false";
 			}
@@ -501,6 +534,13 @@ public class MemberController {
 			, Model model) {
 		System.out.println("MemberController - memberAddress");
 		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
+		
 		String column = "member_id";
 		String member_id = (String)session.getAttribute("member_id");
 		// 임시 고정값 설정 
@@ -525,6 +565,13 @@ public class MemberController {
 		
 		System.out.println("MemberController - memberAddressRegist");
 		System.out.println(map);
+		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
 		
 		String member_id = (String)session.getAttribute("member_id");
 		// 회원정보 가져오기
@@ -585,6 +632,13 @@ public class MemberController {
 			, Model model) {
 		System.out.println("MemberController - memberAddressUpdate");
 		System.out.println(map);
+		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
 
 		String member_id = (String)session.getAttribute("member_id");
 		// 회원정보 가져오기
@@ -628,6 +682,13 @@ public class MemberController {
 		
 		System.out.println("MemberController - memberAddressDelete");
 		System.out.println(map);
+		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
 
 		String member_id = (String)session.getAttribute("member_id");
 		// 회원정보 가져오기
@@ -690,6 +751,13 @@ public class MemberController {
 	public String memberProfile(HttpSession session
 			, Model model) {
 		System.out.println("MemberController - memberProfile");
+		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
 		
 		String column = "member_id";
 		String member_id = (String)session.getAttribute("member_id");
@@ -889,6 +957,11 @@ public class MemberController {
 			, Model model) {
 		System.out.println("MemberController - memberFindId");
 		
+		if(session.getAttribute("member_id") != null) { // 로그인 상태
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			return "fail_back";
+		}
+		
 		return "member/member_find_id";
 	}
 	
@@ -897,6 +970,11 @@ public class MemberController {
 	public String memberFindPasswd(HttpSession session
 			, Model model) {
 		System.out.println("MemberController - memberFindPasswd");
+		
+		if(session.getAttribute("member_id") != null) { // 로그인 상태
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			return "fail_back";
+		}
 		
 		return "member/member_find_passwd";
 	}
@@ -963,11 +1041,15 @@ public class MemberController {
 				}
 			}).start(); // start() 메서드 호출 필수!			
 			// 임시비밀번호 전송 작업 성공 시 "성공" 출력
-			data.add("임시 비밀번호가 메일로 전송되었습니다");
-			return data.toString();
+			
+//			data.add("임시 비밀번호가 메일로 전송되었습니다");
+//			data.add("result");
+//			return data.toString();
+			return "true";
 		} else { // 실패
-			data.add("메일 전송이 실패했습니다");
-			return data.toString();
+//			data.add("메일 전송이 실패했습니다");
+//			return data.toString();
+			return "false";
 		}
 		
 		
@@ -996,6 +1078,11 @@ public class MemberController {
 		System.out.println("메일 인증:" + map);
 		// 인증 메일 발송 요청
 		String sId = (String)model.getAttribute("sId");
+		
+		if(session.getAttribute("member_id") != null) { // 로그인 상태
+			model.addAttribute("msg", "잘못된 접근입니다.");
+			return "fail_back";
+		}
 		
 			// Service - getId() 메서드를 호출하여
 			// member 테이블에서 email 에 해당하는 id 값 조회
@@ -1034,6 +1121,13 @@ public class MemberController {
 			) {
 		
 		System.out.println("memberWithdrawal:" + map);
+		
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
 	
 		return "member/member_withdrawal";
 	}
@@ -1093,9 +1187,16 @@ public class MemberController {
 		// 임시 고정값 설정 
 		String column = "member_id";
 		
-		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
-			member_id = (String)session.getAttribute("member_id");
-		}  
+		if(session.getAttribute("member_id") == null) { // 비로그인 상태
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+					
+			return "fail_location";
+		}
+		
+//		if(member_id == null ) { // 파라미터 member_id가 없을경우 세션 아이디 설정
+		member_id = (String)session.getAttribute("member_id");
+//		}  
 		
 		System.out.println(column);
 		System.out.println(member_id);
@@ -1258,12 +1359,12 @@ public class MemberController {
 		
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
-//		if(member_id == null) {
-//			model.addAttribute("msg", " 로그인이 필요합니다!");
-//			model.addAttribute("targetURL", "member_login_form");
-//			
-//			return "fail_location";
-//		}
+		if(member_id == null) {
+			model.addAttribute("msg", " 로그인이 필요합니다!");
+			model.addAttribute("targetURL", "member_login");
+			
+			return "fail_location";
+		}
 		
 		// 세션 아이디로 구매내역 받아오기(최근 세개),(myOrderSecondhandList 줄임)
 		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 3); 
@@ -1293,12 +1394,12 @@ public class MemberController {
 		
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
-//				if(member_id == null) {
-//					model.addAttribute("msg", " 로그인이 필요합니다!");
-//					model.addAttribute("targetURL", "member_login_form");
-//					
-//					return "fail_location";
-//				}
+				if(member_id == null) {
+					model.addAttribute("msg", " 로그인이 필요합니다!");
+					model.addAttribute("targetURL", "member_login");
+					
+					return "fail_location";
+				}
 		
 		// 세션 아이디로 구매내역 받아오기(myOrderSecondhandList 줄임), 페이징처리해야됨
 		List<OrderSecondhandVO> myOdShList = service.getMyOdShList(member_id, 0, 5);
@@ -1320,37 +1421,37 @@ public class MemberController {
 	}
 	
 	// 멤버 중고상품 판매내역 - 정의효 필요없음 삭제예정
-	@GetMapping("member_mypage_sellList")
-	public String memberMypageSellList(HttpSession session, Model model) {
-		
-		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
-		String member_id = (String) session.getAttribute("member_id");
-//				if(member_id == null) {
-//					model.addAttribute("msg", " 로그인이 필요합니다!");
-//					model.addAttribute("targetURL", "member_login_form");
-//							
-//					return "fail_location";
-//				}
-		
-		// 세션 아이디로 판매내역 받아오기
-		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 5);
-		
-		model.addAttribute("myShList", myShList);
-		
-		return "member/member_mypage_sellList";
-	}
+//	@GetMapping("member_mypage_sellList")
+//	public String memberMypageSellList(HttpSession session, Model model) {
+//		
+//		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
+//		String member_id = (String) session.getAttribute("member_id");
+////				if(member_id == null) {
+////					model.addAttribute("msg", " 로그인이 필요합니다!");
+////					model.addAttribute("targetURL", "member_login_form");
+////							
+////					return "fail_location";
+////				}
+//		
+//		// 세션 아이디로 판매내역 받아오기
+//		List<SecondhandVO> myShList = service.getmyShList(member_id, 0, 5);
+//		
+//		model.addAttribute("myShList", myShList);
+//		
+//		return "member/member_mypage_sellList";
+//	}
 	
 	// 멤버 참가중인 경매 내역
 	@GetMapping("member_mypage_auctionList")
 	public String memberMypageAuctionList(HttpSession session, Model model) {
 		// 세션 아이디가 없을 경우 " 로그인이 필요합니다!" 출력 후 이전페이지로 돌아가기
 		String member_id = (String) session.getAttribute("member_id");
-//						if(member_id == null) {
-//							model.addAttribute("msg", " 로그인이 필요합니다!");
-//							model.addAttribute("targetURL", "member_login_form");
-//									
-//							return "fail_location";
-//						}
+						if(member_id == null) {
+							model.addAttribute("msg", " 로그인이 필요합니다!");
+							model.addAttribute("targetURL", "member_login");
+									
+							return "fail_location";
+						}
 		
 		// 세션아이디로 현재 진행중인 경매에 참여한 결과가 있는지 확인
 		List<Map<String, String>> participateAuction = auctionService.getPartAuction(member_id);
@@ -1398,6 +1499,16 @@ public class MemberController {
 	@PostMapping("join_pro")
 	public String memberJoinPro(MemberVO member, Model model) {
 		
+		// ------------ BCryptPasswordEncoder 객체 활용한 패스워드 암호화(= 해싱) --------------
+		// => MyPasswordEncoder 클래스에 모듈화
+		// 1. MyPasswordEncoder 객체 생성
+		MyPasswordEncoder passwordEncoder = new MyPasswordEncoder();
+		// 2. getCryptoPassword() 메서드에 평문 전달하여 암호문 얻어오기
+		String securePasswd = passwordEncoder.getCryptoPassword(member.getMember_passwd());
+		// 3. 리턴받은 암호문을 MemberVO 객체에 덮어쓰기
+		member.setMember_passwd(securePasswd);
+		// -------------------------------------------------------------------------------------
+		
 		// MemberService(registMember()) - Member_mapper(insertMember())
 		int insertCount = service.registMember(member);
 		
@@ -1416,8 +1527,12 @@ public class MemberController {
 		// 메일 보내기위한 코드 수정
 		JavaMailSenderImpl mailSender = (JavaMailSenderImpl)ctx.getBean("mailSender");
 		
-		Random random = new Random();
-		int checkNum = random.nextInt(888888) + 111111;
+		// 로컬에서 되지만 서버에서 안되므로 일단 임시로 난수말고 지정숫자
+//		Random random = new Random();
+//		int checkNum = random.nextInt(888888) + 111111;
+//		session.setAttribute("emailAuthCode", checkNum);
+		
+		int checkNum = 781017;
 		session.setAttribute("emailAuthCode", checkNum);
 		
 		// 메일 제목, 내용
@@ -1604,7 +1719,7 @@ public class MemberController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("targetURL", "member_login_form");
+			model.addAttribute("targetURL", "member_login");
 				
 			return "fail_location";
 		}
@@ -1662,7 +1777,7 @@ public class MemberController {
 		String member_id = (String) session.getAttribute("member_id");
 		if(member_id == null) {
 			model.addAttribute("msg", " 로그인이 필요합니다!");
-			model.addAttribute("targetURL", "member_login_form");
+			model.addAttribute("targetURL", "member_login");
 					
 			return "fail_location";
 		}

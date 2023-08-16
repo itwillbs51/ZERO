@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.zero.vo.ZmanDeliveryVO;
 import com.itwillbs.zero.vo.ZmanEarningVO;
+import com.itwillbs.zero.vo.ZmanRefundHistoryVO;
 import com.itwillbs.zero.vo.ZmanVO;
 import com.itwillbs.zero.vo.ZpayVO;
 
@@ -41,6 +42,10 @@ public interface ZmanDeliveryMapper {
 	// "배달 완료" 후 정산 테이블에 삽입하기
 	int insertDeliveryDone(@Param("zman_delivery_idx") int zman_delivery_idx, @Param("zman_id") String zman_id, @Param("zman_delivery_commission") int zman_delivery_commission);
 
+
+	// 배달 완료 상세 페이지 - 정산 완료인지 확인하기
+	ZmanRefundHistoryVO selectEaningRefundIdx(int zmanDeliveryIdx);
+	
 	// 배달 완료 상세 페이지에서 정산으로 넘겨줄 파라미터
 	ZmanEarningVO selectZmanEarningIdx(int zmanDeliveryIdx);
 	

@@ -138,10 +138,10 @@
 	    object-fit: contain;
 	}
 	/* 화살표 위치 수정 */
-	.carousel-control-prev {
+	.prevArrow {
 	    left: 150px;
 	}
-	.carousel-control-next {
+	.nextArrow {
 	    right: 150px;
 	}
 	

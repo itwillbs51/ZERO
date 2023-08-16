@@ -234,7 +234,7 @@
 												<h4 data-v-8b96a82e="" class="group_title">신고내역</h4>
 												<div data-v-0c9f3f9e="" data-v-75326462="" class="unit" data-v-8b96a82e="">
 													<div data-v-0c9f3f9e="" class="unit_content">
-														<p data-v-24a03828="" data-v-75326462="" class="desc" role="button" data-v-0c9f3f9e=""> 신고리스트 </p>
+														<p data-v-24a03828="" data-v-75326462="" class="desc" role="button" data-v-0c9f3f9e=""> 신고한 내용이 없습니다 </p>
 													</div>
 												</div>
 											</div>

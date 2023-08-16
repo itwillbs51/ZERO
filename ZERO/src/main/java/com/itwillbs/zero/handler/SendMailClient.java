@@ -12,13 +12,20 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.itwillbs.zero.controller.BankController;
+
 public class SendMailClient {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SendMailClient.class);
 	
 	// 메일 발송을 수행할 sendMail() 메서드 정의
 	// => 파라미터 : 이메일, 제목, 본문   리턴타입 : boolean(isSendSuccess)
 	public boolean sendMail(String email, String subject, String content) {
 		boolean isSendSuccess = false;
-		
+		logger.info("sendMail");
 		try {
 			// --------------- 메일 전송에 필요한 정보 설정 작업 ---------------
 			// 메일 전송 프로토콜 : SMTP(Simple Mail Transfer Protocol)
@@ -31,13 +38,13 @@ public class SendMailClient {
 			//    => put() 메서드 활용
 			// 메일 전송에 사용할 메일 서버에 대한 정보 설정(구글, 네이버, 아웃룩 등)
 			properties.put("mail.smtp.host", "smtp.gmail.com"); // 구글(Gmail) SMTP 서버 주소
-			properties.put("mail.smtp.auth", "true"); // SMTP 서버 접근 시 인증 여부 설정
+			properties.put("mail.smtp.auth", "TRUE"); // SMTP 서버 접근 시 인증 여부 설정
 			properties.put("mail.smtp.port", "587"); // Gmail 서버의 서비스 포트 설정(TLS) 
 			// 메일 서버 인증 관련 추가 정보 설정(설정 내용에 따라 port 정보가 바뀜)
-			properties.put("mail.smtp.starttls.enable", "true"); // TLS 라는 인증 프로토콜 사용 여부 설정
+			properties.put("mail.smtp.starttls.enable", "TRUE"); // TLS 라는 인증 프로토콜 사용 여부 설정
 			properties.put("mail.smtp.ssl.protocols", "TLSv1.2"); // TLS 인증 프로토콜 버전 설정
 			// 만약, 메일 발송 과정에서 TLS 관련 오류 발생 시
-				properties.put("mail.smtp.ssl.trust", "smtp.gmail.com"); // SSL 인증 신뢰 서버 주소 설정
+			properties.put("mail.smtp.ssl.trust", "smtp.gmail.com"); // SSL 인증 신뢰 서버 주소 설정
 			
 			// 3. 메일 서버 인증 정보를 관리하는 사용자 정의 클래스의 인스턴스 생성
 			//    => javax.Mail.Authenticator 타입으로 업캐스팅하여 사용
@@ -91,6 +98,11 @@ public class SendMailClient {
 			message.setSentDate(new Date());
 			
 			
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.host"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.auth"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.port"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.starttls.enable"));
+			logger.info("△△△△△ sendMailClient : " + properties.get("mail.smtp.ssl.protocols"));
 			// 7. 메일 전송
 			// javax.mail.Transport 클래스의 static 메서드 send() 호출
 			// => 파라미터 : 6번에서 생성한 Message 객체
@@ -100,6 +112,8 @@ public class SendMailClient {
 			
 			isSendSuccess = true;
 		} catch (Exception e) {
+			logger.info("△△△△△ sendMailClient : " + "실패");
+			logger.info("△△△△△ sendMailClient : " + e.getMessage());
 			e.printStackTrace();
 			System.out.println("인증 메일 발송 실패!");
 		}
