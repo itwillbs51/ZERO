@@ -32,6 +32,13 @@
 <title>중고거래 사이트</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </script>
+<style>
+@media only screen and (min-width: 768px) {
+	.small_area[data-v-2b15bea4] {
+		height: 500px;
+	}
+}
+</style>
 </head>
 <body>
  <%--네비게이션 바 영역 --%>

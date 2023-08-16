@@ -34,6 +34,13 @@
 <!-- <style type="text/css"> /*# sourceMappingURL=contenteditable.vue.map */</style> -->
 <!-- 스크립트 태그 추가 -->
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
+<style>
+@media only screen and (min-width: 768px) {
+	.small_area[data-v-2b15bea4] {
+		height: 500px;
+	}
+}
+</style>
 <script type="text/javascript">
 
 	$(function(){
