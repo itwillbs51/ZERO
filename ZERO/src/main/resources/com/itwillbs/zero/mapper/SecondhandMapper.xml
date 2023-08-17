@@ -237,7 +237,7 @@
 		FROM SECONDHAND
 		WHERE 
 			member_id = #{member_id}
-			AND (secondhand_deal_status = '판매중' OR '예약중')
+			AND (secondhand_deal_status = '판매중' OR secondhand_deal_status = '예약중')
 	</select>
 	<!-- 판매자페이지 - 거래완료된 판매자의 상품 목록 조회요청 -->
 	<select id="selectSoldoutProductList" resultType="hashmap">
