@@ -14,9 +14,13 @@
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/aution.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+
 <title> ZERO | 경매 </title>
 <style type="text/css">
-	
+	header, footer {
+		box-sizing: border-box;
+	}
 	
 </style>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
@@ -73,7 +77,8 @@
 					'<i class="material-icons">check</i>'
 			);
 			
-			
+			// 목록 불러오기전 pageNum 초기화
+			pageNum = 1;
 			// 목록 불러오기
 			loadList(category, sort);
 			
@@ -85,10 +90,11 @@
 			$(this).addClass("select");
 			category = $(".select").text();
 			
+			// 목록 불러오기전 pageNum 초기화
+			pageNum = 1;
 			// 목록 불러오기
 			loadList(category, sort);
 		});
-		
 		
 		// 무한스크롤 기능 추가
 		// 웹브라우저의 스크롤바가 바닥에 닿으면 다음 목록 조회를 위해 loadList() 함수 호출
@@ -134,8 +140,10 @@
 // 				console.log("maxPage : " + maxPage);
 				$("#listCount").text(data.listCount);
 				
-				// 기존에 있던 리스트 삭제
-				$(".productListArea").empty();
+				// 기존에 있던 리스트 삭제(pageNum이 1이면)
+				if(pageNum == 1) {
+					$(".productListArea").empty();
+				}
 				$(".auctionNotice").remove();
 				
 				let auction_card = "";
@@ -179,7 +187,6 @@
 								+ ' 	<div class="autionTime">'
 								+ '			경매시작까지'
 								+ '			<span>' + updateCountDown(start_date) + '</span> 남았습니다'
-	// 							+ '			<span>n일 nn시간 nn분</span>'
 								+ '			<div>'
 								+ '				입찰 예정 시간 : ' + formatDate(start_date)
 								+ '			</div>'
@@ -211,11 +218,6 @@
 	// 카운트 다운 업데이트하는 함수
 	function updateCountDown(start_date) {
 		let now = new Date();
-		// 카운트다운 할 날짜 선택
-// 		let countDownDate = new Date(now);
-// 		countDownDate.setDate(start_date.getDate());
-// 		now.setHours(0, 0, 0, 0);
-		
 		// 카운트다운 할 날짜 - 오늘 날짜와 시간
 		let distance = start_date - now;
 		    
@@ -227,13 +229,6 @@
 		if(minutes < 10) {
 			minutes = "0" + minutes;
 		}
-// 		if(seconds < 10) {
-// 			seconds = "0" + seconds;
-// 		}
-		// 결과 보여주기 (id가 demo인 태그에)
-// 		$("#demo").text(
-// 				hours + " : " + minutes + " : " + seconds
-// 		);
 		
 		return days + "일 " + hours + "시 " + minutes + "분";
 		    
@@ -251,9 +246,6 @@
         let year = date.getFullYear();
         let month = String(date.getMonth() + 1).padStart(2, '0');
         let day = String(date.getDate()).padStart(2, '0');
-//         let hours = String(date.getHours()).padStart(2, '0');
-//         let minutes = String(date.getMinutes()).padStart(2, '0');
-//         let seconds = String(date.getSeconds()).padStart(2, '0');
 
         let formattedDate = year + '년 ' + month + "월 " + day + "일 ";
         return formattedDate;
@@ -308,51 +300,6 @@
 				</div>
 				<!-- 2-2. 상품 목록 -->
 				<div class="productListArea">
-				
-<%-- 					<c:forEach var="i" begin="1" end="6"> --%>
-<%-- 						상품 하나 --%>
-<!-- 						<div class="product_card_wrap">  -->
-<!-- 							<div class="product_card"> -->
-<%-- 								클릭 시 상세페이지로 이동(사진, 상품명 클릭 시 이동) --%>
-<!-- 								<a href="auction_detail" class="item_inner"> -->
-<!-- 									<div class="item_img"> -->
-<%-- 										<img alt="..." src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg"> --%>
-	<%-- 									<img alt="조던" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp"> --%>
-<!-- 									</div> -->
-<!-- 									<div class="item_title"> -->
-<!-- 										<p class="product_info_brand">브랜드명(ex. Jordan)</p> -->
-<!-- 										<div class="product_info_name">상품명(ex. 조던 1 x 트래비스 스캇 x 프라그먼트 레트로 로우 OG SP 밀리터리 블루)</div> -->
-<!-- 									</div> -->
-<!-- 								</a> -->
-<!-- 								<div class="autionTime"> -->
-<!-- 									경매시작까지 -->
-<!-- 									<span>n일 nn시간 nn분</span> -->
-<!-- 									<div> -->
-<!-- 										입찰 예정 시간 : YYYY년 MM월 dd일 -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="price row"> -->
-<!-- 									<div class="col"> -->
-<!-- 										입찰가<br> -->
-<!-- 										<span>10,000원</span> -->
-<!-- 									</div> -->
-<!-- 									<div class="col colRight"> -->
-<!-- 										즉시구매가<br> -->
-<!-- 										<span>150,000원</span> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="applyInfos"> -->
-<%-- 									입찰자 수 --%>
-<!-- 									<div class="person"> -->
-<!-- 										<i class="material-icons">people</i> -->
-<!-- 										<span>참가 20명</span> -->
-<!-- 									</div> -->
-<%-- 									버튼 : 입찰신청, 신청완료 --%>
-<!-- 									<button class="applyBtn">입찰신청</button> -->
-<!-- 								</div> -->
-<%-- 							</div> 상품하나 끝 --%>
-<!-- 						</div> -->
-<%-- 					</c:forEach> --%>
 						
 				</div>
 					

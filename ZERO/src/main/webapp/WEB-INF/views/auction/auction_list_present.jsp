@@ -13,12 +13,19 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/aution.css" rel="stylesheet" type="text/css">
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <title> ZERO | 경매 </title>
 <style type="text/css">
-	
+	header, footer {
+		box-sizing: border-box;
+	}
+	/* -----------모바일사이즈인 경우 -------------- */
+@media only screen and (max-width: 768px) {	
+	#main {
+		max-width: 100%;
+	}
+}
 </style>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script type="text/javascript">
@@ -126,6 +133,8 @@
 					'<i class="material-icons">check</i>'
 			);
 			
+			// 목록 불러오기전 pageNum 초기화
+			pageNum = 1;
 			// 목록 불러오기
 			loadList(category, sort);
 			
@@ -137,12 +146,12 @@
 			$(this).addClass("select");
 			category = $(".select").text();
 			
+			// 목록 불러오기전 pageNum 초기화
+			pageNum = 1;
 			// 목록 불러오기
 			loadList(category, sort);
 		});
 		
-// 		console.log("카테고리는 : " + category);
-// 		console.log("정렬 기준은 " + sort);
 		
 		// 무한스크롤 기능 추가
 		// 웹브라우저의 스크롤바가 바닥에 닿으면 다음 목록 조회를 위해 loadList() 함수 호출
@@ -183,15 +192,16 @@
 			dataType: "JSON",
 			success: function(data) {
 				
-				// 1. 
 				maxPage = data.maxPage;
 				console.log(maxPage);
 				// => 무한스크롤 시 
 // 				console.log("maxPage : " + maxPage);
 				$("#listCount").text(data.listCount);
 				
-				// 기존에 있던 리스트 삭제
-				$(".productListArea").empty();
+				// 기존에 있던 리스트 삭제(pageNum이 1이면)
+				if(pageNum == 1) {
+					$(".productListArea").empty();
+				}
 				$(".auctionNotice").remove();
 				
 				let auction_card = "";
@@ -319,42 +329,6 @@
 				<!-- 2-2. 상품 목록 -->
 				<div class="productListArea">
 				
-<%-- 					<c:forEach var="i" begin="1" end="6"> --%>
-						<%-- 상품 하나 --%>
-<!-- 						<div class="product_card_wrap">  -->
-<!-- 							<div class="product_card"> -->
-								<%-- 클릭 시 상세페이지로 이동(사진, 상품명 클릭 시 이동) --%>
-<!-- 								<a href="auction_detail" class="item_inner"> -->
-<!-- 									<div> -->
-<%-- 										<img alt="..." src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg"> --%>
-<%-- 										<img alt="조던" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp"> --%>
-<!-- 									</div> -->
-<!-- 									<div class="item_title"> -->
-<!-- 										<p class="product_info_brand">브랜드명(ex. Jordan)</p> -->
-<!-- 										<div class="product_info_name">상품명(ex. 조던 1 x 트래비스 스캇 x 프라그먼트 레트로 로우 OG SP 밀리터리 블루)</div> -->
-<!-- 									</div> -->
-<!-- 								</a> -->
-<!-- 								<div class="price row"> -->
-<!-- 									<div class="col"> -->
-<!-- 										입찰가<br> -->
-<!-- 										<span>10,000원</span> -->
-<!-- 									</div> -->
-<!-- 									<div class="col colRight"> -->
-<!-- 										즉시구매가<br> -->
-<!-- 										<span>150,000원</span> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="applyInfo"> -->
-<!-- 									입찰자 수 -->
-<!-- 									<div class="person"> -->
-<!-- 										<i class="material-icons">people</i> -->
-<!-- 										<span>참가 20명</span> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> 상품하나 끝 -->
-<!-- 						</div> -->
-<%-- 					</c:forEach> --%>
-						
 				</div>
 					
 			</article>

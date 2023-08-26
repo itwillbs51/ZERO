@@ -55,7 +55,8 @@ public class HomeController {
 		int startRow = 0;
 		int listLimit = 5;
 		String type = "거래중";
-		List<HashMap<String, String>> homeSecondhandList =  secondhand_service.getChangedSecondhandList(pageNum, category, sort, startRow, listLimit, type);
+		List<HashMap<String, String>> homeSecondhandList = 
+				secondhand_service.getChangedSecondhandList(pageNum, category, sort, startRow, listLimit, type);
 		model.addAttribute("homeSecondhandList", homeSecondhandList);
 		
 		// 2. 경매 - 경매중, 인기순 5개 가져오기
@@ -64,18 +65,20 @@ public class HomeController {
 		sort = "인기순";
 		startRow = 0;
 		listLimit = 5;
-		List<HashMap<String, String>> homeAuctionList =  auction_service.selectNowAuctionList(pageNum, category, sort, startRow, listLimit);
+		List<HashMap<String, String>> homeAuctionList = 
+				auction_service.selectNowAuctionList(pageNum, category, sort, startRow, listLimit);
 		model.addAttribute("homeAuctionList", homeAuctionList);
-		System.out.println("homeAuctionList 사이즈 : " + homeAuctionList.size());
+//		System.out.println("homeAuctionList 사이즈 : " + homeAuctionList.size());
 		
 		// 만약 경매중인 물건이 5개가 되지 않을 때 종료된 경매 물품 보여주기
 		int nowSize = 5 - homeAuctionList.size();
 		if(nowSize > 0) {
 			sort = "최신순";
 			listLimit = nowSize;
-			List<HashMap<String, String>> endAuctionList =  auction_service.selectEndAuctionList(pageNum, category, sort, startRow, listLimit);
+			List<HashMap<String, String>> endAuctionList = 
+					auction_service.selectEndAuctionList(pageNum, category, sort, startRow, listLimit);
 			model.addAttribute("endAuctionList", endAuctionList);
-			System.out.println("endAuctionList 사이즈 : " + endAuctionList.size());
+//			System.out.println("endAuctionList 사이즈 : " + endAuctionList.size());
 		}
 		
 		return "home";

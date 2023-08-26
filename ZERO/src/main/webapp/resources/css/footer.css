@@ -211,16 +211,14 @@ button {
     text-decoration: underline;
 }
 .notice_area  {
-    align-items: flex-end;
-    display: flex;
     padding-top: 12px;
 }
 .notice  {
     color: rgba(34,34,34,.4);
     font-size: 12px;
     letter-spacing: -.06px;
-    max-width: 1300px;
-    min-width: 500px;
+/*     max-width: 1300px; */
+/*     min-width: 500px; */
 }
 .copyright  {
     color: rgba(34,34,34,.3);
@@ -242,4 +240,13 @@ button {
 	.customer_service {
 		padding-bottom: 50px;
 	}
+	
+	.notice_area  {
+	    display: inline-block;
+	    align-items: initial;
+	}
+	.copyright {
+		text-align: center;
+	}
+	
 }

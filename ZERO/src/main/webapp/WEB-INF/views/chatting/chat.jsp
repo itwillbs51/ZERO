@@ -20,6 +20,7 @@
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/chat.css" rel="stylesheet" type="text/css">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <title>채팅 | ZERO</title>
 <%-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script> --%>
 <script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script>
@@ -37,7 +38,7 @@
 	<div id="main">
 		<!-- nav - 메뉴영역 -->
 		<nav>
-			채팅
+			<i class="material-icons backBtn" onclick="history.back()">arrow_back</i> 채팅
 		</nav>
 		<hr id="navLine">
 		
@@ -47,10 +48,9 @@
 <%-- 				<%@ include file="chat.jsp"%> --%>
 				<%-- 위에 상품정보와 약속잡기, 송금하기 등이 있는 영역 --%>
 				<article class="chatPage">
-<!-- 					<i class="material-icons backBtn">arrow_back</i> -->
 <!-- 					<hr> -->
 					<div class="art_firstRow">
-						<div class="product_photo co01">
+						<div class="product_photo co01" onclick="secondhandDetail()">
 <%-- 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/img/슬라이드3.jpg" onclick="secondhandDetail()"> --%>
 							<img alt="상품사진" src="${pageContext.request.contextPath }/resources/upload/${secondhandInfo.secondhand_image1}">
 						</div>

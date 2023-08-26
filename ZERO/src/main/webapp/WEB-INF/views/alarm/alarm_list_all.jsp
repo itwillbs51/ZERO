@@ -22,6 +22,10 @@
 <meta charset="UTF-8">
 <title>ZERO</title>
 <style type="text/css">
+	
+	article {
+		padding-bottom: 10px;
+	}
 	.container {
 		padding-bottom: 0;
 	}

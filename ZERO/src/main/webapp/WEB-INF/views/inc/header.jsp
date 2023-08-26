@@ -122,9 +122,6 @@
 	console.log(receiver);
 	if(receiver != "") {
 		// 웹소켓 주소 설정 - 알림창 동기 설정
-//	  	var websocketPath = document.currentScript.getAttribute('data-websocket-path');
-//	 	socket = new SockJS(websocketPath);
-//	 	socket = new SockJS('/alarm');
 		socket = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/alarm');
 //			socket = new SockJS('${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/alarm?id=' + receiver);
 		// 서버에서 메세지를 보내면 자동으로 실행되는 함수
@@ -154,7 +151,6 @@
  		alarmMessage = receiver_id + "p]]/[" + alarmType + "p]]/[" + alarmMsg + "p]]/[" + alarmMsgLink;
 		// 각 이벤트 시 받는 메세지를 소켓으로 전달
 		socket.send(alarmMessage);
-		
 		
 		// 알림 내용을 DB에 저장하기
 		$.ajax({
@@ -199,11 +195,6 @@
 		receiveMessage = arr[2];
 		receiveLink = arr[3];
 		
-// 		console.log("받는 사람 : " + receiveId);
-// 		console.log("받는 알림 타입 : " + receiveType);
-// 		console.log("받는 알림 메세지 : " + receiveMessage);
-// 		console.log("받는 알림 링크 : " + receiveLink);
-		
 		let now = new Date();
 		// 원하는 포맷으로 날짜와 시간을 포맷 (예: 오후 09:30)
 		let formattedTime = now.toLocaleString('ko-KR', { hour12: true, hour: 'numeric', minute: 'numeric' });
@@ -231,6 +222,25 @@
 			
 			$("#alarmList").prepend(strr);
 			$("#alarmPoint").css("display", "");
+			
+			// 팝업 알림 띄우기
+			let option = { body : receiveMessage };
+			
+			let notification = "";
+			if(Notification.permission !== "denied") {
+				Notification.requestPermission(permission => {
+					
+					if(permission === "granted") {
+						notification = new Notification("ZERO - " + receiveType, option);
+						notification.onclick = function() {
+							location.href = 'alarmClick?url=' + receiveLink;
+						}
+					}
+				});
+			}
+			
+			
+			
 		}
 	}	// onAlarmMessage() 끝
 	
@@ -256,7 +266,6 @@
 				}
 				
 				for(let alarmItem of data) {
-					
 					
 					let changeLink = alarmItem.alarm_link.replace("?", "--");
 					// 보여줄 시간 형식
@@ -294,10 +303,6 @@
 			}
 		});	// ajax 끝
 		
-		
 	});	// 페이지 열때 조회하기
-	
-	
-	
 	
 </script>

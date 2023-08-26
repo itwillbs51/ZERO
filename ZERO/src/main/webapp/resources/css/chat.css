@@ -2,10 +2,11 @@
 
 #main{
 	padding: 100px 40px 20px 40px;
+	box-sizing: border-box;
 }
 #main hr{
 	max-width: 1280px;
-	margin: 10px auto 18px;
+	margin: 10px auto 10px;
 }
 
 #chatListMain {
@@ -18,15 +19,15 @@
 	min-height: 600px;
 }
 #chatListMainArea {
-	min-width: 500px;
-	width: 600px;
+/* 	min-width: 500px; */
+	width: 550px;
 	padding: 40px 40px;
 	margin: auto;
 }
 
 /* 채팅목록 */
 #chatListArea {
-	min-width: 450px;
+	min-width: 360px;
 	max-width: 520px;
 	min-height: 600px;
 	margin-bottom: 12px;
@@ -43,7 +44,7 @@
 }
 
 #chatList {
-	min-width: 450px;
+	min-width: 320px;
 /* 	margin: auto; */
 	
 /* 	list-style : none; */
@@ -54,7 +55,6 @@
 	padding-bottom: 10px;
 }
 .listTr {
-/* 	max-width: 500px; */
 	border-top: 1px solid #f0f2f4;
 }
 .listImg {
@@ -121,7 +121,11 @@
 	padding: 0;
 	margin: 0;
 }
-
+/* 채팅창 뒤로가기 버튼 */
+.backBtn {
+	margin-bottom: 10px;
+	cursor: pointer;
+}
 /* 채팅창 */
 #chatArea {
 	flex: 1 0 auto;
@@ -196,7 +200,7 @@
 	
 }
 #msgArea {
-	height: 470px;
+	height: 50vh;
 	overflow: auto;
 	scroll-behavior: smooth;
 	position: relative; /* 이미지창 */
@@ -443,7 +447,8 @@
 @media only screen and (max-width: 768px) {	
 	
 	#main{
-		padding: 0 15px 20px 15px;
+		padding: 10px 15px 20px 15px;
+		box-sizing: border-box;
 	}
 	
 	#navLine {
@@ -454,9 +459,21 @@
 		margin-top: 10px;
 	}
 	#chatListMainArea {
-/* 	    min-width: 300px; */
-	    padding: 40px 10px;
-	    margin: auto;
+	    max-width: 90vw;
+	    min-width: 80vw;
+	    padding: 20px 10px;
+	    box-sizing: content-box;
+/* 	    margin: auto; */
+/* 	    margin-left: 10px; */
+/* 	    display: flex; */
+/* 	    justify-content: center; */
+	}
+	/* 채팅방 목록 크기 조절 */
+	#chatListArea {
+		max-width: 460px
+	}
+	.shortChatMsg div {
+		width: 100%;
 	}
 	
 	#mainArea {
@@ -477,16 +494,24 @@
 /* 	#chatList { */
 /* 		width: 450px; */
 /* 	} */
+	/* 상품 사진 반응형 */
+	.product_photo img {
+	    margin: auto;
+	    width: 70px;
+	    height: 70px;
+	    border-radius: 10px;
+	    object-fit: cover;
+	}
 	
 	.art_firstRow .co01 {
-		max-width: 80px;
+		max-width: 70px;
 	}
 	.art_firstRow .co02 {
-		max-width: 300px;
+		max-width: 200px;
 		vertical-align: middle;
 	}
 	.co02 div {
-		width: 300px;
+		width: 200px;
 		/* 영역보다 긴 글의 경우 ... 으로 처리 */
 		white-space: nowrap; /* 영역보다 커도 줄 바꿈하지마라 */
 		overflow: hidden; /* 잘리는 부분 안보이게 함 */
@@ -515,6 +540,9 @@
 	.msg {
 		min-width: 120px;
 		max-width: 250px;
+		border-radius: 15px;
+		padding: 5px 10px;
+		font-size: 0.8em;
 	}
 	
 	.listSort {

@@ -123,3 +123,11 @@
 	color: gray !important;
 	font-weight: normal;
 }
+
+/* 반응형 */
+@media only screen and (max-width: 768px) {	
+	.alarmContentArea {
+		width: 280px;
+		font-size: 0.9em;
+	}
+}

@@ -14,11 +14,15 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath }/resources/css/aution.css" rel="stylesheet" type="text/css">
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+
 <title> ZERO | 경매 </title>
 <style type="text/css">
+	header, footer {
+		box-sizing: border-box;
+	}
+	
 	#demo {
 		text-align: center;
 		font-size: 60px;
@@ -81,6 +85,8 @@
 					'<i class="material-icons">check</i>'
 			);
 			
+			// 목록 불러오기전 pageNum 초기화
+			pageNum = 1;
 			// 목록 불러오기
 			loadList(category, sort);
 			
@@ -92,6 +98,8 @@
 			$(this).addClass("select");
 			category = $(".select").text();
 			
+			// 목록 불러오기전 pageNum 초기화
+			pageNum = 1;
 			// 목록 불러오기
 			loadList(category, sort);
 		});
@@ -135,22 +143,16 @@
 			url: url,
 			dataType: "JSON",
 			success: function(data) {
-				// 현재는 json 배열안에 json객체로 존재하므로 그냥 boardList를 치면 나오지 않음
-	//				$("table").after(JSON.stringify(boardList));
-				// JSONArray 객체를 사용하여 리턴받은 JSON 데이터(객체)를
-				// 반복문을 사용하여 차례대로 접근 후 데이터 출력
-				// 번호, 제목, 작성자, 날짜, 조회수
-				
-				// ------------------------
-				// 1. 
 				maxPage = data.maxPage;
 				console.log(maxPage);
 				// => 무한스크롤 시 
 	//				console.log("maxPage : " + maxPage);
 				$("#listCount").text(data.listCount);
 				
-				// 기존에 있던 리스트 삭제
-				$(".productListArea").empty();
+				// 기존에 있던 리스트 삭제(pageNum이 1이면)
+				if(pageNum == 1) {
+					$(".productListArea").empty();
+				}
 				
 				for(let product of data.endAuctionList) {
 					let final_price = product.auction_final_price;
@@ -163,12 +165,9 @@
 					let formatted_final_price = Number(final_price).toLocaleString('en');
 					let formatted_max_price = Number(max_price).toLocaleString('en');
 					
-// 					let final_date = new Date(product.auction_final_datetime);
-					
 					let isSuccess;
 					if(product.auction_issuccess == '낙찰') {
 						isSuccess = 
-// 							'			<span>입찰자 수</span> '+
 							 '			<div class="person">'
 							+ '				<i class="material-icons">people</i>'
 							+ '				<span>참가 ' + product.auction_apply_count + '명</span>'
@@ -208,11 +207,6 @@
 							+ '		</div>'
 							+ '		<div class="applyInfo">'
 							+ 			isSuccess
-// 							+ '			입찰자 수'
-// 							+ '			<div class="person">'
-// 							+ '				<i class="material-icons">people</i>'
-// 							+ '				<span>참가 ' + product.apply_count + '명</span>'
-// 							+ '			</div>'
 							+ '		</div>'
 							+ '	</div>'
 							+ '</div>'
@@ -289,47 +283,6 @@
 				</div>
 				<!-- 2-2. 상품 목록 -->
 				<div class="productListArea">
-				
-<%-- 					<c:forEach var="i" begin="1" end="6"> --%>
-<%-- 						상품 하나 --%>
-<!-- 						<div class="product_card_wrap"> -->
-<!-- 							<div class="product_card"> -->
-<%-- 								클릭 시 상세페이지로 이동(사진, 상품명 클릭 시 이동) --%>
-<!-- 								<a href="auction_detail" class="item_inner"> -->
-<!-- 									<div> -->
-	<%-- 									<img alt="..." src="${pageContext.request.contextPath }/resources/img/슬라이드1.jpg"> --%>
-<%-- 										<img alt="조던" src="${pageContext.request.contextPath }/resources/img/p_e1ef5e002eda49adb7f5d0c8a41f798d.webp"> --%>
-<!-- 									</div> -->
-<!-- 									<div class="item_title"> -->
-<!-- 										<p class="product_info_brand">브랜드명(ex. Jordan)</p> -->
-<!-- 										<div class="product_info_name">상품명(ex. 조던 1 x 트래비스 스캇 x 프라그먼트 레트로 로우 OG SP 밀리터리 블루)</div> -->
-<!-- 									</div> -->
-<!-- 								</a> -->
-<!-- 								<div class="autionTime"> -->
-<!-- 									<div> -->
-<!-- 										낙찰 시간 : YYYY년 MM월 dd일 HH:mm:ss -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="price row"> -->
-<!-- 									<div class="col"> -->
-<!-- 										낙찰가<br> -->
-<!-- 										<span>10,000원</span> -->
-<!-- 									</div> -->
-<!-- 									<div class="col"> -->
-<!-- 										즉시구매가<br> -->
-<!-- 										<span>150,000원</span> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="applyInfo"> -->
-<%-- 									입찰자 수 --%>
-<!-- 									<div class="person"> -->
-<!-- 										<i class="material-icons">people</i> -->
-<!-- 										<span>참가 20명</span> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<%-- 							</div> 상품하나 끝 --%>
-<!-- 						</div> -->
-<%-- 					</c:forEach> --%>
 						
 				</div>
 					

@@ -7,12 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"> -->
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/jtsage-datebox-bootstrap4@5.3.3/jtsage-datebox.min.js" type="text/javascript"></script> -->
+<%-- google 아이콘 --%>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath }/resources/css/default.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.0.js"></script>
 <title>ZERO</title>
@@ -25,30 +21,84 @@
 			<div class="alarmContentArea">
 				<div class="alarmTitleArea">
 					<div class="alarmTitle">
-						알림
+						알림 &nbsp;
+<!-- 						<button onclick="alarmNotify('on')"><i class="material-icons">notifications_active</i><span>알림받기</span></button> -->
+						<button class="alarmBtn alarmBtnOff" onclick="alarmNotify()"><i class="material-icons">notifications_off</i></button>
 					</div>
 					<div class="detailArea">
 						<a class="moreAlarm" href="alarmAll">더보기 > </a>
 					</div>
 				</div>
-<%-- 				<button onclick="sendAlarmMessage('${sessionScope.member_id}', '채팅', '테스트입니다')">알람보내보기</button> --%>
 				<hr class="alarmHr">
 				<ul id="alarmList">
-<%-- 					<c:forEach var="i" begin="1" end="5"> --%>
-<!-- 						<li class="alarmItem"> -->
-<!-- 							<div class="alarmTitle"> -->
-<!-- 								채팅 -->
-<!-- 							</div> -->
-<!-- 							<div class="alarmContent"> -->
-<!-- 								채팅이 도착했어요! -->
-<!-- 							</div> -->
-<!-- 						</li> -->
-<%-- 					</c:forEach> --%>
+				
 				</ul>
 				
 			</div>
 		</div><%-- container 영역 끝 --%>
 	</div>
+	
+	<script type="text/javascript">
+		// html문서 생성 시 notification 기능에 대한 허용 여부 확인
+		window.onload = function() {
+			if(window.Notification) {
+				Notification.requestPermission();
+				notify();
+			}
+		}
+	
+		// 알림받을지 여부를 묻는 함수(추후 구현 예정)
+		function alarmNotify() {
+			// 아이콘 클릭 시
+// 			let alarmConfirm = confirm("알림 기능을 끄시겠습니까?");
+// 			if(alarmConfirm) {
+// 				Notification.permission = "denied";
+// 			}
+			// 1. notification 기능에 대한 허용 여부 확인하기
+			if(window.Notification) {
+				Notification.requestPermission();
+				notify();
+			}
+		}
+		
+		function notify() {
+			if(Notification.permission != "granted") {
+				// 권한이 승인되지 않은 상태면 알람 표시 후 권한 다시 묻기
+// 				alert('알림 권한이 허용되지 않은 상태입니다!');
+				Notification.requestPermission(permission => {
+					if(permission === "granted") {
+// 						alert('알림 권한이 허용되었습니다!');
+						$(".alarmBtn i").text('notifications_active');
+						$(".alarmBtn").removeClass('alarmBtnOff');
+						$(".alarmBtn").addClass('alarmBtnOn');
+					} else {
+// 						alert('알림 권한이 차단되었습니다!');
+						$(".alarmBtn i").text('notifications_off');
+						$(".alarmBtn").removeClass('alarmBtnOn');
+						$(".alarmBtn").addClass('alarmBtnOff');
+					}
+				});
+			} else {
+ 				// 권한이 승인된 상태면
+// 				let confirm = confirm('알림 권한을 차단하시겠습니까?');
+				Notification.requestPermission(permission => {
+					if(permission === "granted") {
+// 						alert('알림 권한이 허용되었습니다!');
+						$(".alarmBtn i").text('notifications_active');
+						$(".alarmBtn").removeClass('alarmBtnOff');
+						$(".alarmBtn").addClass('alarmBtnOn');
+					} else {
+// 						alert('알림 권한이 차단되었습니다!');
+						$(".alarmBtn i").text('notifications_off');
+						$(".alarmBtn").removeClass('alarmBtnOn');
+						$(".alarmBtn").addClass('alarmBtnOff');
+					}
+				});
+				
+			}
+		}
+	
+	</script>
 	
 </body>
 </html>
