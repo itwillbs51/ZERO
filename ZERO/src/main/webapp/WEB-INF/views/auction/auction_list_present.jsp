@@ -75,7 +75,7 @@
 		// 옥션 시작날짜, 마감날짜 안내
 		// 포맷 : 2023년 8월 2일 00:00:00
 		$("#autionStart").append(now.getFullYear() + "년 " + (now.getMonth() + 1) + "월 " + now.getDate() + "일 " + "00:00:00");
-		$("#autionEnd").append(now.getFullYear() + "년 " + (now.getMonth() + 1) + "월 " + (now.getDate() + 1) + "일 " + "00:00:00");
+		$("#autionEnd").append(now.getFullYear() + "년 " + (now.getMonth() + 1) + "월 " + now.getDate() + "일 " + "23:59:59");
 		
 		// 1초마다 호출 (나중에 주석풀기(지금은 정신없어서))
 		let x = setInterval(updateCountDown, 1000);
