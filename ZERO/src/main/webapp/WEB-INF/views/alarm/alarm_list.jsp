@@ -23,7 +23,7 @@
 					<div class="alarmTitle">
 						알림 &nbsp;
 <!-- 						<button onclick="alarmNotify('on')"><i class="material-icons">notifications_active</i><span>알림받기</span></button> -->
-						<button class="alarmBtn alarmBtnOff" onclick="alarmNotify()"><i class="material-icons">notifications_off</i></button>
+<!-- 						<button class="alarmBtn alarmBtnOff" onclick="alarmNotify()"><i class="material-icons">notifications_off</i></button> -->
 					</div>
 					<div class="detailArea">
 						<a class="moreAlarm" href="alarmAll">더보기 > </a>

@@ -173,7 +173,7 @@
 			}
 		});	// ajax 끝
 		
-	}	// sendMessage(sender) 끝
+	}	// sendAlarmMessage() 끝
 	
 	let alarmNewCount = 0;
 	//서버에서 메시지를 받았을 때
@@ -238,8 +238,6 @@
 					}
 				});
 			}
-			
-			
 			
 		}
 	}	// onAlarmMessage() 끝
